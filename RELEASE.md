@@ -2,7 +2,7 @@
 
 *****************
 
-## Release ONDEWO VTSI C++ Client 0.1.0
+## Release ONDEWO VTSI C++ Client 8.7.0
 
 ### New Features
 
