@@ -188,6 +188,33 @@ inline bool VtsiProjectStatus_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<VtsiProjectStatus>(
     VtsiProjectStatus_descriptor(), name, value);
 }
+enum SipTrunkTransport : int {
+  SIP_TRUNK_TRANSPORT_UNSPECIFIED = 0,
+  SIP_TRUNK_TRANSPORT_TLS = 1,
+  SIP_TRUNK_TRANSPORT_UDP = 2,
+  SIP_TRUNK_TRANSPORT_TCP = 3,
+  SipTrunkTransport_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  SipTrunkTransport_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool SipTrunkTransport_IsValid(int value);
+constexpr SipTrunkTransport SipTrunkTransport_MIN = SIP_TRUNK_TRANSPORT_UNSPECIFIED;
+constexpr SipTrunkTransport SipTrunkTransport_MAX = SIP_TRUNK_TRANSPORT_TCP;
+constexpr int SipTrunkTransport_ARRAYSIZE = SipTrunkTransport_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipTrunkTransport_descriptor();
+template<typename T>
+inline const std::string& SipTrunkTransport_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SipTrunkTransport>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SipTrunkTransport_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SipTrunkTransport_descriptor(), enum_t_value);
+}
+inline bool SipTrunkTransport_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, SipTrunkTransport* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SipTrunkTransport>(
+    SipTrunkTransport_descriptor(), name, value);
+}
 enum VtsiProjectSortingMode : int {
   ASCENDING = 0,
   DESCENDING = 1,
@@ -364,6 +391,7 @@ class VtsiProject final :
 
   enum : int {
     kNluAgentNamesFieldNumber = 14,
+    kTransferPhoneNumberAllowlistFieldNumber = 17,
     kNameFieldNumber = 1,
     kDisplayNameFieldNumber = 2,
     kCreatedByFieldNumber = 7,
@@ -402,6 +430,30 @@ class VtsiProject final :
   private:
   const std::string& _internal_nlu_agent_names(int index) const;
   std::string* _internal_add_nlu_agent_names();
+  public:
+
+  // repeated string transfer_phone_number_allowlist = 17;
+  int transfer_phone_number_allowlist_size() const;
+  private:
+  int _internal_transfer_phone_number_allowlist_size() const;
+  public:
+  void clear_transfer_phone_number_allowlist();
+  const std::string& transfer_phone_number_allowlist(int index) const;
+  std::string* mutable_transfer_phone_number_allowlist(int index);
+  void set_transfer_phone_number_allowlist(int index, const std::string& value);
+  void set_transfer_phone_number_allowlist(int index, std::string&& value);
+  void set_transfer_phone_number_allowlist(int index, const char* value);
+  void set_transfer_phone_number_allowlist(int index, const char* value, size_t size);
+  std::string* add_transfer_phone_number_allowlist();
+  void add_transfer_phone_number_allowlist(const std::string& value);
+  void add_transfer_phone_number_allowlist(std::string&& value);
+  void add_transfer_phone_number_allowlist(const char* value);
+  void add_transfer_phone_number_allowlist(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& transfer_phone_number_allowlist() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_transfer_phone_number_allowlist();
+  private:
+  const std::string& _internal_transfer_phone_number_allowlist(int index) const;
+  std::string* _internal_add_transfer_phone_number_allowlist();
   public:
 
   // string name = 1;
@@ -595,6 +647,7 @@ class VtsiProject final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> nlu_agent_names_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> transfer_phone_number_allowlist_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr display_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr created_by_;
@@ -738,13 +791,42 @@ class AsteriskConfigsVariables final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kSoftphonePermitCidrsFieldNumber = 11,
     kSipTrunkUsernameFieldNumber = 1,
     kSipTrunkPasswordFieldNumber = 2,
     kSipTrunkHostFieldNumber = 3,
     kTransferNumberFieldNumber = 4,
     kTransferNumberHostFieldNumber = 5,
     kSipTrunkPhoneNumberFieldNumber = 6,
+    kSipTrunkSourceCidrFieldNumber = 8,
+    kSipTrunkCaCertificatesPemFieldNumber = 9,
+    kSipTrunkTransportFieldNumber = 7,
+    kSipTrunkVerifyServerFieldNumber = 10,
   };
+  // repeated string softphone_permit_cidrs = 11;
+  int softphone_permit_cidrs_size() const;
+  private:
+  int _internal_softphone_permit_cidrs_size() const;
+  public:
+  void clear_softphone_permit_cidrs();
+  const std::string& softphone_permit_cidrs(int index) const;
+  std::string* mutable_softphone_permit_cidrs(int index);
+  void set_softphone_permit_cidrs(int index, const std::string& value);
+  void set_softphone_permit_cidrs(int index, std::string&& value);
+  void set_softphone_permit_cidrs(int index, const char* value);
+  void set_softphone_permit_cidrs(int index, const char* value, size_t size);
+  std::string* add_softphone_permit_cidrs();
+  void add_softphone_permit_cidrs(const std::string& value);
+  void add_softphone_permit_cidrs(std::string&& value);
+  void add_softphone_permit_cidrs(const char* value);
+  void add_softphone_permit_cidrs(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& softphone_permit_cidrs() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_softphone_permit_cidrs();
+  private:
+  const std::string& _internal_softphone_permit_cidrs(int index) const;
+  std::string* _internal_add_softphone_permit_cidrs();
+  public:
+
   // string sip_trunk_username = 1;
   void clear_sip_trunk_username();
   const std::string& sip_trunk_username() const;
@@ -829,6 +911,64 @@ class AsteriskConfigsVariables final :
   std::string* _internal_mutable_sip_trunk_phone_number();
   public:
 
+  // optional string sip_trunk_source_cidr = 8;
+  bool has_sip_trunk_source_cidr() const;
+  private:
+  bool _internal_has_sip_trunk_source_cidr() const;
+  public:
+  void clear_sip_trunk_source_cidr();
+  const std::string& sip_trunk_source_cidr() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_sip_trunk_source_cidr(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_sip_trunk_source_cidr();
+  PROTOBUF_NODISCARD std::string* release_sip_trunk_source_cidr();
+  void set_allocated_sip_trunk_source_cidr(std::string* sip_trunk_source_cidr);
+  private:
+  const std::string& _internal_sip_trunk_source_cidr() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sip_trunk_source_cidr(const std::string& value);
+  std::string* _internal_mutable_sip_trunk_source_cidr();
+  public:
+
+  // optional string sip_trunk_ca_certificates_pem = 9;
+  bool has_sip_trunk_ca_certificates_pem() const;
+  private:
+  bool _internal_has_sip_trunk_ca_certificates_pem() const;
+  public:
+  void clear_sip_trunk_ca_certificates_pem();
+  const std::string& sip_trunk_ca_certificates_pem() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_sip_trunk_ca_certificates_pem(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_sip_trunk_ca_certificates_pem();
+  PROTOBUF_NODISCARD std::string* release_sip_trunk_ca_certificates_pem();
+  void set_allocated_sip_trunk_ca_certificates_pem(std::string* sip_trunk_ca_certificates_pem);
+  private:
+  const std::string& _internal_sip_trunk_ca_certificates_pem() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sip_trunk_ca_certificates_pem(const std::string& value);
+  std::string* _internal_mutable_sip_trunk_ca_certificates_pem();
+  public:
+
+  // .ondewo.vtsi.SipTrunkTransport sip_trunk_transport = 7;
+  void clear_sip_trunk_transport();
+  ::ondewo::vtsi::SipTrunkTransport sip_trunk_transport() const;
+  void set_sip_trunk_transport(::ondewo::vtsi::SipTrunkTransport value);
+  private:
+  ::ondewo::vtsi::SipTrunkTransport _internal_sip_trunk_transport() const;
+  void _internal_set_sip_trunk_transport(::ondewo::vtsi::SipTrunkTransport value);
+  public:
+
+  // optional bool sip_trunk_verify_server = 10;
+  bool has_sip_trunk_verify_server() const;
+  private:
+  bool _internal_has_sip_trunk_verify_server() const;
+  public:
+  void clear_sip_trunk_verify_server();
+  bool sip_trunk_verify_server() const;
+  void set_sip_trunk_verify_server(bool value);
+  private:
+  bool _internal_sip_trunk_verify_server() const;
+  void _internal_set_sip_trunk_verify_server(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.AsteriskConfigsVariables)
  private:
   class _Internal;
@@ -837,13 +977,19 @@ class AsteriskConfigsVariables final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> softphone_permit_cidrs_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_trunk_username_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_trunk_password_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_trunk_host_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr transfer_number_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr transfer_number_host_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_trunk_phone_number_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_trunk_source_cidr_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_trunk_ca_certificates_pem_;
+    int sip_trunk_transport_;
+    bool sip_trunk_verify_server_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fvtsi_2fprojects_2eproto;
@@ -971,23 +1117,23 @@ class AsteriskConfigsFiles final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSipConfFileStringFieldNumber = 1,
+    kPjsipConfFileStringFieldNumber = 1,
     kExtensionsConfFileStringFieldNumber = 2,
     kQueuesConfFileStringFieldNumber = 3,
     kModulesConfFileStringFieldNumber = 4,
   };
-  // string sip_conf_file_string = 1;
-  void clear_sip_conf_file_string();
-  const std::string& sip_conf_file_string() const;
+  // string pjsip_conf_file_string = 1;
+  void clear_pjsip_conf_file_string();
+  const std::string& pjsip_conf_file_string() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_sip_conf_file_string(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_sip_conf_file_string();
-  PROTOBUF_NODISCARD std::string* release_sip_conf_file_string();
-  void set_allocated_sip_conf_file_string(std::string* sip_conf_file_string);
+  void set_pjsip_conf_file_string(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_pjsip_conf_file_string();
+  PROTOBUF_NODISCARD std::string* release_pjsip_conf_file_string();
+  void set_allocated_pjsip_conf_file_string(std::string* pjsip_conf_file_string);
   private:
-  const std::string& _internal_sip_conf_file_string() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sip_conf_file_string(const std::string& value);
-  std::string* _internal_mutable_sip_conf_file_string();
+  const std::string& _internal_pjsip_conf_file_string() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_pjsip_conf_file_string(const std::string& value);
+  std::string* _internal_mutable_pjsip_conf_file_string();
   public:
 
   // string extensions_conf_file_string = 2;
@@ -1040,7 +1186,7 @@ class AsteriskConfigsFiles final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_conf_file_string_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr pjsip_conf_file_string_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr extensions_conf_file_string_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr queues_conf_file_string_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr modules_conf_file_string_;
@@ -4419,6 +4565,81 @@ inline void VtsiProject::set_deployed_listeners(int32_t value) {
   // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProject.deployed_listeners)
 }
 
+// repeated string transfer_phone_number_allowlist = 17;
+inline int VtsiProject::_internal_transfer_phone_number_allowlist_size() const {
+  return _impl_.transfer_phone_number_allowlist_.size();
+}
+inline int VtsiProject::transfer_phone_number_allowlist_size() const {
+  return _internal_transfer_phone_number_allowlist_size();
+}
+inline void VtsiProject::clear_transfer_phone_number_allowlist() {
+  _impl_.transfer_phone_number_allowlist_.Clear();
+}
+inline std::string* VtsiProject::add_transfer_phone_number_allowlist() {
+  std::string* _s = _internal_add_transfer_phone_number_allowlist();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+  return _s;
+}
+inline const std::string& VtsiProject::_internal_transfer_phone_number_allowlist(int index) const {
+  return _impl_.transfer_phone_number_allowlist_.Get(index);
+}
+inline const std::string& VtsiProject::transfer_phone_number_allowlist(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+  return _internal_transfer_phone_number_allowlist(index);
+}
+inline std::string* VtsiProject::mutable_transfer_phone_number_allowlist(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+  return _impl_.transfer_phone_number_allowlist_.Mutable(index);
+}
+inline void VtsiProject::set_transfer_phone_number_allowlist(int index, const std::string& value) {
+  _impl_.transfer_phone_number_allowlist_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+}
+inline void VtsiProject::set_transfer_phone_number_allowlist(int index, std::string&& value) {
+  _impl_.transfer_phone_number_allowlist_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+}
+inline void VtsiProject::set_transfer_phone_number_allowlist(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.transfer_phone_number_allowlist_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+}
+inline void VtsiProject::set_transfer_phone_number_allowlist(int index, const char* value, size_t size) {
+  _impl_.transfer_phone_number_allowlist_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+}
+inline std::string* VtsiProject::_internal_add_transfer_phone_number_allowlist() {
+  return _impl_.transfer_phone_number_allowlist_.Add();
+}
+inline void VtsiProject::add_transfer_phone_number_allowlist(const std::string& value) {
+  _impl_.transfer_phone_number_allowlist_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+}
+inline void VtsiProject::add_transfer_phone_number_allowlist(std::string&& value) {
+  _impl_.transfer_phone_number_allowlist_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+}
+inline void VtsiProject::add_transfer_phone_number_allowlist(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.transfer_phone_number_allowlist_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+}
+inline void VtsiProject::add_transfer_phone_number_allowlist(const char* value, size_t size) {
+  _impl_.transfer_phone_number_allowlist_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+VtsiProject::transfer_phone_number_allowlist() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+  return _impl_.transfer_phone_number_allowlist_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+VtsiProject::mutable_transfer_phone_number_allowlist() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist)
+  return &_impl_.transfer_phone_number_allowlist_;
+}
+
 // -------------------------------------------------------------------
 
 // AsteriskConfigsVariables
@@ -4723,58 +4944,317 @@ inline void AsteriskConfigsVariables::set_allocated_sip_trunk_phone_number(std::
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_phone_number)
 }
 
+// .ondewo.vtsi.SipTrunkTransport sip_trunk_transport = 7;
+inline void AsteriskConfigsVariables::clear_sip_trunk_transport() {
+  _impl_.sip_trunk_transport_ = 0;
+}
+inline ::ondewo::vtsi::SipTrunkTransport AsteriskConfigsVariables::_internal_sip_trunk_transport() const {
+  return static_cast< ::ondewo::vtsi::SipTrunkTransport >(_impl_.sip_trunk_transport_);
+}
+inline ::ondewo::vtsi::SipTrunkTransport AsteriskConfigsVariables::sip_trunk_transport() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_transport)
+  return _internal_sip_trunk_transport();
+}
+inline void AsteriskConfigsVariables::_internal_set_sip_trunk_transport(::ondewo::vtsi::SipTrunkTransport value) {
+  
+  _impl_.sip_trunk_transport_ = value;
+}
+inline void AsteriskConfigsVariables::set_sip_trunk_transport(::ondewo::vtsi::SipTrunkTransport value) {
+  _internal_set_sip_trunk_transport(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_transport)
+}
+
+// optional string sip_trunk_source_cidr = 8;
+inline bool AsteriskConfigsVariables::_internal_has_sip_trunk_source_cidr() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool AsteriskConfigsVariables::has_sip_trunk_source_cidr() const {
+  return _internal_has_sip_trunk_source_cidr();
+}
+inline void AsteriskConfigsVariables::clear_sip_trunk_source_cidr() {
+  _impl_.sip_trunk_source_cidr_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& AsteriskConfigsVariables::sip_trunk_source_cidr() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_source_cidr)
+  return _internal_sip_trunk_source_cidr();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AsteriskConfigsVariables::set_sip_trunk_source_cidr(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.sip_trunk_source_cidr_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_source_cidr)
+}
+inline std::string* AsteriskConfigsVariables::mutable_sip_trunk_source_cidr() {
+  std::string* _s = _internal_mutable_sip_trunk_source_cidr();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_source_cidr)
+  return _s;
+}
+inline const std::string& AsteriskConfigsVariables::_internal_sip_trunk_source_cidr() const {
+  return _impl_.sip_trunk_source_cidr_.Get();
+}
+inline void AsteriskConfigsVariables::_internal_set_sip_trunk_source_cidr(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.sip_trunk_source_cidr_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AsteriskConfigsVariables::_internal_mutable_sip_trunk_source_cidr() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.sip_trunk_source_cidr_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AsteriskConfigsVariables::release_sip_trunk_source_cidr() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_source_cidr)
+  if (!_internal_has_sip_trunk_source_cidr()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.sip_trunk_source_cidr_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.sip_trunk_source_cidr_.IsDefault()) {
+    _impl_.sip_trunk_source_cidr_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void AsteriskConfigsVariables::set_allocated_sip_trunk_source_cidr(std::string* sip_trunk_source_cidr) {
+  if (sip_trunk_source_cidr != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.sip_trunk_source_cidr_.SetAllocated(sip_trunk_source_cidr, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.sip_trunk_source_cidr_.IsDefault()) {
+    _impl_.sip_trunk_source_cidr_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_source_cidr)
+}
+
+// optional string sip_trunk_ca_certificates_pem = 9;
+inline bool AsteriskConfigsVariables::_internal_has_sip_trunk_ca_certificates_pem() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool AsteriskConfigsVariables::has_sip_trunk_ca_certificates_pem() const {
+  return _internal_has_sip_trunk_ca_certificates_pem();
+}
+inline void AsteriskConfigsVariables::clear_sip_trunk_ca_certificates_pem() {
+  _impl_.sip_trunk_ca_certificates_pem_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& AsteriskConfigsVariables::sip_trunk_ca_certificates_pem() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_ca_certificates_pem)
+  return _internal_sip_trunk_ca_certificates_pem();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AsteriskConfigsVariables::set_sip_trunk_ca_certificates_pem(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000002u;
+ _impl_.sip_trunk_ca_certificates_pem_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_ca_certificates_pem)
+}
+inline std::string* AsteriskConfigsVariables::mutable_sip_trunk_ca_certificates_pem() {
+  std::string* _s = _internal_mutable_sip_trunk_ca_certificates_pem();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_ca_certificates_pem)
+  return _s;
+}
+inline const std::string& AsteriskConfigsVariables::_internal_sip_trunk_ca_certificates_pem() const {
+  return _impl_.sip_trunk_ca_certificates_pem_.Get();
+}
+inline void AsteriskConfigsVariables::_internal_set_sip_trunk_ca_certificates_pem(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.sip_trunk_ca_certificates_pem_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AsteriskConfigsVariables::_internal_mutable_sip_trunk_ca_certificates_pem() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.sip_trunk_ca_certificates_pem_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AsteriskConfigsVariables::release_sip_trunk_ca_certificates_pem() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_ca_certificates_pem)
+  if (!_internal_has_sip_trunk_ca_certificates_pem()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* p = _impl_.sip_trunk_ca_certificates_pem_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.sip_trunk_ca_certificates_pem_.IsDefault()) {
+    _impl_.sip_trunk_ca_certificates_pem_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void AsteriskConfigsVariables::set_allocated_sip_trunk_ca_certificates_pem(std::string* sip_trunk_ca_certificates_pem) {
+  if (sip_trunk_ca_certificates_pem != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.sip_trunk_ca_certificates_pem_.SetAllocated(sip_trunk_ca_certificates_pem, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.sip_trunk_ca_certificates_pem_.IsDefault()) {
+    _impl_.sip_trunk_ca_certificates_pem_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_ca_certificates_pem)
+}
+
+// optional bool sip_trunk_verify_server = 10;
+inline bool AsteriskConfigsVariables::_internal_has_sip_trunk_verify_server() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool AsteriskConfigsVariables::has_sip_trunk_verify_server() const {
+  return _internal_has_sip_trunk_verify_server();
+}
+inline void AsteriskConfigsVariables::clear_sip_trunk_verify_server() {
+  _impl_.sip_trunk_verify_server_ = false;
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline bool AsteriskConfigsVariables::_internal_sip_trunk_verify_server() const {
+  return _impl_.sip_trunk_verify_server_;
+}
+inline bool AsteriskConfigsVariables::sip_trunk_verify_server() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_verify_server)
+  return _internal_sip_trunk_verify_server();
+}
+inline void AsteriskConfigsVariables::_internal_set_sip_trunk_verify_server(bool value) {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_.sip_trunk_verify_server_ = value;
+}
+inline void AsteriskConfigsVariables::set_sip_trunk_verify_server(bool value) {
+  _internal_set_sip_trunk_verify_server(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_verify_server)
+}
+
+// repeated string softphone_permit_cidrs = 11;
+inline int AsteriskConfigsVariables::_internal_softphone_permit_cidrs_size() const {
+  return _impl_.softphone_permit_cidrs_.size();
+}
+inline int AsteriskConfigsVariables::softphone_permit_cidrs_size() const {
+  return _internal_softphone_permit_cidrs_size();
+}
+inline void AsteriskConfigsVariables::clear_softphone_permit_cidrs() {
+  _impl_.softphone_permit_cidrs_.Clear();
+}
+inline std::string* AsteriskConfigsVariables::add_softphone_permit_cidrs() {
+  std::string* _s = _internal_add_softphone_permit_cidrs();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+  return _s;
+}
+inline const std::string& AsteriskConfigsVariables::_internal_softphone_permit_cidrs(int index) const {
+  return _impl_.softphone_permit_cidrs_.Get(index);
+}
+inline const std::string& AsteriskConfigsVariables::softphone_permit_cidrs(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+  return _internal_softphone_permit_cidrs(index);
+}
+inline std::string* AsteriskConfigsVariables::mutable_softphone_permit_cidrs(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+  return _impl_.softphone_permit_cidrs_.Mutable(index);
+}
+inline void AsteriskConfigsVariables::set_softphone_permit_cidrs(int index, const std::string& value) {
+  _impl_.softphone_permit_cidrs_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+}
+inline void AsteriskConfigsVariables::set_softphone_permit_cidrs(int index, std::string&& value) {
+  _impl_.softphone_permit_cidrs_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+}
+inline void AsteriskConfigsVariables::set_softphone_permit_cidrs(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.softphone_permit_cidrs_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+}
+inline void AsteriskConfigsVariables::set_softphone_permit_cidrs(int index, const char* value, size_t size) {
+  _impl_.softphone_permit_cidrs_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+}
+inline std::string* AsteriskConfigsVariables::_internal_add_softphone_permit_cidrs() {
+  return _impl_.softphone_permit_cidrs_.Add();
+}
+inline void AsteriskConfigsVariables::add_softphone_permit_cidrs(const std::string& value) {
+  _impl_.softphone_permit_cidrs_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+}
+inline void AsteriskConfigsVariables::add_softphone_permit_cidrs(std::string&& value) {
+  _impl_.softphone_permit_cidrs_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+}
+inline void AsteriskConfigsVariables::add_softphone_permit_cidrs(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.softphone_permit_cidrs_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+}
+inline void AsteriskConfigsVariables::add_softphone_permit_cidrs(const char* value, size_t size) {
+  _impl_.softphone_permit_cidrs_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+AsteriskConfigsVariables::softphone_permit_cidrs() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+  return _impl_.softphone_permit_cidrs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+AsteriskConfigsVariables::mutable_softphone_permit_cidrs() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs)
+  return &_impl_.softphone_permit_cidrs_;
+}
+
 // -------------------------------------------------------------------
 
 // AsteriskConfigsFiles
 
-// string sip_conf_file_string = 1;
-inline void AsteriskConfigsFiles::clear_sip_conf_file_string() {
-  _impl_.sip_conf_file_string_.ClearToEmpty();
+// string pjsip_conf_file_string = 1;
+inline void AsteriskConfigsFiles::clear_pjsip_conf_file_string() {
+  _impl_.pjsip_conf_file_string_.ClearToEmpty();
 }
-inline const std::string& AsteriskConfigsFiles::sip_conf_file_string() const {
-  // @@protoc_insertion_point(field_get:ondewo.vtsi.AsteriskConfigsFiles.sip_conf_file_string)
-  return _internal_sip_conf_file_string();
+inline const std::string& AsteriskConfigsFiles::pjsip_conf_file_string() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.AsteriskConfigsFiles.pjsip_conf_file_string)
+  return _internal_pjsip_conf_file_string();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void AsteriskConfigsFiles::set_sip_conf_file_string(ArgT0&& arg0, ArgT... args) {
+void AsteriskConfigsFiles::set_pjsip_conf_file_string(ArgT0&& arg0, ArgT... args) {
  
- _impl_.sip_conf_file_string_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:ondewo.vtsi.AsteriskConfigsFiles.sip_conf_file_string)
+ _impl_.pjsip_conf_file_string_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.AsteriskConfigsFiles.pjsip_conf_file_string)
 }
-inline std::string* AsteriskConfigsFiles::mutable_sip_conf_file_string() {
-  std::string* _s = _internal_mutable_sip_conf_file_string();
-  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.AsteriskConfigsFiles.sip_conf_file_string)
+inline std::string* AsteriskConfigsFiles::mutable_pjsip_conf_file_string() {
+  std::string* _s = _internal_mutable_pjsip_conf_file_string();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.AsteriskConfigsFiles.pjsip_conf_file_string)
   return _s;
 }
-inline const std::string& AsteriskConfigsFiles::_internal_sip_conf_file_string() const {
-  return _impl_.sip_conf_file_string_.Get();
+inline const std::string& AsteriskConfigsFiles::_internal_pjsip_conf_file_string() const {
+  return _impl_.pjsip_conf_file_string_.Get();
 }
-inline void AsteriskConfigsFiles::_internal_set_sip_conf_file_string(const std::string& value) {
+inline void AsteriskConfigsFiles::_internal_set_pjsip_conf_file_string(const std::string& value) {
   
-  _impl_.sip_conf_file_string_.Set(value, GetArenaForAllocation());
+  _impl_.pjsip_conf_file_string_.Set(value, GetArenaForAllocation());
 }
-inline std::string* AsteriskConfigsFiles::_internal_mutable_sip_conf_file_string() {
+inline std::string* AsteriskConfigsFiles::_internal_mutable_pjsip_conf_file_string() {
   
-  return _impl_.sip_conf_file_string_.Mutable(GetArenaForAllocation());
+  return _impl_.pjsip_conf_file_string_.Mutable(GetArenaForAllocation());
 }
-inline std::string* AsteriskConfigsFiles::release_sip_conf_file_string() {
-  // @@protoc_insertion_point(field_release:ondewo.vtsi.AsteriskConfigsFiles.sip_conf_file_string)
-  return _impl_.sip_conf_file_string_.Release();
+inline std::string* AsteriskConfigsFiles::release_pjsip_conf_file_string() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.AsteriskConfigsFiles.pjsip_conf_file_string)
+  return _impl_.pjsip_conf_file_string_.Release();
 }
-inline void AsteriskConfigsFiles::set_allocated_sip_conf_file_string(std::string* sip_conf_file_string) {
-  if (sip_conf_file_string != nullptr) {
+inline void AsteriskConfigsFiles::set_allocated_pjsip_conf_file_string(std::string* pjsip_conf_file_string) {
+  if (pjsip_conf_file_string != nullptr) {
     
   } else {
     
   }
-  _impl_.sip_conf_file_string_.SetAllocated(sip_conf_file_string, GetArenaForAllocation());
+  _impl_.pjsip_conf_file_string_.SetAllocated(pjsip_conf_file_string, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.sip_conf_file_string_.IsDefault()) {
-    _impl_.sip_conf_file_string_.Set("", GetArenaForAllocation());
+  if (_impl_.pjsip_conf_file_string_.IsDefault()) {
+    _impl_.pjsip_conf_file_string_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.AsteriskConfigsFiles.sip_conf_file_string)
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.AsteriskConfigsFiles.pjsip_conf_file_string)
 }
 
 // string extensions_conf_file_string = 2;
@@ -6837,6 +7317,11 @@ template <> struct is_proto_enum< ::ondewo::vtsi::VtsiProjectStatus> : ::std::tr
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::VtsiProjectStatus>() {
   return ::ondewo::vtsi::VtsiProjectStatus_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::vtsi::SipTrunkTransport> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::SipTrunkTransport>() {
+  return ::ondewo::vtsi::SipTrunkTransport_descriptor();
 }
 template <> struct is_proto_enum< ::ondewo::vtsi::VtsiProjectSortingMode> : ::std::true_type {};
 template <>

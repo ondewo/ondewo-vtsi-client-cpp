@@ -17,10 +17,16 @@
 #include "ondewo/sip/sip.grpc.pb.h"
 #include "ondewo/vtsi/calls.grpc.pb.h"
 #include "ondewo/vtsi/calls.pb.h"
+#include "ondewo/vtsi/campaigns.grpc.pb.h"
+#include "ondewo/vtsi/campaigns.pb.h"
+#include "ondewo/vtsi/events.grpc.pb.h"
+#include "ondewo/vtsi/events.pb.h"
 #include "ondewo/vtsi/logs.grpc.pb.h"
 #include "ondewo/vtsi/logs.pb.h"
 #include "ondewo/vtsi/projects.grpc.pb.h"
 #include "ondewo/vtsi/projects.pb.h"
+#include "ondewo/vtsi/softphones.grpc.pb.h"
+#include "ondewo/vtsi/softphones.pb.h"
 
 namespace ondewo_client_test {
 namespace {
@@ -123,6 +129,11 @@ TEST(TypedApi, ServiceStubsAreConstructibleAgainstAChannel) {
       ondewo::vtsi::Projects::NewStub(channel);
   std::unique_ptr<ondewo::vtsi::Calls::Stub> calls = ondewo::vtsi::Calls::NewStub(channel);
   std::unique_ptr<ondewo::vtsi::Logs::Stub> logs = ondewo::vtsi::Logs::NewStub(channel);
+  std::unique_ptr<ondewo::vtsi::Softphones::Stub> softphones =
+      ondewo::vtsi::Softphones::NewStub(channel);
+  std::unique_ptr<ondewo::vtsi::Campaigns::Stub> campaigns =
+      ondewo::vtsi::Campaigns::NewStub(channel);
+  std::unique_ptr<ondewo::vtsi::Events::Stub> events = ondewo::vtsi::Events::NewStub(channel);
   std::unique_ptr<ondewo::sip::Sip::Stub> sip = ondewo::sip::Sip::NewStub(channel);
   std::unique_ptr<ondewo::qa::QA::Stub> qa = ondewo::qa::QA::NewStub(channel);
   std::unique_ptr<ondewo::nlu::Sessions::Stub> sessions =
@@ -131,6 +142,9 @@ TEST(TypedApi, ServiceStubsAreConstructibleAgainstAChannel) {
   EXPECT_NE(projects, nullptr);
   EXPECT_NE(calls, nullptr);
   EXPECT_NE(logs, nullptr);
+  EXPECT_NE(softphones, nullptr);
+  EXPECT_NE(campaigns, nullptr);
+  EXPECT_NE(events, nullptr);
   EXPECT_NE(sip, nullptr);
   EXPECT_NE(qa, nullptr);
   EXPECT_NE(sessions, nullptr);
@@ -140,6 +154,9 @@ TEST(TypedApi, ServicesKeepTheirFullyQualifiedNames) {
   EXPECT_STREQ(ondewo::vtsi::Projects::service_full_name(), "ondewo.vtsi.Projects");
   EXPECT_STREQ(ondewo::vtsi::Calls::service_full_name(), "ondewo.vtsi.Calls");
   EXPECT_STREQ(ondewo::vtsi::Logs::service_full_name(), "ondewo.vtsi.Logs");
+  EXPECT_STREQ(ondewo::vtsi::Softphones::service_full_name(), "ondewo.vtsi.Softphones");
+  EXPECT_STREQ(ondewo::vtsi::Campaigns::service_full_name(), "ondewo.vtsi.Campaigns");
+  EXPECT_STREQ(ondewo::vtsi::Events::service_full_name(), "ondewo.vtsi.Events");
   EXPECT_STREQ(ondewo::sip::Sip::service_full_name(), "ondewo.sip.Sip");
   EXPECT_STREQ(ondewo::qa::QA::service_full_name(), "ondewo.qa.QA");
 }
@@ -168,8 +185,7 @@ TEST(TypedApi, UnaryRpcAgainstADeadEndpointFailsCleanly) {
       << "unexpected status " << status.error_code() << ": " << status.error_message();
 }
 
-// StreamCallLogs is SERVER-streaming - VTSI declares no bidirectional RPC of its own - so it
-// gets a generated ClientReader, with the request passed by value at construction and no
+// StreamCallLogs is SERVER-streaming, so it gets a generated ClientReader, with the request passed by value at construction and no
 // WritesDone. Driving one proves that half of the generated service compiled and dispatches.
 TEST(TypedApi, ServerStreamingRpcStubIsUsable) {
   std::unique_ptr<ondewo::vtsi::Logs::Stub> logs = ondewo::vtsi::Logs::NewStub(DeadChannel());
@@ -191,6 +207,121 @@ TEST(TypedApi, ServerStreamingRpcStubIsUsable) {
 
   const grpc::Status status = stream->Finish();
   EXPECT_FALSE(status.ok()) << "a stream to a dead endpoint reported success";
+}
+
+// Asserts the only correct outcome of a unary RPC against a dead endpoint.
+void ExpectTransportFailure(const grpc::Status& status) {
+  EXPECT_FALSE(status.ok()) << "an RPC to a dead endpoint reported success";
+  EXPECT_TRUE(status.error_code() == grpc::StatusCode::UNAVAILABLE ||
+              status.error_code() == grpc::StatusCode::DEADLINE_EXCEEDED)
+      << "unexpected status " << status.error_code() << ": " << status.error_message();
+}
+
+std::chrono::system_clock::time_point ShortDeadline() {
+  return std::chrono::system_clock::now() + std::chrono::seconds(5);
+}
+
+// One unary RPC per service API 9.0.0 added, so each new service's stub, request/response
+// types and method descriptors are proven to link and dispatch.
+TEST(TypedApi, UnaryRpcOfEveryNewServiceFailsCleanlyAgainstADeadEndpoint) {
+  const std::shared_ptr<grpc::Channel> channel = DeadChannel();
+
+  {
+    std::unique_ptr<ondewo::vtsi::Softphones::Stub> softphones =
+        ondewo::vtsi::Softphones::NewStub(channel);
+    grpc::ClientContext client_context;
+    client_context.set_deadline(ShortDeadline());
+    ondewo::vtsi::GetSoftphoneAccountRequest request;
+    request.set_name("projects/9c1f-project/softphone_accounts/zoiper");
+    ondewo::vtsi::SoftphoneAccount response;
+    ExpectTransportFailure(softphones->GetSoftphoneAccount(&client_context, request, &response));
+  }
+  {
+    std::unique_ptr<ondewo::vtsi::Campaigns::Stub> campaigns =
+        ondewo::vtsi::Campaigns::NewStub(channel);
+    grpc::ClientContext client_context;
+    client_context.set_deadline(ShortDeadline());
+    ondewo::vtsi::GetCampaignRequest request;
+    request.set_name("projects/9c1f-project/campaigns/c1");
+    ondewo::vtsi::Campaign response;
+    ExpectTransportFailure(campaigns->GetCampaign(&client_context, request, &response));
+  }
+  {
+    std::unique_ptr<ondewo::vtsi::Events::Stub> events = ondewo::vtsi::Events::NewStub(channel);
+    grpc::ClientContext client_context;
+    client_context.set_deadline(ShortDeadline());
+    ondewo::vtsi::GetWebhookRequest request;
+    request.set_name("projects/9c1f-project/webhooks/w1");
+    ondewo::vtsi::Webhook response;
+    ExpectTransportFailure(events->GetWebhook(&client_context, request, &response));
+  }
+}
+
+// Calls.StreamCallAudio (API 9.0.0) is the first BIDIRECTIONAL RPC VTSI declares itself, so it
+// gets a generated ClientReaderWriter. Driving it proves that shape compiled and dispatches.
+TEST(TypedApi, BidiStreamingRpcStubIsUsable) {
+  std::unique_ptr<ondewo::vtsi::Calls::Stub> calls = ondewo::vtsi::Calls::NewStub(DeadChannel());
+
+  grpc::ClientContext client_context;
+  client_context.set_deadline(ShortDeadline());
+
+  std::unique_ptr<grpc::ClientReaderWriter<ondewo::vtsi::StreamCallAudioRequest,
+                                           ondewo::vtsi::StreamCallAudioResponse>>
+      stream(calls->StreamCallAudio(&client_context));
+  ASSERT_NE(stream, nullptr);
+
+  ondewo::vtsi::StreamCallAudioRequest request;
+  request.mutable_config()->set_vtsi_project_name("projects/9c1f-project/project");
+  request.mutable_config()->set_call_name("projects/9c1f-project/calls/c1");
+  request.mutable_config()->set_mode(ondewo::vtsi::CALL_AUDIO_MODE_LISTEN);
+  stream->Write(request);
+  stream->WritesDone();
+
+  ondewo::vtsi::StreamCallAudioResponse response;
+  EXPECT_FALSE(stream->Read(&response)) << "a dead endpoint returned a streamed response";
+
+  const grpc::Status status = stream->Finish();
+  EXPECT_FALSE(status.ok()) << "a stream to a dead endpoint reported success";
+}
+
+// API 9.0.0 renamed AsteriskConfigsFiles.sip_conf_file_string to pjsip_conf_file_string and
+// kept field number 1 and type string, so the rename is source-breaking but wire-compatible:
+// bytes written under the old name parse into the new accessor.
+TEST(TypedApi, PjsipConfFileKeepsTheWireNumberOfTheRenamedField) {
+  const google::protobuf::Descriptor* descriptor =
+      ondewo::vtsi::AsteriskConfigsFiles::descriptor();
+  ASSERT_NE(descriptor->FindFieldByName("pjsip_conf_file_string"), nullptr);
+  EXPECT_EQ(descriptor->FindFieldByName("pjsip_conf_file_string")->number(), 1);
+  EXPECT_EQ(descriptor->FindFieldByName("sip_conf_file_string"), nullptr);
+
+  ondewo::vtsi::AsteriskConfigsFiles files;
+  files.set_pjsip_conf_file_string("[transport-tls]");
+  // Field 1, wire type 2 (length-delimited): exactly what 8.7.x wrote for sip_conf_file_string.
+  const std::string bytes = files.SerializeAsString();
+  ASSERT_GE(bytes.size(), 2u);
+  EXPECT_EQ(static_cast<unsigned char>(bytes[0]), 0x0Au);
+
+  ondewo::vtsi::AsteriskConfigsFiles parsed;
+  ASSERT_TRUE(parsed.ParseFromString(bytes));
+  EXPECT_EQ(parsed.pjsip_conf_file_string(), "[transport-tls]");
+}
+
+// Eleven calls.proto scalars gained `optional` in API 9.0.0. An explicit default now reaches
+// the wire and reads back as present - "the caller said false" is no longer "said nothing".
+TEST(TypedApi, ScalarThatGainedPresenceSendsItsExplicitDefault) {
+  ondewo::vtsi::MessageBrokerServicesActivationConfig config;
+  EXPECT_FALSE(config.has_activate_s2t());
+  EXPECT_TRUE(config.SerializeAsString().empty());
+
+  config.set_activate_s2t(false);
+  ASSERT_TRUE(config.has_activate_s2t());
+  const std::string bytes = config.SerializeAsString();
+  EXPECT_FALSE(bytes.empty()) << "an explicitly present false was not written to the wire";
+
+  ondewo::vtsi::MessageBrokerServicesActivationConfig parsed;
+  ASSERT_TRUE(parsed.ParseFromString(bytes));
+  EXPECT_TRUE(parsed.has_activate_s2t());
+  EXPECT_FALSE(parsed.activate_s2t());
 }
 
 }  // namespace

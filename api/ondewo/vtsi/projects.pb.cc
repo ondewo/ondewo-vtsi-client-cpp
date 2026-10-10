@@ -25,6 +25,7 @@ namespace vtsi {
 PROTOBUF_CONSTEXPR VtsiProject::VtsiProject(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.nlu_agent_names_)*/{}
+  , /*decltype(_impl_.transfer_phone_number_allowlist_)*/{}
   , /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.display_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.created_by_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -52,13 +53,19 @@ struct VtsiProjectDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 VtsiProjectDefaultTypeInternal _VtsiProject_default_instance_;
 PROTOBUF_CONSTEXPR AsteriskConfigsVariables::AsteriskConfigsVariables(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.sip_trunk_username_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.softphone_permit_cidrs_)*/{}
+  , /*decltype(_impl_.sip_trunk_username_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.sip_trunk_password_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.sip_trunk_host_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.transfer_number_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.transfer_number_host_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.sip_trunk_phone_number_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.sip_trunk_source_cidr_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.sip_trunk_ca_certificates_pem_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.sip_trunk_transport_)*/0
+  , /*decltype(_impl_.sip_trunk_verify_server_)*/false} {}
 struct AsteriskConfigsVariablesDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AsteriskConfigsVariablesDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -70,7 +77,7 @@ struct AsteriskConfigsVariablesDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AsteriskConfigsVariablesDefaultTypeInternal _AsteriskConfigsVariables_default_instance_;
 PROTOBUF_CONSTEXPR AsteriskConfigsFiles::AsteriskConfigsFiles(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.sip_conf_file_string_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.pjsip_conf_file_string_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.extensions_conf_file_string_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.queues_conf_file_string_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.modules_conf_file_string_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -301,7 +308,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 }  // namespace vtsi
 }  // namespace ondewo
 static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2fprojects_2eproto[18];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fvtsi_2fprojects_2eproto[4];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fvtsi_2fprojects_2eproto[5];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fvtsi_2fprojects_2eproto = nullptr;
 
 const uint32_t TableStruct_ondewo_2fvtsi_2fprojects_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -327,7 +334,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fprojects_2eproto::offsets[] PROTOBUF_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VtsiProject, _impl_.nlu_agent_names_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VtsiProject, _impl_.deployed_callers_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VtsiProject, _impl_.deployed_listeners_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VtsiProject, _impl_.transfer_phone_number_allowlist_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -339,13 +347,29 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fprojects_2eproto::offsets[] PROTOBUF_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_.transfer_number_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_.transfer_number_host_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_.sip_trunk_phone_number_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_.sip_trunk_transport_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_.sip_trunk_source_cidr_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_.sip_trunk_ca_certificates_pem_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_.sip_trunk_verify_server_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsVariables, _impl_.softphone_permit_cidrs_),
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  0,
+  1,
+  2,
+  ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsFiles, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsFiles, _impl_.sip_conf_file_string_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsFiles, _impl_.pjsip_conf_file_string_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsFiles, _impl_.extensions_conf_file_string_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsFiles, _impl_.queues_conf_file_string_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::AsteriskConfigsFiles, _impl_.modules_conf_file_string_),
@@ -486,23 +510,23 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fprojects_2eproto::offsets[] PROTOBUF_
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::ondewo::vtsi::VtsiProject)},
-  { 22, -1, -1, sizeof(::ondewo::vtsi::AsteriskConfigsVariables)},
-  { 34, -1, -1, sizeof(::ondewo::vtsi::AsteriskConfigsFiles)},
-  { 44, 56, -1, sizeof(::ondewo::vtsi::AsteriskConfigs)},
-  { 61, -1, -1, sizeof(::ondewo::vtsi::CreateVtsiProjectRequest)},
-  { 69, -1, -1, sizeof(::ondewo::vtsi::CreateVtsiProjectResponse)},
-  { 77, -1, -1, sizeof(::ondewo::vtsi::GetVtsiProjectRequest)},
-  { 85, 95, -1, sizeof(::ondewo::vtsi::ListVtsiProjectsRequest)},
-  { 99, -1, -1, sizeof(::ondewo::vtsi::ListVtsiProjectsResponse)},
-  { 107, 115, -1, sizeof(::ondewo::vtsi::VtsiProjectSorting)},
-  { 117, -1, -1, sizeof(::ondewo::vtsi::UpdateVtsiProjectRequest)},
-  { 125, -1, -1, sizeof(::ondewo::vtsi::UpdateVtsiProjectResponse)},
-  { 133, -1, -1, sizeof(::ondewo::vtsi::DeleteVtsiProjectRequest)},
-  { 140, -1, -1, sizeof(::ondewo::vtsi::DeleteVtsiProjectResponse)},
-  { 148, -1, -1, sizeof(::ondewo::vtsi::DeployVtsiProjectRequest)},
-  { 155, -1, -1, sizeof(::ondewo::vtsi::DeployVtsiProjectResponse)},
-  { 163, -1, -1, sizeof(::ondewo::vtsi::UndeployVtsiProjectRequest)},
-  { 170, -1, -1, sizeof(::ondewo::vtsi::UndeployVtsiProjectResponse)},
+  { 23, 40, -1, sizeof(::ondewo::vtsi::AsteriskConfigsVariables)},
+  { 51, -1, -1, sizeof(::ondewo::vtsi::AsteriskConfigsFiles)},
+  { 61, 73, -1, sizeof(::ondewo::vtsi::AsteriskConfigs)},
+  { 78, -1, -1, sizeof(::ondewo::vtsi::CreateVtsiProjectRequest)},
+  { 86, -1, -1, sizeof(::ondewo::vtsi::CreateVtsiProjectResponse)},
+  { 94, -1, -1, sizeof(::ondewo::vtsi::GetVtsiProjectRequest)},
+  { 102, 112, -1, sizeof(::ondewo::vtsi::ListVtsiProjectsRequest)},
+  { 116, -1, -1, sizeof(::ondewo::vtsi::ListVtsiProjectsResponse)},
+  { 124, 132, -1, sizeof(::ondewo::vtsi::VtsiProjectSorting)},
+  { 134, -1, -1, sizeof(::ondewo::vtsi::UpdateVtsiProjectRequest)},
+  { 142, -1, -1, sizeof(::ondewo::vtsi::UpdateVtsiProjectResponse)},
+  { 150, -1, -1, sizeof(::ondewo::vtsi::DeleteVtsiProjectRequest)},
+  { 157, -1, -1, sizeof(::ondewo::vtsi::DeleteVtsiProjectResponse)},
+  { 165, -1, -1, sizeof(::ondewo::vtsi::DeployVtsiProjectRequest)},
+  { 172, -1, -1, sizeof(::ondewo::vtsi::DeployVtsiProjectResponse)},
+  { 180, -1, -1, sizeof(::ondewo::vtsi::UndeployVtsiProjectRequest)},
+  { 187, -1, -1, sizeof(::ondewo::vtsi::UndeployVtsiProjectResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -530,7 +554,7 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fprojects_2eproto[] PROTOBUF
   "\n\032ondewo/vtsi/projects.proto\022\013ondewo.vts"
   "i\032 google/protobuf/field_mask.proto\032\034goo"
   "gle/protobuf/struct.proto\032\037google/protob"
-  "uf/timestamp.proto\"\364\003\n\013VtsiProject\022\014\n\004na"
+  "uf/timestamp.proto\"\235\004\n\013VtsiProject\022\014\n\004na"
   "me\030\001 \001(\t\022\024\n\014display_name\030\002 \001(\t\022\023\n\013max_ca"
   "llers\030\003 \001(\005\022\025\n\rmax_listeners\030\004 \001(\005\0226\n\020as"
   "terisk_configs\030\005 \001(\0132\034.ondewo.vtsi.Aster"
@@ -543,89 +567,101 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fprojects_2eproto[] PROTOBUF
   "ive_listeners\030\014 \001(\005\022\025\n\rasterisk_port\030\r \001"
   "(\005\022\027\n\017nlu_agent_names\030\016 \003(\t\022\030\n\020deployed_"
   "callers\030\017 \001(\005\022\032\n\022deployed_listeners\030\020 \001("
-  "\005\"\301\001\n\030AsteriskConfigsVariables\022\032\n\022sip_tr"
-  "unk_username\030\001 \001(\t\022\032\n\022sip_trunk_password"
-  "\030\002 \001(\t\022\026\n\016sip_trunk_host\030\003 \001(\t\022\027\n\017transf"
-  "er_number\030\004 \001(\t\022\034\n\024transfer_number_host\030"
-  "\005 \001(\t\022\036\n\026sip_trunk_phone_number\030\006 \001(\t\"\234\001"
-  "\n\024AsteriskConfigsFiles\022\034\n\024sip_conf_file_"
-  "string\030\001 \001(\t\022#\n\033extensions_conf_file_str"
-  "ing\030\002 \001(\t\022\037\n\027queues_conf_file_string\030\003 \001"
-  "(\t\022 \n\030modules_conf_file_string\030\004 \001(\t\"\272\002\n"
-  "\017AsteriskConfigs\022K\n\032asterisk_configs_var"
-  "iables\030\001 \001(\0132%.ondewo.vtsi.AsteriskConfi"
-  "gsVariablesH\000\022C\n\026asterisk_configs_files\030"
-  "\002 \001(\0132!.ondewo.vtsi.AsteriskConfigsFiles"
-  "H\000\0220\n&asterisk_configs_target_directory_"
-  "name\030\003 \001(\tH\000\022\025\n\rasterisk_port\030\004 \001(\005\022\035\n\020a"
-  "sterisk_version\030\005 \001(\tH\001\210\001\001B\030\n\026asterisk_c"
-  "onfigs_oneofB\023\n\021_asterisk_version\"a\n\030Cre"
-  "ateVtsiProjectRequest\022.\n\014vtsi_project\030\001 "
-  "\001(\0132\030.ondewo.vtsi.VtsiProject\022\025\n\rerror_m"
-  "essage\030\002 \001(\t\"b\n\031CreateVtsiProjectRespons"
-  "e\022.\n\014vtsi_project\030\001 \001(\0132\030.ondewo.vtsi.Vt"
-  "siProject\022\025\n\rerror_message\030\002 \001(\t\"^\n\025GetV"
-  "tsiProjectRequest\022\014\n\004name\030\001 \001(\t\0227\n\021vtsi_"
-  "project_view\030\002 \001(\0162\034.ondewo.vtsi.VtsiPro"
-  "jectView\"\360\001\n\027ListVtsiProjectsRequest\0227\n\021"
-  "vtsi_project_view\030\001 \001(\0162\034.ondewo.vtsi.Vt"
-  "siProjectView\022\027\n\npage_token\030\002 \001(\tH\000\210\001\001\022B"
-  "\n\024vtsi_project_sorting\030\003 \001(\0132\037.ondewo.vt"
-  "si.VtsiProjectSortingH\001\210\001\001\022\027\n\017nlu_agent_"
-  "names\030\004 \003(\tB\r\n\013_page_tokenB\027\n\025_vtsi_proj"
-  "ect_sorting\"d\n\030ListVtsiProjectsResponse\022"
-  "/\n\rvtsi_projects\030\001 \003(\0132\030.ondewo.vtsi.Vts"
-  "iProject\022\027\n\017next_page_token\030\002 \001(\t\"\233\003\n\022Vt"
-  "siProjectSorting\022S\n\rsorting_field\030\001 \001(\0162"
-  "7.ondewo.vtsi.VtsiProjectSorting.VtsiPro"
-  "jectSortingFieldH\000\210\001\001\022>\n\014sorting_mode\030\002 "
-  "\001(\0162#.ondewo.vtsi.VtsiProjectSortingMode"
-  "H\001\210\001\001\"\314\001\n\027VtsiProjectSortingField\022\033\n\027NO_"
-  "VTSI_PROJECT_SORTING\020\000\022\035\n\031SORT_VTSI_PROJ"
-  "ECT_BY_NAME\020\001\022%\n!SORT_VTSI_PROJECT_BY_DI"
-  "SPLAY_NAME\020\002\022&\n\"SORT_VTSI_PROJECT_BY_CRE"
-  "ATION_DATE\020\003\022&\n\"SORT_VTSI_PROJECT_BY_LAS"
-  "T_MODIFIED\020\004B\020\n\016_sorting_fieldB\017\n\r_sorti"
-  "ng_mode\"{\n\030UpdateVtsiProjectRequest\022.\n\014v"
-  "tsi_project\030\001 \001(\0132\030.ondewo.vtsi.VtsiProj"
-  "ect\022/\n\013update_mask\030\002 \001(\0132\032.google.protob"
-  "uf.FieldMask\"@\n\031UpdateVtsiProjectRespons"
-  "e\022\014\n\004name\030\001 \001(\t\022\025\n\rerror_message\030\002 \001(\t\"("
-  "\n\030DeleteVtsiProjectRequest\022\014\n\004name\030\001 \001(\t"
-  "\"@\n\031DeleteVtsiProjectResponse\022\014\n\004name\030\001 "
-  "\001(\t\022\025\n\rerror_message\030\002 \001(\t\"(\n\030DeployVtsi"
-  "ProjectRequest\022\014\n\004name\030\001 \001(\t\"@\n\031DeployVt"
-  "siProjectResponse\022\014\n\004name\030\001 \001(\t\022\025\n\rerror"
-  "_message\030\002 \001(\t\"*\n\032UndeployVtsiProjectReq"
-  "uest\022\014\n\004name\030\001 \001(\t\"B\n\033UndeployVtsiProjec"
-  "tResponse\022\014\n\004name\030\001 \001(\t\022\025\n\rerror_message"
-  "\030\002 \001(\t*\213\001\n\021VtsiProjectStatus\022\017\n\013UNSPECIF"
-  "IED\020\000\022\016\n\nUNDEPLOYED\020\001\022\014\n\010UPDATING\020\002\022\r\n\tD"
-  "EPLOYING\020\003\022\014\n\010DEPLOYED\020\004\022\017\n\013UNDEPLOYING\020"
-  "\005\022\014\n\010DELETING\020\006\022\013\n\007DELETED\020\007*7\n\026VtsiProj"
-  "ectSortingMode\022\r\n\tASCENDING\020\000\022\016\n\nDESCEND"
-  "ING\020\001*\216\001\n\017VtsiProjectView\022!\n\035VTSI_PROJEC"
-  "T_VIEW_UNSPECIFIED\020\000\022\032\n\026VTSI_PROJECT_VIE"
-  "W_FULL\020\001\022\035\n\031VTSI_PROJECT_VIEW_SHALLOW\020\002\022"
-  "\035\n\031VTSI_PROJECT_VIEW_MINIMUM\020\0032\265\005\n\010Proje"
-  "cts\022b\n\021CreateVtsiProject\022%.ondewo.vtsi.C"
-  "reateVtsiProjectRequest\032&.ondewo.vtsi.Cr"
-  "eateVtsiProjectResponse\022N\n\016GetVtsiProjec"
-  "t\022\".ondewo.vtsi.GetVtsiProjectRequest\032\030."
-  "ondewo.vtsi.VtsiProject\022b\n\021UpdateVtsiPro"
-  "ject\022%.ondewo.vtsi.UpdateVtsiProjectRequ"
-  "est\032&.ondewo.vtsi.UpdateVtsiProjectRespo"
-  "nse\022b\n\021DeleteVtsiProject\022%.ondewo.vtsi.D"
-  "eleteVtsiProjectRequest\032&.ondewo.vtsi.De"
-  "leteVtsiProjectResponse\022b\n\021DeployVtsiPro"
-  "ject\022%.ondewo.vtsi.DeployVtsiProjectRequ"
-  "est\032&.ondewo.vtsi.DeployVtsiProjectRespo"
-  "nse\022h\n\023UndeployVtsiProject\022\'.ondewo.vtsi"
-  ".UndeployVtsiProjectRequest\032(.ondewo.vts"
-  "i.UndeployVtsiProjectResponse\022_\n\020ListVts"
-  "iProjects\022$.ondewo.vtsi.ListVtsiProjects"
-  "Request\032%.ondewo.vtsi.ListVtsiProjectsRe"
-  "sponseb\006proto3"
+  "\005\022\'\n\037transfer_phone_number_allowlist\030\021 \003"
+  "(\t\"\354\003\n\030AsteriskConfigsVariables\022\032\n\022sip_t"
+  "runk_username\030\001 \001(\t\022\032\n\022sip_trunk_passwor"
+  "d\030\002 \001(\t\022\026\n\016sip_trunk_host\030\003 \001(\t\022\027\n\017trans"
+  "fer_number\030\004 \001(\t\022\034\n\024transfer_number_host"
+  "\030\005 \001(\t\022\036\n\026sip_trunk_phone_number\030\006 \001(\t\022;"
+  "\n\023sip_trunk_transport\030\007 \001(\0162\036.ondewo.vts"
+  "i.SipTrunkTransport\022\"\n\025sip_trunk_source_"
+  "cidr\030\010 \001(\tH\000\210\001\001\022*\n\035sip_trunk_ca_certific"
+  "ates_pem\030\t \001(\tH\001\210\001\001\022$\n\027sip_trunk_verify_"
+  "server\030\n \001(\010H\002\210\001\001\022\036\n\026softphone_permit_ci"
+  "drs\030\013 \003(\tB\030\n\026_sip_trunk_source_cidrB \n\036_"
+  "sip_trunk_ca_certificates_pemB\032\n\030_sip_tr"
+  "unk_verify_server\"\236\001\n\024AsteriskConfigsFil"
+  "es\022\036\n\026pjsip_conf_file_string\030\001 \001(\t\022#\n\033ex"
+  "tensions_conf_file_string\030\002 \001(\t\022\037\n\027queue"
+  "s_conf_file_string\030\003 \001(\t\022 \n\030modules_conf"
+  "_file_string\030\004 \001(\t\"\272\002\n\017AsteriskConfigs\022K"
+  "\n\032asterisk_configs_variables\030\001 \001(\0132%.ond"
+  "ewo.vtsi.AsteriskConfigsVariablesH\000\022C\n\026a"
+  "sterisk_configs_files\030\002 \001(\0132!.ondewo.vts"
+  "i.AsteriskConfigsFilesH\000\0220\n&asterisk_con"
+  "figs_target_directory_name\030\003 \001(\tH\000\022\025\n\ras"
+  "terisk_port\030\004 \001(\005\022\035\n\020asterisk_version\030\005 "
+  "\001(\tH\001\210\001\001B\030\n\026asterisk_configs_oneofB\023\n\021_a"
+  "sterisk_version\"a\n\030CreateVtsiProjectRequ"
+  "est\022.\n\014vtsi_project\030\001 \001(\0132\030.ondewo.vtsi."
+  "VtsiProject\022\025\n\rerror_message\030\002 \001(\t\"b\n\031Cr"
+  "eateVtsiProjectResponse\022.\n\014vtsi_project\030"
+  "\001 \001(\0132\030.ondewo.vtsi.VtsiProject\022\025\n\rerror"
+  "_message\030\002 \001(\t\"^\n\025GetVtsiProjectRequest\022"
+  "\014\n\004name\030\001 \001(\t\0227\n\021vtsi_project_view\030\002 \001(\016"
+  "2\034.ondewo.vtsi.VtsiProjectView\"\360\001\n\027ListV"
+  "tsiProjectsRequest\0227\n\021vtsi_project_view\030"
+  "\001 \001(\0162\034.ondewo.vtsi.VtsiProjectView\022\027\n\np"
+  "age_token\030\002 \001(\tH\000\210\001\001\022B\n\024vtsi_project_sor"
+  "ting\030\003 \001(\0132\037.ondewo.vtsi.VtsiProjectSort"
+  "ingH\001\210\001\001\022\027\n\017nlu_agent_names\030\004 \003(\tB\r\n\013_pa"
+  "ge_tokenB\027\n\025_vtsi_project_sorting\"d\n\030Lis"
+  "tVtsiProjectsResponse\022/\n\rvtsi_projects\030\001"
+  " \003(\0132\030.ondewo.vtsi.VtsiProject\022\027\n\017next_p"
+  "age_token\030\002 \001(\t\"\233\003\n\022VtsiProjectSorting\022S"
+  "\n\rsorting_field\030\001 \001(\01627.ondewo.vtsi.Vtsi"
+  "ProjectSorting.VtsiProjectSortingFieldH\000"
+  "\210\001\001\022>\n\014sorting_mode\030\002 \001(\0162#.ondewo.vtsi."
+  "VtsiProjectSortingModeH\001\210\001\001\"\314\001\n\027VtsiProj"
+  "ectSortingField\022\033\n\027NO_VTSI_PROJECT_SORTI"
+  "NG\020\000\022\035\n\031SORT_VTSI_PROJECT_BY_NAME\020\001\022%\n!S"
+  "ORT_VTSI_PROJECT_BY_DISPLAY_NAME\020\002\022&\n\"SO"
+  "RT_VTSI_PROJECT_BY_CREATION_DATE\020\003\022&\n\"SO"
+  "RT_VTSI_PROJECT_BY_LAST_MODIFIED\020\004B\020\n\016_s"
+  "orting_fieldB\017\n\r_sorting_mode\"{\n\030UpdateV"
+  "tsiProjectRequest\022.\n\014vtsi_project\030\001 \001(\0132"
+  "\030.ondewo.vtsi.VtsiProject\022/\n\013update_mask"
+  "\030\002 \001(\0132\032.google.protobuf.FieldMask\"@\n\031Up"
+  "dateVtsiProjectResponse\022\014\n\004name\030\001 \001(\t\022\025\n"
+  "\rerror_message\030\002 \001(\t\"(\n\030DeleteVtsiProjec"
+  "tRequest\022\014\n\004name\030\001 \001(\t\"@\n\031DeleteVtsiProj"
+  "ectResponse\022\014\n\004name\030\001 \001(\t\022\025\n\rerror_messa"
+  "ge\030\002 \001(\t\"(\n\030DeployVtsiProjectRequest\022\014\n\004"
+  "name\030\001 \001(\t\"@\n\031DeployVtsiProjectResponse\022"
+  "\014\n\004name\030\001 \001(\t\022\025\n\rerror_message\030\002 \001(\t\"*\n\032"
+  "UndeployVtsiProjectRequest\022\014\n\004name\030\001 \001(\t"
+  "\"B\n\033UndeployVtsiProjectResponse\022\014\n\004name\030"
+  "\001 \001(\t\022\025\n\rerror_message\030\002 \001(\t*\213\001\n\021VtsiPro"
+  "jectStatus\022\017\n\013UNSPECIFIED\020\000\022\016\n\nUNDEPLOYE"
+  "D\020\001\022\014\n\010UPDATING\020\002\022\r\n\tDEPLOYING\020\003\022\014\n\010DEPL"
+  "OYED\020\004\022\017\n\013UNDEPLOYING\020\005\022\014\n\010DELETING\020\006\022\013\n"
+  "\007DELETED\020\007*\217\001\n\021SipTrunkTransport\022#\n\037SIP_"
+  "TRUNK_TRANSPORT_UNSPECIFIED\020\000\022\033\n\027SIP_TRU"
+  "NK_TRANSPORT_TLS\020\001\022\033\n\027SIP_TRUNK_TRANSPOR"
+  "T_UDP\020\002\022\033\n\027SIP_TRUNK_TRANSPORT_TCP\020\003*7\n\026"
+  "VtsiProjectSortingMode\022\r\n\tASCENDING\020\000\022\016\n"
+  "\nDESCENDING\020\001*\216\001\n\017VtsiProjectView\022!\n\035VTS"
+  "I_PROJECT_VIEW_UNSPECIFIED\020\000\022\032\n\026VTSI_PRO"
+  "JECT_VIEW_FULL\020\001\022\035\n\031VTSI_PROJECT_VIEW_SH"
+  "ALLOW\020\002\022\035\n\031VTSI_PROJECT_VIEW_MINIMUM\020\0032\265"
+  "\005\n\010Projects\022b\n\021CreateVtsiProject\022%.ondew"
+  "o.vtsi.CreateVtsiProjectRequest\032&.ondewo"
+  ".vtsi.CreateVtsiProjectResponse\022N\n\016GetVt"
+  "siProject\022\".ondewo.vtsi.GetVtsiProjectRe"
+  "quest\032\030.ondewo.vtsi.VtsiProject\022b\n\021Updat"
+  "eVtsiProject\022%.ondewo.vtsi.UpdateVtsiPro"
+  "jectRequest\032&.ondewo.vtsi.UpdateVtsiProj"
+  "ectResponse\022b\n\021DeleteVtsiProject\022%.ondew"
+  "o.vtsi.DeleteVtsiProjectRequest\032&.ondewo"
+  ".vtsi.DeleteVtsiProjectResponse\022b\n\021Deplo"
+  "yVtsiProject\022%.ondewo.vtsi.DeployVtsiPro"
+  "jectRequest\032&.ondewo.vtsi.DeployVtsiProj"
+  "ectResponse\022h\n\023UndeployVtsiProject\022\'.ond"
+  "ewo.vtsi.UndeployVtsiProjectRequest\032(.on"
+  "dewo.vtsi.UndeployVtsiProjectResponse\022_\n"
+  "\020ListVtsiProjects\022$.ondewo.vtsi.ListVtsi"
+  "ProjectsRequest\032%.ondewo.vtsi.ListVtsiPr"
+  "ojectsResponseb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fprojects_2eproto_deps[3] = {
   &::descriptor_table_google_2fprotobuf_2ffield_5fmask_2eproto,
@@ -634,7 +670,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fpro
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fvtsi_2fprojects_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fvtsi_2fprojects_2eproto = {
-    false, false, 3934, descriptor_table_protodef_ondewo_2fvtsi_2fprojects_2eproto,
+    false, false, 4422, descriptor_table_protodef_ondewo_2fvtsi_2fprojects_2eproto,
     "ondewo/vtsi/projects.proto",
     &descriptor_table_ondewo_2fvtsi_2fprojects_2eproto_once, descriptor_table_ondewo_2fvtsi_2fprojects_2eproto_deps, 3, 18,
     schemas, file_default_instances, TableStruct_ondewo_2fvtsi_2fprojects_2eproto::offsets,
@@ -696,9 +732,25 @@ bool VtsiProjectStatus_IsValid(int value) {
   }
 }
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* VtsiProjectSortingMode_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipTrunkTransport_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fvtsi_2fprojects_2eproto);
   return file_level_enum_descriptors_ondewo_2fvtsi_2fprojects_2eproto[2];
+}
+bool SipTrunkTransport_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* VtsiProjectSortingMode_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fvtsi_2fprojects_2eproto);
+  return file_level_enum_descriptors_ondewo_2fvtsi_2fprojects_2eproto[3];
 }
 bool VtsiProjectSortingMode_IsValid(int value) {
   switch (value) {
@@ -712,7 +764,7 @@ bool VtsiProjectSortingMode_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* VtsiProjectView_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fvtsi_2fprojects_2eproto);
-  return file_level_enum_descriptors_ondewo_2fvtsi_2fprojects_2eproto[3];
+  return file_level_enum_descriptors_ondewo_2fvtsi_2fprojects_2eproto[4];
 }
 bool VtsiProjectView_IsValid(int value) {
   switch (value) {
@@ -771,6 +823,7 @@ VtsiProject::VtsiProject(const VtsiProject& from)
   VtsiProject* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.nlu_agent_names_){from._impl_.nlu_agent_names_}
+    , decltype(_impl_.transfer_phone_number_allowlist_){from._impl_.transfer_phone_number_allowlist_}
     , decltype(_impl_.name_){}
     , decltype(_impl_.display_name_){}
     , decltype(_impl_.created_by_){}
@@ -842,6 +895,7 @@ inline void VtsiProject::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.nlu_agent_names_){arena}
+    , decltype(_impl_.transfer_phone_number_allowlist_){arena}
     , decltype(_impl_.name_){}
     , decltype(_impl_.display_name_){}
     , decltype(_impl_.created_by_){}
@@ -889,6 +943,7 @@ VtsiProject::~VtsiProject() {
 inline void VtsiProject::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.nlu_agent_names_.~RepeatedPtrField();
+  _impl_.transfer_phone_number_allowlist_.~RepeatedPtrField();
   _impl_.name_.Destroy();
   _impl_.display_name_.Destroy();
   _impl_.created_by_.Destroy();
@@ -909,6 +964,7 @@ void VtsiProject::Clear() {
   (void) cached_has_bits;
 
   _impl_.nlu_agent_names_.Clear();
+  _impl_.transfer_phone_number_allowlist_.Clear();
   _impl_.name_.ClearToEmpty();
   _impl_.display_name_.ClearToEmpty();
   _impl_.created_by_.ClearToEmpty();
@@ -1081,6 +1137,21 @@ const char* VtsiProject::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
         } else
           goto handle_unusual;
         continue;
+      // repeated string transfer_phone_number_allowlist = 17;
+      case 17:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 138)) {
+          ptr -= 2;
+          do {
+            ptr += 2;
+            auto str = _internal_add_transfer_phone_number_allowlist();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<138>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -1230,6 +1301,16 @@ uint8_t* VtsiProject::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(16, this->_internal_deployed_listeners(), target);
   }
 
+  // repeated string transfer_phone_number_allowlist = 17;
+  for (int i = 0, n = this->_internal_transfer_phone_number_allowlist_size(); i < n; i++) {
+    const auto& s = this->_internal_transfer_phone_number_allowlist(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.VtsiProject.transfer_phone_number_allowlist");
+    target = stream->WriteString(17, s, target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1252,6 +1333,14 @@ size_t VtsiProject::ByteSizeLong() const {
   for (int i = 0, n = _impl_.nlu_agent_names_.size(); i < n; i++) {
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
       _impl_.nlu_agent_names_.Get(i));
+  }
+
+  // repeated string transfer_phone_number_allowlist = 17;
+  total_size += 2 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.transfer_phone_number_allowlist_.size());
+  for (int i = 0, n = _impl_.transfer_phone_number_allowlist_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.transfer_phone_number_allowlist_.Get(i));
   }
 
   // string name = 1;
@@ -1365,6 +1454,7 @@ void VtsiProject::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   (void) cached_has_bits;
 
   _this->_impl_.nlu_agent_names_.MergeFrom(from._impl_.nlu_agent_names_);
+  _this->_impl_.transfer_phone_number_allowlist_.MergeFrom(from._impl_.transfer_phone_number_allowlist_);
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
   }
@@ -1433,6 +1523,7 @@ void VtsiProject::InternalSwap(VtsiProject* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.nlu_agent_names_.InternalSwap(&other->_impl_.nlu_agent_names_);
+  _impl_.transfer_phone_number_allowlist_.InternalSwap(&other->_impl_.transfer_phone_number_allowlist_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.name_, lhs_arena,
       &other->_impl_.name_, rhs_arena
@@ -1467,6 +1558,16 @@ void VtsiProject::InternalSwap(VtsiProject* other) {
 
 class AsteriskConfigsVariables::_Internal {
  public:
+  using HasBits = decltype(std::declval<AsteriskConfigsVariables>()._impl_._has_bits_);
+  static void set_has_sip_trunk_source_cidr(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_sip_trunk_ca_certificates_pem(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_sip_trunk_verify_server(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
 };
 
 AsteriskConfigsVariables::AsteriskConfigsVariables(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -1479,13 +1580,19 @@ AsteriskConfigsVariables::AsteriskConfigsVariables(const AsteriskConfigsVariable
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   AsteriskConfigsVariables* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.sip_trunk_username_){}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.softphone_permit_cidrs_){from._impl_.softphone_permit_cidrs_}
+    , decltype(_impl_.sip_trunk_username_){}
     , decltype(_impl_.sip_trunk_password_){}
     , decltype(_impl_.sip_trunk_host_){}
     , decltype(_impl_.transfer_number_){}
     , decltype(_impl_.transfer_number_host_){}
     , decltype(_impl_.sip_trunk_phone_number_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.sip_trunk_source_cidr_){}
+    , decltype(_impl_.sip_trunk_ca_certificates_pem_){}
+    , decltype(_impl_.sip_trunk_transport_){}
+    , decltype(_impl_.sip_trunk_verify_server_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.sip_trunk_username_.InitDefault();
@@ -1536,6 +1643,25 @@ AsteriskConfigsVariables::AsteriskConfigsVariables(const AsteriskConfigsVariable
     _this->_impl_.sip_trunk_phone_number_.Set(from._internal_sip_trunk_phone_number(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.sip_trunk_source_cidr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sip_trunk_source_cidr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_sip_trunk_source_cidr()) {
+    _this->_impl_.sip_trunk_source_cidr_.Set(from._internal_sip_trunk_source_cidr(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.sip_trunk_ca_certificates_pem_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sip_trunk_ca_certificates_pem_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_sip_trunk_ca_certificates_pem()) {
+    _this->_impl_.sip_trunk_ca_certificates_pem_.Set(from._internal_sip_trunk_ca_certificates_pem(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.sip_trunk_transport_, &from._impl_.sip_trunk_transport_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.sip_trunk_verify_server_) -
+    reinterpret_cast<char*>(&_impl_.sip_trunk_transport_)) + sizeof(_impl_.sip_trunk_verify_server_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.AsteriskConfigsVariables)
 }
 
@@ -1544,13 +1670,19 @@ inline void AsteriskConfigsVariables::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.sip_trunk_username_){}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.softphone_permit_cidrs_){arena}
+    , decltype(_impl_.sip_trunk_username_){}
     , decltype(_impl_.sip_trunk_password_){}
     , decltype(_impl_.sip_trunk_host_){}
     , decltype(_impl_.transfer_number_){}
     , decltype(_impl_.transfer_number_host_){}
     , decltype(_impl_.sip_trunk_phone_number_){}
-    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.sip_trunk_source_cidr_){}
+    , decltype(_impl_.sip_trunk_ca_certificates_pem_){}
+    , decltype(_impl_.sip_trunk_transport_){0}
+    , decltype(_impl_.sip_trunk_verify_server_){false}
   };
   _impl_.sip_trunk_username_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -1576,6 +1708,14 @@ inline void AsteriskConfigsVariables::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.sip_trunk_phone_number_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.sip_trunk_source_cidr_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sip_trunk_source_cidr_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.sip_trunk_ca_certificates_pem_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sip_trunk_ca_certificates_pem_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 AsteriskConfigsVariables::~AsteriskConfigsVariables() {
@@ -1589,12 +1729,15 @@ AsteriskConfigsVariables::~AsteriskConfigsVariables() {
 
 inline void AsteriskConfigsVariables::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.softphone_permit_cidrs_.~RepeatedPtrField();
   _impl_.sip_trunk_username_.Destroy();
   _impl_.sip_trunk_password_.Destroy();
   _impl_.sip_trunk_host_.Destroy();
   _impl_.transfer_number_.Destroy();
   _impl_.transfer_number_host_.Destroy();
   _impl_.sip_trunk_phone_number_.Destroy();
+  _impl_.sip_trunk_source_cidr_.Destroy();
+  _impl_.sip_trunk_ca_certificates_pem_.Destroy();
 }
 
 void AsteriskConfigsVariables::SetCachedSize(int size) const {
@@ -1607,17 +1750,31 @@ void AsteriskConfigsVariables::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.softphone_permit_cidrs_.Clear();
   _impl_.sip_trunk_username_.ClearToEmpty();
   _impl_.sip_trunk_password_.ClearToEmpty();
   _impl_.sip_trunk_host_.ClearToEmpty();
   _impl_.transfer_number_.ClearToEmpty();
   _impl_.transfer_number_host_.ClearToEmpty();
   _impl_.sip_trunk_phone_number_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _impl_.sip_trunk_source_cidr_.ClearNonDefaultToEmpty();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _impl_.sip_trunk_ca_certificates_pem_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_.sip_trunk_transport_ = 0;
+  _impl_.sip_trunk_verify_server_ = false;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* AsteriskConfigsVariables::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -1682,6 +1839,59 @@ const char* AsteriskConfigsVariables::_InternalParse(const char* ptr, ::_pbi::Pa
         } else
           goto handle_unusual;
         continue;
+      // .ondewo.vtsi.SipTrunkTransport sip_trunk_transport = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_sip_trunk_transport(static_cast<::ondewo::vtsi::SipTrunkTransport>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string sip_trunk_source_cidr = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          auto str = _internal_mutable_sip_trunk_source_cidr();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_source_cidr"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string sip_trunk_ca_certificates_pem = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_sip_trunk_ca_certificates_pem();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_ca_certificates_pem"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool sip_trunk_verify_server = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+          _Internal::set_has_sip_trunk_verify_server(&has_bits);
+          _impl_.sip_trunk_verify_server_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string softphone_permit_cidrs = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_softphone_permit_cidrs();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<90>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -1698,6 +1908,7 @@ const char* AsteriskConfigsVariables::_InternalParse(const char* ptr, ::_pbi::Pa
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1771,6 +1982,49 @@ uint8_t* AsteriskConfigsVariables::_InternalSerialize(
         6, this->_internal_sip_trunk_phone_number(), target);
   }
 
+  // .ondewo.vtsi.SipTrunkTransport sip_trunk_transport = 7;
+  if (this->_internal_sip_trunk_transport() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      7, this->_internal_sip_trunk_transport(), target);
+  }
+
+  // optional string sip_trunk_source_cidr = 8;
+  if (_internal_has_sip_trunk_source_cidr()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_sip_trunk_source_cidr().data(), static_cast<int>(this->_internal_sip_trunk_source_cidr().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_source_cidr");
+    target = stream->WriteStringMaybeAliased(
+        8, this->_internal_sip_trunk_source_cidr(), target);
+  }
+
+  // optional string sip_trunk_ca_certificates_pem = 9;
+  if (_internal_has_sip_trunk_ca_certificates_pem()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_sip_trunk_ca_certificates_pem().data(), static_cast<int>(this->_internal_sip_trunk_ca_certificates_pem().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.AsteriskConfigsVariables.sip_trunk_ca_certificates_pem");
+    target = stream->WriteStringMaybeAliased(
+        9, this->_internal_sip_trunk_ca_certificates_pem(), target);
+  }
+
+  // optional bool sip_trunk_verify_server = 10;
+  if (_internal_has_sip_trunk_verify_server()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(10, this->_internal_sip_trunk_verify_server(), target);
+  }
+
+  // repeated string softphone_permit_cidrs = 11;
+  for (int i = 0, n = this->_internal_softphone_permit_cidrs_size(); i < n; i++) {
+    const auto& s = this->_internal_softphone_permit_cidrs(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.AsteriskConfigsVariables.softphone_permit_cidrs");
+    target = stream->WriteString(11, s, target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1786,6 +2040,14 @@ size_t AsteriskConfigsVariables::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // repeated string softphone_permit_cidrs = 11;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.softphone_permit_cidrs_.size());
+  for (int i = 0, n = _impl_.softphone_permit_cidrs_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.softphone_permit_cidrs_.Get(i));
+  }
 
   // string sip_trunk_username = 1;
   if (!this->_internal_sip_trunk_username().empty()) {
@@ -1829,6 +2091,34 @@ size_t AsteriskConfigsVariables::ByteSizeLong() const {
         this->_internal_sip_trunk_phone_number());
   }
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    // optional string sip_trunk_source_cidr = 8;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_sip_trunk_source_cidr());
+    }
+
+    // optional string sip_trunk_ca_certificates_pem = 9;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_sip_trunk_ca_certificates_pem());
+    }
+
+  }
+  // .ondewo.vtsi.SipTrunkTransport sip_trunk_transport = 7;
+  if (this->_internal_sip_trunk_transport() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_sip_trunk_transport());
+  }
+
+  // optional bool sip_trunk_verify_server = 10;
+  if (cached_has_bits & 0x00000004u) {
+    total_size += 1 + 1;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1847,6 +2137,7 @@ void AsteriskConfigsVariables::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  _this->_impl_.softphone_permit_cidrs_.MergeFrom(from._impl_.softphone_permit_cidrs_);
   if (!from._internal_sip_trunk_username().empty()) {
     _this->_internal_set_sip_trunk_username(from._internal_sip_trunk_username());
   }
@@ -1864,6 +2155,21 @@ void AsteriskConfigsVariables::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   }
   if (!from._internal_sip_trunk_phone_number().empty()) {
     _this->_internal_set_sip_trunk_phone_number(from._internal_sip_trunk_phone_number());
+  }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_set_sip_trunk_source_cidr(from._internal_sip_trunk_source_cidr());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_set_sip_trunk_ca_certificates_pem(from._internal_sip_trunk_ca_certificates_pem());
+    }
+  }
+  if (from._internal_sip_trunk_transport() != 0) {
+    _this->_internal_set_sip_trunk_transport(from._internal_sip_trunk_transport());
+  }
+  if (cached_has_bits & 0x00000004u) {
+    _this->_internal_set_sip_trunk_verify_server(from._internal_sip_trunk_verify_server());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1884,6 +2190,8 @@ void AsteriskConfigsVariables::InternalSwap(AsteriskConfigsVariables* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.softphone_permit_cidrs_.InternalSwap(&other->_impl_.softphone_permit_cidrs_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.sip_trunk_username_, lhs_arena,
       &other->_impl_.sip_trunk_username_, rhs_arena
@@ -1908,6 +2216,20 @@ void AsteriskConfigsVariables::InternalSwap(AsteriskConfigsVariables* other) {
       &_impl_.sip_trunk_phone_number_, lhs_arena,
       &other->_impl_.sip_trunk_phone_number_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.sip_trunk_source_cidr_, lhs_arena,
+      &other->_impl_.sip_trunk_source_cidr_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.sip_trunk_ca_certificates_pem_, lhs_arena,
+      &other->_impl_.sip_trunk_ca_certificates_pem_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AsteriskConfigsVariables, _impl_.sip_trunk_verify_server_)
+      + sizeof(AsteriskConfigsVariables::_impl_.sip_trunk_verify_server_)
+      - PROTOBUF_FIELD_OFFSET(AsteriskConfigsVariables, _impl_.sip_trunk_transport_)>(
+          reinterpret_cast<char*>(&_impl_.sip_trunk_transport_),
+          reinterpret_cast<char*>(&other->_impl_.sip_trunk_transport_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata AsteriskConfigsVariables::GetMetadata() const {
@@ -1932,19 +2254,19 @@ AsteriskConfigsFiles::AsteriskConfigsFiles(const AsteriskConfigsFiles& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   AsteriskConfigsFiles* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.sip_conf_file_string_){}
+      decltype(_impl_.pjsip_conf_file_string_){}
     , decltype(_impl_.extensions_conf_file_string_){}
     , decltype(_impl_.queues_conf_file_string_){}
     , decltype(_impl_.modules_conf_file_string_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.sip_conf_file_string_.InitDefault();
+  _impl_.pjsip_conf_file_string_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.sip_conf_file_string_.Set("", GetArenaForAllocation());
+    _impl_.pjsip_conf_file_string_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_sip_conf_file_string().empty()) {
-    _this->_impl_.sip_conf_file_string_.Set(from._internal_sip_conf_file_string(), 
+  if (!from._internal_pjsip_conf_file_string().empty()) {
+    _this->_impl_.pjsip_conf_file_string_.Set(from._internal_pjsip_conf_file_string(), 
       _this->GetArenaForAllocation());
   }
   _impl_.extensions_conf_file_string_.InitDefault();
@@ -1979,15 +2301,15 @@ inline void AsteriskConfigsFiles::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.sip_conf_file_string_){}
+      decltype(_impl_.pjsip_conf_file_string_){}
     , decltype(_impl_.extensions_conf_file_string_){}
     , decltype(_impl_.queues_conf_file_string_){}
     , decltype(_impl_.modules_conf_file_string_){}
     , /*decltype(_impl_._cached_size_)*/{}
   };
-  _impl_.sip_conf_file_string_.InitDefault();
+  _impl_.pjsip_conf_file_string_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.sip_conf_file_string_.Set("", GetArenaForAllocation());
+    _impl_.pjsip_conf_file_string_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.extensions_conf_file_string_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -2014,7 +2336,7 @@ AsteriskConfigsFiles::~AsteriskConfigsFiles() {
 
 inline void AsteriskConfigsFiles::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.sip_conf_file_string_.Destroy();
+  _impl_.pjsip_conf_file_string_.Destroy();
   _impl_.extensions_conf_file_string_.Destroy();
   _impl_.queues_conf_file_string_.Destroy();
   _impl_.modules_conf_file_string_.Destroy();
@@ -2030,7 +2352,7 @@ void AsteriskConfigsFiles::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.sip_conf_file_string_.ClearToEmpty();
+  _impl_.pjsip_conf_file_string_.ClearToEmpty();
   _impl_.extensions_conf_file_string_.ClearToEmpty();
   _impl_.queues_conf_file_string_.ClearToEmpty();
   _impl_.modules_conf_file_string_.ClearToEmpty();
@@ -2043,13 +2365,13 @@ const char* AsteriskConfigsFiles::_InternalParse(const char* ptr, ::_pbi::ParseC
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string sip_conf_file_string = 1;
+      // string pjsip_conf_file_string = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_sip_conf_file_string();
+          auto str = _internal_mutable_pjsip_conf_file_string();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.AsteriskConfigsFiles.sip_conf_file_string"));
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.AsteriskConfigsFiles.pjsip_conf_file_string"));
         } else
           goto handle_unusual;
         continue;
@@ -2112,14 +2434,14 @@ uint8_t* AsteriskConfigsFiles::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string sip_conf_file_string = 1;
-  if (!this->_internal_sip_conf_file_string().empty()) {
+  // string pjsip_conf_file_string = 1;
+  if (!this->_internal_pjsip_conf_file_string().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_sip_conf_file_string().data(), static_cast<int>(this->_internal_sip_conf_file_string().length()),
+      this->_internal_pjsip_conf_file_string().data(), static_cast<int>(this->_internal_pjsip_conf_file_string().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "ondewo.vtsi.AsteriskConfigsFiles.sip_conf_file_string");
+      "ondewo.vtsi.AsteriskConfigsFiles.pjsip_conf_file_string");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_sip_conf_file_string(), target);
+        1, this->_internal_pjsip_conf_file_string(), target);
   }
 
   // string extensions_conf_file_string = 2;
@@ -2168,11 +2490,11 @@ size_t AsteriskConfigsFiles::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string sip_conf_file_string = 1;
-  if (!this->_internal_sip_conf_file_string().empty()) {
+  // string pjsip_conf_file_string = 1;
+  if (!this->_internal_pjsip_conf_file_string().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_sip_conf_file_string());
+        this->_internal_pjsip_conf_file_string());
   }
 
   // string extensions_conf_file_string = 2;
@@ -2214,8 +2536,8 @@ void AsteriskConfigsFiles::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_sip_conf_file_string().empty()) {
-    _this->_internal_set_sip_conf_file_string(from._internal_sip_conf_file_string());
+  if (!from._internal_pjsip_conf_file_string().empty()) {
+    _this->_internal_set_pjsip_conf_file_string(from._internal_pjsip_conf_file_string());
   }
   if (!from._internal_extensions_conf_file_string().empty()) {
     _this->_internal_set_extensions_conf_file_string(from._internal_extensions_conf_file_string());
@@ -2246,8 +2568,8 @@ void AsteriskConfigsFiles::InternalSwap(AsteriskConfigsFiles* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.sip_conf_file_string_, lhs_arena,
-      &other->_impl_.sip_conf_file_string_, rhs_arena
+      &_impl_.pjsip_conf_file_string_, lhs_arena,
+      &other->_impl_.pjsip_conf_file_string_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.extensions_conf_file_string_, lhs_arena,

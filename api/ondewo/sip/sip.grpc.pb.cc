@@ -34,6 +34,9 @@ static const char* Sip_method_names[] = {
   "/ondewo.sip.Sip/SipPlayWavFiles",
   "/ondewo.sip.Sip/SipMute",
   "/ondewo.sip.Sip/SipUnMute",
+  "/ondewo.sip.Sip/SipReportAnsweringMachineDetected",
+  "/ondewo.sip.Sip/SipSetCallMediaControl",
+  "/ondewo.sip.Sip/SipStreamCallAudio",
 };
 
 std::unique_ptr< Sip::Stub> Sip::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -54,6 +57,9 @@ Sip::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const
   , rpcmethod_SipPlayWavFiles_(Sip_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_SipMute_(Sip_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_SipUnMute_(Sip_method_names[10], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SipReportAnsweringMachineDetected_(Sip_method_names[11], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SipSetCallMediaControl_(Sip_method_names[12], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SipStreamCallAudio_(Sip_method_names[13], options.suffix_for_stats(),::grpc::internal::RpcMethod::BIDI_STREAMING, channel)
   {}
 
 ::grpc::Status Sip::Stub::SipStartSession(::grpc::ClientContext* context, const ::ondewo::sip::SipStartSessionRequest& request, ::ondewo::sip::SipStatus* response) {
@@ -309,6 +315,68 @@ void Sip::Stub::async::SipUnMute(::grpc::ClientContext* context, const ::google:
   return result;
 }
 
+::grpc::Status Sip::Stub::SipReportAnsweringMachineDetected(::grpc::ClientContext* context, const ::ondewo::sip::SipReportAnsweringMachineDetectedRequest& request, ::ondewo::sip::SipStatus* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::sip::SipReportAnsweringMachineDetectedRequest, ::ondewo::sip::SipStatus, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_SipReportAnsweringMachineDetected_, context, request, response);
+}
+
+void Sip::Stub::async::SipReportAnsweringMachineDetected(::grpc::ClientContext* context, const ::ondewo::sip::SipReportAnsweringMachineDetectedRequest* request, ::ondewo::sip::SipStatus* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::sip::SipReportAnsweringMachineDetectedRequest, ::ondewo::sip::SipStatus, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SipReportAnsweringMachineDetected_, context, request, response, std::move(f));
+}
+
+void Sip::Stub::async::SipReportAnsweringMachineDetected(::grpc::ClientContext* context, const ::ondewo::sip::SipReportAnsweringMachineDetectedRequest* request, ::ondewo::sip::SipStatus* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SipReportAnsweringMachineDetected_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>* Sip::Stub::PrepareAsyncSipReportAnsweringMachineDetectedRaw(::grpc::ClientContext* context, const ::ondewo::sip::SipReportAnsweringMachineDetectedRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::sip::SipStatus, ::ondewo::sip::SipReportAnsweringMachineDetectedRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_SipReportAnsweringMachineDetected_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>* Sip::Stub::AsyncSipReportAnsweringMachineDetectedRaw(::grpc::ClientContext* context, const ::ondewo::sip::SipReportAnsweringMachineDetectedRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncSipReportAnsweringMachineDetectedRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Sip::Stub::SipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest& request, ::ondewo::sip::SipStatus* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::sip::SipSetCallMediaControlRequest, ::ondewo::sip::SipStatus, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_SipSetCallMediaControl_, context, request, response);
+}
+
+void Sip::Stub::async::SipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest* request, ::ondewo::sip::SipStatus* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::sip::SipSetCallMediaControlRequest, ::ondewo::sip::SipStatus, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SipSetCallMediaControl_, context, request, response, std::move(f));
+}
+
+void Sip::Stub::async::SipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest* request, ::ondewo::sip::SipStatus* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SipSetCallMediaControl_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>* Sip::Stub::PrepareAsyncSipSetCallMediaControlRaw(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::sip::SipStatus, ::ondewo::sip::SipSetCallMediaControlRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_SipSetCallMediaControl_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>* Sip::Stub::AsyncSipSetCallMediaControlRaw(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncSipSetCallMediaControlRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::ClientReaderWriter< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* Sip::Stub::SipStreamCallAudioRaw(::grpc::ClientContext* context) {
+  return ::grpc::internal::ClientReaderWriterFactory< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>::Create(channel_.get(), rpcmethod_SipStreamCallAudio_, context);
+}
+
+void Sip::Stub::async::SipStreamCallAudio(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::ondewo::sip::SipCallAudioRequest,::ondewo::sip::SipCallAudioResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderWriterFactory< ::ondewo::sip::SipCallAudioRequest,::ondewo::sip::SipCallAudioResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_SipStreamCallAudio_, context, reactor);
+}
+
+::grpc::ClientAsyncReaderWriter< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* Sip::Stub::AsyncSipStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>::Create(channel_.get(), cq, rpcmethod_SipStreamCallAudio_, context, true, tag);
+}
+
+::grpc::ClientAsyncReaderWriter< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* Sip::Stub::PrepareAsyncSipStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>::Create(channel_.get(), cq, rpcmethod_SipStreamCallAudio_, context, false, nullptr);
+}
+
 Sip::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Sip_method_names[0],
@@ -420,6 +488,36 @@ Sip::Service::Service() {
              ::ondewo::sip::SipStatus* resp) {
                return service->SipUnMute(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Sip_method_names[11],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Sip::Service, ::ondewo::sip::SipReportAnsweringMachineDetectedRequest, ::ondewo::sip::SipStatus, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Sip::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::sip::SipReportAnsweringMachineDetectedRequest* req,
+             ::ondewo::sip::SipStatus* resp) {
+               return service->SipReportAnsweringMachineDetected(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Sip_method_names[12],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Sip::Service, ::ondewo::sip::SipSetCallMediaControlRequest, ::ondewo::sip::SipStatus, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Sip::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::sip::SipSetCallMediaControlRequest* req,
+             ::ondewo::sip::SipStatus* resp) {
+               return service->SipSetCallMediaControl(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Sip_method_names[13],
+      ::grpc::internal::RpcMethod::BIDI_STREAMING,
+      new ::grpc::internal::BidiStreamingHandler< Sip::Service, ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>(
+          [](Sip::Service* service,
+             ::grpc::ServerContext* ctx,
+             ::grpc::ServerReaderWriter<::ondewo::sip::SipCallAudioResponse,
+             ::ondewo::sip::SipCallAudioRequest>* stream) {
+               return service->SipStreamCallAudio(ctx, stream);
+             }, this)));
 }
 
 Sip::Service::~Service() {
@@ -499,6 +597,26 @@ Sip::Service::~Service() {
   (void) context;
   (void) request;
   (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Sip::Service::SipReportAnsweringMachineDetected(::grpc::ServerContext* context, const ::ondewo::sip::SipReportAnsweringMachineDetectedRequest* request, ::ondewo::sip::SipStatus* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Sip::Service::SipSetCallMediaControl(::grpc::ServerContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest* request, ::ondewo::sip::SipStatus* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Sip::Service::SipStreamCallAudio(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::ondewo::sip::SipCallAudioResponse, ::ondewo::sip::SipCallAudioRequest>* stream) {
+  (void) context;
+  (void) stream;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

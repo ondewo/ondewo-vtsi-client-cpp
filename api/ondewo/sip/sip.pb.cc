@@ -24,7 +24,9 @@ namespace ondewo {
 namespace sip {
 PROTOBUF_CONSTEXPR SipEndCallRequest::SipEndCallRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.hard_hangup_)*/false
+    /*decltype(_impl_.amd_result_)*/nullptr
+  , /*decltype(_impl_.hard_hangup_)*/false
+  , /*decltype(_impl_.end_reason_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SipEndCallRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SipEndCallRequestDefaultTypeInternal()
@@ -35,6 +37,39 @@ struct SipEndCallRequestDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipEndCallRequestDefaultTypeInternal _SipEndCallRequest_default_instance_;
+PROTOBUF_CONSTEXPR SipReportAnsweringMachineDetectedRequest::SipReportAnsweringMachineDetectedRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.amd_result_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SipReportAnsweringMachineDetectedRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipReportAnsweringMachineDetectedRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipReportAnsweringMachineDetectedRequestDefaultTypeInternal() {}
+  union {
+    SipReportAnsweringMachineDetectedRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipReportAnsweringMachineDetectedRequestDefaultTypeInternal _SipReportAnsweringMachineDetectedRequest_default_instance_;
+PROTOBUF_CONSTEXPR AnsweringMachineDetectionResult::AnsweringMachineDetectionResult(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.matched_cue_ids_)*/{}
+  , /*decltype(_impl_.rule_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.call_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.verdict_)*/0
+  , /*decltype(_impl_.cause_)*/0
+  , /*decltype(_impl_.confidence_)*/0
+  , /*decltype(_impl_.decision_ms_)*/0
+  , /*decltype(_impl_.action_taken_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct AnsweringMachineDetectionResultDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AnsweringMachineDetectionResultDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AnsweringMachineDetectionResultDefaultTypeInternal() {}
+  union {
+    AnsweringMachineDetectionResult _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AnsweringMachineDetectionResultDefaultTypeInternal _AnsweringMachineDetectionResult_default_instance_;
 PROTOBUF_CONSTEXPR SipStartCallRequest_HeadersEntry_DoNotUse::SipStartCallRequest_HeadersEntry_DoNotUse(
     ::_pbi::ConstantInitialized) {}
 struct SipStartCallRequest_HeadersEntry_DoNotUseDefaultTypeInternal {
@@ -105,6 +140,7 @@ PROTOBUF_CONSTEXPR SipTransferCallRequest::SipTransferCallRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.headers_)*/{::_pbi::ConstantInitialized()}
   , /*decltype(_impl_.transfer_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.outcome_timeout_ms_)*/0u
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SipTransferCallRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SipTransferCallRequestDefaultTypeInternal()
@@ -136,8 +172,14 @@ PROTOBUF_CONSTEXPR SipStatus::SipStatus(
   , /*decltype(_impl_.exception_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.exception_traceback_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.nlu_session_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.call_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.timestamp_)*/nullptr
+  , /*decltype(_impl_.amd_result_)*/nullptr
   , /*decltype(_impl_.status_type_)*/0
+  , /*decltype(_impl_.bot_muted_)*/false
+  , /*decltype(_impl_.listening_paused_)*/false
+  , /*decltype(_impl_.call_audio_streams_)*/0
+  , /*decltype(_impl_.sip_response_code_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SipStatusDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SipStatusDefaultTypeInternal()
@@ -161,6 +203,129 @@ struct SipStatusHistoryResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipStatusHistoryResponseDefaultTypeInternal _SipStatusHistoryResponse_default_instance_;
+PROTOBUF_CONSTEXPR SipSetCallMediaControlRequest::SipSetCallMediaControlRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.bot_voice_)*/0
+  , /*decltype(_impl_.bot_listening_)*/0
+  , /*decltype(_impl_.owner_)*/0
+  , /*decltype(_impl_.participants_present_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SipSetCallMediaControlRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipSetCallMediaControlRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipSetCallMediaControlRequestDefaultTypeInternal() {}
+  union {
+    SipSetCallMediaControlRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipSetCallMediaControlRequestDefaultTypeInternal _SipSetCallMediaControlRequest_default_instance_;
+PROTOBUF_CONSTEXPR SipCallAudioConfig::SipCallAudioConfig(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.stream_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.mode_)*/0
+  , /*decltype(_impl_.sample_rate_hz_)*/0
+  , /*decltype(_impl_.frame_ms_)*/0
+  , /*decltype(_impl_.take_over_)*/false
+  , /*decltype(_impl_.max_duration_s_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SipCallAudioConfigDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipCallAudioConfigDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipCallAudioConfigDefaultTypeInternal() {}
+  union {
+    SipCallAudioConfig _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipCallAudioConfigDefaultTypeInternal _SipCallAudioConfig_default_instance_;
+PROTOBUF_CONSTEXPR SipCallAudioFrame::SipCallAudioFrame(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.pcm_s16le_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.sequence_)*/uint64_t{0u}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SipCallAudioFrameDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipCallAudioFrameDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipCallAudioFrameDefaultTypeInternal() {}
+  union {
+    SipCallAudioFrame _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipCallAudioFrameDefaultTypeInternal _SipCallAudioFrame_default_instance_;
+PROTOBUF_CONSTEXPR SipCallAudioRequest::SipCallAudioRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.request_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_._oneof_case_)*/{}} {}
+struct SipCallAudioRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipCallAudioRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipCallAudioRequestDefaultTypeInternal() {}
+  union {
+    SipCallAudioRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipCallAudioRequestDefaultTypeInternal _SipCallAudioRequest_default_instance_;
+PROTOBUF_CONSTEXPR SipCallAudioStarted::SipCallAudioStarted(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.stream_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.sample_rate_hz_)*/0
+  , /*decltype(_impl_.frame_ms_)*/0
+  , /*decltype(_impl_.mode_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SipCallAudioStartedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipCallAudioStartedDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipCallAudioStartedDefaultTypeInternal() {}
+  union {
+    SipCallAudioStarted _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipCallAudioStartedDefaultTypeInternal _SipCallAudioStarted_default_instance_;
+PROTOBUF_CONSTEXPR SipCallAudioStats::SipCallAudioStats(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.frames_sent_)*/uint64_t{0u}
+  , /*decltype(_impl_.frames_dropped_)*/uint64_t{0u}
+  , /*decltype(_impl_.frames_received_)*/uint64_t{0u}
+  , /*decltype(_impl_.underruns_)*/uint64_t{0u}
+  , /*decltype(_impl_.frames_discarded_)*/uint64_t{0u}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SipCallAudioStatsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipCallAudioStatsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipCallAudioStatsDefaultTypeInternal() {}
+  union {
+    SipCallAudioStats _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipCallAudioStatsDefaultTypeInternal _SipCallAudioStats_default_instance_;
+PROTOBUF_CONSTEXPR SipCallAudioEnded::SipCallAudioEnded(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.detail_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.reason_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SipCallAudioEndedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipCallAudioEndedDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipCallAudioEndedDefaultTypeInternal() {}
+  union {
+    SipCallAudioEnded _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipCallAudioEndedDefaultTypeInternal _SipCallAudioEnded_default_instance_;
+PROTOBUF_CONSTEXPR SipCallAudioResponse::SipCallAudioResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.response_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_._oneof_case_)*/{}} {}
+struct SipCallAudioResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipCallAudioResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipCallAudioResponseDefaultTypeInternal() {}
+  union {
+    SipCallAudioResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipCallAudioResponseDefaultTypeInternal _SipCallAudioResponse_default_instance_;
 PROTOBUF_CONSTEXPR SipPlayWavFilesRequest::SipPlayWavFilesRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.wav_files_)*/{}
@@ -176,8 +341,8 @@ struct SipPlayWavFilesRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipPlayWavFilesRequestDefaultTypeInternal _SipPlayWavFilesRequest_default_instance_;
 }  // namespace sip
 }  // namespace ondewo
-static ::_pb::Metadata file_level_metadata_ondewo_2fsip_2fsip_2eproto[11];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[1];
+static ::_pb::Metadata file_level_metadata_ondewo_2fsip_2fsip_2eproto[21];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[9];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fsip_2fsip_2eproto = nullptr;
 
 const uint32_t TableStruct_ondewo_2fsip_2fsip_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -188,6 +353,29 @@ const uint32_t TableStruct_ondewo_2fsip_2fsip_2eproto::offsets[] PROTOBUF_SECTIO
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipEndCallRequest, _impl_.hard_hangup_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipEndCallRequest, _impl_.end_reason_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipEndCallRequest, _impl_.amd_result_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipReportAnsweringMachineDetectedRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipReportAnsweringMachineDetectedRequest, _impl_.amd_result_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _impl_.verdict_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _impl_.cause_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _impl_.confidence_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _impl_.decision_ms_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _impl_.rule_id_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _impl_.matched_cue_ids_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _impl_.action_taken_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::AnsweringMachineDetectionResult, _impl_.call_id_),
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStartCallRequest_HeadersEntry_DoNotUse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStartCallRequest_HeadersEntry_DoNotUse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -242,6 +430,7 @@ const uint32_t TableStruct_ondewo_2fsip_2fsip_2eproto::offsets[] PROTOBUF_SECTIO
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipTransferCallRequest, _impl_.transfer_id_),
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipTransferCallRequest, _impl_.headers_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipTransferCallRequest, _impl_.outcome_timeout_ms_),
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus_HeadersEntry_DoNotUse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus_HeadersEntry_DoNotUse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -268,6 +457,12 @@ const uint32_t TableStruct_ondewo_2fsip_2fsip_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.exception_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.exception_traceback_),
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.nlu_session_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.amd_result_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.call_id_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.bot_muted_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.listening_paused_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.call_audio_streams_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatus, _impl_.sip_response_code_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatusHistoryResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -275,6 +470,86 @@ const uint32_t TableStruct_ondewo_2fsip_2fsip_2eproto::offsets[] PROTOBUF_SECTIO
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipStatusHistoryResponse, _impl_.status_history_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipSetCallMediaControlRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipSetCallMediaControlRequest, _impl_.bot_voice_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipSetCallMediaControlRequest, _impl_.bot_listening_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipSetCallMediaControlRequest, _impl_.owner_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipSetCallMediaControlRequest, _impl_.participants_present_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioConfig, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioConfig, _impl_.mode_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioConfig, _impl_.sample_rate_hz_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioConfig, _impl_.frame_ms_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioConfig, _impl_.take_over_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioConfig, _impl_.stream_id_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioConfig, _impl_.max_duration_s_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioFrame, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioFrame, _impl_.pcm_s16le_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioFrame, _impl_.sequence_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioRequest, _impl_._oneof_case_[0]),
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioRequest, _impl_.request_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStarted, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStarted, _impl_.stream_id_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStarted, _impl_.sample_rate_hz_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStarted, _impl_.frame_ms_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStarted, _impl_.mode_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStats, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStats, _impl_.frames_sent_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStats, _impl_.frames_dropped_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStats, _impl_.frames_received_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStats, _impl_.underruns_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioStats, _impl_.frames_discarded_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioEnded, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioEnded, _impl_.reason_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioEnded, _impl_.detail_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioResponse, _impl_._oneof_case_[0]),
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipCallAudioResponse, _impl_.response_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::sip::SipPlayWavFilesRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -285,20 +560,32 @@ const uint32_t TableStruct_ondewo_2fsip_2fsip_2eproto::offsets[] PROTOBUF_SECTIO
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::ondewo::sip::SipEndCallRequest)},
-  { 7, 15, -1, sizeof(::ondewo::sip::SipStartCallRequest_HeadersEntry_DoNotUse)},
-  { 17, -1, -1, sizeof(::ondewo::sip::SipStartCallRequest)},
-  { 25, -1, -1, sizeof(::ondewo::sip::SipRegisterAccountRequest)},
-  { 35, -1, -1, sizeof(::ondewo::sip::SipStartSessionRequest)},
-  { 43, 51, -1, sizeof(::ondewo::sip::SipTransferCallRequest_HeadersEntry_DoNotUse)},
-  { 53, -1, -1, sizeof(::ondewo::sip::SipTransferCallRequest)},
-  { 61, 69, -1, sizeof(::ondewo::sip::SipStatus_HeadersEntry_DoNotUse)},
-  { 71, -1, -1, sizeof(::ondewo::sip::SipStatus)},
-  { 87, -1, -1, sizeof(::ondewo::sip::SipStatusHistoryResponse)},
-  { 94, -1, -1, sizeof(::ondewo::sip::SipPlayWavFilesRequest)},
+  { 9, -1, -1, sizeof(::ondewo::sip::SipReportAnsweringMachineDetectedRequest)},
+  { 16, -1, -1, sizeof(::ondewo::sip::AnsweringMachineDetectionResult)},
+  { 30, 38, -1, sizeof(::ondewo::sip::SipStartCallRequest_HeadersEntry_DoNotUse)},
+  { 40, -1, -1, sizeof(::ondewo::sip::SipStartCallRequest)},
+  { 48, -1, -1, sizeof(::ondewo::sip::SipRegisterAccountRequest)},
+  { 58, -1, -1, sizeof(::ondewo::sip::SipStartSessionRequest)},
+  { 66, 74, -1, sizeof(::ondewo::sip::SipTransferCallRequest_HeadersEntry_DoNotUse)},
+  { 76, -1, -1, sizeof(::ondewo::sip::SipTransferCallRequest)},
+  { 85, 93, -1, sizeof(::ondewo::sip::SipStatus_HeadersEntry_DoNotUse)},
+  { 95, -1, -1, sizeof(::ondewo::sip::SipStatus)},
+  { 117, -1, -1, sizeof(::ondewo::sip::SipStatusHistoryResponse)},
+  { 124, -1, -1, sizeof(::ondewo::sip::SipSetCallMediaControlRequest)},
+  { 134, -1, -1, sizeof(::ondewo::sip::SipCallAudioConfig)},
+  { 146, -1, -1, sizeof(::ondewo::sip::SipCallAudioFrame)},
+  { 154, -1, -1, sizeof(::ondewo::sip::SipCallAudioRequest)},
+  { 164, -1, -1, sizeof(::ondewo::sip::SipCallAudioStarted)},
+  { 174, -1, -1, sizeof(::ondewo::sip::SipCallAudioStats)},
+  { 185, -1, -1, sizeof(::ondewo::sip::SipCallAudioEnded)},
+  { 193, -1, -1, sizeof(::ondewo::sip::SipCallAudioResponse)},
+  { 204, -1, -1, sizeof(::ondewo::sip::SipPlayWavFilesRequest)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::sip::_SipEndCallRequest_default_instance_._instance,
+  &::ondewo::sip::_SipReportAnsweringMachineDetectedRequest_default_instance_._instance,
+  &::ondewo::sip::_AnsweringMachineDetectionResult_default_instance_._instance,
   &::ondewo::sip::_SipStartCallRequest_HeadersEntry_DoNotUse_default_instance_._instance,
   &::ondewo::sip::_SipStartCallRequest_default_instance_._instance,
   &::ondewo::sip::_SipRegisterAccountRequest_default_instance_._instance,
@@ -308,74 +595,172 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::sip::_SipStatus_HeadersEntry_DoNotUse_default_instance_._instance,
   &::ondewo::sip::_SipStatus_default_instance_._instance,
   &::ondewo::sip::_SipStatusHistoryResponse_default_instance_._instance,
+  &::ondewo::sip::_SipSetCallMediaControlRequest_default_instance_._instance,
+  &::ondewo::sip::_SipCallAudioConfig_default_instance_._instance,
+  &::ondewo::sip::_SipCallAudioFrame_default_instance_._instance,
+  &::ondewo::sip::_SipCallAudioRequest_default_instance_._instance,
+  &::ondewo::sip::_SipCallAudioStarted_default_instance_._instance,
+  &::ondewo::sip::_SipCallAudioStats_default_instance_._instance,
+  &::ondewo::sip::_SipCallAudioEnded_default_instance_._instance,
+  &::ondewo::sip::_SipCallAudioResponse_default_instance_._instance,
   &::ondewo::sip::_SipPlayWavFilesRequest_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_ondewo_2fsip_2fsip_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\024ondewo/sip/sip.proto\022\nondewo.sip\032\033goog"
   "le/protobuf/empty.proto\032\037google/protobuf"
-  "/timestamp.proto\"(\n\021SipEndCallRequest\022\023\n"
-  "\013hard_hangup\030\001 \001(\010\"\227\001\n\023SipStartCallReque"
-  "st\022\021\n\tcallee_id\030\001 \001(\t\022=\n\007headers\030\002 \003(\0132,"
-  ".ondewo.sip.SipStartCallRequest.HeadersE"
-  "ntry\032.\n\014HeadersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val"
-  "ue\030\002 \001(\t:\0028\001\"r\n\031SipRegisterAccountReques"
-  "t\022\024\n\014account_name\030\001 \001(\t\022\020\n\010password\030\002 \001("
-  "\t\022\025\n\rauth_username\030\003 \001(\t\022\026\n\016outbound_pro"
-  "xy\030\004 \001(\t\"L\n\026SipStartSessionRequest\022\024\n\014ac"
-  "count_name\030\001 \001(\t\022\034\n\024auto_answer_interval"
-  "\030\002 \001(\005\"\237\001\n\026SipTransferCallRequest\022\023\n\013tra"
-  "nsfer_id\030\001 \001(\t\022@\n\007headers\030\002 \003(\0132/.ondewo"
-  ".sip.SipTransferCallRequest.HeadersEntry"
-  "\032.\n\014HeadersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002"
-  " \001(\t:\0028\001\"\261\007\n\tSipStatus\022\024\n\014account_name\030\001"
-  " \001(\t\022-\n\ttimestamp\030\002 \001(\0132\032.google.protobu"
-  "f.Timestamp\0225\n\013status_type\030\003 \001(\0162 .ondew"
-  "o.sip.SipStatus.StatusType\022\021\n\tcallee_id\030"
-  "\004 \001(\t\022\030\n\020transfer_call_id\030\005 \001(\t\0223\n\007heade"
-  "rs\030\006 \003(\0132\".ondewo.sip.SipStatus.HeadersE"
-  "ntry\022\023\n\013description\030\007 \001(\t\022\026\n\016exception_n"
-  "ame\030\010 \001(\t\022\033\n\023exception_traceback\030\t \001(\t\022\030"
-  "\n\020nlu_session_name\030\n \001(\t\032.\n\014HeadersEntry"
-  "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\261\004\n\nSta"
-  "tusType\022\016\n\nNO_SESSION\020\000\022\016\n\nREGISTERED\020\001\022"
-  "\t\n\005READY\020\002\022\033\n\027INCOMING_CALL_INITIATED\020\003\022"
-  "\033\n\027OUTGOING_CALL_INITIATED\020\004\022\033\n\027OUTGOING"
-  "_CALL_CONNECTED\020\005\022\033\n\027INCOMING_CALL_CONNE"
-  "CTED\020\006\022\033\n\027TRANSFER_CALL_INITIATED\020\007\022\031\n\025S"
-  "OFT_HANGUP_INITIATED\020\010\022\031\n\025HARD_HANGUP_IN"
-  "ITIATED\020\t\022\030\n\024INCOMING_CALL_FAILED\020\n\022\030\n\024O"
-  "UTGOING_CALL_FAILED\020\013\022\032\n\026INCOMING_CALL_F"
-  "INISHED\020\014\022\032\n\026OUTGOING_CALL_FINISHED\020\r\022\037\n"
-  "\033SESSION_REGISTRATION_FAILED\020\016\022\023\n\017SESSIO"
-  "N_STARTED\020\017\022\021\n\rSESSION_ENDED\020\020\022\030\n\024TRANSF"
-  "ER_CALL_FAILED\020\021\022\024\n\020MICROPHONE_MUTED\020\022\022\026"
-  "\n\022MICROPHONE_UNMUTED\020\023\022\037\n\033MICROPHONE_WAV"
-  "_FILES_PLAYED\020\024\022\023\n\017NO_ONGOING_CALL\020\025\"I\n\030"
-  "SipStatusHistoryResponse\022-\n\016status_histo"
-  "ry\030\001 \003(\0132\025.ondewo.sip.SipStatus\"+\n\026SipPl"
-  "ayWavFilesRequest\022\021\n\twav_files\030\001 \003(\0142\265\006\n"
-  "\003Sip\022N\n\017SipStartSession\022\".ondewo.sip.Sip"
-  "StartSessionRequest\032\025.ondewo.sip.SipStat"
-  "us\"\000\022@\n\rSipEndSession\022\026.google.protobuf."
-  "Empty\032\025.ondewo.sip.SipStatus\"\000\022H\n\014SipSta"
-  "rtCall\022\037.ondewo.sip.SipStartCallRequest\032"
-  "\025.ondewo.sip.SipStatus\"\000\022D\n\nSipEndCall\022\035"
-  ".ondewo.sip.SipEndCallRequest\032\025.ondewo.s"
-  "ip.SipStatus\"\000\022N\n\017SipTransferCall\022\".onde"
-  "wo.sip.SipTransferCallRequest\032\025.ondewo.s"
-  "ip.SipStatus\"\000\022T\n\022SipRegisterAccount\022%.o"
-  "ndewo.sip.SipRegisterAccountRequest\032\025.on"
-  "dewo.sip.SipStatus\"\000\022B\n\017SipGetSipStatus\022"
-  "\026.google.protobuf.Empty\032\025.ondewo.sip.Sip"
-  "Status\"\000\022X\n\026SipGetSipStatusHistory\022\026.goo"
-  "gle.protobuf.Empty\032$.ondewo.sip.SipStatu"
-  "sHistoryResponse\"\000\022N\n\017SipPlayWavFiles\022\"."
-  "ondewo.sip.SipPlayWavFilesRequest\032\025.onde"
-  "wo.sip.SipStatus\"\000\022:\n\007SipMute\022\026.google.p"
-  "rotobuf.Empty\032\025.ondewo.sip.SipStatus\"\000\022<"
-  "\n\tSipUnMute\022\026.google.protobuf.Empty\032\025.on"
-  "dewo.sip.SipStatus\"\000b\006proto3"
+  "/timestamp.proto\"\277\002\n\021SipEndCallRequest\022\023"
+  "\n\013hard_hangup\030\001 \001(\010\022\?\n\nend_reason\030\002 \001(\0162"
+  "+.ondewo.sip.SipEndCallRequest.EndCallRe"
+  "ason\022\?\n\namd_result\030\003 \001(\0132+.ondewo.sip.An"
+  "sweringMachineDetectionResult\"\222\001\n\rEndCal"
+  "lReason\022\037\n\033END_CALL_REASON_UNSPECIFIED\020\000"
+  "\022\025\n\021ANSWERING_MACHINE\020\001\022(\n$ANSWERING_MAC"
+  "HINE_VOICE_MESSAGE_LEFT\020\002\022\037\n\033END_CALL_RE"
+  "ASON_TRANSFERRED\020\003\"k\n(SipReportAnswering"
+  "MachineDetectedRequest\022\?\n\namd_result\030\001 \001"
+  "(\0132+.ondewo.sip.AnsweringMachineDetectio"
+  "nResult\"\377\005\n\037AnsweringMachineDetectionRes"
+  "ult\022D\n\007verdict\030\001 \001(\01623.ondewo.sip.Answer"
+  "ingMachineDetectionResult.Verdict\022@\n\005cau"
+  "se\030\002 \001(\01621.ondewo.sip.AnsweringMachineDe"
+  "tectionResult.Cause\022\022\n\nconfidence\030\003 \001(\002\022"
+  "\023\n\013decision_ms\030\004 \001(\005\022\017\n\007rule_id\030\005 \001(\t\022\027\n"
+  "\017matched_cue_ids\030\006 \003(\t\022M\n\014action_taken\030\007"
+  " \001(\01627.ondewo.sip.AnsweringMachineDetect"
+  "ionResult.ActionTaken\022\017\n\007call_id\030\010 \001(\t\"\226"
+  "\001\n\007Verdict\022\027\n\023VERDICT_UNSPECIFIED\020\000\022\t\n\005H"
+  "UMAN\020\001\022\013\n\007MACHINE\020\002\022\007\n\003IVR\020\003\022\007\n\003FAX\020\004\022\030\n"
+  "\024NETWORK_ANNOUNCEMENT\020\005\022\022\n\016CALL_SCREENIN"
+  "G\020\006\022\r\n\tNO_SPEECH\020\007\022\013\n\007UNKNOWN\020\010\"\225\001\n\005Caus"
+  "e\022\025\n\021CAUSE_UNSPECIFIED\020\000\022\013\n\007CADENCE\020\001\022\013\n"
+  "\007KEYWORD\020\002\022\010\n\004BEEP\020\003\022\010\n\004TONE\020\004\022\027\n\023CADENC"
+  "E_AND_KEYWORD\020\005\022\024\n\020CADENCE_AND_BEEP\020\006\022\013\n"
+  "\007TIMEOUT\020\007\022\013\n\007SILENCE\020\010\"p\n\013ActionTaken\022\034"
+  "\n\030ACTION_TAKEN_UNSPECIFIED\020\000\022\013\n\007HUNG_UP\020"
+  "\001\022\r\n\tCONTINUED\020\002\022\017\n\013DETECT_ONLY\020\003\022\026\n\022LEF"
+  "T_VOICE_MESSAGE\020\004\"\227\001\n\023SipStartCallReques"
+  "t\022\021\n\tcallee_id\030\001 \001(\t\022=\n\007headers\030\002 \003(\0132,."
+  "ondewo.sip.SipStartCallRequest.HeadersEn"
+  "try\032.\n\014HeadersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005valu"
+  "e\030\002 \001(\t:\0028\001\"r\n\031SipRegisterAccountRequest"
+  "\022\024\n\014account_name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t"
+  "\022\025\n\rauth_username\030\003 \001(\t\022\026\n\016outbound_prox"
+  "y\030\004 \001(\t\"L\n\026SipStartSessionRequest\022\024\n\014acc"
+  "ount_name\030\001 \001(\t\022\034\n\024auto_answer_interval\030"
+  "\002 \001(\005\"\273\001\n\026SipTransferCallRequest\022\023\n\013tran"
+  "sfer_id\030\001 \001(\t\022@\n\007headers\030\002 \003(\0132/.ondewo."
+  "sip.SipTransferCallRequest.HeadersEntry\022"
+  "\032\n\022outcome_timeout_ms\030\003 \001(\r\032.\n\014HeadersEn"
+  "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\225\t\n\t"
+  "SipStatus\022\024\n\014account_name\030\001 \001(\t\022-\n\ttimes"
+  "tamp\030\002 \001(\0132\032.google.protobuf.Timestamp\0225"
+  "\n\013status_type\030\003 \001(\0162 .ondewo.sip.SipStat"
+  "us.StatusType\022\021\n\tcallee_id\030\004 \001(\t\022\030\n\020tran"
+  "sfer_call_id\030\005 \001(\t\0223\n\007headers\030\006 \003(\0132\".on"
+  "dewo.sip.SipStatus.HeadersEntry\022\023\n\013descr"
+  "iption\030\007 \001(\t\022\026\n\016exception_name\030\010 \001(\t\022\033\n\023"
+  "exception_traceback\030\t \001(\t\022\030\n\020nlu_session"
+  "_name\030\n \001(\t\022\?\n\namd_result\030\013 \001(\0132+.ondewo"
+  ".sip.AnsweringMachineDetectionResult\022\017\n\007"
+  "call_id\030\014 \001(\t\022\021\n\tbot_muted\030\r \001(\010\022\030\n\020list"
+  "ening_paused\030\016 \001(\010\022\032\n\022call_audio_streams"
+  "\030\017 \001(\005\022\031\n\021sip_response_code\030\020 \001(\005\032.\n\014Hea"
+  "dersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028"
+  "\001\"\337\004\n\nStatusType\022\016\n\nNO_SESSION\020\000\022\016\n\nREGI"
+  "STERED\020\001\022\t\n\005READY\020\002\022\033\n\027INCOMING_CALL_INI"
+  "TIATED\020\003\022\033\n\027OUTGOING_CALL_INITIATED\020\004\022\033\n"
+  "\027OUTGOING_CALL_CONNECTED\020\005\022\033\n\027INCOMING_C"
+  "ALL_CONNECTED\020\006\022\033\n\027TRANSFER_CALL_INITIAT"
+  "ED\020\007\022\031\n\025SOFT_HANGUP_INITIATED\020\010\022\031\n\025HARD_"
+  "HANGUP_INITIATED\020\t\022\030\n\024INCOMING_CALL_FAIL"
+  "ED\020\n\022\030\n\024OUTGOING_CALL_FAILED\020\013\022\032\n\026INCOMI"
+  "NG_CALL_FINISHED\020\014\022\032\n\026OUTGOING_CALL_FINI"
+  "SHED\020\r\022\037\n\033SESSION_REGISTRATION_FAILED\020\016\022"
+  "\023\n\017SESSION_STARTED\020\017\022\021\n\rSESSION_ENDED\020\020\022"
+  "\030\n\024TRANSFER_CALL_FAILED\020\021\022\024\n\020MICROPHONE_"
+  "MUTED\020\022\022\026\n\022MICROPHONE_UNMUTED\020\023\022\037\n\033MICRO"
+  "PHONE_WAV_FILES_PLAYED\020\024\022\023\n\017NO_ONGOING_C"
+  "ALL\020\025\022,\n(OUTGOING_CALL_ANSWERING_MACHINE"
+  "_DETECTED\020\026\"I\n\030SipStatusHistoryResponse\022"
+  "-\n\016status_history\030\001 \003(\0132\025.ondewo.sip.Sip"
+  "Status\"\327\001\n\035SipSetCallMediaControlRequest"
+  "\0222\n\tbot_voice\030\001 \001(\0162\037.ondewo.sip.MediaCo"
+  "ntrolSetting\0226\n\rbot_listening\030\002 \001(\0162\037.on"
+  "dewo.sip.MediaControlSetting\022,\n\005owner\030\003 "
+  "\001(\0162\035.ondewo.sip.MediaControlOwner\022\034\n\024pa"
+  "rticipants_present\030\004 \001(\010\"\250\001\n\022SipCallAudi"
+  "oConfig\022*\n\004mode\030\001 \001(\0162\034.ondewo.sip.SipCa"
+  "llAudioMode\022\026\n\016sample_rate_hz\030\002 \001(\005\022\020\n\010f"
+  "rame_ms\030\003 \001(\005\022\021\n\ttake_over\030\004 \001(\010\022\021\n\tstre"
+  "am_id\030\005 \001(\t\022\026\n\016max_duration_s\030\006 \001(\005\"8\n\021S"
+  "ipCallAudioFrame\022\021\n\tpcm_s16le\030\001 \001(\014\022\020\n\010s"
+  "equence\030\002 \001(\004\"\231\001\n\023SipCallAudioRequest\0220\n"
+  "\006config\030\001 \001(\0132\036.ondewo.sip.SipCallAudioC"
+  "onfigH\000\022.\n\005audio\030\002 \001(\0132\035.ondewo.sip.SipC"
+  "allAudioFrameH\000\022\025\n\013agent_muted\030\003 \001(\010H\000B\t"
+  "\n\007request\"~\n\023SipCallAudioStarted\022\021\n\tstre"
+  "am_id\030\001 \001(\t\022\026\n\016sample_rate_hz\030\002 \001(\005\022\020\n\010f"
+  "rame_ms\030\003 \001(\005\022*\n\004mode\030\004 \001(\0162\034.ondewo.sip"
+  ".SipCallAudioMode\"\206\001\n\021SipCallAudioStats\022"
+  "\023\n\013frames_sent\030\001 \001(\004\022\026\n\016frames_dropped\030\002"
+  " \001(\004\022\027\n\017frames_received\030\003 \001(\004\022\021\n\tunderru"
+  "ns\030\004 \001(\004\022\030\n\020frames_discarded\030\005 \001(\004\"V\n\021Si"
+  "pCallAudioEnded\0221\n\006reason\030\001 \001(\0162!.ondewo"
+  ".sip.SipCallAudioEndReason\022\016\n\006detail\030\002 \001"
+  "(\t\"\346\001\n\024SipCallAudioResponse\0222\n\007started\030\001"
+  " \001(\0132\037.ondewo.sip.SipCallAudioStartedH\000\022"
+  ".\n\005audio\030\002 \001(\0132\035.ondewo.sip.SipCallAudio"
+  "FrameH\000\022.\n\005stats\030\003 \001(\0132\035.ondewo.sip.SipC"
+  "allAudioStatsH\000\022.\n\005ended\030\004 \001(\0132\035.ondewo."
+  "sip.SipCallAudioEndedH\000B\n\n\010response\"+\n\026S"
+  "ipPlayWavFilesRequest\022\021\n\twav_files\030\001 \003(\014"
+  "*w\n\023MediaControlSetting\022#\n\037MEDIA_CONTROL"
+  "_SETTING_UNCHANGED\020\000\022\034\n\030MEDIA_CONTROL_SE"
+  "TTING_ON\020\001\022\035\n\031MEDIA_CONTROL_SETTING_OFF\020"
+  "\002*\177\n\021MediaControlOwner\022#\n\037MEDIA_CONTROL_"
+  "OWNER_UNSPECIFIED\020\000\022 \n\034MEDIA_CONTROL_OWN"
+  "ER_OPERATOR\020\001\022#\n\037MEDIA_CONTROL_OWNER_PAR"
+  "TICIPANT\020\002*u\n\020SipCallAudioMode\022#\n\037SIP_CA"
+  "LL_AUDIO_MODE_UNSPECIFIED\020\000\022\036\n\032SIP_CALL_"
+  "AUDIO_MODE_LISTEN\020\001\022\034\n\030SIP_CALL_AUDIO_MO"
+  "DE_TALK\020\002*\304\002\n\025SipCallAudioEndReason\022)\n%S"
+  "IP_CALL_AUDIO_END_REASON_UNSPECIFIED\020\000\022+"
+  "\n\'SIP_CALL_AUDIO_END_REASON_CLIENT_CLOSE"
+  "D\020\001\022(\n$SIP_CALL_AUDIO_END_REASON_CALL_EN"
+  "DED\020\002\022.\n*SIP_CALL_AUDIO_END_REASON_CALL_"
+  "TRANSFERRED\020\003\022*\n&SIP_CALL_AUDIO_END_REAS"
+  "ON_MAX_DURATION\020\004\022%\n!SIP_CALL_AUDIO_END_"
+  "REASON_STALLED\020\005\022&\n\"SIP_CALL_AUDIO_END_R"
+  "EASON_INTERNAL\020\0062\354\010\n\003Sip\022N\n\017SipStartSess"
+  "ion\022\".ondewo.sip.SipStartSessionRequest\032"
+  "\025.ondewo.sip.SipStatus\"\000\022@\n\rSipEndSessio"
+  "n\022\026.google.protobuf.Empty\032\025.ondewo.sip.S"
+  "ipStatus\"\000\022H\n\014SipStartCall\022\037.ondewo.sip."
+  "SipStartCallRequest\032\025.ondewo.sip.SipStat"
+  "us\"\000\022D\n\nSipEndCall\022\035.ondewo.sip.SipEndCa"
+  "llRequest\032\025.ondewo.sip.SipStatus\"\000\022N\n\017Si"
+  "pTransferCall\022\".ondewo.sip.SipTransferCa"
+  "llRequest\032\025.ondewo.sip.SipStatus\"\000\022T\n\022Si"
+  "pRegisterAccount\022%.ondewo.sip.SipRegiste"
+  "rAccountRequest\032\025.ondewo.sip.SipStatus\"\000"
+  "\022E\n\017SipGetSipStatus\022\026.google.protobuf.Em"
+  "pty\032\025.ondewo.sip.SipStatus\"\003\220\002\001\022[\n\026SipGe"
+  "tSipStatusHistory\022\026.google.protobuf.Empt"
+  "y\032$.ondewo.sip.SipStatusHistoryResponse\""
+  "\003\220\002\001\022N\n\017SipPlayWavFiles\022\".ondewo.sip.Sip"
+  "PlayWavFilesRequest\032\025.ondewo.sip.SipStat"
+  "us\"\000\022:\n\007SipMute\022\026.google.protobuf.Empty\032"
+  "\025.ondewo.sip.SipStatus\"\000\022<\n\tSipUnMute\022\026."
+  "google.protobuf.Empty\032\025.ondewo.sip.SipSt"
+  "atus\"\000\022r\n!SipReportAnsweringMachineDetec"
+  "ted\0224.ondewo.sip.SipReportAnsweringMachi"
+  "neDetectedRequest\032\025.ondewo.sip.SipStatus"
+  "\"\000\022\\\n\026SipSetCallMediaControl\022).ondewo.si"
+  "p.SipSetCallMediaControlRequest\032\025.ondewo"
+  ".sip.SipStatus\"\000\022]\n\022SipStreamCallAudio\022\037"
+  ".ondewo.sip.SipCallAudioRequest\032 .ondewo"
+  ".sip.SipCallAudioResponse\"\000(\0010\001b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fsip_2fsip_2eproto_deps[2] = {
   &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
@@ -383,9 +768,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fsip_2fsip_
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fsip_2fsip_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fsip_2fsip_2eproto = {
-    false, false, 2548, descriptor_table_protodef_ondewo_2fsip_2fsip_2eproto,
+    false, false, 6159, descriptor_table_protodef_ondewo_2fsip_2fsip_2eproto,
     "ondewo/sip/sip.proto",
-    &descriptor_table_ondewo_2fsip_2fsip_2eproto_once, descriptor_table_ondewo_2fsip_2fsip_2eproto_deps, 2, 11,
+    &descriptor_table_ondewo_2fsip_2fsip_2eproto_once, descriptor_table_ondewo_2fsip_2fsip_2eproto_deps, 2, 21,
     schemas, file_default_instances, TableStruct_ondewo_2fsip_2fsip_2eproto::offsets,
     file_level_metadata_ondewo_2fsip_2fsip_2eproto, file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto,
     file_level_service_descriptors_ondewo_2fsip_2fsip_2eproto,
@@ -398,9 +783,131 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_ondewo_2
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_ondewo_2fsip_2fsip_2eproto(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
 namespace ondewo {
 namespace sip {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipStatus_StatusType_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipEndCallRequest_EndCallReason_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
   return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[0];
+}
+bool SipEndCallRequest_EndCallReason_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+constexpr SipEndCallRequest_EndCallReason SipEndCallRequest::END_CALL_REASON_UNSPECIFIED;
+constexpr SipEndCallRequest_EndCallReason SipEndCallRequest::ANSWERING_MACHINE;
+constexpr SipEndCallRequest_EndCallReason SipEndCallRequest::ANSWERING_MACHINE_VOICE_MESSAGE_LEFT;
+constexpr SipEndCallRequest_EndCallReason SipEndCallRequest::END_CALL_REASON_TRANSFERRED;
+constexpr SipEndCallRequest_EndCallReason SipEndCallRequest::EndCallReason_MIN;
+constexpr SipEndCallRequest_EndCallReason SipEndCallRequest::EndCallReason_MAX;
+constexpr int SipEndCallRequest::EndCallReason_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AnsweringMachineDetectionResult_Verdict_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
+  return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[1];
+}
+bool AnsweringMachineDetectionResult_Verdict_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::VERDICT_UNSPECIFIED;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::HUMAN;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::MACHINE;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::IVR;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::FAX;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::NETWORK_ANNOUNCEMENT;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::CALL_SCREENING;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::NO_SPEECH;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::UNKNOWN;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::Verdict_MIN;
+constexpr AnsweringMachineDetectionResult_Verdict AnsweringMachineDetectionResult::Verdict_MAX;
+constexpr int AnsweringMachineDetectionResult::Verdict_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AnsweringMachineDetectionResult_Cause_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
+  return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[2];
+}
+bool AnsweringMachineDetectionResult_Cause_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::CAUSE_UNSPECIFIED;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::CADENCE;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::KEYWORD;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::BEEP;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::TONE;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::CADENCE_AND_KEYWORD;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::CADENCE_AND_BEEP;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::TIMEOUT;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::SILENCE;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::Cause_MIN;
+constexpr AnsweringMachineDetectionResult_Cause AnsweringMachineDetectionResult::Cause_MAX;
+constexpr int AnsweringMachineDetectionResult::Cause_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AnsweringMachineDetectionResult_ActionTaken_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
+  return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[3];
+}
+bool AnsweringMachineDetectionResult_ActionTaken_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+constexpr AnsweringMachineDetectionResult_ActionTaken AnsweringMachineDetectionResult::ACTION_TAKEN_UNSPECIFIED;
+constexpr AnsweringMachineDetectionResult_ActionTaken AnsweringMachineDetectionResult::HUNG_UP;
+constexpr AnsweringMachineDetectionResult_ActionTaken AnsweringMachineDetectionResult::CONTINUED;
+constexpr AnsweringMachineDetectionResult_ActionTaken AnsweringMachineDetectionResult::DETECT_ONLY;
+constexpr AnsweringMachineDetectionResult_ActionTaken AnsweringMachineDetectionResult::LEFT_VOICE_MESSAGE;
+constexpr AnsweringMachineDetectionResult_ActionTaken AnsweringMachineDetectionResult::ActionTaken_MIN;
+constexpr AnsweringMachineDetectionResult_ActionTaken AnsweringMachineDetectionResult::ActionTaken_MAX;
+constexpr int AnsweringMachineDetectionResult::ActionTaken_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipStatus_StatusType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
+  return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[4];
 }
 bool SipStatus_StatusType_IsValid(int value) {
   switch (value) {
@@ -426,6 +933,7 @@ bool SipStatus_StatusType_IsValid(int value) {
     case 19:
     case 20:
     case 21:
+    case 22:
       return true;
     default:
       return false;
@@ -455,17 +963,87 @@ constexpr SipStatus_StatusType SipStatus::MICROPHONE_MUTED;
 constexpr SipStatus_StatusType SipStatus::MICROPHONE_UNMUTED;
 constexpr SipStatus_StatusType SipStatus::MICROPHONE_WAV_FILES_PLAYED;
 constexpr SipStatus_StatusType SipStatus::NO_ONGOING_CALL;
+constexpr SipStatus_StatusType SipStatus::OUTGOING_CALL_ANSWERING_MACHINE_DETECTED;
 constexpr SipStatus_StatusType SipStatus::StatusType_MIN;
 constexpr SipStatus_StatusType SipStatus::StatusType_MAX;
 constexpr int SipStatus::StatusType_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MediaControlSetting_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
+  return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[5];
+}
+bool MediaControlSetting_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MediaControlOwner_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
+  return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[6];
+}
+bool MediaControlOwner_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipCallAudioMode_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
+  return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[7];
+}
+bool SipCallAudioMode_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipCallAudioEndReason_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fsip_2fsip_2eproto);
+  return file_level_enum_descriptors_ondewo_2fsip_2fsip_2eproto[8];
+}
+bool SipCallAudioEndReason_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 
 class SipEndCallRequest::_Internal {
  public:
+  static const ::ondewo::sip::AnsweringMachineDetectionResult& amd_result(const SipEndCallRequest* msg);
 };
 
+const ::ondewo::sip::AnsweringMachineDetectionResult&
+SipEndCallRequest::_Internal::amd_result(const SipEndCallRequest* msg) {
+  return *msg->_impl_.amd_result_;
+}
 SipEndCallRequest::SipEndCallRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -476,11 +1054,18 @@ SipEndCallRequest::SipEndCallRequest(const SipEndCallRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   SipEndCallRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.hard_hangup_){}
+      decltype(_impl_.amd_result_){nullptr}
+    , decltype(_impl_.hard_hangup_){}
+    , decltype(_impl_.end_reason_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.hard_hangup_ = from._impl_.hard_hangup_;
+  if (from._internal_has_amd_result()) {
+    _this->_impl_.amd_result_ = new ::ondewo::sip::AnsweringMachineDetectionResult(*from._impl_.amd_result_);
+  }
+  ::memcpy(&_impl_.hard_hangup_, &from._impl_.hard_hangup_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.end_reason_) -
+    reinterpret_cast<char*>(&_impl_.hard_hangup_)) + sizeof(_impl_.end_reason_));
   // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipEndCallRequest)
 }
 
@@ -489,7 +1074,9 @@ inline void SipEndCallRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.hard_hangup_){false}
+      decltype(_impl_.amd_result_){nullptr}
+    , decltype(_impl_.hard_hangup_){false}
+    , decltype(_impl_.end_reason_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -505,6 +1092,7 @@ SipEndCallRequest::~SipEndCallRequest() {
 
 inline void SipEndCallRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.amd_result_;
 }
 
 void SipEndCallRequest::SetCachedSize(int size) const {
@@ -517,7 +1105,13 @@ void SipEndCallRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.hard_hangup_ = false;
+  if (GetArenaForAllocation() == nullptr && _impl_.amd_result_ != nullptr) {
+    delete _impl_.amd_result_;
+  }
+  _impl_.amd_result_ = nullptr;
+  ::memset(&_impl_.hard_hangup_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.end_reason_) -
+      reinterpret_cast<char*>(&_impl_.hard_hangup_)) + sizeof(_impl_.end_reason_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -531,6 +1125,23 @@ const char* SipEndCallRequest::_InternalParse(const char* ptr, ::_pbi::ParseCont
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.hard_hangup_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.SipEndCallRequest.EndCallReason end_reason = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_end_reason(static_cast<::ondewo::sip::SipEndCallRequest_EndCallReason>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_amd_result(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -570,6 +1181,20 @@ uint8_t* SipEndCallRequest::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_hard_hangup(), target);
   }
 
+  // .ondewo.sip.SipEndCallRequest.EndCallReason end_reason = 2;
+  if (this->_internal_end_reason() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_end_reason(), target);
+  }
+
+  // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 3;
+  if (this->_internal_has_amd_result()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::amd_result(this),
+        _Internal::amd_result(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -586,9 +1211,22 @@ size_t SipEndCallRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 3;
+  if (this->_internal_has_amd_result()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.amd_result_);
+  }
+
   // bool hard_hangup = 1;
   if (this->_internal_hard_hangup() != 0) {
     total_size += 1 + 1;
+  }
+
+  // .ondewo.sip.SipEndCallRequest.EndCallReason end_reason = 2;
+  if (this->_internal_end_reason() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_end_reason());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -609,8 +1247,15 @@ void SipEndCallRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_amd_result()) {
+    _this->_internal_mutable_amd_result()->::ondewo::sip::AnsweringMachineDetectionResult::MergeFrom(
+        from._internal_amd_result());
+  }
   if (from._internal_hard_hangup() != 0) {
     _this->_internal_set_hard_hangup(from._internal_hard_hangup());
+  }
+  if (from._internal_end_reason() != 0) {
+    _this->_internal_set_end_reason(from._internal_end_reason());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -629,13 +1274,656 @@ bool SipEndCallRequest::IsInitialized() const {
 void SipEndCallRequest::InternalSwap(SipEndCallRequest* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.hard_hangup_, other->_impl_.hard_hangup_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SipEndCallRequest, _impl_.end_reason_)
+      + sizeof(SipEndCallRequest::_impl_.end_reason_)
+      - PROTOBUF_FIELD_OFFSET(SipEndCallRequest, _impl_.amd_result_)>(
+          reinterpret_cast<char*>(&_impl_.amd_result_),
+          reinterpret_cast<char*>(&other->_impl_.amd_result_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SipEndCallRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
       file_level_metadata_ondewo_2fsip_2fsip_2eproto[0]);
+}
+
+// ===================================================================
+
+class SipReportAnsweringMachineDetectedRequest::_Internal {
+ public:
+  static const ::ondewo::sip::AnsweringMachineDetectionResult& amd_result(const SipReportAnsweringMachineDetectedRequest* msg);
+};
+
+const ::ondewo::sip::AnsweringMachineDetectionResult&
+SipReportAnsweringMachineDetectedRequest::_Internal::amd_result(const SipReportAnsweringMachineDetectedRequest* msg) {
+  return *msg->_impl_.amd_result_;
+}
+SipReportAnsweringMachineDetectedRequest::SipReportAnsweringMachineDetectedRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+}
+SipReportAnsweringMachineDetectedRequest::SipReportAnsweringMachineDetectedRequest(const SipReportAnsweringMachineDetectedRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipReportAnsweringMachineDetectedRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.amd_result_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_amd_result()) {
+    _this->_impl_.amd_result_ = new ::ondewo::sip::AnsweringMachineDetectionResult(*from._impl_.amd_result_);
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+}
+
+inline void SipReportAnsweringMachineDetectedRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.amd_result_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+SipReportAnsweringMachineDetectedRequest::~SipReportAnsweringMachineDetectedRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipReportAnsweringMachineDetectedRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.amd_result_;
+}
+
+void SipReportAnsweringMachineDetectedRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipReportAnsweringMachineDetectedRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.amd_result_ != nullptr) {
+    delete _impl_.amd_result_;
+  }
+  _impl_.amd_result_ = nullptr;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipReportAnsweringMachineDetectedRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_amd_result(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipReportAnsweringMachineDetectedRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 1;
+  if (this->_internal_has_amd_result()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::amd_result(this),
+        _Internal::amd_result(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+  return target;
+}
+
+size_t SipReportAnsweringMachineDetectedRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 1;
+  if (this->_internal_has_amd_result()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.amd_result_);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipReportAnsweringMachineDetectedRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipReportAnsweringMachineDetectedRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipReportAnsweringMachineDetectedRequest::GetClassData() const { return &_class_data_; }
+
+
+void SipReportAnsweringMachineDetectedRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipReportAnsweringMachineDetectedRequest*>(&to_msg);
+  auto& from = static_cast<const SipReportAnsweringMachineDetectedRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_amd_result()) {
+    _this->_internal_mutable_amd_result()->::ondewo::sip::AnsweringMachineDetectionResult::MergeFrom(
+        from._internal_amd_result());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipReportAnsweringMachineDetectedRequest::CopyFrom(const SipReportAnsweringMachineDetectedRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipReportAnsweringMachineDetectedRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipReportAnsweringMachineDetectedRequest::IsInitialized() const {
+  return true;
+}
+
+void SipReportAnsweringMachineDetectedRequest::InternalSwap(SipReportAnsweringMachineDetectedRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.amd_result_, other->_impl_.amd_result_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipReportAnsweringMachineDetectedRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[1]);
+}
+
+// ===================================================================
+
+class AnsweringMachineDetectionResult::_Internal {
+ public:
+};
+
+AnsweringMachineDetectionResult::AnsweringMachineDetectionResult(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.AnsweringMachineDetectionResult)
+}
+AnsweringMachineDetectionResult::AnsweringMachineDetectionResult(const AnsweringMachineDetectionResult& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  AnsweringMachineDetectionResult* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.matched_cue_ids_){from._impl_.matched_cue_ids_}
+    , decltype(_impl_.rule_id_){}
+    , decltype(_impl_.call_id_){}
+    , decltype(_impl_.verdict_){}
+    , decltype(_impl_.cause_){}
+    , decltype(_impl_.confidence_){}
+    , decltype(_impl_.decision_ms_){}
+    , decltype(_impl_.action_taken_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.rule_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.rule_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_rule_id().empty()) {
+    _this->_impl_.rule_id_.Set(from._internal_rule_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.call_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.call_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_call_id().empty()) {
+    _this->_impl_.call_id_.Set(from._internal_call_id(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.verdict_, &from._impl_.verdict_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.action_taken_) -
+    reinterpret_cast<char*>(&_impl_.verdict_)) + sizeof(_impl_.action_taken_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.AnsweringMachineDetectionResult)
+}
+
+inline void AnsweringMachineDetectionResult::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.matched_cue_ids_){arena}
+    , decltype(_impl_.rule_id_){}
+    , decltype(_impl_.call_id_){}
+    , decltype(_impl_.verdict_){0}
+    , decltype(_impl_.cause_){0}
+    , decltype(_impl_.confidence_){0}
+    , decltype(_impl_.decision_ms_){0}
+    , decltype(_impl_.action_taken_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.rule_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.rule_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.call_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.call_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+AnsweringMachineDetectionResult::~AnsweringMachineDetectionResult() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.AnsweringMachineDetectionResult)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void AnsweringMachineDetectionResult::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.matched_cue_ids_.~RepeatedPtrField();
+  _impl_.rule_id_.Destroy();
+  _impl_.call_id_.Destroy();
+}
+
+void AnsweringMachineDetectionResult::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void AnsweringMachineDetectionResult::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.AnsweringMachineDetectionResult)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.matched_cue_ids_.Clear();
+  _impl_.rule_id_.ClearToEmpty();
+  _impl_.call_id_.ClearToEmpty();
+  ::memset(&_impl_.verdict_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.action_taken_) -
+      reinterpret_cast<char*>(&_impl_.verdict_)) + sizeof(_impl_.action_taken_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* AnsweringMachineDetectionResult::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.sip.AnsweringMachineDetectionResult.Verdict verdict = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_verdict(static_cast<::ondewo::sip::AnsweringMachineDetectionResult_Verdict>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.AnsweringMachineDetectionResult.Cause cause = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_cause(static_cast<::ondewo::sip::AnsweringMachineDetectionResult_Cause>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // float confidence = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
+          _impl_.confidence_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 decision_ms = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.decision_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string rule_id = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_rule_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.sip.AnsweringMachineDetectionResult.rule_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string matched_cue_ids = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_matched_cue_ids();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.sip.AnsweringMachineDetectionResult.matched_cue_ids"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<50>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.AnsweringMachineDetectionResult.ActionTaken action_taken = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_action_taken(static_cast<::ondewo::sip::AnsweringMachineDetectionResult_ActionTaken>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // string call_id = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          auto str = _internal_mutable_call_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.sip.AnsweringMachineDetectionResult.call_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* AnsweringMachineDetectionResult::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.AnsweringMachineDetectionResult)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.sip.AnsweringMachineDetectionResult.Verdict verdict = 1;
+  if (this->_internal_verdict() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_verdict(), target);
+  }
+
+  // .ondewo.sip.AnsweringMachineDetectionResult.Cause cause = 2;
+  if (this->_internal_cause() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_cause(), target);
+  }
+
+  // float confidence = 3;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_confidence = this->_internal_confidence();
+  uint32_t raw_confidence;
+  memcpy(&raw_confidence, &tmp_confidence, sizeof(tmp_confidence));
+  if (raw_confidence != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_confidence(), target);
+  }
+
+  // int32 decision_ms = 4;
+  if (this->_internal_decision_ms() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_decision_ms(), target);
+  }
+
+  // string rule_id = 5;
+  if (!this->_internal_rule_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_rule_id().data(), static_cast<int>(this->_internal_rule_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.sip.AnsweringMachineDetectionResult.rule_id");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_rule_id(), target);
+  }
+
+  // repeated string matched_cue_ids = 6;
+  for (int i = 0, n = this->_internal_matched_cue_ids_size(); i < n; i++) {
+    const auto& s = this->_internal_matched_cue_ids(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.sip.AnsweringMachineDetectionResult.matched_cue_ids");
+    target = stream->WriteString(6, s, target);
+  }
+
+  // .ondewo.sip.AnsweringMachineDetectionResult.ActionTaken action_taken = 7;
+  if (this->_internal_action_taken() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      7, this->_internal_action_taken(), target);
+  }
+
+  // string call_id = 8;
+  if (!this->_internal_call_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_call_id().data(), static_cast<int>(this->_internal_call_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.sip.AnsweringMachineDetectionResult.call_id");
+    target = stream->WriteStringMaybeAliased(
+        8, this->_internal_call_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.AnsweringMachineDetectionResult)
+  return target;
+}
+
+size_t AnsweringMachineDetectionResult::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.AnsweringMachineDetectionResult)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string matched_cue_ids = 6;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.matched_cue_ids_.size());
+  for (int i = 0, n = _impl_.matched_cue_ids_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.matched_cue_ids_.Get(i));
+  }
+
+  // string rule_id = 5;
+  if (!this->_internal_rule_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_rule_id());
+  }
+
+  // string call_id = 8;
+  if (!this->_internal_call_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_call_id());
+  }
+
+  // .ondewo.sip.AnsweringMachineDetectionResult.Verdict verdict = 1;
+  if (this->_internal_verdict() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_verdict());
+  }
+
+  // .ondewo.sip.AnsweringMachineDetectionResult.Cause cause = 2;
+  if (this->_internal_cause() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_cause());
+  }
+
+  // float confidence = 3;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_confidence = this->_internal_confidence();
+  uint32_t raw_confidence;
+  memcpy(&raw_confidence, &tmp_confidence, sizeof(tmp_confidence));
+  if (raw_confidence != 0) {
+    total_size += 1 + 4;
+  }
+
+  // int32 decision_ms = 4;
+  if (this->_internal_decision_ms() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_decision_ms());
+  }
+
+  // .ondewo.sip.AnsweringMachineDetectionResult.ActionTaken action_taken = 7;
+  if (this->_internal_action_taken() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_action_taken());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AnsweringMachineDetectionResult::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    AnsweringMachineDetectionResult::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AnsweringMachineDetectionResult::GetClassData() const { return &_class_data_; }
+
+
+void AnsweringMachineDetectionResult::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<AnsweringMachineDetectionResult*>(&to_msg);
+  auto& from = static_cast<const AnsweringMachineDetectionResult&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.AnsweringMachineDetectionResult)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.matched_cue_ids_.MergeFrom(from._impl_.matched_cue_ids_);
+  if (!from._internal_rule_id().empty()) {
+    _this->_internal_set_rule_id(from._internal_rule_id());
+  }
+  if (!from._internal_call_id().empty()) {
+    _this->_internal_set_call_id(from._internal_call_id());
+  }
+  if (from._internal_verdict() != 0) {
+    _this->_internal_set_verdict(from._internal_verdict());
+  }
+  if (from._internal_cause() != 0) {
+    _this->_internal_set_cause(from._internal_cause());
+  }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_confidence = from._internal_confidence();
+  uint32_t raw_confidence;
+  memcpy(&raw_confidence, &tmp_confidence, sizeof(tmp_confidence));
+  if (raw_confidence != 0) {
+    _this->_internal_set_confidence(from._internal_confidence());
+  }
+  if (from._internal_decision_ms() != 0) {
+    _this->_internal_set_decision_ms(from._internal_decision_ms());
+  }
+  if (from._internal_action_taken() != 0) {
+    _this->_internal_set_action_taken(from._internal_action_taken());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void AnsweringMachineDetectionResult::CopyFrom(const AnsweringMachineDetectionResult& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.AnsweringMachineDetectionResult)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AnsweringMachineDetectionResult::IsInitialized() const {
+  return true;
+}
+
+void AnsweringMachineDetectionResult::InternalSwap(AnsweringMachineDetectionResult* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.matched_cue_ids_.InternalSwap(&other->_impl_.matched_cue_ids_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.rule_id_, lhs_arena,
+      &other->_impl_.rule_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.call_id_, lhs_arena,
+      &other->_impl_.call_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AnsweringMachineDetectionResult, _impl_.action_taken_)
+      + sizeof(AnsweringMachineDetectionResult::_impl_.action_taken_)
+      - PROTOBUF_FIELD_OFFSET(AnsweringMachineDetectionResult, _impl_.verdict_)>(
+          reinterpret_cast<char*>(&_impl_.verdict_),
+          reinterpret_cast<char*>(&other->_impl_.verdict_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata AnsweringMachineDetectionResult::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[2]);
 }
 
 // ===================================================================
@@ -649,7 +1937,7 @@ void SipStartCallRequest_HeadersEntry_DoNotUse::MergeFrom(const SipStartCallRequ
 ::PROTOBUF_NAMESPACE_ID::Metadata SipStartCallRequest_HeadersEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[1]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[3]);
 }
 
 // ===================================================================
@@ -920,7 +2208,7 @@ void SipStartCallRequest::InternalSwap(SipStartCallRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipStartCallRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[2]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[4]);
 }
 
 // ===================================================================
@@ -1273,7 +2561,7 @@ void SipRegisterAccountRequest::InternalSwap(SipRegisterAccountRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipRegisterAccountRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[3]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[5]);
 }
 
 // ===================================================================
@@ -1503,7 +2791,7 @@ void SipStartSessionRequest::InternalSwap(SipStartSessionRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipStartSessionRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[4]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[6]);
 }
 
 // ===================================================================
@@ -1517,7 +2805,7 @@ void SipTransferCallRequest_HeadersEntry_DoNotUse::MergeFrom(const SipTransferCa
 ::PROTOBUF_NAMESPACE_ID::Metadata SipTransferCallRequest_HeadersEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[5]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[7]);
 }
 
 // ===================================================================
@@ -1541,6 +2829,7 @@ SipTransferCallRequest::SipTransferCallRequest(const SipTransferCallRequest& fro
   new (&_impl_) Impl_{
       /*decltype(_impl_.headers_)*/{}
     , decltype(_impl_.transfer_id_){}
+    , decltype(_impl_.outcome_timeout_ms_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1553,6 +2842,7 @@ SipTransferCallRequest::SipTransferCallRequest(const SipTransferCallRequest& fro
     _this->_impl_.transfer_id_.Set(from._internal_transfer_id(), 
       _this->GetArenaForAllocation());
   }
+  _this->_impl_.outcome_timeout_ms_ = from._impl_.outcome_timeout_ms_;
   // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipTransferCallRequest)
 }
 
@@ -1563,6 +2853,7 @@ inline void SipTransferCallRequest::SharedCtor(
   new (&_impl_) Impl_{
       /*decltype(_impl_.headers_)*/{::_pbi::ArenaInitialized(), arena}
     , decltype(_impl_.transfer_id_){}
+    , decltype(_impl_.outcome_timeout_ms_){0u}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.transfer_id_.InitDefault();
@@ -1604,6 +2895,7 @@ void SipTransferCallRequest::Clear() {
 
   _impl_.headers_.Clear();
   _impl_.transfer_id_.ClearToEmpty();
+  _impl_.outcome_timeout_ms_ = 0u;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1633,6 +2925,14 @@ const char* SipTransferCallRequest::_InternalParse(const char* ptr, ::_pbi::Pars
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 outcome_timeout_ms = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.outcome_timeout_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -1705,6 +3005,12 @@ uint8_t* SipTransferCallRequest::_InternalSerialize(
     }
   }
 
+  // uint32 outcome_timeout_ms = 3;
+  if (this->_internal_outcome_timeout_ms() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(3, this->_internal_outcome_timeout_ms(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1737,6 +3043,11 @@ size_t SipTransferCallRequest::ByteSizeLong() const {
         this->_internal_transfer_id());
   }
 
+  // uint32 outcome_timeout_ms = 3;
+  if (this->_internal_outcome_timeout_ms() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_outcome_timeout_ms());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1758,6 +3069,9 @@ void SipTransferCallRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
   _this->_impl_.headers_.MergeFrom(from._impl_.headers_);
   if (!from._internal_transfer_id().empty()) {
     _this->_internal_set_transfer_id(from._internal_transfer_id());
+  }
+  if (from._internal_outcome_timeout_ms() != 0) {
+    _this->_internal_set_outcome_timeout_ms(from._internal_outcome_timeout_ms());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1783,12 +3097,13 @@ void SipTransferCallRequest::InternalSwap(SipTransferCallRequest* other) {
       &_impl_.transfer_id_, lhs_arena,
       &other->_impl_.transfer_id_, rhs_arena
   );
+  swap(_impl_.outcome_timeout_ms_, other->_impl_.outcome_timeout_ms_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SipTransferCallRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[6]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[8]);
 }
 
 // ===================================================================
@@ -1802,7 +3117,7 @@ void SipStatus_HeadersEntry_DoNotUse::MergeFrom(const SipStatus_HeadersEntry_DoN
 ::PROTOBUF_NAMESPACE_ID::Metadata SipStatus_HeadersEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[7]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[9]);
 }
 
 // ===================================================================
@@ -1810,11 +3125,16 @@ void SipStatus_HeadersEntry_DoNotUse::MergeFrom(const SipStatus_HeadersEntry_DoN
 class SipStatus::_Internal {
  public:
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& timestamp(const SipStatus* msg);
+  static const ::ondewo::sip::AnsweringMachineDetectionResult& amd_result(const SipStatus* msg);
 };
 
 const ::PROTOBUF_NAMESPACE_ID::Timestamp&
 SipStatus::_Internal::timestamp(const SipStatus* msg) {
   return *msg->_impl_.timestamp_;
+}
+const ::ondewo::sip::AnsweringMachineDetectionResult&
+SipStatus::_Internal::amd_result(const SipStatus* msg) {
+  return *msg->_impl_.amd_result_;
 }
 void SipStatus::clear_timestamp() {
   if (GetArenaForAllocation() == nullptr && _impl_.timestamp_ != nullptr) {
@@ -1843,8 +3163,14 @@ SipStatus::SipStatus(const SipStatus& from)
     , decltype(_impl_.exception_name_){}
     , decltype(_impl_.exception_traceback_){}
     , decltype(_impl_.nlu_session_name_){}
+    , decltype(_impl_.call_id_){}
     , decltype(_impl_.timestamp_){nullptr}
+    , decltype(_impl_.amd_result_){nullptr}
     , decltype(_impl_.status_type_){}
+    , decltype(_impl_.bot_muted_){}
+    , decltype(_impl_.listening_paused_){}
+    , decltype(_impl_.call_audio_streams_){}
+    , decltype(_impl_.sip_response_code_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1905,10 +3231,23 @@ SipStatus::SipStatus(const SipStatus& from)
     _this->_impl_.nlu_session_name_.Set(from._internal_nlu_session_name(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.call_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.call_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_call_id().empty()) {
+    _this->_impl_.call_id_.Set(from._internal_call_id(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_timestamp()) {
     _this->_impl_.timestamp_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.timestamp_);
   }
-  _this->_impl_.status_type_ = from._impl_.status_type_;
+  if (from._internal_has_amd_result()) {
+    _this->_impl_.amd_result_ = new ::ondewo::sip::AnsweringMachineDetectionResult(*from._impl_.amd_result_);
+  }
+  ::memcpy(&_impl_.status_type_, &from._impl_.status_type_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.sip_response_code_) -
+    reinterpret_cast<char*>(&_impl_.status_type_)) + sizeof(_impl_.sip_response_code_));
   // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipStatus)
 }
 
@@ -1925,8 +3264,14 @@ inline void SipStatus::SharedCtor(
     , decltype(_impl_.exception_name_){}
     , decltype(_impl_.exception_traceback_){}
     , decltype(_impl_.nlu_session_name_){}
+    , decltype(_impl_.call_id_){}
     , decltype(_impl_.timestamp_){nullptr}
+    , decltype(_impl_.amd_result_){nullptr}
     , decltype(_impl_.status_type_){0}
+    , decltype(_impl_.bot_muted_){false}
+    , decltype(_impl_.listening_paused_){false}
+    , decltype(_impl_.call_audio_streams_){0}
+    , decltype(_impl_.sip_response_code_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.account_name_.InitDefault();
@@ -1957,6 +3302,10 @@ inline void SipStatus::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.nlu_session_name_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.call_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.call_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 SipStatus::~SipStatus() {
@@ -1980,7 +3329,9 @@ inline void SipStatus::SharedDtor() {
   _impl_.exception_name_.Destroy();
   _impl_.exception_traceback_.Destroy();
   _impl_.nlu_session_name_.Destroy();
+  _impl_.call_id_.Destroy();
   if (this != internal_default_instance()) delete _impl_.timestamp_;
+  if (this != internal_default_instance()) delete _impl_.amd_result_;
 }
 
 void SipStatus::ArenaDtor(void* object) {
@@ -2005,11 +3356,18 @@ void SipStatus::Clear() {
   _impl_.exception_name_.ClearToEmpty();
   _impl_.exception_traceback_.ClearToEmpty();
   _impl_.nlu_session_name_.ClearToEmpty();
+  _impl_.call_id_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.timestamp_ != nullptr) {
     delete _impl_.timestamp_;
   }
   _impl_.timestamp_ = nullptr;
-  _impl_.status_type_ = 0;
+  if (GetArenaForAllocation() == nullptr && _impl_.amd_result_ != nullptr) {
+    delete _impl_.amd_result_;
+  }
+  _impl_.amd_result_ = nullptr;
+  ::memset(&_impl_.status_type_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.sip_response_code_) -
+      reinterpret_cast<char*>(&_impl_.status_type_)) + sizeof(_impl_.sip_response_code_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2116,6 +3474,56 @@ const char* SipStatus::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.sip.SipStatus.nlu_session_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          ptr = ctx->ParseMessage(_internal_mutable_amd_result(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string call_id = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+          auto str = _internal_mutable_call_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.sip.SipStatus.call_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool bot_muted = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 104)) {
+          _impl_.bot_muted_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool listening_paused = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 112)) {
+          _impl_.listening_paused_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 call_audio_streams = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 120)) {
+          _impl_.call_audio_streams_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 sip_response_code = 16;
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 128)) {
+          _impl_.sip_response_code_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -2262,6 +3670,47 @@ uint8_t* SipStatus::_InternalSerialize(
         10, this->_internal_nlu_session_name(), target);
   }
 
+  // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 11;
+  if (this->_internal_has_amd_result()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(11, _Internal::amd_result(this),
+        _Internal::amd_result(this).GetCachedSize(), target, stream);
+  }
+
+  // string call_id = 12;
+  if (!this->_internal_call_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_call_id().data(), static_cast<int>(this->_internal_call_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.sip.SipStatus.call_id");
+    target = stream->WriteStringMaybeAliased(
+        12, this->_internal_call_id(), target);
+  }
+
+  // bool bot_muted = 13;
+  if (this->_internal_bot_muted() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(13, this->_internal_bot_muted(), target);
+  }
+
+  // bool listening_paused = 14;
+  if (this->_internal_listening_paused() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(14, this->_internal_listening_paused(), target);
+  }
+
+  // int32 call_audio_streams = 15;
+  if (this->_internal_call_audio_streams() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(15, this->_internal_call_audio_streams(), target);
+  }
+
+  // int32 sip_response_code = 16;
+  if (this->_internal_sip_response_code() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(16, this->_internal_sip_response_code(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2336,6 +3785,13 @@ size_t SipStatus::ByteSizeLong() const {
         this->_internal_nlu_session_name());
   }
 
+  // string call_id = 12;
+  if (!this->_internal_call_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_call_id());
+  }
+
   // .google.protobuf.Timestamp timestamp = 2;
   if (this->_internal_has_timestamp()) {
     total_size += 1 +
@@ -2343,10 +3799,39 @@ size_t SipStatus::ByteSizeLong() const {
         *_impl_.timestamp_);
   }
 
+  // .ondewo.sip.AnsweringMachineDetectionResult amd_result = 11;
+  if (this->_internal_has_amd_result()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.amd_result_);
+  }
+
   // .ondewo.sip.SipStatus.StatusType status_type = 3;
   if (this->_internal_status_type() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_status_type());
+  }
+
+  // bool bot_muted = 13;
+  if (this->_internal_bot_muted() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool listening_paused = 14;
+  if (this->_internal_listening_paused() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // int32 call_audio_streams = 15;
+  if (this->_internal_call_audio_streams() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_call_audio_streams());
+  }
+
+  // int32 sip_response_code = 16;
+  if (this->_internal_sip_response_code() != 0) {
+    total_size += 2 +
+      ::_pbi::WireFormatLite::Int32Size(
+        this->_internal_sip_response_code());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -2389,12 +3874,31 @@ void SipStatus::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROT
   if (!from._internal_nlu_session_name().empty()) {
     _this->_internal_set_nlu_session_name(from._internal_nlu_session_name());
   }
+  if (!from._internal_call_id().empty()) {
+    _this->_internal_set_call_id(from._internal_call_id());
+  }
   if (from._internal_has_timestamp()) {
     _this->_internal_mutable_timestamp()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_timestamp());
   }
+  if (from._internal_has_amd_result()) {
+    _this->_internal_mutable_amd_result()->::ondewo::sip::AnsweringMachineDetectionResult::MergeFrom(
+        from._internal_amd_result());
+  }
   if (from._internal_status_type() != 0) {
     _this->_internal_set_status_type(from._internal_status_type());
+  }
+  if (from._internal_bot_muted() != 0) {
+    _this->_internal_set_bot_muted(from._internal_bot_muted());
+  }
+  if (from._internal_listening_paused() != 0) {
+    _this->_internal_set_listening_paused(from._internal_listening_paused());
+  }
+  if (from._internal_call_audio_streams() != 0) {
+    _this->_internal_set_call_audio_streams(from._internal_call_audio_streams());
+  }
+  if (from._internal_sip_response_code() != 0) {
+    _this->_internal_set_sip_response_code(from._internal_sip_response_code());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -2444,9 +3948,13 @@ void SipStatus::InternalSwap(SipStatus* other) {
       &_impl_.nlu_session_name_, lhs_arena,
       &other->_impl_.nlu_session_name_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.call_id_, lhs_arena,
+      &other->_impl_.call_id_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SipStatus, _impl_.status_type_)
-      + sizeof(SipStatus::_impl_.status_type_)
+      PROTOBUF_FIELD_OFFSET(SipStatus, _impl_.sip_response_code_)
+      + sizeof(SipStatus::_impl_.sip_response_code_)
       - PROTOBUF_FIELD_OFFSET(SipStatus, _impl_.timestamp_)>(
           reinterpret_cast<char*>(&_impl_.timestamp_),
           reinterpret_cast<char*>(&other->_impl_.timestamp_));
@@ -2455,7 +3963,7 @@ void SipStatus::InternalSwap(SipStatus* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipStatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[8]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[10]);
 }
 
 // ===================================================================
@@ -2640,7 +4148,2401 @@ void SipStatusHistoryResponse::InternalSwap(SipStatusHistoryResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipStatusHistoryResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[9]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[11]);
+}
+
+// ===================================================================
+
+class SipSetCallMediaControlRequest::_Internal {
+ public:
+};
+
+SipSetCallMediaControlRequest::SipSetCallMediaControlRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipSetCallMediaControlRequest)
+}
+SipSetCallMediaControlRequest::SipSetCallMediaControlRequest(const SipSetCallMediaControlRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipSetCallMediaControlRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.bot_voice_){}
+    , decltype(_impl_.bot_listening_){}
+    , decltype(_impl_.owner_){}
+    , decltype(_impl_.participants_present_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.bot_voice_, &from._impl_.bot_voice_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.participants_present_) -
+    reinterpret_cast<char*>(&_impl_.bot_voice_)) + sizeof(_impl_.participants_present_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipSetCallMediaControlRequest)
+}
+
+inline void SipSetCallMediaControlRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.bot_voice_){0}
+    , decltype(_impl_.bot_listening_){0}
+    , decltype(_impl_.owner_){0}
+    , decltype(_impl_.participants_present_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+SipSetCallMediaControlRequest::~SipSetCallMediaControlRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipSetCallMediaControlRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipSetCallMediaControlRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void SipSetCallMediaControlRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipSetCallMediaControlRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipSetCallMediaControlRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.bot_voice_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.participants_present_) -
+      reinterpret_cast<char*>(&_impl_.bot_voice_)) + sizeof(_impl_.participants_present_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipSetCallMediaControlRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.sip.MediaControlSetting bot_voice = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_bot_voice(static_cast<::ondewo::sip::MediaControlSetting>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.MediaControlSetting bot_listening = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_bot_listening(static_cast<::ondewo::sip::MediaControlSetting>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.MediaControlOwner owner = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_owner(static_cast<::ondewo::sip::MediaControlOwner>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool participants_present = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.participants_present_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipSetCallMediaControlRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipSetCallMediaControlRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.sip.MediaControlSetting bot_voice = 1;
+  if (this->_internal_bot_voice() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_bot_voice(), target);
+  }
+
+  // .ondewo.sip.MediaControlSetting bot_listening = 2;
+  if (this->_internal_bot_listening() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_bot_listening(), target);
+  }
+
+  // .ondewo.sip.MediaControlOwner owner = 3;
+  if (this->_internal_owner() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_owner(), target);
+  }
+
+  // bool participants_present = 4;
+  if (this->_internal_participants_present() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(4, this->_internal_participants_present(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipSetCallMediaControlRequest)
+  return target;
+}
+
+size_t SipSetCallMediaControlRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipSetCallMediaControlRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .ondewo.sip.MediaControlSetting bot_voice = 1;
+  if (this->_internal_bot_voice() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_bot_voice());
+  }
+
+  // .ondewo.sip.MediaControlSetting bot_listening = 2;
+  if (this->_internal_bot_listening() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_bot_listening());
+  }
+
+  // .ondewo.sip.MediaControlOwner owner = 3;
+  if (this->_internal_owner() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_owner());
+  }
+
+  // bool participants_present = 4;
+  if (this->_internal_participants_present() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipSetCallMediaControlRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipSetCallMediaControlRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipSetCallMediaControlRequest::GetClassData() const { return &_class_data_; }
+
+
+void SipSetCallMediaControlRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipSetCallMediaControlRequest*>(&to_msg);
+  auto& from = static_cast<const SipSetCallMediaControlRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipSetCallMediaControlRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_bot_voice() != 0) {
+    _this->_internal_set_bot_voice(from._internal_bot_voice());
+  }
+  if (from._internal_bot_listening() != 0) {
+    _this->_internal_set_bot_listening(from._internal_bot_listening());
+  }
+  if (from._internal_owner() != 0) {
+    _this->_internal_set_owner(from._internal_owner());
+  }
+  if (from._internal_participants_present() != 0) {
+    _this->_internal_set_participants_present(from._internal_participants_present());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipSetCallMediaControlRequest::CopyFrom(const SipSetCallMediaControlRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipSetCallMediaControlRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipSetCallMediaControlRequest::IsInitialized() const {
+  return true;
+}
+
+void SipSetCallMediaControlRequest::InternalSwap(SipSetCallMediaControlRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SipSetCallMediaControlRequest, _impl_.participants_present_)
+      + sizeof(SipSetCallMediaControlRequest::_impl_.participants_present_)
+      - PROTOBUF_FIELD_OFFSET(SipSetCallMediaControlRequest, _impl_.bot_voice_)>(
+          reinterpret_cast<char*>(&_impl_.bot_voice_),
+          reinterpret_cast<char*>(&other->_impl_.bot_voice_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipSetCallMediaControlRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[12]);
+}
+
+// ===================================================================
+
+class SipCallAudioConfig::_Internal {
+ public:
+};
+
+SipCallAudioConfig::SipCallAudioConfig(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipCallAudioConfig)
+}
+SipCallAudioConfig::SipCallAudioConfig(const SipCallAudioConfig& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipCallAudioConfig* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.stream_id_){}
+    , decltype(_impl_.mode_){}
+    , decltype(_impl_.sample_rate_hz_){}
+    , decltype(_impl_.frame_ms_){}
+    , decltype(_impl_.take_over_){}
+    , decltype(_impl_.max_duration_s_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.stream_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.stream_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_stream_id().empty()) {
+    _this->_impl_.stream_id_.Set(from._internal_stream_id(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.mode_, &from._impl_.mode_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.max_duration_s_) -
+    reinterpret_cast<char*>(&_impl_.mode_)) + sizeof(_impl_.max_duration_s_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipCallAudioConfig)
+}
+
+inline void SipCallAudioConfig::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.stream_id_){}
+    , decltype(_impl_.mode_){0}
+    , decltype(_impl_.sample_rate_hz_){0}
+    , decltype(_impl_.frame_ms_){0}
+    , decltype(_impl_.take_over_){false}
+    , decltype(_impl_.max_duration_s_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.stream_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.stream_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SipCallAudioConfig::~SipCallAudioConfig() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipCallAudioConfig)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipCallAudioConfig::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.stream_id_.Destroy();
+}
+
+void SipCallAudioConfig::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipCallAudioConfig::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipCallAudioConfig)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.stream_id_.ClearToEmpty();
+  ::memset(&_impl_.mode_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.max_duration_s_) -
+      reinterpret_cast<char*>(&_impl_.mode_)) + sizeof(_impl_.max_duration_s_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipCallAudioConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.sip.SipCallAudioMode mode = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_mode(static_cast<::ondewo::sip::SipCallAudioMode>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 sample_rate_hz = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.sample_rate_hz_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 frame_ms = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.frame_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool take_over = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.take_over_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string stream_id = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_stream_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.sip.SipCallAudioConfig.stream_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 max_duration_s = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.max_duration_s_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipCallAudioConfig::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipCallAudioConfig)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.sip.SipCallAudioMode mode = 1;
+  if (this->_internal_mode() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_mode(), target);
+  }
+
+  // int32 sample_rate_hz = 2;
+  if (this->_internal_sample_rate_hz() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_sample_rate_hz(), target);
+  }
+
+  // int32 frame_ms = 3;
+  if (this->_internal_frame_ms() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_frame_ms(), target);
+  }
+
+  // bool take_over = 4;
+  if (this->_internal_take_over() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(4, this->_internal_take_over(), target);
+  }
+
+  // string stream_id = 5;
+  if (!this->_internal_stream_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_stream_id().data(), static_cast<int>(this->_internal_stream_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.sip.SipCallAudioConfig.stream_id");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_stream_id(), target);
+  }
+
+  // int32 max_duration_s = 6;
+  if (this->_internal_max_duration_s() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_max_duration_s(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipCallAudioConfig)
+  return target;
+}
+
+size_t SipCallAudioConfig::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipCallAudioConfig)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string stream_id = 5;
+  if (!this->_internal_stream_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_stream_id());
+  }
+
+  // .ondewo.sip.SipCallAudioMode mode = 1;
+  if (this->_internal_mode() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_mode());
+  }
+
+  // int32 sample_rate_hz = 2;
+  if (this->_internal_sample_rate_hz() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_sample_rate_hz());
+  }
+
+  // int32 frame_ms = 3;
+  if (this->_internal_frame_ms() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_frame_ms());
+  }
+
+  // bool take_over = 4;
+  if (this->_internal_take_over() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // int32 max_duration_s = 6;
+  if (this->_internal_max_duration_s() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_max_duration_s());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipCallAudioConfig::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipCallAudioConfig::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipCallAudioConfig::GetClassData() const { return &_class_data_; }
+
+
+void SipCallAudioConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipCallAudioConfig*>(&to_msg);
+  auto& from = static_cast<const SipCallAudioConfig&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipCallAudioConfig)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_stream_id().empty()) {
+    _this->_internal_set_stream_id(from._internal_stream_id());
+  }
+  if (from._internal_mode() != 0) {
+    _this->_internal_set_mode(from._internal_mode());
+  }
+  if (from._internal_sample_rate_hz() != 0) {
+    _this->_internal_set_sample_rate_hz(from._internal_sample_rate_hz());
+  }
+  if (from._internal_frame_ms() != 0) {
+    _this->_internal_set_frame_ms(from._internal_frame_ms());
+  }
+  if (from._internal_take_over() != 0) {
+    _this->_internal_set_take_over(from._internal_take_over());
+  }
+  if (from._internal_max_duration_s() != 0) {
+    _this->_internal_set_max_duration_s(from._internal_max_duration_s());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipCallAudioConfig::CopyFrom(const SipCallAudioConfig& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipCallAudioConfig)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipCallAudioConfig::IsInitialized() const {
+  return true;
+}
+
+void SipCallAudioConfig::InternalSwap(SipCallAudioConfig* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.stream_id_, lhs_arena,
+      &other->_impl_.stream_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SipCallAudioConfig, _impl_.max_duration_s_)
+      + sizeof(SipCallAudioConfig::_impl_.max_duration_s_)
+      - PROTOBUF_FIELD_OFFSET(SipCallAudioConfig, _impl_.mode_)>(
+          reinterpret_cast<char*>(&_impl_.mode_),
+          reinterpret_cast<char*>(&other->_impl_.mode_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipCallAudioConfig::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[13]);
+}
+
+// ===================================================================
+
+class SipCallAudioFrame::_Internal {
+ public:
+};
+
+SipCallAudioFrame::SipCallAudioFrame(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipCallAudioFrame)
+}
+SipCallAudioFrame::SipCallAudioFrame(const SipCallAudioFrame& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipCallAudioFrame* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.pcm_s16le_){}
+    , decltype(_impl_.sequence_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.pcm_s16le_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.pcm_s16le_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_pcm_s16le().empty()) {
+    _this->_impl_.pcm_s16le_.Set(from._internal_pcm_s16le(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.sequence_ = from._impl_.sequence_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipCallAudioFrame)
+}
+
+inline void SipCallAudioFrame::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.pcm_s16le_){}
+    , decltype(_impl_.sequence_){uint64_t{0u}}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.pcm_s16le_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.pcm_s16le_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SipCallAudioFrame::~SipCallAudioFrame() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipCallAudioFrame)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipCallAudioFrame::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.pcm_s16le_.Destroy();
+}
+
+void SipCallAudioFrame::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipCallAudioFrame::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipCallAudioFrame)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.pcm_s16le_.ClearToEmpty();
+  _impl_.sequence_ = uint64_t{0u};
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipCallAudioFrame::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bytes pcm_s16le = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_pcm_s16le();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint64 sequence = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.sequence_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipCallAudioFrame::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipCallAudioFrame)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes pcm_s16le = 1;
+  if (!this->_internal_pcm_s16le().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        1, this->_internal_pcm_s16le(), target);
+  }
+
+  // uint64 sequence = 2;
+  if (this->_internal_sequence() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(2, this->_internal_sequence(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipCallAudioFrame)
+  return target;
+}
+
+size_t SipCallAudioFrame::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipCallAudioFrame)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bytes pcm_s16le = 1;
+  if (!this->_internal_pcm_s16le().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_pcm_s16le());
+  }
+
+  // uint64 sequence = 2;
+  if (this->_internal_sequence() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_sequence());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipCallAudioFrame::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipCallAudioFrame::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipCallAudioFrame::GetClassData() const { return &_class_data_; }
+
+
+void SipCallAudioFrame::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipCallAudioFrame*>(&to_msg);
+  auto& from = static_cast<const SipCallAudioFrame&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipCallAudioFrame)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_pcm_s16le().empty()) {
+    _this->_internal_set_pcm_s16le(from._internal_pcm_s16le());
+  }
+  if (from._internal_sequence() != 0) {
+    _this->_internal_set_sequence(from._internal_sequence());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipCallAudioFrame::CopyFrom(const SipCallAudioFrame& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipCallAudioFrame)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipCallAudioFrame::IsInitialized() const {
+  return true;
+}
+
+void SipCallAudioFrame::InternalSwap(SipCallAudioFrame* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.pcm_s16le_, lhs_arena,
+      &other->_impl_.pcm_s16le_, rhs_arena
+  );
+  swap(_impl_.sequence_, other->_impl_.sequence_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipCallAudioFrame::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[14]);
+}
+
+// ===================================================================
+
+class SipCallAudioRequest::_Internal {
+ public:
+  static const ::ondewo::sip::SipCallAudioConfig& config(const SipCallAudioRequest* msg);
+  static const ::ondewo::sip::SipCallAudioFrame& audio(const SipCallAudioRequest* msg);
+};
+
+const ::ondewo::sip::SipCallAudioConfig&
+SipCallAudioRequest::_Internal::config(const SipCallAudioRequest* msg) {
+  return *msg->_impl_.request_.config_;
+}
+const ::ondewo::sip::SipCallAudioFrame&
+SipCallAudioRequest::_Internal::audio(const SipCallAudioRequest* msg) {
+  return *msg->_impl_.request_.audio_;
+}
+void SipCallAudioRequest::set_allocated_config(::ondewo::sip::SipCallAudioConfig* config) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_request();
+  if (config) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(config);
+    if (message_arena != submessage_arena) {
+      config = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, config, submessage_arena);
+    }
+    set_has_config();
+    _impl_.request_.config_ = config;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipCallAudioRequest.config)
+}
+void SipCallAudioRequest::set_allocated_audio(::ondewo::sip::SipCallAudioFrame* audio) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_request();
+  if (audio) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(audio);
+    if (message_arena != submessage_arena) {
+      audio = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, audio, submessage_arena);
+    }
+    set_has_audio();
+    _impl_.request_.audio_ = audio;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipCallAudioRequest.audio)
+}
+SipCallAudioRequest::SipCallAudioRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipCallAudioRequest)
+}
+SipCallAudioRequest::SipCallAudioRequest(const SipCallAudioRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipCallAudioRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.request_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  clear_has_request();
+  switch (from.request_case()) {
+    case kConfig: {
+      _this->_internal_mutable_config()->::ondewo::sip::SipCallAudioConfig::MergeFrom(
+          from._internal_config());
+      break;
+    }
+    case kAudio: {
+      _this->_internal_mutable_audio()->::ondewo::sip::SipCallAudioFrame::MergeFrom(
+          from._internal_audio());
+      break;
+    }
+    case kAgentMuted: {
+      _this->_internal_set_agent_muted(from._internal_agent_muted());
+      break;
+    }
+    case REQUEST_NOT_SET: {
+      break;
+    }
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipCallAudioRequest)
+}
+
+inline void SipCallAudioRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.request_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}
+  };
+  clear_has_request();
+}
+
+SipCallAudioRequest::~SipCallAudioRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipCallAudioRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipCallAudioRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (has_request()) {
+    clear_request();
+  }
+}
+
+void SipCallAudioRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipCallAudioRequest::clear_request() {
+// @@protoc_insertion_point(one_of_clear_start:ondewo.sip.SipCallAudioRequest)
+  switch (request_case()) {
+    case kConfig: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.request_.config_;
+      }
+      break;
+    }
+    case kAudio: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.request_.audio_;
+      }
+      break;
+    }
+    case kAgentMuted: {
+      // No need to clear
+      break;
+    }
+    case REQUEST_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = REQUEST_NOT_SET;
+}
+
+
+void SipCallAudioRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipCallAudioRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  clear_request();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipCallAudioRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.sip.SipCallAudioConfig config = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_config(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.SipCallAudioFrame audio = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_audio(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool agent_muted = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _internal_set_agent_muted(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipCallAudioRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipCallAudioRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.sip.SipCallAudioConfig config = 1;
+  if (_internal_has_config()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::config(this),
+        _Internal::config(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.sip.SipCallAudioFrame audio = 2;
+  if (_internal_has_audio()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::audio(this),
+        _Internal::audio(this).GetCachedSize(), target, stream);
+  }
+
+  // bool agent_muted = 3;
+  if (_internal_has_agent_muted()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(3, this->_internal_agent_muted(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipCallAudioRequest)
+  return target;
+}
+
+size_t SipCallAudioRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipCallAudioRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  switch (request_case()) {
+    // .ondewo.sip.SipCallAudioConfig config = 1;
+    case kConfig: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.request_.config_);
+      break;
+    }
+    // .ondewo.sip.SipCallAudioFrame audio = 2;
+    case kAudio: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.request_.audio_);
+      break;
+    }
+    // bool agent_muted = 3;
+    case kAgentMuted: {
+      total_size += 1 + 1;
+      break;
+    }
+    case REQUEST_NOT_SET: {
+      break;
+    }
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipCallAudioRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipCallAudioRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipCallAudioRequest::GetClassData() const { return &_class_data_; }
+
+
+void SipCallAudioRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipCallAudioRequest*>(&to_msg);
+  auto& from = static_cast<const SipCallAudioRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipCallAudioRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  switch (from.request_case()) {
+    case kConfig: {
+      _this->_internal_mutable_config()->::ondewo::sip::SipCallAudioConfig::MergeFrom(
+          from._internal_config());
+      break;
+    }
+    case kAudio: {
+      _this->_internal_mutable_audio()->::ondewo::sip::SipCallAudioFrame::MergeFrom(
+          from._internal_audio());
+      break;
+    }
+    case kAgentMuted: {
+      _this->_internal_set_agent_muted(from._internal_agent_muted());
+      break;
+    }
+    case REQUEST_NOT_SET: {
+      break;
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipCallAudioRequest::CopyFrom(const SipCallAudioRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipCallAudioRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipCallAudioRequest::IsInitialized() const {
+  return true;
+}
+
+void SipCallAudioRequest::InternalSwap(SipCallAudioRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.request_, other->_impl_.request_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipCallAudioRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[15]);
+}
+
+// ===================================================================
+
+class SipCallAudioStarted::_Internal {
+ public:
+};
+
+SipCallAudioStarted::SipCallAudioStarted(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipCallAudioStarted)
+}
+SipCallAudioStarted::SipCallAudioStarted(const SipCallAudioStarted& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipCallAudioStarted* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.stream_id_){}
+    , decltype(_impl_.sample_rate_hz_){}
+    , decltype(_impl_.frame_ms_){}
+    , decltype(_impl_.mode_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.stream_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.stream_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_stream_id().empty()) {
+    _this->_impl_.stream_id_.Set(from._internal_stream_id(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.sample_rate_hz_, &from._impl_.sample_rate_hz_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.mode_) -
+    reinterpret_cast<char*>(&_impl_.sample_rate_hz_)) + sizeof(_impl_.mode_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipCallAudioStarted)
+}
+
+inline void SipCallAudioStarted::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.stream_id_){}
+    , decltype(_impl_.sample_rate_hz_){0}
+    , decltype(_impl_.frame_ms_){0}
+    , decltype(_impl_.mode_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.stream_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.stream_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SipCallAudioStarted::~SipCallAudioStarted() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipCallAudioStarted)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipCallAudioStarted::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.stream_id_.Destroy();
+}
+
+void SipCallAudioStarted::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipCallAudioStarted::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipCallAudioStarted)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.stream_id_.ClearToEmpty();
+  ::memset(&_impl_.sample_rate_hz_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.mode_) -
+      reinterpret_cast<char*>(&_impl_.sample_rate_hz_)) + sizeof(_impl_.mode_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipCallAudioStarted::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string stream_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_stream_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.sip.SipCallAudioStarted.stream_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 sample_rate_hz = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.sample_rate_hz_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 frame_ms = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.frame_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.SipCallAudioMode mode = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_mode(static_cast<::ondewo::sip::SipCallAudioMode>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipCallAudioStarted::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipCallAudioStarted)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string stream_id = 1;
+  if (!this->_internal_stream_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_stream_id().data(), static_cast<int>(this->_internal_stream_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.sip.SipCallAudioStarted.stream_id");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_stream_id(), target);
+  }
+
+  // int32 sample_rate_hz = 2;
+  if (this->_internal_sample_rate_hz() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_sample_rate_hz(), target);
+  }
+
+  // int32 frame_ms = 3;
+  if (this->_internal_frame_ms() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_frame_ms(), target);
+  }
+
+  // .ondewo.sip.SipCallAudioMode mode = 4;
+  if (this->_internal_mode() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      4, this->_internal_mode(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipCallAudioStarted)
+  return target;
+}
+
+size_t SipCallAudioStarted::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipCallAudioStarted)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string stream_id = 1;
+  if (!this->_internal_stream_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_stream_id());
+  }
+
+  // int32 sample_rate_hz = 2;
+  if (this->_internal_sample_rate_hz() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_sample_rate_hz());
+  }
+
+  // int32 frame_ms = 3;
+  if (this->_internal_frame_ms() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_frame_ms());
+  }
+
+  // .ondewo.sip.SipCallAudioMode mode = 4;
+  if (this->_internal_mode() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_mode());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipCallAudioStarted::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipCallAudioStarted::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipCallAudioStarted::GetClassData() const { return &_class_data_; }
+
+
+void SipCallAudioStarted::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipCallAudioStarted*>(&to_msg);
+  auto& from = static_cast<const SipCallAudioStarted&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipCallAudioStarted)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_stream_id().empty()) {
+    _this->_internal_set_stream_id(from._internal_stream_id());
+  }
+  if (from._internal_sample_rate_hz() != 0) {
+    _this->_internal_set_sample_rate_hz(from._internal_sample_rate_hz());
+  }
+  if (from._internal_frame_ms() != 0) {
+    _this->_internal_set_frame_ms(from._internal_frame_ms());
+  }
+  if (from._internal_mode() != 0) {
+    _this->_internal_set_mode(from._internal_mode());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipCallAudioStarted::CopyFrom(const SipCallAudioStarted& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipCallAudioStarted)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipCallAudioStarted::IsInitialized() const {
+  return true;
+}
+
+void SipCallAudioStarted::InternalSwap(SipCallAudioStarted* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.stream_id_, lhs_arena,
+      &other->_impl_.stream_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SipCallAudioStarted, _impl_.mode_)
+      + sizeof(SipCallAudioStarted::_impl_.mode_)
+      - PROTOBUF_FIELD_OFFSET(SipCallAudioStarted, _impl_.sample_rate_hz_)>(
+          reinterpret_cast<char*>(&_impl_.sample_rate_hz_),
+          reinterpret_cast<char*>(&other->_impl_.sample_rate_hz_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipCallAudioStarted::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[16]);
+}
+
+// ===================================================================
+
+class SipCallAudioStats::_Internal {
+ public:
+};
+
+SipCallAudioStats::SipCallAudioStats(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipCallAudioStats)
+}
+SipCallAudioStats::SipCallAudioStats(const SipCallAudioStats& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipCallAudioStats* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.frames_sent_){}
+    , decltype(_impl_.frames_dropped_){}
+    , decltype(_impl_.frames_received_){}
+    , decltype(_impl_.underruns_){}
+    , decltype(_impl_.frames_discarded_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.frames_sent_, &from._impl_.frames_sent_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.frames_discarded_) -
+    reinterpret_cast<char*>(&_impl_.frames_sent_)) + sizeof(_impl_.frames_discarded_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipCallAudioStats)
+}
+
+inline void SipCallAudioStats::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.frames_sent_){uint64_t{0u}}
+    , decltype(_impl_.frames_dropped_){uint64_t{0u}}
+    , decltype(_impl_.frames_received_){uint64_t{0u}}
+    , decltype(_impl_.underruns_){uint64_t{0u}}
+    , decltype(_impl_.frames_discarded_){uint64_t{0u}}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+SipCallAudioStats::~SipCallAudioStats() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipCallAudioStats)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipCallAudioStats::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void SipCallAudioStats::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipCallAudioStats::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipCallAudioStats)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.frames_sent_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.frames_discarded_) -
+      reinterpret_cast<char*>(&_impl_.frames_sent_)) + sizeof(_impl_.frames_discarded_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipCallAudioStats::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // uint64 frames_sent = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.frames_sent_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint64 frames_dropped = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.frames_dropped_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint64 frames_received = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.frames_received_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint64 underruns = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.underruns_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint64 frames_discarded = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _impl_.frames_discarded_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipCallAudioStats::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipCallAudioStats)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 frames_sent = 1;
+  if (this->_internal_frames_sent() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(1, this->_internal_frames_sent(), target);
+  }
+
+  // uint64 frames_dropped = 2;
+  if (this->_internal_frames_dropped() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(2, this->_internal_frames_dropped(), target);
+  }
+
+  // uint64 frames_received = 3;
+  if (this->_internal_frames_received() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(3, this->_internal_frames_received(), target);
+  }
+
+  // uint64 underruns = 4;
+  if (this->_internal_underruns() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(4, this->_internal_underruns(), target);
+  }
+
+  // uint64 frames_discarded = 5;
+  if (this->_internal_frames_discarded() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(5, this->_internal_frames_discarded(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipCallAudioStats)
+  return target;
+}
+
+size_t SipCallAudioStats::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipCallAudioStats)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 frames_sent = 1;
+  if (this->_internal_frames_sent() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_frames_sent());
+  }
+
+  // uint64 frames_dropped = 2;
+  if (this->_internal_frames_dropped() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_frames_dropped());
+  }
+
+  // uint64 frames_received = 3;
+  if (this->_internal_frames_received() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_frames_received());
+  }
+
+  // uint64 underruns = 4;
+  if (this->_internal_underruns() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_underruns());
+  }
+
+  // uint64 frames_discarded = 5;
+  if (this->_internal_frames_discarded() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_frames_discarded());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipCallAudioStats::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipCallAudioStats::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipCallAudioStats::GetClassData() const { return &_class_data_; }
+
+
+void SipCallAudioStats::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipCallAudioStats*>(&to_msg);
+  auto& from = static_cast<const SipCallAudioStats&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipCallAudioStats)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_frames_sent() != 0) {
+    _this->_internal_set_frames_sent(from._internal_frames_sent());
+  }
+  if (from._internal_frames_dropped() != 0) {
+    _this->_internal_set_frames_dropped(from._internal_frames_dropped());
+  }
+  if (from._internal_frames_received() != 0) {
+    _this->_internal_set_frames_received(from._internal_frames_received());
+  }
+  if (from._internal_underruns() != 0) {
+    _this->_internal_set_underruns(from._internal_underruns());
+  }
+  if (from._internal_frames_discarded() != 0) {
+    _this->_internal_set_frames_discarded(from._internal_frames_discarded());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipCallAudioStats::CopyFrom(const SipCallAudioStats& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipCallAudioStats)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipCallAudioStats::IsInitialized() const {
+  return true;
+}
+
+void SipCallAudioStats::InternalSwap(SipCallAudioStats* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SipCallAudioStats, _impl_.frames_discarded_)
+      + sizeof(SipCallAudioStats::_impl_.frames_discarded_)
+      - PROTOBUF_FIELD_OFFSET(SipCallAudioStats, _impl_.frames_sent_)>(
+          reinterpret_cast<char*>(&_impl_.frames_sent_),
+          reinterpret_cast<char*>(&other->_impl_.frames_sent_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipCallAudioStats::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[17]);
+}
+
+// ===================================================================
+
+class SipCallAudioEnded::_Internal {
+ public:
+};
+
+SipCallAudioEnded::SipCallAudioEnded(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipCallAudioEnded)
+}
+SipCallAudioEnded::SipCallAudioEnded(const SipCallAudioEnded& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipCallAudioEnded* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.detail_){}
+    , decltype(_impl_.reason_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.detail_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.detail_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_detail().empty()) {
+    _this->_impl_.detail_.Set(from._internal_detail(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.reason_ = from._impl_.reason_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipCallAudioEnded)
+}
+
+inline void SipCallAudioEnded::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.detail_){}
+    , decltype(_impl_.reason_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.detail_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.detail_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SipCallAudioEnded::~SipCallAudioEnded() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipCallAudioEnded)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipCallAudioEnded::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.detail_.Destroy();
+}
+
+void SipCallAudioEnded::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipCallAudioEnded::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipCallAudioEnded)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.detail_.ClearToEmpty();
+  _impl_.reason_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipCallAudioEnded::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.sip.SipCallAudioEndReason reason = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_reason(static_cast<::ondewo::sip::SipCallAudioEndReason>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // string detail = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_detail();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.sip.SipCallAudioEnded.detail"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipCallAudioEnded::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipCallAudioEnded)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.sip.SipCallAudioEndReason reason = 1;
+  if (this->_internal_reason() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_reason(), target);
+  }
+
+  // string detail = 2;
+  if (!this->_internal_detail().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_detail().data(), static_cast<int>(this->_internal_detail().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.sip.SipCallAudioEnded.detail");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_detail(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipCallAudioEnded)
+  return target;
+}
+
+size_t SipCallAudioEnded::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipCallAudioEnded)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string detail = 2;
+  if (!this->_internal_detail().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_detail());
+  }
+
+  // .ondewo.sip.SipCallAudioEndReason reason = 1;
+  if (this->_internal_reason() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_reason());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipCallAudioEnded::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipCallAudioEnded::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipCallAudioEnded::GetClassData() const { return &_class_data_; }
+
+
+void SipCallAudioEnded::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipCallAudioEnded*>(&to_msg);
+  auto& from = static_cast<const SipCallAudioEnded&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipCallAudioEnded)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_detail().empty()) {
+    _this->_internal_set_detail(from._internal_detail());
+  }
+  if (from._internal_reason() != 0) {
+    _this->_internal_set_reason(from._internal_reason());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipCallAudioEnded::CopyFrom(const SipCallAudioEnded& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipCallAudioEnded)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipCallAudioEnded::IsInitialized() const {
+  return true;
+}
+
+void SipCallAudioEnded::InternalSwap(SipCallAudioEnded* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.detail_, lhs_arena,
+      &other->_impl_.detail_, rhs_arena
+  );
+  swap(_impl_.reason_, other->_impl_.reason_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipCallAudioEnded::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[18]);
+}
+
+// ===================================================================
+
+class SipCallAudioResponse::_Internal {
+ public:
+  static const ::ondewo::sip::SipCallAudioStarted& started(const SipCallAudioResponse* msg);
+  static const ::ondewo::sip::SipCallAudioFrame& audio(const SipCallAudioResponse* msg);
+  static const ::ondewo::sip::SipCallAudioStats& stats(const SipCallAudioResponse* msg);
+  static const ::ondewo::sip::SipCallAudioEnded& ended(const SipCallAudioResponse* msg);
+};
+
+const ::ondewo::sip::SipCallAudioStarted&
+SipCallAudioResponse::_Internal::started(const SipCallAudioResponse* msg) {
+  return *msg->_impl_.response_.started_;
+}
+const ::ondewo::sip::SipCallAudioFrame&
+SipCallAudioResponse::_Internal::audio(const SipCallAudioResponse* msg) {
+  return *msg->_impl_.response_.audio_;
+}
+const ::ondewo::sip::SipCallAudioStats&
+SipCallAudioResponse::_Internal::stats(const SipCallAudioResponse* msg) {
+  return *msg->_impl_.response_.stats_;
+}
+const ::ondewo::sip::SipCallAudioEnded&
+SipCallAudioResponse::_Internal::ended(const SipCallAudioResponse* msg) {
+  return *msg->_impl_.response_.ended_;
+}
+void SipCallAudioResponse::set_allocated_started(::ondewo::sip::SipCallAudioStarted* started) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_response();
+  if (started) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(started);
+    if (message_arena != submessage_arena) {
+      started = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, started, submessage_arena);
+    }
+    set_has_started();
+    _impl_.response_.started_ = started;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipCallAudioResponse.started)
+}
+void SipCallAudioResponse::set_allocated_audio(::ondewo::sip::SipCallAudioFrame* audio) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_response();
+  if (audio) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(audio);
+    if (message_arena != submessage_arena) {
+      audio = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, audio, submessage_arena);
+    }
+    set_has_audio();
+    _impl_.response_.audio_ = audio;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipCallAudioResponse.audio)
+}
+void SipCallAudioResponse::set_allocated_stats(::ondewo::sip::SipCallAudioStats* stats) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_response();
+  if (stats) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(stats);
+    if (message_arena != submessage_arena) {
+      stats = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, stats, submessage_arena);
+    }
+    set_has_stats();
+    _impl_.response_.stats_ = stats;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipCallAudioResponse.stats)
+}
+void SipCallAudioResponse::set_allocated_ended(::ondewo::sip::SipCallAudioEnded* ended) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_response();
+  if (ended) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(ended);
+    if (message_arena != submessage_arena) {
+      ended = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, ended, submessage_arena);
+    }
+    set_has_ended();
+    _impl_.response_.ended_ = ended;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipCallAudioResponse.ended)
+}
+SipCallAudioResponse::SipCallAudioResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.sip.SipCallAudioResponse)
+}
+SipCallAudioResponse::SipCallAudioResponse(const SipCallAudioResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipCallAudioResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.response_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  clear_has_response();
+  switch (from.response_case()) {
+    case kStarted: {
+      _this->_internal_mutable_started()->::ondewo::sip::SipCallAudioStarted::MergeFrom(
+          from._internal_started());
+      break;
+    }
+    case kAudio: {
+      _this->_internal_mutable_audio()->::ondewo::sip::SipCallAudioFrame::MergeFrom(
+          from._internal_audio());
+      break;
+    }
+    case kStats: {
+      _this->_internal_mutable_stats()->::ondewo::sip::SipCallAudioStats::MergeFrom(
+          from._internal_stats());
+      break;
+    }
+    case kEnded: {
+      _this->_internal_mutable_ended()->::ondewo::sip::SipCallAudioEnded::MergeFrom(
+          from._internal_ended());
+      break;
+    }
+    case RESPONSE_NOT_SET: {
+      break;
+    }
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.sip.SipCallAudioResponse)
+}
+
+inline void SipCallAudioResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.response_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}
+  };
+  clear_has_response();
+}
+
+SipCallAudioResponse::~SipCallAudioResponse() {
+  // @@protoc_insertion_point(destructor:ondewo.sip.SipCallAudioResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipCallAudioResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (has_response()) {
+    clear_response();
+  }
+}
+
+void SipCallAudioResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipCallAudioResponse::clear_response() {
+// @@protoc_insertion_point(one_of_clear_start:ondewo.sip.SipCallAudioResponse)
+  switch (response_case()) {
+    case kStarted: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.response_.started_;
+      }
+      break;
+    }
+    case kAudio: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.response_.audio_;
+      }
+      break;
+    }
+    case kStats: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.response_.stats_;
+      }
+      break;
+    }
+    case kEnded: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.response_.ended_;
+      }
+      break;
+    }
+    case RESPONSE_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = RESPONSE_NOT_SET;
+}
+
+
+void SipCallAudioResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.sip.SipCallAudioResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  clear_response();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipCallAudioResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.sip.SipCallAudioStarted started = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_started(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.SipCallAudioFrame audio = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_audio(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.SipCallAudioStats stats = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_stats(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.sip.SipCallAudioEnded ended = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_ended(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipCallAudioResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.sip.SipCallAudioResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.sip.SipCallAudioStarted started = 1;
+  if (_internal_has_started()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::started(this),
+        _Internal::started(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.sip.SipCallAudioFrame audio = 2;
+  if (_internal_has_audio()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::audio(this),
+        _Internal::audio(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.sip.SipCallAudioStats stats = 3;
+  if (_internal_has_stats()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::stats(this),
+        _Internal::stats(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.sip.SipCallAudioEnded ended = 4;
+  if (_internal_has_ended()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::ended(this),
+        _Internal::ended(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.sip.SipCallAudioResponse)
+  return target;
+}
+
+size_t SipCallAudioResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.sip.SipCallAudioResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  switch (response_case()) {
+    // .ondewo.sip.SipCallAudioStarted started = 1;
+    case kStarted: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.response_.started_);
+      break;
+    }
+    // .ondewo.sip.SipCallAudioFrame audio = 2;
+    case kAudio: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.response_.audio_);
+      break;
+    }
+    // .ondewo.sip.SipCallAudioStats stats = 3;
+    case kStats: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.response_.stats_);
+      break;
+    }
+    // .ondewo.sip.SipCallAudioEnded ended = 4;
+    case kEnded: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.response_.ended_);
+      break;
+    }
+    case RESPONSE_NOT_SET: {
+      break;
+    }
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipCallAudioResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipCallAudioResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipCallAudioResponse::GetClassData() const { return &_class_data_; }
+
+
+void SipCallAudioResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipCallAudioResponse*>(&to_msg);
+  auto& from = static_cast<const SipCallAudioResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.sip.SipCallAudioResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  switch (from.response_case()) {
+    case kStarted: {
+      _this->_internal_mutable_started()->::ondewo::sip::SipCallAudioStarted::MergeFrom(
+          from._internal_started());
+      break;
+    }
+    case kAudio: {
+      _this->_internal_mutable_audio()->::ondewo::sip::SipCallAudioFrame::MergeFrom(
+          from._internal_audio());
+      break;
+    }
+    case kStats: {
+      _this->_internal_mutable_stats()->::ondewo::sip::SipCallAudioStats::MergeFrom(
+          from._internal_stats());
+      break;
+    }
+    case kEnded: {
+      _this->_internal_mutable_ended()->::ondewo::sip::SipCallAudioEnded::MergeFrom(
+          from._internal_ended());
+      break;
+    }
+    case RESPONSE_NOT_SET: {
+      break;
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipCallAudioResponse::CopyFrom(const SipCallAudioResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.sip.SipCallAudioResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipCallAudioResponse::IsInitialized() const {
+  return true;
+}
+
+void SipCallAudioResponse::InternalSwap(SipCallAudioResponse* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.response_, other->_impl_.response_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipCallAudioResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[19]);
 }
 
 // ===================================================================
@@ -2825,7 +6727,7 @@ void SipPlayWavFilesRequest::InternalSwap(SipPlayWavFilesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipPlayWavFilesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fsip_2fsip_2eproto_getter, &descriptor_table_ondewo_2fsip_2fsip_2eproto_once,
-      file_level_metadata_ondewo_2fsip_2fsip_2eproto[10]);
+      file_level_metadata_ondewo_2fsip_2fsip_2eproto[20]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2835,6 +6737,14 @@ PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::ondewo::sip::SipEndCallRequest*
 Arena::CreateMaybeMessage< ::ondewo::sip::SipEndCallRequest >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::sip::SipEndCallRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipReportAnsweringMachineDetectedRequest*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipReportAnsweringMachineDetectedRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipReportAnsweringMachineDetectedRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::AnsweringMachineDetectionResult*
+Arena::CreateMaybeMessage< ::ondewo::sip::AnsweringMachineDetectionResult >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::AnsweringMachineDetectionResult >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::sip::SipStartCallRequest_HeadersEntry_DoNotUse*
 Arena::CreateMaybeMessage< ::ondewo::sip::SipStartCallRequest_HeadersEntry_DoNotUse >(Arena* arena) {
@@ -2871,6 +6781,38 @@ Arena::CreateMaybeMessage< ::ondewo::sip::SipStatus >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::ondewo::sip::SipStatusHistoryResponse*
 Arena::CreateMaybeMessage< ::ondewo::sip::SipStatusHistoryResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::sip::SipStatusHistoryResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipSetCallMediaControlRequest*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipSetCallMediaControlRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipSetCallMediaControlRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipCallAudioConfig*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipCallAudioConfig >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipCallAudioConfig >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipCallAudioFrame*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipCallAudioFrame >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipCallAudioFrame >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipCallAudioRequest*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipCallAudioRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipCallAudioRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipCallAudioStarted*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipCallAudioStarted >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipCallAudioStarted >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipCallAudioStats*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipCallAudioStats >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipCallAudioStats >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipCallAudioEnded*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipCallAudioEnded >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipCallAudioEnded >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::sip::SipCallAudioResponse*
+Arena::CreateMaybeMessage< ::ondewo::sip::SipCallAudioResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::sip::SipCallAudioResponse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::sip::SipPlayWavFilesRequest*
 Arena::CreateMaybeMessage< ::ondewo::sip::SipPlayWavFilesRequest >(Arena* arena) {
