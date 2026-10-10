@@ -29,19 +29,22 @@ replicating the suite to another ONDEWO C++ client means rewriting only the two 
 ## What it actually checks
 
 VTSI is a composition product, and the suite asserts the whole composed surface: all
-**29** `.proto` files (its own `ondewo/vtsi/{calls,logs,projects}.proto` plus the NLU, QA, S2T,
-SIP and T2S trees it imports) and all **23** services must be in the descriptor pool.
+**32** `.proto` files (its own `ondewo/vtsi/{calls,campaigns,events,logs,projects,softphones}.proto`
+plus the NLU, QA, S2T, SIP and T2S trees it imports) and all **26** services must be in the
+descriptor pool.
 
 - Every `.proto` listed in `product_config.cc` is registered, every service exists and declares
   RPCs, and a representative slice of method names is present — the full `VtsiProject` CRUD
-  surface, the caller/listener/call RPCs the product exists for, `StreamCallLogs`, and one RPC
+  surface, the caller/listener/call RPCs the product exists for, `StreamCallLogs`, the campaign,
+  call-control and status-stream RPCs API 9.0.0 added to `Calls`, a slice of each new service
+  (`Softphones`, `Campaigns`, `Events`), and one RPC
   from each of the `ondewo.sip`, `ondewo.qa`, `ondewo.s2t`, `ondewo.t2s` and `ondewo.nlu`
   packages the same archive carries.
 - **Every** generated message is instantiated, has each of its singular scalar fields set to a
   non-default value, and is pushed through `SerializeToString` → `ParseFromString` → compare:
-  **964** messages and **2816** singular scalar fields at ONDEWO VTSI API 8.7.0. A writer that
+  **1071** messages and **3183** singular scalar fields at ONDEWO VTSI API 9.0.0. A writer that
   drops a field, a reader that ignores one, or a field-number mismatch between the two fails here.
-- All **108** generated enums declare `0` as their first value, as proto3 requires — including
+- All **138** generated enums declare `0` as their first value, as proto3 requires — including
   `CallView`, whose zero value `MINIMUM` is the one the Angular presence bug made unrequestable.
 - `FillScalarFields` handles every protobuf scalar type. No single product uses all of them, so
   the branches are pinned against `google.protobuf`'s wrapper types, which libprotobuf registers
@@ -50,9 +53,15 @@ SIP and T2S trees it imports) and all **23** services must be in the descriptor 
   presence* field — still reports `has_asterisk_version()` after an empty-string round trip,
   while the plain `asterisk_port` correctly keeps its zero value off the wire. The VTSI API
   relies on exactly that distinction: unset means "keep the server default", empty is rejected.
-- Service stubs are constructed against a channel, and a unary RPC (`GetVtsiProject`) and a
-  **server**-streaming RPC (`StreamCallLogs`, a `ClientReader` — VTSI declares no bidirectional
-  RPC of its own) are actually issued against a dead endpoint: each must come back as
+  `MessageBrokerServicesActivationConfig.activate_s2t`, one of the eleven scalars that gained
+  `optional` in API 9.0.0, sends an explicit `false` and reads it back as present.
+- `AsteriskConfigsFiles.pjsip_conf_file_string` (renamed from `sip_conf_file_string` in API 9.0.0)
+  keeps field number 1, and the old name is gone from the descriptor.
+- Service stubs are constructed against a channel (including `Softphones`, `Campaigns` and
+  `Events`), and unary RPCs (`GetVtsiProject`, `GetSoftphoneAccount`, `GetCampaign`,
+  `GetWebhook`), a **server**-streaming RPC (`StreamCallLogs`, a `ClientReader`) and a
+  **bidirectional** one (`StreamCallAudio`, a `ClientReaderWriter`) are actually issued against
+  a dead endpoint: each must come back as
   `UNAVAILABLE` / `DEADLINE_EXCEEDED`, which proves the stubs, the request/response types and
   the generated method descriptors all link and dispatch.
 

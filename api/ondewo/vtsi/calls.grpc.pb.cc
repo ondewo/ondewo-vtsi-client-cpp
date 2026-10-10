@@ -41,6 +41,8 @@ static const char* Calls_method_names[] = {
   "/ondewo.vtsi.Calls/DeleteListeners",
   "/ondewo.vtsi.Calls/StartScheduledCaller",
   "/ondewo.vtsi.Calls/StartScheduledCallers",
+  "/ondewo.vtsi.Calls/AddCallersToCampaign",
+  "/ondewo.vtsi.Calls/AddScheduledCallersToCampaign",
   "/ondewo.vtsi.Calls/GetScheduledCaller",
   "/ondewo.vtsi.Calls/ListScheduledCallers",
   "/ondewo.vtsi.Calls/CancelScheduledCaller",
@@ -51,6 +53,14 @@ static const char* Calls_method_names[] = {
   "/ondewo.vtsi.Calls/TransferCalls",
   "/ondewo.vtsi.Calls/GetCall",
   "/ondewo.vtsi.Calls/ListCalls",
+  "/ondewo.vtsi.Calls/StreamCallerStatus",
+  "/ondewo.vtsi.Calls/StreamListenerStatus",
+  "/ondewo.vtsi.Calls/StreamScheduledCallerStatus",
+  "/ondewo.vtsi.Calls/InviteToCall",
+  "/ondewo.vtsi.Calls/RemoveCallParticipant",
+  "/ondewo.vtsi.Calls/SetCallMediaControl",
+  "/ondewo.vtsi.Calls/StreamCallAudio",
+  "/ondewo.vtsi.Calls/ListenCallAudio",
 };
 
 std::unique_ptr< Calls::Stub> Calls::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -78,16 +88,26 @@ Calls::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, con
   , rpcmethod_DeleteListeners_(Calls_method_names[15], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_StartScheduledCaller_(Calls_method_names[16], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_StartScheduledCallers_(Calls_method_names[17], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetScheduledCaller_(Calls_method_names[18], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListScheduledCallers_(Calls_method_names[19], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CancelScheduledCaller_(Calls_method_names[20], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_StopCall_(Calls_method_names[21], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_StopCalls_(Calls_method_names[22], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_StopAllCalls_(Calls_method_names[23], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_TransferCall_(Calls_method_names[24], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_TransferCalls_(Calls_method_names[25], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetCall_(Calls_method_names[26], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListCalls_(Calls_method_names[27], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddCallersToCampaign_(Calls_method_names[18], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddScheduledCallersToCampaign_(Calls_method_names[19], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetScheduledCaller_(Calls_method_names[20], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListScheduledCallers_(Calls_method_names[21], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CancelScheduledCaller_(Calls_method_names[22], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_StopCall_(Calls_method_names[23], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_StopCalls_(Calls_method_names[24], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_StopAllCalls_(Calls_method_names[25], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_TransferCall_(Calls_method_names[26], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_TransferCalls_(Calls_method_names[27], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetCall_(Calls_method_names[28], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListCalls_(Calls_method_names[29], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_StreamCallerStatus_(Calls_method_names[30], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_StreamListenerStatus_(Calls_method_names[31], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_StreamScheduledCallerStatus_(Calls_method_names[32], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_InviteToCall_(Calls_method_names[33], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_RemoveCallParticipant_(Calls_method_names[34], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SetCallMediaControl_(Calls_method_names[35], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_StreamCallAudio_(Calls_method_names[36], options.suffix_for_stats(),::grpc::internal::RpcMethod::BIDI_STREAMING, channel)
+  , rpcmethod_ListenCallAudio_(Calls_method_names[37], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   {}
 
 ::grpc::Status Calls::Stub::StartCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallerRequest& request, ::ondewo::vtsi::StartCallerResponse* response) {
@@ -504,6 +524,52 @@ void Calls::Stub::async::StartScheduledCallers(::grpc::ClientContext* context, c
   return result;
 }
 
+::grpc::Status Calls::Stub::AddCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddCallersToCampaignRequest& request, ::ondewo::vtsi::AddCallersToCampaignResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::AddCallersToCampaignRequest, ::ondewo::vtsi::AddCallersToCampaignResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AddCallersToCampaign_, context, request, response);
+}
+
+void Calls::Stub::async::AddCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddCallersToCampaignRequest* request, ::ondewo::vtsi::AddCallersToCampaignResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::AddCallersToCampaignRequest, ::ondewo::vtsi::AddCallersToCampaignResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddCallersToCampaign_, context, request, response, std::move(f));
+}
+
+void Calls::Stub::async::AddCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddCallersToCampaignRequest* request, ::ondewo::vtsi::AddCallersToCampaignResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddCallersToCampaign_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::AddCallersToCampaignResponse>* Calls::Stub::PrepareAsyncAddCallersToCampaignRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::AddCallersToCampaignRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::AddCallersToCampaignResponse, ::ondewo::vtsi::AddCallersToCampaignRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AddCallersToCampaign_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::AddCallersToCampaignResponse>* Calls::Stub::AsyncAddCallersToCampaignRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::AddCallersToCampaignRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncAddCallersToCampaignRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Calls::Stub::AddScheduledCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest& request, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::AddScheduledCallersToCampaignRequest, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AddScheduledCallersToCampaign_, context, request, response);
+}
+
+void Calls::Stub::async::AddScheduledCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* request, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::AddScheduledCallersToCampaignRequest, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddScheduledCallersToCampaign_, context, request, response, std::move(f));
+}
+
+void Calls::Stub::async::AddScheduledCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* request, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddScheduledCallersToCampaign_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>* Calls::Stub::PrepareAsyncAddScheduledCallersToCampaignRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::AddScheduledCallersToCampaignResponse, ::ondewo::vtsi::AddScheduledCallersToCampaignRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AddScheduledCallersToCampaign_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>* Calls::Stub::AsyncAddScheduledCallersToCampaignRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncAddScheduledCallersToCampaignRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ::grpc::Status Calls::Stub::GetScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest& request, ::ondewo::vtsi::ScheduledCaller* response) {
   return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::GetScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetScheduledCaller_, context, request, response);
 }
@@ -734,6 +800,155 @@ void Calls::Stub::async::ListCalls(::grpc::ClientContext* context, const ::ondew
   return result;
 }
 
+::grpc::ClientReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::StreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request) {
+  return ::grpc::internal::ClientReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), rpcmethod_StreamCallerStatus_, context, request);
+}
+
+void Calls::Stub::async::StreamCallerStatus(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::StreamCallResourceStatusResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_StreamCallerStatus_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::AsyncStreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), cq, rpcmethod_StreamCallerStatus_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::PrepareAsyncStreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), cq, rpcmethod_StreamCallerStatus_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::StreamListenerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamListenerStatusRequest& request) {
+  return ::grpc::internal::ClientReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), rpcmethod_StreamListenerStatus_, context, request);
+}
+
+void Calls::Stub::async::StreamListenerStatus(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamListenerStatusRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::StreamCallResourceStatusResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_StreamListenerStatus_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::AsyncStreamListenerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamListenerStatusRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), cq, rpcmethod_StreamListenerStatus_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::PrepareAsyncStreamListenerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamListenerStatusRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), cq, rpcmethod_StreamListenerStatus_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::StreamScheduledCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamScheduledCallerStatusRequest& request) {
+  return ::grpc::internal::ClientReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), rpcmethod_StreamScheduledCallerStatus_, context, request);
+}
+
+void Calls::Stub::async::StreamScheduledCallerStatus(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamScheduledCallerStatusRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::StreamCallResourceStatusResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_StreamScheduledCallerStatus_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::AsyncStreamScheduledCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamScheduledCallerStatusRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), cq, rpcmethod_StreamScheduledCallerStatus_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* Calls::Stub::PrepareAsyncStreamScheduledCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamScheduledCallerStatusRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCallResourceStatusResponse>::Create(channel_.get(), cq, rpcmethod_StreamScheduledCallerStatus_, context, request, false, nullptr);
+}
+
+::grpc::Status Calls::Stub::InviteToCall(::grpc::ClientContext* context, const ::ondewo::vtsi::InviteToCallRequest& request, ::ondewo::vtsi::InviteToCallResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::InviteToCallRequest, ::ondewo::vtsi::InviteToCallResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_InviteToCall_, context, request, response);
+}
+
+void Calls::Stub::async::InviteToCall(::grpc::ClientContext* context, const ::ondewo::vtsi::InviteToCallRequest* request, ::ondewo::vtsi::InviteToCallResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::InviteToCallRequest, ::ondewo::vtsi::InviteToCallResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_InviteToCall_, context, request, response, std::move(f));
+}
+
+void Calls::Stub::async::InviteToCall(::grpc::ClientContext* context, const ::ondewo::vtsi::InviteToCallRequest* request, ::ondewo::vtsi::InviteToCallResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_InviteToCall_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::InviteToCallResponse>* Calls::Stub::PrepareAsyncInviteToCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::InviteToCallRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::InviteToCallResponse, ::ondewo::vtsi::InviteToCallRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_InviteToCall_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::InviteToCallResponse>* Calls::Stub::AsyncInviteToCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::InviteToCallRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncInviteToCallRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Calls::Stub::RemoveCallParticipant(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest& request, ::ondewo::vtsi::RemoveCallParticipantResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::RemoveCallParticipantRequest, ::ondewo::vtsi::RemoveCallParticipantResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_RemoveCallParticipant_, context, request, response);
+}
+
+void Calls::Stub::async::RemoveCallParticipant(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::ondewo::vtsi::RemoveCallParticipantResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::RemoveCallParticipantRequest, ::ondewo::vtsi::RemoveCallParticipantResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RemoveCallParticipant_, context, request, response, std::move(f));
+}
+
+void Calls::Stub::async::RemoveCallParticipant(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::ondewo::vtsi::RemoveCallParticipantResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RemoveCallParticipant_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::RemoveCallParticipantResponse>* Calls::Stub::PrepareAsyncRemoveCallParticipantRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::RemoveCallParticipantResponse, ::ondewo::vtsi::RemoveCallParticipantRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_RemoveCallParticipant_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::RemoveCallParticipantResponse>* Calls::Stub::AsyncRemoveCallParticipantRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncRemoveCallParticipantRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Calls::Stub::SetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::ondewo::vtsi::SetCallMediaControlResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::SetCallMediaControlRequest, ::ondewo::vtsi::SetCallMediaControlResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_SetCallMediaControl_, context, request, response);
+}
+
+void Calls::Stub::async::SetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::SetCallMediaControlRequest, ::ondewo::vtsi::SetCallMediaControlResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetCallMediaControl_, context, request, response, std::move(f));
+}
+
+void Calls::Stub::async::SetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetCallMediaControl_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SetCallMediaControlResponse>* Calls::Stub::PrepareAsyncSetCallMediaControlRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::SetCallMediaControlResponse, ::ondewo::vtsi::SetCallMediaControlRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_SetCallMediaControl_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SetCallMediaControlResponse>* Calls::Stub::AsyncSetCallMediaControlRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncSetCallMediaControlRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::ClientReaderWriter< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* Calls::Stub::StreamCallAudioRaw(::grpc::ClientContext* context) {
+  return ::grpc::internal::ClientReaderWriterFactory< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>::Create(channel_.get(), rpcmethod_StreamCallAudio_, context);
+}
+
+void Calls::Stub::async::StreamCallAudio(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::ondewo::vtsi::StreamCallAudioRequest,::ondewo::vtsi::StreamCallAudioResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderWriterFactory< ::ondewo::vtsi::StreamCallAudioRequest,::ondewo::vtsi::StreamCallAudioResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_StreamCallAudio_, context, reactor);
+}
+
+::grpc::ClientAsyncReaderWriter< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* Calls::Stub::AsyncStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>::Create(channel_.get(), cq, rpcmethod_StreamCallAudio_, context, true, tag);
+}
+
+::grpc::ClientAsyncReaderWriter< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* Calls::Stub::PrepareAsyncStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderWriterFactory< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>::Create(channel_.get(), cq, rpcmethod_StreamCallAudio_, context, false, nullptr);
+}
+
+::grpc::ClientReader< ::ondewo::vtsi::StreamCallAudioResponse>* Calls::Stub::ListenCallAudioRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListenCallAudioRequest& request) {
+  return ::grpc::internal::ClientReaderFactory< ::ondewo::vtsi::StreamCallAudioResponse>::Create(channel_.get(), rpcmethod_ListenCallAudio_, context, request);
+}
+
+void Calls::Stub::async::ListenCallAudio(::grpc::ClientContext* context, const ::ondewo::vtsi::ListenCallAudioRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::StreamCallAudioResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::ondewo::vtsi::StreamCallAudioResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_ListenCallAudio_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallAudioResponse>* Calls::Stub::AsyncListenCallAudioRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListenCallAudioRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCallAudioResponse>::Create(channel_.get(), cq, rpcmethod_ListenCallAudio_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallAudioResponse>* Calls::Stub::PrepareAsyncListenCallAudioRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListenCallAudioRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCallAudioResponse>::Create(channel_.get(), cq, rpcmethod_ListenCallAudio_, context, request, false, nullptr);
+}
+
 Calls::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Calls_method_names[0],
@@ -918,6 +1133,26 @@ Calls::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Calls_method_names[18],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::AddCallersToCampaignRequest, ::ondewo::vtsi::AddCallersToCampaignResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::AddCallersToCampaignRequest* req,
+             ::ondewo::vtsi::AddCallersToCampaignResponse* resp) {
+               return service->AddCallersToCampaign(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[19],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::AddScheduledCallersToCampaignRequest, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* req,
+             ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* resp) {
+               return service->AddScheduledCallersToCampaign(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[20],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::GetScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
              ::grpc::ServerContext* ctx,
@@ -926,7 +1161,7 @@ Calls::Service::Service() {
                return service->GetScheduledCaller(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[19],
+      Calls_method_names[21],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::ListScheduledCallersRequest, ::ondewo::vtsi::ListScheduledCallersResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -936,7 +1171,7 @@ Calls::Service::Service() {
                return service->ListScheduledCallers(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[20],
+      Calls_method_names[22],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::CancelScheduledCallerRequest, ::ondewo::vtsi::CancelScheduledCallerResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -946,7 +1181,7 @@ Calls::Service::Service() {
                return service->CancelScheduledCaller(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[21],
+      Calls_method_names[23],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::StopCallRequest, ::ondewo::vtsi::StopCallResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -956,7 +1191,7 @@ Calls::Service::Service() {
                return service->StopCall(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[22],
+      Calls_method_names[24],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::StopCallsRequest, ::ondewo::vtsi::StopCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -966,7 +1201,7 @@ Calls::Service::Service() {
                return service->StopCalls(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[23],
+      Calls_method_names[25],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::StopAllCallsRequest, ::ondewo::vtsi::StopCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -976,7 +1211,7 @@ Calls::Service::Service() {
                return service->StopAllCalls(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[24],
+      Calls_method_names[26],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::TransferCallRequest, ::ondewo::vtsi::TransferCallResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -986,7 +1221,7 @@ Calls::Service::Service() {
                return service->TransferCall(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[25],
+      Calls_method_names[27],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::TransferCallsRequest, ::ondewo::vtsi::TransferCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -996,7 +1231,7 @@ Calls::Service::Service() {
                return service->TransferCalls(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[26],
+      Calls_method_names[28],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::GetCallRequest, ::ondewo::vtsi::Call, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -1006,7 +1241,7 @@ Calls::Service::Service() {
                return service->GetCall(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Calls_method_names[27],
+      Calls_method_names[29],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::ListCallsRequest, ::ondewo::vtsi::ListCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Calls::Service* service,
@@ -1014,6 +1249,86 @@ Calls::Service::Service() {
              const ::ondewo::vtsi::ListCallsRequest* req,
              ::ondewo::vtsi::ListCallsResponse* resp) {
                return service->ListCalls(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[30],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< Calls::Service, ::ondewo::vtsi::StreamCallerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::StreamCallerStatusRequest* req,
+             ::grpc::ServerWriter<::ondewo::vtsi::StreamCallResourceStatusResponse>* writer) {
+               return service->StreamCallerStatus(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[31],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< Calls::Service, ::ondewo::vtsi::StreamListenerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::StreamListenerStatusRequest* req,
+             ::grpc::ServerWriter<::ondewo::vtsi::StreamCallResourceStatusResponse>* writer) {
+               return service->StreamListenerStatus(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[32],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< Calls::Service, ::ondewo::vtsi::StreamScheduledCallerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::StreamScheduledCallerStatusRequest* req,
+             ::grpc::ServerWriter<::ondewo::vtsi::StreamCallResourceStatusResponse>* writer) {
+               return service->StreamScheduledCallerStatus(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[33],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::InviteToCallRequest, ::ondewo::vtsi::InviteToCallResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::InviteToCallRequest* req,
+             ::ondewo::vtsi::InviteToCallResponse* resp) {
+               return service->InviteToCall(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[34],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::RemoveCallParticipantRequest, ::ondewo::vtsi::RemoveCallParticipantResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::RemoveCallParticipantRequest* req,
+             ::ondewo::vtsi::RemoveCallParticipantResponse* resp) {
+               return service->RemoveCallParticipant(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[35],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Calls::Service, ::ondewo::vtsi::SetCallMediaControlRequest, ::ondewo::vtsi::SetCallMediaControlResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::SetCallMediaControlRequest* req,
+             ::ondewo::vtsi::SetCallMediaControlResponse* resp) {
+               return service->SetCallMediaControl(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[36],
+      ::grpc::internal::RpcMethod::BIDI_STREAMING,
+      new ::grpc::internal::BidiStreamingHandler< Calls::Service, ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             ::grpc::ServerReaderWriter<::ondewo::vtsi::StreamCallAudioResponse,
+             ::ondewo::vtsi::StreamCallAudioRequest>* stream) {
+               return service->StreamCallAudio(ctx, stream);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Calls_method_names[37],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< Calls::Service, ::ondewo::vtsi::ListenCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>(
+          [](Calls::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::ListenCallAudioRequest* req,
+             ::grpc::ServerWriter<::ondewo::vtsi::StreamCallAudioResponse>* writer) {
+               return service->ListenCallAudio(ctx, req, writer);
              }, this)));
 }
 
@@ -1146,6 +1461,20 @@ Calls::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
+::grpc::Status Calls::Service::AddCallersToCampaign(::grpc::ServerContext* context, const ::ondewo::vtsi::AddCallersToCampaignRequest* request, ::ondewo::vtsi::AddCallersToCampaignResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::AddScheduledCallersToCampaign(::grpc::ServerContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* request, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
 ::grpc::Status Calls::Service::GetScheduledCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response) {
   (void) context;
   (void) request;
@@ -1213,6 +1542,61 @@ Calls::Service::~Service() {
   (void) context;
   (void) request;
   (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::StreamCallerStatus(::grpc::ServerContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest* request, ::grpc::ServerWriter< ::ondewo::vtsi::StreamCallResourceStatusResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::StreamListenerStatus(::grpc::ServerContext* context, const ::ondewo::vtsi::StreamListenerStatusRequest* request, ::grpc::ServerWriter< ::ondewo::vtsi::StreamCallResourceStatusResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::StreamScheduledCallerStatus(::grpc::ServerContext* context, const ::ondewo::vtsi::StreamScheduledCallerStatusRequest* request, ::grpc::ServerWriter< ::ondewo::vtsi::StreamCallResourceStatusResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::InviteToCall(::grpc::ServerContext* context, const ::ondewo::vtsi::InviteToCallRequest* request, ::ondewo::vtsi::InviteToCallResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::RemoveCallParticipant(::grpc::ServerContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::ondewo::vtsi::RemoveCallParticipantResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::SetCallMediaControl(::grpc::ServerContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::StreamCallAudio(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::ondewo::vtsi::StreamCallAudioResponse, ::ondewo::vtsi::StreamCallAudioRequest>* stream) {
+  (void) context;
+  (void) stream;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Calls::Service::ListenCallAudio(::grpc::ServerContext* context, const ::ondewo::vtsi::ListenCallAudioRequest* request, ::grpc::ServerWriter< ::ondewo::vtsi::StreamCallAudioResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

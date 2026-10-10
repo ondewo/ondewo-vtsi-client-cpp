@@ -2,6 +2,76 @@
 
 *****************
 
+## Release ONDEWO VTSI C++ Client 9.0.0
+
+### Breaking Changes
+
+* Tracks [ONDEWO VTSI API 9.0.0](https://github.com/ondewo/ondewo-vtsi-api/releases/tag/9.0.0), a major API
+  release: binary wire-compatible in both directions, source-breaking. The stubs in `api/` are regenerated from it.
+* `AsteriskConfigsFiles.sip_conf_file_string` is renamed to `pjsip_conf_file_string` (field number 1 and type
+  `string` unchanged). Migration: rename every generated member of the old field (`sip_conf_file_string()`,
+  `set_sip_conf_file_string()`, `mutable_sip_conf_file_string()`, `clear_sip_conf_file_string()`,
+  `release_sip_conf_file_string()`, `set_allocated_sip_conf_file_string()`) to the `pjsip_conf_file_string`
+  spelling. Bytes written by an 8.7.x client
+  parse into the new field. The JSON key moves from `sipConfFileString` to `pjsipConfFileString`, so code that goes
+  through `google::protobuf::util::MessageToJsonString` / `JsonStringToMessage` or a hand-written JSON mapping
+  must move with it.
+* Eleven singular scalars in `ondewo/vtsi/calls.proto` gained `optional` (explicit presence):
+  `InterruptionHandlingConfig.transcribe_on_disabled_interruptions`,
+  `TurnDetectionConfig.turn_detection_system_prompt` / `turn_detection_user_prompt`,
+  `AudioObjectStorageConfig.activate_audio_object_storage`,
+  `AudioObjectStorageServicesActivationConfig.activate_s2t` / `activate_t2s`,
+  `MessageBrokerConfig.activate_message_broker` and
+  `MessageBrokerServicesActivationConfig.activate_s2t` / `activate_nlu` / `activate_t2s` / `activate_sip`.
+  Each now generates `has_<field>()`, and an explicitly set default (`false`, `""`) is written to the wire.
+  Migration: existing getters and setters keep compiling; use `has_<field>()` where "unset" and "the default"
+  must be told apart, and use `clear_<field>()` (not `set_<field>(false)`) to leave a field unset.
+* `ondewo-sip-api` inside the VTSI API moves from 5.4.0 to 5.5.0, so the `ondewo::sip` stubs this library carries
+  are the 5.5.0 ones, the same as in ondewo-sip-client-cpp 5.5.0.
+
+### New Features
+
+* New services, each with its own generated header pair, included in `public-api.h`:
+  * `ondewo.vtsi.Softphones` (`ondewo/vtsi/softphones.proto`): softphone accounts with their own SIP credentials,
+    client certificates and provisioning (`CreateSoftphoneAccount`, `GetSoftphoneAccount`,
+    `UpdateSoftphoneAccount`, `DeleteSoftphoneAccount`, `ListSoftphoneAccounts`, `RotateSoftphoneCredentials`,
+    `ListSoftphoneCertificates`, `GetSoftphoneCertificate`, `RevokeSoftphoneCertificate`,
+    `GetSoftphoneProvisioning`). Secrets are returned only by the create and rotate responses.
+  * `ondewo.vtsi.Campaigns` (`ondewo/vtsi/campaigns.proto`): outbound call campaigns with bounded parallelism and
+    retries - CRUD, `StartCampaign` / `StopCampaign` / `HardStopCampaign` / `ResumeCampaign`,
+    `GetCampaignStatistics`, `ListCampaignCalls` and the server stream `StreamCampaignStatus`.
+  * `ondewo.vtsi.Events` (`ondewo/vtsi/events.proto`): the `VtsiEvent` catalogue, event subscriptions, webhooks
+    (`CreateWebhook` ... `TestWebhook`, custom header values write-only) and the server stream
+    `SubscribeVtsiEvents`.
+* `Calls` gained `AddCallersToCampaign` / `AddScheduledCallersToCampaign`, the status streams
+  `StreamCallerStatus` / `StreamListenerStatus` / `StreamScheduledCallerStatus`, call control (`InviteToCall`,
+  `RemoveCallParticipant`, `SetCallMediaControl`), live call audio (`StreamCallAudio`, bidirectional, and
+  `ListenCallAudio`, server-streaming) and typed, truthful transfers (`TransferCallRequest.target` / `mode` /
+  `headers` / `ring_timeout_s`, `TransferCallResponse.outcome`). `StartCallers`, `StartListeners`,
+  `StartScheduledCallers` and the two campaign RPCs take an `idempotency_key`.
+* Answering machine detection for pooled persistent callers (`AnsweringMachineDetectionConfig`, `AmdAction`,
+  `AmdSensitivity`) and the AMD outcome on `Call` (`redial_recommended`, `redial_reason`,
+  `answering_machine_detection_end_description`); `Call` also gained `media_control`, `participants`,
+  `last_transfer` and `sip_call_id`.
+* `AsteriskConfigsVariables` gained the SIP trunk transport (`sip_trunk_transport`, `sip_trunk_source_cidr`),
+  carrier certificate verification (`sip_trunk_ca_certificates_pem`, `sip_trunk_verify_server`) and
+  `softphone_permit_cidrs`; `VtsiProject` gained `transfer_phone_number_allowlist`.
+* See the [VTSI API 9.0.0 release notes](https://github.com/ondewo/ondewo-vtsi-api/releases/tag/9.0.0) for the
+  server behaviour, the rolling-update notes and the full field list.
+
+### Improvements
+
+* The test suite covers the new surface: `tests/product_config.cc` expects the three new `.proto` files and
+  services and a slice of the new RPCs and records the 9.0.0 counts (1071 messages, 138 enums, 3183 scalar
+  fields); `tests/test_typed_api.cc` constructs the `Softphones`, `Campaigns` and `Events` stubs, dispatches one
+  unary RPC of each against a dead endpoint, drives the bidirectional `StreamCallAudio`, pins that
+  `pjsip_conf_file_string` keeps field number 1 and that `activate_s2t` sends an explicit `false`.
+* The pinned `ondewo-proto-compiler` submodule moves from 5.15.2 to 5.15.5 (its fixes concern the Python, Rust and
+  Node.js images; the C++ generation is unchanged).
+* Tracking API Version [9.0.0](https://github.com/ondewo/ondewo-vtsi-api/releases/tag/9.0.0) ( [Documentation](https://ondewo.github.io/ondewo-vtsi-api/) )
+
+*****************
+
 ## Release ONDEWO VTSI C++ Client 8.7.1
 
 ### New Features
