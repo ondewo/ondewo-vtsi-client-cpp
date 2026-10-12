@@ -47,6 +47,12 @@ jobs:
           echo "ONDEWO_GH_TOKEN is configured"
 
       # No submodules: the stubs are committed, and nothing here regenerates them.
+      # actions/checkout starts with a bare `git init`, and git then prints a multi-line
+      # "Using 'master' as the name for the initial branch" hint into every job log. Naming the
+      # default up front silences it; master is this repository's default branch anyway.
+      - name: Name git's default branch
+        run: git config --global init.defaultBranch master
+
       - uses: actions/checkout@v7
 
       # The archive is named after ONDEWO_VTSI_VERSION, not after the tag, so a tag that disagrees

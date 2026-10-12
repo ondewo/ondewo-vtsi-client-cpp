@@ -33,6 +33,12 @@ jobs:
       # ondewo-proto-compiler is only needed to rebuild the docker image - which this workflow
       # deliberately does not do, because compiling .proto files is a separate, slow concern.
       # Everything below builds and tests the code that is in this repository.
+      # actions/checkout starts with a bare `git init`, and git then prints a multi-line
+      # "Using 'master' as the name for the initial branch" hint into every job log. Naming the
+      # default up front silences it; master is this repository's default branch anyway.
+      - name: Name git's default branch
+        run: git config --global init.defaultBranch master
+
       - uses: actions/checkout@v7
 
       # Exactly the packages ondewo-proto-compiler/cpp/Dockerfile installs, plus GoogleTest and
@@ -127,6 +133,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
+      # actions/checkout starts with a bare `git init`, and git then prints a multi-line
+      # "Using 'master' as the name for the initial branch" hint into every job log. Naming the
+      # default up front silences it; master is this repository's default branch anyway.
+      - name: Name git's default branch
+        run: git config --global init.defaultBranch master
+
       - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v7
