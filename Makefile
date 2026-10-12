@@ -81,6 +81,16 @@ INSTALL_PREFIX=$(CURDIR)
 BUILD_JOBS?=$(shell getconf _NPROCESSORS_ONLN 2>/dev/null || echo 4)
 SMOKE_TEST_DIR=.smoke-test
 
+# The release host need not carry the C++ toolchain. Without cmake on PATH, `make release` runs
+# build_library, test and publish_dry_run inside TOOLCHAIN_IMAGE (toolchain.Dockerfile, the same
+# ubuntu-24.04 packages CI installs) as the calling user, with the repository mounted at the same
+# path. Code generation stays on the host (it is docker already) and so does the upload: the
+# release credential never enters the container. A host with cmake, and CI, are unchanged.
+TOOLCHAIN_IMAGE=ondewo-vtsi-client-cpp-toolchain:ubuntu-24.04
+USE_DOCKER_TOOLCHAIN?=$(if $(shell command -v cmake 2>/dev/null),false,true)
+# $(call toolchain,<target>) -> in_toolchain_<target> when the docker toolchain is used, else <target>
+toolchain=$(if $(filter true,$(USE_DOCKER_TOOLCHAIN)),in_toolchain_$(1),$(1))
+
 # The release archive - this client's ONLY distribution channel for a prebuilt consumer. C++ has
 # no package registry, so `make publish` stages the CMake install tree into a versioned directory,
 # tars it and attaches it to the GitHub release; `find_package(<library> CONFIG REQUIRED)` against
@@ -227,6 +237,15 @@ build_library: ## Configure, compile and install the CMake library from the gene
 	cmake --build $(BUILD_DIR) --parallel $(BUILD_JOBS)
 	cmake --install $(BUILD_DIR)
 	@echo "$(GREEN)[SUCCESS]$(NC) lib/lib$(LIBRARY_NAME).a + lib/cmake/$(LIBRARY_NAME)/ installed into $(INSTALL_PREFIX)"
+
+toolchain_image: ## Build the pinned ubuntu-24.04 CMake/protoc toolchain image (toolchain.Dockerfile)
+	docker build -t $(TOOLCHAIN_IMAGE) - < toolchain.Dockerfile
+
+# Only HOME is passed into the container: the Makefile `export`s every variable to its recipes, and
+# none of them - GITHUB_GH_TOKEN least of all - may reach the container's environment.
+in_toolchain_%: toolchain_image ## Run `make <target>` inside the toolchain image, e.g. `make in_toolchain_test`
+	docker run --rm -v "$(CURDIR):$(CURDIR)" -w "$(CURDIR)" --user "`id -u`:`id -g`" -e HOME=/tmp \
+		$(TOOLCHAIN_IMAGE) make $* USE_DOCKER_TOOLCHAIN=false
 
 clean: ## Remove the CMake build trees, the installed artifacts, the release archive and the scratch directories
 	rm -rf $(BUILD_DIR) $(TEST_BUILD_DIR) $(SMOKE_TEST_DIR) $(PACKAGE_DIR) $(PACKAGE_TEST_DIR) include lib
@@ -403,9 +422,10 @@ release: ## Automate the entire release process
 # a missing token left an immovable tag behind and blocked its own retry.
 	make check_release_credentials
 	make check_release_notes
-	make build
+	make checkout_defined_submodule_versions build_compiler generate_ondewo_protos
+	make $(call toolchain,build_library)
 	-make precommit_hooks_run_all_files
-	make test
+	make $(call toolchain,test)
 	git status
 # api/, public-api.h and the two generated build files are COMMITTED on purpose: C++ has no
 # package registry, so the git tag is this client's only distribution channel and a consumer must
@@ -428,7 +448,8 @@ release: ## Automate the entire release process
 # Strictly after push_to_gh: `gh release upload` attaches assets to a release that must already
 # exist. The release workflow does the same upload from the tag push, so whichever gets there
 # first wins and the other one clobbers its own identical asset.
-	make publish
+	make $(call toolchain,publish_dry_run)
+	make login_to_gh upload_package
 	@echo "$(GREEN)[SUCCESS]$(NC) Release Finished"
 
 create_release_branch: ## Create Release Branch and push it to origin
