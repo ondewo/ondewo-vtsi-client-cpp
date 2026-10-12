@@ -24,7 +24,8 @@ namespace ondewo {
 namespace vtsi {
 PROTOBUF_CONSTEXPR Campaign::Campaign(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.campaign_callers_)*/{}
+  , /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.campaign_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.display_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -38,9 +39,14 @@ PROTOBUF_CONSTEXPR Campaign::Campaign(
   , /*decltype(_impl_.started_at_)*/nullptr
   , /*decltype(_impl_.stopped_at_)*/nullptr
   , /*decltype(_impl_.completed_at_)*/nullptr
+  , /*decltype(_impl_.campaign_common_services_config_)*/nullptr
+  , /*decltype(_impl_.campaign_sip_caller_config_)*/nullptr
+  , /*decltype(_impl_.calling_window_)*/nullptr
   , /*decltype(_impl_.max_parallel_calls_)*/0
   , /*decltype(_impl_.max_attempts_)*/0
   , /*decltype(_impl_.state_)*/0
+  , /*decltype(_impl_.campaign_callers_truncated_)*/false
+  , /*decltype(_impl_.outside_calling_window_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct CampaignDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CampaignDefaultTypeInternal()
@@ -51,9 +57,40 @@ struct CampaignDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CampaignDefaultTypeInternal _Campaign_default_instance_;
+PROTOBUF_CONSTEXPR CampaignCallingWindow::CampaignCallingWindow(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.slots_)*/{}
+  , /*decltype(_impl_.time_zone_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.next_window_start_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct CampaignCallingWindowDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CampaignCallingWindowDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CampaignCallingWindowDefaultTypeInternal() {}
+  union {
+    CampaignCallingWindow _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CampaignCallingWindowDefaultTypeInternal _CampaignCallingWindow_default_instance_;
+PROTOBUF_CONSTEXPR CallingWindowSlot::CallingWindowSlot(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.day_of_week_)*/0
+  , /*decltype(_impl_.start_minute_)*/0
+  , /*decltype(_impl_.end_minute_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct CallingWindowSlotDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CallingWindowSlotDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CallingWindowSlotDefaultTypeInternal() {}
+  union {
+    CallingWindowSlot _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CallingWindowSlotDefaultTypeInternal _CallingWindowSlot_default_instance_;
 PROTOBUF_CONSTEXPR CampaignStatistics::CampaignStatistics(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.campaign_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.average_connected_duration_)*/nullptr
   , /*decltype(_impl_.total_)*/0
   , /*decltype(_impl_.not_started_)*/0
   , /*decltype(_impl_.in_progress_)*/0
@@ -65,6 +102,7 @@ PROTOBUF_CONSTEXPR CampaignStatistics::CampaignStatistics(
   , /*decltype(_impl_.progress_percent_)*/0
   , /*decltype(_impl_.scheduled_not_due_)*/0
   , /*decltype(_impl_.calls_retried_)*/0
+  , /*decltype(_impl_.answering_machine_detected_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct CampaignStatisticsDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CampaignStatisticsDefaultTypeInternal()
@@ -130,20 +168,6 @@ struct CampaignCallDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CampaignCallDefaultTypeInternal _CampaignCall_default_instance_;
-PROTOBUF_CONSTEXPR CampaignDisplayName::CampaignDisplayName(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.display_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct CampaignDisplayNameDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CampaignDisplayNameDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CampaignDisplayNameDefaultTypeInternal() {}
-  union {
-    CampaignDisplayName _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CampaignDisplayNameDefaultTypeInternal _CampaignDisplayName_default_instance_;
 PROTOBUF_CONSTEXPR CampaignAssignment::CampaignAssignment(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.start_mode_)*/0
@@ -162,7 +186,9 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR CreateCampaignRequest::CreateCampaignRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.idempotency_key_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.campaign_)*/nullptr
+  , /*decltype(_impl_.field_mask_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct CreateCampaignRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CreateCampaignRequestDefaultTypeInternal()
@@ -175,7 +201,9 @@ struct CreateCampaignRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CreateCampaignRequestDefaultTypeInternal _CreateCampaignRequest_default_instance_;
 PROTOBUF_CONSTEXPR GetCampaignRequest::GetCampaignRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.campaign_)*/{}
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.campaign_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct GetCampaignRequestDefaultTypeInternal {
@@ -191,6 +219,7 @@ PROTOBUF_CONSTEXPR UpdateCampaignRequest::UpdateCampaignRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.campaign_)*/nullptr
   , /*decltype(_impl_.update_mask_)*/nullptr
+  , /*decltype(_impl_.field_mask_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct UpdateCampaignRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR UpdateCampaignRequestDefaultTypeInternal()
@@ -203,7 +232,10 @@ struct UpdateCampaignRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UpdateCampaignRequestDefaultTypeInternal _UpdateCampaignRequest_default_instance_;
 PROTOBUF_CONSTEXPR DeleteCampaignRequest::DeleteCampaignRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.campaign_)*/{}
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.force_)*/false
+  , /*decltype(_impl_.campaign_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct DeleteCampaignRequestDefaultTypeInternal {
@@ -236,6 +268,10 @@ PROTOBUF_CONSTEXPR CampaignFilter::CampaignFilter(
   , /*decltype(_impl_._states_cached_byte_size_)*/{0}
   , /*decltype(_impl_.display_name_contains_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.display_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.created_by_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.created_after_)*/nullptr
+  , /*decltype(_impl_.created_before_)*/nullptr
+  , /*decltype(_impl_.modified_since_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct CampaignFilterDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CampaignFilterDefaultTypeInternal()
@@ -253,7 +289,9 @@ PROTOBUF_CONSTEXPR ListCampaignsRequest::ListCampaignsRequest(
   , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.page_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.filter_)*/nullptr
-  , /*decltype(_impl_.page_size_)*/0} {}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.page_size_)*/0
+  , /*decltype(_impl_.order_by_)*/0} {}
 struct ListCampaignsRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ListCampaignsRequestDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -279,7 +317,8 @@ struct ListCampaignsResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListCampaignsResponseDefaultTypeInternal _ListCampaignsResponse_default_instance_;
 PROTOBUF_CONSTEXPR GetCampaignStatisticsRequest::GetCampaignStatisticsRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.campaign_)*/{}
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.campaign_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct GetCampaignStatisticsRequestDefaultTypeInternal {
@@ -297,10 +336,20 @@ PROTOBUF_CONSTEXPR ListCampaignCallsRequest::ListCampaignCallsRequest(
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_.states_)*/{}
   , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.phone_numbers_)*/{}
+  , /*decltype(_impl_.sources_)*/{}
+  , /*decltype(_impl_._sources_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.campaign_call_names_)*/{}
   , /*decltype(_impl_.phone_number_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.page_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.finish_time_min_)*/nullptr
+  , /*decltype(_impl_.finish_time_max_)*/nullptr
+  , /*decltype(_impl_.modified_since_)*/nullptr
   , /*decltype(_impl_.page_size_)*/0
   , /*decltype(_impl_.include_attempts_)*/false
+  , /*decltype(_impl_.min_attempts_)*/0
   , /*decltype(_impl_.campaign_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct ListCampaignCallsRequestDefaultTypeInternal {
@@ -328,7 +377,9 @@ struct ListCampaignCallsResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListCampaignCallsResponseDefaultTypeInternal _ListCampaignCallsResponse_default_instance_;
 PROTOBUF_CONSTEXPR StartCampaignRequest::StartCampaignRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.campaign_)*/{}
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.campaign_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct StartCampaignRequestDefaultTypeInternal {
@@ -342,7 +393,9 @@ struct StartCampaignRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StartCampaignRequestDefaultTypeInternal _StartCampaignRequest_default_instance_;
 PROTOBUF_CONSTEXPR StopCampaignRequest::StopCampaignRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.campaign_)*/{}
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.campaign_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct StopCampaignRequestDefaultTypeInternal {
@@ -356,7 +409,9 @@ struct StopCampaignRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StopCampaignRequestDefaultTypeInternal _StopCampaignRequest_default_instance_;
 PROTOBUF_CONSTEXPR HardStopCampaignRequest::HardStopCampaignRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.campaign_)*/{}
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.campaign_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct HardStopCampaignRequestDefaultTypeInternal {
@@ -370,7 +425,9 @@ struct HardStopCampaignRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HardStopCampaignRequestDefaultTypeInternal _HardStopCampaignRequest_default_instance_;
 PROTOBUF_CONSTEXPR ResumeCampaignRequest::ResumeCampaignRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.campaign_)*/{}
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.campaign_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct ResumeCampaignRequestDefaultTypeInternal {
@@ -386,6 +443,8 @@ PROTOBUF_CONSTEXPR StreamCampaignStatusRequest::StreamCampaignStatusRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.campaign_names_)*/{}
   , /*decltype(_impl_.campaign_display_names_)*/{}
+  , /*decltype(_impl_.states_)*/{}
+  , /*decltype(_impl_._states_cached_byte_size_)*/{0}
   , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.include_calls_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -405,6 +464,7 @@ PROTOBUF_CONSTEXPR StreamCampaignStatusResponse::StreamCampaignStatusResponse(
   , /*decltype(_impl_.deleted_campaign_names_)*/{}
   , /*decltype(_impl_.end_reason_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.snapshot_)*/false
+  , /*decltype(_impl_.end_reason_type_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct StreamCampaignStatusResponseDefaultTypeInternal {
   PROTOBUF_CONSTEXPR StreamCampaignStatusResponseDefaultTypeInternal()
@@ -415,10 +475,132 @@ struct StreamCampaignStatusResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StreamCampaignStatusResponseDefaultTypeInternal _StreamCampaignStatusResponse_default_instance_;
+PROTOBUF_CONSTEXPR GetCampaignCallRequest::GetCampaignCallRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.include_attempts_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct GetCampaignCallRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GetCampaignCallRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GetCampaignCallRequestDefaultTypeInternal() {}
+  union {
+    GetCampaignCallRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetCampaignCallRequestDefaultTypeInternal _GetCampaignCallRequest_default_instance_;
+PROTOBUF_CONSTEXPR CampaignCallRefusal::CampaignCallRefusal(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.campaign_call_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.reason_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.state_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct CampaignCallRefusalDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CampaignCallRefusalDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CampaignCallRefusalDefaultTypeInternal() {}
+  union {
+    CampaignCallRefusal _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CampaignCallRefusalDefaultTypeInternal _CampaignCallRefusal_default_instance_;
+PROTOBUF_CONSTEXPR CancelCampaignCallsRequest::CancelCampaignCallsRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.campaign_call_names_)*/{}
+  , /*decltype(_impl_.states_)*/{}
+  , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.campaign_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_._oneof_case_)*/{}} {}
+struct CancelCampaignCallsRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CancelCampaignCallsRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CancelCampaignCallsRequestDefaultTypeInternal() {}
+  union {
+    CancelCampaignCallsRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CancelCampaignCallsRequestDefaultTypeInternal _CancelCampaignCallsRequest_default_instance_;
+PROTOBUF_CONSTEXPR CancelCampaignCallsResponse::CancelCampaignCallsResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.cancelled_campaign_call_names_)*/{}
+  , /*decltype(_impl_.refused_)*/{}
+  , /*decltype(_impl_.campaign_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.remaining_count_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct CancelCampaignCallsResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CancelCampaignCallsResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CancelCampaignCallsResponseDefaultTypeInternal() {}
+  union {
+    CancelCampaignCallsResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CancelCampaignCallsResponseDefaultTypeInternal _CancelCampaignCallsResponse_default_instance_;
+PROTOBUF_CONSTEXPR RetryCampaignCallsRequest::RetryCampaignCallsRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.campaign_call_names_)*/{}
+  , /*decltype(_impl_.states_)*/{}
+  , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.not_before_)*/nullptr
+  , /*decltype(_impl_.additional_attempts_)*/0
+  , /*decltype(_impl_.campaign_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_._oneof_case_)*/{}} {}
+struct RetryCampaignCallsRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RetryCampaignCallsRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RetryCampaignCallsRequestDefaultTypeInternal() {}
+  union {
+    RetryCampaignCallsRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RetryCampaignCallsRequestDefaultTypeInternal _RetryCampaignCallsRequest_default_instance_;
+PROTOBUF_CONSTEXPR RetryCampaignCallsResponse::RetryCampaignCallsResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.requeued_campaign_call_names_)*/{}
+  , /*decltype(_impl_.refused_)*/{}
+  , /*decltype(_impl_.campaign_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.remaining_count_)*/0
+  , /*decltype(_impl_.campaign_state_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct RetryCampaignCallsResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RetryCampaignCallsResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RetryCampaignCallsResponseDefaultTypeInternal() {}
+  union {
+    RetryCampaignCallsResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RetryCampaignCallsResponseDefaultTypeInternal _RetryCampaignCallsResponse_default_instance_;
+PROTOBUF_CONSTEXPR CloneCampaignRequest::CloneCampaignRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.call_states_)*/{}
+  , /*decltype(_impl_._call_states_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.new_display_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.idempotency_key_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.include_calls_)*/false
+  , /*decltype(_impl_.source_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_._oneof_case_)*/{}} {}
+struct CloneCampaignRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CloneCampaignRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CloneCampaignRequestDefaultTypeInternal() {}
+  union {
+    CloneCampaignRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CloneCampaignRequestDefaultTypeInternal _CloneCampaignRequest_default_instance_;
 }  // namespace vtsi
 }  // namespace ondewo
-static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[23];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fvtsi_2fcampaigns_2eproto[5];
+static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[31];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fvtsi_2fcampaigns_2eproto[8];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fvtsi_2fcampaigns_2eproto = nullptr;
 
 const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -445,6 +627,30 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.started_at_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.stopped_at_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.completed_at_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.campaign_common_services_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.campaign_sip_caller_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.campaign_callers_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.campaign_callers_truncated_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.calling_window_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Campaign, _impl_.outside_calling_window_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallingWindow, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallingWindow, _impl_.time_zone_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallingWindow, _impl_.slots_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallingWindow, _impl_.next_window_start_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallingWindowSlot, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallingWindowSlot, _impl_.day_of_week_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallingWindowSlot, _impl_.start_minute_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallingWindowSlot, _impl_.end_minute_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignStatistics, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -463,6 +669,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignStatistics, _impl_.progress_percent_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignStatistics, _impl_.scheduled_not_due_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignStatistics, _impl_.calls_retried_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignStatistics, _impl_.average_connected_duration_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignStatistics, _impl_.answering_machine_detected_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallAttempt, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -507,14 +715,6 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCall, _impl_.modified_at_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCall, _impl_.attempt_history_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignDisplayName, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignDisplayName, _impl_.vtsi_project_name_),
-  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignDisplayName, _impl_.display_name_),
-  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignAssignment, _internal_metadata_),
   ~0u,  // no _extensions_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignAssignment, _impl_._oneof_case_[0]),
@@ -533,6 +733,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CreateCampaignRequest, _impl_.vtsi_project_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CreateCampaignRequest, _impl_.campaign_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CreateCampaignRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CreateCampaignRequest, _impl_.idempotency_key_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -541,6 +743,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignRequest, _impl_.field_mask_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignRequest, _impl_.campaign_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::UpdateCampaignRequest, _internal_metadata_),
@@ -550,6 +754,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::UpdateCampaignRequest, _impl_.campaign_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::UpdateCampaignRequest, _impl_.update_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::UpdateCampaignRequest, _impl_.field_mask_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCampaignRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -558,6 +763,9 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCampaignRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCampaignRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCampaignRequest, _impl_.force_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCampaignRequest, _impl_.campaign_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCampaignResponse, _internal_metadata_),
@@ -577,6 +785,10 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignFilter, _impl_.states_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignFilter, _impl_.display_name_contains_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignFilter, _impl_.display_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignFilter, _impl_.created_after_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignFilter, _impl_.created_before_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignFilter, _impl_.created_by_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignFilter, _impl_.modified_since_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignsRequest, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignsRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -587,10 +799,14 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignsRequest, _impl_.filter_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignsRequest, _impl_.page_size_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignsRequest, _impl_.page_token_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignsRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignsRequest, _impl_.order_by_),
   ~0u,
   ~0u,
   ~0u,
   0,
+  ~0u,
+  ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignsResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -607,6 +823,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignStatisticsRequest, _impl_.vtsi_project_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignStatisticsRequest, _impl_.campaign_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _internal_metadata_),
@@ -616,18 +833,36 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.vtsi_project_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.states_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.phone_number_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.page_size_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.page_token_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.include_attempts_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.phone_numbers_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.sources_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.finish_time_min_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.finish_time_max_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.modified_since_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.min_attempts_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.campaign_call_names_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsRequest, _impl_.campaign_),
   ~0u,
   ~0u,
   ~0u,
   ~0u,
   ~0u,
+  ~0u,
   0,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
   ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCampaignCallsResponse, _internal_metadata_),
@@ -645,6 +880,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StartCampaignRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StartCampaignRequest, _impl_.field_mask_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StartCampaignRequest, _impl_.campaign_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StopCampaignRequest, _internal_metadata_),
@@ -654,6 +891,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StopCampaignRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StopCampaignRequest, _impl_.field_mask_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StopCampaignRequest, _impl_.campaign_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::HardStopCampaignRequest, _internal_metadata_),
@@ -663,6 +902,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::HardStopCampaignRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::HardStopCampaignRequest, _impl_.field_mask_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::HardStopCampaignRequest, _impl_.campaign_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResumeCampaignRequest, _internal_metadata_),
@@ -672,6 +913,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   ~0u,  // no _inlined_string_donated_
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResumeCampaignRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResumeCampaignRequest, _impl_.field_mask_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResumeCampaignRequest, _impl_.campaign_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusRequest, _internal_metadata_),
@@ -683,6 +926,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusRequest, _impl_.campaign_names_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusRequest, _impl_.campaign_display_names_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusRequest, _impl_.include_calls_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusRequest, _impl_.states_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -694,39 +938,129 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusResponse, _impl_.deleted_campaign_names_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusResponse, _impl_.snapshot_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusResponse, _impl_.end_reason_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCampaignStatusResponse, _impl_.end_reason_type_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignCallRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignCallRequest, _impl_.name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignCallRequest, _impl_.include_attempts_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCampaignCallRequest, _impl_.field_mask_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallRefusal, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallRefusal, _impl_.campaign_call_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallRefusal, _impl_.state_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CampaignCallRefusal, _impl_.reason_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsRequest, _impl_._oneof_case_[0]),
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsRequest, _impl_.campaign_call_names_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsRequest, _impl_.states_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsRequest, _impl_.campaign_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsResponse, _impl_.campaign_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsResponse, _impl_.cancelled_campaign_call_names_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsResponse, _impl_.refused_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CancelCampaignCallsResponse, _impl_.remaining_count_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsRequest, _impl_._oneof_case_[0]),
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsRequest, _impl_.campaign_call_names_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsRequest, _impl_.states_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsRequest, _impl_.additional_attempts_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsRequest, _impl_.not_before_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsRequest, _impl_.campaign_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsResponse, _impl_.campaign_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsResponse, _impl_.requeued_campaign_call_names_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsResponse, _impl_.refused_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsResponse, _impl_.remaining_count_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RetryCampaignCallsResponse, _impl_.campaign_state_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _impl_._oneof_case_[0]),
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _impl_.new_display_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _impl_.include_calls_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _impl_.call_states_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _impl_.idempotency_key_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CloneCampaignRequest, _impl_.source_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::ondewo::vtsi::Campaign)},
-  { 23, -1, -1, sizeof(::ondewo::vtsi::CampaignStatistics)},
-  { 41, -1, -1, sizeof(::ondewo::vtsi::CampaignCallAttempt)},
-  { 56, -1, -1, sizeof(::ondewo::vtsi::CampaignCall)},
-  { 84, -1, -1, sizeof(::ondewo::vtsi::CampaignDisplayName)},
-  { 92, -1, -1, sizeof(::ondewo::vtsi::CampaignAssignment)},
-  { 103, -1, -1, sizeof(::ondewo::vtsi::CreateCampaignRequest)},
-  { 111, -1, -1, sizeof(::ondewo::vtsi::GetCampaignRequest)},
-  { 120, -1, -1, sizeof(::ondewo::vtsi::UpdateCampaignRequest)},
-  { 128, -1, -1, sizeof(::ondewo::vtsi::DeleteCampaignRequest)},
-  { 137, -1, -1, sizeof(::ondewo::vtsi::DeleteCampaignResponse)},
-  { 146, -1, -1, sizeof(::ondewo::vtsi::CampaignFilter)},
-  { 155, 165, -1, sizeof(::ondewo::vtsi::ListCampaignsRequest)},
-  { 169, -1, -1, sizeof(::ondewo::vtsi::ListCampaignsResponse)},
-  { 177, -1, -1, sizeof(::ondewo::vtsi::GetCampaignStatisticsRequest)},
-  { 186, 200, -1, sizeof(::ondewo::vtsi::ListCampaignCallsRequest)},
-  { 207, -1, -1, sizeof(::ondewo::vtsi::ListCampaignCallsResponse)},
-  { 215, -1, -1, sizeof(::ondewo::vtsi::StartCampaignRequest)},
-  { 224, -1, -1, sizeof(::ondewo::vtsi::StopCampaignRequest)},
-  { 233, -1, -1, sizeof(::ondewo::vtsi::HardStopCampaignRequest)},
-  { 242, -1, -1, sizeof(::ondewo::vtsi::ResumeCampaignRequest)},
-  { 251, -1, -1, sizeof(::ondewo::vtsi::StreamCampaignStatusRequest)},
-  { 261, -1, -1, sizeof(::ondewo::vtsi::StreamCampaignStatusResponse)},
+  { 29, -1, -1, sizeof(::ondewo::vtsi::CampaignCallingWindow)},
+  { 38, -1, -1, sizeof(::ondewo::vtsi::CallingWindowSlot)},
+  { 47, -1, -1, sizeof(::ondewo::vtsi::CampaignStatistics)},
+  { 67, -1, -1, sizeof(::ondewo::vtsi::CampaignCallAttempt)},
+  { 82, -1, -1, sizeof(::ondewo::vtsi::CampaignCall)},
+  { 110, -1, -1, sizeof(::ondewo::vtsi::CampaignAssignment)},
+  { 121, -1, -1, sizeof(::ondewo::vtsi::CreateCampaignRequest)},
+  { 131, -1, -1, sizeof(::ondewo::vtsi::GetCampaignRequest)},
+  { 142, -1, -1, sizeof(::ondewo::vtsi::UpdateCampaignRequest)},
+  { 151, -1, -1, sizeof(::ondewo::vtsi::DeleteCampaignRequest)},
+  { 163, -1, -1, sizeof(::ondewo::vtsi::DeleteCampaignResponse)},
+  { 172, -1, -1, sizeof(::ondewo::vtsi::CampaignFilter)},
+  { 185, 197, -1, sizeof(::ondewo::vtsi::ListCampaignsRequest)},
+  { 203, -1, -1, sizeof(::ondewo::vtsi::ListCampaignsResponse)},
+  { 211, -1, -1, sizeof(::ondewo::vtsi::GetCampaignStatisticsRequest)},
+  { 221, 244, -1, sizeof(::ondewo::vtsi::ListCampaignCallsRequest)},
+  { 260, -1, -1, sizeof(::ondewo::vtsi::ListCampaignCallsResponse)},
+  { 268, -1, -1, sizeof(::ondewo::vtsi::StartCampaignRequest)},
+  { 279, -1, -1, sizeof(::ondewo::vtsi::StopCampaignRequest)},
+  { 290, -1, -1, sizeof(::ondewo::vtsi::HardStopCampaignRequest)},
+  { 301, -1, -1, sizeof(::ondewo::vtsi::ResumeCampaignRequest)},
+  { 312, -1, -1, sizeof(::ondewo::vtsi::StreamCampaignStatusRequest)},
+  { 323, -1, -1, sizeof(::ondewo::vtsi::StreamCampaignStatusResponse)},
+  { 335, -1, -1, sizeof(::ondewo::vtsi::GetCampaignCallRequest)},
+  { 344, -1, -1, sizeof(::ondewo::vtsi::CampaignCallRefusal)},
+  { 353, -1, -1, sizeof(::ondewo::vtsi::CancelCampaignCallsRequest)},
+  { 365, -1, -1, sizeof(::ondewo::vtsi::CancelCampaignCallsResponse)},
+  { 375, -1, -1, sizeof(::ondewo::vtsi::RetryCampaignCallsRequest)},
+  { 389, -1, -1, sizeof(::ondewo::vtsi::RetryCampaignCallsResponse)},
+  { 400, -1, -1, sizeof(::ondewo::vtsi::CloneCampaignRequest)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::vtsi::_Campaign_default_instance_._instance,
+  &::ondewo::vtsi::_CampaignCallingWindow_default_instance_._instance,
+  &::ondewo::vtsi::_CallingWindowSlot_default_instance_._instance,
   &::ondewo::vtsi::_CampaignStatistics_default_instance_._instance,
   &::ondewo::vtsi::_CampaignCallAttempt_default_instance_._instance,
   &::ondewo::vtsi::_CampaignCall_default_instance_._instance,
-  &::ondewo::vtsi::_CampaignDisplayName_default_instance_._instance,
   &::ondewo::vtsi::_CampaignAssignment_default_instance_._instance,
   &::ondewo::vtsi::_CreateCampaignRequest_default_instance_._instance,
   &::ondewo::vtsi::_GetCampaignRequest_default_instance_._instance,
@@ -745,6 +1079,13 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::vtsi::_ResumeCampaignRequest_default_instance_._instance,
   &::ondewo::vtsi::_StreamCampaignStatusRequest_default_instance_._instance,
   &::ondewo::vtsi::_StreamCampaignStatusResponse_default_instance_._instance,
+  &::ondewo::vtsi::_GetCampaignCallRequest_default_instance_._instance,
+  &::ondewo::vtsi::_CampaignCallRefusal_default_instance_._instance,
+  &::ondewo::vtsi::_CancelCampaignCallsRequest_default_instance_._instance,
+  &::ondewo::vtsi::_CancelCampaignCallsResponse_default_instance_._instance,
+  &::ondewo::vtsi::_RetryCampaignCallsRequest_default_instance_._instance,
+  &::ondewo::vtsi::_RetryCampaignCallsResponse_default_instance_._instance,
+  &::ondewo::vtsi::_CloneCampaignRequest_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_ondewo_2fvtsi_2fcampaigns_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -752,186 +1093,295 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fcampaigns_2eproto[] PROTOBU
   "si\032\036google/protobuf/duration.proto\032 goog"
   "le/protobuf/field_mask.proto\032\037google/pro"
   "tobuf/timestamp.proto\032\024ondewo/sip/sip.pr"
-  "oto\"\322\004\n\010Campaign\022\014\n\004name\030\001 \001(\t\022\023\n\013campai"
-  "gn_id\030\002 \001(\t\022\031\n\021vtsi_project_name\030\003 \001(\t\022\024"
-  "\n\014display_name\030\004 \001(\t\022\032\n\022max_parallel_cal"
-  "ls\030\005 \001(\005\022\024\n\014max_attempts\030\006 \001(\005\022.\n\013retry_"
-  "delay\030\007 \001(\0132\031.google.protobuf.Duration\022)"
-  "\n\005state\030\010 \001(\0162\032.ondewo.vtsi.CampaignStat"
-  "e\022\024\n\014state_reason\030\t \001(\t\0223\n\nstatistics\030\n "
-  "\001(\0132\037.ondewo.vtsi.CampaignStatistics\022\022\n\n"
-  "created_by\030\013 \001(\t\022.\n\ncreated_at\030\014 \001(\0132\032.g"
-  "oogle.protobuf.Timestamp\022\023\n\013modified_by\030"
-  "\r \001(\t\022/\n\013modified_at\030\016 \001(\0132\032.google.prot"
-  "obuf.Timestamp\022.\n\nstarted_at\030\017 \001(\0132\032.goo"
-  "gle.protobuf.Timestamp\022.\n\nstopped_at\030\020 \001"
-  "(\0132\032.google.protobuf.Timestamp\0220\n\014comple"
-  "ted_at\030\021 \001(\0132\032.google.protobuf.Timestamp"
-  "\"\225\002\n\022CampaignStatistics\022\025\n\rcampaign_name"
-  "\030\001 \001(\t\022\r\n\005total\030\002 \001(\005\022\023\n\013not_started\030\003 \001"
-  "(\005\022\023\n\013in_progress\030\004 \001(\005\022\025\n\rretry_pending"
-  "\030\005 \001(\005\022\021\n\tcompleted\030\006 \001(\005\022\016\n\006failed\030\007 \001("
-  "\005\022\021\n\tcancelled\030\010 \001(\005\022\026\n\016total_attempts\030\t"
-  " \001(\005\022\030\n\020progress_percent\030\n \001(\002\022\031\n\021schedu"
-  "led_not_due\030\013 \001(\005\022\025\n\rcalls_retried\030\014 \001(\005"
-  "\"\337\002\n\023CampaignCallAttempt\022\026\n\016attempt_numb"
-  "er\030\001 \001(\005\022\023\n\013caller_name\030\002 \001(\t\022\021\n\tcall_na"
-  "me\030\003 \001(\t\022.\n\nstart_time\030\004 \001(\0132\032.google.pr"
-  "otobuf.Timestamp\022,\n\010end_time\030\005 \001(\0132\032.goo"
-  "gle.protobuf.Timestamp\0228\n\007outcome\030\006 \001(\0162"
-  "\'.ondewo.vtsi.CampaignCallAttemptOutcome"
-  "\0229\n\017sip_status_type\030\007 \001(\0162 .ondewo.sip.S"
-  "ipStatus.StatusType\022\036\n\026sip_status_descri"
-  "ption\030\010 \001(\t\022\025\n\rerror_message\030\t \001(\t\"\300\006\n\014C"
-  "ampaignCall\022\014\n\004name\030\001 \001(\t\022\025\n\rcampaign_na"
-  "me\030\002 \001(\t\022\020\n\010position\030\003 \001(\005\022-\n\005state\030\004 \001("
-  "\0162\036.ondewo.vtsi.CampaignCallState\022\024\n\014pho"
-  "ne_number\030\005 \001(\t\022/\n\006source\030\006 \001(\0162\037.ondewo"
-  ".vtsi.CampaignCallSource\022\035\n\025scheduled_ca"
-  "ller_name\030\007 \001(\t\0222\n\016scheduled_time\030\010 \001(\0132"
-  "\032.google.protobuf.Timestamp\022\020\n\010attempts\030"
-  "\t \001(\005\022\024\n\014max_attempts\030\n \001(\005\022\023\n\013caller_na"
-  "me\030\013 \001(\t\022\021\n\tcall_name\030\014 \001(\t\0229\n\017sip_statu"
-  "s_type\030\r \001(\0162 .ondewo.sip.SipStatus.Stat"
-  "usType\022\036\n\026sip_status_description\030\016 \001(\t\022\022"
-  "\n\nlast_error\030\017 \001(\t\0225\n\021next_attempt_time\030"
-  "\020 \001(\0132\032.google.protobuf.Timestamp\0226\n\022fir"
-  "st_attempt_time\030\021 \001(\0132\032.google.protobuf."
-  "Timestamp\0225\n\021last_attempt_time\030\022 \001(\0132\032.g"
-  "oogle.protobuf.Timestamp\022/\n\013finish_time\030"
-  "\023 \001(\0132\032.google.protobuf.Timestamp\022.\n\ncre"
-  "ated_at\030\024 \001(\0132\032.google.protobuf.Timestam"
-  "p\022/\n\013modified_at\030\025 \001(\0132\032.google.protobuf"
-  ".Timestamp\0229\n\017attempt_history\030\026 \003(\0132 .on"
-  "dewo.vtsi.CampaignCallAttempt\"F\n\023Campaig"
-  "nDisplayName\022\031\n\021vtsi_project_name\030\001 \001(\t\022"
-  "\024\n\014display_name\030\002 \001(\t\"\350\001\n\022CampaignAssign"
-  "ment\022\027\n\rcampaign_name\030\001 \001(\tH\000\022-\n\014new_cam"
-  "paign\030\002 \001(\0132\025.ondewo.vtsi.CampaignH\000\022A\n\025"
-  "campaign_display_name\030\004 \001(\0132 .ondewo.vts"
-  "i.CampaignDisplayNameH\000\0222\n\nstart_mode\030\003 "
-  "\001(\0162\036.ondewo.vtsi.CampaignStartModeB\023\n\021c"
-  "ampaign_selector\"[\n\025CreateCampaignReques"
-  "t\022\031\n\021vtsi_project_name\030\001 \001(\t\022\'\n\010campaign"
-  "\030\002 \001(\0132\025.ondewo.vtsi.Campaign\"j\n\022GetCamp"
-  "aignRequest\022\016\n\004name\030\001 \001(\tH\000\0228\n\014display_n"
-  "ame\030\002 \001(\0132 .ondewo.vtsi.CampaignDisplayN"
-  "ameH\000B\n\n\010campaign\"q\n\025UpdateCampaignReque"
-  "st\022\'\n\010campaign\030\001 \001(\0132\025.ondewo.vtsi.Campa"
-  "ign\022/\n\013update_mask\030\002 \001(\0132\032.google.protob"
-  "uf.FieldMask\"m\n\025DeleteCampaignRequest\022\016\n"
-  "\004name\030\001 \001(\tH\000\0228\n\014display_name\030\002 \001(\0132 .on"
-  "dewo.vtsi.CampaignDisplayNameH\000B\n\n\010campa"
-  "ign\"u\n\026DeleteCampaignResponse\022\014\n\004name\030\001 "
-  "\001(\t\022#\n\033deleted_campaign_call_count\030\002 \001(\005"
-  "\022(\n cancelled_scheduled_caller_count\030\003 \001"
-  "(\005\"q\n\016CampaignFilter\022*\n\006states\030\001 \003(\0162\032.o"
-  "ndewo.vtsi.CampaignState\022\035\n\025display_name"
-  "_contains\030\002 \001(\t\022\024\n\014display_name\030\003 \001(\t\"\231\001"
-  "\n\024ListCampaignsRequest\022\031\n\021vtsi_project_n"
-  "ame\030\001 \001(\t\022+\n\006filter\030\002 \001(\0132\033.ondewo.vtsi."
-  "CampaignFilter\022\021\n\tpage_size\030\003 \001(\005\022\027\n\npag"
-  "e_token\030\004 \001(\tH\000\210\001\001B\r\n\013_page_token\"Z\n\025Lis"
-  "tCampaignsResponse\022(\n\tcampaigns\030\001 \003(\0132\025."
-  "ondewo.vtsi.Campaign\022\027\n\017next_page_token\030"
-  "\002 \001(\t\"t\n\034GetCampaignStatisticsRequest\022\016\n"
-  "\004name\030\001 \001(\tH\000\0228\n\014display_name\030\002 \001(\0132 .on"
-  "dewo.vtsi.CampaignDisplayNameH\000B\n\n\010campa"
-  "ign\"\235\002\n\030ListCampaignCallsRequest\022\027\n\rcamp"
-  "aign_name\030\001 \001(\tH\000\022A\n\025campaign_display_na"
-  "me\030\007 \001(\0132 .ondewo.vtsi.CampaignDisplayNa"
-  "meH\000\022.\n\006states\030\002 \003(\0162\036.ondewo.vtsi.Campa"
-  "ignCallState\022\024\n\014phone_number\030\003 \001(\t\022\021\n\tpa"
-  "ge_size\030\004 \001(\005\022\027\n\npage_token\030\005 \001(\tH\001\210\001\001\022\030"
-  "\n\020include_attempts\030\006 \001(\010B\n\n\010campaignB\r\n\013"
-  "_page_token\"g\n\031ListCampaignCallsResponse"
-  "\0221\n\016campaign_calls\030\001 \003(\0132\031.ondewo.vtsi.C"
-  "ampaignCall\022\027\n\017next_page_token\030\002 \001(\t\"l\n\024"
-  "StartCampaignRequest\022\016\n\004name\030\001 \001(\tH\000\0228\n\014"
-  "display_name\030\002 \001(\0132 .ondewo.vtsi.Campaig"
-  "nDisplayNameH\000B\n\n\010campaign\"k\n\023StopCampai"
-  "gnRequest\022\016\n\004name\030\001 \001(\tH\000\0228\n\014display_nam"
-  "e\030\002 \001(\0132 .ondewo.vtsi.CampaignDisplayNam"
-  "eH\000B\n\n\010campaign\"o\n\027HardStopCampaignReque"
-  "st\022\016\n\004name\030\001 \001(\tH\000\0228\n\014display_name\030\002 \001(\013"
-  "2 .ondewo.vtsi.CampaignDisplayNameH\000B\n\n\010"
-  "campaign\"m\n\025ResumeCampaignRequest\022\016\n\004nam"
-  "e\030\001 \001(\tH\000\0228\n\014display_name\030\002 \001(\0132 .ondewo"
-  ".vtsi.CampaignDisplayNameH\000B\n\n\010campaign\""
-  "\207\001\n\033StreamCampaignStatusRequest\022\031\n\021vtsi_"
-  "project_name\030\001 \001(\t\022\026\n\016campaign_names\030\002 \003"
-  "(\t\022\036\n\026campaign_display_names\030\004 \003(\t\022\025\n\rin"
-  "clude_calls\030\003 \001(\010\"\301\001\n\034StreamCampaignStat"
-  "usResponse\022(\n\tcampaigns\030\001 \003(\0132\025.ondewo.v"
-  "tsi.Campaign\0221\n\016campaign_calls\030\002 \003(\0132\031.o"
-  "ndewo.vtsi.CampaignCall\022\036\n\026deleted_campa"
-  "ign_names\030\003 \003(\t\022\020\n\010snapshot\030\004 \001(\010\022\022\n\nend"
-  "_reason\030\005 \001(\t*\201\002\n\rCampaignState\022\036\n\032CAMPA"
-  "IGN_STATE_UNSPECIFIED\020\000\022\032\n\026CAMPAIGN_STAT"
-  "E_CREATED\020\001\022\032\n\026CAMPAIGN_STATE_RUNNING\020\002\022"
-  "\033\n\027CAMPAIGN_STATE_STOPPING\020\003\022\032\n\026CAMPAIGN"
-  "_STATE_STOPPED\020\004\022 \n\034CAMPAIGN_STATE_HARD_"
-  "STOPPING\020\005\022\037\n\033CAMPAIGN_STATE_HARD_STOPPE"
-  "D\020\006\022\034\n\030CAMPAIGN_STATE_COMPLETED\020\007*\264\002\n\021Ca"
-  "mpaignCallState\022#\n\037CAMPAIGN_CALL_STATE_U"
-  "NSPECIFIED\020\000\022#\n\037CAMPAIGN_CALL_STATE_NOT_"
-  "STARTED\020\001\022#\n\037CAMPAIGN_CALL_STATE_DISPATC"
-  "HING\020\002\022#\n\037CAMPAIGN_CALL_STATE_IN_PROGRES"
-  "S\020\003\022%\n!CAMPAIGN_CALL_STATE_RETRY_PENDING"
-  "\020\004\022!\n\035CAMPAIGN_CALL_STATE_COMPLETED\020\005\022\036\n"
-  "\032CAMPAIGN_CALL_STATE_FAILED\020\006\022!\n\035CAMPAIG"
-  "N_CALL_STATE_CANCELLED\020\007*}\n\021CampaignStar"
-  "tMode\022#\n\037CAMPAIGN_START_MODE_UNSPECIFIED"
-  "\020\000\022\035\n\031CAMPAIGN_START_MODE_START\020\001\022$\n CAM"
-  "PAIGN_START_MODE_DO_NOT_START\020\002*\206\001\n\022Camp"
-  "aignCallSource\022$\n CAMPAIGN_CALL_SOURCE_U"
-  "NSPECIFIED\020\000\022\037\n\033CAMPAIGN_CALL_SOURCE_CAL"
-  "LER\020\001\022)\n%CAMPAIGN_CALL_SOURCE_SCHEDULED_"
-  "CALLER\020\002*\376\001\n\032CampaignCallAttemptOutcome\022"
-  "-\n)CAMPAIGN_CALL_ATTEMPT_OUTCOME_UNSPECI"
-  "FIED\020\000\022-\n)CAMPAIGN_CALL_ATTEMPT_OUTCOME_"
-  "IN_PROGRESS\020\001\022+\n\'CAMPAIGN_CALL_ATTEMPT_O"
-  "UTCOME_COMPLETED\020\002\022(\n$CAMPAIGN_CALL_ATTE"
-  "MPT_OUTCOME_FAILED\020\003\022+\n\'CAMPAIGN_CALL_AT"
-  "TEMPT_OUTCOME_CANCELLED\020\0042\211\010\n\tCampaigns\022"
-  "K\n\016CreateCampaign\022\".ondewo.vtsi.CreateCa"
-  "mpaignRequest\032\025.ondewo.vtsi.Campaign\022E\n\013"
-  "GetCampaign\022\037.ondewo.vtsi.GetCampaignReq"
-  "uest\032\025.ondewo.vtsi.Campaign\022K\n\016UpdateCam"
-  "paign\022\".ondewo.vtsi.UpdateCampaignReques"
-  "t\032\025.ondewo.vtsi.Campaign\022Y\n\016DeleteCampai"
-  "gn\022\".ondewo.vtsi.DeleteCampaignRequest\032#"
-  ".ondewo.vtsi.DeleteCampaignResponse\022V\n\rL"
-  "istCampaigns\022!.ondewo.vtsi.ListCampaigns"
-  "Request\032\".ondewo.vtsi.ListCampaignsRespo"
-  "nse\022c\n\025GetCampaignStatistics\022).ondewo.vt"
-  "si.GetCampaignStatisticsRequest\032\037.ondewo"
-  ".vtsi.CampaignStatistics\022b\n\021ListCampaign"
-  "Calls\022%.ondewo.vtsi.ListCampaignCallsReq"
-  "uest\032&.ondewo.vtsi.ListCampaignCallsResp"
-  "onse\022I\n\rStartCampaign\022!.ondewo.vtsi.Star"
-  "tCampaignRequest\032\025.ondewo.vtsi.Campaign\022"
-  "G\n\014StopCampaign\022 .ondewo.vtsi.StopCampai"
-  "gnRequest\032\025.ondewo.vtsi.Campaign\022O\n\020Hard"
-  "StopCampaign\022$.ondewo.vtsi.HardStopCampa"
-  "ignRequest\032\025.ondewo.vtsi.Campaign\022K\n\016Res"
-  "umeCampaign\022\".ondewo.vtsi.ResumeCampaign"
-  "Request\032\025.ondewo.vtsi.Campaign\022m\n\024Stream"
-  "CampaignStatus\022(.ondewo.vtsi.StreamCampa"
-  "ignStatusRequest\032).ondewo.vtsi.StreamCam"
-  "paignStatusResponse0\001b\006proto3"
+  "oto\032\036ondewo/vtsi/call_configs.proto\"\372\006\n\010"
+  "Campaign\022\014\n\004name\030\001 \001(\t\022\023\n\013campaign_id\030\002 "
+  "\001(\t\022\031\n\021vtsi_project_name\030\003 \001(\t\022\024\n\014displa"
+  "y_name\030\004 \001(\t\022\032\n\022max_parallel_calls\030\005 \001(\005"
+  "\022\024\n\014max_attempts\030\006 \001(\005\022.\n\013retry_delay\030\007 "
+  "\001(\0132\031.google.protobuf.Duration\022)\n\005state\030"
+  "\010 \001(\0162\032.ondewo.vtsi.CampaignState\022\024\n\014sta"
+  "te_reason\030\t \001(\t\0223\n\nstatistics\030\n \001(\0132\037.on"
+  "dewo.vtsi.CampaignStatistics\022\022\n\ncreated_"
+  "by\030\013 \001(\t\022.\n\ncreated_at\030\014 \001(\0132\032.google.pr"
+  "otobuf.Timestamp\022\023\n\013modified_by\030\r \001(\t\022/\n"
+  "\013modified_at\030\016 \001(\0132\032.google.protobuf.Tim"
+  "estamp\022.\n\nstarted_at\030\017 \001(\0132\032.google.prot"
+  "obuf.Timestamp\022.\n\nstopped_at\030\020 \001(\0132\032.goo"
+  "gle.protobuf.Timestamp\0220\n\014completed_at\030\021"
+  " \001(\0132\032.google.protobuf.Timestamp\022J\n\037camp"
+  "aign_common_services_config\030\022 \001(\0132!.onde"
+  "wo.vtsi.CommonServicesConfig\022@\n\032campaign"
+  "_sip_caller_config\030\023 \001(\0132\034.ondewo.vtsi.S"
+  "ipCallerConfig\022\030\n\020campaign_callers\030\024 \003(\t"
+  "\022\"\n\032campaign_callers_truncated\030\025 \001(\010\022:\n\016"
+  "calling_window\030\026 \001(\0132\".ondewo.vtsi.Campa"
+  "ignCallingWindow\022\036\n\026outside_calling_wind"
+  "ow\030\027 \001(\010\"\220\001\n\025CampaignCallingWindow\022\021\n\tti"
+  "me_zone\030\001 \001(\t\022-\n\005slots\030\002 \003(\0132\036.ondewo.vt"
+  "si.CallingWindowSlot\0225\n\021next_window_star"
+  "t\030\003 \001(\0132\032.google.protobuf.Timestamp\"w\n\021C"
+  "allingWindowSlot\0228\n\013day_of_week\030\001 \001(\0162#."
+  "ondewo.vtsi.CallingWindowDayOfWeek\022\024\n\014st"
+  "art_minute\030\002 \001(\005\022\022\n\nend_minute\030\003 \001(\005\"\370\002\n"
+  "\022CampaignStatistics\022\025\n\rcampaign_name\030\001 \001"
+  "(\t\022\r\n\005total\030\002 \001(\005\022\023\n\013not_started\030\003 \001(\005\022\023"
+  "\n\013in_progress\030\004 \001(\005\022\025\n\rretry_pending\030\005 \001"
+  "(\005\022\021\n\tcompleted\030\006 \001(\005\022\016\n\006failed\030\007 \001(\005\022\021\n"
+  "\tcancelled\030\010 \001(\005\022\026\n\016total_attempts\030\t \001(\005"
+  "\022\030\n\020progress_percent\030\n \001(\002\022\031\n\021scheduled_"
+  "not_due\030\013 \001(\005\022\025\n\rcalls_retried\030\014 \001(\005\022=\n\032"
+  "average_connected_duration\030\r \001(\0132\031.googl"
+  "e.protobuf.Duration\022\"\n\032answering_machine"
+  "_detected\030\016 \001(\005\"\337\002\n\023CampaignCallAttempt\022"
+  "\026\n\016attempt_number\030\001 \001(\005\022\023\n\013caller_name\030\002"
+  " \001(\t\022\021\n\tcall_name\030\003 \001(\t\022.\n\nstart_time\030\004 "
+  "\001(\0132\032.google.protobuf.Timestamp\022,\n\010end_t"
+  "ime\030\005 \001(\0132\032.google.protobuf.Timestamp\0228\n"
+  "\007outcome\030\006 \001(\0162\'.ondewo.vtsi.CampaignCal"
+  "lAttemptOutcome\0229\n\017sip_status_type\030\007 \001(\016"
+  "2 .ondewo.sip.SipStatus.StatusType\022\036\n\026si"
+  "p_status_description\030\010 \001(\t\022\025\n\rerror_mess"
+  "age\030\t \001(\t\"\300\006\n\014CampaignCall\022\014\n\004name\030\001 \001(\t"
+  "\022\025\n\rcampaign_name\030\002 \001(\t\022\020\n\010position\030\003 \001("
+  "\005\022-\n\005state\030\004 \001(\0162\036.ondewo.vtsi.CampaignC"
+  "allState\022\024\n\014phone_number\030\005 \001(\t\022/\n\006source"
+  "\030\006 \001(\0162\037.ondewo.vtsi.CampaignCallSource\022"
+  "\035\n\025scheduled_caller_name\030\007 \001(\t\0222\n\016schedu"
+  "led_time\030\010 \001(\0132\032.google.protobuf.Timesta"
+  "mp\022\020\n\010attempts\030\t \001(\005\022\024\n\014max_attempts\030\n \001"
+  "(\005\022\023\n\013caller_name\030\013 \001(\t\022\021\n\tcall_name\030\014 \001"
+  "(\t\0229\n\017sip_status_type\030\r \001(\0162 .ondewo.sip"
+  ".SipStatus.StatusType\022\036\n\026sip_status_desc"
+  "ription\030\016 \001(\t\022\022\n\nlast_error\030\017 \001(\t\0225\n\021nex"
+  "t_attempt_time\030\020 \001(\0132\032.google.protobuf.T"
+  "imestamp\0226\n\022first_attempt_time\030\021 \001(\0132\032.g"
+  "oogle.protobuf.Timestamp\0225\n\021last_attempt"
+  "_time\030\022 \001(\0132\032.google.protobuf.Timestamp\022"
+  "/\n\013finish_time\030\023 \001(\0132\032.google.protobuf.T"
+  "imestamp\022.\n\ncreated_at\030\024 \001(\0132\032.google.pr"
+  "otobuf.Timestamp\022/\n\013modified_at\030\025 \001(\0132\032."
+  "google.protobuf.Timestamp\0229\n\017attempt_his"
+  "tory\030\026 \003(\0132 .ondewo.vtsi.CampaignCallAtt"
+  "empt\"\332\001\n\022CampaignAssignment\022\027\n\rcampaign_"
+  "name\030\001 \001(\tH\000\022-\n\014new_campaign\030\002 \001(\0132\025.ond"
+  "ewo.vtsi.CampaignH\000\022\026\n\014display_name\030\005 \001("
+  "\tH\000\0222\n\nstart_mode\030\003 \001(\0162\036.ondewo.vtsi.Ca"
+  "mpaignStartModeB\023\n\021campaign_selectorJ\004\010\004"
+  "\020\005R\025campaign_display_name\"\244\001\n\025CreateCamp"
+  "aignRequest\022\031\n\021vtsi_project_name\030\001 \001(\t\022\'"
+  "\n\010campaign\030\002 \001(\0132\025.ondewo.vtsi.Campaign\022"
+  ".\n\nfield_mask\030\003 \001(\0132\032.google.protobuf.Fi"
+  "eldMask\022\027\n\017idempotency_key\030\004 \001(\t\"\231\001\n\022Get"
+  "CampaignRequest\022\016\n\004name\030\001 \001(\tH\000\022\026\n\014displ"
+  "ay_name\030\003 \001(\tH\000\022\031\n\021vtsi_project_name\030\004 \001"
+  "(\t\022.\n\nfield_mask\030\005 \001(\0132\032.google.protobuf"
+  ".FieldMaskB\n\n\010campaignJ\004\010\002\020\003\"\241\001\n\025UpdateC"
+  "ampaignRequest\022\'\n\010campaign\030\001 \001(\0132\025.ondew"
+  "o.vtsi.Campaign\022/\n\013update_mask\030\002 \001(\0132\032.g"
+  "oogle.protobuf.FieldMask\022.\n\nfield_mask\030\003"
+  " \001(\0132\032.google.protobuf.FieldMask\"\253\001\n\025Del"
+  "eteCampaignRequest\022\016\n\004name\030\001 \001(\tH\000\022\026\n\014di"
+  "splay_name\030\003 \001(\tH\000\022\031\n\021vtsi_project_name\030"
+  "\004 \001(\t\022.\n\nfield_mask\030\005 \001(\0132\032.google.proto"
+  "buf.FieldMask\022\r\n\005force\030\006 \001(\010B\n\n\010campaign"
+  "J\004\010\002\020\003\"u\n\026DeleteCampaignResponse\022\014\n\004name"
+  "\030\001 \001(\t\022#\n\033deleted_campaign_call_count\030\002 "
+  "\001(\005\022(\n cancelled_scheduled_caller_count\030"
+  "\003 \001(\005\"\240\002\n\016CampaignFilter\022*\n\006states\030\001 \003(\016"
+  "2\032.ondewo.vtsi.CampaignState\022\035\n\025display_"
+  "name_contains\030\002 \001(\t\022\024\n\014display_name\030\003 \001("
+  "\t\0221\n\rcreated_after\030\004 \001(\0132\032.google.protob"
+  "uf.Timestamp\0222\n\016created_before\030\005 \001(\0132\032.g"
+  "oogle.protobuf.Timestamp\022\022\n\ncreated_by\030\006"
+  " \001(\t\0222\n\016modified_since\030\007 \001(\0132\032.google.pr"
+  "otobuf.Timestamp\"\371\001\n\024ListCampaignsReques"
+  "t\022\031\n\021vtsi_project_name\030\001 \001(\t\022+\n\006filter\030\002"
+  " \001(\0132\033.ondewo.vtsi.CampaignFilter\022\021\n\tpag"
+  "e_size\030\003 \001(\005\022\027\n\npage_token\030\004 \001(\tH\000\210\001\001\022.\n"
+  "\nfield_mask\030\005 \001(\0132\032.google.protobuf.Fiel"
+  "dMask\022.\n\010order_by\030\006 \001(\0162\034.ondewo.vtsi.Ca"
+  "mpaignOrderByB\r\n\013_page_token\"Z\n\025ListCamp"
+  "aignsResponse\022(\n\tcampaigns\030\001 \003(\0132\025.ondew"
+  "o.vtsi.Campaign\022\027\n\017next_page_token\030\002 \001(\t"
+  "\"s\n\034GetCampaignStatisticsRequest\022\016\n\004name"
+  "\030\001 \001(\tH\000\022\026\n\014display_name\030\003 \001(\tH\000\022\031\n\021vtsi"
+  "_project_name\030\004 \001(\tB\n\n\010campaignJ\004\010\002\020\003\"\364\004"
+  "\n\030ListCampaignCallsRequest\022\027\n\rcampaign_n"
+  "ame\030\001 \001(\tH\000\022\026\n\014display_name\030\010 \001(\tH\000\022\031\n\021v"
+  "tsi_project_name\030\t \001(\t\022.\n\006states\030\002 \003(\0162\036"
+  ".ondewo.vtsi.CampaignCallState\022\024\n\014phone_"
+  "number\030\003 \001(\t\022\021\n\tpage_size\030\004 \001(\005\022\027\n\npage_"
+  "token\030\005 \001(\tH\001\210\001\001\022\030\n\020include_attempts\030\006 \001"
+  "(\010\022.\n\nfield_mask\030\n \001(\0132\032.google.protobuf"
+  ".FieldMask\022\025\n\rphone_numbers\030\013 \003(\t\0220\n\007sou"
+  "rces\030\014 \003(\0162\037.ondewo.vtsi.CampaignCallSou"
+  "rce\0223\n\017finish_time_min\030\r \001(\0132\032.google.pr"
+  "otobuf.Timestamp\0223\n\017finish_time_max\030\016 \001("
+  "\0132\032.google.protobuf.Timestamp\0222\n\016modifie"
+  "d_since\030\017 \001(\0132\032.google.protobuf.Timestam"
+  "p\022\024\n\014min_attempts\030\020 \001(\005\022\033\n\023campaign_call"
+  "_names\030\021 \003(\tB\n\n\010campaignB\r\n\013_page_tokenJ"
+  "\004\010\007\020\010R\025campaign_display_name\"g\n\031ListCamp"
+  "aignCallsResponse\0221\n\016campaign_calls\030\001 \003("
+  "\0132\031.ondewo.vtsi.CampaignCall\022\027\n\017next_pag"
+  "e_token\030\002 \001(\t\"\233\001\n\024StartCampaignRequest\022\016"
+  "\n\004name\030\001 \001(\tH\000\022\026\n\014display_name\030\003 \001(\tH\000\022\031"
+  "\n\021vtsi_project_name\030\004 \001(\t\022.\n\nfield_mask\030"
+  "\005 \001(\0132\032.google.protobuf.FieldMaskB\n\n\010cam"
+  "paignJ\004\010\002\020\003\"\232\001\n\023StopCampaignRequest\022\016\n\004n"
+  "ame\030\001 \001(\tH\000\022\026\n\014display_name\030\003 \001(\tH\000\022\031\n\021v"
+  "tsi_project_name\030\004 \001(\t\022.\n\nfield_mask\030\005 \001"
+  "(\0132\032.google.protobuf.FieldMaskB\n\n\010campai"
+  "gnJ\004\010\002\020\003\"\236\001\n\027HardStopCampaignRequest\022\016\n\004"
+  "name\030\001 \001(\tH\000\022\026\n\014display_name\030\003 \001(\tH\000\022\031\n\021"
+  "vtsi_project_name\030\004 \001(\t\022.\n\nfield_mask\030\005 "
+  "\001(\0132\032.google.protobuf.FieldMaskB\n\n\010campa"
+  "ignJ\004\010\002\020\003\"\234\001\n\025ResumeCampaignRequest\022\016\n\004n"
+  "ame\030\001 \001(\tH\000\022\026\n\014display_name\030\003 \001(\tH\000\022\031\n\021v"
+  "tsi_project_name\030\004 \001(\t\022.\n\nfield_mask\030\005 \001"
+  "(\0132\032.google.protobuf.FieldMaskB\n\n\010campai"
+  "gnJ\004\010\002\020\003\"\263\001\n\033StreamCampaignStatusRequest"
+  "\022\031\n\021vtsi_project_name\030\001 \001(\t\022\026\n\016campaign_"
+  "names\030\002 \003(\t\022\036\n\026campaign_display_names\030\004 "
+  "\003(\t\022\025\n\rinclude_calls\030\003 \001(\010\022*\n\006states\030\005 \003"
+  "(\0162\032.ondewo.vtsi.CampaignState\"\370\001\n\034Strea"
+  "mCampaignStatusResponse\022(\n\tcampaigns\030\001 \003"
+  "(\0132\025.ondewo.vtsi.Campaign\0221\n\016campaign_ca"
+  "lls\030\002 \003(\0132\031.ondewo.vtsi.CampaignCall\022\036\n\026"
+  "deleted_campaign_names\030\003 \003(\t\022\020\n\010snapshot"
+  "\030\004 \001(\010\022\022\n\nend_reason\030\005 \001(\t\0225\n\017end_reason"
+  "_type\030\006 \001(\0162\034.ondewo.vtsi.StreamEndReaso"
+  "n\"p\n\026GetCampaignCallRequest\022\014\n\004name\030\001 \001("
+  "\t\022\030\n\020include_attempts\030\002 \001(\010\022.\n\nfield_mas"
+  "k\030\003 \001(\0132\032.google.protobuf.FieldMask\"p\n\023C"
+  "ampaignCallRefusal\022\032\n\022campaign_call_name"
+  "\030\001 \001(\t\022-\n\005state\030\002 \001(\0162\036.ondewo.vtsi.Camp"
+  "aignCallState\022\016\n\006reason\030\003 \001(\t\"\270\001\n\032Cancel"
+  "CampaignCallsRequest\022\016\n\004name\030\001 \001(\tH\000\022\026\n\014"
+  "display_name\030\002 \001(\tH\000\022\031\n\021vtsi_project_nam"
+  "e\030\003 \001(\t\022\033\n\023campaign_call_names\030\004 \003(\t\022.\n\006"
+  "states\030\005 \003(\0162\036.ondewo.vtsi.CampaignCallS"
+  "tateB\n\n\010campaign\"\247\001\n\033CancelCampaignCalls"
+  "Response\022\025\n\rcampaign_name\030\001 \001(\t\022%\n\035cance"
+  "lled_campaign_call_names\030\002 \003(\t\0221\n\007refuse"
+  "d\030\003 \003(\0132 .ondewo.vtsi.CampaignCallRefusa"
+  "l\022\027\n\017remaining_count\030\004 \001(\005\"\204\002\n\031RetryCamp"
+  "aignCallsRequest\022\016\n\004name\030\001 \001(\tH\000\022\026\n\014disp"
+  "lay_name\030\002 \001(\tH\000\022\031\n\021vtsi_project_name\030\003 "
+  "\001(\t\022\033\n\023campaign_call_names\030\004 \003(\t\022.\n\006stat"
+  "es\030\005 \003(\0162\036.ondewo.vtsi.CampaignCallState"
+  "\022\033\n\023additional_attempts\030\006 \001(\005\022.\n\nnot_bef"
+  "ore\030\007 \001(\0132\032.google.protobuf.TimestampB\n\n"
+  "\010campaign\"\331\001\n\032RetryCampaignCallsResponse"
+  "\022\025\n\rcampaign_name\030\001 \001(\t\022$\n\034requeued_camp"
+  "aign_call_names\030\002 \003(\t\0221\n\007refused\030\003 \003(\0132 "
+  ".ondewo.vtsi.CampaignCallRefusal\022\027\n\017rema"
+  "ining_count\030\004 \001(\005\0222\n\016campaign_state\030\005 \001("
+  "\0162\032.ondewo.vtsi.CampaignState\"\240\002\n\024CloneC"
+  "ampaignRequest\022\025\n\013source_name\030\001 \001(\tH\000\022\035\n"
+  "\023source_display_name\030\002 \001(\tH\000\022\031\n\021vtsi_pro"
+  "ject_name\030\003 \001(\t\022\030\n\020new_display_name\030\004 \001("
+  "\t\022\025\n\rinclude_calls\030\005 \001(\010\0223\n\013call_states\030"
+  "\006 \003(\0162\036.ondewo.vtsi.CampaignCallState\022.\n"
+  "\nfield_mask\030\007 \001(\0132\032.google.protobuf.Fiel"
+  "dMask\022\027\n\017idempotency_key\030\010 \001(\tB\010\n\006source"
+  "*\201\002\n\rCampaignState\022\036\n\032CAMPAIGN_STATE_UNS"
+  "PECIFIED\020\000\022\032\n\026CAMPAIGN_STATE_CREATED\020\001\022\032"
+  "\n\026CAMPAIGN_STATE_RUNNING\020\002\022\033\n\027CAMPAIGN_S"
+  "TATE_STOPPING\020\003\022\032\n\026CAMPAIGN_STATE_STOPPE"
+  "D\020\004\022 \n\034CAMPAIGN_STATE_HARD_STOPPING\020\005\022\037\n"
+  "\033CAMPAIGN_STATE_HARD_STOPPED\020\006\022\034\n\030CAMPAI"
+  "GN_STATE_COMPLETED\020\007*\264\002\n\021CampaignCallSta"
+  "te\022#\n\037CAMPAIGN_CALL_STATE_UNSPECIFIED\020\000\022"
+  "#\n\037CAMPAIGN_CALL_STATE_NOT_STARTED\020\001\022#\n\037"
+  "CAMPAIGN_CALL_STATE_DISPATCHING\020\002\022#\n\037CAM"
+  "PAIGN_CALL_STATE_IN_PROGRESS\020\003\022%\n!CAMPAI"
+  "GN_CALL_STATE_RETRY_PENDING\020\004\022!\n\035CAMPAIG"
+  "N_CALL_STATE_COMPLETED\020\005\022\036\n\032CAMPAIGN_CAL"
+  "L_STATE_FAILED\020\006\022!\n\035CAMPAIGN_CALL_STATE_"
+  "CANCELLED\020\007*}\n\021CampaignStartMode\022#\n\037CAMP"
+  "AIGN_START_MODE_UNSPECIFIED\020\000\022\035\n\031CAMPAIG"
+  "N_START_MODE_START\020\001\022$\n CAMPAIGN_START_M"
+  "ODE_DO_NOT_START\020\002*\206\001\n\022CampaignCallSourc"
+  "e\022$\n CAMPAIGN_CALL_SOURCE_UNSPECIFIED\020\000\022"
+  "\037\n\033CAMPAIGN_CALL_SOURCE_CALLER\020\001\022)\n%CAMP"
+  "AIGN_CALL_SOURCE_SCHEDULED_CALLER\020\002*\376\001\n\032"
+  "CampaignCallAttemptOutcome\022-\n)CAMPAIGN_C"
+  "ALL_ATTEMPT_OUTCOME_UNSPECIFIED\020\000\022-\n)CAM"
+  "PAIGN_CALL_ATTEMPT_OUTCOME_IN_PROGRESS\020\001"
+  "\022+\n\'CAMPAIGN_CALL_ATTEMPT_OUTCOME_COMPLE"
+  "TED\020\002\022(\n$CAMPAIGN_CALL_ATTEMPT_OUTCOME_F"
+  "AILED\020\003\022+\n\'CAMPAIGN_CALL_ATTEMPT_OUTCOME"
+  "_CANCELLED\020\004*\335\002\n\026CallingWindowDayOfWeek\022"
+  "*\n&CALLING_WINDOW_DAY_OF_WEEK_UNSPECIFIE"
+  "D\020\000\022%\n!CALLING_WINDOW_DAY_OF_WEEK_MONDAY"
+  "\020\001\022&\n\"CALLING_WINDOW_DAY_OF_WEEK_TUESDAY"
+  "\020\002\022(\n$CALLING_WINDOW_DAY_OF_WEEK_WEDNESD"
+  "AY\020\003\022\'\n#CALLING_WINDOW_DAY_OF_WEEK_THURS"
+  "DAY\020\004\022%\n!CALLING_WINDOW_DAY_OF_WEEK_FRID"
+  "AY\020\005\022\'\n#CALLING_WINDOW_DAY_OF_WEEK_SATUR"
+  "DAY\020\006\022%\n!CALLING_WINDOW_DAY_OF_WEEK_SUND"
+  "AY\020\007*\253\001\n\017CampaignOrderBy\022!\n\035CAMPAIGN_ORD"
+  "ER_BY_UNSPECIFIED\020\000\022%\n!CAMPAIGN_ORDER_BY"
+  "_CREATED_AT_DESC\020\001\022&\n\"CAMPAIGN_ORDER_BY_"
+  "MODIFIED_AT_DESC\020\002\022&\n\"CAMPAIGN_ORDER_BY_"
+  "DISPLAY_NAME_ASC\020\003*\246\002\n\017StreamEndReason\022!"
+  "\n\035STREAM_END_REASON_UNSPECIFIED\020\000\022\"\n\036STR"
+  "EAM_END_REASON_MAX_DURATION\020\001\022%\n!STREAM_"
+  "END_REASON_CLIENT_TOO_SLOW\020\002\022*\n&STREAM_E"
+  "ND_REASON_SUBSCRIPTION_DELETED\020\003\022+\n\'STRE"
+  "AM_END_REASON_SUBSCRIPTION_DISABLED\020\004\022%\n"
+  "!STREAM_END_REASON_PROJECT_DELETED\020\005\022%\n!"
+  "STREAM_END_REASON_SERVER_SHUTDOWN\020\0062\370\n\n\t"
+  "Campaigns\022K\n\016CreateCampaign\022\".ondewo.vts"
+  "i.CreateCampaignRequest\032\025.ondewo.vtsi.Ca"
+  "mpaign\022E\n\013GetCampaign\022\037.ondewo.vtsi.GetC"
+  "ampaignRequest\032\025.ondewo.vtsi.Campaign\022K\n"
+  "\016UpdateCampaign\022\".ondewo.vtsi.UpdateCamp"
+  "aignRequest\032\025.ondewo.vtsi.Campaign\022Y\n\016De"
+  "leteCampaign\022\".ondewo.vtsi.DeleteCampaig"
+  "nRequest\032#.ondewo.vtsi.DeleteCampaignRes"
+  "ponse\022V\n\rListCampaigns\022!.ondewo.vtsi.Lis"
+  "tCampaignsRequest\032\".ondewo.vtsi.ListCamp"
+  "aignsResponse\022c\n\025GetCampaignStatistics\022)"
+  ".ondewo.vtsi.GetCampaignStatisticsReques"
+  "t\032\037.ondewo.vtsi.CampaignStatistics\022b\n\021Li"
+  "stCampaignCalls\022%.ondewo.vtsi.ListCampai"
+  "gnCallsRequest\032&.ondewo.vtsi.ListCampaig"
+  "nCallsResponse\022I\n\rStartCampaign\022!.ondewo"
+  ".vtsi.StartCampaignRequest\032\025.ondewo.vtsi"
+  ".Campaign\022G\n\014StopCampaign\022 .ondewo.vtsi."
+  "StopCampaignRequest\032\025.ondewo.vtsi.Campai"
+  "gn\022O\n\020HardStopCampaign\022$.ondewo.vtsi.Har"
+  "dStopCampaignRequest\032\025.ondewo.vtsi.Campa"
+  "ign\022K\n\016ResumeCampaign\022\".ondewo.vtsi.Resu"
+  "meCampaignRequest\032\025.ondewo.vtsi.Campaign"
+  "\022m\n\024StreamCampaignStatus\022(.ondewo.vtsi.S"
+  "treamCampaignStatusRequest\032).ondewo.vtsi"
+  ".StreamCampaignStatusResponse0\001\022Q\n\017GetCa"
+  "mpaignCall\022#.ondewo.vtsi.GetCampaignCall"
+  "Request\032\031.ondewo.vtsi.CampaignCall\022h\n\023Ca"
+  "ncelCampaignCalls\022\'.ondewo.vtsi.CancelCa"
+  "mpaignCallsRequest\032(.ondewo.vtsi.CancelC"
+  "ampaignCallsResponse\022e\n\022RetryCampaignCal"
+  "ls\022&.ondewo.vtsi.RetryCampaignCallsReque"
+  "st\032\'.ondewo.vtsi.RetryCampaignCallsRespo"
+  "nse\022I\n\rCloneCampaign\022!.ondewo.vtsi.Clone"
+  "CampaignRequest\032\025.ondewo.vtsi.Campaignb\006"
+  "proto3"
   ;
-static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_deps[4] = {
+static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_deps[5] = {
   &::descriptor_table_google_2fprotobuf_2fduration_2eproto,
   &::descriptor_table_google_2fprotobuf_2ffield_5fmask_2eproto,
   &::descriptor_table_google_2fprotobuf_2ftimestamp_2eproto,
   &::descriptor_table_ondewo_2fsip_2fsip_2eproto,
+  &::descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto = {
-    false, false, 6869, descriptor_table_protodef_ondewo_2fvtsi_2fcampaigns_2eproto,
+    false, false, 11166, descriptor_table_protodef_ondewo_2fvtsi_2fcampaigns_2eproto,
     "ondewo/vtsi/campaigns.proto",
-    &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once, descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_deps, 4, 23,
+    &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once, descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_deps, 5, 31,
     schemas, file_default_instances, TableStruct_ondewo_2fvtsi_2fcampaigns_2eproto::offsets,
     file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto, file_level_enum_descriptors_ondewo_2fvtsi_2fcampaigns_2eproto,
     file_level_service_descriptors_ondewo_2fvtsi_2fcampaigns_2eproto,
@@ -1031,6 +1481,61 @@ bool CampaignCallAttemptOutcome_IsValid(int value) {
   }
 }
 
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CallingWindowDayOfWeek_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto);
+  return file_level_enum_descriptors_ondewo_2fvtsi_2fcampaigns_2eproto[5];
+}
+bool CallingWindowDayOfWeek_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CampaignOrderBy_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto);
+  return file_level_enum_descriptors_ondewo_2fvtsi_2fcampaigns_2eproto[6];
+}
+bool CampaignOrderBy_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* StreamEndReason_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto);
+  return file_level_enum_descriptors_ondewo_2fvtsi_2fcampaigns_2eproto[7];
+}
+bool StreamEndReason_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // ===================================================================
 
@@ -1043,6 +1548,9 @@ class Campaign::_Internal {
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& started_at(const Campaign* msg);
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& stopped_at(const Campaign* msg);
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& completed_at(const Campaign* msg);
+  static const ::ondewo::vtsi::CommonServicesConfig& campaign_common_services_config(const Campaign* msg);
+  static const ::ondewo::vtsi::SipCallerConfig& campaign_sip_caller_config(const Campaign* msg);
+  static const ::ondewo::vtsi::CampaignCallingWindow& calling_window(const Campaign* msg);
 };
 
 const ::PROTOBUF_NAMESPACE_ID::Duration&
@@ -1072,6 +1580,18 @@ Campaign::_Internal::stopped_at(const Campaign* msg) {
 const ::PROTOBUF_NAMESPACE_ID::Timestamp&
 Campaign::_Internal::completed_at(const Campaign* msg) {
   return *msg->_impl_.completed_at_;
+}
+const ::ondewo::vtsi::CommonServicesConfig&
+Campaign::_Internal::campaign_common_services_config(const Campaign* msg) {
+  return *msg->_impl_.campaign_common_services_config_;
+}
+const ::ondewo::vtsi::SipCallerConfig&
+Campaign::_Internal::campaign_sip_caller_config(const Campaign* msg) {
+  return *msg->_impl_.campaign_sip_caller_config_;
+}
+const ::ondewo::vtsi::CampaignCallingWindow&
+Campaign::_Internal::calling_window(const Campaign* msg) {
+  return *msg->_impl_.calling_window_;
 }
 void Campaign::clear_retry_delay() {
   if (GetArenaForAllocation() == nullptr && _impl_.retry_delay_ != nullptr) {
@@ -1109,6 +1629,18 @@ void Campaign::clear_completed_at() {
   }
   _impl_.completed_at_ = nullptr;
 }
+void Campaign::clear_campaign_common_services_config() {
+  if (GetArenaForAllocation() == nullptr && _impl_.campaign_common_services_config_ != nullptr) {
+    delete _impl_.campaign_common_services_config_;
+  }
+  _impl_.campaign_common_services_config_ = nullptr;
+}
+void Campaign::clear_campaign_sip_caller_config() {
+  if (GetArenaForAllocation() == nullptr && _impl_.campaign_sip_caller_config_ != nullptr) {
+    delete _impl_.campaign_sip_caller_config_;
+  }
+  _impl_.campaign_sip_caller_config_ = nullptr;
+}
 Campaign::Campaign(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -1119,7 +1651,8 @@ Campaign::Campaign(const Campaign& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   Campaign* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.name_){}
+      decltype(_impl_.campaign_callers_){from._impl_.campaign_callers_}
+    , decltype(_impl_.name_){}
     , decltype(_impl_.campaign_id_){}
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.display_name_){}
@@ -1133,9 +1666,14 @@ Campaign::Campaign(const Campaign& from)
     , decltype(_impl_.started_at_){nullptr}
     , decltype(_impl_.stopped_at_){nullptr}
     , decltype(_impl_.completed_at_){nullptr}
+    , decltype(_impl_.campaign_common_services_config_){nullptr}
+    , decltype(_impl_.campaign_sip_caller_config_){nullptr}
+    , decltype(_impl_.calling_window_){nullptr}
     , decltype(_impl_.max_parallel_calls_){}
     , decltype(_impl_.max_attempts_){}
     , decltype(_impl_.state_){}
+    , decltype(_impl_.campaign_callers_truncated_){}
+    , decltype(_impl_.outside_calling_window_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1216,9 +1754,18 @@ Campaign::Campaign(const Campaign& from)
   if (from._internal_has_completed_at()) {
     _this->_impl_.completed_at_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.completed_at_);
   }
+  if (from._internal_has_campaign_common_services_config()) {
+    _this->_impl_.campaign_common_services_config_ = new ::ondewo::vtsi::CommonServicesConfig(*from._impl_.campaign_common_services_config_);
+  }
+  if (from._internal_has_campaign_sip_caller_config()) {
+    _this->_impl_.campaign_sip_caller_config_ = new ::ondewo::vtsi::SipCallerConfig(*from._impl_.campaign_sip_caller_config_);
+  }
+  if (from._internal_has_calling_window()) {
+    _this->_impl_.calling_window_ = new ::ondewo::vtsi::CampaignCallingWindow(*from._impl_.calling_window_);
+  }
   ::memcpy(&_impl_.max_parallel_calls_, &from._impl_.max_parallel_calls_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.state_) -
-    reinterpret_cast<char*>(&_impl_.max_parallel_calls_)) + sizeof(_impl_.state_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.outside_calling_window_) -
+    reinterpret_cast<char*>(&_impl_.max_parallel_calls_)) + sizeof(_impl_.outside_calling_window_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.Campaign)
 }
 
@@ -1227,7 +1774,8 @@ inline void Campaign::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.name_){}
+      decltype(_impl_.campaign_callers_){arena}
+    , decltype(_impl_.name_){}
     , decltype(_impl_.campaign_id_){}
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.display_name_){}
@@ -1241,9 +1789,14 @@ inline void Campaign::SharedCtor(
     , decltype(_impl_.started_at_){nullptr}
     , decltype(_impl_.stopped_at_){nullptr}
     , decltype(_impl_.completed_at_){nullptr}
+    , decltype(_impl_.campaign_common_services_config_){nullptr}
+    , decltype(_impl_.campaign_sip_caller_config_){nullptr}
+    , decltype(_impl_.calling_window_){nullptr}
     , decltype(_impl_.max_parallel_calls_){0}
     , decltype(_impl_.max_attempts_){0}
     , decltype(_impl_.state_){0}
+    , decltype(_impl_.campaign_callers_truncated_){false}
+    , decltype(_impl_.outside_calling_window_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.name_.InitDefault();
@@ -1287,6 +1840,7 @@ Campaign::~Campaign() {
 
 inline void Campaign::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.campaign_callers_.~RepeatedPtrField();
   _impl_.name_.Destroy();
   _impl_.campaign_id_.Destroy();
   _impl_.vtsi_project_name_.Destroy();
@@ -1301,6 +1855,9 @@ inline void Campaign::SharedDtor() {
   if (this != internal_default_instance()) delete _impl_.started_at_;
   if (this != internal_default_instance()) delete _impl_.stopped_at_;
   if (this != internal_default_instance()) delete _impl_.completed_at_;
+  if (this != internal_default_instance()) delete _impl_.campaign_common_services_config_;
+  if (this != internal_default_instance()) delete _impl_.campaign_sip_caller_config_;
+  if (this != internal_default_instance()) delete _impl_.calling_window_;
 }
 
 void Campaign::SetCachedSize(int size) const {
@@ -1313,6 +1870,7 @@ void Campaign::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.campaign_callers_.Clear();
   _impl_.name_.ClearToEmpty();
   _impl_.campaign_id_.ClearToEmpty();
   _impl_.vtsi_project_name_.ClearToEmpty();
@@ -1348,9 +1906,21 @@ void Campaign::Clear() {
     delete _impl_.completed_at_;
   }
   _impl_.completed_at_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.campaign_common_services_config_ != nullptr) {
+    delete _impl_.campaign_common_services_config_;
+  }
+  _impl_.campaign_common_services_config_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.campaign_sip_caller_config_ != nullptr) {
+    delete _impl_.campaign_sip_caller_config_;
+  }
+  _impl_.campaign_sip_caller_config_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.calling_window_ != nullptr) {
+    delete _impl_.calling_window_;
+  }
+  _impl_.calling_window_ = nullptr;
   ::memset(&_impl_.max_parallel_calls_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.state_) -
-      reinterpret_cast<char*>(&_impl_.max_parallel_calls_)) + sizeof(_impl_.state_));
+      reinterpret_cast<char*>(&_impl_.outside_calling_window_) -
+      reinterpret_cast<char*>(&_impl_.max_parallel_calls_)) + sizeof(_impl_.outside_calling_window_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1507,6 +2077,61 @@ const char* Campaign::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
       case 17:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 138)) {
           ptr = ctx->ParseMessage(_internal_mutable_completed_at(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.CommonServicesConfig campaign_common_services_config = 18;
+      case 18:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 146)) {
+          ptr = ctx->ParseMessage(_internal_mutable_campaign_common_services_config(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.SipCallerConfig campaign_sip_caller_config = 19;
+      case 19:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 154)) {
+          ptr = ctx->ParseMessage(_internal_mutable_campaign_sip_caller_config(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string campaign_callers = 20;
+      case 20:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 162)) {
+          ptr -= 2;
+          do {
+            ptr += 2;
+            auto str = _internal_add_campaign_callers();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.Campaign.campaign_callers"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<162>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool campaign_callers_truncated = 21;
+      case 21:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 168)) {
+          _impl_.campaign_callers_truncated_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.CampaignCallingWindow calling_window = 22;
+      case 22:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 178)) {
+          ptr = ctx->ParseMessage(_internal_mutable_calling_window(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool outside_calling_window = 23;
+      case 23:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 184)) {
+          _impl_.outside_calling_window_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1678,6 +2303,49 @@ uint8_t* Campaign::_InternalSerialize(
         _Internal::completed_at(this).GetCachedSize(), target, stream);
   }
 
+  // .ondewo.vtsi.CommonServicesConfig campaign_common_services_config = 18;
+  if (this->_internal_has_campaign_common_services_config()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(18, _Internal::campaign_common_services_config(this),
+        _Internal::campaign_common_services_config(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.vtsi.SipCallerConfig campaign_sip_caller_config = 19;
+  if (this->_internal_has_campaign_sip_caller_config()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(19, _Internal::campaign_sip_caller_config(this),
+        _Internal::campaign_sip_caller_config(this).GetCachedSize(), target, stream);
+  }
+
+  // repeated string campaign_callers = 20;
+  for (int i = 0, n = this->_internal_campaign_callers_size(); i < n; i++) {
+    const auto& s = this->_internal_campaign_callers(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.Campaign.campaign_callers");
+    target = stream->WriteString(20, s, target);
+  }
+
+  // bool campaign_callers_truncated = 21;
+  if (this->_internal_campaign_callers_truncated() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(21, this->_internal_campaign_callers_truncated(), target);
+  }
+
+  // .ondewo.vtsi.CampaignCallingWindow calling_window = 22;
+  if (this->_internal_has_calling_window()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(22, _Internal::calling_window(this),
+        _Internal::calling_window(this).GetCachedSize(), target, stream);
+  }
+
+  // bool outside_calling_window = 23;
+  if (this->_internal_outside_calling_window() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(23, this->_internal_outside_calling_window(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1693,6 +2361,14 @@ size_t Campaign::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // repeated string campaign_callers = 20;
+  total_size += 2 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.campaign_callers_.size());
+  for (int i = 0, n = _impl_.campaign_callers_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.campaign_callers_.Get(i));
+  }
 
   // string name = 1;
   if (!this->_internal_name().empty()) {
@@ -1792,6 +2468,27 @@ size_t Campaign::ByteSizeLong() const {
         *_impl_.completed_at_);
   }
 
+  // .ondewo.vtsi.CommonServicesConfig campaign_common_services_config = 18;
+  if (this->_internal_has_campaign_common_services_config()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.campaign_common_services_config_);
+  }
+
+  // .ondewo.vtsi.SipCallerConfig campaign_sip_caller_config = 19;
+  if (this->_internal_has_campaign_sip_caller_config()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.campaign_sip_caller_config_);
+  }
+
+  // .ondewo.vtsi.CampaignCallingWindow calling_window = 22;
+  if (this->_internal_has_calling_window()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.calling_window_);
+  }
+
   // int32 max_parallel_calls = 5;
   if (this->_internal_max_parallel_calls() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_max_parallel_calls());
@@ -1806,6 +2503,16 @@ size_t Campaign::ByteSizeLong() const {
   if (this->_internal_state() != 0) {
     total_size += 1 +
       ::_pbi::WireFormatLite::EnumSize(this->_internal_state());
+  }
+
+  // bool campaign_callers_truncated = 21;
+  if (this->_internal_campaign_callers_truncated() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // bool outside_calling_window = 23;
+  if (this->_internal_outside_calling_window() != 0) {
+    total_size += 2 + 1;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -1826,6 +2533,7 @@ void Campaign::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  _this->_impl_.campaign_callers_.MergeFrom(from._impl_.campaign_callers_);
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
   }
@@ -1875,6 +2583,18 @@ void Campaign::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
     _this->_internal_mutable_completed_at()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_completed_at());
   }
+  if (from._internal_has_campaign_common_services_config()) {
+    _this->_internal_mutable_campaign_common_services_config()->::ondewo::vtsi::CommonServicesConfig::MergeFrom(
+        from._internal_campaign_common_services_config());
+  }
+  if (from._internal_has_campaign_sip_caller_config()) {
+    _this->_internal_mutable_campaign_sip_caller_config()->::ondewo::vtsi::SipCallerConfig::MergeFrom(
+        from._internal_campaign_sip_caller_config());
+  }
+  if (from._internal_has_calling_window()) {
+    _this->_internal_mutable_calling_window()->::ondewo::vtsi::CampaignCallingWindow::MergeFrom(
+        from._internal_calling_window());
+  }
   if (from._internal_max_parallel_calls() != 0) {
     _this->_internal_set_max_parallel_calls(from._internal_max_parallel_calls());
   }
@@ -1883,6 +2603,12 @@ void Campaign::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
   }
   if (from._internal_state() != 0) {
     _this->_internal_set_state(from._internal_state());
+  }
+  if (from._internal_campaign_callers_truncated() != 0) {
+    _this->_internal_set_campaign_callers_truncated(from._internal_campaign_callers_truncated());
+  }
+  if (from._internal_outside_calling_window() != 0) {
+    _this->_internal_set_outside_calling_window(from._internal_outside_calling_window());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1903,6 +2629,7 @@ void Campaign::InternalSwap(Campaign* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.campaign_callers_.InternalSwap(&other->_impl_.campaign_callers_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.name_, lhs_arena,
       &other->_impl_.name_, rhs_arena
@@ -1932,8 +2659,8 @@ void Campaign::InternalSwap(Campaign* other) {
       &other->_impl_.modified_by_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Campaign, _impl_.state_)
-      + sizeof(Campaign::_impl_.state_)
+      PROTOBUF_FIELD_OFFSET(Campaign, _impl_.outside_calling_window_)
+      + sizeof(Campaign::_impl_.outside_calling_window_)
       - PROTOBUF_FIELD_OFFSET(Campaign, _impl_.retry_delay_)>(
           reinterpret_cast<char*>(&_impl_.retry_delay_),
           reinterpret_cast<char*>(&other->_impl_.retry_delay_));
@@ -1947,10 +2674,544 @@ void Campaign::InternalSwap(Campaign* other) {
 
 // ===================================================================
 
-class CampaignStatistics::_Internal {
+class CampaignCallingWindow::_Internal {
+ public:
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& next_window_start(const CampaignCallingWindow* msg);
+};
+
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+CampaignCallingWindow::_Internal::next_window_start(const CampaignCallingWindow* msg) {
+  return *msg->_impl_.next_window_start_;
+}
+void CampaignCallingWindow::clear_next_window_start() {
+  if (GetArenaForAllocation() == nullptr && _impl_.next_window_start_ != nullptr) {
+    delete _impl_.next_window_start_;
+  }
+  _impl_.next_window_start_ = nullptr;
+}
+CampaignCallingWindow::CampaignCallingWindow(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.CampaignCallingWindow)
+}
+CampaignCallingWindow::CampaignCallingWindow(const CampaignCallingWindow& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CampaignCallingWindow* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.slots_){from._impl_.slots_}
+    , decltype(_impl_.time_zone_){}
+    , decltype(_impl_.next_window_start_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.time_zone_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.time_zone_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_time_zone().empty()) {
+    _this->_impl_.time_zone_.Set(from._internal_time_zone(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_next_window_start()) {
+    _this->_impl_.next_window_start_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.next_window_start_);
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CampaignCallingWindow)
+}
+
+inline void CampaignCallingWindow::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.slots_){arena}
+    , decltype(_impl_.time_zone_){}
+    , decltype(_impl_.next_window_start_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.time_zone_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.time_zone_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+CampaignCallingWindow::~CampaignCallingWindow() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.CampaignCallingWindow)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CampaignCallingWindow::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.slots_.~RepeatedPtrField();
+  _impl_.time_zone_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.next_window_start_;
+}
+
+void CampaignCallingWindow::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CampaignCallingWindow::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.CampaignCallingWindow)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.slots_.Clear();
+  _impl_.time_zone_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.next_window_start_ != nullptr) {
+    delete _impl_.next_window_start_;
+  }
+  _impl_.next_window_start_ = nullptr;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CampaignCallingWindow::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string time_zone = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_time_zone();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CampaignCallingWindow.time_zone"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.CallingWindowSlot slots = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_slots(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp next_window_start = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_next_window_start(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CampaignCallingWindow::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.CampaignCallingWindow)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string time_zone = 1;
+  if (!this->_internal_time_zone().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_time_zone().data(), static_cast<int>(this->_internal_time_zone().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CampaignCallingWindow.time_zone");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_time_zone(), target);
+  }
+
+  // repeated .ondewo.vtsi.CallingWindowSlot slots = 2;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_slots_size()); i < n; i++) {
+    const auto& repfield = this->_internal_slots(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // .google.protobuf.Timestamp next_window_start = 3;
+  if (this->_internal_has_next_window_start()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::next_window_start(this),
+        _Internal::next_window_start(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.CampaignCallingWindow)
+  return target;
+}
+
+size_t CampaignCallingWindow::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.CampaignCallingWindow)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .ondewo.vtsi.CallingWindowSlot slots = 2;
+  total_size += 1UL * this->_internal_slots_size();
+  for (const auto& msg : this->_impl_.slots_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string time_zone = 1;
+  if (!this->_internal_time_zone().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_time_zone());
+  }
+
+  // .google.protobuf.Timestamp next_window_start = 3;
+  if (this->_internal_has_next_window_start()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.next_window_start_);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CampaignCallingWindow::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CampaignCallingWindow::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CampaignCallingWindow::GetClassData() const { return &_class_data_; }
+
+
+void CampaignCallingWindow::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CampaignCallingWindow*>(&to_msg);
+  auto& from = static_cast<const CampaignCallingWindow&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.CampaignCallingWindow)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.slots_.MergeFrom(from._impl_.slots_);
+  if (!from._internal_time_zone().empty()) {
+    _this->_internal_set_time_zone(from._internal_time_zone());
+  }
+  if (from._internal_has_next_window_start()) {
+    _this->_internal_mutable_next_window_start()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_next_window_start());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CampaignCallingWindow::CopyFrom(const CampaignCallingWindow& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.CampaignCallingWindow)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CampaignCallingWindow::IsInitialized() const {
+  return true;
+}
+
+void CampaignCallingWindow::InternalSwap(CampaignCallingWindow* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.slots_.InternalSwap(&other->_impl_.slots_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.time_zone_, lhs_arena,
+      &other->_impl_.time_zone_, rhs_arena
+  );
+  swap(_impl_.next_window_start_, other->_impl_.next_window_start_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CampaignCallingWindow::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[1]);
+}
+
+// ===================================================================
+
+class CallingWindowSlot::_Internal {
  public:
 };
 
+CallingWindowSlot::CallingWindowSlot(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.CallingWindowSlot)
+}
+CallingWindowSlot::CallingWindowSlot(const CallingWindowSlot& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CallingWindowSlot* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.day_of_week_){}
+    , decltype(_impl_.start_minute_){}
+    , decltype(_impl_.end_minute_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.day_of_week_, &from._impl_.day_of_week_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.end_minute_) -
+    reinterpret_cast<char*>(&_impl_.day_of_week_)) + sizeof(_impl_.end_minute_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CallingWindowSlot)
+}
+
+inline void CallingWindowSlot::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.day_of_week_){0}
+    , decltype(_impl_.start_minute_){0}
+    , decltype(_impl_.end_minute_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+CallingWindowSlot::~CallingWindowSlot() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.CallingWindowSlot)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CallingWindowSlot::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void CallingWindowSlot::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CallingWindowSlot::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.CallingWindowSlot)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.day_of_week_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.end_minute_) -
+      reinterpret_cast<char*>(&_impl_.day_of_week_)) + sizeof(_impl_.end_minute_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CallingWindowSlot::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.vtsi.CallingWindowDayOfWeek day_of_week = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_day_of_week(static_cast<::ondewo::vtsi::CallingWindowDayOfWeek>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 start_minute = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.start_minute_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 end_minute = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.end_minute_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CallingWindowSlot::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.CallingWindowSlot)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.vtsi.CallingWindowDayOfWeek day_of_week = 1;
+  if (this->_internal_day_of_week() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_day_of_week(), target);
+  }
+
+  // int32 start_minute = 2;
+  if (this->_internal_start_minute() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_start_minute(), target);
+  }
+
+  // int32 end_minute = 3;
+  if (this->_internal_end_minute() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_end_minute(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.CallingWindowSlot)
+  return target;
+}
+
+size_t CallingWindowSlot::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.CallingWindowSlot)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .ondewo.vtsi.CallingWindowDayOfWeek day_of_week = 1;
+  if (this->_internal_day_of_week() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_day_of_week());
+  }
+
+  // int32 start_minute = 2;
+  if (this->_internal_start_minute() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_start_minute());
+  }
+
+  // int32 end_minute = 3;
+  if (this->_internal_end_minute() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_end_minute());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CallingWindowSlot::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CallingWindowSlot::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CallingWindowSlot::GetClassData() const { return &_class_data_; }
+
+
+void CallingWindowSlot::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CallingWindowSlot*>(&to_msg);
+  auto& from = static_cast<const CallingWindowSlot&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.CallingWindowSlot)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_day_of_week() != 0) {
+    _this->_internal_set_day_of_week(from._internal_day_of_week());
+  }
+  if (from._internal_start_minute() != 0) {
+    _this->_internal_set_start_minute(from._internal_start_minute());
+  }
+  if (from._internal_end_minute() != 0) {
+    _this->_internal_set_end_minute(from._internal_end_minute());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CallingWindowSlot::CopyFrom(const CallingWindowSlot& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.CallingWindowSlot)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CallingWindowSlot::IsInitialized() const {
+  return true;
+}
+
+void CallingWindowSlot::InternalSwap(CallingWindowSlot* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CallingWindowSlot, _impl_.end_minute_)
+      + sizeof(CallingWindowSlot::_impl_.end_minute_)
+      - PROTOBUF_FIELD_OFFSET(CallingWindowSlot, _impl_.day_of_week_)>(
+          reinterpret_cast<char*>(&_impl_.day_of_week_),
+          reinterpret_cast<char*>(&other->_impl_.day_of_week_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CallingWindowSlot::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[2]);
+}
+
+// ===================================================================
+
+class CampaignStatistics::_Internal {
+ public:
+  static const ::PROTOBUF_NAMESPACE_ID::Duration& average_connected_duration(const CampaignStatistics* msg);
+};
+
+const ::PROTOBUF_NAMESPACE_ID::Duration&
+CampaignStatistics::_Internal::average_connected_duration(const CampaignStatistics* msg) {
+  return *msg->_impl_.average_connected_duration_;
+}
+void CampaignStatistics::clear_average_connected_duration() {
+  if (GetArenaForAllocation() == nullptr && _impl_.average_connected_duration_ != nullptr) {
+    delete _impl_.average_connected_duration_;
+  }
+  _impl_.average_connected_duration_ = nullptr;
+}
 CampaignStatistics::CampaignStatistics(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -1962,6 +3223,7 @@ CampaignStatistics::CampaignStatistics(const CampaignStatistics& from)
   CampaignStatistics* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.campaign_name_){}
+    , decltype(_impl_.average_connected_duration_){nullptr}
     , decltype(_impl_.total_){}
     , decltype(_impl_.not_started_){}
     , decltype(_impl_.in_progress_){}
@@ -1973,6 +3235,7 @@ CampaignStatistics::CampaignStatistics(const CampaignStatistics& from)
     , decltype(_impl_.progress_percent_){}
     , decltype(_impl_.scheduled_not_due_){}
     , decltype(_impl_.calls_retried_){}
+    , decltype(_impl_.answering_machine_detected_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1984,9 +3247,12 @@ CampaignStatistics::CampaignStatistics(const CampaignStatistics& from)
     _this->_impl_.campaign_name_.Set(from._internal_campaign_name(), 
       _this->GetArenaForAllocation());
   }
+  if (from._internal_has_average_connected_duration()) {
+    _this->_impl_.average_connected_duration_ = new ::PROTOBUF_NAMESPACE_ID::Duration(*from._impl_.average_connected_duration_);
+  }
   ::memcpy(&_impl_.total_, &from._impl_.total_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.calls_retried_) -
-    reinterpret_cast<char*>(&_impl_.total_)) + sizeof(_impl_.calls_retried_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.answering_machine_detected_) -
+    reinterpret_cast<char*>(&_impl_.total_)) + sizeof(_impl_.answering_machine_detected_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CampaignStatistics)
 }
 
@@ -1996,6 +3262,7 @@ inline void CampaignStatistics::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.campaign_name_){}
+    , decltype(_impl_.average_connected_duration_){nullptr}
     , decltype(_impl_.total_){0}
     , decltype(_impl_.not_started_){0}
     , decltype(_impl_.in_progress_){0}
@@ -2007,6 +3274,7 @@ inline void CampaignStatistics::SharedCtor(
     , decltype(_impl_.progress_percent_){0}
     , decltype(_impl_.scheduled_not_due_){0}
     , decltype(_impl_.calls_retried_){0}
+    , decltype(_impl_.answering_machine_detected_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.campaign_name_.InitDefault();
@@ -2027,6 +3295,7 @@ CampaignStatistics::~CampaignStatistics() {
 inline void CampaignStatistics::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.campaign_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.average_connected_duration_;
 }
 
 void CampaignStatistics::SetCachedSize(int size) const {
@@ -2040,9 +3309,13 @@ void CampaignStatistics::Clear() {
   (void) cached_has_bits;
 
   _impl_.campaign_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.average_connected_duration_ != nullptr) {
+    delete _impl_.average_connected_duration_;
+  }
+  _impl_.average_connected_duration_ = nullptr;
   ::memset(&_impl_.total_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.calls_retried_) -
-      reinterpret_cast<char*>(&_impl_.total_)) + sizeof(_impl_.calls_retried_));
+      reinterpret_cast<char*>(&_impl_.answering_machine_detected_) -
+      reinterpret_cast<char*>(&_impl_.total_)) + sizeof(_impl_.answering_machine_detected_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2146,6 +3419,22 @@ const char* CampaignStatistics::_InternalParse(const char* ptr, ::_pbi::ParseCon
       case 12:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 96)) {
           _impl_.calls_retried_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Duration average_connected_duration = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 106)) {
+          ptr = ctx->ParseMessage(_internal_mutable_average_connected_duration(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 answering_machine_detected = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 112)) {
+          _impl_.answering_machine_detected_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -2259,6 +3548,19 @@ uint8_t* CampaignStatistics::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(12, this->_internal_calls_retried(), target);
   }
 
+  // .google.protobuf.Duration average_connected_duration = 13;
+  if (this->_internal_has_average_connected_duration()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(13, _Internal::average_connected_duration(this),
+        _Internal::average_connected_duration(this).GetCachedSize(), target, stream);
+  }
+
+  // int32 answering_machine_detected = 14;
+  if (this->_internal_answering_machine_detected() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(14, this->_internal_answering_machine_detected(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2280,6 +3582,13 @@ size_t CampaignStatistics::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_campaign_name());
+  }
+
+  // .google.protobuf.Duration average_connected_duration = 13;
+  if (this->_internal_has_average_connected_duration()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.average_connected_duration_);
   }
 
   // int32 total = 2;
@@ -2341,6 +3650,11 @@ size_t CampaignStatistics::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_calls_retried());
   }
 
+  // int32 answering_machine_detected = 14;
+  if (this->_internal_answering_machine_detected() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_answering_machine_detected());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -2361,6 +3675,10 @@ void CampaignStatistics::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
 
   if (!from._internal_campaign_name().empty()) {
     _this->_internal_set_campaign_name(from._internal_campaign_name());
+  }
+  if (from._internal_has_average_connected_duration()) {
+    _this->_internal_mutable_average_connected_duration()->::PROTOBUF_NAMESPACE_ID::Duration::MergeFrom(
+        from._internal_average_connected_duration());
   }
   if (from._internal_total() != 0) {
     _this->_internal_set_total(from._internal_total());
@@ -2399,6 +3717,9 @@ void CampaignStatistics::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
   if (from._internal_calls_retried() != 0) {
     _this->_internal_set_calls_retried(from._internal_calls_retried());
   }
+  if (from._internal_answering_machine_detected() != 0) {
+    _this->_internal_set_answering_machine_detected(from._internal_answering_machine_detected());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -2423,17 +3744,17 @@ void CampaignStatistics::InternalSwap(CampaignStatistics* other) {
       &other->_impl_.campaign_name_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CampaignStatistics, _impl_.calls_retried_)
-      + sizeof(CampaignStatistics::_impl_.calls_retried_)
-      - PROTOBUF_FIELD_OFFSET(CampaignStatistics, _impl_.total_)>(
-          reinterpret_cast<char*>(&_impl_.total_),
-          reinterpret_cast<char*>(&other->_impl_.total_));
+      PROTOBUF_FIELD_OFFSET(CampaignStatistics, _impl_.answering_machine_detected_)
+      + sizeof(CampaignStatistics::_impl_.answering_machine_detected_)
+      - PROTOBUF_FIELD_OFFSET(CampaignStatistics, _impl_.average_connected_duration_)>(
+          reinterpret_cast<char*>(&_impl_.average_connected_duration_),
+          reinterpret_cast<char*>(&other->_impl_.average_connected_duration_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata CampaignStatistics::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[1]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[3]);
 }
 
 // ===================================================================
@@ -2970,7 +4291,7 @@ void CampaignCallAttempt::InternalSwap(CampaignCallAttempt* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CampaignCallAttempt::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[2]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[4]);
 }
 
 // ===================================================================
@@ -4051,260 +5372,7 @@ void CampaignCall::InternalSwap(CampaignCall* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CampaignCall::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[3]);
-}
-
-// ===================================================================
-
-class CampaignDisplayName::_Internal {
- public:
-};
-
-CampaignDisplayName::CampaignDisplayName(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.CampaignDisplayName)
-}
-CampaignDisplayName::CampaignDisplayName(const CampaignDisplayName& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  CampaignDisplayName* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.vtsi_project_name_){}
-    , decltype(_impl_.display_name_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.vtsi_project_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_vtsi_project_name().empty()) {
-    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.display_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.display_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_display_name().empty()) {
-    _this->_impl_.display_name_.Set(from._internal_display_name(), 
-      _this->GetArenaForAllocation());
-  }
-  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CampaignDisplayName)
-}
-
-inline void CampaignDisplayName::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.vtsi_project_name_){}
-    , decltype(_impl_.display_name_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-  _impl_.vtsi_project_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.display_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.display_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-}
-
-CampaignDisplayName::~CampaignDisplayName() {
-  // @@protoc_insertion_point(destructor:ondewo.vtsi.CampaignDisplayName)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void CampaignDisplayName::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.vtsi_project_name_.Destroy();
-  _impl_.display_name_.Destroy();
-}
-
-void CampaignDisplayName::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void CampaignDisplayName::Clear() {
-// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.CampaignDisplayName)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.vtsi_project_name_.ClearToEmpty();
-  _impl_.display_name_.ClearToEmpty();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* CampaignDisplayName::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // string vtsi_project_name = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_vtsi_project_name();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CampaignDisplayName.vtsi_project_name"));
-        } else
-          goto handle_unusual;
-        continue;
-      // string display_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_display_name();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CampaignDisplayName.display_name"));
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* CampaignDisplayName::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.CampaignDisplayName)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string vtsi_project_name = 1;
-  if (!this->_internal_vtsi_project_name().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "ondewo.vtsi.CampaignDisplayName.vtsi_project_name");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_vtsi_project_name(), target);
-  }
-
-  // string display_name = 2;
-  if (!this->_internal_display_name().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "ondewo.vtsi.CampaignDisplayName.display_name");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_display_name(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.CampaignDisplayName)
-  return target;
-}
-
-size_t CampaignDisplayName::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.CampaignDisplayName)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // string vtsi_project_name = 1;
-  if (!this->_internal_vtsi_project_name().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_vtsi_project_name());
-  }
-
-  // string display_name = 2;
-  if (!this->_internal_display_name().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_display_name());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CampaignDisplayName::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    CampaignDisplayName::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CampaignDisplayName::GetClassData() const { return &_class_data_; }
-
-
-void CampaignDisplayName::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<CampaignDisplayName*>(&to_msg);
-  auto& from = static_cast<const CampaignDisplayName&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.CampaignDisplayName)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (!from._internal_vtsi_project_name().empty()) {
-    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
-  }
-  if (!from._internal_display_name().empty()) {
-    _this->_internal_set_display_name(from._internal_display_name());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void CampaignDisplayName::CopyFrom(const CampaignDisplayName& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.CampaignDisplayName)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool CampaignDisplayName::IsInitialized() const {
-  return true;
-}
-
-void CampaignDisplayName::InternalSwap(CampaignDisplayName* other) {
-  using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.vtsi_project_name_, lhs_arena,
-      &other->_impl_.vtsi_project_name_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.display_name_, lhs_arena,
-      &other->_impl_.display_name_, rhs_arena
-  );
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata CampaignDisplayName::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[4]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[5]);
 }
 
 // ===================================================================
@@ -4312,16 +5380,11 @@ void CampaignDisplayName::InternalSwap(CampaignDisplayName* other) {
 class CampaignAssignment::_Internal {
  public:
   static const ::ondewo::vtsi::Campaign& new_campaign(const CampaignAssignment* msg);
-  static const ::ondewo::vtsi::CampaignDisplayName& campaign_display_name(const CampaignAssignment* msg);
 };
 
 const ::ondewo::vtsi::Campaign&
 CampaignAssignment::_Internal::new_campaign(const CampaignAssignment* msg) {
   return *msg->_impl_.campaign_selector_.new_campaign_;
-}
-const ::ondewo::vtsi::CampaignDisplayName&
-CampaignAssignment::_Internal::campaign_display_name(const CampaignAssignment* msg) {
-  return *msg->_impl_.campaign_selector_.campaign_display_name_;
 }
 void CampaignAssignment::set_allocated_new_campaign(::ondewo::vtsi::Campaign* new_campaign) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
@@ -4337,21 +5400,6 @@ void CampaignAssignment::set_allocated_new_campaign(::ondewo::vtsi::Campaign* ne
     _impl_.campaign_selector_.new_campaign_ = new_campaign;
   }
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CampaignAssignment.new_campaign)
-}
-void CampaignAssignment::set_allocated_campaign_display_name(::ondewo::vtsi::CampaignDisplayName* campaign_display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign_selector();
-  if (campaign_display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(campaign_display_name);
-    if (message_arena != submessage_arena) {
-      campaign_display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, campaign_display_name, submessage_arena);
-    }
-    set_has_campaign_display_name();
-    _impl_.campaign_selector_.campaign_display_name_ = campaign_display_name;
-  }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CampaignAssignment.campaign_display_name)
 }
 CampaignAssignment::CampaignAssignment(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -4381,9 +5429,8 @@ CampaignAssignment::CampaignAssignment(const CampaignAssignment& from)
           from._internal_new_campaign());
       break;
     }
-    case kCampaignDisplayName: {
-      _this->_internal_mutable_campaign_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_campaign_display_name());
+    case kDisplayName: {
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_SELECTOR_NOT_SET: {
@@ -4439,10 +5486,8 @@ void CampaignAssignment::clear_campaign_selector() {
       }
       break;
     }
-    case kCampaignDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_selector_.campaign_display_name_;
-      }
+    case kDisplayName: {
+      _impl_.campaign_selector_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_SELECTOR_NOT_SET: {
@@ -4497,11 +5542,13 @@ const char* CampaignAssignment::_InternalParse(const char* ptr, ::_pbi::ParseCon
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName campaign_display_name = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          ptr = ctx->ParseMessage(_internal_mutable_campaign_display_name(), ptr);
+      // string display_name = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CampaignAssignment.display_name"));
         } else
           goto handle_unusual;
         continue;
@@ -4558,11 +5605,14 @@ uint8_t* CampaignAssignment::_InternalSerialize(
       3, this->_internal_start_mode(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName campaign_display_name = 4;
-  if (_internal_has_campaign_display_name()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::campaign_display_name(this),
-        _Internal::campaign_display_name(this).GetCachedSize(), target, stream);
+  // string display_name = 5;
+  if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CampaignAssignment.display_name");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_display_name(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4602,11 +5652,11 @@ size_t CampaignAssignment::ByteSizeLong() const {
           *_impl_.campaign_selector_.new_campaign_);
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName campaign_display_name = 4;
-    case kCampaignDisplayName: {
+    // string display_name = 5;
+    case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_selector_.campaign_display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_SELECTOR_NOT_SET: {
@@ -4644,9 +5694,8 @@ void CampaignAssignment::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
           from._internal_new_campaign());
       break;
     }
-    case kCampaignDisplayName: {
-      _this->_internal_mutable_campaign_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_campaign_display_name());
+    case kDisplayName: {
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_SELECTOR_NOT_SET: {
@@ -4678,7 +5727,7 @@ void CampaignAssignment::InternalSwap(CampaignAssignment* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CampaignAssignment::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[5]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[6]);
 }
 
 // ===================================================================
@@ -4686,11 +5735,22 @@ void CampaignAssignment::InternalSwap(CampaignAssignment* other) {
 class CreateCampaignRequest::_Internal {
  public:
   static const ::ondewo::vtsi::Campaign& campaign(const CreateCampaignRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const CreateCampaignRequest* msg);
 };
 
 const ::ondewo::vtsi::Campaign&
 CreateCampaignRequest::_Internal::campaign(const CreateCampaignRequest* msg) {
   return *msg->_impl_.campaign_;
+}
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+CreateCampaignRequest::_Internal::field_mask(const CreateCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
+}
+void CreateCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
 }
 CreateCampaignRequest::CreateCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -4703,7 +5763,9 @@ CreateCampaignRequest::CreateCampaignRequest(const CreateCampaignRequest& from)
   CreateCampaignRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.idempotency_key_){}
     , decltype(_impl_.campaign_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -4715,8 +5777,19 @@ CreateCampaignRequest::CreateCampaignRequest(const CreateCampaignRequest& from)
     _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.idempotency_key_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.idempotency_key_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_idempotency_key().empty()) {
+    _this->_impl_.idempotency_key_.Set(from._internal_idempotency_key(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_campaign()) {
     _this->_impl_.campaign_ = new ::ondewo::vtsi::Campaign(*from._impl_.campaign_);
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
   }
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CreateCampaignRequest)
 }
@@ -4727,12 +5800,18 @@ inline void CreateCampaignRequest::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.idempotency_key_){}
     , decltype(_impl_.campaign_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.vtsi_project_name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.idempotency_key_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.idempotency_key_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -4748,7 +5827,9 @@ CreateCampaignRequest::~CreateCampaignRequest() {
 inline void CreateCampaignRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.vtsi_project_name_.Destroy();
+  _impl_.idempotency_key_.Destroy();
   if (this != internal_default_instance()) delete _impl_.campaign_;
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
 }
 
 void CreateCampaignRequest::SetCachedSize(int size) const {
@@ -4762,10 +5843,15 @@ void CreateCampaignRequest::Clear() {
   (void) cached_has_bits;
 
   _impl_.vtsi_project_name_.ClearToEmpty();
+  _impl_.idempotency_key_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.campaign_ != nullptr) {
     delete _impl_.campaign_;
   }
   _impl_.campaign_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -4790,6 +5876,24 @@ const char* CreateCampaignRequest::_InternalParse(const char* ptr, ::_pbi::Parse
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_campaign(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string idempotency_key = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_idempotency_key();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CreateCampaignRequest.idempotency_key"));
         } else
           goto handle_unusual;
         continue;
@@ -4839,6 +5943,23 @@ uint8_t* CreateCampaignRequest::_InternalSerialize(
         _Internal::campaign(this).GetCachedSize(), target, stream);
   }
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  // string idempotency_key = 4;
+  if (!this->_internal_idempotency_key().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_idempotency_key().data(), static_cast<int>(this->_internal_idempotency_key().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CreateCampaignRequest.idempotency_key");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_idempotency_key(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4862,11 +5983,25 @@ size_t CreateCampaignRequest::ByteSizeLong() const {
         this->_internal_vtsi_project_name());
   }
 
+  // string idempotency_key = 4;
+  if (!this->_internal_idempotency_key().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_idempotency_key());
+  }
+
   // .ondewo.vtsi.Campaign campaign = 2;
   if (this->_internal_has_campaign()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.campaign_);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 3;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -4890,9 +6025,16 @@ void CreateCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   if (!from._internal_vtsi_project_name().empty()) {
     _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
   }
+  if (!from._internal_idempotency_key().empty()) {
+    _this->_internal_set_idempotency_key(from._internal_idempotency_key());
+  }
   if (from._internal_has_campaign()) {
     _this->_internal_mutable_campaign()->::ondewo::vtsi::Campaign::MergeFrom(
         from._internal_campaign());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -4917,40 +6059,40 @@ void CreateCampaignRequest::InternalSwap(CreateCampaignRequest* other) {
       &_impl_.vtsi_project_name_, lhs_arena,
       &other->_impl_.vtsi_project_name_, rhs_arena
   );
-  swap(_impl_.campaign_, other->_impl_.campaign_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.idempotency_key_, lhs_arena,
+      &other->_impl_.idempotency_key_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CreateCampaignRequest, _impl_.field_mask_)
+      + sizeof(CreateCampaignRequest::_impl_.field_mask_)
+      - PROTOBUF_FIELD_OFFSET(CreateCampaignRequest, _impl_.campaign_)>(
+          reinterpret_cast<char*>(&_impl_.campaign_),
+          reinterpret_cast<char*>(&other->_impl_.campaign_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateCampaignRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[6]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[7]);
 }
 
 // ===================================================================
 
 class GetCampaignRequest::_Internal {
  public:
-  static const ::ondewo::vtsi::CampaignDisplayName& display_name(const GetCampaignRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const GetCampaignRequest* msg);
 };
 
-const ::ondewo::vtsi::CampaignDisplayName&
-GetCampaignRequest::_Internal::display_name(const GetCampaignRequest* msg) {
-  return *msg->_impl_.campaign_.display_name_;
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+GetCampaignRequest::_Internal::field_mask(const GetCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
 }
-void GetCampaignRequest::set_allocated_display_name(::ondewo::vtsi::CampaignDisplayName* display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign();
-  if (display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(display_name);
-    if (message_arena != submessage_arena) {
-      display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, display_name, submessage_arena);
-    }
-    set_has_display_name();
-    _impl_.campaign_.display_name_ = display_name;
+void GetCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
   }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetCampaignRequest.display_name)
+  _impl_.field_mask_ = nullptr;
 }
 GetCampaignRequest::GetCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -4962,11 +6104,24 @@ GetCampaignRequest::GetCampaignRequest(const GetCampaignRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   GetCampaignRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
   clear_has_campaign();
   switch (from.campaign_case()) {
     case kName: {
@@ -4974,8 +6129,7 @@ GetCampaignRequest::GetCampaignRequest(const GetCampaignRequest& from)
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -4990,10 +6144,16 @@ inline void GetCampaignRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_campaign();
 }
 
@@ -5008,6 +6168,8 @@ GetCampaignRequest::~GetCampaignRequest() {
 
 inline void GetCampaignRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
   if (has_campaign()) {
     clear_campaign();
   }
@@ -5025,9 +6187,7 @@ void GetCampaignRequest::clear_campaign() {
       break;
     }
     case kDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_.display_name_;
-      }
+      _impl_.campaign_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -5044,6 +6204,11 @@ void GetCampaignRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   clear_campaign();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -5064,10 +6229,30 @@ const char* GetCampaignRequest::_InternalParse(const char* ptr, ::_pbi::ParseCon
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName display_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_display_name(), ptr);
+      // string display_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.GetCampaignRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.GetCampaignRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -5111,11 +6296,31 @@ uint8_t* GetCampaignRequest::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+  // string display_name = 3;
   if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.GetCampaignRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.GetCampaignRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_vtsi_project_name(), target);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::display_name(this),
-        _Internal::display_name(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(5, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -5134,6 +6339,20 @@ size_t GetCampaignRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
   switch (campaign_case()) {
     // string name = 1;
     case kName: {
@@ -5142,11 +6361,11 @@ size_t GetCampaignRequest::ByteSizeLong() const {
           this->_internal_name());
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+    // string display_name = 3;
     case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_.display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -5171,14 +6390,20 @@ void GetCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
   switch (from.campaign_case()) {
     case kName: {
       _this->_internal_set_name(from._internal_name());
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -5201,7 +6426,14 @@ bool GetCampaignRequest::IsInitialized() const {
 
 void GetCampaignRequest::InternalSwap(GetCampaignRequest* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  swap(_impl_.field_mask_, other->_impl_.field_mask_);
   swap(_impl_.campaign_, other->_impl_.campaign_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
@@ -5209,7 +6441,7 @@ void GetCampaignRequest::InternalSwap(GetCampaignRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetCampaignRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[7]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[8]);
 }
 
 // ===================================================================
@@ -5218,6 +6450,7 @@ class UpdateCampaignRequest::_Internal {
  public:
   static const ::ondewo::vtsi::Campaign& campaign(const UpdateCampaignRequest* msg);
   static const ::PROTOBUF_NAMESPACE_ID::FieldMask& update_mask(const UpdateCampaignRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const UpdateCampaignRequest* msg);
 };
 
 const ::ondewo::vtsi::Campaign&
@@ -5228,11 +6461,21 @@ const ::PROTOBUF_NAMESPACE_ID::FieldMask&
 UpdateCampaignRequest::_Internal::update_mask(const UpdateCampaignRequest* msg) {
   return *msg->_impl_.update_mask_;
 }
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+UpdateCampaignRequest::_Internal::field_mask(const UpdateCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
+}
 void UpdateCampaignRequest::clear_update_mask() {
   if (GetArenaForAllocation() == nullptr && _impl_.update_mask_ != nullptr) {
     delete _impl_.update_mask_;
   }
   _impl_.update_mask_ = nullptr;
+}
+void UpdateCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
 }
 UpdateCampaignRequest::UpdateCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -5246,6 +6489,7 @@ UpdateCampaignRequest::UpdateCampaignRequest(const UpdateCampaignRequest& from)
   new (&_impl_) Impl_{
       decltype(_impl_.campaign_){nullptr}
     , decltype(_impl_.update_mask_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -5254,6 +6498,9 @@ UpdateCampaignRequest::UpdateCampaignRequest(const UpdateCampaignRequest& from)
   }
   if (from._internal_has_update_mask()) {
     _this->_impl_.update_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.update_mask_);
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
   }
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.UpdateCampaignRequest)
 }
@@ -5265,6 +6512,7 @@ inline void UpdateCampaignRequest::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.campaign_){nullptr}
     , decltype(_impl_.update_mask_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -5282,6 +6530,7 @@ inline void UpdateCampaignRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete _impl_.campaign_;
   if (this != internal_default_instance()) delete _impl_.update_mask_;
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
 }
 
 void UpdateCampaignRequest::SetCachedSize(int size) const {
@@ -5302,6 +6551,10 @@ void UpdateCampaignRequest::Clear() {
     delete _impl_.update_mask_;
   }
   _impl_.update_mask_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -5323,6 +6576,14 @@ const char* UpdateCampaignRequest::_InternalParse(const char* ptr, ::_pbi::Parse
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_update_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -5370,6 +6631,13 @@ uint8_t* UpdateCampaignRequest::_InternalSerialize(
         _Internal::update_mask(this).GetCachedSize(), target, stream);
   }
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -5400,6 +6668,13 @@ size_t UpdateCampaignRequest::ByteSizeLong() const {
         *_impl_.update_mask_);
   }
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -5426,6 +6701,10 @@ void UpdateCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
     _this->_internal_mutable_update_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
         from._internal_update_mask());
   }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -5444,8 +6723,8 @@ void UpdateCampaignRequest::InternalSwap(UpdateCampaignRequest* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(UpdateCampaignRequest, _impl_.update_mask_)
-      + sizeof(UpdateCampaignRequest::_impl_.update_mask_)
+      PROTOBUF_FIELD_OFFSET(UpdateCampaignRequest, _impl_.field_mask_)
+      + sizeof(UpdateCampaignRequest::_impl_.field_mask_)
       - PROTOBUF_FIELD_OFFSET(UpdateCampaignRequest, _impl_.campaign_)>(
           reinterpret_cast<char*>(&_impl_.campaign_),
           reinterpret_cast<char*>(&other->_impl_.campaign_));
@@ -5454,34 +6733,25 @@ void UpdateCampaignRequest::InternalSwap(UpdateCampaignRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateCampaignRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[8]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[9]);
 }
 
 // ===================================================================
 
 class DeleteCampaignRequest::_Internal {
  public:
-  static const ::ondewo::vtsi::CampaignDisplayName& display_name(const DeleteCampaignRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const DeleteCampaignRequest* msg);
 };
 
-const ::ondewo::vtsi::CampaignDisplayName&
-DeleteCampaignRequest::_Internal::display_name(const DeleteCampaignRequest* msg) {
-  return *msg->_impl_.campaign_.display_name_;
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+DeleteCampaignRequest::_Internal::field_mask(const DeleteCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
 }
-void DeleteCampaignRequest::set_allocated_display_name(::ondewo::vtsi::CampaignDisplayName* display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign();
-  if (display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(display_name);
-    if (message_arena != submessage_arena) {
-      display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, display_name, submessage_arena);
-    }
-    set_has_display_name();
-    _impl_.campaign_.display_name_ = display_name;
+void DeleteCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
   }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.DeleteCampaignRequest.display_name)
+  _impl_.field_mask_ = nullptr;
 }
 DeleteCampaignRequest::DeleteCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -5493,11 +6763,26 @@ DeleteCampaignRequest::DeleteCampaignRequest(const DeleteCampaignRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   DeleteCampaignRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.force_){}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
+  _this->_impl_.force_ = from._impl_.force_;
   clear_has_campaign();
   switch (from.campaign_case()) {
     case kName: {
@@ -5505,8 +6790,7 @@ DeleteCampaignRequest::DeleteCampaignRequest(const DeleteCampaignRequest& from)
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -5521,10 +6805,17 @@ inline void DeleteCampaignRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.force_){false}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_campaign();
 }
 
@@ -5539,6 +6830,8 @@ DeleteCampaignRequest::~DeleteCampaignRequest() {
 
 inline void DeleteCampaignRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
   if (has_campaign()) {
     clear_campaign();
   }
@@ -5556,9 +6849,7 @@ void DeleteCampaignRequest::clear_campaign() {
       break;
     }
     case kDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_.display_name_;
-      }
+      _impl_.campaign_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -5575,6 +6866,12 @@ void DeleteCampaignRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+  _impl_.force_ = false;
   clear_campaign();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -5595,10 +6892,38 @@ const char* DeleteCampaignRequest::_InternalParse(const char* ptr, ::_pbi::Parse
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName display_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_display_name(), ptr);
+      // string display_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.DeleteCampaignRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.DeleteCampaignRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool force = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.force_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -5642,11 +6967,37 @@ uint8_t* DeleteCampaignRequest::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+  // string display_name = 3;
   if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.DeleteCampaignRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.DeleteCampaignRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_vtsi_project_name(), target);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::display_name(this),
-        _Internal::display_name(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(5, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  // bool force = 6;
+  if (this->_internal_force() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(6, this->_internal_force(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -5665,6 +7016,25 @@ size_t DeleteCampaignRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
+  // bool force = 6;
+  if (this->_internal_force() != 0) {
+    total_size += 1 + 1;
+  }
+
   switch (campaign_case()) {
     // string name = 1;
     case kName: {
@@ -5673,11 +7043,11 @@ size_t DeleteCampaignRequest::ByteSizeLong() const {
           this->_internal_name());
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+    // string display_name = 3;
     case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_.display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -5702,14 +7072,23 @@ void DeleteCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
+  if (from._internal_force() != 0) {
+    _this->_internal_set_force(from._internal_force());
+  }
   switch (from.campaign_case()) {
     case kName: {
       _this->_internal_set_name(from._internal_name());
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -5732,7 +7111,19 @@ bool DeleteCampaignRequest::IsInitialized() const {
 
 void DeleteCampaignRequest::InternalSwap(DeleteCampaignRequest* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(DeleteCampaignRequest, _impl_.force_)
+      + sizeof(DeleteCampaignRequest::_impl_.force_)
+      - PROTOBUF_FIELD_OFFSET(DeleteCampaignRequest, _impl_.field_mask_)>(
+          reinterpret_cast<char*>(&_impl_.field_mask_),
+          reinterpret_cast<char*>(&other->_impl_.field_mask_));
   swap(_impl_.campaign_, other->_impl_.campaign_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
@@ -5740,7 +7131,7 @@ void DeleteCampaignRequest::InternalSwap(DeleteCampaignRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteCampaignRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[9]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[10]);
 }
 
 // ===================================================================
@@ -6003,15 +7394,48 @@ void DeleteCampaignResponse::InternalSwap(DeleteCampaignResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteCampaignResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[10]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[11]);
 }
 
 // ===================================================================
 
 class CampaignFilter::_Internal {
  public:
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& created_after(const CampaignFilter* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& created_before(const CampaignFilter* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& modified_since(const CampaignFilter* msg);
 };
 
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+CampaignFilter::_Internal::created_after(const CampaignFilter* msg) {
+  return *msg->_impl_.created_after_;
+}
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+CampaignFilter::_Internal::created_before(const CampaignFilter* msg) {
+  return *msg->_impl_.created_before_;
+}
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+CampaignFilter::_Internal::modified_since(const CampaignFilter* msg) {
+  return *msg->_impl_.modified_since_;
+}
+void CampaignFilter::clear_created_after() {
+  if (GetArenaForAllocation() == nullptr && _impl_.created_after_ != nullptr) {
+    delete _impl_.created_after_;
+  }
+  _impl_.created_after_ = nullptr;
+}
+void CampaignFilter::clear_created_before() {
+  if (GetArenaForAllocation() == nullptr && _impl_.created_before_ != nullptr) {
+    delete _impl_.created_before_;
+  }
+  _impl_.created_before_ = nullptr;
+}
+void CampaignFilter::clear_modified_since() {
+  if (GetArenaForAllocation() == nullptr && _impl_.modified_since_ != nullptr) {
+    delete _impl_.modified_since_;
+  }
+  _impl_.modified_since_ = nullptr;
+}
 CampaignFilter::CampaignFilter(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -6026,6 +7450,10 @@ CampaignFilter::CampaignFilter(const CampaignFilter& from)
     , /*decltype(_impl_._states_cached_byte_size_)*/{0}
     , decltype(_impl_.display_name_contains_){}
     , decltype(_impl_.display_name_){}
+    , decltype(_impl_.created_by_){}
+    , decltype(_impl_.created_after_){nullptr}
+    , decltype(_impl_.created_before_){nullptr}
+    , decltype(_impl_.modified_since_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -6045,6 +7473,23 @@ CampaignFilter::CampaignFilter(const CampaignFilter& from)
     _this->_impl_.display_name_.Set(from._internal_display_name(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.created_by_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.created_by_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_created_by().empty()) {
+    _this->_impl_.created_by_.Set(from._internal_created_by(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_created_after()) {
+    _this->_impl_.created_after_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.created_after_);
+  }
+  if (from._internal_has_created_before()) {
+    _this->_impl_.created_before_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.created_before_);
+  }
+  if (from._internal_has_modified_since()) {
+    _this->_impl_.modified_since_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.modified_since_);
+  }
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CampaignFilter)
 }
 
@@ -6057,6 +7502,10 @@ inline void CampaignFilter::SharedCtor(
     , /*decltype(_impl_._states_cached_byte_size_)*/{0}
     , decltype(_impl_.display_name_contains_){}
     , decltype(_impl_.display_name_){}
+    , decltype(_impl_.created_by_){}
+    , decltype(_impl_.created_after_){nullptr}
+    , decltype(_impl_.created_before_){nullptr}
+    , decltype(_impl_.modified_since_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.display_name_contains_.InitDefault();
@@ -6066,6 +7515,10 @@ inline void CampaignFilter::SharedCtor(
   _impl_.display_name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.display_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.created_by_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.created_by_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -6083,6 +7536,10 @@ inline void CampaignFilter::SharedDtor() {
   _impl_.states_.~RepeatedField();
   _impl_.display_name_contains_.Destroy();
   _impl_.display_name_.Destroy();
+  _impl_.created_by_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.created_after_;
+  if (this != internal_default_instance()) delete _impl_.created_before_;
+  if (this != internal_default_instance()) delete _impl_.modified_since_;
 }
 
 void CampaignFilter::SetCachedSize(int size) const {
@@ -6098,6 +7555,19 @@ void CampaignFilter::Clear() {
   _impl_.states_.Clear();
   _impl_.display_name_contains_.ClearToEmpty();
   _impl_.display_name_.ClearToEmpty();
+  _impl_.created_by_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.created_after_ != nullptr) {
+    delete _impl_.created_after_;
+  }
+  _impl_.created_after_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.created_before_ != nullptr) {
+    delete _impl_.created_before_;
+  }
+  _impl_.created_before_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.modified_since_ != nullptr) {
+    delete _impl_.modified_since_;
+  }
+  _impl_.modified_since_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -6136,6 +7606,40 @@ const char* CampaignFilter::_InternalParse(const char* ptr, ::_pbi::ParseContext
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CampaignFilter.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp created_after = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_created_after(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp created_before = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_created_before(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string created_by = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          auto str = _internal_mutable_created_by();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CampaignFilter.created_by"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp modified_since = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_modified_since(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -6197,6 +7701,37 @@ uint8_t* CampaignFilter::_InternalSerialize(
         3, this->_internal_display_name(), target);
   }
 
+  // .google.protobuf.Timestamp created_after = 4;
+  if (this->_internal_has_created_after()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::created_after(this),
+        _Internal::created_after(this).GetCachedSize(), target, stream);
+  }
+
+  // .google.protobuf.Timestamp created_before = 5;
+  if (this->_internal_has_created_before()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(5, _Internal::created_before(this),
+        _Internal::created_before(this).GetCachedSize(), target, stream);
+  }
+
+  // string created_by = 6;
+  if (!this->_internal_created_by().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_created_by().data(), static_cast<int>(this->_internal_created_by().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CampaignFilter.created_by");
+    target = stream->WriteStringMaybeAliased(
+        6, this->_internal_created_by(), target);
+  }
+
+  // .google.protobuf.Timestamp modified_since = 7;
+  if (this->_internal_has_modified_since()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(7, _Internal::modified_since(this),
+        _Internal::modified_since(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -6244,6 +7779,34 @@ size_t CampaignFilter::ByteSizeLong() const {
         this->_internal_display_name());
   }
 
+  // string created_by = 6;
+  if (!this->_internal_created_by().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_created_by());
+  }
+
+  // .google.protobuf.Timestamp created_after = 4;
+  if (this->_internal_has_created_after()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.created_after_);
+  }
+
+  // .google.protobuf.Timestamp created_before = 5;
+  if (this->_internal_has_created_before()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.created_before_);
+  }
+
+  // .google.protobuf.Timestamp modified_since = 7;
+  if (this->_internal_has_modified_since()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.modified_since_);
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -6268,6 +7831,21 @@ void CampaignFilter::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   }
   if (!from._internal_display_name().empty()) {
     _this->_internal_set_display_name(from._internal_display_name());
+  }
+  if (!from._internal_created_by().empty()) {
+    _this->_internal_set_created_by(from._internal_created_by());
+  }
+  if (from._internal_has_created_after()) {
+    _this->_internal_mutable_created_after()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_created_after());
+  }
+  if (from._internal_has_created_before()) {
+    _this->_internal_mutable_created_before()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_created_before());
+  }
+  if (from._internal_has_modified_since()) {
+    _this->_internal_mutable_modified_since()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_modified_since());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -6297,12 +7875,22 @@ void CampaignFilter::InternalSwap(CampaignFilter* other) {
       &_impl_.display_name_, lhs_arena,
       &other->_impl_.display_name_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.created_by_, lhs_arena,
+      &other->_impl_.created_by_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CampaignFilter, _impl_.modified_since_)
+      + sizeof(CampaignFilter::_impl_.modified_since_)
+      - PROTOBUF_FIELD_OFFSET(CampaignFilter, _impl_.created_after_)>(
+          reinterpret_cast<char*>(&_impl_.created_after_),
+          reinterpret_cast<char*>(&other->_impl_.created_after_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata CampaignFilter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[11]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[12]);
 }
 
 // ===================================================================
@@ -6314,11 +7902,22 @@ class ListCampaignsRequest::_Internal {
   static void set_has_page_token(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const ListCampaignsRequest* msg);
 };
 
 const ::ondewo::vtsi::CampaignFilter&
 ListCampaignsRequest::_Internal::filter(const ListCampaignsRequest* msg) {
   return *msg->_impl_.filter_;
+}
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+ListCampaignsRequest::_Internal::field_mask(const ListCampaignsRequest* msg) {
+  return *msg->_impl_.field_mask_;
+}
+void ListCampaignsRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
 }
 ListCampaignsRequest::ListCampaignsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -6335,7 +7934,9 @@ ListCampaignsRequest::ListCampaignsRequest(const ListCampaignsRequest& from)
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.page_token_){}
     , decltype(_impl_.filter_){nullptr}
-    , decltype(_impl_.page_size_){}};
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.page_size_){}
+    , decltype(_impl_.order_by_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.vtsi_project_name_.InitDefault();
@@ -6357,7 +7958,12 @@ ListCampaignsRequest::ListCampaignsRequest(const ListCampaignsRequest& from)
   if (from._internal_has_filter()) {
     _this->_impl_.filter_ = new ::ondewo::vtsi::CampaignFilter(*from._impl_.filter_);
   }
-  _this->_impl_.page_size_ = from._impl_.page_size_;
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
+  ::memcpy(&_impl_.page_size_, &from._impl_.page_size_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.order_by_) -
+    reinterpret_cast<char*>(&_impl_.page_size_)) + sizeof(_impl_.order_by_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.ListCampaignsRequest)
 }
 
@@ -6371,7 +7977,9 @@ inline void ListCampaignsRequest::SharedCtor(
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.page_token_){}
     , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , decltype(_impl_.page_size_){0}
+    , decltype(_impl_.order_by_){0}
   };
   _impl_.vtsi_project_name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -6397,6 +8005,7 @@ inline void ListCampaignsRequest::SharedDtor() {
   _impl_.vtsi_project_name_.Destroy();
   _impl_.page_token_.Destroy();
   if (this != internal_default_instance()) delete _impl_.filter_;
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
 }
 
 void ListCampaignsRequest::SetCachedSize(int size) const {
@@ -6418,7 +8027,13 @@ void ListCampaignsRequest::Clear() {
     delete _impl_.filter_;
   }
   _impl_.filter_ = nullptr;
-  _impl_.page_size_ = 0;
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+  ::memset(&_impl_.page_size_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.order_by_) -
+      reinterpret_cast<char*>(&_impl_.page_size_)) + sizeof(_impl_.order_by_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -6463,6 +8078,23 @@ const char* ListCampaignsRequest::_InternalParse(const char* ptr, ::_pbi::ParseC
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ListCampaignsRequest.page_token"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.CampaignOrderBy order_by = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_order_by(static_cast<::ondewo::vtsi::CampaignOrderBy>(val));
         } else
           goto handle_unusual;
         continue;
@@ -6529,6 +8161,20 @@ uint8_t* ListCampaignsRequest::_InternalSerialize(
         4, this->_internal_page_token(), target);
   }
 
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(5, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.vtsi.CampaignOrderBy order_by = 6;
+  if (this->_internal_order_by() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      6, this->_internal_order_by(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -6567,9 +8213,22 @@ size_t ListCampaignsRequest::ByteSizeLong() const {
         *_impl_.filter_);
   }
 
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
   // int32 page_size = 3;
   if (this->_internal_page_size() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_page_size());
+  }
+
+  // .ondewo.vtsi.CampaignOrderBy order_by = 6;
+  if (this->_internal_order_by() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_order_by());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -6600,8 +8259,15 @@ void ListCampaignsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
     _this->_internal_mutable_filter()->::ondewo::vtsi::CampaignFilter::MergeFrom(
         from._internal_filter());
   }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
   if (from._internal_page_size() != 0) {
     _this->_internal_set_page_size(from._internal_page_size());
+  }
+  if (from._internal_order_by() != 0) {
+    _this->_internal_set_order_by(from._internal_order_by());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -6632,8 +8298,8 @@ void ListCampaignsRequest::InternalSwap(ListCampaignsRequest* other) {
       &other->_impl_.page_token_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ListCampaignsRequest, _impl_.page_size_)
-      + sizeof(ListCampaignsRequest::_impl_.page_size_)
+      PROTOBUF_FIELD_OFFSET(ListCampaignsRequest, _impl_.order_by_)
+      + sizeof(ListCampaignsRequest::_impl_.order_by_)
       - PROTOBUF_FIELD_OFFSET(ListCampaignsRequest, _impl_.filter_)>(
           reinterpret_cast<char*>(&_impl_.filter_),
           reinterpret_cast<char*>(&other->_impl_.filter_));
@@ -6642,7 +8308,7 @@ void ListCampaignsRequest::InternalSwap(ListCampaignsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCampaignsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[12]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[13]);
 }
 
 // ===================================================================
@@ -6879,35 +8545,15 @@ void ListCampaignsResponse::InternalSwap(ListCampaignsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCampaignsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[13]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[14]);
 }
 
 // ===================================================================
 
 class GetCampaignStatisticsRequest::_Internal {
  public:
-  static const ::ondewo::vtsi::CampaignDisplayName& display_name(const GetCampaignStatisticsRequest* msg);
 };
 
-const ::ondewo::vtsi::CampaignDisplayName&
-GetCampaignStatisticsRequest::_Internal::display_name(const GetCampaignStatisticsRequest* msg) {
-  return *msg->_impl_.campaign_.display_name_;
-}
-void GetCampaignStatisticsRequest::set_allocated_display_name(::ondewo::vtsi::CampaignDisplayName* display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign();
-  if (display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(display_name);
-    if (message_arena != submessage_arena) {
-      display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, display_name, submessage_arena);
-    }
-    set_has_display_name();
-    _impl_.campaign_.display_name_ = display_name;
-  }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetCampaignStatisticsRequest.display_name)
-}
 GetCampaignStatisticsRequest::GetCampaignStatisticsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -6918,11 +8564,20 @@ GetCampaignStatisticsRequest::GetCampaignStatisticsRequest(const GetCampaignStat
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   GetCampaignStatisticsRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
   clear_has_campaign();
   switch (from.campaign_case()) {
     case kName: {
@@ -6930,8 +8585,7 @@ GetCampaignStatisticsRequest::GetCampaignStatisticsRequest(const GetCampaignStat
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -6946,10 +8600,15 @@ inline void GetCampaignStatisticsRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_campaign();
 }
 
@@ -6964,6 +8623,7 @@ GetCampaignStatisticsRequest::~GetCampaignStatisticsRequest() {
 
 inline void GetCampaignStatisticsRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
   if (has_campaign()) {
     clear_campaign();
   }
@@ -6981,9 +8641,7 @@ void GetCampaignStatisticsRequest::clear_campaign() {
       break;
     }
     case kDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_.display_name_;
-      }
+      _impl_.campaign_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -7000,6 +8658,7 @@ void GetCampaignStatisticsRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.vtsi_project_name_.ClearToEmpty();
   clear_campaign();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -7020,11 +8679,23 @@ const char* GetCampaignStatisticsRequest::_InternalParse(const char* ptr, ::_pbi
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName display_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_display_name(), ptr);
+      // string display_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.GetCampaignStatisticsRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.GetCampaignStatisticsRequest.vtsi_project_name"));
         } else
           goto handle_unusual;
         continue;
@@ -7067,11 +8738,24 @@ uint8_t* GetCampaignStatisticsRequest::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+  // string display_name = 3;
   if (_internal_has_display_name()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::display_name(this),
-        _Internal::display_name(this).GetCachedSize(), target, stream);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.GetCampaignStatisticsRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.GetCampaignStatisticsRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_vtsi_project_name(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -7090,6 +8774,13 @@ size_t GetCampaignStatisticsRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
   switch (campaign_case()) {
     // string name = 1;
     case kName: {
@@ -7098,11 +8789,11 @@ size_t GetCampaignStatisticsRequest::ByteSizeLong() const {
           this->_internal_name());
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+    // string display_name = 3;
     case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_.display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -7127,14 +8818,16 @@ void GetCampaignStatisticsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& t
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
   switch (from.campaign_case()) {
     case kName: {
       _this->_internal_set_name(from._internal_name());
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -7157,7 +8850,13 @@ bool GetCampaignStatisticsRequest::IsInitialized() const {
 
 void GetCampaignStatisticsRequest::InternalSwap(GetCampaignStatisticsRequest* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
   swap(_impl_.campaign_, other->_impl_.campaign_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
@@ -7165,7 +8864,7 @@ void GetCampaignStatisticsRequest::InternalSwap(GetCampaignStatisticsRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata GetCampaignStatisticsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[14]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[15]);
 }
 
 // ===================================================================
@@ -7173,30 +8872,54 @@ void GetCampaignStatisticsRequest::InternalSwap(GetCampaignStatisticsRequest* ot
 class ListCampaignCallsRequest::_Internal {
  public:
   using HasBits = decltype(std::declval<ListCampaignCallsRequest>()._impl_._has_bits_);
-  static const ::ondewo::vtsi::CampaignDisplayName& campaign_display_name(const ListCampaignCallsRequest* msg);
   static void set_has_page_token(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const ListCampaignCallsRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& finish_time_min(const ListCampaignCallsRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& finish_time_max(const ListCampaignCallsRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& modified_since(const ListCampaignCallsRequest* msg);
 };
 
-const ::ondewo::vtsi::CampaignDisplayName&
-ListCampaignCallsRequest::_Internal::campaign_display_name(const ListCampaignCallsRequest* msg) {
-  return *msg->_impl_.campaign_.campaign_display_name_;
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+ListCampaignCallsRequest::_Internal::field_mask(const ListCampaignCallsRequest* msg) {
+  return *msg->_impl_.field_mask_;
 }
-void ListCampaignCallsRequest::set_allocated_campaign_display_name(::ondewo::vtsi::CampaignDisplayName* campaign_display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign();
-  if (campaign_display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(campaign_display_name);
-    if (message_arena != submessage_arena) {
-      campaign_display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, campaign_display_name, submessage_arena);
-    }
-    set_has_campaign_display_name();
-    _impl_.campaign_.campaign_display_name_ = campaign_display_name;
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+ListCampaignCallsRequest::_Internal::finish_time_min(const ListCampaignCallsRequest* msg) {
+  return *msg->_impl_.finish_time_min_;
+}
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+ListCampaignCallsRequest::_Internal::finish_time_max(const ListCampaignCallsRequest* msg) {
+  return *msg->_impl_.finish_time_max_;
+}
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+ListCampaignCallsRequest::_Internal::modified_since(const ListCampaignCallsRequest* msg) {
+  return *msg->_impl_.modified_since_;
+}
+void ListCampaignCallsRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
   }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListCampaignCallsRequest.campaign_display_name)
+  _impl_.field_mask_ = nullptr;
+}
+void ListCampaignCallsRequest::clear_finish_time_min() {
+  if (GetArenaForAllocation() == nullptr && _impl_.finish_time_min_ != nullptr) {
+    delete _impl_.finish_time_min_;
+  }
+  _impl_.finish_time_min_ = nullptr;
+}
+void ListCampaignCallsRequest::clear_finish_time_max() {
+  if (GetArenaForAllocation() == nullptr && _impl_.finish_time_max_ != nullptr) {
+    delete _impl_.finish_time_max_;
+  }
+  _impl_.finish_time_max_ = nullptr;
+}
+void ListCampaignCallsRequest::clear_modified_since() {
+  if (GetArenaForAllocation() == nullptr && _impl_.modified_since_ != nullptr) {
+    delete _impl_.modified_since_;
+  }
+  _impl_.modified_since_ = nullptr;
 }
 ListCampaignCallsRequest::ListCampaignCallsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -7212,10 +8935,20 @@ ListCampaignCallsRequest::ListCampaignCallsRequest(const ListCampaignCallsReques
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.states_){from._impl_.states_}
     , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+    , decltype(_impl_.phone_numbers_){from._impl_.phone_numbers_}
+    , decltype(_impl_.sources_){from._impl_.sources_}
+    , /*decltype(_impl_._sources_cached_byte_size_)*/{0}
+    , decltype(_impl_.campaign_call_names_){from._impl_.campaign_call_names_}
     , decltype(_impl_.phone_number_){}
     , decltype(_impl_.page_token_){}
+    , decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.finish_time_min_){nullptr}
+    , decltype(_impl_.finish_time_max_){nullptr}
+    , decltype(_impl_.modified_since_){nullptr}
     , decltype(_impl_.page_size_){}
     , decltype(_impl_.include_attempts_){}
+    , decltype(_impl_.min_attempts_){}
     , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
@@ -7236,18 +8969,37 @@ ListCampaignCallsRequest::ListCampaignCallsRequest(const ListCampaignCallsReques
     _this->_impl_.page_token_.Set(from._internal_page_token(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
+  if (from._internal_has_finish_time_min()) {
+    _this->_impl_.finish_time_min_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.finish_time_min_);
+  }
+  if (from._internal_has_finish_time_max()) {
+    _this->_impl_.finish_time_max_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.finish_time_max_);
+  }
+  if (from._internal_has_modified_since()) {
+    _this->_impl_.modified_since_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.modified_since_);
+  }
   ::memcpy(&_impl_.page_size_, &from._impl_.page_size_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.include_attempts_) -
-    reinterpret_cast<char*>(&_impl_.page_size_)) + sizeof(_impl_.include_attempts_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.min_attempts_) -
+    reinterpret_cast<char*>(&_impl_.page_size_)) + sizeof(_impl_.min_attempts_));
   clear_has_campaign();
   switch (from.campaign_case()) {
     case kCampaignName: {
       _this->_internal_set_campaign_name(from._internal_campaign_name());
       break;
     }
-    case kCampaignDisplayName: {
-      _this->_internal_mutable_campaign_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_campaign_display_name());
+    case kDisplayName: {
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -7266,10 +9018,20 @@ inline void ListCampaignCallsRequest::SharedCtor(
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.states_){arena}
     , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+    , decltype(_impl_.phone_numbers_){arena}
+    , decltype(_impl_.sources_){arena}
+    , /*decltype(_impl_._sources_cached_byte_size_)*/{0}
+    , decltype(_impl_.campaign_call_names_){arena}
     , decltype(_impl_.phone_number_){}
     , decltype(_impl_.page_token_){}
+    , decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.finish_time_min_){nullptr}
+    , decltype(_impl_.finish_time_max_){nullptr}
+    , decltype(_impl_.modified_since_){nullptr}
     , decltype(_impl_.page_size_){0}
     , decltype(_impl_.include_attempts_){false}
+    , decltype(_impl_.min_attempts_){0}
     , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
@@ -7280,6 +9042,10 @@ inline void ListCampaignCallsRequest::SharedCtor(
   _impl_.page_token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.page_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_campaign();
 }
@@ -7296,8 +9062,16 @@ ListCampaignCallsRequest::~ListCampaignCallsRequest() {
 inline void ListCampaignCallsRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.states_.~RepeatedField();
+  _impl_.phone_numbers_.~RepeatedPtrField();
+  _impl_.sources_.~RepeatedField();
+  _impl_.campaign_call_names_.~RepeatedPtrField();
   _impl_.phone_number_.Destroy();
   _impl_.page_token_.Destroy();
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
+  if (this != internal_default_instance()) delete _impl_.finish_time_min_;
+  if (this != internal_default_instance()) delete _impl_.finish_time_max_;
+  if (this != internal_default_instance()) delete _impl_.modified_since_;
   if (has_campaign()) {
     clear_campaign();
   }
@@ -7314,10 +9088,8 @@ void ListCampaignCallsRequest::clear_campaign() {
       _impl_.campaign_.campaign_name_.Destroy();
       break;
     }
-    case kCampaignDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_.campaign_display_name_;
-      }
+    case kDisplayName: {
+      _impl_.campaign_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -7335,14 +9107,34 @@ void ListCampaignCallsRequest::Clear() {
   (void) cached_has_bits;
 
   _impl_.states_.Clear();
+  _impl_.phone_numbers_.Clear();
+  _impl_.sources_.Clear();
+  _impl_.campaign_call_names_.Clear();
   _impl_.phone_number_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     _impl_.page_token_.ClearNonDefaultToEmpty();
   }
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.finish_time_min_ != nullptr) {
+    delete _impl_.finish_time_min_;
+  }
+  _impl_.finish_time_min_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.finish_time_max_ != nullptr) {
+    delete _impl_.finish_time_max_;
+  }
+  _impl_.finish_time_max_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.modified_since_ != nullptr) {
+    delete _impl_.modified_since_;
+  }
+  _impl_.modified_since_ = nullptr;
   ::memset(&_impl_.page_size_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.include_attempts_) -
-      reinterpret_cast<char*>(&_impl_.page_size_)) + sizeof(_impl_.include_attempts_));
+      reinterpret_cast<char*>(&_impl_.min_attempts_) -
+      reinterpret_cast<char*>(&_impl_.page_size_)) + sizeof(_impl_.min_attempts_));
   clear_campaign();
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -7413,11 +9205,105 @@ const char* ListCampaignCallsRequest::_InternalParse(const char* ptr, ::_pbi::Pa
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName campaign_display_name = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
-          ptr = ctx->ParseMessage(_internal_mutable_campaign_display_name(), ptr);
+      // string display_name = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ListCampaignCallsRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ListCampaignCallsRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string phone_numbers = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_phone_numbers();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ListCampaignCallsRequest.phone_numbers"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<90>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.CampaignCallSource sources = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_sources(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 96) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_add_sources(static_cast<::ondewo::vtsi::CampaignCallSource>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp finish_time_min = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 106)) {
+          ptr = ctx->ParseMessage(_internal_mutable_finish_time_min(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp finish_time_max = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 114)) {
+          ptr = ctx->ParseMessage(_internal_mutable_finish_time_max(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp modified_since = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 122)) {
+          ptr = ctx->ParseMessage(_internal_mutable_modified_since(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 min_attempts = 16;
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 128)) {
+          _impl_.min_attempts_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string campaign_call_names = 17;
+      case 17:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 138)) {
+          ptr -= 2;
+          do {
+            ptr += 2;
+            auto str = _internal_add_campaign_call_names();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ListCampaignCallsRequest.campaign_call_names"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<138>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -7502,11 +9388,87 @@ uint8_t* ListCampaignCallsRequest::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(6, this->_internal_include_attempts(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName campaign_display_name = 7;
-  if (_internal_has_campaign_display_name()) {
+  // string display_name = 8;
+  if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.ListCampaignCallsRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        8, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 9;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.ListCampaignCallsRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        9, this->_internal_vtsi_project_name(), target);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 10;
+  if (this->_internal_has_field_mask()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(7, _Internal::campaign_display_name(this),
-        _Internal::campaign_display_name(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(10, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  // repeated string phone_numbers = 11;
+  for (int i = 0, n = this->_internal_phone_numbers_size(); i < n; i++) {
+    const auto& s = this->_internal_phone_numbers(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.ListCampaignCallsRequest.phone_numbers");
+    target = stream->WriteString(11, s, target);
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallSource sources = 12;
+  {
+    int byte_size = _impl_._sources_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteEnumPacked(
+          12, _impl_.sources_, byte_size, target);
+    }
+  }
+
+  // .google.protobuf.Timestamp finish_time_min = 13;
+  if (this->_internal_has_finish_time_min()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(13, _Internal::finish_time_min(this),
+        _Internal::finish_time_min(this).GetCachedSize(), target, stream);
+  }
+
+  // .google.protobuf.Timestamp finish_time_max = 14;
+  if (this->_internal_has_finish_time_max()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(14, _Internal::finish_time_max(this),
+        _Internal::finish_time_max(this).GetCachedSize(), target, stream);
+  }
+
+  // .google.protobuf.Timestamp modified_since = 15;
+  if (this->_internal_has_modified_since()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(15, _Internal::modified_since(this),
+        _Internal::modified_since(this).GetCachedSize(), target, stream);
+  }
+
+  // int32 min_attempts = 16;
+  if (this->_internal_min_attempts() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(16, this->_internal_min_attempts(), target);
+  }
+
+  // repeated string campaign_call_names = 17;
+  for (int i = 0, n = this->_internal_campaign_call_names_size(); i < n; i++) {
+    const auto& s = this->_internal_campaign_call_names(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.ListCampaignCallsRequest.campaign_call_names");
+    target = stream->WriteString(17, s, target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -7542,6 +9504,39 @@ size_t ListCampaignCallsRequest::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // repeated string phone_numbers = 11;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.phone_numbers_.size());
+  for (int i = 0, n = _impl_.phone_numbers_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.phone_numbers_.Get(i));
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallSource sources = 12;
+  {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_sources_size());for (unsigned int i = 0; i < count; i++) {
+      data_size += ::_pbi::WireFormatLite::EnumSize(
+        this->_internal_sources(static_cast<int>(i)));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._sources_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // repeated string campaign_call_names = 17;
+  total_size += 2 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.campaign_call_names_.size());
+  for (int i = 0, n = _impl_.campaign_call_names_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.campaign_call_names_.Get(i));
+  }
+
   // string phone_number = 3;
   if (!this->_internal_phone_number().empty()) {
     total_size += 1 +
@@ -7557,6 +9552,41 @@ size_t ListCampaignCallsRequest::ByteSizeLong() const {
         this->_internal_page_token());
   }
 
+  // string vtsi_project_name = 9;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 10;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
+  // .google.protobuf.Timestamp finish_time_min = 13;
+  if (this->_internal_has_finish_time_min()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.finish_time_min_);
+  }
+
+  // .google.protobuf.Timestamp finish_time_max = 14;
+  if (this->_internal_has_finish_time_max()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.finish_time_max_);
+  }
+
+  // .google.protobuf.Timestamp modified_since = 15;
+  if (this->_internal_has_modified_since()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.modified_since_);
+  }
+
   // int32 page_size = 4;
   if (this->_internal_page_size() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_page_size());
@@ -7567,6 +9597,13 @@ size_t ListCampaignCallsRequest::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // int32 min_attempts = 16;
+  if (this->_internal_min_attempts() != 0) {
+    total_size += 2 +
+      ::_pbi::WireFormatLite::Int32Size(
+        this->_internal_min_attempts());
+  }
+
   switch (campaign_case()) {
     // string campaign_name = 1;
     case kCampaignName: {
@@ -7575,11 +9612,11 @@ size_t ListCampaignCallsRequest::ByteSizeLong() const {
           this->_internal_campaign_name());
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName campaign_display_name = 7;
-    case kCampaignDisplayName: {
+    // string display_name = 8;
+    case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_.campaign_display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -7605,11 +9642,33 @@ void ListCampaignCallsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   (void) cached_has_bits;
 
   _this->_impl_.states_.MergeFrom(from._impl_.states_);
+  _this->_impl_.phone_numbers_.MergeFrom(from._impl_.phone_numbers_);
+  _this->_impl_.sources_.MergeFrom(from._impl_.sources_);
+  _this->_impl_.campaign_call_names_.MergeFrom(from._impl_.campaign_call_names_);
   if (!from._internal_phone_number().empty()) {
     _this->_internal_set_phone_number(from._internal_phone_number());
   }
   if (from._internal_has_page_token()) {
     _this->_internal_set_page_token(from._internal_page_token());
+  }
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
+  if (from._internal_has_finish_time_min()) {
+    _this->_internal_mutable_finish_time_min()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_finish_time_min());
+  }
+  if (from._internal_has_finish_time_max()) {
+    _this->_internal_mutable_finish_time_max()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_finish_time_max());
+  }
+  if (from._internal_has_modified_since()) {
+    _this->_internal_mutable_modified_since()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_modified_since());
   }
   if (from._internal_page_size() != 0) {
     _this->_internal_set_page_size(from._internal_page_size());
@@ -7617,14 +9676,16 @@ void ListCampaignCallsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   if (from._internal_include_attempts() != 0) {
     _this->_internal_set_include_attempts(from._internal_include_attempts());
   }
+  if (from._internal_min_attempts() != 0) {
+    _this->_internal_set_min_attempts(from._internal_min_attempts());
+  }
   switch (from.campaign_case()) {
     case kCampaignName: {
       _this->_internal_set_campaign_name(from._internal_campaign_name());
       break;
     }
-    case kCampaignDisplayName: {
-      _this->_internal_mutable_campaign_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_campaign_display_name());
+    case kDisplayName: {
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -7652,6 +9713,9 @@ void ListCampaignCallsRequest::InternalSwap(ListCampaignCallsRequest* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.states_.InternalSwap(&other->_impl_.states_);
+  _impl_.phone_numbers_.InternalSwap(&other->_impl_.phone_numbers_);
+  _impl_.sources_.InternalSwap(&other->_impl_.sources_);
+  _impl_.campaign_call_names_.InternalSwap(&other->_impl_.campaign_call_names_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.phone_number_, lhs_arena,
       &other->_impl_.phone_number_, rhs_arena
@@ -7660,12 +9724,16 @@ void ListCampaignCallsRequest::InternalSwap(ListCampaignCallsRequest* other) {
       &_impl_.page_token_, lhs_arena,
       &other->_impl_.page_token_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ListCampaignCallsRequest, _impl_.include_attempts_)
-      + sizeof(ListCampaignCallsRequest::_impl_.include_attempts_)
-      - PROTOBUF_FIELD_OFFSET(ListCampaignCallsRequest, _impl_.page_size_)>(
-          reinterpret_cast<char*>(&_impl_.page_size_),
-          reinterpret_cast<char*>(&other->_impl_.page_size_));
+      PROTOBUF_FIELD_OFFSET(ListCampaignCallsRequest, _impl_.min_attempts_)
+      + sizeof(ListCampaignCallsRequest::_impl_.min_attempts_)
+      - PROTOBUF_FIELD_OFFSET(ListCampaignCallsRequest, _impl_.field_mask_)>(
+          reinterpret_cast<char*>(&_impl_.field_mask_),
+          reinterpret_cast<char*>(&other->_impl_.field_mask_));
   swap(_impl_.campaign_, other->_impl_.campaign_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
@@ -7673,7 +9741,7 @@ void ListCampaignCallsRequest::InternalSwap(ListCampaignCallsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCampaignCallsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[15]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[16]);
 }
 
 // ===================================================================
@@ -7910,34 +9978,25 @@ void ListCampaignCallsResponse::InternalSwap(ListCampaignCallsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCampaignCallsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[16]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[17]);
 }
 
 // ===================================================================
 
 class StartCampaignRequest::_Internal {
  public:
-  static const ::ondewo::vtsi::CampaignDisplayName& display_name(const StartCampaignRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const StartCampaignRequest* msg);
 };
 
-const ::ondewo::vtsi::CampaignDisplayName&
-StartCampaignRequest::_Internal::display_name(const StartCampaignRequest* msg) {
-  return *msg->_impl_.campaign_.display_name_;
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+StartCampaignRequest::_Internal::field_mask(const StartCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
 }
-void StartCampaignRequest::set_allocated_display_name(::ondewo::vtsi::CampaignDisplayName* display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign();
-  if (display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(display_name);
-    if (message_arena != submessage_arena) {
-      display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, display_name, submessage_arena);
-    }
-    set_has_display_name();
-    _impl_.campaign_.display_name_ = display_name;
+void StartCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
   }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.StartCampaignRequest.display_name)
+  _impl_.field_mask_ = nullptr;
 }
 StartCampaignRequest::StartCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -7949,11 +10008,24 @@ StartCampaignRequest::StartCampaignRequest(const StartCampaignRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   StartCampaignRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
   clear_has_campaign();
   switch (from.campaign_case()) {
     case kName: {
@@ -7961,8 +10033,7 @@ StartCampaignRequest::StartCampaignRequest(const StartCampaignRequest& from)
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -7977,10 +10048,16 @@ inline void StartCampaignRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_campaign();
 }
 
@@ -7995,6 +10072,8 @@ StartCampaignRequest::~StartCampaignRequest() {
 
 inline void StartCampaignRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
   if (has_campaign()) {
     clear_campaign();
   }
@@ -8012,9 +10091,7 @@ void StartCampaignRequest::clear_campaign() {
       break;
     }
     case kDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_.display_name_;
-      }
+      _impl_.campaign_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8031,6 +10108,11 @@ void StartCampaignRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   clear_campaign();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -8051,10 +10133,30 @@ const char* StartCampaignRequest::_InternalParse(const char* ptr, ::_pbi::ParseC
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName display_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_display_name(), ptr);
+      // string display_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.StartCampaignRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.StartCampaignRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -8098,11 +10200,31 @@ uint8_t* StartCampaignRequest::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+  // string display_name = 3;
   if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.StartCampaignRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.StartCampaignRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_vtsi_project_name(), target);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::display_name(this),
-        _Internal::display_name(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(5, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -8121,6 +10243,20 @@ size_t StartCampaignRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
   switch (campaign_case()) {
     // string name = 1;
     case kName: {
@@ -8129,11 +10265,11 @@ size_t StartCampaignRequest::ByteSizeLong() const {
           this->_internal_name());
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+    // string display_name = 3;
     case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_.display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8158,14 +10294,20 @@ void StartCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
   switch (from.campaign_case()) {
     case kName: {
       _this->_internal_set_name(from._internal_name());
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8188,7 +10330,14 @@ bool StartCampaignRequest::IsInitialized() const {
 
 void StartCampaignRequest::InternalSwap(StartCampaignRequest* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  swap(_impl_.field_mask_, other->_impl_.field_mask_);
   swap(_impl_.campaign_, other->_impl_.campaign_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
@@ -8196,34 +10345,25 @@ void StartCampaignRequest::InternalSwap(StartCampaignRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StartCampaignRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[17]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[18]);
 }
 
 // ===================================================================
 
 class StopCampaignRequest::_Internal {
  public:
-  static const ::ondewo::vtsi::CampaignDisplayName& display_name(const StopCampaignRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const StopCampaignRequest* msg);
 };
 
-const ::ondewo::vtsi::CampaignDisplayName&
-StopCampaignRequest::_Internal::display_name(const StopCampaignRequest* msg) {
-  return *msg->_impl_.campaign_.display_name_;
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+StopCampaignRequest::_Internal::field_mask(const StopCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
 }
-void StopCampaignRequest::set_allocated_display_name(::ondewo::vtsi::CampaignDisplayName* display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign();
-  if (display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(display_name);
-    if (message_arena != submessage_arena) {
-      display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, display_name, submessage_arena);
-    }
-    set_has_display_name();
-    _impl_.campaign_.display_name_ = display_name;
+void StopCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
   }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.StopCampaignRequest.display_name)
+  _impl_.field_mask_ = nullptr;
 }
 StopCampaignRequest::StopCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -8235,11 +10375,24 @@ StopCampaignRequest::StopCampaignRequest(const StopCampaignRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   StopCampaignRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
   clear_has_campaign();
   switch (from.campaign_case()) {
     case kName: {
@@ -8247,8 +10400,7 @@ StopCampaignRequest::StopCampaignRequest(const StopCampaignRequest& from)
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8263,10 +10415,16 @@ inline void StopCampaignRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_campaign();
 }
 
@@ -8281,6 +10439,8 @@ StopCampaignRequest::~StopCampaignRequest() {
 
 inline void StopCampaignRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
   if (has_campaign()) {
     clear_campaign();
   }
@@ -8298,9 +10458,7 @@ void StopCampaignRequest::clear_campaign() {
       break;
     }
     case kDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_.display_name_;
-      }
+      _impl_.campaign_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8317,6 +10475,11 @@ void StopCampaignRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   clear_campaign();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -8337,10 +10500,30 @@ const char* StopCampaignRequest::_InternalParse(const char* ptr, ::_pbi::ParseCo
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName display_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_display_name(), ptr);
+      // string display_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.StopCampaignRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.StopCampaignRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -8384,11 +10567,31 @@ uint8_t* StopCampaignRequest::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+  // string display_name = 3;
   if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.StopCampaignRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.StopCampaignRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_vtsi_project_name(), target);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::display_name(this),
-        _Internal::display_name(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(5, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -8407,6 +10610,20 @@ size_t StopCampaignRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
   switch (campaign_case()) {
     // string name = 1;
     case kName: {
@@ -8415,11 +10632,11 @@ size_t StopCampaignRequest::ByteSizeLong() const {
           this->_internal_name());
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+    // string display_name = 3;
     case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_.display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8444,14 +10661,20 @@ void StopCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
   switch (from.campaign_case()) {
     case kName: {
       _this->_internal_set_name(from._internal_name());
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8474,7 +10697,14 @@ bool StopCampaignRequest::IsInitialized() const {
 
 void StopCampaignRequest::InternalSwap(StopCampaignRequest* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  swap(_impl_.field_mask_, other->_impl_.field_mask_);
   swap(_impl_.campaign_, other->_impl_.campaign_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
@@ -8482,34 +10712,25 @@ void StopCampaignRequest::InternalSwap(StopCampaignRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StopCampaignRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[18]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[19]);
 }
 
 // ===================================================================
 
 class HardStopCampaignRequest::_Internal {
  public:
-  static const ::ondewo::vtsi::CampaignDisplayName& display_name(const HardStopCampaignRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const HardStopCampaignRequest* msg);
 };
 
-const ::ondewo::vtsi::CampaignDisplayName&
-HardStopCampaignRequest::_Internal::display_name(const HardStopCampaignRequest* msg) {
-  return *msg->_impl_.campaign_.display_name_;
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+HardStopCampaignRequest::_Internal::field_mask(const HardStopCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
 }
-void HardStopCampaignRequest::set_allocated_display_name(::ondewo::vtsi::CampaignDisplayName* display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign();
-  if (display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(display_name);
-    if (message_arena != submessage_arena) {
-      display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, display_name, submessage_arena);
-    }
-    set_has_display_name();
-    _impl_.campaign_.display_name_ = display_name;
+void HardStopCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
   }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.HardStopCampaignRequest.display_name)
+  _impl_.field_mask_ = nullptr;
 }
 HardStopCampaignRequest::HardStopCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -8521,11 +10742,24 @@ HardStopCampaignRequest::HardStopCampaignRequest(const HardStopCampaignRequest& 
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   HardStopCampaignRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
   clear_has_campaign();
   switch (from.campaign_case()) {
     case kName: {
@@ -8533,8 +10767,7 @@ HardStopCampaignRequest::HardStopCampaignRequest(const HardStopCampaignRequest& 
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8549,10 +10782,16 @@ inline void HardStopCampaignRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_campaign();
 }
 
@@ -8567,6 +10806,8 @@ HardStopCampaignRequest::~HardStopCampaignRequest() {
 
 inline void HardStopCampaignRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
   if (has_campaign()) {
     clear_campaign();
   }
@@ -8584,9 +10825,7 @@ void HardStopCampaignRequest::clear_campaign() {
       break;
     }
     case kDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_.display_name_;
-      }
+      _impl_.campaign_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8603,6 +10842,11 @@ void HardStopCampaignRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   clear_campaign();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -8623,10 +10867,30 @@ const char* HardStopCampaignRequest::_InternalParse(const char* ptr, ::_pbi::Par
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName display_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_display_name(), ptr);
+      // string display_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.HardStopCampaignRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.HardStopCampaignRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -8670,11 +10934,31 @@ uint8_t* HardStopCampaignRequest::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+  // string display_name = 3;
   if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.HardStopCampaignRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.HardStopCampaignRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_vtsi_project_name(), target);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::display_name(this),
-        _Internal::display_name(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(5, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -8693,6 +10977,20 @@ size_t HardStopCampaignRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
   switch (campaign_case()) {
     // string name = 1;
     case kName: {
@@ -8701,11 +10999,11 @@ size_t HardStopCampaignRequest::ByteSizeLong() const {
           this->_internal_name());
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+    // string display_name = 3;
     case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_.display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8730,14 +11028,20 @@ void HardStopCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
   switch (from.campaign_case()) {
     case kName: {
       _this->_internal_set_name(from._internal_name());
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8760,7 +11064,14 @@ bool HardStopCampaignRequest::IsInitialized() const {
 
 void HardStopCampaignRequest::InternalSwap(HardStopCampaignRequest* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  swap(_impl_.field_mask_, other->_impl_.field_mask_);
   swap(_impl_.campaign_, other->_impl_.campaign_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
@@ -8768,34 +11079,25 @@ void HardStopCampaignRequest::InternalSwap(HardStopCampaignRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata HardStopCampaignRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[19]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[20]);
 }
 
 // ===================================================================
 
 class ResumeCampaignRequest::_Internal {
  public:
-  static const ::ondewo::vtsi::CampaignDisplayName& display_name(const ResumeCampaignRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const ResumeCampaignRequest* msg);
 };
 
-const ::ondewo::vtsi::CampaignDisplayName&
-ResumeCampaignRequest::_Internal::display_name(const ResumeCampaignRequest* msg) {
-  return *msg->_impl_.campaign_.display_name_;
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+ResumeCampaignRequest::_Internal::field_mask(const ResumeCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
 }
-void ResumeCampaignRequest::set_allocated_display_name(::ondewo::vtsi::CampaignDisplayName* display_name) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_campaign();
-  if (display_name) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(display_name);
-    if (message_arena != submessage_arena) {
-      display_name = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, display_name, submessage_arena);
-    }
-    set_has_display_name();
-    _impl_.campaign_.display_name_ = display_name;
+void ResumeCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
   }
-  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ResumeCampaignRequest.display_name)
+  _impl_.field_mask_ = nullptr;
 }
 ResumeCampaignRequest::ResumeCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -8807,11 +11109,24 @@ ResumeCampaignRequest::ResumeCampaignRequest(const ResumeCampaignRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ResumeCampaignRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
   clear_has_campaign();
   switch (from.campaign_case()) {
     case kName: {
@@ -8819,8 +11134,7 @@ ResumeCampaignRequest::ResumeCampaignRequest(const ResumeCampaignRequest& from)
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8835,10 +11149,16 @@ inline void ResumeCampaignRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.campaign_){}
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.campaign_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_campaign();
 }
 
@@ -8853,6 +11173,8 @@ ResumeCampaignRequest::~ResumeCampaignRequest() {
 
 inline void ResumeCampaignRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
   if (has_campaign()) {
     clear_campaign();
   }
@@ -8870,9 +11192,7 @@ void ResumeCampaignRequest::clear_campaign() {
       break;
     }
     case kDisplayName: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.campaign_.display_name_;
-      }
+      _impl_.campaign_.display_name_.Destroy();
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -8889,6 +11209,11 @@ void ResumeCampaignRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   clear_campaign();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -8909,10 +11234,30 @@ const char* ResumeCampaignRequest::_InternalParse(const char* ptr, ::_pbi::Parse
         } else
           goto handle_unusual;
         continue;
-      // .ondewo.vtsi.CampaignDisplayName display_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_display_name(), ptr);
+      // string display_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ResumeCampaignRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ResumeCampaignRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -8956,11 +11301,31 @@ uint8_t* ResumeCampaignRequest::_InternalSerialize(
         1, this->_internal_name(), target);
   }
 
-  // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+  // string display_name = 3;
   if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.ResumeCampaignRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.ResumeCampaignRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_vtsi_project_name(), target);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::display_name(this),
-        _Internal::display_name(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(5, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -8979,6 +11344,20 @@ size_t ResumeCampaignRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // string vtsi_project_name = 4;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 5;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
   switch (campaign_case()) {
     // string name = 1;
     case kName: {
@@ -8987,11 +11366,11 @@ size_t ResumeCampaignRequest::ByteSizeLong() const {
           this->_internal_name());
       break;
     }
-    // .ondewo.vtsi.CampaignDisplayName display_name = 2;
+    // string display_name = 3;
     case kDisplayName: {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.campaign_.display_name_);
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -9016,14 +11395,20 @@ void ResumeCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
   switch (from.campaign_case()) {
     case kName: {
       _this->_internal_set_name(from._internal_name());
       break;
     }
     case kDisplayName: {
-      _this->_internal_mutable_display_name()->::ondewo::vtsi::CampaignDisplayName::MergeFrom(
-          from._internal_display_name());
+      _this->_internal_set_display_name(from._internal_display_name());
       break;
     }
     case CAMPAIGN_NOT_SET: {
@@ -9046,7 +11431,14 @@ bool ResumeCampaignRequest::IsInitialized() const {
 
 void ResumeCampaignRequest::InternalSwap(ResumeCampaignRequest* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  swap(_impl_.field_mask_, other->_impl_.field_mask_);
   swap(_impl_.campaign_, other->_impl_.campaign_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
@@ -9054,7 +11446,7 @@ void ResumeCampaignRequest::InternalSwap(ResumeCampaignRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ResumeCampaignRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[20]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[21]);
 }
 
 // ===================================================================
@@ -9075,6 +11467,8 @@ StreamCampaignStatusRequest::StreamCampaignStatusRequest(const StreamCampaignSta
   new (&_impl_) Impl_{
       decltype(_impl_.campaign_names_){from._impl_.campaign_names_}
     , decltype(_impl_.campaign_display_names_){from._impl_.campaign_display_names_}
+    , decltype(_impl_.states_){from._impl_.states_}
+    , /*decltype(_impl_._states_cached_byte_size_)*/{0}
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.include_calls_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -9099,6 +11493,8 @@ inline void StreamCampaignStatusRequest::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.campaign_names_){arena}
     , decltype(_impl_.campaign_display_names_){arena}
+    , decltype(_impl_.states_){arena}
+    , /*decltype(_impl_._states_cached_byte_size_)*/{0}
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.include_calls_){false}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -9122,6 +11518,7 @@ inline void StreamCampaignStatusRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.campaign_names_.~RepeatedPtrField();
   _impl_.campaign_display_names_.~RepeatedPtrField();
+  _impl_.states_.~RepeatedField();
   _impl_.vtsi_project_name_.Destroy();
 }
 
@@ -9137,6 +11534,7 @@ void StreamCampaignStatusRequest::Clear() {
 
   _impl_.campaign_names_.Clear();
   _impl_.campaign_display_names_.Clear();
+  _impl_.states_.Clear();
   _impl_.vtsi_project_name_.ClearToEmpty();
   _impl_.include_calls_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -9193,6 +11591,18 @@ const char* StreamCampaignStatusRequest::_InternalParse(const char* ptr, ::_pbi:
             CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.StreamCampaignStatusRequest.campaign_display_names"));
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.CampaignState states = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_states(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 40) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_add_states(static_cast<::ondewo::vtsi::CampaignState>(val));
         } else
           goto handle_unusual;
         continue;
@@ -9261,6 +11671,15 @@ uint8_t* StreamCampaignStatusRequest::_InternalSerialize(
     target = stream->WriteString(4, s, target);
   }
 
+  // repeated .ondewo.vtsi.CampaignState states = 5;
+  {
+    int byte_size = _impl_._states_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteEnumPacked(
+          5, _impl_.states_, byte_size, target);
+    }
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -9291,6 +11710,23 @@ size_t StreamCampaignStatusRequest::ByteSizeLong() const {
   for (int i = 0, n = _impl_.campaign_display_names_.size(); i < n; i++) {
     total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
       _impl_.campaign_display_names_.Get(i));
+  }
+
+  // repeated .ondewo.vtsi.CampaignState states = 5;
+  {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_states_size());for (unsigned int i = 0; i < count; i++) {
+      data_size += ::_pbi::WireFormatLite::EnumSize(
+        this->_internal_states(static_cast<int>(i)));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._states_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
   }
 
   // string vtsi_project_name = 1;
@@ -9325,6 +11761,7 @@ void StreamCampaignStatusRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to
 
   _this->_impl_.campaign_names_.MergeFrom(from._impl_.campaign_names_);
   _this->_impl_.campaign_display_names_.MergeFrom(from._impl_.campaign_display_names_);
+  _this->_impl_.states_.MergeFrom(from._impl_.states_);
   if (!from._internal_vtsi_project_name().empty()) {
     _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
   }
@@ -9352,6 +11789,7 @@ void StreamCampaignStatusRequest::InternalSwap(StreamCampaignStatusRequest* othe
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.campaign_names_.InternalSwap(&other->_impl_.campaign_names_);
   _impl_.campaign_display_names_.InternalSwap(&other->_impl_.campaign_display_names_);
+  _impl_.states_.InternalSwap(&other->_impl_.states_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.vtsi_project_name_, lhs_arena,
       &other->_impl_.vtsi_project_name_, rhs_arena
@@ -9362,7 +11800,7 @@ void StreamCampaignStatusRequest::InternalSwap(StreamCampaignStatusRequest* othe
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamCampaignStatusRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[21]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[22]);
 }
 
 // ===================================================================
@@ -9386,6 +11824,7 @@ StreamCampaignStatusResponse::StreamCampaignStatusResponse(const StreamCampaignS
     , decltype(_impl_.deleted_campaign_names_){from._impl_.deleted_campaign_names_}
     , decltype(_impl_.end_reason_){}
     , decltype(_impl_.snapshot_){}
+    , decltype(_impl_.end_reason_type_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -9397,7 +11836,9 @@ StreamCampaignStatusResponse::StreamCampaignStatusResponse(const StreamCampaignS
     _this->_impl_.end_reason_.Set(from._internal_end_reason(), 
       _this->GetArenaForAllocation());
   }
-  _this->_impl_.snapshot_ = from._impl_.snapshot_;
+  ::memcpy(&_impl_.snapshot_, &from._impl_.snapshot_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.end_reason_type_) -
+    reinterpret_cast<char*>(&_impl_.snapshot_)) + sizeof(_impl_.end_reason_type_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.StreamCampaignStatusResponse)
 }
 
@@ -9411,6 +11852,7 @@ inline void StreamCampaignStatusResponse::SharedCtor(
     , decltype(_impl_.deleted_campaign_names_){arena}
     , decltype(_impl_.end_reason_){}
     , decltype(_impl_.snapshot_){false}
+    , decltype(_impl_.end_reason_type_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.end_reason_.InitDefault();
@@ -9450,7 +11892,9 @@ void StreamCampaignStatusResponse::Clear() {
   _impl_.campaign_calls_.Clear();
   _impl_.deleted_campaign_names_.Clear();
   _impl_.end_reason_.ClearToEmpty();
-  _impl_.snapshot_ = false;
+  ::memset(&_impl_.snapshot_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.end_reason_type_) -
+      reinterpret_cast<char*>(&_impl_.snapshot_)) + sizeof(_impl_.end_reason_type_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -9516,6 +11960,15 @@ const char* StreamCampaignStatusResponse::_InternalParse(const char* ptr, ::_pbi
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.StreamCampaignStatusResponse.end_reason"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.StreamEndReason end_reason_type = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_end_reason_type(static_cast<::ondewo::vtsi::StreamEndReason>(val));
         } else
           goto handle_unusual;
         continue;
@@ -9590,6 +12043,13 @@ uint8_t* StreamCampaignStatusResponse::_InternalSerialize(
         5, this->_internal_end_reason(), target);
   }
 
+  // .ondewo.vtsi.StreamEndReason end_reason_type = 6;
+  if (this->_internal_end_reason_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      6, this->_internal_end_reason_type(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -9640,6 +12100,12 @@ size_t StreamCampaignStatusResponse::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // .ondewo.vtsi.StreamEndReason end_reason_type = 6;
+  if (this->_internal_end_reason_type() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_end_reason_type());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -9667,6 +12133,9 @@ void StreamCampaignStatusResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& t
   if (from._internal_snapshot() != 0) {
     _this->_internal_set_snapshot(from._internal_snapshot());
   }
+  if (from._internal_end_reason_type() != 0) {
+    _this->_internal_set_end_reason_type(from._internal_end_reason_type());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -9693,13 +12162,2656 @@ void StreamCampaignStatusResponse::InternalSwap(StreamCampaignStatusResponse* ot
       &_impl_.end_reason_, lhs_arena,
       &other->_impl_.end_reason_, rhs_arena
   );
-  swap(_impl_.snapshot_, other->_impl_.snapshot_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(StreamCampaignStatusResponse, _impl_.end_reason_type_)
+      + sizeof(StreamCampaignStatusResponse::_impl_.end_reason_type_)
+      - PROTOBUF_FIELD_OFFSET(StreamCampaignStatusResponse, _impl_.snapshot_)>(
+          reinterpret_cast<char*>(&_impl_.snapshot_),
+          reinterpret_cast<char*>(&other->_impl_.snapshot_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamCampaignStatusResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[22]);
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[23]);
+}
+
+// ===================================================================
+
+class GetCampaignCallRequest::_Internal {
+ public:
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const GetCampaignCallRequest* msg);
+};
+
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+GetCampaignCallRequest::_Internal::field_mask(const GetCampaignCallRequest* msg) {
+  return *msg->_impl_.field_mask_;
+}
+void GetCampaignCallRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+}
+GetCampaignCallRequest::GetCampaignCallRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.GetCampaignCallRequest)
+}
+GetCampaignCallRequest::GetCampaignCallRequest(const GetCampaignCallRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  GetCampaignCallRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.include_attempts_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_name().empty()) {
+    _this->_impl_.name_.Set(from._internal_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
+  _this->_impl_.include_attempts_ = from._impl_.include_attempts_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.GetCampaignCallRequest)
+}
+
+inline void GetCampaignCallRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.name_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.include_attempts_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+GetCampaignCallRequest::~GetCampaignCallRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.GetCampaignCallRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void GetCampaignCallRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
+}
+
+void GetCampaignCallRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void GetCampaignCallRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.GetCampaignCallRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+  _impl_.include_attempts_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GetCampaignCallRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.GetCampaignCallRequest.name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool include_attempts = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.include_attempts_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* GetCampaignCallRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.GetCampaignCallRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string name = 1;
+  if (!this->_internal_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.GetCampaignCallRequest.name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_name(), target);
+  }
+
+  // bool include_attempts = 2;
+  if (this->_internal_include_attempts() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(2, this->_internal_include_attempts(), target);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 3;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.GetCampaignCallRequest)
+  return target;
+}
+
+size_t GetCampaignCallRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.GetCampaignCallRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string name = 1;
+  if (!this->_internal_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 3;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
+  // bool include_attempts = 2;
+  if (this->_internal_include_attempts() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GetCampaignCallRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    GetCampaignCallRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetCampaignCallRequest::GetClassData() const { return &_class_data_; }
+
+
+void GetCampaignCallRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<GetCampaignCallRequest*>(&to_msg);
+  auto& from = static_cast<const GetCampaignCallRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.GetCampaignCallRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_name().empty()) {
+    _this->_internal_set_name(from._internal_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
+  if (from._internal_include_attempts() != 0) {
+    _this->_internal_set_include_attempts(from._internal_include_attempts());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GetCampaignCallRequest::CopyFrom(const GetCampaignCallRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.GetCampaignCallRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GetCampaignCallRequest::IsInitialized() const {
+  return true;
+}
+
+void GetCampaignCallRequest::InternalSwap(GetCampaignCallRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.name_, lhs_arena,
+      &other->_impl_.name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(GetCampaignCallRequest, _impl_.include_attempts_)
+      + sizeof(GetCampaignCallRequest::_impl_.include_attempts_)
+      - PROTOBUF_FIELD_OFFSET(GetCampaignCallRequest, _impl_.field_mask_)>(
+          reinterpret_cast<char*>(&_impl_.field_mask_),
+          reinterpret_cast<char*>(&other->_impl_.field_mask_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GetCampaignCallRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[24]);
+}
+
+// ===================================================================
+
+class CampaignCallRefusal::_Internal {
+ public:
+};
+
+CampaignCallRefusal::CampaignCallRefusal(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.CampaignCallRefusal)
+}
+CampaignCallRefusal::CampaignCallRefusal(const CampaignCallRefusal& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CampaignCallRefusal* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.campaign_call_name_){}
+    , decltype(_impl_.reason_){}
+    , decltype(_impl_.state_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.campaign_call_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.campaign_call_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_campaign_call_name().empty()) {
+    _this->_impl_.campaign_call_name_.Set(from._internal_campaign_call_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.reason_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.reason_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_reason().empty()) {
+    _this->_impl_.reason_.Set(from._internal_reason(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.state_ = from._impl_.state_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CampaignCallRefusal)
+}
+
+inline void CampaignCallRefusal::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.campaign_call_name_){}
+    , decltype(_impl_.reason_){}
+    , decltype(_impl_.state_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.campaign_call_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.campaign_call_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.reason_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.reason_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+CampaignCallRefusal::~CampaignCallRefusal() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.CampaignCallRefusal)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CampaignCallRefusal::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.campaign_call_name_.Destroy();
+  _impl_.reason_.Destroy();
+}
+
+void CampaignCallRefusal::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CampaignCallRefusal::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.CampaignCallRefusal)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.campaign_call_name_.ClearToEmpty();
+  _impl_.reason_.ClearToEmpty();
+  _impl_.state_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CampaignCallRefusal::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string campaign_call_name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_campaign_call_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CampaignCallRefusal.campaign_call_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.CampaignCallState state = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_state(static_cast<::ondewo::vtsi::CampaignCallState>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // string reason = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_reason();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CampaignCallRefusal.reason"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CampaignCallRefusal::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.CampaignCallRefusal)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string campaign_call_name = 1;
+  if (!this->_internal_campaign_call_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_campaign_call_name().data(), static_cast<int>(this->_internal_campaign_call_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CampaignCallRefusal.campaign_call_name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_campaign_call_name(), target);
+  }
+
+  // .ondewo.vtsi.CampaignCallState state = 2;
+  if (this->_internal_state() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_state(), target);
+  }
+
+  // string reason = 3;
+  if (!this->_internal_reason().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_reason().data(), static_cast<int>(this->_internal_reason().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CampaignCallRefusal.reason");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_reason(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.CampaignCallRefusal)
+  return target;
+}
+
+size_t CampaignCallRefusal::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.CampaignCallRefusal)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string campaign_call_name = 1;
+  if (!this->_internal_campaign_call_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_campaign_call_name());
+  }
+
+  // string reason = 3;
+  if (!this->_internal_reason().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_reason());
+  }
+
+  // .ondewo.vtsi.CampaignCallState state = 2;
+  if (this->_internal_state() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_state());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CampaignCallRefusal::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CampaignCallRefusal::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CampaignCallRefusal::GetClassData() const { return &_class_data_; }
+
+
+void CampaignCallRefusal::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CampaignCallRefusal*>(&to_msg);
+  auto& from = static_cast<const CampaignCallRefusal&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.CampaignCallRefusal)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_campaign_call_name().empty()) {
+    _this->_internal_set_campaign_call_name(from._internal_campaign_call_name());
+  }
+  if (!from._internal_reason().empty()) {
+    _this->_internal_set_reason(from._internal_reason());
+  }
+  if (from._internal_state() != 0) {
+    _this->_internal_set_state(from._internal_state());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CampaignCallRefusal::CopyFrom(const CampaignCallRefusal& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.CampaignCallRefusal)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CampaignCallRefusal::IsInitialized() const {
+  return true;
+}
+
+void CampaignCallRefusal::InternalSwap(CampaignCallRefusal* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.campaign_call_name_, lhs_arena,
+      &other->_impl_.campaign_call_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.reason_, lhs_arena,
+      &other->_impl_.reason_, rhs_arena
+  );
+  swap(_impl_.state_, other->_impl_.state_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CampaignCallRefusal::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[25]);
+}
+
+// ===================================================================
+
+class CancelCampaignCallsRequest::_Internal {
+ public:
+};
+
+CancelCampaignCallsRequest::CancelCampaignCallsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.CancelCampaignCallsRequest)
+}
+CancelCampaignCallsRequest::CancelCampaignCallsRequest(const CancelCampaignCallsRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CancelCampaignCallsRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.campaign_call_names_){from._impl_.campaign_call_names_}
+    , decltype(_impl_.states_){from._impl_.states_}
+    , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+    , decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.campaign_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  clear_has_campaign();
+  switch (from.campaign_case()) {
+    case kName: {
+      _this->_internal_set_name(from._internal_name());
+      break;
+    }
+    case kDisplayName: {
+      _this->_internal_set_display_name(from._internal_display_name());
+      break;
+    }
+    case CAMPAIGN_NOT_SET: {
+      break;
+    }
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CancelCampaignCallsRequest)
+}
+
+inline void CancelCampaignCallsRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.campaign_call_names_){arena}
+    , decltype(_impl_.states_){arena}
+    , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+    , decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.campaign_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}
+  };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  clear_has_campaign();
+}
+
+CancelCampaignCallsRequest::~CancelCampaignCallsRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.CancelCampaignCallsRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CancelCampaignCallsRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.campaign_call_names_.~RepeatedPtrField();
+  _impl_.states_.~RepeatedField();
+  _impl_.vtsi_project_name_.Destroy();
+  if (has_campaign()) {
+    clear_campaign();
+  }
+}
+
+void CancelCampaignCallsRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CancelCampaignCallsRequest::clear_campaign() {
+// @@protoc_insertion_point(one_of_clear_start:ondewo.vtsi.CancelCampaignCallsRequest)
+  switch (campaign_case()) {
+    case kName: {
+      _impl_.campaign_.name_.Destroy();
+      break;
+    }
+    case kDisplayName: {
+      _impl_.campaign_.display_name_.Destroy();
+      break;
+    }
+    case CAMPAIGN_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = CAMPAIGN_NOT_SET;
+}
+
+
+void CancelCampaignCallsRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.CancelCampaignCallsRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.campaign_call_names_.Clear();
+  _impl_.states_.Clear();
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  clear_campaign();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CancelCampaignCallsRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CancelCampaignCallsRequest.name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string display_name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CancelCampaignCallsRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CancelCampaignCallsRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string campaign_call_names = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_campaign_call_names();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CancelCampaignCallsRequest.campaign_call_names"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.CampaignCallState states = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_states(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 40) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_add_states(static_cast<::ondewo::vtsi::CampaignCallState>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CancelCampaignCallsRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.CancelCampaignCallsRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string name = 1;
+  if (_internal_has_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CancelCampaignCallsRequest.name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_name(), target);
+  }
+
+  // string display_name = 2;
+  if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CancelCampaignCallsRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 3;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CancelCampaignCallsRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_vtsi_project_name(), target);
+  }
+
+  // repeated string campaign_call_names = 4;
+  for (int i = 0, n = this->_internal_campaign_call_names_size(); i < n; i++) {
+    const auto& s = this->_internal_campaign_call_names(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CancelCampaignCallsRequest.campaign_call_names");
+    target = stream->WriteString(4, s, target);
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallState states = 5;
+  {
+    int byte_size = _impl_._states_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteEnumPacked(
+          5, _impl_.states_, byte_size, target);
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.CancelCampaignCallsRequest)
+  return target;
+}
+
+size_t CancelCampaignCallsRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.CancelCampaignCallsRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string campaign_call_names = 4;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.campaign_call_names_.size());
+  for (int i = 0, n = _impl_.campaign_call_names_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.campaign_call_names_.Get(i));
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallState states = 5;
+  {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_states_size());for (unsigned int i = 0; i < count; i++) {
+      data_size += ::_pbi::WireFormatLite::EnumSize(
+        this->_internal_states(static_cast<int>(i)));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._states_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // string vtsi_project_name = 3;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  switch (campaign_case()) {
+    // string name = 1;
+    case kName: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_name());
+      break;
+    }
+    // string display_name = 2;
+    case kDisplayName: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
+      break;
+    }
+    case CAMPAIGN_NOT_SET: {
+      break;
+    }
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CancelCampaignCallsRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CancelCampaignCallsRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CancelCampaignCallsRequest::GetClassData() const { return &_class_data_; }
+
+
+void CancelCampaignCallsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CancelCampaignCallsRequest*>(&to_msg);
+  auto& from = static_cast<const CancelCampaignCallsRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.CancelCampaignCallsRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.campaign_call_names_.MergeFrom(from._impl_.campaign_call_names_);
+  _this->_impl_.states_.MergeFrom(from._impl_.states_);
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  switch (from.campaign_case()) {
+    case kName: {
+      _this->_internal_set_name(from._internal_name());
+      break;
+    }
+    case kDisplayName: {
+      _this->_internal_set_display_name(from._internal_display_name());
+      break;
+    }
+    case CAMPAIGN_NOT_SET: {
+      break;
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CancelCampaignCallsRequest::CopyFrom(const CancelCampaignCallsRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.CancelCampaignCallsRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CancelCampaignCallsRequest::IsInitialized() const {
+  return true;
+}
+
+void CancelCampaignCallsRequest::InternalSwap(CancelCampaignCallsRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.campaign_call_names_.InternalSwap(&other->_impl_.campaign_call_names_);
+  _impl_.states_.InternalSwap(&other->_impl_.states_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  swap(_impl_.campaign_, other->_impl_.campaign_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CancelCampaignCallsRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[26]);
+}
+
+// ===================================================================
+
+class CancelCampaignCallsResponse::_Internal {
+ public:
+};
+
+CancelCampaignCallsResponse::CancelCampaignCallsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.CancelCampaignCallsResponse)
+}
+CancelCampaignCallsResponse::CancelCampaignCallsResponse(const CancelCampaignCallsResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CancelCampaignCallsResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.cancelled_campaign_call_names_){from._impl_.cancelled_campaign_call_names_}
+    , decltype(_impl_.refused_){from._impl_.refused_}
+    , decltype(_impl_.campaign_name_){}
+    , decltype(_impl_.remaining_count_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.campaign_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.campaign_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_campaign_name().empty()) {
+    _this->_impl_.campaign_name_.Set(from._internal_campaign_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.remaining_count_ = from._impl_.remaining_count_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CancelCampaignCallsResponse)
+}
+
+inline void CancelCampaignCallsResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.cancelled_campaign_call_names_){arena}
+    , decltype(_impl_.refused_){arena}
+    , decltype(_impl_.campaign_name_){}
+    , decltype(_impl_.remaining_count_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.campaign_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.campaign_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+CancelCampaignCallsResponse::~CancelCampaignCallsResponse() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.CancelCampaignCallsResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CancelCampaignCallsResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.cancelled_campaign_call_names_.~RepeatedPtrField();
+  _impl_.refused_.~RepeatedPtrField();
+  _impl_.campaign_name_.Destroy();
+}
+
+void CancelCampaignCallsResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CancelCampaignCallsResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.CancelCampaignCallsResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.cancelled_campaign_call_names_.Clear();
+  _impl_.refused_.Clear();
+  _impl_.campaign_name_.ClearToEmpty();
+  _impl_.remaining_count_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CancelCampaignCallsResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string campaign_name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_campaign_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CancelCampaignCallsResponse.campaign_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string cancelled_campaign_call_names = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_cancelled_campaign_call_names();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CancelCampaignCallsResponse.cancelled_campaign_call_names"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.CampaignCallRefusal refused = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_refused(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 remaining_count = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.remaining_count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CancelCampaignCallsResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.CancelCampaignCallsResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string campaign_name = 1;
+  if (!this->_internal_campaign_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_campaign_name().data(), static_cast<int>(this->_internal_campaign_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CancelCampaignCallsResponse.campaign_name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_campaign_name(), target);
+  }
+
+  // repeated string cancelled_campaign_call_names = 2;
+  for (int i = 0, n = this->_internal_cancelled_campaign_call_names_size(); i < n; i++) {
+    const auto& s = this->_internal_cancelled_campaign_call_names(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CancelCampaignCallsResponse.cancelled_campaign_call_names");
+    target = stream->WriteString(2, s, target);
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallRefusal refused = 3;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_refused_size()); i < n; i++) {
+    const auto& repfield = this->_internal_refused(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // int32 remaining_count = 4;
+  if (this->_internal_remaining_count() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_remaining_count(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.CancelCampaignCallsResponse)
+  return target;
+}
+
+size_t CancelCampaignCallsResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.CancelCampaignCallsResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string cancelled_campaign_call_names = 2;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.cancelled_campaign_call_names_.size());
+  for (int i = 0, n = _impl_.cancelled_campaign_call_names_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.cancelled_campaign_call_names_.Get(i));
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallRefusal refused = 3;
+  total_size += 1UL * this->_internal_refused_size();
+  for (const auto& msg : this->_impl_.refused_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string campaign_name = 1;
+  if (!this->_internal_campaign_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_campaign_name());
+  }
+
+  // int32 remaining_count = 4;
+  if (this->_internal_remaining_count() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_remaining_count());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CancelCampaignCallsResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CancelCampaignCallsResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CancelCampaignCallsResponse::GetClassData() const { return &_class_data_; }
+
+
+void CancelCampaignCallsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CancelCampaignCallsResponse*>(&to_msg);
+  auto& from = static_cast<const CancelCampaignCallsResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.CancelCampaignCallsResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.cancelled_campaign_call_names_.MergeFrom(from._impl_.cancelled_campaign_call_names_);
+  _this->_impl_.refused_.MergeFrom(from._impl_.refused_);
+  if (!from._internal_campaign_name().empty()) {
+    _this->_internal_set_campaign_name(from._internal_campaign_name());
+  }
+  if (from._internal_remaining_count() != 0) {
+    _this->_internal_set_remaining_count(from._internal_remaining_count());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CancelCampaignCallsResponse::CopyFrom(const CancelCampaignCallsResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.CancelCampaignCallsResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CancelCampaignCallsResponse::IsInitialized() const {
+  return true;
+}
+
+void CancelCampaignCallsResponse::InternalSwap(CancelCampaignCallsResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.cancelled_campaign_call_names_.InternalSwap(&other->_impl_.cancelled_campaign_call_names_);
+  _impl_.refused_.InternalSwap(&other->_impl_.refused_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.campaign_name_, lhs_arena,
+      &other->_impl_.campaign_name_, rhs_arena
+  );
+  swap(_impl_.remaining_count_, other->_impl_.remaining_count_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CancelCampaignCallsResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[27]);
+}
+
+// ===================================================================
+
+class RetryCampaignCallsRequest::_Internal {
+ public:
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& not_before(const RetryCampaignCallsRequest* msg);
+};
+
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+RetryCampaignCallsRequest::_Internal::not_before(const RetryCampaignCallsRequest* msg) {
+  return *msg->_impl_.not_before_;
+}
+void RetryCampaignCallsRequest::clear_not_before() {
+  if (GetArenaForAllocation() == nullptr && _impl_.not_before_ != nullptr) {
+    delete _impl_.not_before_;
+  }
+  _impl_.not_before_ = nullptr;
+}
+RetryCampaignCallsRequest::RetryCampaignCallsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.RetryCampaignCallsRequest)
+}
+RetryCampaignCallsRequest::RetryCampaignCallsRequest(const RetryCampaignCallsRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  RetryCampaignCallsRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.campaign_call_names_){from._impl_.campaign_call_names_}
+    , decltype(_impl_.states_){from._impl_.states_}
+    , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+    , decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.not_before_){nullptr}
+    , decltype(_impl_.additional_attempts_){}
+    , decltype(_impl_.campaign_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_not_before()) {
+    _this->_impl_.not_before_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.not_before_);
+  }
+  _this->_impl_.additional_attempts_ = from._impl_.additional_attempts_;
+  clear_has_campaign();
+  switch (from.campaign_case()) {
+    case kName: {
+      _this->_internal_set_name(from._internal_name());
+      break;
+    }
+    case kDisplayName: {
+      _this->_internal_set_display_name(from._internal_display_name());
+      break;
+    }
+    case CAMPAIGN_NOT_SET: {
+      break;
+    }
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.RetryCampaignCallsRequest)
+}
+
+inline void RetryCampaignCallsRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.campaign_call_names_){arena}
+    , decltype(_impl_.states_){arena}
+    , /*decltype(_impl_._states_cached_byte_size_)*/{0}
+    , decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.not_before_){nullptr}
+    , decltype(_impl_.additional_attempts_){0}
+    , decltype(_impl_.campaign_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}
+  };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  clear_has_campaign();
+}
+
+RetryCampaignCallsRequest::~RetryCampaignCallsRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.RetryCampaignCallsRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void RetryCampaignCallsRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.campaign_call_names_.~RepeatedPtrField();
+  _impl_.states_.~RepeatedField();
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.not_before_;
+  if (has_campaign()) {
+    clear_campaign();
+  }
+}
+
+void RetryCampaignCallsRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void RetryCampaignCallsRequest::clear_campaign() {
+// @@protoc_insertion_point(one_of_clear_start:ondewo.vtsi.RetryCampaignCallsRequest)
+  switch (campaign_case()) {
+    case kName: {
+      _impl_.campaign_.name_.Destroy();
+      break;
+    }
+    case kDisplayName: {
+      _impl_.campaign_.display_name_.Destroy();
+      break;
+    }
+    case CAMPAIGN_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = CAMPAIGN_NOT_SET;
+}
+
+
+void RetryCampaignCallsRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.RetryCampaignCallsRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.campaign_call_names_.Clear();
+  _impl_.states_.Clear();
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.not_before_ != nullptr) {
+    delete _impl_.not_before_;
+  }
+  _impl_.not_before_ = nullptr;
+  _impl_.additional_attempts_ = 0;
+  clear_campaign();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* RetryCampaignCallsRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.RetryCampaignCallsRequest.name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string display_name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.RetryCampaignCallsRequest.display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.RetryCampaignCallsRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string campaign_call_names = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_campaign_call_names();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.RetryCampaignCallsRequest.campaign_call_names"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.CampaignCallState states = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_states(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 40) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_add_states(static_cast<::ondewo::vtsi::CampaignCallState>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 additional_attempts = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.additional_attempts_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp not_before = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_not_before(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* RetryCampaignCallsRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.RetryCampaignCallsRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string name = 1;
+  if (_internal_has_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.RetryCampaignCallsRequest.name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_name(), target);
+  }
+
+  // string display_name = 2;
+  if (_internal_has_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_display_name().data(), static_cast<int>(this->_internal_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.RetryCampaignCallsRequest.display_name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_display_name(), target);
+  }
+
+  // string vtsi_project_name = 3;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.RetryCampaignCallsRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_vtsi_project_name(), target);
+  }
+
+  // repeated string campaign_call_names = 4;
+  for (int i = 0, n = this->_internal_campaign_call_names_size(); i < n; i++) {
+    const auto& s = this->_internal_campaign_call_names(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.RetryCampaignCallsRequest.campaign_call_names");
+    target = stream->WriteString(4, s, target);
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallState states = 5;
+  {
+    int byte_size = _impl_._states_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteEnumPacked(
+          5, _impl_.states_, byte_size, target);
+    }
+  }
+
+  // int32 additional_attempts = 6;
+  if (this->_internal_additional_attempts() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_additional_attempts(), target);
+  }
+
+  // .google.protobuf.Timestamp not_before = 7;
+  if (this->_internal_has_not_before()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(7, _Internal::not_before(this),
+        _Internal::not_before(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.RetryCampaignCallsRequest)
+  return target;
+}
+
+size_t RetryCampaignCallsRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.RetryCampaignCallsRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string campaign_call_names = 4;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.campaign_call_names_.size());
+  for (int i = 0, n = _impl_.campaign_call_names_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.campaign_call_names_.Get(i));
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallState states = 5;
+  {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_states_size());for (unsigned int i = 0; i < count; i++) {
+      data_size += ::_pbi::WireFormatLite::EnumSize(
+        this->_internal_states(static_cast<int>(i)));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._states_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // string vtsi_project_name = 3;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .google.protobuf.Timestamp not_before = 7;
+  if (this->_internal_has_not_before()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.not_before_);
+  }
+
+  // int32 additional_attempts = 6;
+  if (this->_internal_additional_attempts() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_additional_attempts());
+  }
+
+  switch (campaign_case()) {
+    // string name = 1;
+    case kName: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_name());
+      break;
+    }
+    // string display_name = 2;
+    case kDisplayName: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_display_name());
+      break;
+    }
+    case CAMPAIGN_NOT_SET: {
+      break;
+    }
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData RetryCampaignCallsRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    RetryCampaignCallsRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*RetryCampaignCallsRequest::GetClassData() const { return &_class_data_; }
+
+
+void RetryCampaignCallsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<RetryCampaignCallsRequest*>(&to_msg);
+  auto& from = static_cast<const RetryCampaignCallsRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.RetryCampaignCallsRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.campaign_call_names_.MergeFrom(from._impl_.campaign_call_names_);
+  _this->_impl_.states_.MergeFrom(from._impl_.states_);
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_not_before()) {
+    _this->_internal_mutable_not_before()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_not_before());
+  }
+  if (from._internal_additional_attempts() != 0) {
+    _this->_internal_set_additional_attempts(from._internal_additional_attempts());
+  }
+  switch (from.campaign_case()) {
+    case kName: {
+      _this->_internal_set_name(from._internal_name());
+      break;
+    }
+    case kDisplayName: {
+      _this->_internal_set_display_name(from._internal_display_name());
+      break;
+    }
+    case CAMPAIGN_NOT_SET: {
+      break;
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RetryCampaignCallsRequest::CopyFrom(const RetryCampaignCallsRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.RetryCampaignCallsRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool RetryCampaignCallsRequest::IsInitialized() const {
+  return true;
+}
+
+void RetryCampaignCallsRequest::InternalSwap(RetryCampaignCallsRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.campaign_call_names_.InternalSwap(&other->_impl_.campaign_call_names_);
+  _impl_.states_.InternalSwap(&other->_impl_.states_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(RetryCampaignCallsRequest, _impl_.additional_attempts_)
+      + sizeof(RetryCampaignCallsRequest::_impl_.additional_attempts_)
+      - PROTOBUF_FIELD_OFFSET(RetryCampaignCallsRequest, _impl_.not_before_)>(
+          reinterpret_cast<char*>(&_impl_.not_before_),
+          reinterpret_cast<char*>(&other->_impl_.not_before_));
+  swap(_impl_.campaign_, other->_impl_.campaign_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata RetryCampaignCallsRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[28]);
+}
+
+// ===================================================================
+
+class RetryCampaignCallsResponse::_Internal {
+ public:
+};
+
+RetryCampaignCallsResponse::RetryCampaignCallsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.RetryCampaignCallsResponse)
+}
+RetryCampaignCallsResponse::RetryCampaignCallsResponse(const RetryCampaignCallsResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  RetryCampaignCallsResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.requeued_campaign_call_names_){from._impl_.requeued_campaign_call_names_}
+    , decltype(_impl_.refused_){from._impl_.refused_}
+    , decltype(_impl_.campaign_name_){}
+    , decltype(_impl_.remaining_count_){}
+    , decltype(_impl_.campaign_state_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.campaign_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.campaign_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_campaign_name().empty()) {
+    _this->_impl_.campaign_name_.Set(from._internal_campaign_name(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.remaining_count_, &from._impl_.remaining_count_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.campaign_state_) -
+    reinterpret_cast<char*>(&_impl_.remaining_count_)) + sizeof(_impl_.campaign_state_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.RetryCampaignCallsResponse)
+}
+
+inline void RetryCampaignCallsResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.requeued_campaign_call_names_){arena}
+    , decltype(_impl_.refused_){arena}
+    , decltype(_impl_.campaign_name_){}
+    , decltype(_impl_.remaining_count_){0}
+    , decltype(_impl_.campaign_state_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.campaign_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.campaign_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+RetryCampaignCallsResponse::~RetryCampaignCallsResponse() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.RetryCampaignCallsResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void RetryCampaignCallsResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.requeued_campaign_call_names_.~RepeatedPtrField();
+  _impl_.refused_.~RepeatedPtrField();
+  _impl_.campaign_name_.Destroy();
+}
+
+void RetryCampaignCallsResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void RetryCampaignCallsResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.RetryCampaignCallsResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.requeued_campaign_call_names_.Clear();
+  _impl_.refused_.Clear();
+  _impl_.campaign_name_.ClearToEmpty();
+  ::memset(&_impl_.remaining_count_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.campaign_state_) -
+      reinterpret_cast<char*>(&_impl_.remaining_count_)) + sizeof(_impl_.campaign_state_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* RetryCampaignCallsResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string campaign_name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_campaign_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.RetryCampaignCallsResponse.campaign_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string requeued_campaign_call_names = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_requeued_campaign_call_names();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.RetryCampaignCallsResponse.requeued_campaign_call_names"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.CampaignCallRefusal refused = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_refused(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 remaining_count = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.remaining_count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.CampaignState campaign_state = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_campaign_state(static_cast<::ondewo::vtsi::CampaignState>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* RetryCampaignCallsResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.RetryCampaignCallsResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string campaign_name = 1;
+  if (!this->_internal_campaign_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_campaign_name().data(), static_cast<int>(this->_internal_campaign_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.RetryCampaignCallsResponse.campaign_name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_campaign_name(), target);
+  }
+
+  // repeated string requeued_campaign_call_names = 2;
+  for (int i = 0, n = this->_internal_requeued_campaign_call_names_size(); i < n; i++) {
+    const auto& s = this->_internal_requeued_campaign_call_names(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.RetryCampaignCallsResponse.requeued_campaign_call_names");
+    target = stream->WriteString(2, s, target);
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallRefusal refused = 3;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_refused_size()); i < n; i++) {
+    const auto& repfield = this->_internal_refused(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // int32 remaining_count = 4;
+  if (this->_internal_remaining_count() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_remaining_count(), target);
+  }
+
+  // .ondewo.vtsi.CampaignState campaign_state = 5;
+  if (this->_internal_campaign_state() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      5, this->_internal_campaign_state(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.RetryCampaignCallsResponse)
+  return target;
+}
+
+size_t RetryCampaignCallsResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.RetryCampaignCallsResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string requeued_campaign_call_names = 2;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.requeued_campaign_call_names_.size());
+  for (int i = 0, n = _impl_.requeued_campaign_call_names_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.requeued_campaign_call_names_.Get(i));
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallRefusal refused = 3;
+  total_size += 1UL * this->_internal_refused_size();
+  for (const auto& msg : this->_impl_.refused_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string campaign_name = 1;
+  if (!this->_internal_campaign_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_campaign_name());
+  }
+
+  // int32 remaining_count = 4;
+  if (this->_internal_remaining_count() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_remaining_count());
+  }
+
+  // .ondewo.vtsi.CampaignState campaign_state = 5;
+  if (this->_internal_campaign_state() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_campaign_state());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData RetryCampaignCallsResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    RetryCampaignCallsResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*RetryCampaignCallsResponse::GetClassData() const { return &_class_data_; }
+
+
+void RetryCampaignCallsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<RetryCampaignCallsResponse*>(&to_msg);
+  auto& from = static_cast<const RetryCampaignCallsResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.RetryCampaignCallsResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.requeued_campaign_call_names_.MergeFrom(from._impl_.requeued_campaign_call_names_);
+  _this->_impl_.refused_.MergeFrom(from._impl_.refused_);
+  if (!from._internal_campaign_name().empty()) {
+    _this->_internal_set_campaign_name(from._internal_campaign_name());
+  }
+  if (from._internal_remaining_count() != 0) {
+    _this->_internal_set_remaining_count(from._internal_remaining_count());
+  }
+  if (from._internal_campaign_state() != 0) {
+    _this->_internal_set_campaign_state(from._internal_campaign_state());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RetryCampaignCallsResponse::CopyFrom(const RetryCampaignCallsResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.RetryCampaignCallsResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool RetryCampaignCallsResponse::IsInitialized() const {
+  return true;
+}
+
+void RetryCampaignCallsResponse::InternalSwap(RetryCampaignCallsResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.requeued_campaign_call_names_.InternalSwap(&other->_impl_.requeued_campaign_call_names_);
+  _impl_.refused_.InternalSwap(&other->_impl_.refused_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.campaign_name_, lhs_arena,
+      &other->_impl_.campaign_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(RetryCampaignCallsResponse, _impl_.campaign_state_)
+      + sizeof(RetryCampaignCallsResponse::_impl_.campaign_state_)
+      - PROTOBUF_FIELD_OFFSET(RetryCampaignCallsResponse, _impl_.remaining_count_)>(
+          reinterpret_cast<char*>(&_impl_.remaining_count_),
+          reinterpret_cast<char*>(&other->_impl_.remaining_count_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata RetryCampaignCallsResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[29]);
+}
+
+// ===================================================================
+
+class CloneCampaignRequest::_Internal {
+ public:
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const CloneCampaignRequest* msg);
+};
+
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+CloneCampaignRequest::_Internal::field_mask(const CloneCampaignRequest* msg) {
+  return *msg->_impl_.field_mask_;
+}
+void CloneCampaignRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+}
+CloneCampaignRequest::CloneCampaignRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.CloneCampaignRequest)
+}
+CloneCampaignRequest::CloneCampaignRequest(const CloneCampaignRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CloneCampaignRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.call_states_){from._impl_.call_states_}
+    , /*decltype(_impl_._call_states_cached_byte_size_)*/{0}
+    , decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.new_display_name_){}
+    , decltype(_impl_.idempotency_key_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.include_calls_){}
+    , decltype(_impl_.source_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.new_display_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.new_display_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_new_display_name().empty()) {
+    _this->_impl_.new_display_name_.Set(from._internal_new_display_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.idempotency_key_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.idempotency_key_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_idempotency_key().empty()) {
+    _this->_impl_.idempotency_key_.Set(from._internal_idempotency_key(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
+  _this->_impl_.include_calls_ = from._impl_.include_calls_;
+  clear_has_source();
+  switch (from.source_case()) {
+    case kSourceName: {
+      _this->_internal_set_source_name(from._internal_source_name());
+      break;
+    }
+    case kSourceDisplayName: {
+      _this->_internal_set_source_display_name(from._internal_source_display_name());
+      break;
+    }
+    case SOURCE_NOT_SET: {
+      break;
+    }
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CloneCampaignRequest)
+}
+
+inline void CloneCampaignRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.call_states_){arena}
+    , /*decltype(_impl_._call_states_cached_byte_size_)*/{0}
+    , decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.new_display_name_){}
+    , decltype(_impl_.idempotency_key_){}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.include_calls_){false}
+    , decltype(_impl_.source_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_._oneof_case_)*/{}
+  };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.new_display_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.new_display_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.idempotency_key_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.idempotency_key_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  clear_has_source();
+}
+
+CloneCampaignRequest::~CloneCampaignRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.CloneCampaignRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CloneCampaignRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.call_states_.~RepeatedField();
+  _impl_.vtsi_project_name_.Destroy();
+  _impl_.new_display_name_.Destroy();
+  _impl_.idempotency_key_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
+  if (has_source()) {
+    clear_source();
+  }
+}
+
+void CloneCampaignRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CloneCampaignRequest::clear_source() {
+// @@protoc_insertion_point(one_of_clear_start:ondewo.vtsi.CloneCampaignRequest)
+  switch (source_case()) {
+    case kSourceName: {
+      _impl_.source_.source_name_.Destroy();
+      break;
+    }
+    case kSourceDisplayName: {
+      _impl_.source_.source_display_name_.Destroy();
+      break;
+    }
+    case SOURCE_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = SOURCE_NOT_SET;
+}
+
+
+void CloneCampaignRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.CloneCampaignRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.call_states_.Clear();
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  _impl_.new_display_name_.ClearToEmpty();
+  _impl_.idempotency_key_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+  _impl_.include_calls_ = false;
+  clear_source();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CloneCampaignRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string source_name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_source_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CloneCampaignRequest.source_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string source_display_name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_source_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CloneCampaignRequest.source_display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string vtsi_project_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CloneCampaignRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string new_display_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_new_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CloneCampaignRequest.new_display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool include_calls = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _impl_.include_calls_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.CampaignCallState call_states = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_call_states(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 48) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_add_call_states(static_cast<::ondewo::vtsi::CampaignCallState>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string idempotency_key = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          auto str = _internal_mutable_idempotency_key();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CloneCampaignRequest.idempotency_key"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CloneCampaignRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.CloneCampaignRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string source_name = 1;
+  if (_internal_has_source_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_source_name().data(), static_cast<int>(this->_internal_source_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CloneCampaignRequest.source_name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_source_name(), target);
+  }
+
+  // string source_display_name = 2;
+  if (_internal_has_source_display_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_source_display_name().data(), static_cast<int>(this->_internal_source_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CloneCampaignRequest.source_display_name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_source_display_name(), target);
+  }
+
+  // string vtsi_project_name = 3;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CloneCampaignRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_vtsi_project_name(), target);
+  }
+
+  // string new_display_name = 4;
+  if (!this->_internal_new_display_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_new_display_name().data(), static_cast<int>(this->_internal_new_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CloneCampaignRequest.new_display_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_new_display_name(), target);
+  }
+
+  // bool include_calls = 5;
+  if (this->_internal_include_calls() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(5, this->_internal_include_calls(), target);
+  }
+
+  // repeated .ondewo.vtsi.CampaignCallState call_states = 6;
+  {
+    int byte_size = _impl_._call_states_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteEnumPacked(
+          6, _impl_.call_states_, byte_size, target);
+    }
+  }
+
+  // .google.protobuf.FieldMask field_mask = 7;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(7, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  // string idempotency_key = 8;
+  if (!this->_internal_idempotency_key().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_idempotency_key().data(), static_cast<int>(this->_internal_idempotency_key().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CloneCampaignRequest.idempotency_key");
+    target = stream->WriteStringMaybeAliased(
+        8, this->_internal_idempotency_key(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.CloneCampaignRequest)
+  return target;
+}
+
+size_t CloneCampaignRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.CloneCampaignRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .ondewo.vtsi.CampaignCallState call_states = 6;
+  {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_call_states_size());for (unsigned int i = 0; i < count; i++) {
+      data_size += ::_pbi::WireFormatLite::EnumSize(
+        this->_internal_call_states(static_cast<int>(i)));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._call_states_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // string vtsi_project_name = 3;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // string new_display_name = 4;
+  if (!this->_internal_new_display_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_new_display_name());
+  }
+
+  // string idempotency_key = 8;
+  if (!this->_internal_idempotency_key().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_idempotency_key());
+  }
+
+  // .google.protobuf.FieldMask field_mask = 7;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
+  // bool include_calls = 5;
+  if (this->_internal_include_calls() != 0) {
+    total_size += 1 + 1;
+  }
+
+  switch (source_case()) {
+    // string source_name = 1;
+    case kSourceName: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_source_name());
+      break;
+    }
+    // string source_display_name = 2;
+    case kSourceDisplayName: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_source_display_name());
+      break;
+    }
+    case SOURCE_NOT_SET: {
+      break;
+    }
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CloneCampaignRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CloneCampaignRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CloneCampaignRequest::GetClassData() const { return &_class_data_; }
+
+
+void CloneCampaignRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CloneCampaignRequest*>(&to_msg);
+  auto& from = static_cast<const CloneCampaignRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.CloneCampaignRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.call_states_.MergeFrom(from._impl_.call_states_);
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (!from._internal_new_display_name().empty()) {
+    _this->_internal_set_new_display_name(from._internal_new_display_name());
+  }
+  if (!from._internal_idempotency_key().empty()) {
+    _this->_internal_set_idempotency_key(from._internal_idempotency_key());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
+  if (from._internal_include_calls() != 0) {
+    _this->_internal_set_include_calls(from._internal_include_calls());
+  }
+  switch (from.source_case()) {
+    case kSourceName: {
+      _this->_internal_set_source_name(from._internal_source_name());
+      break;
+    }
+    case kSourceDisplayName: {
+      _this->_internal_set_source_display_name(from._internal_source_display_name());
+      break;
+    }
+    case SOURCE_NOT_SET: {
+      break;
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CloneCampaignRequest::CopyFrom(const CloneCampaignRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.CloneCampaignRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CloneCampaignRequest::IsInitialized() const {
+  return true;
+}
+
+void CloneCampaignRequest::InternalSwap(CloneCampaignRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.call_states_.InternalSwap(&other->_impl_.call_states_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.new_display_name_, lhs_arena,
+      &other->_impl_.new_display_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.idempotency_key_, lhs_arena,
+      &other->_impl_.idempotency_key_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CloneCampaignRequest, _impl_.include_calls_)
+      + sizeof(CloneCampaignRequest::_impl_.include_calls_)
+      - PROTOBUF_FIELD_OFFSET(CloneCampaignRequest, _impl_.field_mask_)>(
+          reinterpret_cast<char*>(&_impl_.field_mask_),
+          reinterpret_cast<char*>(&other->_impl_.field_mask_));
+  swap(_impl_.source_, other->_impl_.source_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CloneCampaignRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcampaigns_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcampaigns_2eproto[30]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -9709,6 +14821,14 @@ PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::Campaign*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::Campaign >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::Campaign >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CampaignCallingWindow*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::CampaignCallingWindow >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::CampaignCallingWindow >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CallingWindowSlot*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::CallingWindowSlot >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::CallingWindowSlot >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CampaignStatistics*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::CampaignStatistics >(Arena* arena) {
@@ -9721,10 +14841,6 @@ Arena::CreateMaybeMessage< ::ondewo::vtsi::CampaignCallAttempt >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CampaignCall*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::CampaignCall >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::CampaignCall >(arena);
-}
-template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CampaignDisplayName*
-Arena::CreateMaybeMessage< ::ondewo::vtsi::CampaignDisplayName >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ondewo::vtsi::CampaignDisplayName >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CampaignAssignment*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::CampaignAssignment >(Arena* arena) {
@@ -9797,6 +14913,34 @@ Arena::CreateMaybeMessage< ::ondewo::vtsi::StreamCampaignStatusRequest >(Arena* 
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::StreamCampaignStatusResponse*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::StreamCampaignStatusResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::StreamCampaignStatusResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::GetCampaignCallRequest*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::GetCampaignCallRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::GetCampaignCallRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CampaignCallRefusal*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::CampaignCallRefusal >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::CampaignCallRefusal >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CancelCampaignCallsRequest*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::CancelCampaignCallsRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::CancelCampaignCallsRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CancelCampaignCallsResponse*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::CancelCampaignCallsResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::CancelCampaignCallsResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::RetryCampaignCallsRequest*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::RetryCampaignCallsRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::RetryCampaignCallsRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::RetryCampaignCallsResponse*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::RetryCampaignCallsResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::RetryCampaignCallsResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CloneCampaignRequest*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::CloneCampaignRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::CloneCampaignRequest >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

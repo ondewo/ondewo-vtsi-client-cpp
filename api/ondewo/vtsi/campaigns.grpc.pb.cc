@@ -35,6 +35,10 @@ static const char* Campaigns_method_names[] = {
   "/ondewo.vtsi.Campaigns/HardStopCampaign",
   "/ondewo.vtsi.Campaigns/ResumeCampaign",
   "/ondewo.vtsi.Campaigns/StreamCampaignStatus",
+  "/ondewo.vtsi.Campaigns/GetCampaignCall",
+  "/ondewo.vtsi.Campaigns/CancelCampaignCalls",
+  "/ondewo.vtsi.Campaigns/RetryCampaignCalls",
+  "/ondewo.vtsi.Campaigns/CloneCampaign",
 };
 
 std::unique_ptr< Campaigns::Stub> Campaigns::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -56,6 +60,10 @@ Campaigns::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel,
   , rpcmethod_HardStopCampaign_(Campaigns_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_ResumeCampaign_(Campaigns_method_names[10], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_StreamCampaignStatus_(Campaigns_method_names[11], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_GetCampaignCall_(Campaigns_method_names[12], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CancelCampaignCalls_(Campaigns_method_names[13], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_RetryCampaignCalls_(Campaigns_method_names[14], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CloneCampaign_(Campaigns_method_names[15], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status Campaigns::Stub::CreateCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::CreateCampaignRequest& request, ::ondewo::vtsi::Campaign* response) {
@@ -327,6 +335,98 @@ void Campaigns::Stub::async::StreamCampaignStatus(::grpc::ClientContext* context
   return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::StreamCampaignStatusResponse>::Create(channel_.get(), cq, rpcmethod_StreamCampaignStatus_, context, request, false, nullptr);
 }
 
+::grpc::Status Campaigns::Stub::GetCampaignCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCampaignCallRequest& request, ::ondewo::vtsi::CampaignCall* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::GetCampaignCallRequest, ::ondewo::vtsi::CampaignCall, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetCampaignCall_, context, request, response);
+}
+
+void Campaigns::Stub::async::GetCampaignCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCampaignCallRequest* request, ::ondewo::vtsi::CampaignCall* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::GetCampaignCallRequest, ::ondewo::vtsi::CampaignCall, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetCampaignCall_, context, request, response, std::move(f));
+}
+
+void Campaigns::Stub::async::GetCampaignCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCampaignCallRequest* request, ::ondewo::vtsi::CampaignCall* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetCampaignCall_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CampaignCall>* Campaigns::Stub::PrepareAsyncGetCampaignCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCampaignCallRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::CampaignCall, ::ondewo::vtsi::GetCampaignCallRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetCampaignCall_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CampaignCall>* Campaigns::Stub::AsyncGetCampaignCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCampaignCallRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetCampaignCallRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Campaigns::Stub::CancelCampaignCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelCampaignCallsRequest& request, ::ondewo::vtsi::CancelCampaignCallsResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::CancelCampaignCallsRequest, ::ondewo::vtsi::CancelCampaignCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_CancelCampaignCalls_, context, request, response);
+}
+
+void Campaigns::Stub::async::CancelCampaignCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelCampaignCallsRequest* request, ::ondewo::vtsi::CancelCampaignCallsResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::CancelCampaignCallsRequest, ::ondewo::vtsi::CancelCampaignCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_CancelCampaignCalls_, context, request, response, std::move(f));
+}
+
+void Campaigns::Stub::async::CancelCampaignCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelCampaignCallsRequest* request, ::ondewo::vtsi::CancelCampaignCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_CancelCampaignCalls_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelCampaignCallsResponse>* Campaigns::Stub::PrepareAsyncCancelCampaignCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelCampaignCallsRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::CancelCampaignCallsResponse, ::ondewo::vtsi::CancelCampaignCallsRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_CancelCampaignCalls_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelCampaignCallsResponse>* Campaigns::Stub::AsyncCancelCampaignCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelCampaignCallsRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncCancelCampaignCallsRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Campaigns::Stub::RetryCampaignCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryCampaignCallsRequest& request, ::ondewo::vtsi::RetryCampaignCallsResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::RetryCampaignCallsRequest, ::ondewo::vtsi::RetryCampaignCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_RetryCampaignCalls_, context, request, response);
+}
+
+void Campaigns::Stub::async::RetryCampaignCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryCampaignCallsRequest* request, ::ondewo::vtsi::RetryCampaignCallsResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::RetryCampaignCallsRequest, ::ondewo::vtsi::RetryCampaignCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RetryCampaignCalls_, context, request, response, std::move(f));
+}
+
+void Campaigns::Stub::async::RetryCampaignCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryCampaignCallsRequest* request, ::ondewo::vtsi::RetryCampaignCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RetryCampaignCalls_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::RetryCampaignCallsResponse>* Campaigns::Stub::PrepareAsyncRetryCampaignCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryCampaignCallsRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::RetryCampaignCallsResponse, ::ondewo::vtsi::RetryCampaignCallsRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_RetryCampaignCalls_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::RetryCampaignCallsResponse>* Campaigns::Stub::AsyncRetryCampaignCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryCampaignCallsRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncRetryCampaignCallsRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Campaigns::Stub::CloneCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::CloneCampaignRequest& request, ::ondewo::vtsi::Campaign* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::CloneCampaignRequest, ::ondewo::vtsi::Campaign, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_CloneCampaign_, context, request, response);
+}
+
+void Campaigns::Stub::async::CloneCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::CloneCampaignRequest* request, ::ondewo::vtsi::Campaign* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::CloneCampaignRequest, ::ondewo::vtsi::Campaign, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_CloneCampaign_, context, request, response, std::move(f));
+}
+
+void Campaigns::Stub::async::CloneCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::CloneCampaignRequest* request, ::ondewo::vtsi::Campaign* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_CloneCampaign_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Campaign>* Campaigns::Stub::PrepareAsyncCloneCampaignRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CloneCampaignRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::Campaign, ::ondewo::vtsi::CloneCampaignRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_CloneCampaign_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Campaign>* Campaigns::Stub::AsyncCloneCampaignRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CloneCampaignRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncCloneCampaignRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 Campaigns::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Campaigns_method_names[0],
@@ -448,6 +548,46 @@ Campaigns::Service::Service() {
              ::grpc::ServerWriter<::ondewo::vtsi::StreamCampaignStatusResponse>* writer) {
                return service->StreamCampaignStatus(ctx, req, writer);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Campaigns_method_names[12],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Campaigns::Service, ::ondewo::vtsi::GetCampaignCallRequest, ::ondewo::vtsi::CampaignCall, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Campaigns::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::GetCampaignCallRequest* req,
+             ::ondewo::vtsi::CampaignCall* resp) {
+               return service->GetCampaignCall(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Campaigns_method_names[13],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Campaigns::Service, ::ondewo::vtsi::CancelCampaignCallsRequest, ::ondewo::vtsi::CancelCampaignCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Campaigns::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::CancelCampaignCallsRequest* req,
+             ::ondewo::vtsi::CancelCampaignCallsResponse* resp) {
+               return service->CancelCampaignCalls(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Campaigns_method_names[14],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Campaigns::Service, ::ondewo::vtsi::RetryCampaignCallsRequest, ::ondewo::vtsi::RetryCampaignCallsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Campaigns::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::RetryCampaignCallsRequest* req,
+             ::ondewo::vtsi::RetryCampaignCallsResponse* resp) {
+               return service->RetryCampaignCalls(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Campaigns_method_names[15],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Campaigns::Service, ::ondewo::vtsi::CloneCampaignRequest, ::ondewo::vtsi::Campaign, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Campaigns::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::CloneCampaignRequest* req,
+             ::ondewo::vtsi::Campaign* resp) {
+               return service->CloneCampaign(ctx, req, resp);
+             }, this)));
 }
 
 Campaigns::Service::~Service() {
@@ -534,6 +674,34 @@ Campaigns::Service::~Service() {
   (void) context;
   (void) request;
   (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Campaigns::Service::GetCampaignCall(::grpc::ServerContext* context, const ::ondewo::vtsi::GetCampaignCallRequest* request, ::ondewo::vtsi::CampaignCall* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Campaigns::Service::CancelCampaignCalls(::grpc::ServerContext* context, const ::ondewo::vtsi::CancelCampaignCallsRequest* request, ::ondewo::vtsi::CancelCampaignCallsResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Campaigns::Service::RetryCampaignCalls(::grpc::ServerContext* context, const ::ondewo::vtsi::RetryCampaignCallsRequest* request, ::ondewo::vtsi::RetryCampaignCallsResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Campaigns::Service::CloneCampaign(::grpc::ServerContext* context, const ::ondewo::vtsi::CloneCampaignRequest* request, ::ondewo::vtsi::Campaign* response) {
+  (void) context;
+  (void) request;
+  (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

@@ -74,6 +74,9 @@ extern GetSoftphoneCertificateRequestDefaultTypeInternal _GetSoftphoneCertificat
 class GetSoftphoneProvisioningRequest;
 struct GetSoftphoneProvisioningRequestDefaultTypeInternal;
 extern GetSoftphoneProvisioningRequestDefaultTypeInternal _GetSoftphoneProvisioningRequest_default_instance_;
+class GetSoftphoneRegistrationRequest;
+struct GetSoftphoneRegistrationRequestDefaultTypeInternal;
+extern GetSoftphoneRegistrationRequestDefaultTypeInternal _GetSoftphoneRegistrationRequest_default_instance_;
 class ListSoftphoneAccountsRequest;
 struct ListSoftphoneAccountsRequestDefaultTypeInternal;
 extern ListSoftphoneAccountsRequestDefaultTypeInternal _ListSoftphoneAccountsRequest_default_instance_;
@@ -116,12 +119,18 @@ extern SoftphoneCertificateDefaultTypeInternal _SoftphoneCertificate_default_ins
 class SoftphoneCertificateFilter;
 struct SoftphoneCertificateFilterDefaultTypeInternal;
 extern SoftphoneCertificateFilterDefaultTypeInternal _SoftphoneCertificateFilter_default_instance_;
+class SoftphoneContact;
+struct SoftphoneContactDefaultTypeInternal;
+extern SoftphoneContactDefaultTypeInternal _SoftphoneContact_default_instance_;
 class SoftphoneCredentials;
 struct SoftphoneCredentialsDefaultTypeInternal;
 extern SoftphoneCredentialsDefaultTypeInternal _SoftphoneCredentials_default_instance_;
 class SoftphoneProvisioning;
 struct SoftphoneProvisioningDefaultTypeInternal;
 extern SoftphoneProvisioningDefaultTypeInternal _SoftphoneProvisioning_default_instance_;
+class SoftphoneRegistration;
+struct SoftphoneRegistrationDefaultTypeInternal;
+extern SoftphoneRegistrationDefaultTypeInternal _SoftphoneRegistration_default_instance_;
 class UpdateSoftphoneAccountRequest;
 struct UpdateSoftphoneAccountRequestDefaultTypeInternal;
 extern UpdateSoftphoneAccountRequestDefaultTypeInternal _UpdateSoftphoneAccountRequest_default_instance_;
@@ -135,6 +144,7 @@ template<> ::ondewo::vtsi::DeleteSoftphoneAccountResponse* Arena::CreateMaybeMes
 template<> ::ondewo::vtsi::GetSoftphoneAccountRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::GetSoftphoneAccountRequest>(Arena*);
 template<> ::ondewo::vtsi::GetSoftphoneCertificateRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::GetSoftphoneCertificateRequest>(Arena*);
 template<> ::ondewo::vtsi::GetSoftphoneProvisioningRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::GetSoftphoneProvisioningRequest>(Arena*);
+template<> ::ondewo::vtsi::GetSoftphoneRegistrationRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::GetSoftphoneRegistrationRequest>(Arena*);
 template<> ::ondewo::vtsi::ListSoftphoneAccountsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::ListSoftphoneAccountsRequest>(Arena*);
 template<> ::ondewo::vtsi::ListSoftphoneAccountsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::ListSoftphoneAccountsResponse>(Arena*);
 template<> ::ondewo::vtsi::ListSoftphoneCertificatesRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::ListSoftphoneCertificatesRequest>(Arena*);
@@ -149,8 +159,10 @@ template<> ::ondewo::vtsi::SoftphoneAccountSorting* Arena::CreateMaybeMessage<::
 template<> ::ondewo::vtsi::SoftphoneAccount_LabelsEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::vtsi::SoftphoneAccount_LabelsEntry_DoNotUse>(Arena*);
 template<> ::ondewo::vtsi::SoftphoneCertificate* Arena::CreateMaybeMessage<::ondewo::vtsi::SoftphoneCertificate>(Arena*);
 template<> ::ondewo::vtsi::SoftphoneCertificateFilter* Arena::CreateMaybeMessage<::ondewo::vtsi::SoftphoneCertificateFilter>(Arena*);
+template<> ::ondewo::vtsi::SoftphoneContact* Arena::CreateMaybeMessage<::ondewo::vtsi::SoftphoneContact>(Arena*);
 template<> ::ondewo::vtsi::SoftphoneCredentials* Arena::CreateMaybeMessage<::ondewo::vtsi::SoftphoneCredentials>(Arena*);
 template<> ::ondewo::vtsi::SoftphoneProvisioning* Arena::CreateMaybeMessage<::ondewo::vtsi::SoftphoneProvisioning>(Arena*);
+template<> ::ondewo::vtsi::SoftphoneRegistration* Arena::CreateMaybeMessage<::ondewo::vtsi::SoftphoneRegistration>(Arena*);
 template<> ::ondewo::vtsi::UpdateSoftphoneAccountRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::UpdateSoftphoneAccountRequest>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace ondewo {
@@ -237,6 +249,34 @@ inline bool SoftphoneCertificateStatus_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, SoftphoneCertificateStatus* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SoftphoneCertificateStatus>(
     SoftphoneCertificateStatus_descriptor(), name, value);
+}
+enum SoftphoneContactStatus : int {
+  SOFTPHONE_CONTACT_STATUS_UNSPECIFIED = 0,
+  SOFTPHONE_CONTACT_STATUS_AVAILABLE = 1,
+  SOFTPHONE_CONTACT_STATUS_UNAVAILABLE = 2,
+  SOFTPHONE_CONTACT_STATUS_NOT_QUALIFIED = 3,
+  SOFTPHONE_CONTACT_STATUS_UNKNOWN = 4,
+  SoftphoneContactStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  SoftphoneContactStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool SoftphoneContactStatus_IsValid(int value);
+constexpr SoftphoneContactStatus SoftphoneContactStatus_MIN = SOFTPHONE_CONTACT_STATUS_UNSPECIFIED;
+constexpr SoftphoneContactStatus SoftphoneContactStatus_MAX = SOFTPHONE_CONTACT_STATUS_UNKNOWN;
+constexpr int SoftphoneContactStatus_ARRAYSIZE = SoftphoneContactStatus_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SoftphoneContactStatus_descriptor();
+template<typename T>
+inline const std::string& SoftphoneContactStatus_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SoftphoneContactStatus>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SoftphoneContactStatus_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SoftphoneContactStatus_descriptor(), enum_t_value);
+}
+inline bool SoftphoneContactStatus_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, SoftphoneContactStatus* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SoftphoneContactStatus>(
+    SoftphoneContactStatus_descriptor(), name, value);
 }
 enum SoftphoneSrtpMode : int {
   SOFTPHONE_SRTP_MODE_UNSPECIFIED = 0,
@@ -428,13 +468,16 @@ class SoftphoneAccount final :
     kCurrentCertificateSha256FingerprintFieldNumber = 12,
     kCreatedByFieldNumber = 15,
     kModifiedByFieldNumber = 17,
+    kLockedReasonFieldNumber = 21,
     kCurrentCertificateExpireTimeFieldNumber = 13,
     kSipPasswordSetAtFieldNumber = 14,
     kCreatedAtFieldNumber = 16,
     kModifiedAtFieldNumber = 18,
+    kLockedAtFieldNumber = 20,
     kTransportSecurityFieldNumber = 6,
-    kEnabledFieldNumber = 7,
     kMaxContactsFieldNumber = 8,
+    kEnabledFieldNumber = 7,
+    kLockedFieldNumber = 19,
   };
   // map<string, string> labels = 9;
   int labels_size() const;
@@ -603,6 +646,20 @@ class SoftphoneAccount final :
   std::string* _internal_mutable_modified_by();
   public:
 
+  // string locked_reason = 21;
+  void clear_locked_reason();
+  const std::string& locked_reason() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_locked_reason(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_locked_reason();
+  PROTOBUF_NODISCARD std::string* release_locked_reason();
+  void set_allocated_locked_reason(std::string* locked_reason);
+  private:
+  const std::string& _internal_locked_reason() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_locked_reason(const std::string& value);
+  std::string* _internal_mutable_locked_reason();
+  public:
+
   // .google.protobuf.Timestamp current_certificate_expire_time = 13;
   bool has_current_certificate_expire_time() const;
   private:
@@ -675,6 +732,24 @@ class SoftphoneAccount final :
       ::PROTOBUF_NAMESPACE_ID::Timestamp* modified_at);
   ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_modified_at();
 
+  // .google.protobuf.Timestamp locked_at = 20;
+  bool has_locked_at() const;
+  private:
+  bool _internal_has_locked_at() const;
+  public:
+  void clear_locked_at();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& locked_at() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_locked_at();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_locked_at();
+  void set_allocated_locked_at(::PROTOBUF_NAMESPACE_ID::Timestamp* locked_at);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_locked_at() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_locked_at();
+  public:
+  void unsafe_arena_set_allocated_locked_at(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* locked_at);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_locked_at();
+
   // .ondewo.vtsi.SoftphoneTransportSecurity transport_security = 6;
   void clear_transport_security();
   ::ondewo::vtsi::SoftphoneTransportSecurity transport_security() const;
@@ -682,6 +757,15 @@ class SoftphoneAccount final :
   private:
   ::ondewo::vtsi::SoftphoneTransportSecurity _internal_transport_security() const;
   void _internal_set_transport_security(::ondewo::vtsi::SoftphoneTransportSecurity value);
+  public:
+
+  // int32 max_contacts = 8;
+  void clear_max_contacts();
+  int32_t max_contacts() const;
+  void set_max_contacts(int32_t value);
+  private:
+  int32_t _internal_max_contacts() const;
+  void _internal_set_max_contacts(int32_t value);
   public:
 
   // optional bool enabled = 7;
@@ -697,13 +781,13 @@ class SoftphoneAccount final :
   void _internal_set_enabled(bool value);
   public:
 
-  // int32 max_contacts = 8;
-  void clear_max_contacts();
-  int32_t max_contacts() const;
-  void set_max_contacts(int32_t value);
+  // bool locked = 19;
+  void clear_locked();
+  bool locked() const;
+  void set_locked(bool value);
   private:
-  int32_t _internal_max_contacts() const;
-  void _internal_set_max_contacts(int32_t value);
+  bool _internal_locked() const;
+  void _internal_set_locked(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.SoftphoneAccount)
@@ -731,13 +815,16 @@ class SoftphoneAccount final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr current_certificate_sha256_fingerprint_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr created_by_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr modified_by_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr locked_reason_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* current_certificate_expire_time_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* sip_password_set_at_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* created_at_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* modified_at_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* locked_at_;
     int transport_security_;
-    bool enabled_;
     int32_t max_contacts_;
+    bool enabled_;
+    bool locked_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto;
@@ -1988,6 +2075,7 @@ class SoftphoneAccountFilter final :
     kCertificateExpiresBeforeFieldNumber = 6,
     kCertificateExpiresAfterFieldNumber = 7,
     kEnabledFieldNumber = 2,
+    kLockedFieldNumber = 8,
   };
   // repeated .ondewo.vtsi.SoftphoneTransportSecurity transport_securities = 1;
   int transport_securities_size() const;
@@ -2100,6 +2188,19 @@ class SoftphoneAccountFilter final :
   void _internal_set_enabled(bool value);
   public:
 
+  // optional bool locked = 8;
+  bool has_locked() const;
+  private:
+  bool _internal_has_locked() const;
+  public:
+  void clear_locked();
+  bool locked() const;
+  void set_locked(bool value);
+  private:
+  bool _internal_locked() const;
+  void _internal_set_locked(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.SoftphoneAccountFilter)
  private:
   class _Internal;
@@ -2122,6 +2223,7 @@ class SoftphoneAccountFilter final :
     ::PROTOBUF_NAMESPACE_ID::Timestamp* certificate_expires_before_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* certificate_expires_after_;
     bool enabled_;
+    bool locked_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto;
@@ -2653,6 +2755,7 @@ class CreateSoftphoneAccountRequest final :
 
   enum : int {
     kVtsiProjectNameFieldNumber = 1,
+    kIdempotencyKeyFieldNumber = 3,
     kSoftphoneAccountFieldNumber = 2,
   };
   // string vtsi_project_name = 1;
@@ -2667,6 +2770,20 @@ class CreateSoftphoneAccountRequest final :
   const std::string& _internal_vtsi_project_name() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_vtsi_project_name(const std::string& value);
   std::string* _internal_mutable_vtsi_project_name();
+  public:
+
+  // string idempotency_key = 3;
+  void clear_idempotency_key();
+  const std::string& idempotency_key() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_idempotency_key(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_idempotency_key();
+  PROTOBUF_NODISCARD std::string* release_idempotency_key();
+  void set_allocated_idempotency_key(std::string* idempotency_key);
+  private:
+  const std::string& _internal_idempotency_key() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_idempotency_key(const std::string& value);
+  std::string* _internal_mutable_idempotency_key();
   public:
 
   // .ondewo.vtsi.SoftphoneAccount softphone_account = 2;
@@ -2696,6 +2813,7 @@ class CreateSoftphoneAccountRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr idempotency_key_;
     ::ondewo::vtsi::SoftphoneAccount* softphone_account_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -5252,6 +5370,599 @@ class GetSoftphoneProvisioningRequest final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto;
 };
+// -------------------------------------------------------------------
+
+class GetSoftphoneRegistrationRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.GetSoftphoneRegistrationRequest) */ {
+ public:
+  inline GetSoftphoneRegistrationRequest() : GetSoftphoneRegistrationRequest(nullptr) {}
+  ~GetSoftphoneRegistrationRequest() override;
+  explicit PROTOBUF_CONSTEXPR GetSoftphoneRegistrationRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GetSoftphoneRegistrationRequest(const GetSoftphoneRegistrationRequest& from);
+  GetSoftphoneRegistrationRequest(GetSoftphoneRegistrationRequest&& from) noexcept
+    : GetSoftphoneRegistrationRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline GetSoftphoneRegistrationRequest& operator=(const GetSoftphoneRegistrationRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetSoftphoneRegistrationRequest& operator=(GetSoftphoneRegistrationRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GetSoftphoneRegistrationRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GetSoftphoneRegistrationRequest* internal_default_instance() {
+    return reinterpret_cast<const GetSoftphoneRegistrationRequest*>(
+               &_GetSoftphoneRegistrationRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    24;
+
+  friend void swap(GetSoftphoneRegistrationRequest& a, GetSoftphoneRegistrationRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GetSoftphoneRegistrationRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetSoftphoneRegistrationRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GetSoftphoneRegistrationRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GetSoftphoneRegistrationRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const GetSoftphoneRegistrationRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const GetSoftphoneRegistrationRequest& from) {
+    GetSoftphoneRegistrationRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GetSoftphoneRegistrationRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.GetSoftphoneRegistrationRequest";
+  }
+  protected:
+  explicit GetSoftphoneRegistrationRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 1,
+    kFieldMaskFieldNumber = 2,
+  };
+  // string name = 1;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // .google.protobuf.FieldMask field_mask = 2;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.GetSoftphoneRegistrationRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SoftphoneRegistration final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.SoftphoneRegistration) */ {
+ public:
+  inline SoftphoneRegistration() : SoftphoneRegistration(nullptr) {}
+  ~SoftphoneRegistration() override;
+  explicit PROTOBUF_CONSTEXPR SoftphoneRegistration(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SoftphoneRegistration(const SoftphoneRegistration& from);
+  SoftphoneRegistration(SoftphoneRegistration&& from) noexcept
+    : SoftphoneRegistration() {
+    *this = ::std::move(from);
+  }
+
+  inline SoftphoneRegistration& operator=(const SoftphoneRegistration& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SoftphoneRegistration& operator=(SoftphoneRegistration&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SoftphoneRegistration& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SoftphoneRegistration* internal_default_instance() {
+    return reinterpret_cast<const SoftphoneRegistration*>(
+               &_SoftphoneRegistration_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    25;
+
+  friend void swap(SoftphoneRegistration& a, SoftphoneRegistration& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SoftphoneRegistration* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SoftphoneRegistration* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SoftphoneRegistration* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SoftphoneRegistration>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SoftphoneRegistration& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SoftphoneRegistration& from) {
+    SoftphoneRegistration::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SoftphoneRegistration* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.SoftphoneRegistration";
+  }
+  protected:
+  explicit SoftphoneRegistration(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kContactsFieldNumber = 2,
+    kSoftphoneAccountNameFieldNumber = 1,
+    kObservedAtFieldNumber = 3,
+  };
+  // repeated .ondewo.vtsi.SoftphoneContact contacts = 2;
+  int contacts_size() const;
+  private:
+  int _internal_contacts_size() const;
+  public:
+  void clear_contacts();
+  ::ondewo::vtsi::SoftphoneContact* mutable_contacts(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::vtsi::SoftphoneContact >*
+      mutable_contacts();
+  private:
+  const ::ondewo::vtsi::SoftphoneContact& _internal_contacts(int index) const;
+  ::ondewo::vtsi::SoftphoneContact* _internal_add_contacts();
+  public:
+  const ::ondewo::vtsi::SoftphoneContact& contacts(int index) const;
+  ::ondewo::vtsi::SoftphoneContact* add_contacts();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::vtsi::SoftphoneContact >&
+      contacts() const;
+
+  // string softphone_account_name = 1;
+  void clear_softphone_account_name();
+  const std::string& softphone_account_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_softphone_account_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_softphone_account_name();
+  PROTOBUF_NODISCARD std::string* release_softphone_account_name();
+  void set_allocated_softphone_account_name(std::string* softphone_account_name);
+  private:
+  const std::string& _internal_softphone_account_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_softphone_account_name(const std::string& value);
+  std::string* _internal_mutable_softphone_account_name();
+  public:
+
+  // .google.protobuf.Timestamp observed_at = 3;
+  bool has_observed_at() const;
+  private:
+  bool _internal_has_observed_at() const;
+  public:
+  void clear_observed_at();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& observed_at() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_observed_at();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_observed_at();
+  void set_allocated_observed_at(::PROTOBUF_NAMESPACE_ID::Timestamp* observed_at);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_observed_at() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_observed_at();
+  public:
+  void unsafe_arena_set_allocated_observed_at(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* observed_at);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_observed_at();
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.SoftphoneRegistration)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::vtsi::SoftphoneContact > contacts_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr softphone_account_name_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* observed_at_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SoftphoneContact final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.SoftphoneContact) */ {
+ public:
+  inline SoftphoneContact() : SoftphoneContact(nullptr) {}
+  ~SoftphoneContact() override;
+  explicit PROTOBUF_CONSTEXPR SoftphoneContact(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SoftphoneContact(const SoftphoneContact& from);
+  SoftphoneContact(SoftphoneContact&& from) noexcept
+    : SoftphoneContact() {
+    *this = ::std::move(from);
+  }
+
+  inline SoftphoneContact& operator=(const SoftphoneContact& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SoftphoneContact& operator=(SoftphoneContact&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SoftphoneContact& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SoftphoneContact* internal_default_instance() {
+    return reinterpret_cast<const SoftphoneContact*>(
+               &_SoftphoneContact_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    26;
+
+  friend void swap(SoftphoneContact& a, SoftphoneContact& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SoftphoneContact* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SoftphoneContact* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SoftphoneContact* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SoftphoneContact>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SoftphoneContact& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SoftphoneContact& from) {
+    SoftphoneContact::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SoftphoneContact* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.SoftphoneContact";
+  }
+  protected:
+  explicit SoftphoneContact(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUriFieldNumber = 1,
+    kUserAgentFieldNumber = 2,
+    kSourceAddressFieldNumber = 3,
+    kExpireTimeFieldNumber = 4,
+    kRoundTripMsFieldNumber = 5,
+    kStatusFieldNumber = 6,
+  };
+  // string uri = 1;
+  void clear_uri();
+  const std::string& uri() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_uri(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_uri();
+  PROTOBUF_NODISCARD std::string* release_uri();
+  void set_allocated_uri(std::string* uri);
+  private:
+  const std::string& _internal_uri() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_uri(const std::string& value);
+  std::string* _internal_mutable_uri();
+  public:
+
+  // string user_agent = 2;
+  void clear_user_agent();
+  const std::string& user_agent() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_user_agent(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_agent();
+  PROTOBUF_NODISCARD std::string* release_user_agent();
+  void set_allocated_user_agent(std::string* user_agent);
+  private:
+  const std::string& _internal_user_agent() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_agent(const std::string& value);
+  std::string* _internal_mutable_user_agent();
+  public:
+
+  // string source_address = 3;
+  void clear_source_address();
+  const std::string& source_address() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_source_address(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_source_address();
+  PROTOBUF_NODISCARD std::string* release_source_address();
+  void set_allocated_source_address(std::string* source_address);
+  private:
+  const std::string& _internal_source_address() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_source_address(const std::string& value);
+  std::string* _internal_mutable_source_address();
+  public:
+
+  // .google.protobuf.Timestamp expire_time = 4;
+  bool has_expire_time() const;
+  private:
+  bool _internal_has_expire_time() const;
+  public:
+  void clear_expire_time();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& expire_time() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_expire_time();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_expire_time();
+  void set_allocated_expire_time(::PROTOBUF_NAMESPACE_ID::Timestamp* expire_time);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_expire_time() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_expire_time();
+  public:
+  void unsafe_arena_set_allocated_expire_time(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* expire_time);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_expire_time();
+
+  // double round_trip_ms = 5;
+  void clear_round_trip_ms();
+  double round_trip_ms() const;
+  void set_round_trip_ms(double value);
+  private:
+  double _internal_round_trip_ms() const;
+  void _internal_set_round_trip_ms(double value);
+  public:
+
+  // .ondewo.vtsi.SoftphoneContactStatus status = 6;
+  void clear_status();
+  ::ondewo::vtsi::SoftphoneContactStatus status() const;
+  void set_status(::ondewo::vtsi::SoftphoneContactStatus value);
+  private:
+  ::ondewo::vtsi::SoftphoneContactStatus _internal_status() const;
+  void _internal_set_status(::ondewo::vtsi::SoftphoneContactStatus value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.SoftphoneContact)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uri_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_agent_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr source_address_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* expire_time_;
+    double round_trip_ms_;
+    int status_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto;
+};
 // ===================================================================
 
 
@@ -6225,6 +6936,161 @@ inline void SoftphoneAccount::set_allocated_modified_at(::PROTOBUF_NAMESPACE_ID:
   }
   _impl_.modified_at_ = modified_at;
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneAccount.modified_at)
+}
+
+// bool locked = 19;
+inline void SoftphoneAccount::clear_locked() {
+  _impl_.locked_ = false;
+}
+inline bool SoftphoneAccount::_internal_locked() const {
+  return _impl_.locked_;
+}
+inline bool SoftphoneAccount::locked() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneAccount.locked)
+  return _internal_locked();
+}
+inline void SoftphoneAccount::_internal_set_locked(bool value) {
+  
+  _impl_.locked_ = value;
+}
+inline void SoftphoneAccount::set_locked(bool value) {
+  _internal_set_locked(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneAccount.locked)
+}
+
+// .google.protobuf.Timestamp locked_at = 20;
+inline bool SoftphoneAccount::_internal_has_locked_at() const {
+  return this != internal_default_instance() && _impl_.locked_at_ != nullptr;
+}
+inline bool SoftphoneAccount::has_locked_at() const {
+  return _internal_has_locked_at();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SoftphoneAccount::_internal_locked_at() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.locked_at_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SoftphoneAccount::locked_at() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneAccount.locked_at)
+  return _internal_locked_at();
+}
+inline void SoftphoneAccount::unsafe_arena_set_allocated_locked_at(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* locked_at) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.locked_at_);
+  }
+  _impl_.locked_at_ = locked_at;
+  if (locked_at) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.SoftphoneAccount.locked_at)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneAccount::release_locked_at() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.locked_at_;
+  _impl_.locked_at_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneAccount::unsafe_arena_release_locked_at() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneAccount.locked_at)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.locked_at_;
+  _impl_.locked_at_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneAccount::_internal_mutable_locked_at() {
+  
+  if (_impl_.locked_at_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.locked_at_ = p;
+  }
+  return _impl_.locked_at_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneAccount::mutable_locked_at() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_locked_at();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneAccount.locked_at)
+  return _msg;
+}
+inline void SoftphoneAccount::set_allocated_locked_at(::PROTOBUF_NAMESPACE_ID::Timestamp* locked_at) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.locked_at_);
+  }
+  if (locked_at) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(locked_at));
+    if (message_arena != submessage_arena) {
+      locked_at = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, locked_at, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.locked_at_ = locked_at;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneAccount.locked_at)
+}
+
+// string locked_reason = 21;
+inline void SoftphoneAccount::clear_locked_reason() {
+  _impl_.locked_reason_.ClearToEmpty();
+}
+inline const std::string& SoftphoneAccount::locked_reason() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneAccount.locked_reason)
+  return _internal_locked_reason();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SoftphoneAccount::set_locked_reason(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.locked_reason_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneAccount.locked_reason)
+}
+inline std::string* SoftphoneAccount::mutable_locked_reason() {
+  std::string* _s = _internal_mutable_locked_reason();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneAccount.locked_reason)
+  return _s;
+}
+inline const std::string& SoftphoneAccount::_internal_locked_reason() const {
+  return _impl_.locked_reason_.Get();
+}
+inline void SoftphoneAccount::_internal_set_locked_reason(const std::string& value) {
+  
+  _impl_.locked_reason_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SoftphoneAccount::_internal_mutable_locked_reason() {
+  
+  return _impl_.locked_reason_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SoftphoneAccount::release_locked_reason() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneAccount.locked_reason)
+  return _impl_.locked_reason_.Release();
+}
+inline void SoftphoneAccount::set_allocated_locked_reason(std::string* locked_reason) {
+  if (locked_reason != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.locked_reason_.SetAllocated(locked_reason, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.locked_reason_.IsDefault()) {
+    _impl_.locked_reason_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneAccount.locked_reason)
 }
 
 // -------------------------------------------------------------------
@@ -8820,6 +9686,34 @@ inline void SoftphoneAccountFilter::set_allocated_certificate_expires_after(::PR
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneAccountFilter.certificate_expires_after)
 }
 
+// optional bool locked = 8;
+inline bool SoftphoneAccountFilter::_internal_has_locked() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool SoftphoneAccountFilter::has_locked() const {
+  return _internal_has_locked();
+}
+inline void SoftphoneAccountFilter::clear_locked() {
+  _impl_.locked_ = false;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline bool SoftphoneAccountFilter::_internal_locked() const {
+  return _impl_.locked_;
+}
+inline bool SoftphoneAccountFilter::locked() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneAccountFilter.locked)
+  return _internal_locked();
+}
+inline void SoftphoneAccountFilter::_internal_set_locked(bool value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.locked_ = value;
+}
+inline void SoftphoneAccountFilter::set_locked(bool value) {
+  _internal_set_locked(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneAccountFilter.locked)
+}
+
 // -------------------------------------------------------------------
 
 // SoftphoneCertificateFilter
@@ -9239,6 +10133,56 @@ inline void CreateSoftphoneAccountRequest::set_allocated_softphone_account(::ond
   }
   _impl_.softphone_account_ = softphone_account;
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CreateSoftphoneAccountRequest.softphone_account)
+}
+
+// string idempotency_key = 3;
+inline void CreateSoftphoneAccountRequest::clear_idempotency_key() {
+  _impl_.idempotency_key_.ClearToEmpty();
+}
+inline const std::string& CreateSoftphoneAccountRequest::idempotency_key() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CreateSoftphoneAccountRequest.idempotency_key)
+  return _internal_idempotency_key();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CreateSoftphoneAccountRequest::set_idempotency_key(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.idempotency_key_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.CreateSoftphoneAccountRequest.idempotency_key)
+}
+inline std::string* CreateSoftphoneAccountRequest::mutable_idempotency_key() {
+  std::string* _s = _internal_mutable_idempotency_key();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.CreateSoftphoneAccountRequest.idempotency_key)
+  return _s;
+}
+inline const std::string& CreateSoftphoneAccountRequest::_internal_idempotency_key() const {
+  return _impl_.idempotency_key_.Get();
+}
+inline void CreateSoftphoneAccountRequest::_internal_set_idempotency_key(const std::string& value) {
+  
+  _impl_.idempotency_key_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CreateSoftphoneAccountRequest::_internal_mutable_idempotency_key() {
+  
+  return _impl_.idempotency_key_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CreateSoftphoneAccountRequest::release_idempotency_key() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.CreateSoftphoneAccountRequest.idempotency_key)
+  return _impl_.idempotency_key_.Release();
+}
+inline void CreateSoftphoneAccountRequest::set_allocated_idempotency_key(std::string* idempotency_key) {
+  if (idempotency_key != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.idempotency_key_.SetAllocated(idempotency_key, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.idempotency_key_.IsDefault()) {
+    _impl_.idempotency_key_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CreateSoftphoneAccountRequest.idempotency_key)
 }
 
 // -------------------------------------------------------------------
@@ -11471,9 +12415,612 @@ inline void GetSoftphoneProvisioningRequest::set_allocated_name(std::string* nam
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetSoftphoneProvisioningRequest.name)
 }
 
+// -------------------------------------------------------------------
+
+// GetSoftphoneRegistrationRequest
+
+// string name = 1;
+inline void GetSoftphoneRegistrationRequest::clear_name() {
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& GetSoftphoneRegistrationRequest::name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.GetSoftphoneRegistrationRequest.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GetSoftphoneRegistrationRequest::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.GetSoftphoneRegistrationRequest.name)
+}
+inline std::string* GetSoftphoneRegistrationRequest::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.GetSoftphoneRegistrationRequest.name)
+  return _s;
+}
+inline const std::string& GetSoftphoneRegistrationRequest::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void GetSoftphoneRegistrationRequest::_internal_set_name(const std::string& value) {
+  
+  _impl_.name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GetSoftphoneRegistrationRequest::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GetSoftphoneRegistrationRequest::release_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.GetSoftphoneRegistrationRequest.name)
+  return _impl_.name_.Release();
+}
+inline void GetSoftphoneRegistrationRequest::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetSoftphoneRegistrationRequest.name)
+}
+
+// .google.protobuf.FieldMask field_mask = 2;
+inline bool GetSoftphoneRegistrationRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool GetSoftphoneRegistrationRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetSoftphoneRegistrationRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetSoftphoneRegistrationRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.GetSoftphoneRegistrationRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void GetSoftphoneRegistrationRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.GetSoftphoneRegistrationRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetSoftphoneRegistrationRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetSoftphoneRegistrationRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.GetSoftphoneRegistrationRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetSoftphoneRegistrationRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetSoftphoneRegistrationRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.GetSoftphoneRegistrationRequest.field_mask)
+  return _msg;
+}
+inline void GetSoftphoneRegistrationRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetSoftphoneRegistrationRequest.field_mask)
+}
+
+// -------------------------------------------------------------------
+
+// SoftphoneRegistration
+
+// string softphone_account_name = 1;
+inline void SoftphoneRegistration::clear_softphone_account_name() {
+  _impl_.softphone_account_name_.ClearToEmpty();
+}
+inline const std::string& SoftphoneRegistration::softphone_account_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneRegistration.softphone_account_name)
+  return _internal_softphone_account_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SoftphoneRegistration::set_softphone_account_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.softphone_account_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneRegistration.softphone_account_name)
+}
+inline std::string* SoftphoneRegistration::mutable_softphone_account_name() {
+  std::string* _s = _internal_mutable_softphone_account_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneRegistration.softphone_account_name)
+  return _s;
+}
+inline const std::string& SoftphoneRegistration::_internal_softphone_account_name() const {
+  return _impl_.softphone_account_name_.Get();
+}
+inline void SoftphoneRegistration::_internal_set_softphone_account_name(const std::string& value) {
+  
+  _impl_.softphone_account_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SoftphoneRegistration::_internal_mutable_softphone_account_name() {
+  
+  return _impl_.softphone_account_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SoftphoneRegistration::release_softphone_account_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneRegistration.softphone_account_name)
+  return _impl_.softphone_account_name_.Release();
+}
+inline void SoftphoneRegistration::set_allocated_softphone_account_name(std::string* softphone_account_name) {
+  if (softphone_account_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.softphone_account_name_.SetAllocated(softphone_account_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.softphone_account_name_.IsDefault()) {
+    _impl_.softphone_account_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneRegistration.softphone_account_name)
+}
+
+// repeated .ondewo.vtsi.SoftphoneContact contacts = 2;
+inline int SoftphoneRegistration::_internal_contacts_size() const {
+  return _impl_.contacts_.size();
+}
+inline int SoftphoneRegistration::contacts_size() const {
+  return _internal_contacts_size();
+}
+inline void SoftphoneRegistration::clear_contacts() {
+  _impl_.contacts_.Clear();
+}
+inline ::ondewo::vtsi::SoftphoneContact* SoftphoneRegistration::mutable_contacts(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneRegistration.contacts)
+  return _impl_.contacts_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::vtsi::SoftphoneContact >*
+SoftphoneRegistration::mutable_contacts() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.SoftphoneRegistration.contacts)
+  return &_impl_.contacts_;
+}
+inline const ::ondewo::vtsi::SoftphoneContact& SoftphoneRegistration::_internal_contacts(int index) const {
+  return _impl_.contacts_.Get(index);
+}
+inline const ::ondewo::vtsi::SoftphoneContact& SoftphoneRegistration::contacts(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneRegistration.contacts)
+  return _internal_contacts(index);
+}
+inline ::ondewo::vtsi::SoftphoneContact* SoftphoneRegistration::_internal_add_contacts() {
+  return _impl_.contacts_.Add();
+}
+inline ::ondewo::vtsi::SoftphoneContact* SoftphoneRegistration::add_contacts() {
+  ::ondewo::vtsi::SoftphoneContact* _add = _internal_add_contacts();
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.SoftphoneRegistration.contacts)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::vtsi::SoftphoneContact >&
+SoftphoneRegistration::contacts() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.SoftphoneRegistration.contacts)
+  return _impl_.contacts_;
+}
+
+// .google.protobuf.Timestamp observed_at = 3;
+inline bool SoftphoneRegistration::_internal_has_observed_at() const {
+  return this != internal_default_instance() && _impl_.observed_at_ != nullptr;
+}
+inline bool SoftphoneRegistration::has_observed_at() const {
+  return _internal_has_observed_at();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SoftphoneRegistration::_internal_observed_at() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.observed_at_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SoftphoneRegistration::observed_at() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneRegistration.observed_at)
+  return _internal_observed_at();
+}
+inline void SoftphoneRegistration::unsafe_arena_set_allocated_observed_at(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* observed_at) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.observed_at_);
+  }
+  _impl_.observed_at_ = observed_at;
+  if (observed_at) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.SoftphoneRegistration.observed_at)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneRegistration::release_observed_at() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.observed_at_;
+  _impl_.observed_at_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneRegistration::unsafe_arena_release_observed_at() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneRegistration.observed_at)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.observed_at_;
+  _impl_.observed_at_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneRegistration::_internal_mutable_observed_at() {
+  
+  if (_impl_.observed_at_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.observed_at_ = p;
+  }
+  return _impl_.observed_at_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneRegistration::mutable_observed_at() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_observed_at();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneRegistration.observed_at)
+  return _msg;
+}
+inline void SoftphoneRegistration::set_allocated_observed_at(::PROTOBUF_NAMESPACE_ID::Timestamp* observed_at) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.observed_at_);
+  }
+  if (observed_at) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(observed_at));
+    if (message_arena != submessage_arena) {
+      observed_at = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, observed_at, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.observed_at_ = observed_at;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneRegistration.observed_at)
+}
+
+// -------------------------------------------------------------------
+
+// SoftphoneContact
+
+// string uri = 1;
+inline void SoftphoneContact::clear_uri() {
+  _impl_.uri_.ClearToEmpty();
+}
+inline const std::string& SoftphoneContact::uri() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneContact.uri)
+  return _internal_uri();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SoftphoneContact::set_uri(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.uri_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneContact.uri)
+}
+inline std::string* SoftphoneContact::mutable_uri() {
+  std::string* _s = _internal_mutable_uri();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneContact.uri)
+  return _s;
+}
+inline const std::string& SoftphoneContact::_internal_uri() const {
+  return _impl_.uri_.Get();
+}
+inline void SoftphoneContact::_internal_set_uri(const std::string& value) {
+  
+  _impl_.uri_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SoftphoneContact::_internal_mutable_uri() {
+  
+  return _impl_.uri_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SoftphoneContact::release_uri() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneContact.uri)
+  return _impl_.uri_.Release();
+}
+inline void SoftphoneContact::set_allocated_uri(std::string* uri) {
+  if (uri != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.uri_.SetAllocated(uri, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.uri_.IsDefault()) {
+    _impl_.uri_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneContact.uri)
+}
+
+// string user_agent = 2;
+inline void SoftphoneContact::clear_user_agent() {
+  _impl_.user_agent_.ClearToEmpty();
+}
+inline const std::string& SoftphoneContact::user_agent() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneContact.user_agent)
+  return _internal_user_agent();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SoftphoneContact::set_user_agent(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.user_agent_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneContact.user_agent)
+}
+inline std::string* SoftphoneContact::mutable_user_agent() {
+  std::string* _s = _internal_mutable_user_agent();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneContact.user_agent)
+  return _s;
+}
+inline const std::string& SoftphoneContact::_internal_user_agent() const {
+  return _impl_.user_agent_.Get();
+}
+inline void SoftphoneContact::_internal_set_user_agent(const std::string& value) {
+  
+  _impl_.user_agent_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SoftphoneContact::_internal_mutable_user_agent() {
+  
+  return _impl_.user_agent_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SoftphoneContact::release_user_agent() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneContact.user_agent)
+  return _impl_.user_agent_.Release();
+}
+inline void SoftphoneContact::set_allocated_user_agent(std::string* user_agent) {
+  if (user_agent != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.user_agent_.SetAllocated(user_agent, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_agent_.IsDefault()) {
+    _impl_.user_agent_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneContact.user_agent)
+}
+
+// string source_address = 3;
+inline void SoftphoneContact::clear_source_address() {
+  _impl_.source_address_.ClearToEmpty();
+}
+inline const std::string& SoftphoneContact::source_address() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneContact.source_address)
+  return _internal_source_address();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SoftphoneContact::set_source_address(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.source_address_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneContact.source_address)
+}
+inline std::string* SoftphoneContact::mutable_source_address() {
+  std::string* _s = _internal_mutable_source_address();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneContact.source_address)
+  return _s;
+}
+inline const std::string& SoftphoneContact::_internal_source_address() const {
+  return _impl_.source_address_.Get();
+}
+inline void SoftphoneContact::_internal_set_source_address(const std::string& value) {
+  
+  _impl_.source_address_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SoftphoneContact::_internal_mutable_source_address() {
+  
+  return _impl_.source_address_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SoftphoneContact::release_source_address() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneContact.source_address)
+  return _impl_.source_address_.Release();
+}
+inline void SoftphoneContact::set_allocated_source_address(std::string* source_address) {
+  if (source_address != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.source_address_.SetAllocated(source_address, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.source_address_.IsDefault()) {
+    _impl_.source_address_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneContact.source_address)
+}
+
+// .google.protobuf.Timestamp expire_time = 4;
+inline bool SoftphoneContact::_internal_has_expire_time() const {
+  return this != internal_default_instance() && _impl_.expire_time_ != nullptr;
+}
+inline bool SoftphoneContact::has_expire_time() const {
+  return _internal_has_expire_time();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SoftphoneContact::_internal_expire_time() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.expire_time_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SoftphoneContact::expire_time() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneContact.expire_time)
+  return _internal_expire_time();
+}
+inline void SoftphoneContact::unsafe_arena_set_allocated_expire_time(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* expire_time) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.expire_time_);
+  }
+  _impl_.expire_time_ = expire_time;
+  if (expire_time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.SoftphoneContact.expire_time)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneContact::release_expire_time() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.expire_time_;
+  _impl_.expire_time_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneContact::unsafe_arena_release_expire_time() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneContact.expire_time)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.expire_time_;
+  _impl_.expire_time_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneContact::_internal_mutable_expire_time() {
+  
+  if (_impl_.expire_time_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.expire_time_ = p;
+  }
+  return _impl_.expire_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SoftphoneContact::mutable_expire_time() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_expire_time();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneContact.expire_time)
+  return _msg;
+}
+inline void SoftphoneContact::set_allocated_expire_time(::PROTOBUF_NAMESPACE_ID::Timestamp* expire_time) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.expire_time_);
+  }
+  if (expire_time) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(expire_time));
+    if (message_arena != submessage_arena) {
+      expire_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, expire_time, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.expire_time_ = expire_time;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneContact.expire_time)
+}
+
+// double round_trip_ms = 5;
+inline void SoftphoneContact::clear_round_trip_ms() {
+  _impl_.round_trip_ms_ = 0;
+}
+inline double SoftphoneContact::_internal_round_trip_ms() const {
+  return _impl_.round_trip_ms_;
+}
+inline double SoftphoneContact::round_trip_ms() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneContact.round_trip_ms)
+  return _internal_round_trip_ms();
+}
+inline void SoftphoneContact::_internal_set_round_trip_ms(double value) {
+  
+  _impl_.round_trip_ms_ = value;
+}
+inline void SoftphoneContact::set_round_trip_ms(double value) {
+  _internal_set_round_trip_ms(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneContact.round_trip_ms)
+}
+
+// .ondewo.vtsi.SoftphoneContactStatus status = 6;
+inline void SoftphoneContact::clear_status() {
+  _impl_.status_ = 0;
+}
+inline ::ondewo::vtsi::SoftphoneContactStatus SoftphoneContact::_internal_status() const {
+  return static_cast< ::ondewo::vtsi::SoftphoneContactStatus >(_impl_.status_);
+}
+inline ::ondewo::vtsi::SoftphoneContactStatus SoftphoneContact::status() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneContact.status)
+  return _internal_status();
+}
+inline void SoftphoneContact::_internal_set_status(::ondewo::vtsi::SoftphoneContactStatus value) {
+  
+  _impl_.status_ = value;
+}
+inline void SoftphoneContact::set_status(::ondewo::vtsi::SoftphoneContactStatus value) {
+  _internal_set_status(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneContact.status)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -11542,6 +13089,11 @@ template <> struct is_proto_enum< ::ondewo::vtsi::SoftphoneCertificateStatus> : 
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::SoftphoneCertificateStatus>() {
   return ::ondewo::vtsi::SoftphoneCertificateStatus_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::vtsi::SoftphoneContactStatus> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::SoftphoneContactStatus>() {
+  return ::ondewo::vtsi::SoftphoneContactStatus_descriptor();
 }
 template <> struct is_proto_enum< ::ondewo::vtsi::SoftphoneSrtpMode> : ::std::true_type {};
 template <>

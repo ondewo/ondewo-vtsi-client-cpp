@@ -28,6 +28,7 @@ static const char* Logs_method_names[] = {
   "/ondewo.vtsi.Logs/GetCallLogStream",
   "/ondewo.vtsi.Logs/ListCallLogStreams",
   "/ondewo.vtsi.Logs/DeleteCallLogs",
+  "/ondewo.vtsi.Logs/ExportCallLogs",
 };
 
 std::unique_ptr< Logs::Stub> Logs::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -42,6 +43,7 @@ Logs::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, cons
   , rpcmethod_GetCallLogStream_(Logs_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_ListCallLogStreams_(Logs_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_DeleteCallLogs_(Logs_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ExportCallLogs_(Logs_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   {}
 
 ::grpc::ClientReader< ::ondewo::vtsi::StreamCallLogsResponse>* Logs::Stub::StreamCallLogsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallLogsRequest& request) {
@@ -152,6 +154,22 @@ void Logs::Stub::async::DeleteCallLogs(::grpc::ClientContext* context, const ::o
   return result;
 }
 
+::grpc::ClientReader< ::ondewo::vtsi::ExportCallLogsResponse>* Logs::Stub::ExportCallLogsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ExportCallLogsRequest& request) {
+  return ::grpc::internal::ClientReaderFactory< ::ondewo::vtsi::ExportCallLogsResponse>::Create(channel_.get(), rpcmethod_ExportCallLogs_, context, request);
+}
+
+void Logs::Stub::async::ExportCallLogs(::grpc::ClientContext* context, const ::ondewo::vtsi::ExportCallLogsRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::ExportCallLogsResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::ondewo::vtsi::ExportCallLogsResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_ExportCallLogs_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::ExportCallLogsResponse>* Logs::Stub::AsyncExportCallLogsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ExportCallLogsRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::ExportCallLogsResponse>::Create(channel_.get(), cq, rpcmethod_ExportCallLogs_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::ondewo::vtsi::ExportCallLogsResponse>* Logs::Stub::PrepareAsyncExportCallLogsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ExportCallLogsRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::ondewo::vtsi::ExportCallLogsResponse>::Create(channel_.get(), cq, rpcmethod_ExportCallLogs_, context, request, false, nullptr);
+}
+
 Logs::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Logs_method_names[0],
@@ -203,6 +221,16 @@ Logs::Service::Service() {
              ::ondewo::vtsi::DeleteCallLogsResponse* resp) {
                return service->DeleteCallLogs(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Logs_method_names[5],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< Logs::Service, ::ondewo::vtsi::ExportCallLogsRequest, ::ondewo::vtsi::ExportCallLogsResponse>(
+          [](Logs::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::ExportCallLogsRequest* req,
+             ::grpc::ServerWriter<::ondewo::vtsi::ExportCallLogsResponse>* writer) {
+               return service->ExportCallLogs(ctx, req, writer);
+             }, this)));
 }
 
 Logs::Service::~Service() {
@@ -240,6 +268,13 @@ Logs::Service::~Service() {
   (void) context;
   (void) request;
   (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Logs::Service::ExportCallLogs(::grpc::ServerContext* context, const ::ondewo::vtsi::ExportCallLogsRequest* request, ::grpc::ServerWriter< ::ondewo::vtsi::ExportCallLogsResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

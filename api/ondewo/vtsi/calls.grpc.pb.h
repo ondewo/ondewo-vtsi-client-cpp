@@ -56,7 +56,21 @@ class Calls final {
     // Caller and Listener endpoints
     // ////////////////////////////////////////////////////////////////////////////
     //
-    // <p>Start single caller instance for a specific nlu-project.</p>
+    // <p>Starts one caller in a VTSI project: an ondewo-sip container that places one outbound call to
+    // <code>sip_caller_config.callee_id</code> (or a pooled caller of the server&apos;s caller pool that runs the same
+    // configuration). The configuration is validated first, including live checks against the upstream services;
+    // nothing is started when it fails. Not idempotent: every successful request places a new call (send it as a
+    // batch of one with an <code>idempotency_key</code> to make it idempotent). <code>validate_only</code> runs the
+    // validation alone.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed or invalid request or
+    // configuration (also when the NLU credentials are refused) or an unknown <code>field_mask</code> path;
+    // <code>NOT_FOUND</code> for an unknown project; <code>FAILED_PRECONDITION</code> when an upstream config lacks
+    // the required TLS certificate (<code>UPSTREAM_TLS_REQUIRED</code>) or the project is not deployed;
+    // <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; <code>UNAVAILABLE</code> when an
+    // upstream service could not be reached; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALLER_STARTED</code> or <code>VTSI_EVENT_CALLER_START_FAILED</code>, then the
+    // events of the call (<code>VTSI_EVENT_CALL_*</code>). None with <code>validate_only</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StartCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallerRequest& request, ::ondewo::vtsi::StartCallerResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartCallerResponse>> AsyncStartCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartCallerResponse>>(AsyncStartCallerRaw(context, request, cq));
@@ -64,7 +78,12 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartCallerResponse>> PrepareAsyncStartCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartCallerResponse>>(PrepareAsyncStartCallerRaw(context, request, cq));
     }
-    // <p>Start multiple ondewo-sip callers instances for a specific nlu-project.</p>
+    // <p>Starts several callers, each like <code>StartCaller</code>. Not atomic: every caller is started on its own;
+    // a caller that fails to start is rolled back and has no entry in the response, which accounts for it in
+    // <code>StartCallersResponse.error_message</code>. The project&apos;s caller limit is checked for the batch as a
+    // whole before anything is started (<code>RESOURCE_EXHAUSTED</code>, nothing started). Idempotent per
+    // <code>idempotency_key</code>.</p>
+    // <p>Authorization: as <code>StartCaller</code>.</p>
     virtual ::grpc::Status StartCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallersRequest& request, ::ondewo::vtsi::StartCallersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartCallersResponse>> AsyncStartCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartCallersResponse>>(AsyncStartCallersRaw(context, request, cq));
@@ -72,7 +91,18 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartCallersResponse>> PrepareAsyncStartCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartCallersResponse>>(PrepareAsyncStartCallersRaw(context, request, cq));
     }
-    // <p>Lists all available callers</p>
+    // <p>Lists the callers of a VTSI project, ordered by the caller&apos;s uuid (the last segment of
+    // <code>name</code>), ascending: a stable order, not a chronological one. Paged with <code>page_size</code> /
+    // <code>page_token</code>; <code>total_size</code> counts every match.</p>
+    // <p>With <code>campaign_name</code> or <code>campaign_display_name</code> set, lists only the callers of that
+    // campaign: the callers that placed at least one attempt of one of its campaign calls (see
+    // <code>ListCallersRequest.campaign_name</code>). <code>active_only</code> and <code>sip_status_types</code>
+    // narrow the listing further.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid selector, a negative
+    // <code>page_size</code>, a <code>page_token</code> of another listing or an unknown <code>field_mask</code>
+    // path; <code>NOT_FOUND</code> for an unknown project or campaign; with authorization enforced
+    // <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status ListCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallersRequest& request, ::ondewo::vtsi::ListCallersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallersResponse>> AsyncListCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallersResponse>>(AsyncListCallersRaw(context, request, cq));
@@ -80,7 +110,11 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallersResponse>> PrepareAsyncListCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallersResponse>>(PrepareAsyncListCallersRaw(context, request, cq));
     }
-    // <p>Gets a caller</p>
+    // <p>Gets a caller, populated according to <code>call_view</code> and <code>field_mask</code>.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+    // <code>NOT_FOUND</code> for an unknown project or caller, or a caller of another project; with authorization
+    // enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status GetCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest& request, ::ondewo::vtsi::Caller* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Caller>> AsyncGetCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Caller>>(AsyncGetCallerRaw(context, request, cq));
@@ -88,7 +122,79 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Caller>> PrepareAsyncGetCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Caller>>(PrepareAsyncGetCallerRaw(context, request, cq));
     }
-    // <p>Deletes a caller</p>
+    // <p>Updates the STORED configuration of a caller: the fields named in <code>update_mask</code>, i.e.
+    // <code>sip_caller_config</code> and <code>common_services_config</code> or any nested sub-path of them.
+    // Allowed whether or not the caller has a call running.</p>
+    // <p>A running call and its container are NEVER changed: nothing is restarted, redeployed or reconfigured,
+    // and the call goes on with the configuration its container was deployed with.</p>
+    // <p>When the stored configuration takes effect: a caller is ONE call (every <code>StartCaller</code> creates
+    // a new caller carrying its own configuration, and no RPC redeploys an existing one), so for a caller that
+    // is not pooled the update changes ONLY the stored and returned configuration and never any present or
+    // future call. The one case in which the server deploys a container from a caller&apos;s stored
+    // configuration is a POOLED (persistent) caller, which the server keeps warm between calls: when the server
+    // recycles the pooled callers of a project onto its Asterisk (an <code>UpdateVtsiProject</code> of a
+    // deployed project, the recovery after the project&apos;s Asterisk restarted, a change of the project&apos;s
+    // TLS trust anchor), the pooled caller it starts in place of this one is deployed from the stored, i.e.
+    // updated, configuration. An in-place restart of a pooled caller&apos;s container (the call monitor&apos;s
+    // health recovery) keeps the configuration the container was deployed with. Until it is recycled, an idle
+    // pooled caller is matched to later <code>StartCaller</code> requests by the configuration its container
+    // RUNS, never by an updated stored configuration it does not run.</p>
+    // <p>Updating a caller never changes a campaign: the attempts of a campaign call take their configuration
+    // from the campaign and the campaign call, never from a <code>Caller</code>.</p>
+    // <p>A STOPPED caller (its call ended and its configuration was released) has no stored configuration left:
+    // the update starts from an empty one, so it must state a complete configuration
+    // (<code>sip_caller_config</code> and <code>common_services_config</code>), and a partial one is refused as a
+    // configuration a <code>StartCallerRequest</code> would be refused for. Nothing is deployed.</p>
+    // <p>Credentials follow their endpoint: an update that MOVES an upstream (the <code>host</code>,
+    // <code>port</code> or <code>grpc_cert</code> of the NLU, S2T or T2S <code>*_base_config</code>, or the
+    // <code>host</code> / ports of <code>csi_vtsi_config.message_broker_config.rabbit_mq_config</code>) must
+    // also write every credential path of that upstream that holds a stored value -- the NLU
+    // <code>credentials</code>, <code>auth_token</code>, <code>http_basic_auth_token</code> and
+    // <code>contexts</code>, the S2T <code>s2t_transcribe_request_config</code>, the T2S
+    // <code>t2s_request_config</code>, the RabbitMQ <code>user</code> and <code>password</code> -- named itself
+    // or by a shorter path, with the values to use. A stored credential is never sent to an endpoint the request
+    // moved without restating it, also not for the live validation of the result.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed <code>caller.name</code>,
+    // an empty <code>update_mask</code>, an unknown, output-only or immutable <code>update_mask</code> path, an
+    // update that moves an upstream without restating its stored credentials (naming the paths to add), a
+    // resulting configuration that a <code>StartCallerRequest</code> carrying it would be refused for, or an
+    // unknown <code>field_mask</code> path (each naming the path or field); <code>NOT_FOUND</code> for an
+    // unknown caller or project; <code>ABORTED</code> when concurrent updates kept changing the caller, or while
+    // an update, deploy or undeploy of its project is still running (an update waits for it, for a bounded time,
+    // so that a recycle of the project cannot lose it), nothing being written (retry the request); with
+    // authorization enforced <code>PERMISSION_DENIED</code> for a project the caller holds no role on.</p>
+    // <p>Events: <code>VTSI_EVENT_CALLER_UPDATED</code> (none with <code>validate_only</code>).</p>
+    // <p>Authorization: the role that may start and stop callers of the project (<code>PROJECT_EXECUTOR</code>
+    // or higher).</p>
+    virtual ::grpc::Status UpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::ondewo::vtsi::UpdateCallerResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallerResponse>> AsyncUpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallerResponse>>(AsyncUpdateCallerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallerResponse>> PrepareAsyncUpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallerResponse>>(PrepareAsyncUpdateCallerRaw(context, request, cq));
+    }
+    // <p>Updates several callers, each like <code>UpdateCaller</code>. Not atomic: every entry is applied on its
+    // own and reported in <code>UpdateCallersResponse.update_caller_responses</code>, in request order; an entry
+    // that fails changes nothing and does not stop the others. Errors of the request as a whole (see
+    // <code>UpdateCallersRequest</code>) are gRPC status codes, and then no entry is applied.</p>
+    // <p>Authorization: as <code>UpdateCaller</code>.</p>
+    virtual ::grpc::Status UpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::ondewo::vtsi::UpdateCallersResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallersResponse>> AsyncUpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallersResponse>>(AsyncUpdateCallersRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallersResponse>> PrepareAsyncUpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallersResponse>>(PrepareAsyncUpdateCallersRaw(context, request, cq));
+    }
+    // <p>Deletes a caller: stops it if it still runs (hanging up its call) and removes it, so it is no longer
+    // listed or returned. Its call records (and their participants) are deleted with it and are no longer returned
+    // by <code>GetCall</code> / <code>ListCalls</code>; stop it instead to keep them.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown caller, a caller of another project, or a
+    // caller that was already deleted (so deleting is NOT idempotent: a repeat answers <code>NOT_FOUND</code>);
+    // with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALLER_DELETED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+    // was hung up).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status DeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::ondewo::vtsi::DeleteCallerResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallerResponse>> AsyncDeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallerResponse>>(AsyncDeleteCallerRaw(context, request, cq));
@@ -96,7 +202,12 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallerResponse>> PrepareAsyncDeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallerResponse>>(PrepareAsyncDeleteCallerRaw(context, request, cq));
     }
-    // <p>Deletes multiple callers</p>
+    // <p>Deletes several callers, each like <code>DeleteCaller</code>. Not atomic: every caller is deleted on its own
+    // and reported in its own entry, whose <code>error_message</code> carries the gRPC status code name
+    // <code>DeleteCaller</code> would have answered (e.g. <code>NOT_FOUND: ...</code>); an entry that fails does not
+    // stop the others. The request as a whole is refused, nothing being deleted, for no entry or more than 1000
+    // distinct names, and, when <code>vtsi_project_name</code> is set, as described there.</p>
+    // <p>Authorization: as <code>DeleteCaller</code>.</p>
     virtual ::grpc::Status DeleteCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallersRequest& request, ::ondewo::vtsi::DeleteCallersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallersResponse>> AsyncDeleteCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallersResponse>>(AsyncDeleteCallersRaw(context, request, cq));
@@ -104,7 +215,16 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallersResponse>> PrepareAsyncDeleteCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallersResponse>>(PrepareAsyncDeleteCallersRaw(context, request, cq));
     }
-    // <p>Stops a caller</p>
+    // <p>Stops a caller: hangs up its call if one is up and releases its container and SIP account. The caller
+    // stays listed (with <code>active = false</code>) until it is deleted, and its stored configuration stays
+    // updatable (see <code>UpdateCaller</code>). A pooled caller is taken out of the pool.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown caller, a caller of another project, or a
+    // caller that is already stopped (so stopping is NOT idempotent: a repeat answers <code>NOT_FOUND</code>); with
+    // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALLER_STOPPED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+    // was hung up).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallerRequest& request, ::ondewo::vtsi::StopCallerResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallerResponse>> AsyncStopCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallerResponse>>(AsyncStopCallerRaw(context, request, cq));
@@ -112,7 +232,9 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallerResponse>> PrepareAsyncStopCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallerResponse>>(PrepareAsyncStopCallerRaw(context, request, cq));
     }
-    // <p>Stops multiple callers</p>
+    // <p>Stops several callers, each like <code>StopCaller</code>, with the per-entry results and the request-level
+    // errors of <code>DeleteCallers</code>.</p>
+    // <p>Authorization: as <code>StopCaller</code>.</p>
     virtual ::grpc::Status StopCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallersRequest& request, ::ondewo::vtsi::StopCallersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallersResponse>> AsyncStopCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallersResponse>>(AsyncStopCallersRaw(context, request, cq));
@@ -120,7 +242,13 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallersResponse>> PrepareAsyncStopCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallersResponse>>(PrepareAsyncStopCallersRaw(context, request, cq));
     }
-    // <p>Start single listener instance for a specific nlu-project.</p>
+    // <p>Starts one listener in a VTSI project: an ondewo-sip container registered on the project&apos;s Asterisk
+    // that answers inbound calls, one after the other (persistent). Validation, <code>validate_only</code>, errors
+    // (<code>RESOURCE_EXHAUSTED</code> for the project&apos;s listener limit) and idempotency as for
+    // <code>StartCaller</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_LISTENER_STARTED</code> or <code>VTSI_EVENT_LISTENER_START_FAILED</code>. None with
+    // <code>validate_only</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StartListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenerRequest& request, ::ondewo::vtsi::StartListenerResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartListenerResponse>> AsyncStartListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartListenerResponse>>(AsyncStartListenerRaw(context, request, cq));
@@ -128,7 +256,10 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartListenerResponse>> PrepareAsyncStartListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartListenerResponse>>(PrepareAsyncStartListenerRaw(context, request, cq));
     }
-    // <p>Start multiple ondewo-sip listeners instances for a specific nlu-project.</p>
+    // <p>Starts several listeners, each like <code>StartListener</code>, with the batch semantics of
+    // <code>StartCallers</code> (a listener that fails to start has no entry and is accounted for in
+    // <code>StartListenersResponse.error_message</code>).</p>
+    // <p>Authorization: as <code>StartListener</code>.</p>
     virtual ::grpc::Status StartListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenersRequest& request, ::ondewo::vtsi::StartListenersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartListenersResponse>> AsyncStartListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartListenersResponse>>(AsyncStartListenersRaw(context, request, cq));
@@ -136,7 +267,12 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartListenersResponse>> PrepareAsyncStartListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartListenersResponse>>(PrepareAsyncStartListenersRaw(context, request, cq));
     }
-    // <p>Stop a ondewo-sip listeners instances for a specific nlu-project.</p>
+    // <p>Stops a listener: hangs up its call if one is up and releases its container and SIP account. A stopped
+    // listener has no stored configuration left (see <code>UpdateListener</code>). Errors and idempotency as for
+    // <code>StopCaller</code> (a listener that is already stopped is <code>NOT_FOUND</code>).</p>
+    // <p>Events: <code>VTSI_EVENT_LISTENER_STOPPED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+    // was hung up).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenerRequest& request, ::ondewo::vtsi::StopListenerResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopListenerResponse>> AsyncStopListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopListenerResponse>>(AsyncStopListenerRaw(context, request, cq));
@@ -144,7 +280,9 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopListenerResponse>> PrepareAsyncStopListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopListenerResponse>>(PrepareAsyncStopListenerRaw(context, request, cq));
     }
-    // <p>Stop multiple ondewo-sip listeners instances for a specific nlu-project.</p>
+    // <p>Stops several listeners, each like <code>StopListener</code>, with the per-entry results and the
+    // request-level errors of <code>DeleteCallers</code>.</p>
+    // <p>Authorization: as <code>StopListener</code>.</p>
     virtual ::grpc::Status StopListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenersRequest& request, ::ondewo::vtsi::StopListenersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopListenersResponse>> AsyncStopListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopListenersResponse>>(AsyncStopListenersRaw(context, request, cq));
@@ -152,7 +290,10 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopListenersResponse>> PrepareAsyncStopListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopListenersResponse>>(PrepareAsyncStopListenersRaw(context, request, cq));
     }
-    // <p>Lists all available listeners</p>
+    // <p>Lists the listeners of a VTSI project, ordered by the listener&apos;s uuid (the last segment of
+    // <code>name</code>), ascending. Paging, <code>total_size</code>, filters and errors as for
+    // <code>ListCallers</code> (without a campaign selector).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status ListListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::ListListenersRequest& request, ::ondewo::vtsi::ListListenersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListListenersResponse>> AsyncListListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::ListListenersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListListenersResponse>>(AsyncListListenersRaw(context, request, cq));
@@ -160,7 +301,9 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListListenersResponse>> PrepareAsyncListListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::ListListenersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListListenersResponse>>(PrepareAsyncListListenersRaw(context, request, cq));
     }
-    // <p>Gets a listener</p>
+    // <p>Gets a listener, populated according to <code>call_view</code> and <code>field_mask</code>. Errors as for
+    // <code>GetCaller</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status GetListener(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest& request, ::ondewo::vtsi::Listener* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Listener>> AsyncGetListener(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Listener>>(AsyncGetListenerRaw(context, request, cq));
@@ -168,7 +311,53 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Listener>> PrepareAsyncGetListener(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Listener>>(PrepareAsyncGetListenerRaw(context, request, cq));
     }
-    // <p>Deletes a listener</p>
+    // <p>Updates the STORED configuration of a listener: the fields named in <code>update_mask</code>, i.e.
+    // <code>sip_base_config</code> and <code>common_services_config</code> or any nested sub-path of them.
+    // Allowed whether or not the listener&apos;s container is running or has a call, as long as the listener is
+    // DEPLOYED: a stopped listener has no stored configuration (it is deployed again only by a
+    // <code>StartListener</code> carrying a complete one) and is <code>NOT_FOUND</code>, unlike a stopped caller,
+    // which <code>UpdateCaller</code> accepts with a complete configuration.</p>
+    // <p>A running container and every call it takes are NEVER changed: nothing is restarted, redeployed or
+    // reconfigured, and the running container answers its calls with the configuration it was deployed with
+    // until it is replaced.</p>
+    // <p>When the stored configuration takes effect: only when the server RECREATES the listener from it, i.e.
+    // when it recycles the listeners of the project onto its Asterisk: an <code>UpdateVtsiProject</code> of a
+    // deployed project, the recovery after the project&apos;s Asterisk restarted, or a change of the
+    // project&apos;s TLS trust anchor. The listener the server starts in place of this one is deployed from the
+    // stored, i.e. updated, configuration. An in-place restart of the listener&apos;s container (the
+    // server&apos;s restore of listener containers when it starts, the call monitor&apos;s restart of an
+    // unhealthy container, a <code>docker restart</code>) keeps the configuration the container was deployed
+    // with. A listener that is never recycled keeps the update only as its stored (and returned)
+    // configuration.</p>
+    // <p>Errors as for <code>UpdateCaller</code> (the credential rule included), with
+    // <code>StartListenerRequest</code> as the validation of the resulting configuration, and
+    // <code>NOT_FOUND</code> also for a stopped listener.</p>
+    // <p>Events: <code>VTSI_EVENT_LISTENER_UPDATED</code> (none with <code>validate_only</code>).</p>
+    // <p>Authorization: the role that may start and stop listeners of the project (<code>PROJECT_EXECUTOR</code>
+    // or higher).</p>
+    virtual ::grpc::Status UpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::ondewo::vtsi::UpdateListenerResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenerResponse>> AsyncUpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenerResponse>>(AsyncUpdateListenerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenerResponse>> PrepareAsyncUpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenerResponse>>(PrepareAsyncUpdateListenerRaw(context, request, cq));
+    }
+    // <p>Updates several listeners, each like <code>UpdateListener</code>, with the per-entry results and the
+    // request-level errors of <code>UpdateCallers</code>.</p>
+    // <p>Authorization: as <code>UpdateListener</code>.</p>
+    virtual ::grpc::Status UpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::ondewo::vtsi::UpdateListenersResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenersResponse>> AsyncUpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenersResponse>>(AsyncUpdateListenersRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenersResponse>> PrepareAsyncUpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenersResponse>>(PrepareAsyncUpdateListenersRaw(context, request, cq));
+    }
+    // <p>Deletes a listener: stops it if it still runs (hanging up its call) and removes it, with its call
+    // records, like <code>DeleteCaller</code>. Errors and idempotency as for <code>DeleteCaller</code> (a repeat
+    // answers <code>NOT_FOUND</code>).</p>
+    // <p>Events: <code>VTSI_EVENT_LISTENER_DELETED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+    // was hung up).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status DeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::ondewo::vtsi::DeleteListenerResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenerResponse>> AsyncDeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenerResponse>>(AsyncDeleteListenerRaw(context, request, cq));
@@ -176,7 +365,9 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenerResponse>> PrepareAsyncDeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenerResponse>>(PrepareAsyncDeleteListenerRaw(context, request, cq));
     }
-    // <p>Deletes multiple listeners</p>
+    // <p>Deletes several listeners, each like <code>DeleteListener</code>, with the per-entry results and the
+    // request-level errors of <code>DeleteCallers</code>.</p>
+    // <p>Authorization: as <code>DeleteListener</code>.</p>
     virtual ::grpc::Status DeleteListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenersRequest& request, ::ondewo::vtsi::DeleteListenersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenersResponse>> AsyncDeleteListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenersResponse>>(AsyncDeleteListenersRaw(context, request, cq));
@@ -184,7 +375,20 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenersResponse>> PrepareAsyncDeleteListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenersResponse>>(PrepareAsyncDeleteListenersRaw(context, request, cq));
     }
-    // <p>Start a single ondewo-sip caller instance at a scheduled time</p>
+    // <p>Creates a scheduled caller: a caller that the server starts at or after <code>scheduled_time</code>, like a
+    // <code>StartCaller</code> of the stored request. The request is checked structurally now; the live checks of
+    // the configuration run when it fires, and a failure then leaves the scheduled caller
+    // <code>SCHEDULED_CALLER_STATUS_FAILED</code> with its <code>error_message</code>. A <code>scheduled_time</code> in
+    // the past is due at once. Not idempotent (use <code>StartScheduledCallers</code> with an
+    // <code>idempotency_key</code>).</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed request, a missing
+    // <code>scheduled_time</code>, a nested request with its own <code>field_mask</code> or
+    // <code>validate_only</code>, or an unknown <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown
+    // project; <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; with authorization
+    // enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CREATED</code>; later <code>VTSI_EVENT_SCHEDULED_CALLER_FIRED</code>,
+    // <code>VTSI_EVENT_SCHEDULED_CALLER_RETRY_SCHEDULED</code> or <code>VTSI_EVENT_SCHEDULED_CALLER_FAILED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StartScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallerRequest& request, ::ondewo::vtsi::StartScheduledCallerResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartScheduledCallerResponse>> AsyncStartScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartScheduledCallerResponse>>(AsyncStartScheduledCallerRaw(context, request, cq));
@@ -192,7 +396,10 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartScheduledCallerResponse>> PrepareAsyncStartScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartScheduledCallerResponse>>(PrepareAsyncStartScheduledCallerRaw(context, request, cq));
     }
-    // <p>Start multiple ondewo-sip caller instances, each at its own scheduled time</p>
+    // <p>Creates several scheduled callers, each like <code>StartScheduledCaller</code>, at most 1000. Not atomic: an
+    // entry that fails is reported in its own <code>error_message</code> and does not stop the others. Idempotent
+    // per <code>idempotency_key</code>.</p>
+    // <p>Authorization: as <code>StartScheduledCaller</code>.</p>
     virtual ::grpc::Status StartScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallersRequest& request, ::ondewo::vtsi::StartScheduledCallersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartScheduledCallersResponse>> AsyncStartScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StartScheduledCallersResponse>>(AsyncStartScheduledCallersRaw(context, request, cq));
@@ -222,7 +429,11 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>> PrepareAsyncAddScheduledCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>>(PrepareAsyncAddScheduledCallersToCampaignRaw(context, request, cq));
     }
-    // <p>Gets a scheduled caller</p>
+    // <p>Gets a scheduled caller, populated according to <code>call_view</code> and <code>field_mask</code>.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+    // <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of another project; with
+    // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status GetScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest& request, ::ondewo::vtsi::ScheduledCaller* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>> AsyncGetScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>>(AsyncGetScheduledCallerRaw(context, request, cq));
@@ -230,7 +441,10 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>> PrepareAsyncGetScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>>(PrepareAsyncGetScheduledCallerRaw(context, request, cq));
     }
-    // <p>Lists the scheduled callers of a vtsi-project</p>
+    // <p>Lists the scheduled callers of a VTSI project, ordered by <code>scheduled_time</code>, oldest first,
+    // optionally narrowed by state, campaign and a <code>scheduled_time</code> window. Paging,
+    // <code>total_size</code> and errors as for <code>ListCallers</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status ListScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest& request, ::ondewo::vtsi::ListScheduledCallersResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListScheduledCallersResponse>> AsyncListScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListScheduledCallersResponse>>(AsyncListScheduledCallersRaw(context, request, cq));
@@ -238,12 +452,45 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListScheduledCallersResponse>> PrepareAsyncListScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListScheduledCallersResponse>>(PrepareAsyncListScheduledCallersRaw(context, request, cq));
     }
-    // <p>Cancels a scheduled caller that has not fired yet</p>
+    // <p>Changes the <code>scheduled_time</code> and/or the <code>sip_caller_config.sip_headers</code> of a scheduled
+    // caller that has not fired yet; the only updatable <code>update_mask</code> paths (see
+    // <code>UpdateScheduledCallerRequest.update_mask</code>). Allowed only while the status is
+    // <code>SCHEDULED_CALLER_STATUS_PENDING</code>; for a scheduled caller of a campaign only while its campaign call
+    // is <code>CAMPAIGN_CALL_STATE_NOT_STARTED</code> (a retry of a campaign call is timed by the campaign&apos;s
+    // <code>retry_delay</code>). The check and the write are one atomic step, so a scheduled caller that fires
+    // concurrently is either updated before it fires or refused. Updating to the stored values is accepted and
+    // changes nothing.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name, an empty
+    // <code>update_mask</code>, a path that is not updatable, an unset <code>scheduled_time</code> named by the
+    // mask, invalid <code>sip_headers</code>, or an unknown <code>field_mask</code> path (each naming the path);
+    // <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of another project;
+    // <code>FAILED_PRECONDITION</code> when it is no longer PENDING (<code>reason=not-pending</code>) or its campaign
+    // call has started (<code>reason=campaign-call-started</code>); with authorization enforced
+    // <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_UPDATED</code> when something changed.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
+    virtual ::grpc::Status UpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::ondewo::vtsi::ScheduledCaller* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>> AsyncUpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>>(AsyncUpdateScheduledCallerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>> PrepareAsyncUpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>>(PrepareAsyncUpdateScheduledCallerRaw(context, request, cq));
+    }
+    // <p>Cancels a scheduled caller that has not fired yet: a PENDING scheduled caller becomes
+    // <code>SCHEDULED_CALLER_STATUS_CANCELLED</code> and never fires. A scheduled caller that is no longer PENDING
+    // (firing, done, failed or already cancelled) is not an error: the response says <code>cancelled = false</code>
+    // and carries its current <code>status</code>, so cancelling is idempotent.</p>
     // <p>A scheduled caller of a campaign can be cancelled while its campaign call is
     // <code>CAMPAIGN_CALL_STATE_NOT_STARTED</code> or <code>CAMPAIGN_CALL_STATE_RETRY_PENDING</code>;
     // the campaign call then becomes <code>CAMPAIGN_CALL_STATE_CANCELLED</code>. While an attempt is
     // <code>DISPATCHING</code> or <code>IN_PROGRESS</code> the request is refused:
-    // <code>cancelled = false</code> and the scheduled caller keeps its status.</p>
+    // <code>cancelled = false</code>, an <code>error_message</code> saying why, and the scheduled caller keeps its
+    // status.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of
+    // another project; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CANCELLED</code>, only when <code>cancelled = true</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status CancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::ondewo::vtsi::CancelScheduledCallerResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallerResponse>> AsyncCancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallerResponse>>(AsyncCancelScheduledCallerRaw(context, request, cq));
@@ -251,7 +498,59 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallerResponse>> PrepareAsyncCancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallerResponse>>(PrepareAsyncCancelScheduledCallerRaw(context, request, cq));
     }
-    // <p>Stop/kill a ondewo-sip listener or caller instance for a specific vtsi-project.</p>
+    // <p>Cancels several scheduled callers, each like <code>CancelScheduledCaller</code>, at most 1000. Not atomic:
+    // every entry is applied on its own and reported in <code>CancelScheduledCallersResponse</code>, in request
+    // order; a failed entry carries an <code>error_message</code> prefixed with the gRPC status code name
+    // <code>CancelScheduledCaller</code> would have answered (e.g. <code>NOT_FOUND: ...</code>) and does not stop
+    // the others. Errors of the request as a whole (see <code>CancelScheduledCallersRequest</code>) are gRPC status
+    // codes, and then nothing is cancelled.</p>
+    // <p>Events: one <code>VTSI_EVENT_SCHEDULED_CALLER_CANCELLED</code> per entry with <code>cancelled = true</code>.</p>
+    // <p>Authorization: as <code>CancelScheduledCaller</code>.</p>
+    virtual ::grpc::Status CancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::ondewo::vtsi::CancelScheduledCallersResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallersResponse>> AsyncCancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallersResponse>>(AsyncCancelScheduledCallersRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallersResponse>> PrepareAsyncCancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallersResponse>>(PrepareAsyncCancelScheduledCallersRaw(context, request, cq));
+    }
+    // <p>Retries a FAILED scheduled caller by creating a NEW scheduled caller from its stored request: the same
+    // <code>sip_caller_config</code> and <code>common_services_config</code>, <code>status = PENDING</code>, the
+    // <code>scheduled_time</code> of the request (unset: now), and <code>retry_of_scheduled_caller_name</code> naming
+    // the failed one, whose <code>retried_by_scheduled_caller_name</code> is set to the new one in the same atomic
+    // step. The failed scheduled caller itself is not changed otherwise, so its <code>error_message</code> and
+    // <code>fired_at</code> stay as the history of the failed attempt. Returns the new scheduled caller.</p>
+    // <p>Idempotency: a FAILED scheduled caller is retried at most once. A repeat of the request answers
+    // <code>ALREADY_EXISTS</code> naming the retry in its message (read
+    // <code>retried_by_scheduled_caller_name</code>); to retry again after the retry failed too, retry the new
+    // one.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of
+    // another project; <code>FAILED_PRECONDITION</code> for a scheduled caller that is not
+    // <code>SCHEDULED_CALLER_STATUS_FAILED</code> (<code>reason=not-failed</code>) or that belongs to a campaign
+    // (<code>reason=campaign-scheduled-caller</code>: a campaign call is retried by the campaign&apos;s
+    // <code>max_attempts</code>); <code>ALREADY_EXISTS</code> when it was already retried;
+    // <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; with authorization enforced
+    // <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CREATED</code> for the new scheduled caller.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
+    virtual ::grpc::Status RetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::ondewo::vtsi::ScheduledCaller* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>> AsyncRetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>>(AsyncRetryScheduledCallerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>> PrepareAsyncRetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>>(PrepareAsyncRetryScheduledCallerRaw(context, request, cq));
+    }
+    // <p>Stops a call: hangs it up if it is still active and stops (releases) the listener or caller that serves
+    // it, like <code>StopCaller</code> / <code>StopListener</code>. A call that already ended is not an error: its
+    // listener or caller is still released if it is deployed, and when there was nothing left to release the
+    // response carries <code>error_message = Call ... was not released</code>, so a repeat succeeds with that
+    // message.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed request or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or call, or a call of another
+    // project; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_STOPPED</code>, and <code>VTSI_EVENT_CALLER_STOPPED</code> /
+    // <code>VTSI_EVENT_LISTENER_STOPPED</code> for the released resource.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::ondewo::vtsi::StopCallResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallResponse>> AsyncStopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallResponse>>(AsyncStopCallRaw(context, request, cq));
@@ -259,8 +558,13 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallResponse>> PrepareAsyncStopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallResponse>>(PrepareAsyncStopCallRaw(context, request, cq));
     }
-    // <p>Stop/kill a list of ondewo-sip listener or caller instances for a specific vtsi-project.</p>
-    // <p>Stops both Listener and Caller calls</p>
+    // <p>Stops several calls of one project, each like <code>StopCall</code>, at most 1000 distinct names. Not
+    // atomic: every call is stopped on its own and reported in its own entry, in request order; a failed entry
+    // carries an <code>error_message</code> prefixed with the gRPC status code name <code>StopCall</code> would have
+    // answered and does not stop the others. No entry, more than 1000 names or a malformed
+    // <code>vtsi_project_name</code> is <code>INVALID_ARGUMENT</code>, an unknown project <code>NOT_FOUND</code>, and
+    // then nothing is stopped.</p>
+    // <p>Authorization: as <code>StopCall</code>.</p>
     virtual ::grpc::Status StopCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallsRequest& request, ::ondewo::vtsi::StopCallsResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>> AsyncStopCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallsRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>>(AsyncStopCallsRaw(context, request, cq));
@@ -268,8 +572,14 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>> PrepareAsyncStopCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallsRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>>(PrepareAsyncStopCallsRaw(context, request, cq));
     }
-    // <p>Stop/kill all ondewo-sip listener or caller instance for a specific nlu-project.</p>
-    // <p>Stops all Listener and Caller calls</p>
+    // <p>Stops every call of a VTSI project (listener and caller calls alike), or, with
+    // <code>call_filter</code>, those it matches, each like <code>StopCall</code>. Not atomic and not bounded in
+    // size; a project with nothing to stop answers an empty response, so the RPC is idempotent. If a stop fails
+    // part-way, the remaining calls are still stopped one by one and every call gets its own entry.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid <code>call_filter</code> or an
+    // unknown <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or campaign; with
+    // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopAllCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopAllCallsRequest& request, ::ondewo::vtsi::StopCallsResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>> AsyncStopAllCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopAllCallsRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>>(AsyncStopAllCallsRaw(context, request, cq));
@@ -302,7 +612,10 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::TransferCallResponse>> PrepareAsyncTransferCall(::grpc::ClientContext* context, const ::ondewo::vtsi::TransferCallRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::TransferCallResponse>>(PrepareAsyncTransferCallRaw(context, request, cq));
     }
-    // <p>Transfer several calls, each like <code>TransferCall</code>.</p>
+    // <p>Transfer several calls, each like <code>TransferCall</code>, at most 1000. Not atomic: every transfer is
+    // run on its own and reported in its own entry, in request order; an entry <code>TransferCall</code> would have
+    // refused with a gRPC status carries that refusal in its <code>error_message</code> (prefixed with the status
+    // code name) and does not stop the others. Idempotent per entry <code>request_id</code>.</p>
     // <p>Authorization: requires the role <code>PROJECT_DEVELOPER</code> or higher on the project, and the server&apos;s
     // Keycloak auth mode <code>ENFORCE</code>; otherwise <code>PERMISSION_DENIED</code>, or
     // <code>FAILED_PRECONDITION</code> with <code>reason=call-supervision-requires-auth</code> when auth is not enforced.
@@ -314,7 +627,13 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::TransferCallsResponse>> PrepareAsyncTransferCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::TransferCallsRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::TransferCallsResponse>>(PrepareAsyncTransferCallsRaw(context, request, cq));
     }
-    // <p>Get call log for single call instance</p>
+    // <p>Gets a call, populated according to <code>call_view</code> and <code>field_mask</code> (the call&apos;s log
+    // lines are read with <code>Logs.ListCallLogs</code>). <code>FULL</code> also returns every participant ever
+    // invited into the call (see <code>Call.participants</code>).</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+    // <code>NOT_FOUND</code> for an unknown project or call, or a call of another project; with authorization
+    // enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status GetCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallRequest& request, ::ondewo::vtsi::Call* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Call>> AsyncGetCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Call>>(AsyncGetCallRaw(context, request, cq));
@@ -322,13 +641,69 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Call>> PrepareAsyncGetCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Call>>(PrepareAsyncGetCallRaw(context, request, cq));
     }
-    // <p>Get call log for all call instances</p>
+    // <p>Lists the calls of a VTSI project, ended ones included, narrowed by <code>call_filter</code>, ordered by
+    // <code>call_sorting</code> (default: by <code>start_time</code>, oldest first) and paged with
+    // <code>page_size</code> / <code>page_token</code>; <code>total_size</code> counts every match.</p>
+    // <p>With <code>call_filter.campaign_name</code> or <code>call_filter.campaign_display_name</code> set, lists
+    // only the calls of that campaign: the calls placed by the attempts of its campaign calls.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid filter, a negative
+    // <code>page_size</code>, a <code>page_token</code> of another listing or an unknown <code>field_mask</code>
+    // path; <code>NOT_FOUND</code> for an unknown project or campaign; with authorization enforced
+    // <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status ListCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest& request, ::ondewo::vtsi::ListCallsResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallsResponse>> AsyncListCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallsResponse>>(AsyncListCallsRaw(context, request, cq));
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallsResponse>> PrepareAsyncListCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallsResponse>>(PrepareAsyncListCallsRaw(context, request, cq));
+    }
+    // <p>Aggregate figures (totals, active calls, counts by SIP status type, by call type, by AMD verdict and by
+    // transfer outcome, durations, redial recommendations) over the calls of a VTSI project that
+    // <code>call_filter</code> matches; see <code>CallStatistics</code>. Read only, no side effect.</p>
+    // <p>Errors: as for <code>ListCalls</code> (an invalid filter is <code>INVALID_ARGUMENT</code>, an unknown project
+    // or campaign <code>NOT_FOUND</code>).</p>
+    // <p>Authorization: as <code>ListCalls</code> (<code>PROJECT_EXECUTOR</code> or higher on the project).</p>
+    virtual ::grpc::Status GetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::ondewo::vtsi::CallStatistics* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CallStatistics>> AsyncGetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CallStatistics>>(AsyncGetCallStatisticsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CallStatistics>> PrepareAsyncGetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CallStatistics>>(PrepareAsyncGetCallStatisticsRaw(context, request, cq));
+    }
+    // <p>Updates the descriptive metadata of a call: the only updatable <code>update_mask</code> path is
+    // <code>labels</code>. Allowed on active and ended calls. Refused for the WAITING call of a persistent
+    // listener or a pooled caller (status <code>NO_ONGOING_CALL</code>, not active: the record that waits for the
+    // next call, which <code>ListCalls</code> returns too) with <code>FAILED_PRECONDITION</code> and
+    // <code>reason=call-not-started</code> in the details: label the call once it has started. It changes only
+    // the stored call record: the live call, its SIP container, its status and its media are never touched, and
+    // nothing is sent to the call. Idempotent: writing the stored labels again changes nothing.</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_UPDATED</code> when the labels changed.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed <code>call.name</code>, an
+    // empty <code>update_mask</code>, any path other than <code>labels</code> (every other field of a
+    // <code>Call</code> is output only), a path below <code>labels</code>, labels outside the bounds of
+    // <code>Call.labels</code>, or an unknown <code>field_mask</code> path (each naming the path or label);
+    // <code>NOT_FOUND</code> for an unknown call or project; <code>FAILED_PRECONDITION</code>
+    // (<code>reason=call-not-started</code>) for a waiting call; with authorization enforced
+    // <code>PERMISSION_DENIED</code> for a project the caller holds no role on.</p>
+    // <p>Authorization: the role that may stop calls of the project (<code>PROJECT_EXECUTOR</code> or
+    // higher).</p>
+    virtual ::grpc::Status UpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::ondewo::vtsi::UpdateCallResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallResponse>> AsyncUpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallResponse>>(AsyncUpdateCallRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallResponse>> PrepareAsyncUpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallResponse>>(PrepareAsyncUpdateCallRaw(context, request, cq));
+    }
+    // <p>Updates several calls, each like <code>UpdateCall</code>, with the per-entry results and the
+    // request-level errors of <code>UpdateCallers</code>.</p>
+    // <p>Authorization: as <code>UpdateCall</code>.</p>
+    virtual ::grpc::Status UpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::ondewo::vtsi::UpdateCallsResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallsResponse>> AsyncUpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallsResponse>>(AsyncUpdateCallsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallsResponse>> PrepareAsyncUpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallsResponse>>(PrepareAsyncUpdateCallsRaw(context, request, cq));
     }
     // ////////////////////////////////////////////////////////////////////////////
     // Status stream endpoints
@@ -403,7 +778,17 @@ class Calls final {
     }
     // <p>Hang up a participant of a call (ringing or joined). The participant ends as
     // <code>PARTICIPANT_STATE_LEFT</code> with <code>end_reason = REMOVED</code>; the call and the bot are not
-    // affected.</p>
+    // affected. Returns the participant after the request.</p>
+    // <p>Idempotent: a participant that already FAILED or LEFT (for whatever reason) is returned unchanged with OK,
+    // and nothing is sent.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request; <code>NOT_FOUND</code> with
+    // <code>reason=call-not-found</code> for an unknown call or a call of another project, and with
+    // <code>reason=participant-not-found</code> for an unknown <code>participant_id</code> or a participant of
+    // another call; <code>ABORTED</code> with <code>reason=call-control-busy</code> while another call-control
+    // request for the call runs (retry); <code>UNAVAILABLE</code> with <code>reason=asterisk-unreachable</code> when
+    // the hang-up could not be sent; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_PARTICIPANT_LEFT</code> (or <code>VTSI_EVENT_CALL_PARTICIPANT_FAILED</code>
+    // for a participant that was still ringing).</p>
     // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher. Audited like <code>InviteToCall</code>.</p>
     virtual ::grpc::Status RemoveCallParticipant(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest& request, ::ondewo::vtsi::RemoveCallParticipantResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::RemoveCallParticipantResponse>> AsyncRemoveCallParticipant(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest& request, ::grpc::CompletionQueue* cq) {
@@ -415,6 +800,12 @@ class Calls final {
     // <p>Mute the bot of a connected call and/or stop it listening to the caller, or undo either. Every request sets a
     // desired level and never toggles: a repeat answers <code>changed = false</code>. The bot stays muted while
     // anything else (a TALK take-over of <code>StreamCallAudio</code>, a participant bot policy) also holds it muted.</p>
+    // <p>Both settings <code>CALL_MEDIA_SETTING_UNCHANGED</code> is a valid read of the current state: it answers
+    // the effective <code>state</code> with <code>changed = false</code>, changes nothing, and writes no audit record
+    // and no event (see <code>SetCallMediaControlRequest.bot_voice</code>).</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_BOT_MUTED</code> / <code>VTSI_EVENT_CALL_BOT_UNMUTED</code> /
+    // <code>VTSI_EVENT_CALL_LISTENING_PAUSED</code> / <code>VTSI_EVENT_CALL_LISTENING_RESUMED</code> when the
+    // effective state changed.</p>
     // <p>Errors as for <code>InviteToCall</code>, plus <code>FAILED_PRECONDITION</code> <code>reason=sip-image-too-old</code>,
     // <code>ABORTED</code> <code>reason=call-control-busy</code> (another call-control request for the call is running)
     // and <code>UNAVAILABLE</code> <code>reason=sip-unreachable</code> or <code>reason=csi-media-control-failed</code> (the
@@ -479,58 +870,245 @@ class Calls final {
       // Caller and Listener endpoints
       // ////////////////////////////////////////////////////////////////////////////
       //
-      // <p>Start single caller instance for a specific nlu-project.</p>
+      // <p>Starts one caller in a VTSI project: an ondewo-sip container that places one outbound call to
+      // <code>sip_caller_config.callee_id</code> (or a pooled caller of the server&apos;s caller pool that runs the same
+      // configuration). The configuration is validated first, including live checks against the upstream services;
+      // nothing is started when it fails. Not idempotent: every successful request places a new call (send it as a
+      // batch of one with an <code>idempotency_key</code> to make it idempotent). <code>validate_only</code> runs the
+      // validation alone.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed or invalid request or
+      // configuration (also when the NLU credentials are refused) or an unknown <code>field_mask</code> path;
+      // <code>NOT_FOUND</code> for an unknown project; <code>FAILED_PRECONDITION</code> when an upstream config lacks
+      // the required TLS certificate (<code>UPSTREAM_TLS_REQUIRED</code>) or the project is not deployed;
+      // <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; <code>UNAVAILABLE</code> when an
+      // upstream service could not be reached; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_CALLER_STARTED</code> or <code>VTSI_EVENT_CALLER_START_FAILED</code>, then the
+      // events of the call (<code>VTSI_EVENT_CALL_*</code>). None with <code>validate_only</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void StartCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallerRequest* request, ::ondewo::vtsi::StartCallerResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StartCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallerRequest* request, ::ondewo::vtsi::StartCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Start multiple ondewo-sip callers instances for a specific nlu-project.</p>
+      // <p>Starts several callers, each like <code>StartCaller</code>. Not atomic: every caller is started on its own;
+      // a caller that fails to start is rolled back and has no entry in the response, which accounts for it in
+      // <code>StartCallersResponse.error_message</code>. The project&apos;s caller limit is checked for the batch as a
+      // whole before anything is started (<code>RESOURCE_EXHAUSTED</code>, nothing started). Idempotent per
+      // <code>idempotency_key</code>.</p>
+      // <p>Authorization: as <code>StartCaller</code>.</p>
       virtual void StartCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallersRequest* request, ::ondewo::vtsi::StartCallersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StartCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartCallersRequest* request, ::ondewo::vtsi::StartCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Lists all available callers</p>
+      // <p>Lists the callers of a VTSI project, ordered by the caller&apos;s uuid (the last segment of
+      // <code>name</code>), ascending: a stable order, not a chronological one. Paged with <code>page_size</code> /
+      // <code>page_token</code>; <code>total_size</code> counts every match.</p>
+      // <p>With <code>campaign_name</code> or <code>campaign_display_name</code> set, lists only the callers of that
+      // campaign: the callers that placed at least one attempt of one of its campaign calls (see
+      // <code>ListCallersRequest.campaign_name</code>). <code>active_only</code> and <code>sip_status_types</code>
+      // narrow the listing further.</p>
+      // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid selector, a negative
+      // <code>page_size</code>, a <code>page_token</code> of another listing or an unknown <code>field_mask</code>
+      // path; <code>NOT_FOUND</code> for an unknown project or campaign; with authorization enforced
+      // <code>PERMISSION_DENIED</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void ListCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallersRequest* request, ::ondewo::vtsi::ListCallersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ListCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallersRequest* request, ::ondewo::vtsi::ListCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Gets a caller</p>
+      // <p>Gets a caller, populated according to <code>call_view</code> and <code>field_mask</code>.</p>
+      // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+      // <code>NOT_FOUND</code> for an unknown project or caller, or a caller of another project; with authorization
+      // enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void GetCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest* request, ::ondewo::vtsi::Caller* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest* request, ::ondewo::vtsi::Caller* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Deletes a caller</p>
+      // <p>Updates the STORED configuration of a caller: the fields named in <code>update_mask</code>, i.e.
+      // <code>sip_caller_config</code> and <code>common_services_config</code> or any nested sub-path of them.
+      // Allowed whether or not the caller has a call running.</p>
+      // <p>A running call and its container are NEVER changed: nothing is restarted, redeployed or reconfigured,
+      // and the call goes on with the configuration its container was deployed with.</p>
+      // <p>When the stored configuration takes effect: a caller is ONE call (every <code>StartCaller</code> creates
+      // a new caller carrying its own configuration, and no RPC redeploys an existing one), so for a caller that
+      // is not pooled the update changes ONLY the stored and returned configuration and never any present or
+      // future call. The one case in which the server deploys a container from a caller&apos;s stored
+      // configuration is a POOLED (persistent) caller, which the server keeps warm between calls: when the server
+      // recycles the pooled callers of a project onto its Asterisk (an <code>UpdateVtsiProject</code> of a
+      // deployed project, the recovery after the project&apos;s Asterisk restarted, a change of the project&apos;s
+      // TLS trust anchor), the pooled caller it starts in place of this one is deployed from the stored, i.e.
+      // updated, configuration. An in-place restart of a pooled caller&apos;s container (the call monitor&apos;s
+      // health recovery) keeps the configuration the container was deployed with. Until it is recycled, an idle
+      // pooled caller is matched to later <code>StartCaller</code> requests by the configuration its container
+      // RUNS, never by an updated stored configuration it does not run.</p>
+      // <p>Updating a caller never changes a campaign: the attempts of a campaign call take their configuration
+      // from the campaign and the campaign call, never from a <code>Caller</code>.</p>
+      // <p>A STOPPED caller (its call ended and its configuration was released) has no stored configuration left:
+      // the update starts from an empty one, so it must state a complete configuration
+      // (<code>sip_caller_config</code> and <code>common_services_config</code>), and a partial one is refused as a
+      // configuration a <code>StartCallerRequest</code> would be refused for. Nothing is deployed.</p>
+      // <p>Credentials follow their endpoint: an update that MOVES an upstream (the <code>host</code>,
+      // <code>port</code> or <code>grpc_cert</code> of the NLU, S2T or T2S <code>*_base_config</code>, or the
+      // <code>host</code> / ports of <code>csi_vtsi_config.message_broker_config.rabbit_mq_config</code>) must
+      // also write every credential path of that upstream that holds a stored value -- the NLU
+      // <code>credentials</code>, <code>auth_token</code>, <code>http_basic_auth_token</code> and
+      // <code>contexts</code>, the S2T <code>s2t_transcribe_request_config</code>, the T2S
+      // <code>t2s_request_config</code>, the RabbitMQ <code>user</code> and <code>password</code> -- named itself
+      // or by a shorter path, with the values to use. A stored credential is never sent to an endpoint the request
+      // moved without restating it, also not for the live validation of the result.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed <code>caller.name</code>,
+      // an empty <code>update_mask</code>, an unknown, output-only or immutable <code>update_mask</code> path, an
+      // update that moves an upstream without restating its stored credentials (naming the paths to add), a
+      // resulting configuration that a <code>StartCallerRequest</code> carrying it would be refused for, or an
+      // unknown <code>field_mask</code> path (each naming the path or field); <code>NOT_FOUND</code> for an
+      // unknown caller or project; <code>ABORTED</code> when concurrent updates kept changing the caller, or while
+      // an update, deploy or undeploy of its project is still running (an update waits for it, for a bounded time,
+      // so that a recycle of the project cannot lose it), nothing being written (retry the request); with
+      // authorization enforced <code>PERMISSION_DENIED</code> for a project the caller holds no role on.</p>
+      // <p>Events: <code>VTSI_EVENT_CALLER_UPDATED</code> (none with <code>validate_only</code>).</p>
+      // <p>Authorization: the role that may start and stop callers of the project (<code>PROJECT_EXECUTOR</code>
+      // or higher).</p>
+      virtual void UpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest* request, ::ondewo::vtsi::UpdateCallerResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest* request, ::ondewo::vtsi::UpdateCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Updates several callers, each like <code>UpdateCaller</code>. Not atomic: every entry is applied on its
+      // own and reported in <code>UpdateCallersResponse.update_caller_responses</code>, in request order; an entry
+      // that fails changes nothing and does not stop the others. Errors of the request as a whole (see
+      // <code>UpdateCallersRequest</code>) are gRPC status codes, and then no entry is applied.</p>
+      // <p>Authorization: as <code>UpdateCaller</code>.</p>
+      virtual void UpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest* request, ::ondewo::vtsi::UpdateCallersResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest* request, ::ondewo::vtsi::UpdateCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Deletes a caller: stops it if it still runs (hanging up its call) and removes it, so it is no longer
+      // listed or returned. Its call records (and their participants) are deleted with it and are no longer returned
+      // by <code>GetCall</code> / <code>ListCalls</code>; stop it instead to keep them.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+      // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown caller, a caller of another project, or a
+      // caller that was already deleted (so deleting is NOT idempotent: a repeat answers <code>NOT_FOUND</code>);
+      // with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_CALLER_DELETED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+      // was hung up).</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void DeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest* request, ::ondewo::vtsi::DeleteCallerResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void DeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest* request, ::ondewo::vtsi::DeleteCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Deletes multiple callers</p>
+      // <p>Deletes several callers, each like <code>DeleteCaller</code>. Not atomic: every caller is deleted on its own
+      // and reported in its own entry, whose <code>error_message</code> carries the gRPC status code name
+      // <code>DeleteCaller</code> would have answered (e.g. <code>NOT_FOUND: ...</code>); an entry that fails does not
+      // stop the others. The request as a whole is refused, nothing being deleted, for no entry or more than 1000
+      // distinct names, and, when <code>vtsi_project_name</code> is set, as described there.</p>
+      // <p>Authorization: as <code>DeleteCaller</code>.</p>
       virtual void DeleteCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallersRequest* request, ::ondewo::vtsi::DeleteCallersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void DeleteCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallersRequest* request, ::ondewo::vtsi::DeleteCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Stops a caller</p>
+      // <p>Stops a caller: hangs up its call if one is up and releases its container and SIP account. The caller
+      // stays listed (with <code>active = false</code>) until it is deleted, and its stored configuration stays
+      // updatable (see <code>UpdateCaller</code>). A pooled caller is taken out of the pool.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+      // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown caller, a caller of another project, or a
+      // caller that is already stopped (so stopping is NOT idempotent: a repeat answers <code>NOT_FOUND</code>); with
+      // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_CALLER_STOPPED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+      // was hung up).</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void StopCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallerRequest* request, ::ondewo::vtsi::StopCallerResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StopCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallerRequest* request, ::ondewo::vtsi::StopCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Stops multiple callers</p>
+      // <p>Stops several callers, each like <code>StopCaller</code>, with the per-entry results and the request-level
+      // errors of <code>DeleteCallers</code>.</p>
+      // <p>Authorization: as <code>StopCaller</code>.</p>
       virtual void StopCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallersRequest* request, ::ondewo::vtsi::StopCallersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StopCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallersRequest* request, ::ondewo::vtsi::StopCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Start single listener instance for a specific nlu-project.</p>
+      // <p>Starts one listener in a VTSI project: an ondewo-sip container registered on the project&apos;s Asterisk
+      // that answers inbound calls, one after the other (persistent). Validation, <code>validate_only</code>, errors
+      // (<code>RESOURCE_EXHAUSTED</code> for the project&apos;s listener limit) and idempotency as for
+      // <code>StartCaller</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_LISTENER_STARTED</code> or <code>VTSI_EVENT_LISTENER_START_FAILED</code>. None with
+      // <code>validate_only</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void StartListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenerRequest* request, ::ondewo::vtsi::StartListenerResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StartListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenerRequest* request, ::ondewo::vtsi::StartListenerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Start multiple ondewo-sip listeners instances for a specific nlu-project.</p>
+      // <p>Starts several listeners, each like <code>StartListener</code>, with the batch semantics of
+      // <code>StartCallers</code> (a listener that fails to start has no entry and is accounted for in
+      // <code>StartListenersResponse.error_message</code>).</p>
+      // <p>Authorization: as <code>StartListener</code>.</p>
       virtual void StartListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenersRequest* request, ::ondewo::vtsi::StartListenersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StartListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StartListenersRequest* request, ::ondewo::vtsi::StartListenersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Stop a ondewo-sip listeners instances for a specific nlu-project.</p>
+      // <p>Stops a listener: hangs up its call if one is up and releases its container and SIP account. A stopped
+      // listener has no stored configuration left (see <code>UpdateListener</code>). Errors and idempotency as for
+      // <code>StopCaller</code> (a listener that is already stopped is <code>NOT_FOUND</code>).</p>
+      // <p>Events: <code>VTSI_EVENT_LISTENER_STOPPED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+      // was hung up).</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void StopListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenerRequest* request, ::ondewo::vtsi::StopListenerResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StopListener(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenerRequest* request, ::ondewo::vtsi::StopListenerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Stop multiple ondewo-sip listeners instances for a specific nlu-project.</p>
+      // <p>Stops several listeners, each like <code>StopListener</code>, with the per-entry results and the
+      // request-level errors of <code>DeleteCallers</code>.</p>
+      // <p>Authorization: as <code>StopListener</code>.</p>
       virtual void StopListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenersRequest* request, ::ondewo::vtsi::StopListenersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StopListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::StopListenersRequest* request, ::ondewo::vtsi::StopListenersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Lists all available listeners</p>
+      // <p>Lists the listeners of a VTSI project, ordered by the listener&apos;s uuid (the last segment of
+      // <code>name</code>), ascending. Paging, <code>total_size</code>, filters and errors as for
+      // <code>ListCallers</code> (without a campaign selector).</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void ListListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::ListListenersRequest* request, ::ondewo::vtsi::ListListenersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ListListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::ListListenersRequest* request, ::ondewo::vtsi::ListListenersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Gets a listener</p>
+      // <p>Gets a listener, populated according to <code>call_view</code> and <code>field_mask</code>. Errors as for
+      // <code>GetCaller</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void GetListener(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest* request, ::ondewo::vtsi::Listener* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetListener(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest* request, ::ondewo::vtsi::Listener* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Deletes a listener</p>
+      // <p>Updates the STORED configuration of a listener: the fields named in <code>update_mask</code>, i.e.
+      // <code>sip_base_config</code> and <code>common_services_config</code> or any nested sub-path of them.
+      // Allowed whether or not the listener&apos;s container is running or has a call, as long as the listener is
+      // DEPLOYED: a stopped listener has no stored configuration (it is deployed again only by a
+      // <code>StartListener</code> carrying a complete one) and is <code>NOT_FOUND</code>, unlike a stopped caller,
+      // which <code>UpdateCaller</code> accepts with a complete configuration.</p>
+      // <p>A running container and every call it takes are NEVER changed: nothing is restarted, redeployed or
+      // reconfigured, and the running container answers its calls with the configuration it was deployed with
+      // until it is replaced.</p>
+      // <p>When the stored configuration takes effect: only when the server RECREATES the listener from it, i.e.
+      // when it recycles the listeners of the project onto its Asterisk: an <code>UpdateVtsiProject</code> of a
+      // deployed project, the recovery after the project&apos;s Asterisk restarted, or a change of the
+      // project&apos;s TLS trust anchor. The listener the server starts in place of this one is deployed from the
+      // stored, i.e. updated, configuration. An in-place restart of the listener&apos;s container (the
+      // server&apos;s restore of listener containers when it starts, the call monitor&apos;s restart of an
+      // unhealthy container, a <code>docker restart</code>) keeps the configuration the container was deployed
+      // with. A listener that is never recycled keeps the update only as its stored (and returned)
+      // configuration.</p>
+      // <p>Errors as for <code>UpdateCaller</code> (the credential rule included), with
+      // <code>StartListenerRequest</code> as the validation of the resulting configuration, and
+      // <code>NOT_FOUND</code> also for a stopped listener.</p>
+      // <p>Events: <code>VTSI_EVENT_LISTENER_UPDATED</code> (none with <code>validate_only</code>).</p>
+      // <p>Authorization: the role that may start and stop listeners of the project (<code>PROJECT_EXECUTOR</code>
+      // or higher).</p>
+      virtual void UpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest* request, ::ondewo::vtsi::UpdateListenerResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest* request, ::ondewo::vtsi::UpdateListenerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Updates several listeners, each like <code>UpdateListener</code>, with the per-entry results and the
+      // request-level errors of <code>UpdateCallers</code>.</p>
+      // <p>Authorization: as <code>UpdateListener</code>.</p>
+      virtual void UpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest* request, ::ondewo::vtsi::UpdateListenersResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest* request, ::ondewo::vtsi::UpdateListenersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Deletes a listener: stops it if it still runs (hanging up its call) and removes it, with its call
+      // records, like <code>DeleteCaller</code>. Errors and idempotency as for <code>DeleteCaller</code> (a repeat
+      // answers <code>NOT_FOUND</code>).</p>
+      // <p>Events: <code>VTSI_EVENT_LISTENER_DELETED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+      // was hung up).</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void DeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest* request, ::ondewo::vtsi::DeleteListenerResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void DeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest* request, ::ondewo::vtsi::DeleteListenerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Deletes multiple listeners</p>
+      // <p>Deletes several listeners, each like <code>DeleteListener</code>, with the per-entry results and the
+      // request-level errors of <code>DeleteCallers</code>.</p>
+      // <p>Authorization: as <code>DeleteListener</code>.</p>
       virtual void DeleteListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenersRequest* request, ::ondewo::vtsi::DeleteListenersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void DeleteListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenersRequest* request, ::ondewo::vtsi::DeleteListenersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Start a single ondewo-sip caller instance at a scheduled time</p>
+      // <p>Creates a scheduled caller: a caller that the server starts at or after <code>scheduled_time</code>, like a
+      // <code>StartCaller</code> of the stored request. The request is checked structurally now; the live checks of
+      // the configuration run when it fires, and a failure then leaves the scheduled caller
+      // <code>SCHEDULED_CALLER_STATUS_FAILED</code> with its <code>error_message</code>. A <code>scheduled_time</code> in
+      // the past is due at once. Not idempotent (use <code>StartScheduledCallers</code> with an
+      // <code>idempotency_key</code>).</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed request, a missing
+      // <code>scheduled_time</code>, a nested request with its own <code>field_mask</code> or
+      // <code>validate_only</code>, or an unknown <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown
+      // project; <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; with authorization
+      // enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CREATED</code>; later <code>VTSI_EVENT_SCHEDULED_CALLER_FIRED</code>,
+      // <code>VTSI_EVENT_SCHEDULED_CALLER_RETRY_SCHEDULED</code> or <code>VTSI_EVENT_SCHEDULED_CALLER_FAILED</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void StartScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallerRequest* request, ::ondewo::vtsi::StartScheduledCallerResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StartScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallerRequest* request, ::ondewo::vtsi::StartScheduledCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Start multiple ondewo-sip caller instances, each at its own scheduled time</p>
+      // <p>Creates several scheduled callers, each like <code>StartScheduledCaller</code>, at most 1000. Not atomic: an
+      // entry that fails is reported in its own <code>error_message</code> and does not stop the others. Idempotent
+      // per <code>idempotency_key</code>.</p>
+      // <p>Authorization: as <code>StartScheduledCaller</code>.</p>
       virtual void StartScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallersRequest* request, ::ondewo::vtsi::StartScheduledCallersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StartScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::StartScheduledCallersRequest* request, ::ondewo::vtsi::StartScheduledCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // <p>Adds callers to a campaign instead of starting them. The campaign then starts them, at most
@@ -545,29 +1123,117 @@ class Calls final {
       // behaviour as <code>AddCallersToCampaign</code>.</p>
       virtual void AddScheduledCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* request, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void AddScheduledCallersToCampaign(::grpc::ClientContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* request, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Gets a scheduled caller</p>
+      // <p>Gets a scheduled caller, populated according to <code>call_view</code> and <code>field_mask</code>.</p>
+      // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+      // <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of another project; with
+      // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void GetScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Lists the scheduled callers of a vtsi-project</p>
+      // <p>Lists the scheduled callers of a VTSI project, ordered by <code>scheduled_time</code>, oldest first,
+      // optionally narrowed by state, campaign and a <code>scheduled_time</code> window. Paging,
+      // <code>total_size</code> and errors as for <code>ListCallers</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void ListScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest* request, ::ondewo::vtsi::ListScheduledCallersResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ListScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest* request, ::ondewo::vtsi::ListScheduledCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Cancels a scheduled caller that has not fired yet</p>
+      // <p>Changes the <code>scheduled_time</code> and/or the <code>sip_caller_config.sip_headers</code> of a scheduled
+      // caller that has not fired yet; the only updatable <code>update_mask</code> paths (see
+      // <code>UpdateScheduledCallerRequest.update_mask</code>). Allowed only while the status is
+      // <code>SCHEDULED_CALLER_STATUS_PENDING</code>; for a scheduled caller of a campaign only while its campaign call
+      // is <code>CAMPAIGN_CALL_STATE_NOT_STARTED</code> (a retry of a campaign call is timed by the campaign&apos;s
+      // <code>retry_delay</code>). The check and the write are one atomic step, so a scheduled caller that fires
+      // concurrently is either updated before it fires or refused. Updating to the stored values is accepted and
+      // changes nothing.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name, an empty
+      // <code>update_mask</code>, a path that is not updatable, an unset <code>scheduled_time</code> named by the
+      // mask, invalid <code>sip_headers</code>, or an unknown <code>field_mask</code> path (each naming the path);
+      // <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of another project;
+      // <code>FAILED_PRECONDITION</code> when it is no longer PENDING (<code>reason=not-pending</code>) or its campaign
+      // call has started (<code>reason=campaign-call-started</code>); with authorization enforced
+      // <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_UPDATED</code> when something changed.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
+      virtual void UpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Cancels a scheduled caller that has not fired yet: a PENDING scheduled caller becomes
+      // <code>SCHEDULED_CALLER_STATUS_CANCELLED</code> and never fires. A scheduled caller that is no longer PENDING
+      // (firing, done, failed or already cancelled) is not an error: the response says <code>cancelled = false</code>
+      // and carries its current <code>status</code>, so cancelling is idempotent.</p>
       // <p>A scheduled caller of a campaign can be cancelled while its campaign call is
       // <code>CAMPAIGN_CALL_STATE_NOT_STARTED</code> or <code>CAMPAIGN_CALL_STATE_RETRY_PENDING</code>;
       // the campaign call then becomes <code>CAMPAIGN_CALL_STATE_CANCELLED</code>. While an attempt is
       // <code>DISPATCHING</code> or <code>IN_PROGRESS</code> the request is refused:
-      // <code>cancelled = false</code> and the scheduled caller keeps its status.</p>
+      // <code>cancelled = false</code>, an <code>error_message</code> saying why, and the scheduled caller keeps its
+      // status.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+      // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of
+      // another project; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CANCELLED</code>, only when <code>cancelled = true</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void CancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest* request, ::ondewo::vtsi::CancelScheduledCallerResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void CancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest* request, ::ondewo::vtsi::CancelScheduledCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Stop/kill a ondewo-sip listener or caller instance for a specific vtsi-project.</p>
+      // <p>Cancels several scheduled callers, each like <code>CancelScheduledCaller</code>, at most 1000. Not atomic:
+      // every entry is applied on its own and reported in <code>CancelScheduledCallersResponse</code>, in request
+      // order; a failed entry carries an <code>error_message</code> prefixed with the gRPC status code name
+      // <code>CancelScheduledCaller</code> would have answered (e.g. <code>NOT_FOUND: ...</code>) and does not stop
+      // the others. Errors of the request as a whole (see <code>CancelScheduledCallersRequest</code>) are gRPC status
+      // codes, and then nothing is cancelled.</p>
+      // <p>Events: one <code>VTSI_EVENT_SCHEDULED_CALLER_CANCELLED</code> per entry with <code>cancelled = true</code>.</p>
+      // <p>Authorization: as <code>CancelScheduledCaller</code>.</p>
+      virtual void CancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest* request, ::ondewo::vtsi::CancelScheduledCallersResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void CancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest* request, ::ondewo::vtsi::CancelScheduledCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Retries a FAILED scheduled caller by creating a NEW scheduled caller from its stored request: the same
+      // <code>sip_caller_config</code> and <code>common_services_config</code>, <code>status = PENDING</code>, the
+      // <code>scheduled_time</code> of the request (unset: now), and <code>retry_of_scheduled_caller_name</code> naming
+      // the failed one, whose <code>retried_by_scheduled_caller_name</code> is set to the new one in the same atomic
+      // step. The failed scheduled caller itself is not changed otherwise, so its <code>error_message</code> and
+      // <code>fired_at</code> stay as the history of the failed attempt. Returns the new scheduled caller.</p>
+      // <p>Idempotency: a FAILED scheduled caller is retried at most once. A repeat of the request answers
+      // <code>ALREADY_EXISTS</code> naming the retry in its message (read
+      // <code>retried_by_scheduled_caller_name</code>); to retry again after the retry failed too, retry the new
+      // one.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+      // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of
+      // another project; <code>FAILED_PRECONDITION</code> for a scheduled caller that is not
+      // <code>SCHEDULED_CALLER_STATUS_FAILED</code> (<code>reason=not-failed</code>) or that belongs to a campaign
+      // (<code>reason=campaign-scheduled-caller</code>: a campaign call is retried by the campaign&apos;s
+      // <code>max_attempts</code>); <code>ALREADY_EXISTS</code> when it was already retried;
+      // <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; with authorization enforced
+      // <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CREATED</code> for the new scheduled caller.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
+      virtual void RetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void RetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Stops a call: hangs it up if it is still active and stops (releases) the listener or caller that serves
+      // it, like <code>StopCaller</code> / <code>StopListener</code>. A call that already ended is not an error: its
+      // listener or caller is still released if it is deployed, and when there was nothing left to release the
+      // response carries <code>error_message = Call ... was not released</code>, so a repeat succeeds with that
+      // message.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed request or an unknown
+      // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or call, or a call of another
+      // project; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_CALL_STOPPED</code>, and <code>VTSI_EVENT_CALLER_STOPPED</code> /
+      // <code>VTSI_EVENT_LISTENER_STOPPED</code> for the released resource.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void StopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest* request, ::ondewo::vtsi::StopCallResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest* request, ::ondewo::vtsi::StopCallResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Stop/kill a list of ondewo-sip listener or caller instances for a specific vtsi-project.</p>
-      // <p>Stops both Listener and Caller calls</p>
+      // <p>Stops several calls of one project, each like <code>StopCall</code>, at most 1000 distinct names. Not
+      // atomic: every call is stopped on its own and reported in its own entry, in request order; a failed entry
+      // carries an <code>error_message</code> prefixed with the gRPC status code name <code>StopCall</code> would have
+      // answered and does not stop the others. No entry, more than 1000 names or a malformed
+      // <code>vtsi_project_name</code> is <code>INVALID_ARGUMENT</code>, an unknown project <code>NOT_FOUND</code>, and
+      // then nothing is stopped.</p>
+      // <p>Authorization: as <code>StopCall</code>.</p>
       virtual void StopCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StopCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Stop/kill all ondewo-sip listener or caller instance for a specific nlu-project.</p>
-      // <p>Stops all Listener and Caller calls</p>
+      // <p>Stops every call of a VTSI project (listener and caller calls alike), or, with
+      // <code>call_filter</code>, those it matches, each like <code>StopCall</code>. Not atomic and not bounded in
+      // size; a project with nothing to stop answers an empty response, so the RPC is idempotent. If a stop fails
+      // part-way, the remaining calls are still stopped one by one and every call gets its own entry.</p>
+      // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid <code>call_filter</code> or an
+      // unknown <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or campaign; with
+      // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void StopAllCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopAllCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StopAllCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopAllCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // <p>Transfer a call to a phone number, a softphone account, another listener or the listener queue.</p>
@@ -590,19 +1256,69 @@ class Calls final {
       // Every action writes an audit record (who, call, when, mode, target). No announcement is played to the caller.</p>
       virtual void TransferCall(::grpc::ClientContext* context, const ::ondewo::vtsi::TransferCallRequest* request, ::ondewo::vtsi::TransferCallResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void TransferCall(::grpc::ClientContext* context, const ::ondewo::vtsi::TransferCallRequest* request, ::ondewo::vtsi::TransferCallResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Transfer several calls, each like <code>TransferCall</code>.</p>
+      // <p>Transfer several calls, each like <code>TransferCall</code>, at most 1000. Not atomic: every transfer is
+      // run on its own and reported in its own entry, in request order; an entry <code>TransferCall</code> would have
+      // refused with a gRPC status carries that refusal in its <code>error_message</code> (prefixed with the status
+      // code name) and does not stop the others. Idempotent per entry <code>request_id</code>.</p>
       // <p>Authorization: requires the role <code>PROJECT_DEVELOPER</code> or higher on the project, and the server&apos;s
       // Keycloak auth mode <code>ENFORCE</code>; otherwise <code>PERMISSION_DENIED</code>, or
       // <code>FAILED_PRECONDITION</code> with <code>reason=call-supervision-requires-auth</code> when auth is not enforced.
       // Every action writes an audit record (who, call, when, mode, target). No announcement is played to the caller.</p>
       virtual void TransferCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::TransferCallsRequest* request, ::ondewo::vtsi::TransferCallsResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void TransferCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::TransferCallsRequest* request, ::ondewo::vtsi::TransferCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Get call log for single call instance</p>
+      // <p>Gets a call, populated according to <code>call_view</code> and <code>field_mask</code> (the call&apos;s log
+      // lines are read with <code>Logs.ListCallLogs</code>). <code>FULL</code> also returns every participant ever
+      // invited into the call (see <code>Call.participants</code>).</p>
+      // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+      // <code>NOT_FOUND</code> for an unknown project or call, or a call of another project; with authorization
+      // enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void GetCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallRequest* request, ::ondewo::vtsi::Call* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallRequest* request, ::ondewo::vtsi::Call* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Get call log for all call instances</p>
+      // <p>Lists the calls of a VTSI project, ended ones included, narrowed by <code>call_filter</code>, ordered by
+      // <code>call_sorting</code> (default: by <code>start_time</code>, oldest first) and paged with
+      // <code>page_size</code> / <code>page_token</code>; <code>total_size</code> counts every match.</p>
+      // <p>With <code>call_filter.campaign_name</code> or <code>call_filter.campaign_display_name</code> set, lists
+      // only the calls of that campaign: the calls placed by the attempts of its campaign calls.</p>
+      // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid filter, a negative
+      // <code>page_size</code>, a <code>page_token</code> of another listing or an unknown <code>field_mask</code>
+      // path; <code>NOT_FOUND</code> for an unknown project or campaign; with authorization enforced
+      // <code>PERMISSION_DENIED</code>.</p>
+      // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void ListCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest* request, ::ondewo::vtsi::ListCallsResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ListCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest* request, ::ondewo::vtsi::ListCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Aggregate figures (totals, active calls, counts by SIP status type, by call type, by AMD verdict and by
+      // transfer outcome, durations, redial recommendations) over the calls of a VTSI project that
+      // <code>call_filter</code> matches; see <code>CallStatistics</code>. Read only, no side effect.</p>
+      // <p>Errors: as for <code>ListCalls</code> (an invalid filter is <code>INVALID_ARGUMENT</code>, an unknown project
+      // or campaign <code>NOT_FOUND</code>).</p>
+      // <p>Authorization: as <code>ListCalls</code> (<code>PROJECT_EXECUTOR</code> or higher on the project).</p>
+      virtual void GetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest* request, ::ondewo::vtsi::CallStatistics* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest* request, ::ondewo::vtsi::CallStatistics* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Updates the descriptive metadata of a call: the only updatable <code>update_mask</code> path is
+      // <code>labels</code>. Allowed on active and ended calls. Refused for the WAITING call of a persistent
+      // listener or a pooled caller (status <code>NO_ONGOING_CALL</code>, not active: the record that waits for the
+      // next call, which <code>ListCalls</code> returns too) with <code>FAILED_PRECONDITION</code> and
+      // <code>reason=call-not-started</code> in the details: label the call once it has started. It changes only
+      // the stored call record: the live call, its SIP container, its status and its media are never touched, and
+      // nothing is sent to the call. Idempotent: writing the stored labels again changes nothing.</p>
+      // <p>Events: <code>VTSI_EVENT_CALL_UPDATED</code> when the labels changed.</p>
+      // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed <code>call.name</code>, an
+      // empty <code>update_mask</code>, any path other than <code>labels</code> (every other field of a
+      // <code>Call</code> is output only), a path below <code>labels</code>, labels outside the bounds of
+      // <code>Call.labels</code>, or an unknown <code>field_mask</code> path (each naming the path or label);
+      // <code>NOT_FOUND</code> for an unknown call or project; <code>FAILED_PRECONDITION</code>
+      // (<code>reason=call-not-started</code>) for a waiting call; with authorization enforced
+      // <code>PERMISSION_DENIED</code> for a project the caller holds no role on.</p>
+      // <p>Authorization: the role that may stop calls of the project (<code>PROJECT_EXECUTOR</code> or
+      // higher).</p>
+      virtual void UpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest* request, ::ondewo::vtsi::UpdateCallResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest* request, ::ondewo::vtsi::UpdateCallResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Updates several calls, each like <code>UpdateCall</code>, with the per-entry results and the
+      // request-level errors of <code>UpdateCallers</code>.</p>
+      // <p>Authorization: as <code>UpdateCall</code>.</p>
+      virtual void UpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest* request, ::ondewo::vtsi::UpdateCallsResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest* request, ::ondewo::vtsi::UpdateCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // ////////////////////////////////////////////////////////////////////////////
       // Status stream endpoints
       // ////////////////////////////////////////////////////////////////////////////
@@ -647,13 +1363,29 @@ class Calls final {
       virtual void InviteToCall(::grpc::ClientContext* context, const ::ondewo::vtsi::InviteToCallRequest* request, ::ondewo::vtsi::InviteToCallResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // <p>Hang up a participant of a call (ringing or joined). The participant ends as
       // <code>PARTICIPANT_STATE_LEFT</code> with <code>end_reason = REMOVED</code>; the call and the bot are not
-      // affected.</p>
+      // affected. Returns the participant after the request.</p>
+      // <p>Idempotent: a participant that already FAILED or LEFT (for whatever reason) is returned unchanged with OK,
+      // and nothing is sent.</p>
+      // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request; <code>NOT_FOUND</code> with
+      // <code>reason=call-not-found</code> for an unknown call or a call of another project, and with
+      // <code>reason=participant-not-found</code> for an unknown <code>participant_id</code> or a participant of
+      // another call; <code>ABORTED</code> with <code>reason=call-control-busy</code> while another call-control
+      // request for the call runs (retry); <code>UNAVAILABLE</code> with <code>reason=asterisk-unreachable</code> when
+      // the hang-up could not be sent; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_CALL_PARTICIPANT_LEFT</code> (or <code>VTSI_EVENT_CALL_PARTICIPANT_FAILED</code>
+      // for a participant that was still ringing).</p>
       // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher. Audited like <code>InviteToCall</code>.</p>
       virtual void RemoveCallParticipant(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::ondewo::vtsi::RemoveCallParticipantResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void RemoveCallParticipant(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::ondewo::vtsi::RemoveCallParticipantResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // <p>Mute the bot of a connected call and/or stop it listening to the caller, or undo either. Every request sets a
       // desired level and never toggles: a repeat answers <code>changed = false</code>. The bot stays muted while
       // anything else (a TALK take-over of <code>StreamCallAudio</code>, a participant bot policy) also holds it muted.</p>
+      // <p>Both settings <code>CALL_MEDIA_SETTING_UNCHANGED</code> is a valid read of the current state: it answers
+      // the effective <code>state</code> with <code>changed = false</code>, changes nothing, and writes no audit record
+      // and no event (see <code>SetCallMediaControlRequest.bot_voice</code>).</p>
+      // <p>Events: <code>VTSI_EVENT_CALL_BOT_MUTED</code> / <code>VTSI_EVENT_CALL_BOT_UNMUTED</code> /
+      // <code>VTSI_EVENT_CALL_LISTENING_PAUSED</code> / <code>VTSI_EVENT_CALL_LISTENING_RESUMED</code> when the
+      // effective state changed.</p>
       // <p>Errors as for <code>InviteToCall</code>, plus <code>FAILED_PRECONDITION</code> <code>reason=sip-image-too-old</code>,
       // <code>ABORTED</code> <code>reason=call-control-busy</code> (another call-control request for the call is running)
       // and <code>UNAVAILABLE</code> <code>reason=sip-unreachable</code> or <code>reason=csi-media-control-failed</code> (the
@@ -703,6 +1435,10 @@ class Calls final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallersResponse>* PrepareAsyncListCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallersRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Caller>* AsyncGetCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Caller>* PrepareAsyncGetCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallerResponse>* AsyncUpdateCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallerResponse>* PrepareAsyncUpdateCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallersResponse>* AsyncUpdateCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallersResponse>* PrepareAsyncUpdateCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallerResponse>* AsyncDeleteCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallerResponse>* PrepareAsyncDeleteCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteCallersResponse>* AsyncDeleteCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallersRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -723,6 +1459,10 @@ class Calls final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListListenersResponse>* PrepareAsyncListListenersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListListenersRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Listener>* AsyncGetListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Listener>* PrepareAsyncGetListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenerResponse>* AsyncUpdateListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenerResponse>* PrepareAsyncUpdateListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenersResponse>* AsyncUpdateListenersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateListenersResponse>* PrepareAsyncUpdateListenersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenerResponse>* AsyncDeleteListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenerResponse>* PrepareAsyncDeleteListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteListenersResponse>* AsyncDeleteListenersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenersRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -739,8 +1479,14 @@ class Calls final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>* PrepareAsyncGetScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListScheduledCallersResponse>* AsyncListScheduledCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListScheduledCallersResponse>* PrepareAsyncListScheduledCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>* AsyncUpdateScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>* PrepareAsyncUpdateScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallerResponse>* AsyncCancelScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallerResponse>* PrepareAsyncCancelScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallersResponse>* AsyncCancelScheduledCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CancelScheduledCallersResponse>* PrepareAsyncCancelScheduledCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>* AsyncRetryScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ScheduledCaller>* PrepareAsyncRetryScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallResponse>* AsyncStopCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallResponse>* PrepareAsyncStopCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>* AsyncStopCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallsRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -755,6 +1501,12 @@ class Calls final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::Call>* PrepareAsyncGetCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallsResponse>* AsyncListCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::ListCallsResponse>* PrepareAsyncListCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CallStatistics>* AsyncGetCallStatisticsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CallStatistics>* PrepareAsyncGetCallStatisticsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallResponse>* AsyncUpdateCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallResponse>* PrepareAsyncUpdateCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallsResponse>* AsyncUpdateCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::UpdateCallsResponse>* PrepareAsyncUpdateCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientReaderInterface< ::ondewo::vtsi::StreamCallResourceStatusResponse>* StreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::ondewo::vtsi::StreamCallResourceStatusResponse>* AsyncStreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::ondewo::vtsi::StreamCallResourceStatusResponse>* PrepareAsyncStreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -807,6 +1559,20 @@ class Calls final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Caller>> PrepareAsyncGetCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Caller>>(PrepareAsyncGetCallerRaw(context, request, cq));
+    }
+    ::grpc::Status UpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::ondewo::vtsi::UpdateCallerResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallerResponse>> AsyncUpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallerResponse>>(AsyncUpdateCallerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallerResponse>> PrepareAsyncUpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallerResponse>>(PrepareAsyncUpdateCallerRaw(context, request, cq));
+    }
+    ::grpc::Status UpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::ondewo::vtsi::UpdateCallersResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallersResponse>> AsyncUpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallersResponse>>(AsyncUpdateCallersRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallersResponse>> PrepareAsyncUpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallersResponse>>(PrepareAsyncUpdateCallersRaw(context, request, cq));
     }
     ::grpc::Status DeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::ondewo::vtsi::DeleteCallerResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteCallerResponse>> AsyncDeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::grpc::CompletionQueue* cq) {
@@ -878,6 +1644,20 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Listener>> PrepareAsyncGetListener(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Listener>>(PrepareAsyncGetListenerRaw(context, request, cq));
     }
+    ::grpc::Status UpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::ondewo::vtsi::UpdateListenerResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenerResponse>> AsyncUpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenerResponse>>(AsyncUpdateListenerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenerResponse>> PrepareAsyncUpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenerResponse>>(PrepareAsyncUpdateListenerRaw(context, request, cq));
+    }
+    ::grpc::Status UpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::ondewo::vtsi::UpdateListenersResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenersResponse>> AsyncUpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenersResponse>>(AsyncUpdateListenersRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenersResponse>> PrepareAsyncUpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenersResponse>>(PrepareAsyncUpdateListenersRaw(context, request, cq));
+    }
     ::grpc::Status DeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::ondewo::vtsi::DeleteListenerResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteListenerResponse>> AsyncDeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteListenerResponse>>(AsyncDeleteListenerRaw(context, request, cq));
@@ -934,12 +1714,33 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListScheduledCallersResponse>> PrepareAsyncListScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListScheduledCallersResponse>>(PrepareAsyncListScheduledCallersRaw(context, request, cq));
     }
+    ::grpc::Status UpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::ondewo::vtsi::ScheduledCaller* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>> AsyncUpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>>(AsyncUpdateScheduledCallerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>> PrepareAsyncUpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>>(PrepareAsyncUpdateScheduledCallerRaw(context, request, cq));
+    }
     ::grpc::Status CancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::ondewo::vtsi::CancelScheduledCallerResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallerResponse>> AsyncCancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallerResponse>>(AsyncCancelScheduledCallerRaw(context, request, cq));
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallerResponse>> PrepareAsyncCancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallerResponse>>(PrepareAsyncCancelScheduledCallerRaw(context, request, cq));
+    }
+    ::grpc::Status CancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::ondewo::vtsi::CancelScheduledCallersResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallersResponse>> AsyncCancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallersResponse>>(AsyncCancelScheduledCallersRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallersResponse>> PrepareAsyncCancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallersResponse>>(PrepareAsyncCancelScheduledCallersRaw(context, request, cq));
+    }
+    ::grpc::Status RetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::ondewo::vtsi::ScheduledCaller* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>> AsyncRetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>>(AsyncRetryScheduledCallerRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>> PrepareAsyncRetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>>(PrepareAsyncRetryScheduledCallerRaw(context, request, cq));
     }
     ::grpc::Status StopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::ondewo::vtsi::StopCallResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::StopCallResponse>> AsyncStopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::grpc::CompletionQueue* cq) {
@@ -989,6 +1790,27 @@ class Calls final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListCallsResponse>> PrepareAsyncListCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListCallsResponse>>(PrepareAsyncListCallsRaw(context, request, cq));
+    }
+    ::grpc::Status GetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::ondewo::vtsi::CallStatistics* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CallStatistics>> AsyncGetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CallStatistics>>(AsyncGetCallStatisticsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CallStatistics>> PrepareAsyncGetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CallStatistics>>(PrepareAsyncGetCallStatisticsRaw(context, request, cq));
+    }
+    ::grpc::Status UpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::ondewo::vtsi::UpdateCallResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallResponse>> AsyncUpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallResponse>>(AsyncUpdateCallRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallResponse>> PrepareAsyncUpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallResponse>>(PrepareAsyncUpdateCallRaw(context, request, cq));
+    }
+    ::grpc::Status UpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::ondewo::vtsi::UpdateCallsResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallsResponse>> AsyncUpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallsResponse>>(AsyncUpdateCallsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallsResponse>> PrepareAsyncUpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallsResponse>>(PrepareAsyncUpdateCallsRaw(context, request, cq));
     }
     std::unique_ptr< ::grpc::ClientReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>> StreamCallerStatus(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request) {
       return std::unique_ptr< ::grpc::ClientReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>>(StreamCallerStatusRaw(context, request));
@@ -1067,6 +1889,10 @@ class Calls final {
       void ListCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallersRequest* request, ::ondewo::vtsi::ListCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void GetCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest* request, ::ondewo::vtsi::Caller* response, std::function<void(::grpc::Status)>) override;
       void GetCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest* request, ::ondewo::vtsi::Caller* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest* request, ::ondewo::vtsi::UpdateCallerResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpdateCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest* request, ::ondewo::vtsi::UpdateCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest* request, ::ondewo::vtsi::UpdateCallersResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpdateCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest* request, ::ondewo::vtsi::UpdateCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void DeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest* request, ::ondewo::vtsi::DeleteCallerResponse* response, std::function<void(::grpc::Status)>) override;
       void DeleteCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest* request, ::ondewo::vtsi::DeleteCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void DeleteCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallersRequest* request, ::ondewo::vtsi::DeleteCallersResponse* response, std::function<void(::grpc::Status)>) override;
@@ -1087,6 +1913,10 @@ class Calls final {
       void ListListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::ListListenersRequest* request, ::ondewo::vtsi::ListListenersResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void GetListener(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest* request, ::ondewo::vtsi::Listener* response, std::function<void(::grpc::Status)>) override;
       void GetListener(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest* request, ::ondewo::vtsi::Listener* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest* request, ::ondewo::vtsi::UpdateListenerResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpdateListener(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest* request, ::ondewo::vtsi::UpdateListenerResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest* request, ::ondewo::vtsi::UpdateListenersResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpdateListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest* request, ::ondewo::vtsi::UpdateListenersResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void DeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest* request, ::ondewo::vtsi::DeleteListenerResponse* response, std::function<void(::grpc::Status)>) override;
       void DeleteListener(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest* request, ::ondewo::vtsi::DeleteListenerResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void DeleteListeners(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenersRequest* request, ::ondewo::vtsi::DeleteListenersResponse* response, std::function<void(::grpc::Status)>) override;
@@ -1103,8 +1933,14 @@ class Calls final {
       void GetScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, ::grpc::ClientUnaryReactor* reactor) override;
       void ListScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest* request, ::ondewo::vtsi::ListScheduledCallersResponse* response, std::function<void(::grpc::Status)>) override;
       void ListScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest* request, ::ondewo::vtsi::ListScheduledCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, std::function<void(::grpc::Status)>) override;
+      void UpdateScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, ::grpc::ClientUnaryReactor* reactor) override;
       void CancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest* request, ::ondewo::vtsi::CancelScheduledCallerResponse* response, std::function<void(::grpc::Status)>) override;
       void CancelScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest* request, ::ondewo::vtsi::CancelScheduledCallerResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void CancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest* request, ::ondewo::vtsi::CancelScheduledCallersResponse* response, std::function<void(::grpc::Status)>) override;
+      void CancelScheduledCallers(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest* request, ::ondewo::vtsi::CancelScheduledCallersResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void RetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, std::function<void(::grpc::Status)>) override;
+      void RetryScheduledCaller(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response, ::grpc::ClientUnaryReactor* reactor) override;
       void StopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest* request, ::ondewo::vtsi::StopCallResponse* response, std::function<void(::grpc::Status)>) override;
       void StopCall(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest* request, ::ondewo::vtsi::StopCallResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void StopCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response, std::function<void(::grpc::Status)>) override;
@@ -1119,6 +1955,12 @@ class Calls final {
       void GetCall(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallRequest* request, ::ondewo::vtsi::Call* response, ::grpc::ClientUnaryReactor* reactor) override;
       void ListCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest* request, ::ondewo::vtsi::ListCallsResponse* response, std::function<void(::grpc::Status)>) override;
       void ListCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest* request, ::ondewo::vtsi::ListCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void GetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest* request, ::ondewo::vtsi::CallStatistics* response, std::function<void(::grpc::Status)>) override;
+      void GetCallStatistics(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest* request, ::ondewo::vtsi::CallStatistics* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest* request, ::ondewo::vtsi::UpdateCallResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpdateCall(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest* request, ::ondewo::vtsi::UpdateCallResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest* request, ::ondewo::vtsi::UpdateCallsResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpdateCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest* request, ::ondewo::vtsi::UpdateCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void StreamCallerStatus(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::StreamCallResourceStatusResponse>* reactor) override;
       void StreamListenerStatus(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamListenerStatusRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::StreamCallResourceStatusResponse>* reactor) override;
       void StreamScheduledCallerStatus(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamScheduledCallerStatusRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::StreamCallResourceStatusResponse>* reactor) override;
@@ -1149,6 +1991,10 @@ class Calls final {
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListCallersResponse>* PrepareAsyncListCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallersRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Caller>* AsyncGetCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Caller>* PrepareAsyncGetCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallerResponse>* AsyncUpdateCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallerResponse>* PrepareAsyncUpdateCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallersResponse>* AsyncUpdateCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallersResponse>* PrepareAsyncUpdateCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallersRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteCallerResponse>* AsyncDeleteCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteCallerResponse>* PrepareAsyncDeleteCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteCallersResponse>* AsyncDeleteCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteCallersRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -1169,6 +2015,10 @@ class Calls final {
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListListenersResponse>* PrepareAsyncListListenersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListListenersRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Listener>* AsyncGetListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Listener>* PrepareAsyncGetListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetListenerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenerResponse>* AsyncUpdateListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenerResponse>* PrepareAsyncUpdateListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenersResponse>* AsyncUpdateListenersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateListenersResponse>* PrepareAsyncUpdateListenersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateListenersRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteListenerResponse>* AsyncDeleteListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteListenerResponse>* PrepareAsyncDeleteListenerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::DeleteListenersResponse>* AsyncDeleteListenersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteListenersRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -1185,8 +2035,14 @@ class Calls final {
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>* PrepareAsyncGetScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListScheduledCallersResponse>* AsyncListScheduledCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListScheduledCallersResponse>* PrepareAsyncListScheduledCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>* AsyncUpdateScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>* PrepareAsyncUpdateScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallerResponse>* AsyncCancelScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallerResponse>* PrepareAsyncCancelScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallersResponse>* AsyncCancelScheduledCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CancelScheduledCallersResponse>* PrepareAsyncCancelScheduledCallersRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>* AsyncRetryScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ScheduledCaller>* PrepareAsyncRetryScheduledCallerRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::StopCallResponse>* AsyncStopCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::StopCallResponse>* PrepareAsyncStopCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::StopCallsResponse>* AsyncStopCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StopCallsRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -1201,6 +2057,12 @@ class Calls final {
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::Call>* PrepareAsyncGetCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListCallsResponse>* AsyncListCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::ListCallsResponse>* PrepareAsyncListCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::ListCallsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CallStatistics>* AsyncGetCallStatisticsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::CallStatistics>* PrepareAsyncGetCallStatisticsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallResponse>* AsyncUpdateCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallResponse>* PrepareAsyncUpdateCallRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallsResponse>* AsyncUpdateCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::UpdateCallsResponse>* PrepareAsyncUpdateCallsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateCallsRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* StreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request) override;
     ::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* AsyncStreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request, ::grpc::CompletionQueue* cq, void* tag) override;
     ::grpc::ClientAsyncReader< ::ondewo::vtsi::StreamCallResourceStatusResponse>* PrepareAsyncStreamCallerStatusRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -1226,6 +2088,8 @@ class Calls final {
     const ::grpc::internal::RpcMethod rpcmethod_StartCallers_;
     const ::grpc::internal::RpcMethod rpcmethod_ListCallers_;
     const ::grpc::internal::RpcMethod rpcmethod_GetCaller_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateCaller_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateCallers_;
     const ::grpc::internal::RpcMethod rpcmethod_DeleteCaller_;
     const ::grpc::internal::RpcMethod rpcmethod_DeleteCallers_;
     const ::grpc::internal::RpcMethod rpcmethod_StopCaller_;
@@ -1236,6 +2100,8 @@ class Calls final {
     const ::grpc::internal::RpcMethod rpcmethod_StopListeners_;
     const ::grpc::internal::RpcMethod rpcmethod_ListListeners_;
     const ::grpc::internal::RpcMethod rpcmethod_GetListener_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateListener_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateListeners_;
     const ::grpc::internal::RpcMethod rpcmethod_DeleteListener_;
     const ::grpc::internal::RpcMethod rpcmethod_DeleteListeners_;
     const ::grpc::internal::RpcMethod rpcmethod_StartScheduledCaller_;
@@ -1244,7 +2110,10 @@ class Calls final {
     const ::grpc::internal::RpcMethod rpcmethod_AddScheduledCallersToCampaign_;
     const ::grpc::internal::RpcMethod rpcmethod_GetScheduledCaller_;
     const ::grpc::internal::RpcMethod rpcmethod_ListScheduledCallers_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateScheduledCaller_;
     const ::grpc::internal::RpcMethod rpcmethod_CancelScheduledCaller_;
+    const ::grpc::internal::RpcMethod rpcmethod_CancelScheduledCallers_;
+    const ::grpc::internal::RpcMethod rpcmethod_RetryScheduledCaller_;
     const ::grpc::internal::RpcMethod rpcmethod_StopCall_;
     const ::grpc::internal::RpcMethod rpcmethod_StopCalls_;
     const ::grpc::internal::RpcMethod rpcmethod_StopAllCalls_;
@@ -1252,6 +2121,9 @@ class Calls final {
     const ::grpc::internal::RpcMethod rpcmethod_TransferCalls_;
     const ::grpc::internal::RpcMethod rpcmethod_GetCall_;
     const ::grpc::internal::RpcMethod rpcmethod_ListCalls_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetCallStatistics_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateCall_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateCalls_;
     const ::grpc::internal::RpcMethod rpcmethod_StreamCallerStatus_;
     const ::grpc::internal::RpcMethod rpcmethod_StreamListenerStatus_;
     const ::grpc::internal::RpcMethod rpcmethod_StreamScheduledCallerStatus_;
@@ -1271,41 +2143,224 @@ class Calls final {
     // Caller and Listener endpoints
     // ////////////////////////////////////////////////////////////////////////////
     //
-    // <p>Start single caller instance for a specific nlu-project.</p>
+    // <p>Starts one caller in a VTSI project: an ondewo-sip container that places one outbound call to
+    // <code>sip_caller_config.callee_id</code> (or a pooled caller of the server&apos;s caller pool that runs the same
+    // configuration). The configuration is validated first, including live checks against the upstream services;
+    // nothing is started when it fails. Not idempotent: every successful request places a new call (send it as a
+    // batch of one with an <code>idempotency_key</code> to make it idempotent). <code>validate_only</code> runs the
+    // validation alone.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed or invalid request or
+    // configuration (also when the NLU credentials are refused) or an unknown <code>field_mask</code> path;
+    // <code>NOT_FOUND</code> for an unknown project; <code>FAILED_PRECONDITION</code> when an upstream config lacks
+    // the required TLS certificate (<code>UPSTREAM_TLS_REQUIRED</code>) or the project is not deployed;
+    // <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; <code>UNAVAILABLE</code> when an
+    // upstream service could not be reached; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALLER_STARTED</code> or <code>VTSI_EVENT_CALLER_START_FAILED</code>, then the
+    // events of the call (<code>VTSI_EVENT_CALL_*</code>). None with <code>validate_only</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StartCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::StartCallerRequest* request, ::ondewo::vtsi::StartCallerResponse* response);
-    // <p>Start multiple ondewo-sip callers instances for a specific nlu-project.</p>
+    // <p>Starts several callers, each like <code>StartCaller</code>. Not atomic: every caller is started on its own;
+    // a caller that fails to start is rolled back and has no entry in the response, which accounts for it in
+    // <code>StartCallersResponse.error_message</code>. The project&apos;s caller limit is checked for the batch as a
+    // whole before anything is started (<code>RESOURCE_EXHAUSTED</code>, nothing started). Idempotent per
+    // <code>idempotency_key</code>.</p>
+    // <p>Authorization: as <code>StartCaller</code>.</p>
     virtual ::grpc::Status StartCallers(::grpc::ServerContext* context, const ::ondewo::vtsi::StartCallersRequest* request, ::ondewo::vtsi::StartCallersResponse* response);
-    // <p>Lists all available callers</p>
+    // <p>Lists the callers of a VTSI project, ordered by the caller&apos;s uuid (the last segment of
+    // <code>name</code>), ascending: a stable order, not a chronological one. Paged with <code>page_size</code> /
+    // <code>page_token</code>; <code>total_size</code> counts every match.</p>
+    // <p>With <code>campaign_name</code> or <code>campaign_display_name</code> set, lists only the callers of that
+    // campaign: the callers that placed at least one attempt of one of its campaign calls (see
+    // <code>ListCallersRequest.campaign_name</code>). <code>active_only</code> and <code>sip_status_types</code>
+    // narrow the listing further.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid selector, a negative
+    // <code>page_size</code>, a <code>page_token</code> of another listing or an unknown <code>field_mask</code>
+    // path; <code>NOT_FOUND</code> for an unknown project or campaign; with authorization enforced
+    // <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status ListCallers(::grpc::ServerContext* context, const ::ondewo::vtsi::ListCallersRequest* request, ::ondewo::vtsi::ListCallersResponse* response);
-    // <p>Gets a caller</p>
+    // <p>Gets a caller, populated according to <code>call_view</code> and <code>field_mask</code>.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+    // <code>NOT_FOUND</code> for an unknown project or caller, or a caller of another project; with authorization
+    // enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status GetCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::GetCallerRequest* request, ::ondewo::vtsi::Caller* response);
-    // <p>Deletes a caller</p>
+    // <p>Updates the STORED configuration of a caller: the fields named in <code>update_mask</code>, i.e.
+    // <code>sip_caller_config</code> and <code>common_services_config</code> or any nested sub-path of them.
+    // Allowed whether or not the caller has a call running.</p>
+    // <p>A running call and its container are NEVER changed: nothing is restarted, redeployed or reconfigured,
+    // and the call goes on with the configuration its container was deployed with.</p>
+    // <p>When the stored configuration takes effect: a caller is ONE call (every <code>StartCaller</code> creates
+    // a new caller carrying its own configuration, and no RPC redeploys an existing one), so for a caller that
+    // is not pooled the update changes ONLY the stored and returned configuration and never any present or
+    // future call. The one case in which the server deploys a container from a caller&apos;s stored
+    // configuration is a POOLED (persistent) caller, which the server keeps warm between calls: when the server
+    // recycles the pooled callers of a project onto its Asterisk (an <code>UpdateVtsiProject</code> of a
+    // deployed project, the recovery after the project&apos;s Asterisk restarted, a change of the project&apos;s
+    // TLS trust anchor), the pooled caller it starts in place of this one is deployed from the stored, i.e.
+    // updated, configuration. An in-place restart of a pooled caller&apos;s container (the call monitor&apos;s
+    // health recovery) keeps the configuration the container was deployed with. Until it is recycled, an idle
+    // pooled caller is matched to later <code>StartCaller</code> requests by the configuration its container
+    // RUNS, never by an updated stored configuration it does not run.</p>
+    // <p>Updating a caller never changes a campaign: the attempts of a campaign call take their configuration
+    // from the campaign and the campaign call, never from a <code>Caller</code>.</p>
+    // <p>A STOPPED caller (its call ended and its configuration was released) has no stored configuration left:
+    // the update starts from an empty one, so it must state a complete configuration
+    // (<code>sip_caller_config</code> and <code>common_services_config</code>), and a partial one is refused as a
+    // configuration a <code>StartCallerRequest</code> would be refused for. Nothing is deployed.</p>
+    // <p>Credentials follow their endpoint: an update that MOVES an upstream (the <code>host</code>,
+    // <code>port</code> or <code>grpc_cert</code> of the NLU, S2T or T2S <code>*_base_config</code>, or the
+    // <code>host</code> / ports of <code>csi_vtsi_config.message_broker_config.rabbit_mq_config</code>) must
+    // also write every credential path of that upstream that holds a stored value -- the NLU
+    // <code>credentials</code>, <code>auth_token</code>, <code>http_basic_auth_token</code> and
+    // <code>contexts</code>, the S2T <code>s2t_transcribe_request_config</code>, the T2S
+    // <code>t2s_request_config</code>, the RabbitMQ <code>user</code> and <code>password</code> -- named itself
+    // or by a shorter path, with the values to use. A stored credential is never sent to an endpoint the request
+    // moved without restating it, also not for the live validation of the result.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed <code>caller.name</code>,
+    // an empty <code>update_mask</code>, an unknown, output-only or immutable <code>update_mask</code> path, an
+    // update that moves an upstream without restating its stored credentials (naming the paths to add), a
+    // resulting configuration that a <code>StartCallerRequest</code> carrying it would be refused for, or an
+    // unknown <code>field_mask</code> path (each naming the path or field); <code>NOT_FOUND</code> for an
+    // unknown caller or project; <code>ABORTED</code> when concurrent updates kept changing the caller, or while
+    // an update, deploy or undeploy of its project is still running (an update waits for it, for a bounded time,
+    // so that a recycle of the project cannot lose it), nothing being written (retry the request); with
+    // authorization enforced <code>PERMISSION_DENIED</code> for a project the caller holds no role on.</p>
+    // <p>Events: <code>VTSI_EVENT_CALLER_UPDATED</code> (none with <code>validate_only</code>).</p>
+    // <p>Authorization: the role that may start and stop callers of the project (<code>PROJECT_EXECUTOR</code>
+    // or higher).</p>
+    virtual ::grpc::Status UpdateCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::UpdateCallerRequest* request, ::ondewo::vtsi::UpdateCallerResponse* response);
+    // <p>Updates several callers, each like <code>UpdateCaller</code>. Not atomic: every entry is applied on its
+    // own and reported in <code>UpdateCallersResponse.update_caller_responses</code>, in request order; an entry
+    // that fails changes nothing and does not stop the others. Errors of the request as a whole (see
+    // <code>UpdateCallersRequest</code>) are gRPC status codes, and then no entry is applied.</p>
+    // <p>Authorization: as <code>UpdateCaller</code>.</p>
+    virtual ::grpc::Status UpdateCallers(::grpc::ServerContext* context, const ::ondewo::vtsi::UpdateCallersRequest* request, ::ondewo::vtsi::UpdateCallersResponse* response);
+    // <p>Deletes a caller: stops it if it still runs (hanging up its call) and removes it, so it is no longer
+    // listed or returned. Its call records (and their participants) are deleted with it and are no longer returned
+    // by <code>GetCall</code> / <code>ListCalls</code>; stop it instead to keep them.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown caller, a caller of another project, or a
+    // caller that was already deleted (so deleting is NOT idempotent: a repeat answers <code>NOT_FOUND</code>);
+    // with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALLER_DELETED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+    // was hung up).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status DeleteCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::DeleteCallerRequest* request, ::ondewo::vtsi::DeleteCallerResponse* response);
-    // <p>Deletes multiple callers</p>
+    // <p>Deletes several callers, each like <code>DeleteCaller</code>. Not atomic: every caller is deleted on its own
+    // and reported in its own entry, whose <code>error_message</code> carries the gRPC status code name
+    // <code>DeleteCaller</code> would have answered (e.g. <code>NOT_FOUND: ...</code>); an entry that fails does not
+    // stop the others. The request as a whole is refused, nothing being deleted, for no entry or more than 1000
+    // distinct names, and, when <code>vtsi_project_name</code> is set, as described there.</p>
+    // <p>Authorization: as <code>DeleteCaller</code>.</p>
     virtual ::grpc::Status DeleteCallers(::grpc::ServerContext* context, const ::ondewo::vtsi::DeleteCallersRequest* request, ::ondewo::vtsi::DeleteCallersResponse* response);
-    // <p>Stops a caller</p>
+    // <p>Stops a caller: hangs up its call if one is up and releases its container and SIP account. The caller
+    // stays listed (with <code>active = false</code>) until it is deleted, and its stored configuration stays
+    // updatable (see <code>UpdateCaller</code>). A pooled caller is taken out of the pool.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown caller, a caller of another project, or a
+    // caller that is already stopped (so stopping is NOT idempotent: a repeat answers <code>NOT_FOUND</code>); with
+    // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALLER_STOPPED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+    // was hung up).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::StopCallerRequest* request, ::ondewo::vtsi::StopCallerResponse* response);
-    // <p>Stops multiple callers</p>
+    // <p>Stops several callers, each like <code>StopCaller</code>, with the per-entry results and the request-level
+    // errors of <code>DeleteCallers</code>.</p>
+    // <p>Authorization: as <code>StopCaller</code>.</p>
     virtual ::grpc::Status StopCallers(::grpc::ServerContext* context, const ::ondewo::vtsi::StopCallersRequest* request, ::ondewo::vtsi::StopCallersResponse* response);
-    // <p>Start single listener instance for a specific nlu-project.</p>
+    // <p>Starts one listener in a VTSI project: an ondewo-sip container registered on the project&apos;s Asterisk
+    // that answers inbound calls, one after the other (persistent). Validation, <code>validate_only</code>, errors
+    // (<code>RESOURCE_EXHAUSTED</code> for the project&apos;s listener limit) and idempotency as for
+    // <code>StartCaller</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_LISTENER_STARTED</code> or <code>VTSI_EVENT_LISTENER_START_FAILED</code>. None with
+    // <code>validate_only</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StartListener(::grpc::ServerContext* context, const ::ondewo::vtsi::StartListenerRequest* request, ::ondewo::vtsi::StartListenerResponse* response);
-    // <p>Start multiple ondewo-sip listeners instances for a specific nlu-project.</p>
+    // <p>Starts several listeners, each like <code>StartListener</code>, with the batch semantics of
+    // <code>StartCallers</code> (a listener that fails to start has no entry and is accounted for in
+    // <code>StartListenersResponse.error_message</code>).</p>
+    // <p>Authorization: as <code>StartListener</code>.</p>
     virtual ::grpc::Status StartListeners(::grpc::ServerContext* context, const ::ondewo::vtsi::StartListenersRequest* request, ::ondewo::vtsi::StartListenersResponse* response);
-    // <p>Stop a ondewo-sip listeners instances for a specific nlu-project.</p>
+    // <p>Stops a listener: hangs up its call if one is up and releases its container and SIP account. A stopped
+    // listener has no stored configuration left (see <code>UpdateListener</code>). Errors and idempotency as for
+    // <code>StopCaller</code> (a listener that is already stopped is <code>NOT_FOUND</code>).</p>
+    // <p>Events: <code>VTSI_EVENT_LISTENER_STOPPED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+    // was hung up).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopListener(::grpc::ServerContext* context, const ::ondewo::vtsi::StopListenerRequest* request, ::ondewo::vtsi::StopListenerResponse* response);
-    // <p>Stop multiple ondewo-sip listeners instances for a specific nlu-project.</p>
+    // <p>Stops several listeners, each like <code>StopListener</code>, with the per-entry results and the
+    // request-level errors of <code>DeleteCallers</code>.</p>
+    // <p>Authorization: as <code>StopListener</code>.</p>
     virtual ::grpc::Status StopListeners(::grpc::ServerContext* context, const ::ondewo::vtsi::StopListenersRequest* request, ::ondewo::vtsi::StopListenersResponse* response);
-    // <p>Lists all available listeners</p>
+    // <p>Lists the listeners of a VTSI project, ordered by the listener&apos;s uuid (the last segment of
+    // <code>name</code>), ascending. Paging, <code>total_size</code>, filters and errors as for
+    // <code>ListCallers</code> (without a campaign selector).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status ListListeners(::grpc::ServerContext* context, const ::ondewo::vtsi::ListListenersRequest* request, ::ondewo::vtsi::ListListenersResponse* response);
-    // <p>Gets a listener</p>
+    // <p>Gets a listener, populated according to <code>call_view</code> and <code>field_mask</code>. Errors as for
+    // <code>GetCaller</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status GetListener(::grpc::ServerContext* context, const ::ondewo::vtsi::GetListenerRequest* request, ::ondewo::vtsi::Listener* response);
-    // <p>Deletes a listener</p>
+    // <p>Updates the STORED configuration of a listener: the fields named in <code>update_mask</code>, i.e.
+    // <code>sip_base_config</code> and <code>common_services_config</code> or any nested sub-path of them.
+    // Allowed whether or not the listener&apos;s container is running or has a call, as long as the listener is
+    // DEPLOYED: a stopped listener has no stored configuration (it is deployed again only by a
+    // <code>StartListener</code> carrying a complete one) and is <code>NOT_FOUND</code>, unlike a stopped caller,
+    // which <code>UpdateCaller</code> accepts with a complete configuration.</p>
+    // <p>A running container and every call it takes are NEVER changed: nothing is restarted, redeployed or
+    // reconfigured, and the running container answers its calls with the configuration it was deployed with
+    // until it is replaced.</p>
+    // <p>When the stored configuration takes effect: only when the server RECREATES the listener from it, i.e.
+    // when it recycles the listeners of the project onto its Asterisk: an <code>UpdateVtsiProject</code> of a
+    // deployed project, the recovery after the project&apos;s Asterisk restarted, or a change of the
+    // project&apos;s TLS trust anchor. The listener the server starts in place of this one is deployed from the
+    // stored, i.e. updated, configuration. An in-place restart of the listener&apos;s container (the
+    // server&apos;s restore of listener containers when it starts, the call monitor&apos;s restart of an
+    // unhealthy container, a <code>docker restart</code>) keeps the configuration the container was deployed
+    // with. A listener that is never recycled keeps the update only as its stored (and returned)
+    // configuration.</p>
+    // <p>Errors as for <code>UpdateCaller</code> (the credential rule included), with
+    // <code>StartListenerRequest</code> as the validation of the resulting configuration, and
+    // <code>NOT_FOUND</code> also for a stopped listener.</p>
+    // <p>Events: <code>VTSI_EVENT_LISTENER_UPDATED</code> (none with <code>validate_only</code>).</p>
+    // <p>Authorization: the role that may start and stop listeners of the project (<code>PROJECT_EXECUTOR</code>
+    // or higher).</p>
+    virtual ::grpc::Status UpdateListener(::grpc::ServerContext* context, const ::ondewo::vtsi::UpdateListenerRequest* request, ::ondewo::vtsi::UpdateListenerResponse* response);
+    // <p>Updates several listeners, each like <code>UpdateListener</code>, with the per-entry results and the
+    // request-level errors of <code>UpdateCallers</code>.</p>
+    // <p>Authorization: as <code>UpdateListener</code>.</p>
+    virtual ::grpc::Status UpdateListeners(::grpc::ServerContext* context, const ::ondewo::vtsi::UpdateListenersRequest* request, ::ondewo::vtsi::UpdateListenersResponse* response);
+    // <p>Deletes a listener: stops it if it still runs (hanging up its call) and removes it, with its call
+    // records, like <code>DeleteCaller</code>. Errors and idempotency as for <code>DeleteCaller</code> (a repeat
+    // answers <code>NOT_FOUND</code>).</p>
+    // <p>Events: <code>VTSI_EVENT_LISTENER_DELETED</code> (and <code>VTSI_EVENT_CALL_STOPPED</code> for a call that
+    // was hung up).</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status DeleteListener(::grpc::ServerContext* context, const ::ondewo::vtsi::DeleteListenerRequest* request, ::ondewo::vtsi::DeleteListenerResponse* response);
-    // <p>Deletes multiple listeners</p>
+    // <p>Deletes several listeners, each like <code>DeleteListener</code>, with the per-entry results and the
+    // request-level errors of <code>DeleteCallers</code>.</p>
+    // <p>Authorization: as <code>DeleteListener</code>.</p>
     virtual ::grpc::Status DeleteListeners(::grpc::ServerContext* context, const ::ondewo::vtsi::DeleteListenersRequest* request, ::ondewo::vtsi::DeleteListenersResponse* response);
-    // <p>Start a single ondewo-sip caller instance at a scheduled time</p>
+    // <p>Creates a scheduled caller: a caller that the server starts at or after <code>scheduled_time</code>, like a
+    // <code>StartCaller</code> of the stored request. The request is checked structurally now; the live checks of
+    // the configuration run when it fires, and a failure then leaves the scheduled caller
+    // <code>SCHEDULED_CALLER_STATUS_FAILED</code> with its <code>error_message</code>. A <code>scheduled_time</code> in
+    // the past is due at once. Not idempotent (use <code>StartScheduledCallers</code> with an
+    // <code>idempotency_key</code>).</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed request, a missing
+    // <code>scheduled_time</code>, a nested request with its own <code>field_mask</code> or
+    // <code>validate_only</code>, or an unknown <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown
+    // project; <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; with authorization
+    // enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CREATED</code>; later <code>VTSI_EVENT_SCHEDULED_CALLER_FIRED</code>,
+    // <code>VTSI_EVENT_SCHEDULED_CALLER_RETRY_SCHEDULED</code> or <code>VTSI_EVENT_SCHEDULED_CALLER_FAILED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StartScheduledCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::StartScheduledCallerRequest* request, ::ondewo::vtsi::StartScheduledCallerResponse* response);
-    // <p>Start multiple ondewo-sip caller instances, each at its own scheduled time</p>
+    // <p>Creates several scheduled callers, each like <code>StartScheduledCaller</code>, at most 1000. Not atomic: an
+    // entry that fails is reported in its own <code>error_message</code> and does not stop the others. Idempotent
+    // per <code>idempotency_key</code>.</p>
+    // <p>Authorization: as <code>StartScheduledCaller</code>.</p>
     virtual ::grpc::Status StartScheduledCallers(::grpc::ServerContext* context, const ::ondewo::vtsi::StartScheduledCallersRequest* request, ::ondewo::vtsi::StartScheduledCallersResponse* response);
     // <p>Adds callers to a campaign instead of starting them. The campaign then starts them, at most
     // <code>max_parallel_calls</code> at a time. The request is atomic: either the campaign (when new), every
@@ -1317,24 +2372,109 @@ class Calls final {
     // free slot, and follows the campaign&apos;s retries, stop and hard stop. Same atomicity, errors and rolling-update
     // behaviour as <code>AddCallersToCampaign</code>.</p>
     virtual ::grpc::Status AddScheduledCallersToCampaign(::grpc::ServerContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* request, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* response);
-    // <p>Gets a scheduled caller</p>
+    // <p>Gets a scheduled caller, populated according to <code>call_view</code> and <code>field_mask</code>.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+    // <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of another project; with
+    // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status GetScheduledCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response);
-    // <p>Lists the scheduled callers of a vtsi-project</p>
+    // <p>Lists the scheduled callers of a VTSI project, ordered by <code>scheduled_time</code>, oldest first,
+    // optionally narrowed by state, campaign and a <code>scheduled_time</code> window. Paging,
+    // <code>total_size</code> and errors as for <code>ListCallers</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status ListScheduledCallers(::grpc::ServerContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest* request, ::ondewo::vtsi::ListScheduledCallersResponse* response);
-    // <p>Cancels a scheduled caller that has not fired yet</p>
+    // <p>Changes the <code>scheduled_time</code> and/or the <code>sip_caller_config.sip_headers</code> of a scheduled
+    // caller that has not fired yet; the only updatable <code>update_mask</code> paths (see
+    // <code>UpdateScheduledCallerRequest.update_mask</code>). Allowed only while the status is
+    // <code>SCHEDULED_CALLER_STATUS_PENDING</code>; for a scheduled caller of a campaign only while its campaign call
+    // is <code>CAMPAIGN_CALL_STATE_NOT_STARTED</code> (a retry of a campaign call is timed by the campaign&apos;s
+    // <code>retry_delay</code>). The check and the write are one atomic step, so a scheduled caller that fires
+    // concurrently is either updated before it fires or refused. Updating to the stored values is accepted and
+    // changes nothing.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name, an empty
+    // <code>update_mask</code>, a path that is not updatable, an unset <code>scheduled_time</code> named by the
+    // mask, invalid <code>sip_headers</code>, or an unknown <code>field_mask</code> path (each naming the path);
+    // <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of another project;
+    // <code>FAILED_PRECONDITION</code> when it is no longer PENDING (<code>reason=not-pending</code>) or its campaign
+    // call has started (<code>reason=campaign-call-started</code>); with authorization enforced
+    // <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_UPDATED</code> when something changed.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
+    virtual ::grpc::Status UpdateScheduledCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response);
+    // <p>Cancels a scheduled caller that has not fired yet: a PENDING scheduled caller becomes
+    // <code>SCHEDULED_CALLER_STATUS_CANCELLED</code> and never fires. A scheduled caller that is no longer PENDING
+    // (firing, done, failed or already cancelled) is not an error: the response says <code>cancelled = false</code>
+    // and carries its current <code>status</code>, so cancelling is idempotent.</p>
     // <p>A scheduled caller of a campaign can be cancelled while its campaign call is
     // <code>CAMPAIGN_CALL_STATE_NOT_STARTED</code> or <code>CAMPAIGN_CALL_STATE_RETRY_PENDING</code>;
     // the campaign call then becomes <code>CAMPAIGN_CALL_STATE_CANCELLED</code>. While an attempt is
     // <code>DISPATCHING</code> or <code>IN_PROGRESS</code> the request is refused:
-    // <code>cancelled = false</code> and the scheduled caller keeps its status.</p>
+    // <code>cancelled = false</code>, an <code>error_message</code> saying why, and the scheduled caller keeps its
+    // status.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of
+    // another project; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CANCELLED</code>, only when <code>cancelled = true</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status CancelScheduledCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest* request, ::ondewo::vtsi::CancelScheduledCallerResponse* response);
-    // <p>Stop/kill a ondewo-sip listener or caller instance for a specific vtsi-project.</p>
+    // <p>Cancels several scheduled callers, each like <code>CancelScheduledCaller</code>, at most 1000. Not atomic:
+    // every entry is applied on its own and reported in <code>CancelScheduledCallersResponse</code>, in request
+    // order; a failed entry carries an <code>error_message</code> prefixed with the gRPC status code name
+    // <code>CancelScheduledCaller</code> would have answered (e.g. <code>NOT_FOUND: ...</code>) and does not stop
+    // the others. Errors of the request as a whole (see <code>CancelScheduledCallersRequest</code>) are gRPC status
+    // codes, and then nothing is cancelled.</p>
+    // <p>Events: one <code>VTSI_EVENT_SCHEDULED_CALLER_CANCELLED</code> per entry with <code>cancelled = true</code>.</p>
+    // <p>Authorization: as <code>CancelScheduledCaller</code>.</p>
+    virtual ::grpc::Status CancelScheduledCallers(::grpc::ServerContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest* request, ::ondewo::vtsi::CancelScheduledCallersResponse* response);
+    // <p>Retries a FAILED scheduled caller by creating a NEW scheduled caller from its stored request: the same
+    // <code>sip_caller_config</code> and <code>common_services_config</code>, <code>status = PENDING</code>, the
+    // <code>scheduled_time</code> of the request (unset: now), and <code>retry_of_scheduled_caller_name</code> naming
+    // the failed one, whose <code>retried_by_scheduled_caller_name</code> is set to the new one in the same atomic
+    // step. The failed scheduled caller itself is not changed otherwise, so its <code>error_message</code> and
+    // <code>fired_at</code> stay as the history of the failed attempt. Returns the new scheduled caller.</p>
+    // <p>Idempotency: a FAILED scheduled caller is retried at most once. A repeat of the request answers
+    // <code>ALREADY_EXISTS</code> naming the retry in its message (read
+    // <code>retried_by_scheduled_caller_name</code>); to retry again after the retry failed too, retry the new
+    // one.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or scheduled caller, or one of
+    // another project; <code>FAILED_PRECONDITION</code> for a scheduled caller that is not
+    // <code>SCHEDULED_CALLER_STATUS_FAILED</code> (<code>reason=not-failed</code>) or that belongs to a campaign
+    // (<code>reason=campaign-scheduled-caller</code>: a campaign call is retried by the campaign&apos;s
+    // <code>max_attempts</code>); <code>ALREADY_EXISTS</code> when it was already retried;
+    // <code>RESOURCE_EXHAUSTED</code> when the project reached its caller limit; with authorization enforced
+    // <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SCHEDULED_CALLER_CREATED</code> for the new scheduled caller.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
+    virtual ::grpc::Status RetryScheduledCaller(::grpc::ServerContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response);
+    // <p>Stops a call: hangs it up if it is still active and stops (releases) the listener or caller that serves
+    // it, like <code>StopCaller</code> / <code>StopListener</code>. A call that already ended is not an error: its
+    // listener or caller is still released if it is deployed, and when there was nothing left to release the
+    // response carries <code>error_message = Call ... was not released</code>, so a repeat succeeds with that
+    // message.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed request or an unknown
+    // <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or call, or a call of another
+    // project; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_STOPPED</code>, and <code>VTSI_EVENT_CALLER_STOPPED</code> /
+    // <code>VTSI_EVENT_LISTENER_STOPPED</code> for the released resource.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopCall(::grpc::ServerContext* context, const ::ondewo::vtsi::StopCallRequest* request, ::ondewo::vtsi::StopCallResponse* response);
-    // <p>Stop/kill a list of ondewo-sip listener or caller instances for a specific vtsi-project.</p>
-    // <p>Stops both Listener and Caller calls</p>
+    // <p>Stops several calls of one project, each like <code>StopCall</code>, at most 1000 distinct names. Not
+    // atomic: every call is stopped on its own and reported in its own entry, in request order; a failed entry
+    // carries an <code>error_message</code> prefixed with the gRPC status code name <code>StopCall</code> would have
+    // answered and does not stop the others. No entry, more than 1000 names or a malformed
+    // <code>vtsi_project_name</code> is <code>INVALID_ARGUMENT</code>, an unknown project <code>NOT_FOUND</code>, and
+    // then nothing is stopped.</p>
+    // <p>Authorization: as <code>StopCall</code>.</p>
     virtual ::grpc::Status StopCalls(::grpc::ServerContext* context, const ::ondewo::vtsi::StopCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response);
-    // <p>Stop/kill all ondewo-sip listener or caller instance for a specific nlu-project.</p>
-    // <p>Stops all Listener and Caller calls</p>
+    // <p>Stops every call of a VTSI project (listener and caller calls alike), or, with
+    // <code>call_filter</code>, those it matches, each like <code>StopCall</code>. Not atomic and not bounded in
+    // size; a project with nothing to stop answers an empty response, so the RPC is idempotent. If a stop fails
+    // part-way, the remaining calls are still stopped one by one and every call gets its own entry.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid <code>call_filter</code> or an
+    // unknown <code>field_mask</code> path; <code>NOT_FOUND</code> for an unknown project or campaign; with
+    // authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopAllCalls(::grpc::ServerContext* context, const ::ondewo::vtsi::StopAllCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response);
     // <p>Transfer a call to a phone number, a softphone account, another listener or the listener queue.</p>
     // <p>The target is either the typed <code>target</code> or the legacy raw <code>transfer_id</code>, never both. It is
@@ -1355,16 +2495,63 @@ class Calls final {
     // <code>FAILED_PRECONDITION</code> with <code>reason=call-supervision-requires-auth</code> when auth is not enforced.
     // Every action writes an audit record (who, call, when, mode, target). No announcement is played to the caller.</p>
     virtual ::grpc::Status TransferCall(::grpc::ServerContext* context, const ::ondewo::vtsi::TransferCallRequest* request, ::ondewo::vtsi::TransferCallResponse* response);
-    // <p>Transfer several calls, each like <code>TransferCall</code>.</p>
+    // <p>Transfer several calls, each like <code>TransferCall</code>, at most 1000. Not atomic: every transfer is
+    // run on its own and reported in its own entry, in request order; an entry <code>TransferCall</code> would have
+    // refused with a gRPC status carries that refusal in its <code>error_message</code> (prefixed with the status
+    // code name) and does not stop the others. Idempotent per entry <code>request_id</code>.</p>
     // <p>Authorization: requires the role <code>PROJECT_DEVELOPER</code> or higher on the project, and the server&apos;s
     // Keycloak auth mode <code>ENFORCE</code>; otherwise <code>PERMISSION_DENIED</code>, or
     // <code>FAILED_PRECONDITION</code> with <code>reason=call-supervision-requires-auth</code> when auth is not enforced.
     // Every action writes an audit record (who, call, when, mode, target). No announcement is played to the caller.</p>
     virtual ::grpc::Status TransferCalls(::grpc::ServerContext* context, const ::ondewo::vtsi::TransferCallsRequest* request, ::ondewo::vtsi::TransferCallsResponse* response);
-    // <p>Get call log for single call instance</p>
+    // <p>Gets a call, populated according to <code>call_view</code> and <code>field_mask</code> (the call&apos;s log
+    // lines are read with <code>Logs.ListCallLogs</code>). <code>FULL</code> also returns every participant ever
+    // invited into the call (see <code>Call.participants</code>).</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed name or an unknown <code>field_mask</code> path;
+    // <code>NOT_FOUND</code> for an unknown project or call, or a call of another project; with authorization
+    // enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status GetCall(::grpc::ServerContext* context, const ::ondewo::vtsi::GetCallRequest* request, ::ondewo::vtsi::Call* response);
-    // <p>Get call log for all call instances</p>
+    // <p>Lists the calls of a VTSI project, ended ones included, narrowed by <code>call_filter</code>, ordered by
+    // <code>call_sorting</code> (default: by <code>start_time</code>, oldest first) and paged with
+    // <code>page_size</code> / <code>page_token</code>; <code>total_size</code> counts every match.</p>
+    // <p>With <code>call_filter.campaign_name</code> or <code>call_filter.campaign_display_name</code> set, lists
+    // only the calls of that campaign: the calls placed by the attempts of its campaign calls.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request, an invalid filter, a negative
+    // <code>page_size</code>, a <code>page_token</code> of another listing or an unknown <code>field_mask</code>
+    // path; <code>NOT_FOUND</code> for an unknown project or campaign; with authorization enforced
+    // <code>PERMISSION_DENIED</code>.</p>
+    // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status ListCalls(::grpc::ServerContext* context, const ::ondewo::vtsi::ListCallsRequest* request, ::ondewo::vtsi::ListCallsResponse* response);
+    // <p>Aggregate figures (totals, active calls, counts by SIP status type, by call type, by AMD verdict and by
+    // transfer outcome, durations, redial recommendations) over the calls of a VTSI project that
+    // <code>call_filter</code> matches; see <code>CallStatistics</code>. Read only, no side effect.</p>
+    // <p>Errors: as for <code>ListCalls</code> (an invalid filter is <code>INVALID_ARGUMENT</code>, an unknown project
+    // or campaign <code>NOT_FOUND</code>).</p>
+    // <p>Authorization: as <code>ListCalls</code> (<code>PROJECT_EXECUTOR</code> or higher on the project).</p>
+    virtual ::grpc::Status GetCallStatistics(::grpc::ServerContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest* request, ::ondewo::vtsi::CallStatistics* response);
+    // <p>Updates the descriptive metadata of a call: the only updatable <code>update_mask</code> path is
+    // <code>labels</code>. Allowed on active and ended calls. Refused for the WAITING call of a persistent
+    // listener or a pooled caller (status <code>NO_ONGOING_CALL</code>, not active: the record that waits for the
+    // next call, which <code>ListCalls</code> returns too) with <code>FAILED_PRECONDITION</code> and
+    // <code>reason=call-not-started</code> in the details: label the call once it has started. It changes only
+    // the stored call record: the live call, its SIP container, its status and its media are never touched, and
+    // nothing is sent to the call. Idempotent: writing the stored labels again changes nothing.</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_UPDATED</code> when the labels changed.</p>
+    // <p>Errors are gRPC status codes: <code>INVALID_ARGUMENT</code> for a malformed <code>call.name</code>, an
+    // empty <code>update_mask</code>, any path other than <code>labels</code> (every other field of a
+    // <code>Call</code> is output only), a path below <code>labels</code>, labels outside the bounds of
+    // <code>Call.labels</code>, or an unknown <code>field_mask</code> path (each naming the path or label);
+    // <code>NOT_FOUND</code> for an unknown call or project; <code>FAILED_PRECONDITION</code>
+    // (<code>reason=call-not-started</code>) for a waiting call; with authorization enforced
+    // <code>PERMISSION_DENIED</code> for a project the caller holds no role on.</p>
+    // <p>Authorization: the role that may stop calls of the project (<code>PROJECT_EXECUTOR</code> or
+    // higher).</p>
+    virtual ::grpc::Status UpdateCall(::grpc::ServerContext* context, const ::ondewo::vtsi::UpdateCallRequest* request, ::ondewo::vtsi::UpdateCallResponse* response);
+    // <p>Updates several calls, each like <code>UpdateCall</code>, with the per-entry results and the
+    // request-level errors of <code>UpdateCallers</code>.</p>
+    // <p>Authorization: as <code>UpdateCall</code>.</p>
+    virtual ::grpc::Status UpdateCalls(::grpc::ServerContext* context, const ::ondewo::vtsi::UpdateCallsRequest* request, ::ondewo::vtsi::UpdateCallsResponse* response);
     // ////////////////////////////////////////////////////////////////////////////
     // Status stream endpoints
     // ////////////////////////////////////////////////////////////////////////////
@@ -1408,12 +2595,28 @@ class Calls final {
     virtual ::grpc::Status InviteToCall(::grpc::ServerContext* context, const ::ondewo::vtsi::InviteToCallRequest* request, ::ondewo::vtsi::InviteToCallResponse* response);
     // <p>Hang up a participant of a call (ringing or joined). The participant ends as
     // <code>PARTICIPANT_STATE_LEFT</code> with <code>end_reason = REMOVED</code>; the call and the bot are not
-    // affected.</p>
+    // affected. Returns the participant after the request.</p>
+    // <p>Idempotent: a participant that already FAILED or LEFT (for whatever reason) is returned unchanged with OK,
+    // and nothing is sent.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> for a malformed request; <code>NOT_FOUND</code> with
+    // <code>reason=call-not-found</code> for an unknown call or a call of another project, and with
+    // <code>reason=participant-not-found</code> for an unknown <code>participant_id</code> or a participant of
+    // another call; <code>ABORTED</code> with <code>reason=call-control-busy</code> while another call-control
+    // request for the call runs (retry); <code>UNAVAILABLE</code> with <code>reason=asterisk-unreachable</code> when
+    // the hang-up could not be sent; with authorization enforced <code>PERMISSION_DENIED</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_PARTICIPANT_LEFT</code> (or <code>VTSI_EVENT_CALL_PARTICIPANT_FAILED</code>
+    // for a participant that was still ringing).</p>
     // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher. Audited like <code>InviteToCall</code>.</p>
     virtual ::grpc::Status RemoveCallParticipant(::grpc::ServerContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::ondewo::vtsi::RemoveCallParticipantResponse* response);
     // <p>Mute the bot of a connected call and/or stop it listening to the caller, or undo either. Every request sets a
     // desired level and never toggles: a repeat answers <code>changed = false</code>. The bot stays muted while
     // anything else (a TALK take-over of <code>StreamCallAudio</code>, a participant bot policy) also holds it muted.</p>
+    // <p>Both settings <code>CALL_MEDIA_SETTING_UNCHANGED</code> is a valid read of the current state: it answers
+    // the effective <code>state</code> with <code>changed = false</code>, changes nothing, and writes no audit record
+    // and no event (see <code>SetCallMediaControlRequest.bot_voice</code>).</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_BOT_MUTED</code> / <code>VTSI_EVENT_CALL_BOT_UNMUTED</code> /
+    // <code>VTSI_EVENT_CALL_LISTENING_PAUSED</code> / <code>VTSI_EVENT_CALL_LISTENING_RESUMED</code> when the
+    // effective state changed.</p>
     // <p>Errors as for <code>InviteToCall</code>, plus <code>FAILED_PRECONDITION</code> <code>reason=sip-image-too-old</code>,
     // <code>ABORTED</code> <code>reason=call-control-busy</code> (another call-control request for the call is running)
     // and <code>UNAVAILABLE</code> <code>reason=sip-unreachable</code> or <code>reason=csi-media-control-failed</code> (the
@@ -1531,12 +2734,52 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_UpdateCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateCaller() {
+      ::grpc::Service::MarkMethodAsync(4);
+    }
+    ~WithAsyncMethod_UpdateCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallerRequest* /*request*/, ::ondewo::vtsi::UpdateCallerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCaller(::grpc::ServerContext* context, ::ondewo::vtsi::UpdateCallerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::UpdateCallerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpdateCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateCallers() {
+      ::grpc::Service::MarkMethodAsync(5);
+    }
+    ~WithAsyncMethod_UpdateCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallersRequest* /*request*/, ::ondewo::vtsi::UpdateCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCallers(::grpc::ServerContext* context, ::ondewo::vtsi::UpdateCallersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::UpdateCallersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_DeleteCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteCaller() {
-      ::grpc::Service::MarkMethodAsync(4);
+      ::grpc::Service::MarkMethodAsync(6);
     }
     ~WithAsyncMethod_DeleteCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1547,7 +2790,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteCaller(::grpc::ServerContext* context, ::ondewo::vtsi::DeleteCallerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::DeleteCallerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1556,7 +2799,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteCallers() {
-      ::grpc::Service::MarkMethodAsync(5);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_DeleteCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1567,7 +2810,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteCallers(::grpc::ServerContext* context, ::ondewo::vtsi::DeleteCallersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::DeleteCallersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1576,7 +2819,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StopCaller() {
-      ::grpc::Service::MarkMethodAsync(6);
+      ::grpc::Service::MarkMethodAsync(8);
     }
     ~WithAsyncMethod_StopCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1587,7 +2830,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopCaller(::grpc::ServerContext* context, ::ondewo::vtsi::StopCallerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StopCallerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1596,7 +2839,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StopCallers() {
-      ::grpc::Service::MarkMethodAsync(7);
+      ::grpc::Service::MarkMethodAsync(9);
     }
     ~WithAsyncMethod_StopCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1607,7 +2850,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopCallers(::grpc::ServerContext* context, ::ondewo::vtsi::StopCallersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StopCallersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1616,7 +2859,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StartListener() {
-      ::grpc::Service::MarkMethodAsync(8);
+      ::grpc::Service::MarkMethodAsync(10);
     }
     ~WithAsyncMethod_StartListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1627,7 +2870,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStartListener(::grpc::ServerContext* context, ::ondewo::vtsi::StartListenerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StartListenerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1636,7 +2879,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StartListeners() {
-      ::grpc::Service::MarkMethodAsync(9);
+      ::grpc::Service::MarkMethodAsync(11);
     }
     ~WithAsyncMethod_StartListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1647,7 +2890,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStartListeners(::grpc::ServerContext* context, ::ondewo::vtsi::StartListenersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StartListenersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1656,7 +2899,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StopListener() {
-      ::grpc::Service::MarkMethodAsync(10);
+      ::grpc::Service::MarkMethodAsync(12);
     }
     ~WithAsyncMethod_StopListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1667,7 +2910,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopListener(::grpc::ServerContext* context, ::ondewo::vtsi::StopListenerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StopListenerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1676,7 +2919,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StopListeners() {
-      ::grpc::Service::MarkMethodAsync(11);
+      ::grpc::Service::MarkMethodAsync(13);
     }
     ~WithAsyncMethod_StopListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1687,7 +2930,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopListeners(::grpc::ServerContext* context, ::ondewo::vtsi::StopListenersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StopListenersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1696,7 +2939,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListListeners() {
-      ::grpc::Service::MarkMethodAsync(12);
+      ::grpc::Service::MarkMethodAsync(14);
     }
     ~WithAsyncMethod_ListListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1707,7 +2950,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListListeners(::grpc::ServerContext* context, ::ondewo::vtsi::ListListenersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::ListListenersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1716,7 +2959,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetListener() {
-      ::grpc::Service::MarkMethodAsync(13);
+      ::grpc::Service::MarkMethodAsync(15);
     }
     ~WithAsyncMethod_GetListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1727,7 +2970,47 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetListener(::grpc::ServerContext* context, ::ondewo::vtsi::GetListenerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::Listener>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpdateListener : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateListener() {
+      ::grpc::Service::MarkMethodAsync(16);
+    }
+    ~WithAsyncMethod_UpdateListener() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListener(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenerRequest* /*request*/, ::ondewo::vtsi::UpdateListenerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateListener(::grpc::ServerContext* context, ::ondewo::vtsi::UpdateListenerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::UpdateListenerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpdateListeners : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateListeners() {
+      ::grpc::Service::MarkMethodAsync(17);
+    }
+    ~WithAsyncMethod_UpdateListeners() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListeners(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenersRequest* /*request*/, ::ondewo::vtsi::UpdateListenersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateListeners(::grpc::ServerContext* context, ::ondewo::vtsi::UpdateListenersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::UpdateListenersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1736,7 +3019,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteListener() {
-      ::grpc::Service::MarkMethodAsync(14);
+      ::grpc::Service::MarkMethodAsync(18);
     }
     ~WithAsyncMethod_DeleteListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1747,7 +3030,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteListener(::grpc::ServerContext* context, ::ondewo::vtsi::DeleteListenerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::DeleteListenerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1756,7 +3039,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteListeners() {
-      ::grpc::Service::MarkMethodAsync(15);
+      ::grpc::Service::MarkMethodAsync(19);
     }
     ~WithAsyncMethod_DeleteListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1767,7 +3050,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteListeners(::grpc::ServerContext* context, ::ondewo::vtsi::DeleteListenersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::DeleteListenersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1776,7 +3059,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StartScheduledCaller() {
-      ::grpc::Service::MarkMethodAsync(16);
+      ::grpc::Service::MarkMethodAsync(20);
     }
     ~WithAsyncMethod_StartScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1787,7 +3070,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStartScheduledCaller(::grpc::ServerContext* context, ::ondewo::vtsi::StartScheduledCallerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StartScheduledCallerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1796,7 +3079,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StartScheduledCallers() {
-      ::grpc::Service::MarkMethodAsync(17);
+      ::grpc::Service::MarkMethodAsync(21);
     }
     ~WithAsyncMethod_StartScheduledCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1807,7 +3090,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStartScheduledCallers(::grpc::ServerContext* context, ::ondewo::vtsi::StartScheduledCallersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StartScheduledCallersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(21, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1816,7 +3099,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_AddCallersToCampaign() {
-      ::grpc::Service::MarkMethodAsync(18);
+      ::grpc::Service::MarkMethodAsync(22);
     }
     ~WithAsyncMethod_AddCallersToCampaign() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1827,7 +3110,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddCallersToCampaign(::grpc::ServerContext* context, ::ondewo::vtsi::AddCallersToCampaignRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::AddCallersToCampaignResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1836,7 +3119,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_AddScheduledCallersToCampaign() {
-      ::grpc::Service::MarkMethodAsync(19);
+      ::grpc::Service::MarkMethodAsync(23);
     }
     ~WithAsyncMethod_AddScheduledCallersToCampaign() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1847,7 +3130,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddScheduledCallersToCampaign(::grpc::ServerContext* context, ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1856,7 +3139,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetScheduledCaller() {
-      ::grpc::Service::MarkMethodAsync(20);
+      ::grpc::Service::MarkMethodAsync(24);
     }
     ~WithAsyncMethod_GetScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1867,7 +3150,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetScheduledCaller(::grpc::ServerContext* context, ::ondewo::vtsi::GetScheduledCallerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::ScheduledCaller>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(24, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1876,7 +3159,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListScheduledCallers() {
-      ::grpc::Service::MarkMethodAsync(21);
+      ::grpc::Service::MarkMethodAsync(25);
     }
     ~WithAsyncMethod_ListScheduledCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1887,7 +3170,27 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListScheduledCallers(::grpc::ServerContext* context, ::ondewo::vtsi::ListScheduledCallersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::ListScheduledCallersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(21, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(25, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpdateScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateScheduledCaller() {
+      ::grpc::Service::MarkMethodAsync(26);
+    }
+    ~WithAsyncMethod_UpdateScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateScheduledCaller(::grpc::ServerContext* context, ::ondewo::vtsi::UpdateScheduledCallerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::ScheduledCaller>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1896,7 +3199,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_CancelScheduledCaller() {
-      ::grpc::Service::MarkMethodAsync(22);
+      ::grpc::Service::MarkMethodAsync(27);
     }
     ~WithAsyncMethod_CancelScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1907,7 +3210,47 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCancelScheduledCaller(::grpc::ServerContext* context, ::ondewo::vtsi::CancelScheduledCallerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::CancelScheduledCallerResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(27, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_CancelScheduledCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_CancelScheduledCallers() {
+      ::grpc::Service::MarkMethodAsync(28);
+    }
+    ~WithAsyncMethod_CancelScheduledCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelScheduledCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::CancelScheduledCallersRequest* /*request*/, ::ondewo::vtsi::CancelScheduledCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCancelScheduledCallers(::grpc::ServerContext* context, ::ondewo::vtsi::CancelScheduledCallersRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::CancelScheduledCallersResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(28, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RetryScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RetryScheduledCaller() {
+      ::grpc::Service::MarkMethodAsync(29);
+    }
+    ~WithAsyncMethod_RetryScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RetryScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::RetryScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRetryScheduledCaller(::grpc::ServerContext* context, ::ondewo::vtsi::RetryScheduledCallerRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::ScheduledCaller>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(29, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1916,7 +3259,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StopCall() {
-      ::grpc::Service::MarkMethodAsync(23);
+      ::grpc::Service::MarkMethodAsync(30);
     }
     ~WithAsyncMethod_StopCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1927,7 +3270,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopCall(::grpc::ServerContext* context, ::ondewo::vtsi::StopCallRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StopCallResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(30, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1936,7 +3279,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StopCalls() {
-      ::grpc::Service::MarkMethodAsync(24);
+      ::grpc::Service::MarkMethodAsync(31);
     }
     ~WithAsyncMethod_StopCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1947,7 +3290,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopCalls(::grpc::ServerContext* context, ::ondewo::vtsi::StopCallsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StopCallsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(24, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(31, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1956,7 +3299,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StopAllCalls() {
-      ::grpc::Service::MarkMethodAsync(25);
+      ::grpc::Service::MarkMethodAsync(32);
     }
     ~WithAsyncMethod_StopAllCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1967,7 +3310,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopAllCalls(::grpc::ServerContext* context, ::ondewo::vtsi::StopAllCallsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::StopCallsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(25, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(32, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1976,7 +3319,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_TransferCall() {
-      ::grpc::Service::MarkMethodAsync(26);
+      ::grpc::Service::MarkMethodAsync(33);
     }
     ~WithAsyncMethod_TransferCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1987,7 +3330,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestTransferCall(::grpc::ServerContext* context, ::ondewo::vtsi::TransferCallRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::TransferCallResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(33, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1996,7 +3339,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_TransferCalls() {
-      ::grpc::Service::MarkMethodAsync(27);
+      ::grpc::Service::MarkMethodAsync(34);
     }
     ~WithAsyncMethod_TransferCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2007,7 +3350,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestTransferCalls(::grpc::ServerContext* context, ::ondewo::vtsi::TransferCallsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::TransferCallsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(27, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(34, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2016,7 +3359,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetCall() {
-      ::grpc::Service::MarkMethodAsync(28);
+      ::grpc::Service::MarkMethodAsync(35);
     }
     ~WithAsyncMethod_GetCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2027,7 +3370,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetCall(::grpc::ServerContext* context, ::ondewo::vtsi::GetCallRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::Call>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(28, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(35, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2036,7 +3379,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListCalls() {
-      ::grpc::Service::MarkMethodAsync(29);
+      ::grpc::Service::MarkMethodAsync(36);
     }
     ~WithAsyncMethod_ListCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2047,7 +3390,67 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListCalls(::grpc::ServerContext* context, ::ondewo::vtsi::ListCallsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::ListCallsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(29, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(36, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_GetCallStatistics : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetCallStatistics() {
+      ::grpc::Service::MarkMethodAsync(37);
+    }
+    ~WithAsyncMethod_GetCallStatistics() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetCallStatistics(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetCallStatisticsRequest* /*request*/, ::ondewo::vtsi::CallStatistics* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetCallStatistics(::grpc::ServerContext* context, ::ondewo::vtsi::GetCallStatisticsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::CallStatistics>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(37, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpdateCall : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateCall() {
+      ::grpc::Service::MarkMethodAsync(38);
+    }
+    ~WithAsyncMethod_UpdateCall() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCall(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallRequest* /*request*/, ::ondewo::vtsi::UpdateCallResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCall(::grpc::ServerContext* context, ::ondewo::vtsi::UpdateCallRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::UpdateCallResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(38, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpdateCalls : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateCalls() {
+      ::grpc::Service::MarkMethodAsync(39);
+    }
+    ~WithAsyncMethod_UpdateCalls() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCalls(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallsRequest* /*request*/, ::ondewo::vtsi::UpdateCallsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCalls(::grpc::ServerContext* context, ::ondewo::vtsi::UpdateCallsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::UpdateCallsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(39, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2056,7 +3459,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StreamCallerStatus() {
-      ::grpc::Service::MarkMethodAsync(30);
+      ::grpc::Service::MarkMethodAsync(40);
     }
     ~WithAsyncMethod_StreamCallerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2067,7 +3470,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamCallerStatus(::grpc::ServerContext* context, ::ondewo::vtsi::StreamCallerStatusRequest* request, ::grpc::ServerAsyncWriter< ::ondewo::vtsi::StreamCallResourceStatusResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(30, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(40, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2076,7 +3479,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StreamListenerStatus() {
-      ::grpc::Service::MarkMethodAsync(31);
+      ::grpc::Service::MarkMethodAsync(41);
     }
     ~WithAsyncMethod_StreamListenerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2087,7 +3490,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamListenerStatus(::grpc::ServerContext* context, ::ondewo::vtsi::StreamListenerStatusRequest* request, ::grpc::ServerAsyncWriter< ::ondewo::vtsi::StreamCallResourceStatusResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(31, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(41, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2096,7 +3499,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StreamScheduledCallerStatus() {
-      ::grpc::Service::MarkMethodAsync(32);
+      ::grpc::Service::MarkMethodAsync(42);
     }
     ~WithAsyncMethod_StreamScheduledCallerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2107,7 +3510,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamScheduledCallerStatus(::grpc::ServerContext* context, ::ondewo::vtsi::StreamScheduledCallerStatusRequest* request, ::grpc::ServerAsyncWriter< ::ondewo::vtsi::StreamCallResourceStatusResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(32, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(42, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2116,7 +3519,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_InviteToCall() {
-      ::grpc::Service::MarkMethodAsync(33);
+      ::grpc::Service::MarkMethodAsync(43);
     }
     ~WithAsyncMethod_InviteToCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2127,7 +3530,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestInviteToCall(::grpc::ServerContext* context, ::ondewo::vtsi::InviteToCallRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::InviteToCallResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(33, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(43, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2136,7 +3539,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_RemoveCallParticipant() {
-      ::grpc::Service::MarkMethodAsync(34);
+      ::grpc::Service::MarkMethodAsync(44);
     }
     ~WithAsyncMethod_RemoveCallParticipant() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2147,7 +3550,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestRemoveCallParticipant(::grpc::ServerContext* context, ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::RemoveCallParticipantResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(34, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(44, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2156,7 +3559,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SetCallMediaControl() {
-      ::grpc::Service::MarkMethodAsync(35);
+      ::grpc::Service::MarkMethodAsync(45);
     }
     ~WithAsyncMethod_SetCallMediaControl() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2167,7 +3570,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestSetCallMediaControl(::grpc::ServerContext* context, ::ondewo::vtsi::SetCallMediaControlRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::SetCallMediaControlResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(35, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(45, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2176,7 +3579,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodAsync(36);
+      ::grpc::Service::MarkMethodAsync(46);
     }
     ~WithAsyncMethod_StreamCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2187,7 +3590,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamCallAudio(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::ondewo::vtsi::StreamCallAudioResponse, ::ondewo::vtsi::StreamCallAudioRequest>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncBidiStreaming(36, context, stream, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncBidiStreaming(46, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2196,7 +3599,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodAsync(37);
+      ::grpc::Service::MarkMethodAsync(47);
     }
     ~WithAsyncMethod_ListenCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2207,10 +3610,10 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListenCallAudio(::grpc::ServerContext* context, ::ondewo::vtsi::ListenCallAudioRequest* request, ::grpc::ServerAsyncWriter< ::ondewo::vtsi::StreamCallAudioResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(37, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(47, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_StartCaller<WithAsyncMethod_StartCallers<WithAsyncMethod_ListCallers<WithAsyncMethod_GetCaller<WithAsyncMethod_DeleteCaller<WithAsyncMethod_DeleteCallers<WithAsyncMethod_StopCaller<WithAsyncMethod_StopCallers<WithAsyncMethod_StartListener<WithAsyncMethod_StartListeners<WithAsyncMethod_StopListener<WithAsyncMethod_StopListeners<WithAsyncMethod_ListListeners<WithAsyncMethod_GetListener<WithAsyncMethod_DeleteListener<WithAsyncMethod_DeleteListeners<WithAsyncMethod_StartScheduledCaller<WithAsyncMethod_StartScheduledCallers<WithAsyncMethod_AddCallersToCampaign<WithAsyncMethod_AddScheduledCallersToCampaign<WithAsyncMethod_GetScheduledCaller<WithAsyncMethod_ListScheduledCallers<WithAsyncMethod_CancelScheduledCaller<WithAsyncMethod_StopCall<WithAsyncMethod_StopCalls<WithAsyncMethod_StopAllCalls<WithAsyncMethod_TransferCall<WithAsyncMethod_TransferCalls<WithAsyncMethod_GetCall<WithAsyncMethod_ListCalls<WithAsyncMethod_StreamCallerStatus<WithAsyncMethod_StreamListenerStatus<WithAsyncMethod_StreamScheduledCallerStatus<WithAsyncMethod_InviteToCall<WithAsyncMethod_RemoveCallParticipant<WithAsyncMethod_SetCallMediaControl<WithAsyncMethod_StreamCallAudio<WithAsyncMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_StartCaller<WithAsyncMethod_StartCallers<WithAsyncMethod_ListCallers<WithAsyncMethod_GetCaller<WithAsyncMethod_UpdateCaller<WithAsyncMethod_UpdateCallers<WithAsyncMethod_DeleteCaller<WithAsyncMethod_DeleteCallers<WithAsyncMethod_StopCaller<WithAsyncMethod_StopCallers<WithAsyncMethod_StartListener<WithAsyncMethod_StartListeners<WithAsyncMethod_StopListener<WithAsyncMethod_StopListeners<WithAsyncMethod_ListListeners<WithAsyncMethod_GetListener<WithAsyncMethod_UpdateListener<WithAsyncMethod_UpdateListeners<WithAsyncMethod_DeleteListener<WithAsyncMethod_DeleteListeners<WithAsyncMethod_StartScheduledCaller<WithAsyncMethod_StartScheduledCallers<WithAsyncMethod_AddCallersToCampaign<WithAsyncMethod_AddScheduledCallersToCampaign<WithAsyncMethod_GetScheduledCaller<WithAsyncMethod_ListScheduledCallers<WithAsyncMethod_UpdateScheduledCaller<WithAsyncMethod_CancelScheduledCaller<WithAsyncMethod_CancelScheduledCallers<WithAsyncMethod_RetryScheduledCaller<WithAsyncMethod_StopCall<WithAsyncMethod_StopCalls<WithAsyncMethod_StopAllCalls<WithAsyncMethod_TransferCall<WithAsyncMethod_TransferCalls<WithAsyncMethod_GetCall<WithAsyncMethod_ListCalls<WithAsyncMethod_GetCallStatistics<WithAsyncMethod_UpdateCall<WithAsyncMethod_UpdateCalls<WithAsyncMethod_StreamCallerStatus<WithAsyncMethod_StreamListenerStatus<WithAsyncMethod_StreamScheduledCallerStatus<WithAsyncMethod_InviteToCall<WithAsyncMethod_RemoveCallParticipant<WithAsyncMethod_SetCallMediaControl<WithAsyncMethod_StreamCallAudio<WithAsyncMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_StartCaller : public BaseClass {
    private:
@@ -2320,18 +3723,72 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::GetCallerRequest* /*request*/, ::ondewo::vtsi::Caller* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithCallbackMethod_UpdateCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateCaller() {
+      ::grpc::Service::MarkMethodCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateCallerRequest, ::ondewo::vtsi::UpdateCallerResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::UpdateCallerRequest* request, ::ondewo::vtsi::UpdateCallerResponse* response) { return this->UpdateCaller(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateCaller(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::UpdateCallerRequest, ::ondewo::vtsi::UpdateCallerResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateCallerRequest, ::ondewo::vtsi::UpdateCallerResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallerRequest* /*request*/, ::ondewo::vtsi::UpdateCallerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCaller(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallerRequest* /*request*/, ::ondewo::vtsi::UpdateCallerResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UpdateCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateCallers() {
+      ::grpc::Service::MarkMethodCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateCallersRequest, ::ondewo::vtsi::UpdateCallersResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::UpdateCallersRequest* request, ::ondewo::vtsi::UpdateCallersResponse* response) { return this->UpdateCallers(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateCallers(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::UpdateCallersRequest, ::ondewo::vtsi::UpdateCallersResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateCallersRequest, ::ondewo::vtsi::UpdateCallersResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallersRequest* /*request*/, ::ondewo::vtsi::UpdateCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCallers(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallersRequest* /*request*/, ::ondewo::vtsi::UpdateCallersResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithCallbackMethod_DeleteCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteCaller() {
-      ::grpc::Service::MarkMethodCallback(4,
+      ::grpc::Service::MarkMethodCallback(6,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::DeleteCallerRequest, ::ondewo::vtsi::DeleteCallerResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::DeleteCallerRequest* request, ::ondewo::vtsi::DeleteCallerResponse* response) { return this->DeleteCaller(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteCaller(
         ::grpc::MessageAllocator< ::ondewo::vtsi::DeleteCallerRequest, ::ondewo::vtsi::DeleteCallerResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::DeleteCallerRequest, ::ondewo::vtsi::DeleteCallerResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2352,13 +3809,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteCallers() {
-      ::grpc::Service::MarkMethodCallback(5,
+      ::grpc::Service::MarkMethodCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::DeleteCallersRequest, ::ondewo::vtsi::DeleteCallersResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::DeleteCallersRequest* request, ::ondewo::vtsi::DeleteCallersResponse* response) { return this->DeleteCallers(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteCallers(
         ::grpc::MessageAllocator< ::ondewo::vtsi::DeleteCallersRequest, ::ondewo::vtsi::DeleteCallersResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::DeleteCallersRequest, ::ondewo::vtsi::DeleteCallersResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2379,13 +3836,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StopCaller() {
-      ::grpc::Service::MarkMethodCallback(6,
+      ::grpc::Service::MarkMethodCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopCallerRequest, ::ondewo::vtsi::StopCallerResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StopCallerRequest* request, ::ondewo::vtsi::StopCallerResponse* response) { return this->StopCaller(context, request, response); }));}
     void SetMessageAllocatorFor_StopCaller(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StopCallerRequest, ::ondewo::vtsi::StopCallerResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopCallerRequest, ::ondewo::vtsi::StopCallerResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2406,13 +3863,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StopCallers() {
-      ::grpc::Service::MarkMethodCallback(7,
+      ::grpc::Service::MarkMethodCallback(9,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopCallersRequest, ::ondewo::vtsi::StopCallersResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StopCallersRequest* request, ::ondewo::vtsi::StopCallersResponse* response) { return this->StopCallers(context, request, response); }));}
     void SetMessageAllocatorFor_StopCallers(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StopCallersRequest, ::ondewo::vtsi::StopCallersResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopCallersRequest, ::ondewo::vtsi::StopCallersResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2433,13 +3890,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StartListener() {
-      ::grpc::Service::MarkMethodCallback(8,
+      ::grpc::Service::MarkMethodCallback(10,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StartListenerRequest, ::ondewo::vtsi::StartListenerResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StartListenerRequest* request, ::ondewo::vtsi::StartListenerResponse* response) { return this->StartListener(context, request, response); }));}
     void SetMessageAllocatorFor_StartListener(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StartListenerRequest, ::ondewo::vtsi::StartListenerResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StartListenerRequest, ::ondewo::vtsi::StartListenerResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2460,13 +3917,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StartListeners() {
-      ::grpc::Service::MarkMethodCallback(9,
+      ::grpc::Service::MarkMethodCallback(11,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StartListenersRequest, ::ondewo::vtsi::StartListenersResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StartListenersRequest* request, ::ondewo::vtsi::StartListenersResponse* response) { return this->StartListeners(context, request, response); }));}
     void SetMessageAllocatorFor_StartListeners(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StartListenersRequest, ::ondewo::vtsi::StartListenersResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StartListenersRequest, ::ondewo::vtsi::StartListenersResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2487,13 +3944,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StopListener() {
-      ::grpc::Service::MarkMethodCallback(10,
+      ::grpc::Service::MarkMethodCallback(12,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopListenerRequest, ::ondewo::vtsi::StopListenerResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StopListenerRequest* request, ::ondewo::vtsi::StopListenerResponse* response) { return this->StopListener(context, request, response); }));}
     void SetMessageAllocatorFor_StopListener(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StopListenerRequest, ::ondewo::vtsi::StopListenerResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopListenerRequest, ::ondewo::vtsi::StopListenerResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2514,13 +3971,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StopListeners() {
-      ::grpc::Service::MarkMethodCallback(11,
+      ::grpc::Service::MarkMethodCallback(13,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopListenersRequest, ::ondewo::vtsi::StopListenersResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StopListenersRequest* request, ::ondewo::vtsi::StopListenersResponse* response) { return this->StopListeners(context, request, response); }));}
     void SetMessageAllocatorFor_StopListeners(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StopListenersRequest, ::ondewo::vtsi::StopListenersResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopListenersRequest, ::ondewo::vtsi::StopListenersResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2541,13 +3998,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListListeners() {
-      ::grpc::Service::MarkMethodCallback(12,
+      ::grpc::Service::MarkMethodCallback(14,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::ListListenersRequest, ::ondewo::vtsi::ListListenersResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::ListListenersRequest* request, ::ondewo::vtsi::ListListenersResponse* response) { return this->ListListeners(context, request, response); }));}
     void SetMessageAllocatorFor_ListListeners(
         ::grpc::MessageAllocator< ::ondewo::vtsi::ListListenersRequest, ::ondewo::vtsi::ListListenersResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::ListListenersRequest, ::ondewo::vtsi::ListListenersResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2568,13 +4025,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetListener() {
-      ::grpc::Service::MarkMethodCallback(13,
+      ::grpc::Service::MarkMethodCallback(15,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetListenerRequest, ::ondewo::vtsi::Listener>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::GetListenerRequest* request, ::ondewo::vtsi::Listener* response) { return this->GetListener(context, request, response); }));}
     void SetMessageAllocatorFor_GetListener(
         ::grpc::MessageAllocator< ::ondewo::vtsi::GetListenerRequest, ::ondewo::vtsi::Listener>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetListenerRequest, ::ondewo::vtsi::Listener>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2590,18 +4047,72 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::GetListenerRequest* /*request*/, ::ondewo::vtsi::Listener* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithCallbackMethod_UpdateListener : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateListener() {
+      ::grpc::Service::MarkMethodCallback(16,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateListenerRequest, ::ondewo::vtsi::UpdateListenerResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::UpdateListenerRequest* request, ::ondewo::vtsi::UpdateListenerResponse* response) { return this->UpdateListener(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateListener(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::UpdateListenerRequest, ::ondewo::vtsi::UpdateListenerResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(16);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateListenerRequest, ::ondewo::vtsi::UpdateListenerResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateListener() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListener(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenerRequest* /*request*/, ::ondewo::vtsi::UpdateListenerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateListener(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenerRequest* /*request*/, ::ondewo::vtsi::UpdateListenerResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UpdateListeners : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateListeners() {
+      ::grpc::Service::MarkMethodCallback(17,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateListenersRequest, ::ondewo::vtsi::UpdateListenersResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::UpdateListenersRequest* request, ::ondewo::vtsi::UpdateListenersResponse* response) { return this->UpdateListeners(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateListeners(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::UpdateListenersRequest, ::ondewo::vtsi::UpdateListenersResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(17);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateListenersRequest, ::ondewo::vtsi::UpdateListenersResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateListeners() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListeners(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenersRequest* /*request*/, ::ondewo::vtsi::UpdateListenersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateListeners(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenersRequest* /*request*/, ::ondewo::vtsi::UpdateListenersResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithCallbackMethod_DeleteListener : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteListener() {
-      ::grpc::Service::MarkMethodCallback(14,
+      ::grpc::Service::MarkMethodCallback(18,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::DeleteListenerRequest, ::ondewo::vtsi::DeleteListenerResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::DeleteListenerRequest* request, ::ondewo::vtsi::DeleteListenerResponse* response) { return this->DeleteListener(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteListener(
         ::grpc::MessageAllocator< ::ondewo::vtsi::DeleteListenerRequest, ::ondewo::vtsi::DeleteListenerResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(18);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::DeleteListenerRequest, ::ondewo::vtsi::DeleteListenerResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2622,13 +4133,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteListeners() {
-      ::grpc::Service::MarkMethodCallback(15,
+      ::grpc::Service::MarkMethodCallback(19,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::DeleteListenersRequest, ::ondewo::vtsi::DeleteListenersResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::DeleteListenersRequest* request, ::ondewo::vtsi::DeleteListenersResponse* response) { return this->DeleteListeners(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteListeners(
         ::grpc::MessageAllocator< ::ondewo::vtsi::DeleteListenersRequest, ::ondewo::vtsi::DeleteListenersResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(19);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::DeleteListenersRequest, ::ondewo::vtsi::DeleteListenersResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2649,13 +4160,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StartScheduledCaller() {
-      ::grpc::Service::MarkMethodCallback(16,
+      ::grpc::Service::MarkMethodCallback(20,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StartScheduledCallerRequest, ::ondewo::vtsi::StartScheduledCallerResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StartScheduledCallerRequest* request, ::ondewo::vtsi::StartScheduledCallerResponse* response) { return this->StartScheduledCaller(context, request, response); }));}
     void SetMessageAllocatorFor_StartScheduledCaller(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StartScheduledCallerRequest, ::ondewo::vtsi::StartScheduledCallerResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(16);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(20);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StartScheduledCallerRequest, ::ondewo::vtsi::StartScheduledCallerResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2676,13 +4187,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StartScheduledCallers() {
-      ::grpc::Service::MarkMethodCallback(17,
+      ::grpc::Service::MarkMethodCallback(21,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StartScheduledCallersRequest, ::ondewo::vtsi::StartScheduledCallersResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StartScheduledCallersRequest* request, ::ondewo::vtsi::StartScheduledCallersResponse* response) { return this->StartScheduledCallers(context, request, response); }));}
     void SetMessageAllocatorFor_StartScheduledCallers(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StartScheduledCallersRequest, ::ondewo::vtsi::StartScheduledCallersResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(17);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(21);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StartScheduledCallersRequest, ::ondewo::vtsi::StartScheduledCallersResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2703,13 +4214,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_AddCallersToCampaign() {
-      ::grpc::Service::MarkMethodCallback(18,
+      ::grpc::Service::MarkMethodCallback(22,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::AddCallersToCampaignRequest, ::ondewo::vtsi::AddCallersToCampaignResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::AddCallersToCampaignRequest* request, ::ondewo::vtsi::AddCallersToCampaignResponse* response) { return this->AddCallersToCampaign(context, request, response); }));}
     void SetMessageAllocatorFor_AddCallersToCampaign(
         ::grpc::MessageAllocator< ::ondewo::vtsi::AddCallersToCampaignRequest, ::ondewo::vtsi::AddCallersToCampaignResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(18);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(22);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::AddCallersToCampaignRequest, ::ondewo::vtsi::AddCallersToCampaignResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2730,13 +4241,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_AddScheduledCallersToCampaign() {
-      ::grpc::Service::MarkMethodCallback(19,
+      ::grpc::Service::MarkMethodCallback(23,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::AddScheduledCallersToCampaignRequest, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::AddScheduledCallersToCampaignRequest* request, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse* response) { return this->AddScheduledCallersToCampaign(context, request, response); }));}
     void SetMessageAllocatorFor_AddScheduledCallersToCampaign(
         ::grpc::MessageAllocator< ::ondewo::vtsi::AddScheduledCallersToCampaignRequest, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(19);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(23);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::AddScheduledCallersToCampaignRequest, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2757,13 +4268,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetScheduledCaller() {
-      ::grpc::Service::MarkMethodCallback(20,
+      ::grpc::Service::MarkMethodCallback(24,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::GetScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response) { return this->GetScheduledCaller(context, request, response); }));}
     void SetMessageAllocatorFor_GetScheduledCaller(
         ::grpc::MessageAllocator< ::ondewo::vtsi::GetScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(20);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(24);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2784,13 +4295,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListScheduledCallers() {
-      ::grpc::Service::MarkMethodCallback(21,
+      ::grpc::Service::MarkMethodCallback(25,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::ListScheduledCallersRequest, ::ondewo::vtsi::ListScheduledCallersResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::ListScheduledCallersRequest* request, ::ondewo::vtsi::ListScheduledCallersResponse* response) { return this->ListScheduledCallers(context, request, response); }));}
     void SetMessageAllocatorFor_ListScheduledCallers(
         ::grpc::MessageAllocator< ::ondewo::vtsi::ListScheduledCallersRequest, ::ondewo::vtsi::ListScheduledCallersResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(21);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(25);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::ListScheduledCallersRequest, ::ondewo::vtsi::ListScheduledCallersResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2806,18 +4317,45 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::ListScheduledCallersRequest* /*request*/, ::ondewo::vtsi::ListScheduledCallersResponse* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithCallbackMethod_UpdateScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateScheduledCaller() {
+      ::grpc::Service::MarkMethodCallback(26,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::UpdateScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response) { return this->UpdateScheduledCaller(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateScheduledCaller(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::UpdateScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(26);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateScheduledCaller(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::UpdateScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithCallbackMethod_CancelScheduledCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_CancelScheduledCaller() {
-      ::grpc::Service::MarkMethodCallback(22,
+      ::grpc::Service::MarkMethodCallback(27,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::CancelScheduledCallerRequest, ::ondewo::vtsi::CancelScheduledCallerResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::CancelScheduledCallerRequest* request, ::ondewo::vtsi::CancelScheduledCallerResponse* response) { return this->CancelScheduledCaller(context, request, response); }));}
     void SetMessageAllocatorFor_CancelScheduledCaller(
         ::grpc::MessageAllocator< ::ondewo::vtsi::CancelScheduledCallerRequest, ::ondewo::vtsi::CancelScheduledCallerResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(22);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(27);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::CancelScheduledCallerRequest, ::ondewo::vtsi::CancelScheduledCallerResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2833,18 +4371,72 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::CancelScheduledCallerRequest* /*request*/, ::ondewo::vtsi::CancelScheduledCallerResponse* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithCallbackMethod_CancelScheduledCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_CancelScheduledCallers() {
+      ::grpc::Service::MarkMethodCallback(28,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::CancelScheduledCallersRequest, ::ondewo::vtsi::CancelScheduledCallersResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::CancelScheduledCallersRequest* request, ::ondewo::vtsi::CancelScheduledCallersResponse* response) { return this->CancelScheduledCallers(context, request, response); }));}
+    void SetMessageAllocatorFor_CancelScheduledCallers(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::CancelScheduledCallersRequest, ::ondewo::vtsi::CancelScheduledCallersResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(28);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::CancelScheduledCallersRequest, ::ondewo::vtsi::CancelScheduledCallersResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_CancelScheduledCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelScheduledCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::CancelScheduledCallersRequest* /*request*/, ::ondewo::vtsi::CancelScheduledCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* CancelScheduledCallers(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::CancelScheduledCallersRequest* /*request*/, ::ondewo::vtsi::CancelScheduledCallersResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RetryScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RetryScheduledCaller() {
+      ::grpc::Service::MarkMethodCallback(29,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::RetryScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::RetryScheduledCallerRequest* request, ::ondewo::vtsi::ScheduledCaller* response) { return this->RetryScheduledCaller(context, request, response); }));}
+    void SetMessageAllocatorFor_RetryScheduledCaller(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::RetryScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(29);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::RetryScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_RetryScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RetryScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::RetryScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* RetryScheduledCaller(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::RetryScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithCallbackMethod_StopCall : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StopCall() {
-      ::grpc::Service::MarkMethodCallback(23,
+      ::grpc::Service::MarkMethodCallback(30,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopCallRequest, ::ondewo::vtsi::StopCallResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StopCallRequest* request, ::ondewo::vtsi::StopCallResponse* response) { return this->StopCall(context, request, response); }));}
     void SetMessageAllocatorFor_StopCall(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StopCallRequest, ::ondewo::vtsi::StopCallResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(23);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(30);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopCallRequest, ::ondewo::vtsi::StopCallResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2865,13 +4457,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StopCalls() {
-      ::grpc::Service::MarkMethodCallback(24,
+      ::grpc::Service::MarkMethodCallback(31,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopCallsRequest, ::ondewo::vtsi::StopCallsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StopCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response) { return this->StopCalls(context, request, response); }));}
     void SetMessageAllocatorFor_StopCalls(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StopCallsRequest, ::ondewo::vtsi::StopCallsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(24);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(31);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopCallsRequest, ::ondewo::vtsi::StopCallsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2892,13 +4484,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StopAllCalls() {
-      ::grpc::Service::MarkMethodCallback(25,
+      ::grpc::Service::MarkMethodCallback(32,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopAllCallsRequest, ::ondewo::vtsi::StopCallsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StopAllCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response) { return this->StopAllCalls(context, request, response); }));}
     void SetMessageAllocatorFor_StopAllCalls(
         ::grpc::MessageAllocator< ::ondewo::vtsi::StopAllCallsRequest, ::ondewo::vtsi::StopCallsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(25);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(32);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::StopAllCallsRequest, ::ondewo::vtsi::StopCallsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2919,13 +4511,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_TransferCall() {
-      ::grpc::Service::MarkMethodCallback(26,
+      ::grpc::Service::MarkMethodCallback(33,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::TransferCallRequest, ::ondewo::vtsi::TransferCallResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::TransferCallRequest* request, ::ondewo::vtsi::TransferCallResponse* response) { return this->TransferCall(context, request, response); }));}
     void SetMessageAllocatorFor_TransferCall(
         ::grpc::MessageAllocator< ::ondewo::vtsi::TransferCallRequest, ::ondewo::vtsi::TransferCallResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(26);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(33);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::TransferCallRequest, ::ondewo::vtsi::TransferCallResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2946,13 +4538,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_TransferCalls() {
-      ::grpc::Service::MarkMethodCallback(27,
+      ::grpc::Service::MarkMethodCallback(34,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::TransferCallsRequest, ::ondewo::vtsi::TransferCallsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::TransferCallsRequest* request, ::ondewo::vtsi::TransferCallsResponse* response) { return this->TransferCalls(context, request, response); }));}
     void SetMessageAllocatorFor_TransferCalls(
         ::grpc::MessageAllocator< ::ondewo::vtsi::TransferCallsRequest, ::ondewo::vtsi::TransferCallsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(27);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(34);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::TransferCallsRequest, ::ondewo::vtsi::TransferCallsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2973,13 +4565,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetCall() {
-      ::grpc::Service::MarkMethodCallback(28,
+      ::grpc::Service::MarkMethodCallback(35,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetCallRequest, ::ondewo::vtsi::Call>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::GetCallRequest* request, ::ondewo::vtsi::Call* response) { return this->GetCall(context, request, response); }));}
     void SetMessageAllocatorFor_GetCall(
         ::grpc::MessageAllocator< ::ondewo::vtsi::GetCallRequest, ::ondewo::vtsi::Call>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(28);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(35);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetCallRequest, ::ondewo::vtsi::Call>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3000,13 +4592,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListCalls() {
-      ::grpc::Service::MarkMethodCallback(29,
+      ::grpc::Service::MarkMethodCallback(36,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::ListCallsRequest, ::ondewo::vtsi::ListCallsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::ListCallsRequest* request, ::ondewo::vtsi::ListCallsResponse* response) { return this->ListCalls(context, request, response); }));}
     void SetMessageAllocatorFor_ListCalls(
         ::grpc::MessageAllocator< ::ondewo::vtsi::ListCallsRequest, ::ondewo::vtsi::ListCallsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(29);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(36);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::ListCallsRequest, ::ondewo::vtsi::ListCallsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3022,12 +4614,93 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::ListCallsRequest* /*request*/, ::ondewo::vtsi::ListCallsResponse* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithCallbackMethod_GetCallStatistics : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_GetCallStatistics() {
+      ::grpc::Service::MarkMethodCallback(37,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetCallStatisticsRequest, ::ondewo::vtsi::CallStatistics>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::GetCallStatisticsRequest* request, ::ondewo::vtsi::CallStatistics* response) { return this->GetCallStatistics(context, request, response); }));}
+    void SetMessageAllocatorFor_GetCallStatistics(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::GetCallStatisticsRequest, ::ondewo::vtsi::CallStatistics>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(37);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetCallStatisticsRequest, ::ondewo::vtsi::CallStatistics>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_GetCallStatistics() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetCallStatistics(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetCallStatisticsRequest* /*request*/, ::ondewo::vtsi::CallStatistics* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetCallStatistics(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::GetCallStatisticsRequest* /*request*/, ::ondewo::vtsi::CallStatistics* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UpdateCall : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateCall() {
+      ::grpc::Service::MarkMethodCallback(38,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateCallRequest, ::ondewo::vtsi::UpdateCallResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::UpdateCallRequest* request, ::ondewo::vtsi::UpdateCallResponse* response) { return this->UpdateCall(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateCall(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::UpdateCallRequest, ::ondewo::vtsi::UpdateCallResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(38);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateCallRequest, ::ondewo::vtsi::UpdateCallResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateCall() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCall(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallRequest* /*request*/, ::ondewo::vtsi::UpdateCallResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCall(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallRequest* /*request*/, ::ondewo::vtsi::UpdateCallResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UpdateCalls : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateCalls() {
+      ::grpc::Service::MarkMethodCallback(39,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateCallsRequest, ::ondewo::vtsi::UpdateCallsResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::UpdateCallsRequest* request, ::ondewo::vtsi::UpdateCallsResponse* response) { return this->UpdateCalls(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateCalls(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::UpdateCallsRequest, ::ondewo::vtsi::UpdateCallsResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(39);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::UpdateCallsRequest, ::ondewo::vtsi::UpdateCallsResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateCalls() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCalls(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallsRequest* /*request*/, ::ondewo::vtsi::UpdateCallsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCalls(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallsRequest* /*request*/, ::ondewo::vtsi::UpdateCallsResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithCallbackMethod_StreamCallerStatus : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StreamCallerStatus() {
-      ::grpc::Service::MarkMethodCallback(30,
+      ::grpc::Service::MarkMethodCallback(40,
           new ::grpc::internal::CallbackServerStreamingHandler< ::ondewo::vtsi::StreamCallerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StreamCallerStatusRequest* request) { return this->StreamCallerStatus(context, request); }));
@@ -3049,7 +4722,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StreamListenerStatus() {
-      ::grpc::Service::MarkMethodCallback(31,
+      ::grpc::Service::MarkMethodCallback(41,
           new ::grpc::internal::CallbackServerStreamingHandler< ::ondewo::vtsi::StreamListenerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StreamListenerStatusRequest* request) { return this->StreamListenerStatus(context, request); }));
@@ -3071,7 +4744,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StreamScheduledCallerStatus() {
-      ::grpc::Service::MarkMethodCallback(32,
+      ::grpc::Service::MarkMethodCallback(42,
           new ::grpc::internal::CallbackServerStreamingHandler< ::ondewo::vtsi::StreamScheduledCallerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::StreamScheduledCallerStatusRequest* request) { return this->StreamScheduledCallerStatus(context, request); }));
@@ -3093,13 +4766,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_InviteToCall() {
-      ::grpc::Service::MarkMethodCallback(33,
+      ::grpc::Service::MarkMethodCallback(43,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::InviteToCallRequest, ::ondewo::vtsi::InviteToCallResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::InviteToCallRequest* request, ::ondewo::vtsi::InviteToCallResponse* response) { return this->InviteToCall(context, request, response); }));}
     void SetMessageAllocatorFor_InviteToCall(
         ::grpc::MessageAllocator< ::ondewo::vtsi::InviteToCallRequest, ::ondewo::vtsi::InviteToCallResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(33);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(43);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::InviteToCallRequest, ::ondewo::vtsi::InviteToCallResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3120,13 +4793,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_RemoveCallParticipant() {
-      ::grpc::Service::MarkMethodCallback(34,
+      ::grpc::Service::MarkMethodCallback(44,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::RemoveCallParticipantRequest, ::ondewo::vtsi::RemoveCallParticipantResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::ondewo::vtsi::RemoveCallParticipantResponse* response) { return this->RemoveCallParticipant(context, request, response); }));}
     void SetMessageAllocatorFor_RemoveCallParticipant(
         ::grpc::MessageAllocator< ::ondewo::vtsi::RemoveCallParticipantRequest, ::ondewo::vtsi::RemoveCallParticipantResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(34);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(44);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::RemoveCallParticipantRequest, ::ondewo::vtsi::RemoveCallParticipantResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3147,13 +4820,13 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_SetCallMediaControl() {
-      ::grpc::Service::MarkMethodCallback(35,
+      ::grpc::Service::MarkMethodCallback(45,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::SetCallMediaControlRequest, ::ondewo::vtsi::SetCallMediaControlResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response) { return this->SetCallMediaControl(context, request, response); }));}
     void SetMessageAllocatorFor_SetCallMediaControl(
         ::grpc::MessageAllocator< ::ondewo::vtsi::SetCallMediaControlRequest, ::ondewo::vtsi::SetCallMediaControlResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(35);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(45);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::SetCallMediaControlRequest, ::ondewo::vtsi::SetCallMediaControlResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3174,7 +4847,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodCallback(36,
+      ::grpc::Service::MarkMethodCallback(46,
           new ::grpc::internal::CallbackBidiHandler< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>(
             [this](
                    ::grpc::CallbackServerContext* context) { return this->StreamCallAudio(context); }));
@@ -3197,7 +4870,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodCallback(37,
+      ::grpc::Service::MarkMethodCallback(47,
           new ::grpc::internal::CallbackServerStreamingHandler< ::ondewo::vtsi::ListenCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::ListenCallAudioRequest* request) { return this->ListenCallAudio(context, request); }));
@@ -3213,7 +4886,7 @@ class Calls final {
     virtual ::grpc::ServerWriteReactor< ::ondewo::vtsi::StreamCallAudioResponse>* ListenCallAudio(
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::ListenCallAudioRequest* /*request*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_StartCaller<WithCallbackMethod_StartCallers<WithCallbackMethod_ListCallers<WithCallbackMethod_GetCaller<WithCallbackMethod_DeleteCaller<WithCallbackMethod_DeleteCallers<WithCallbackMethod_StopCaller<WithCallbackMethod_StopCallers<WithCallbackMethod_StartListener<WithCallbackMethod_StartListeners<WithCallbackMethod_StopListener<WithCallbackMethod_StopListeners<WithCallbackMethod_ListListeners<WithCallbackMethod_GetListener<WithCallbackMethod_DeleteListener<WithCallbackMethod_DeleteListeners<WithCallbackMethod_StartScheduledCaller<WithCallbackMethod_StartScheduledCallers<WithCallbackMethod_AddCallersToCampaign<WithCallbackMethod_AddScheduledCallersToCampaign<WithCallbackMethod_GetScheduledCaller<WithCallbackMethod_ListScheduledCallers<WithCallbackMethod_CancelScheduledCaller<WithCallbackMethod_StopCall<WithCallbackMethod_StopCalls<WithCallbackMethod_StopAllCalls<WithCallbackMethod_TransferCall<WithCallbackMethod_TransferCalls<WithCallbackMethod_GetCall<WithCallbackMethod_ListCalls<WithCallbackMethod_StreamCallerStatus<WithCallbackMethod_StreamListenerStatus<WithCallbackMethod_StreamScheduledCallerStatus<WithCallbackMethod_InviteToCall<WithCallbackMethod_RemoveCallParticipant<WithCallbackMethod_SetCallMediaControl<WithCallbackMethod_StreamCallAudio<WithCallbackMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > CallbackService;
+  typedef WithCallbackMethod_StartCaller<WithCallbackMethod_StartCallers<WithCallbackMethod_ListCallers<WithCallbackMethod_GetCaller<WithCallbackMethod_UpdateCaller<WithCallbackMethod_UpdateCallers<WithCallbackMethod_DeleteCaller<WithCallbackMethod_DeleteCallers<WithCallbackMethod_StopCaller<WithCallbackMethod_StopCallers<WithCallbackMethod_StartListener<WithCallbackMethod_StartListeners<WithCallbackMethod_StopListener<WithCallbackMethod_StopListeners<WithCallbackMethod_ListListeners<WithCallbackMethod_GetListener<WithCallbackMethod_UpdateListener<WithCallbackMethod_UpdateListeners<WithCallbackMethod_DeleteListener<WithCallbackMethod_DeleteListeners<WithCallbackMethod_StartScheduledCaller<WithCallbackMethod_StartScheduledCallers<WithCallbackMethod_AddCallersToCampaign<WithCallbackMethod_AddScheduledCallersToCampaign<WithCallbackMethod_GetScheduledCaller<WithCallbackMethod_ListScheduledCallers<WithCallbackMethod_UpdateScheduledCaller<WithCallbackMethod_CancelScheduledCaller<WithCallbackMethod_CancelScheduledCallers<WithCallbackMethod_RetryScheduledCaller<WithCallbackMethod_StopCall<WithCallbackMethod_StopCalls<WithCallbackMethod_StopAllCalls<WithCallbackMethod_TransferCall<WithCallbackMethod_TransferCalls<WithCallbackMethod_GetCall<WithCallbackMethod_ListCalls<WithCallbackMethod_GetCallStatistics<WithCallbackMethod_UpdateCall<WithCallbackMethod_UpdateCalls<WithCallbackMethod_StreamCallerStatus<WithCallbackMethod_StreamListenerStatus<WithCallbackMethod_StreamScheduledCallerStatus<WithCallbackMethod_InviteToCall<WithCallbackMethod_RemoveCallParticipant<WithCallbackMethod_SetCallMediaControl<WithCallbackMethod_StreamCallAudio<WithCallbackMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_StartCaller : public BaseClass {
@@ -3284,12 +4957,46 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_UpdateCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateCaller() {
+      ::grpc::Service::MarkMethodGeneric(4);
+    }
+    ~WithGenericMethod_UpdateCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallerRequest* /*request*/, ::ondewo::vtsi::UpdateCallerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UpdateCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateCallers() {
+      ::grpc::Service::MarkMethodGeneric(5);
+    }
+    ~WithGenericMethod_UpdateCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallersRequest* /*request*/, ::ondewo::vtsi::UpdateCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_DeleteCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteCaller() {
-      ::grpc::Service::MarkMethodGeneric(4);
+      ::grpc::Service::MarkMethodGeneric(6);
     }
     ~WithGenericMethod_DeleteCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3306,7 +5013,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteCallers() {
-      ::grpc::Service::MarkMethodGeneric(5);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_DeleteCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3323,7 +5030,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StopCaller() {
-      ::grpc::Service::MarkMethodGeneric(6);
+      ::grpc::Service::MarkMethodGeneric(8);
     }
     ~WithGenericMethod_StopCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3340,7 +5047,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StopCallers() {
-      ::grpc::Service::MarkMethodGeneric(7);
+      ::grpc::Service::MarkMethodGeneric(9);
     }
     ~WithGenericMethod_StopCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3357,7 +5064,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StartListener() {
-      ::grpc::Service::MarkMethodGeneric(8);
+      ::grpc::Service::MarkMethodGeneric(10);
     }
     ~WithGenericMethod_StartListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3374,7 +5081,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StartListeners() {
-      ::grpc::Service::MarkMethodGeneric(9);
+      ::grpc::Service::MarkMethodGeneric(11);
     }
     ~WithGenericMethod_StartListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3391,7 +5098,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StopListener() {
-      ::grpc::Service::MarkMethodGeneric(10);
+      ::grpc::Service::MarkMethodGeneric(12);
     }
     ~WithGenericMethod_StopListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3408,7 +5115,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StopListeners() {
-      ::grpc::Service::MarkMethodGeneric(11);
+      ::grpc::Service::MarkMethodGeneric(13);
     }
     ~WithGenericMethod_StopListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3425,7 +5132,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListListeners() {
-      ::grpc::Service::MarkMethodGeneric(12);
+      ::grpc::Service::MarkMethodGeneric(14);
     }
     ~WithGenericMethod_ListListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3442,7 +5149,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetListener() {
-      ::grpc::Service::MarkMethodGeneric(13);
+      ::grpc::Service::MarkMethodGeneric(15);
     }
     ~WithGenericMethod_GetListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3454,12 +5161,46 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_UpdateListener : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateListener() {
+      ::grpc::Service::MarkMethodGeneric(16);
+    }
+    ~WithGenericMethod_UpdateListener() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListener(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenerRequest* /*request*/, ::ondewo::vtsi::UpdateListenerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UpdateListeners : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateListeners() {
+      ::grpc::Service::MarkMethodGeneric(17);
+    }
+    ~WithGenericMethod_UpdateListeners() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListeners(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenersRequest* /*request*/, ::ondewo::vtsi::UpdateListenersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_DeleteListener : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteListener() {
-      ::grpc::Service::MarkMethodGeneric(14);
+      ::grpc::Service::MarkMethodGeneric(18);
     }
     ~WithGenericMethod_DeleteListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3476,7 +5217,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteListeners() {
-      ::grpc::Service::MarkMethodGeneric(15);
+      ::grpc::Service::MarkMethodGeneric(19);
     }
     ~WithGenericMethod_DeleteListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3493,7 +5234,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StartScheduledCaller() {
-      ::grpc::Service::MarkMethodGeneric(16);
+      ::grpc::Service::MarkMethodGeneric(20);
     }
     ~WithGenericMethod_StartScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3510,7 +5251,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StartScheduledCallers() {
-      ::grpc::Service::MarkMethodGeneric(17);
+      ::grpc::Service::MarkMethodGeneric(21);
     }
     ~WithGenericMethod_StartScheduledCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3527,7 +5268,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_AddCallersToCampaign() {
-      ::grpc::Service::MarkMethodGeneric(18);
+      ::grpc::Service::MarkMethodGeneric(22);
     }
     ~WithGenericMethod_AddCallersToCampaign() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3544,7 +5285,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_AddScheduledCallersToCampaign() {
-      ::grpc::Service::MarkMethodGeneric(19);
+      ::grpc::Service::MarkMethodGeneric(23);
     }
     ~WithGenericMethod_AddScheduledCallersToCampaign() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3561,7 +5302,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetScheduledCaller() {
-      ::grpc::Service::MarkMethodGeneric(20);
+      ::grpc::Service::MarkMethodGeneric(24);
     }
     ~WithGenericMethod_GetScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3578,7 +5319,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListScheduledCallers() {
-      ::grpc::Service::MarkMethodGeneric(21);
+      ::grpc::Service::MarkMethodGeneric(25);
     }
     ~WithGenericMethod_ListScheduledCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3590,12 +5331,29 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_UpdateScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateScheduledCaller() {
+      ::grpc::Service::MarkMethodGeneric(26);
+    }
+    ~WithGenericMethod_UpdateScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_CancelScheduledCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_CancelScheduledCaller() {
-      ::grpc::Service::MarkMethodGeneric(22);
+      ::grpc::Service::MarkMethodGeneric(27);
     }
     ~WithGenericMethod_CancelScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3607,12 +5365,46 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_CancelScheduledCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_CancelScheduledCallers() {
+      ::grpc::Service::MarkMethodGeneric(28);
+    }
+    ~WithGenericMethod_CancelScheduledCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelScheduledCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::CancelScheduledCallersRequest* /*request*/, ::ondewo::vtsi::CancelScheduledCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RetryScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RetryScheduledCaller() {
+      ::grpc::Service::MarkMethodGeneric(29);
+    }
+    ~WithGenericMethod_RetryScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RetryScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::RetryScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_StopCall : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StopCall() {
-      ::grpc::Service::MarkMethodGeneric(23);
+      ::grpc::Service::MarkMethodGeneric(30);
     }
     ~WithGenericMethod_StopCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3629,7 +5421,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StopCalls() {
-      ::grpc::Service::MarkMethodGeneric(24);
+      ::grpc::Service::MarkMethodGeneric(31);
     }
     ~WithGenericMethod_StopCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3646,7 +5438,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StopAllCalls() {
-      ::grpc::Service::MarkMethodGeneric(25);
+      ::grpc::Service::MarkMethodGeneric(32);
     }
     ~WithGenericMethod_StopAllCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3663,7 +5455,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_TransferCall() {
-      ::grpc::Service::MarkMethodGeneric(26);
+      ::grpc::Service::MarkMethodGeneric(33);
     }
     ~WithGenericMethod_TransferCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3680,7 +5472,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_TransferCalls() {
-      ::grpc::Service::MarkMethodGeneric(27);
+      ::grpc::Service::MarkMethodGeneric(34);
     }
     ~WithGenericMethod_TransferCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3697,7 +5489,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetCall() {
-      ::grpc::Service::MarkMethodGeneric(28);
+      ::grpc::Service::MarkMethodGeneric(35);
     }
     ~WithGenericMethod_GetCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3714,7 +5506,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListCalls() {
-      ::grpc::Service::MarkMethodGeneric(29);
+      ::grpc::Service::MarkMethodGeneric(36);
     }
     ~WithGenericMethod_ListCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3726,12 +5518,63 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_GetCallStatistics : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetCallStatistics() {
+      ::grpc::Service::MarkMethodGeneric(37);
+    }
+    ~WithGenericMethod_GetCallStatistics() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetCallStatistics(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetCallStatisticsRequest* /*request*/, ::ondewo::vtsi::CallStatistics* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UpdateCall : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateCall() {
+      ::grpc::Service::MarkMethodGeneric(38);
+    }
+    ~WithGenericMethod_UpdateCall() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCall(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallRequest* /*request*/, ::ondewo::vtsi::UpdateCallResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UpdateCalls : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateCalls() {
+      ::grpc::Service::MarkMethodGeneric(39);
+    }
+    ~WithGenericMethod_UpdateCalls() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCalls(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallsRequest* /*request*/, ::ondewo::vtsi::UpdateCallsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_StreamCallerStatus : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StreamCallerStatus() {
-      ::grpc::Service::MarkMethodGeneric(30);
+      ::grpc::Service::MarkMethodGeneric(40);
     }
     ~WithGenericMethod_StreamCallerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3748,7 +5591,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StreamListenerStatus() {
-      ::grpc::Service::MarkMethodGeneric(31);
+      ::grpc::Service::MarkMethodGeneric(41);
     }
     ~WithGenericMethod_StreamListenerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3765,7 +5608,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StreamScheduledCallerStatus() {
-      ::grpc::Service::MarkMethodGeneric(32);
+      ::grpc::Service::MarkMethodGeneric(42);
     }
     ~WithGenericMethod_StreamScheduledCallerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3782,7 +5625,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_InviteToCall() {
-      ::grpc::Service::MarkMethodGeneric(33);
+      ::grpc::Service::MarkMethodGeneric(43);
     }
     ~WithGenericMethod_InviteToCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3799,7 +5642,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_RemoveCallParticipant() {
-      ::grpc::Service::MarkMethodGeneric(34);
+      ::grpc::Service::MarkMethodGeneric(44);
     }
     ~WithGenericMethod_RemoveCallParticipant() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3816,7 +5659,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SetCallMediaControl() {
-      ::grpc::Service::MarkMethodGeneric(35);
+      ::grpc::Service::MarkMethodGeneric(45);
     }
     ~WithGenericMethod_SetCallMediaControl() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3833,7 +5676,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodGeneric(36);
+      ::grpc::Service::MarkMethodGeneric(46);
     }
     ~WithGenericMethod_StreamCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3850,7 +5693,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodGeneric(37);
+      ::grpc::Service::MarkMethodGeneric(47);
     }
     ~WithGenericMethod_ListenCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3942,12 +5785,52 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_UpdateCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateCaller() {
+      ::grpc::Service::MarkMethodRaw(4);
+    }
+    ~WithRawMethod_UpdateCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallerRequest* /*request*/, ::ondewo::vtsi::UpdateCallerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCaller(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpdateCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateCallers() {
+      ::grpc::Service::MarkMethodRaw(5);
+    }
+    ~WithRawMethod_UpdateCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallersRequest* /*request*/, ::ondewo::vtsi::UpdateCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCallers(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_DeleteCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteCaller() {
-      ::grpc::Service::MarkMethodRaw(4);
+      ::grpc::Service::MarkMethodRaw(6);
     }
     ~WithRawMethod_DeleteCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3958,7 +5841,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteCaller(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -3967,7 +5850,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteCallers() {
-      ::grpc::Service::MarkMethodRaw(5);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_DeleteCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3978,7 +5861,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteCallers(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -3987,7 +5870,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StopCaller() {
-      ::grpc::Service::MarkMethodRaw(6);
+      ::grpc::Service::MarkMethodRaw(8);
     }
     ~WithRawMethod_StopCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3998,7 +5881,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopCaller(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4007,7 +5890,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StopCallers() {
-      ::grpc::Service::MarkMethodRaw(7);
+      ::grpc::Service::MarkMethodRaw(9);
     }
     ~WithRawMethod_StopCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4018,7 +5901,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopCallers(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4027,7 +5910,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StartListener() {
-      ::grpc::Service::MarkMethodRaw(8);
+      ::grpc::Service::MarkMethodRaw(10);
     }
     ~WithRawMethod_StartListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4038,7 +5921,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStartListener(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4047,7 +5930,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StartListeners() {
-      ::grpc::Service::MarkMethodRaw(9);
+      ::grpc::Service::MarkMethodRaw(11);
     }
     ~WithRawMethod_StartListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4058,7 +5941,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStartListeners(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4067,7 +5950,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StopListener() {
-      ::grpc::Service::MarkMethodRaw(10);
+      ::grpc::Service::MarkMethodRaw(12);
     }
     ~WithRawMethod_StopListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4078,7 +5961,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopListener(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4087,7 +5970,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StopListeners() {
-      ::grpc::Service::MarkMethodRaw(11);
+      ::grpc::Service::MarkMethodRaw(13);
     }
     ~WithRawMethod_StopListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4098,7 +5981,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopListeners(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4107,7 +5990,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListListeners() {
-      ::grpc::Service::MarkMethodRaw(12);
+      ::grpc::Service::MarkMethodRaw(14);
     }
     ~WithRawMethod_ListListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4118,7 +6001,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListListeners(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4127,7 +6010,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetListener() {
-      ::grpc::Service::MarkMethodRaw(13);
+      ::grpc::Service::MarkMethodRaw(15);
     }
     ~WithRawMethod_GetListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4138,7 +6021,47 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetListener(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpdateListener : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateListener() {
+      ::grpc::Service::MarkMethodRaw(16);
+    }
+    ~WithRawMethod_UpdateListener() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListener(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenerRequest* /*request*/, ::ondewo::vtsi::UpdateListenerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateListener(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpdateListeners : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateListeners() {
+      ::grpc::Service::MarkMethodRaw(17);
+    }
+    ~WithRawMethod_UpdateListeners() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListeners(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenersRequest* /*request*/, ::ondewo::vtsi::UpdateListenersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateListeners(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4147,7 +6070,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteListener() {
-      ::grpc::Service::MarkMethodRaw(14);
+      ::grpc::Service::MarkMethodRaw(18);
     }
     ~WithRawMethod_DeleteListener() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4158,7 +6081,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteListener(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4167,7 +6090,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteListeners() {
-      ::grpc::Service::MarkMethodRaw(15);
+      ::grpc::Service::MarkMethodRaw(19);
     }
     ~WithRawMethod_DeleteListeners() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4178,7 +6101,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteListeners(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4187,7 +6110,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StartScheduledCaller() {
-      ::grpc::Service::MarkMethodRaw(16);
+      ::grpc::Service::MarkMethodRaw(20);
     }
     ~WithRawMethod_StartScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4198,7 +6121,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStartScheduledCaller(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4207,7 +6130,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StartScheduledCallers() {
-      ::grpc::Service::MarkMethodRaw(17);
+      ::grpc::Service::MarkMethodRaw(21);
     }
     ~WithRawMethod_StartScheduledCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4218,7 +6141,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStartScheduledCallers(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(21, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4227,7 +6150,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_AddCallersToCampaign() {
-      ::grpc::Service::MarkMethodRaw(18);
+      ::grpc::Service::MarkMethodRaw(22);
     }
     ~WithRawMethod_AddCallersToCampaign() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4238,7 +6161,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddCallersToCampaign(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4247,7 +6170,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_AddScheduledCallersToCampaign() {
-      ::grpc::Service::MarkMethodRaw(19);
+      ::grpc::Service::MarkMethodRaw(23);
     }
     ~WithRawMethod_AddScheduledCallersToCampaign() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4258,7 +6181,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddScheduledCallersToCampaign(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4267,7 +6190,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetScheduledCaller() {
-      ::grpc::Service::MarkMethodRaw(20);
+      ::grpc::Service::MarkMethodRaw(24);
     }
     ~WithRawMethod_GetScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4278,7 +6201,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetScheduledCaller(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(24, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4287,7 +6210,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListScheduledCallers() {
-      ::grpc::Service::MarkMethodRaw(21);
+      ::grpc::Service::MarkMethodRaw(25);
     }
     ~WithRawMethod_ListScheduledCallers() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4298,7 +6221,27 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListScheduledCallers(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(21, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(25, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpdateScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateScheduledCaller() {
+      ::grpc::Service::MarkMethodRaw(26);
+    }
+    ~WithRawMethod_UpdateScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateScheduledCaller(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4307,7 +6250,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_CancelScheduledCaller() {
-      ::grpc::Service::MarkMethodRaw(22);
+      ::grpc::Service::MarkMethodRaw(27);
     }
     ~WithRawMethod_CancelScheduledCaller() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4318,7 +6261,47 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCancelScheduledCaller(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(27, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_CancelScheduledCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_CancelScheduledCallers() {
+      ::grpc::Service::MarkMethodRaw(28);
+    }
+    ~WithRawMethod_CancelScheduledCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelScheduledCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::CancelScheduledCallersRequest* /*request*/, ::ondewo::vtsi::CancelScheduledCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestCancelScheduledCallers(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(28, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RetryScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RetryScheduledCaller() {
+      ::grpc::Service::MarkMethodRaw(29);
+    }
+    ~WithRawMethod_RetryScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RetryScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::RetryScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRetryScheduledCaller(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(29, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4327,7 +6310,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StopCall() {
-      ::grpc::Service::MarkMethodRaw(23);
+      ::grpc::Service::MarkMethodRaw(30);
     }
     ~WithRawMethod_StopCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4338,7 +6321,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopCall(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(30, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4347,7 +6330,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StopCalls() {
-      ::grpc::Service::MarkMethodRaw(24);
+      ::grpc::Service::MarkMethodRaw(31);
     }
     ~WithRawMethod_StopCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4358,7 +6341,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopCalls(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(24, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(31, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4367,7 +6350,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StopAllCalls() {
-      ::grpc::Service::MarkMethodRaw(25);
+      ::grpc::Service::MarkMethodRaw(32);
     }
     ~WithRawMethod_StopAllCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4378,7 +6361,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStopAllCalls(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(25, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(32, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4387,7 +6370,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_TransferCall() {
-      ::grpc::Service::MarkMethodRaw(26);
+      ::grpc::Service::MarkMethodRaw(33);
     }
     ~WithRawMethod_TransferCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4398,7 +6381,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestTransferCall(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(33, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4407,7 +6390,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_TransferCalls() {
-      ::grpc::Service::MarkMethodRaw(27);
+      ::grpc::Service::MarkMethodRaw(34);
     }
     ~WithRawMethod_TransferCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4418,7 +6401,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestTransferCalls(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(27, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(34, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4427,7 +6410,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetCall() {
-      ::grpc::Service::MarkMethodRaw(28);
+      ::grpc::Service::MarkMethodRaw(35);
     }
     ~WithRawMethod_GetCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4438,7 +6421,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetCall(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(28, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(35, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4447,7 +6430,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListCalls() {
-      ::grpc::Service::MarkMethodRaw(29);
+      ::grpc::Service::MarkMethodRaw(36);
     }
     ~WithRawMethod_ListCalls() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4458,7 +6441,67 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListCalls(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(29, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(36, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_GetCallStatistics : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetCallStatistics() {
+      ::grpc::Service::MarkMethodRaw(37);
+    }
+    ~WithRawMethod_GetCallStatistics() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetCallStatistics(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetCallStatisticsRequest* /*request*/, ::ondewo::vtsi::CallStatistics* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetCallStatistics(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(37, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpdateCall : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateCall() {
+      ::grpc::Service::MarkMethodRaw(38);
+    }
+    ~WithRawMethod_UpdateCall() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCall(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallRequest* /*request*/, ::ondewo::vtsi::UpdateCallResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCall(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(38, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpdateCalls : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateCalls() {
+      ::grpc::Service::MarkMethodRaw(39);
+    }
+    ~WithRawMethod_UpdateCalls() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCalls(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallsRequest* /*request*/, ::ondewo::vtsi::UpdateCallsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCalls(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(39, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4467,7 +6510,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StreamCallerStatus() {
-      ::grpc::Service::MarkMethodRaw(30);
+      ::grpc::Service::MarkMethodRaw(40);
     }
     ~WithRawMethod_StreamCallerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4478,7 +6521,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamCallerStatus(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(30, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(40, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4487,7 +6530,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StreamListenerStatus() {
-      ::grpc::Service::MarkMethodRaw(31);
+      ::grpc::Service::MarkMethodRaw(41);
     }
     ~WithRawMethod_StreamListenerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4498,7 +6541,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamListenerStatus(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(31, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(41, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4507,7 +6550,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StreamScheduledCallerStatus() {
-      ::grpc::Service::MarkMethodRaw(32);
+      ::grpc::Service::MarkMethodRaw(42);
     }
     ~WithRawMethod_StreamScheduledCallerStatus() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4518,7 +6561,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamScheduledCallerStatus(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(32, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(42, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4527,7 +6570,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_InviteToCall() {
-      ::grpc::Service::MarkMethodRaw(33);
+      ::grpc::Service::MarkMethodRaw(43);
     }
     ~WithRawMethod_InviteToCall() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4538,7 +6581,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestInviteToCall(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(33, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(43, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4547,7 +6590,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_RemoveCallParticipant() {
-      ::grpc::Service::MarkMethodRaw(34);
+      ::grpc::Service::MarkMethodRaw(44);
     }
     ~WithRawMethod_RemoveCallParticipant() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4558,7 +6601,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestRemoveCallParticipant(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(34, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(44, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4567,7 +6610,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SetCallMediaControl() {
-      ::grpc::Service::MarkMethodRaw(35);
+      ::grpc::Service::MarkMethodRaw(45);
     }
     ~WithRawMethod_SetCallMediaControl() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4578,7 +6621,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestSetCallMediaControl(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(35, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(45, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4587,7 +6630,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodRaw(36);
+      ::grpc::Service::MarkMethodRaw(46);
     }
     ~WithRawMethod_StreamCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4598,7 +6641,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamCallAudio(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncBidiStreaming(36, context, stream, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncBidiStreaming(46, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4607,7 +6650,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodRaw(37);
+      ::grpc::Service::MarkMethodRaw(47);
     }
     ~WithRawMethod_ListenCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4618,7 +6661,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListenCallAudio(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(37, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(47, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4710,12 +6753,56 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_UpdateCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateCaller() {
+      ::grpc::Service::MarkMethodRawCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateCaller(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallerRequest* /*request*/, ::ondewo::vtsi::UpdateCallerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCaller(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UpdateCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateCallers() {
+      ::grpc::Service::MarkMethodRawCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateCallers(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallersRequest* /*request*/, ::ondewo::vtsi::UpdateCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCallers(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_DeleteCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteCaller() {
-      ::grpc::Service::MarkMethodRawCallback(4,
+      ::grpc::Service::MarkMethodRawCallback(6,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteCaller(context, request, response); }));
@@ -4737,7 +6824,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteCallers() {
-      ::grpc::Service::MarkMethodRawCallback(5,
+      ::grpc::Service::MarkMethodRawCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteCallers(context, request, response); }));
@@ -4759,7 +6846,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StopCaller() {
-      ::grpc::Service::MarkMethodRawCallback(6,
+      ::grpc::Service::MarkMethodRawCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StopCaller(context, request, response); }));
@@ -4781,7 +6868,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StopCallers() {
-      ::grpc::Service::MarkMethodRawCallback(7,
+      ::grpc::Service::MarkMethodRawCallback(9,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StopCallers(context, request, response); }));
@@ -4803,7 +6890,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StartListener() {
-      ::grpc::Service::MarkMethodRawCallback(8,
+      ::grpc::Service::MarkMethodRawCallback(10,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StartListener(context, request, response); }));
@@ -4825,7 +6912,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StartListeners() {
-      ::grpc::Service::MarkMethodRawCallback(9,
+      ::grpc::Service::MarkMethodRawCallback(11,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StartListeners(context, request, response); }));
@@ -4847,7 +6934,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StopListener() {
-      ::grpc::Service::MarkMethodRawCallback(10,
+      ::grpc::Service::MarkMethodRawCallback(12,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StopListener(context, request, response); }));
@@ -4869,7 +6956,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StopListeners() {
-      ::grpc::Service::MarkMethodRawCallback(11,
+      ::grpc::Service::MarkMethodRawCallback(13,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StopListeners(context, request, response); }));
@@ -4891,7 +6978,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListListeners() {
-      ::grpc::Service::MarkMethodRawCallback(12,
+      ::grpc::Service::MarkMethodRawCallback(14,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListListeners(context, request, response); }));
@@ -4913,7 +7000,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetListener() {
-      ::grpc::Service::MarkMethodRawCallback(13,
+      ::grpc::Service::MarkMethodRawCallback(15,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetListener(context, request, response); }));
@@ -4930,12 +7017,56 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_UpdateListener : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateListener() {
+      ::grpc::Service::MarkMethodRawCallback(16,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateListener(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateListener() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListener(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenerRequest* /*request*/, ::ondewo::vtsi::UpdateListenerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateListener(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UpdateListeners : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateListeners() {
+      ::grpc::Service::MarkMethodRawCallback(17,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateListeners(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateListeners() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateListeners(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenersRequest* /*request*/, ::ondewo::vtsi::UpdateListenersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateListeners(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_DeleteListener : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteListener() {
-      ::grpc::Service::MarkMethodRawCallback(14,
+      ::grpc::Service::MarkMethodRawCallback(18,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteListener(context, request, response); }));
@@ -4957,7 +7088,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteListeners() {
-      ::grpc::Service::MarkMethodRawCallback(15,
+      ::grpc::Service::MarkMethodRawCallback(19,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteListeners(context, request, response); }));
@@ -4979,7 +7110,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StartScheduledCaller() {
-      ::grpc::Service::MarkMethodRawCallback(16,
+      ::grpc::Service::MarkMethodRawCallback(20,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StartScheduledCaller(context, request, response); }));
@@ -5001,7 +7132,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StartScheduledCallers() {
-      ::grpc::Service::MarkMethodRawCallback(17,
+      ::grpc::Service::MarkMethodRawCallback(21,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StartScheduledCallers(context, request, response); }));
@@ -5023,7 +7154,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_AddCallersToCampaign() {
-      ::grpc::Service::MarkMethodRawCallback(18,
+      ::grpc::Service::MarkMethodRawCallback(22,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddCallersToCampaign(context, request, response); }));
@@ -5045,7 +7176,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_AddScheduledCallersToCampaign() {
-      ::grpc::Service::MarkMethodRawCallback(19,
+      ::grpc::Service::MarkMethodRawCallback(23,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddScheduledCallersToCampaign(context, request, response); }));
@@ -5067,7 +7198,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetScheduledCaller() {
-      ::grpc::Service::MarkMethodRawCallback(20,
+      ::grpc::Service::MarkMethodRawCallback(24,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetScheduledCaller(context, request, response); }));
@@ -5089,7 +7220,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListScheduledCallers() {
-      ::grpc::Service::MarkMethodRawCallback(21,
+      ::grpc::Service::MarkMethodRawCallback(25,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListScheduledCallers(context, request, response); }));
@@ -5106,12 +7237,34 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_UpdateScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateScheduledCaller() {
+      ::grpc::Service::MarkMethodRawCallback(26,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateScheduledCaller(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateScheduledCaller(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_CancelScheduledCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_CancelScheduledCaller() {
-      ::grpc::Service::MarkMethodRawCallback(22,
+      ::grpc::Service::MarkMethodRawCallback(27,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->CancelScheduledCaller(context, request, response); }));
@@ -5128,12 +7281,56 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_CancelScheduledCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_CancelScheduledCallers() {
+      ::grpc::Service::MarkMethodRawCallback(28,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->CancelScheduledCallers(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_CancelScheduledCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status CancelScheduledCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::CancelScheduledCallersRequest* /*request*/, ::ondewo::vtsi::CancelScheduledCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* CancelScheduledCallers(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RetryScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RetryScheduledCaller() {
+      ::grpc::Service::MarkMethodRawCallback(29,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->RetryScheduledCaller(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_RetryScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RetryScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::RetryScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* RetryScheduledCaller(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_StopCall : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StopCall() {
-      ::grpc::Service::MarkMethodRawCallback(23,
+      ::grpc::Service::MarkMethodRawCallback(30,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StopCall(context, request, response); }));
@@ -5155,7 +7352,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StopCalls() {
-      ::grpc::Service::MarkMethodRawCallback(24,
+      ::grpc::Service::MarkMethodRawCallback(31,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StopCalls(context, request, response); }));
@@ -5177,7 +7374,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StopAllCalls() {
-      ::grpc::Service::MarkMethodRawCallback(25,
+      ::grpc::Service::MarkMethodRawCallback(32,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->StopAllCalls(context, request, response); }));
@@ -5199,7 +7396,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_TransferCall() {
-      ::grpc::Service::MarkMethodRawCallback(26,
+      ::grpc::Service::MarkMethodRawCallback(33,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->TransferCall(context, request, response); }));
@@ -5221,7 +7418,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_TransferCalls() {
-      ::grpc::Service::MarkMethodRawCallback(27,
+      ::grpc::Service::MarkMethodRawCallback(34,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->TransferCalls(context, request, response); }));
@@ -5243,7 +7440,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetCall() {
-      ::grpc::Service::MarkMethodRawCallback(28,
+      ::grpc::Service::MarkMethodRawCallback(35,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetCall(context, request, response); }));
@@ -5265,7 +7462,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListCalls() {
-      ::grpc::Service::MarkMethodRawCallback(29,
+      ::grpc::Service::MarkMethodRawCallback(36,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListCalls(context, request, response); }));
@@ -5282,12 +7479,78 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_GetCallStatistics : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_GetCallStatistics() {
+      ::grpc::Service::MarkMethodRawCallback(37,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetCallStatistics(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_GetCallStatistics() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetCallStatistics(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetCallStatisticsRequest* /*request*/, ::ondewo::vtsi::CallStatistics* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetCallStatistics(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UpdateCall : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateCall() {
+      ::grpc::Service::MarkMethodRawCallback(38,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateCall(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateCall() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCall(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallRequest* /*request*/, ::ondewo::vtsi::UpdateCallResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCall(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UpdateCalls : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateCalls() {
+      ::grpc::Service::MarkMethodRawCallback(39,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateCalls(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateCalls() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCalls(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallsRequest* /*request*/, ::ondewo::vtsi::UpdateCallsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCalls(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_StreamCallerStatus : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StreamCallerStatus() {
-      ::grpc::Service::MarkMethodRawCallback(30,
+      ::grpc::Service::MarkMethodRawCallback(40,
           new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->StreamCallerStatus(context, request); }));
@@ -5309,7 +7572,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StreamListenerStatus() {
-      ::grpc::Service::MarkMethodRawCallback(31,
+      ::grpc::Service::MarkMethodRawCallback(41,
           new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->StreamListenerStatus(context, request); }));
@@ -5331,7 +7594,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StreamScheduledCallerStatus() {
-      ::grpc::Service::MarkMethodRawCallback(32,
+      ::grpc::Service::MarkMethodRawCallback(42,
           new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->StreamScheduledCallerStatus(context, request); }));
@@ -5353,7 +7616,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_InviteToCall() {
-      ::grpc::Service::MarkMethodRawCallback(33,
+      ::grpc::Service::MarkMethodRawCallback(43,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->InviteToCall(context, request, response); }));
@@ -5375,7 +7638,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_RemoveCallParticipant() {
-      ::grpc::Service::MarkMethodRawCallback(34,
+      ::grpc::Service::MarkMethodRawCallback(44,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->RemoveCallParticipant(context, request, response); }));
@@ -5397,7 +7660,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_SetCallMediaControl() {
-      ::grpc::Service::MarkMethodRawCallback(35,
+      ::grpc::Service::MarkMethodRawCallback(45,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetCallMediaControl(context, request, response); }));
@@ -5419,7 +7682,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodRawCallback(36,
+      ::grpc::Service::MarkMethodRawCallback(46,
           new ::grpc::internal::CallbackBidiHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context) { return this->StreamCallAudio(context); }));
@@ -5442,7 +7705,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodRawCallback(37,
+      ::grpc::Service::MarkMethodRawCallback(47,
           new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->ListenCallAudio(context, request); }));
@@ -5567,12 +7830,66 @@ class Calls final {
     virtual ::grpc::Status StreamedGetCaller(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::GetCallerRequest,::ondewo::vtsi::Caller>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateCaller() {
+      ::grpc::Service::MarkMethodStreamed(4,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::UpdateCallerRequest, ::ondewo::vtsi::UpdateCallerResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::UpdateCallerRequest, ::ondewo::vtsi::UpdateCallerResponse>* streamer) {
+                       return this->StreamedUpdateCaller(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallerRequest* /*request*/, ::ondewo::vtsi::UpdateCallerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateCaller(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::UpdateCallerRequest,::ondewo::vtsi::UpdateCallerResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateCallers() {
+      ::grpc::Service::MarkMethodStreamed(5,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::UpdateCallersRequest, ::ondewo::vtsi::UpdateCallersResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::UpdateCallersRequest, ::ondewo::vtsi::UpdateCallersResponse>* streamer) {
+                       return this->StreamedUpdateCallers(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallersRequest* /*request*/, ::ondewo::vtsi::UpdateCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateCallers(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::UpdateCallersRequest,::ondewo::vtsi::UpdateCallersResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_DeleteCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteCaller() {
-      ::grpc::Service::MarkMethodStreamed(4,
+      ::grpc::Service::MarkMethodStreamed(6,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::DeleteCallerRequest, ::ondewo::vtsi::DeleteCallerResponse>(
             [this](::grpc::ServerContext* context,
@@ -5599,7 +7916,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteCallers() {
-      ::grpc::Service::MarkMethodStreamed(5,
+      ::grpc::Service::MarkMethodStreamed(7,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::DeleteCallersRequest, ::ondewo::vtsi::DeleteCallersResponse>(
             [this](::grpc::ServerContext* context,
@@ -5626,7 +7943,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StopCaller() {
-      ::grpc::Service::MarkMethodStreamed(6,
+      ::grpc::Service::MarkMethodStreamed(8,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StopCallerRequest, ::ondewo::vtsi::StopCallerResponse>(
             [this](::grpc::ServerContext* context,
@@ -5653,7 +7970,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StopCallers() {
-      ::grpc::Service::MarkMethodStreamed(7,
+      ::grpc::Service::MarkMethodStreamed(9,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StopCallersRequest, ::ondewo::vtsi::StopCallersResponse>(
             [this](::grpc::ServerContext* context,
@@ -5680,7 +7997,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StartListener() {
-      ::grpc::Service::MarkMethodStreamed(8,
+      ::grpc::Service::MarkMethodStreamed(10,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StartListenerRequest, ::ondewo::vtsi::StartListenerResponse>(
             [this](::grpc::ServerContext* context,
@@ -5707,7 +8024,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StartListeners() {
-      ::grpc::Service::MarkMethodStreamed(9,
+      ::grpc::Service::MarkMethodStreamed(11,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StartListenersRequest, ::ondewo::vtsi::StartListenersResponse>(
             [this](::grpc::ServerContext* context,
@@ -5734,7 +8051,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StopListener() {
-      ::grpc::Service::MarkMethodStreamed(10,
+      ::grpc::Service::MarkMethodStreamed(12,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StopListenerRequest, ::ondewo::vtsi::StopListenerResponse>(
             [this](::grpc::ServerContext* context,
@@ -5761,7 +8078,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StopListeners() {
-      ::grpc::Service::MarkMethodStreamed(11,
+      ::grpc::Service::MarkMethodStreamed(13,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StopListenersRequest, ::ondewo::vtsi::StopListenersResponse>(
             [this](::grpc::ServerContext* context,
@@ -5788,7 +8105,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListListeners() {
-      ::grpc::Service::MarkMethodStreamed(12,
+      ::grpc::Service::MarkMethodStreamed(14,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::ListListenersRequest, ::ondewo::vtsi::ListListenersResponse>(
             [this](::grpc::ServerContext* context,
@@ -5815,7 +8132,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetListener() {
-      ::grpc::Service::MarkMethodStreamed(13,
+      ::grpc::Service::MarkMethodStreamed(15,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::GetListenerRequest, ::ondewo::vtsi::Listener>(
             [this](::grpc::ServerContext* context,
@@ -5837,12 +8154,66 @@ class Calls final {
     virtual ::grpc::Status StreamedGetListener(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::GetListenerRequest,::ondewo::vtsi::Listener>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateListener : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateListener() {
+      ::grpc::Service::MarkMethodStreamed(16,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::UpdateListenerRequest, ::ondewo::vtsi::UpdateListenerResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::UpdateListenerRequest, ::ondewo::vtsi::UpdateListenerResponse>* streamer) {
+                       return this->StreamedUpdateListener(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateListener() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateListener(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenerRequest* /*request*/, ::ondewo::vtsi::UpdateListenerResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateListener(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::UpdateListenerRequest,::ondewo::vtsi::UpdateListenerResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateListeners : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateListeners() {
+      ::grpc::Service::MarkMethodStreamed(17,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::UpdateListenersRequest, ::ondewo::vtsi::UpdateListenersResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::UpdateListenersRequest, ::ondewo::vtsi::UpdateListenersResponse>* streamer) {
+                       return this->StreamedUpdateListeners(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateListeners() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateListeners(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateListenersRequest* /*request*/, ::ondewo::vtsi::UpdateListenersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateListeners(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::UpdateListenersRequest,::ondewo::vtsi::UpdateListenersResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_DeleteListener : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteListener() {
-      ::grpc::Service::MarkMethodStreamed(14,
+      ::grpc::Service::MarkMethodStreamed(18,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::DeleteListenerRequest, ::ondewo::vtsi::DeleteListenerResponse>(
             [this](::grpc::ServerContext* context,
@@ -5869,7 +8240,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteListeners() {
-      ::grpc::Service::MarkMethodStreamed(15,
+      ::grpc::Service::MarkMethodStreamed(19,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::DeleteListenersRequest, ::ondewo::vtsi::DeleteListenersResponse>(
             [this](::grpc::ServerContext* context,
@@ -5896,7 +8267,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StartScheduledCaller() {
-      ::grpc::Service::MarkMethodStreamed(16,
+      ::grpc::Service::MarkMethodStreamed(20,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StartScheduledCallerRequest, ::ondewo::vtsi::StartScheduledCallerResponse>(
             [this](::grpc::ServerContext* context,
@@ -5923,7 +8294,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StartScheduledCallers() {
-      ::grpc::Service::MarkMethodStreamed(17,
+      ::grpc::Service::MarkMethodStreamed(21,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StartScheduledCallersRequest, ::ondewo::vtsi::StartScheduledCallersResponse>(
             [this](::grpc::ServerContext* context,
@@ -5950,7 +8321,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_AddCallersToCampaign() {
-      ::grpc::Service::MarkMethodStreamed(18,
+      ::grpc::Service::MarkMethodStreamed(22,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::AddCallersToCampaignRequest, ::ondewo::vtsi::AddCallersToCampaignResponse>(
             [this](::grpc::ServerContext* context,
@@ -5977,7 +8348,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_AddScheduledCallersToCampaign() {
-      ::grpc::Service::MarkMethodStreamed(19,
+      ::grpc::Service::MarkMethodStreamed(23,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::AddScheduledCallersToCampaignRequest, ::ondewo::vtsi::AddScheduledCallersToCampaignResponse>(
             [this](::grpc::ServerContext* context,
@@ -6004,7 +8375,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetScheduledCaller() {
-      ::grpc::Service::MarkMethodStreamed(20,
+      ::grpc::Service::MarkMethodStreamed(24,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::GetScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>(
             [this](::grpc::ServerContext* context,
@@ -6031,7 +8402,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListScheduledCallers() {
-      ::grpc::Service::MarkMethodStreamed(21,
+      ::grpc::Service::MarkMethodStreamed(25,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::ListScheduledCallersRequest, ::ondewo::vtsi::ListScheduledCallersResponse>(
             [this](::grpc::ServerContext* context,
@@ -6053,12 +8424,39 @@ class Calls final {
     virtual ::grpc::Status StreamedListScheduledCallers(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::ListScheduledCallersRequest,::ondewo::vtsi::ListScheduledCallersResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateScheduledCaller() {
+      ::grpc::Service::MarkMethodStreamed(26,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::UpdateScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::UpdateScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>* streamer) {
+                       return this->StreamedUpdateScheduledCaller(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateScheduledCaller(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::UpdateScheduledCallerRequest,::ondewo::vtsi::ScheduledCaller>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_CancelScheduledCaller : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_CancelScheduledCaller() {
-      ::grpc::Service::MarkMethodStreamed(22,
+      ::grpc::Service::MarkMethodStreamed(27,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::CancelScheduledCallerRequest, ::ondewo::vtsi::CancelScheduledCallerResponse>(
             [this](::grpc::ServerContext* context,
@@ -6080,12 +8478,66 @@ class Calls final {
     virtual ::grpc::Status StreamedCancelScheduledCaller(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::CancelScheduledCallerRequest,::ondewo::vtsi::CancelScheduledCallerResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_CancelScheduledCallers : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_CancelScheduledCallers() {
+      ::grpc::Service::MarkMethodStreamed(28,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::CancelScheduledCallersRequest, ::ondewo::vtsi::CancelScheduledCallersResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::CancelScheduledCallersRequest, ::ondewo::vtsi::CancelScheduledCallersResponse>* streamer) {
+                       return this->StreamedCancelScheduledCallers(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_CancelScheduledCallers() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status CancelScheduledCallers(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::CancelScheduledCallersRequest* /*request*/, ::ondewo::vtsi::CancelScheduledCallersResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedCancelScheduledCallers(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::CancelScheduledCallersRequest,::ondewo::vtsi::CancelScheduledCallersResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_RetryScheduledCaller : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_RetryScheduledCaller() {
+      ::grpc::Service::MarkMethodStreamed(29,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::RetryScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::RetryScheduledCallerRequest, ::ondewo::vtsi::ScheduledCaller>* streamer) {
+                       return this->StreamedRetryScheduledCaller(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_RetryScheduledCaller() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RetryScheduledCaller(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::RetryScheduledCallerRequest* /*request*/, ::ondewo::vtsi::ScheduledCaller* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedRetryScheduledCaller(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::RetryScheduledCallerRequest,::ondewo::vtsi::ScheduledCaller>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_StopCall : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StopCall() {
-      ::grpc::Service::MarkMethodStreamed(23,
+      ::grpc::Service::MarkMethodStreamed(30,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StopCallRequest, ::ondewo::vtsi::StopCallResponse>(
             [this](::grpc::ServerContext* context,
@@ -6112,7 +8564,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StopCalls() {
-      ::grpc::Service::MarkMethodStreamed(24,
+      ::grpc::Service::MarkMethodStreamed(31,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StopCallsRequest, ::ondewo::vtsi::StopCallsResponse>(
             [this](::grpc::ServerContext* context,
@@ -6139,7 +8591,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_StopAllCalls() {
-      ::grpc::Service::MarkMethodStreamed(25,
+      ::grpc::Service::MarkMethodStreamed(32,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::StopAllCallsRequest, ::ondewo::vtsi::StopCallsResponse>(
             [this](::grpc::ServerContext* context,
@@ -6166,7 +8618,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_TransferCall() {
-      ::grpc::Service::MarkMethodStreamed(26,
+      ::grpc::Service::MarkMethodStreamed(33,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::TransferCallRequest, ::ondewo::vtsi::TransferCallResponse>(
             [this](::grpc::ServerContext* context,
@@ -6193,7 +8645,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_TransferCalls() {
-      ::grpc::Service::MarkMethodStreamed(27,
+      ::grpc::Service::MarkMethodStreamed(34,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::TransferCallsRequest, ::ondewo::vtsi::TransferCallsResponse>(
             [this](::grpc::ServerContext* context,
@@ -6220,7 +8672,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetCall() {
-      ::grpc::Service::MarkMethodStreamed(28,
+      ::grpc::Service::MarkMethodStreamed(35,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::GetCallRequest, ::ondewo::vtsi::Call>(
             [this](::grpc::ServerContext* context,
@@ -6247,7 +8699,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListCalls() {
-      ::grpc::Service::MarkMethodStreamed(29,
+      ::grpc::Service::MarkMethodStreamed(36,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::ListCallsRequest, ::ondewo::vtsi::ListCallsResponse>(
             [this](::grpc::ServerContext* context,
@@ -6269,12 +8721,93 @@ class Calls final {
     virtual ::grpc::Status StreamedListCalls(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::ListCallsRequest,::ondewo::vtsi::ListCallsResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_GetCallStatistics : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetCallStatistics() {
+      ::grpc::Service::MarkMethodStreamed(37,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::GetCallStatisticsRequest, ::ondewo::vtsi::CallStatistics>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::GetCallStatisticsRequest, ::ondewo::vtsi::CallStatistics>* streamer) {
+                       return this->StreamedGetCallStatistics(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetCallStatistics() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetCallStatistics(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetCallStatisticsRequest* /*request*/, ::ondewo::vtsi::CallStatistics* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetCallStatistics(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::GetCallStatisticsRequest,::ondewo::vtsi::CallStatistics>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateCall : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateCall() {
+      ::grpc::Service::MarkMethodStreamed(38,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::UpdateCallRequest, ::ondewo::vtsi::UpdateCallResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::UpdateCallRequest, ::ondewo::vtsi::UpdateCallResponse>* streamer) {
+                       return this->StreamedUpdateCall(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateCall() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateCall(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallRequest* /*request*/, ::ondewo::vtsi::UpdateCallResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateCall(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::UpdateCallRequest,::ondewo::vtsi::UpdateCallResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateCalls : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateCalls() {
+      ::grpc::Service::MarkMethodStreamed(39,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::UpdateCallsRequest, ::ondewo::vtsi::UpdateCallsResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::UpdateCallsRequest, ::ondewo::vtsi::UpdateCallsResponse>* streamer) {
+                       return this->StreamedUpdateCalls(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateCalls() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateCalls(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::UpdateCallsRequest* /*request*/, ::ondewo::vtsi::UpdateCallsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateCalls(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::UpdateCallsRequest,::ondewo::vtsi::UpdateCallsResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_InviteToCall : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_InviteToCall() {
-      ::grpc::Service::MarkMethodStreamed(33,
+      ::grpc::Service::MarkMethodStreamed(43,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::InviteToCallRequest, ::ondewo::vtsi::InviteToCallResponse>(
             [this](::grpc::ServerContext* context,
@@ -6301,7 +8834,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_RemoveCallParticipant() {
-      ::grpc::Service::MarkMethodStreamed(34,
+      ::grpc::Service::MarkMethodStreamed(44,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::RemoveCallParticipantRequest, ::ondewo::vtsi::RemoveCallParticipantResponse>(
             [this](::grpc::ServerContext* context,
@@ -6328,7 +8861,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SetCallMediaControl() {
-      ::grpc::Service::MarkMethodStreamed(35,
+      ::grpc::Service::MarkMethodStreamed(45,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::vtsi::SetCallMediaControlRequest, ::ondewo::vtsi::SetCallMediaControlResponse>(
             [this](::grpc::ServerContext* context,
@@ -6349,14 +8882,14 @@ class Calls final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedSetCallMediaControl(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::SetCallMediaControlRequest,::ondewo::vtsi::SetCallMediaControlResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_StartCaller<WithStreamedUnaryMethod_StartCallers<WithStreamedUnaryMethod_ListCallers<WithStreamedUnaryMethod_GetCaller<WithStreamedUnaryMethod_DeleteCaller<WithStreamedUnaryMethod_DeleteCallers<WithStreamedUnaryMethod_StopCaller<WithStreamedUnaryMethod_StopCallers<WithStreamedUnaryMethod_StartListener<WithStreamedUnaryMethod_StartListeners<WithStreamedUnaryMethod_StopListener<WithStreamedUnaryMethod_StopListeners<WithStreamedUnaryMethod_ListListeners<WithStreamedUnaryMethod_GetListener<WithStreamedUnaryMethod_DeleteListener<WithStreamedUnaryMethod_DeleteListeners<WithStreamedUnaryMethod_StartScheduledCaller<WithStreamedUnaryMethod_StartScheduledCallers<WithStreamedUnaryMethod_AddCallersToCampaign<WithStreamedUnaryMethod_AddScheduledCallersToCampaign<WithStreamedUnaryMethod_GetScheduledCaller<WithStreamedUnaryMethod_ListScheduledCallers<WithStreamedUnaryMethod_CancelScheduledCaller<WithStreamedUnaryMethod_StopCall<WithStreamedUnaryMethod_StopCalls<WithStreamedUnaryMethod_StopAllCalls<WithStreamedUnaryMethod_TransferCall<WithStreamedUnaryMethod_TransferCalls<WithStreamedUnaryMethod_GetCall<WithStreamedUnaryMethod_ListCalls<WithStreamedUnaryMethod_InviteToCall<WithStreamedUnaryMethod_RemoveCallParticipant<WithStreamedUnaryMethod_SetCallMediaControl<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_StartCaller<WithStreamedUnaryMethod_StartCallers<WithStreamedUnaryMethod_ListCallers<WithStreamedUnaryMethod_GetCaller<WithStreamedUnaryMethod_UpdateCaller<WithStreamedUnaryMethod_UpdateCallers<WithStreamedUnaryMethod_DeleteCaller<WithStreamedUnaryMethod_DeleteCallers<WithStreamedUnaryMethod_StopCaller<WithStreamedUnaryMethod_StopCallers<WithStreamedUnaryMethod_StartListener<WithStreamedUnaryMethod_StartListeners<WithStreamedUnaryMethod_StopListener<WithStreamedUnaryMethod_StopListeners<WithStreamedUnaryMethod_ListListeners<WithStreamedUnaryMethod_GetListener<WithStreamedUnaryMethod_UpdateListener<WithStreamedUnaryMethod_UpdateListeners<WithStreamedUnaryMethod_DeleteListener<WithStreamedUnaryMethod_DeleteListeners<WithStreamedUnaryMethod_StartScheduledCaller<WithStreamedUnaryMethod_StartScheduledCallers<WithStreamedUnaryMethod_AddCallersToCampaign<WithStreamedUnaryMethod_AddScheduledCallersToCampaign<WithStreamedUnaryMethod_GetScheduledCaller<WithStreamedUnaryMethod_ListScheduledCallers<WithStreamedUnaryMethod_UpdateScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCallers<WithStreamedUnaryMethod_RetryScheduledCaller<WithStreamedUnaryMethod_StopCall<WithStreamedUnaryMethod_StopCalls<WithStreamedUnaryMethod_StopAllCalls<WithStreamedUnaryMethod_TransferCall<WithStreamedUnaryMethod_TransferCalls<WithStreamedUnaryMethod_GetCall<WithStreamedUnaryMethod_ListCalls<WithStreamedUnaryMethod_GetCallStatistics<WithStreamedUnaryMethod_UpdateCall<WithStreamedUnaryMethod_UpdateCalls<WithStreamedUnaryMethod_InviteToCall<WithStreamedUnaryMethod_RemoveCallParticipant<WithStreamedUnaryMethod_SetCallMediaControl<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
   template <class BaseClass>
   class WithSplitStreamingMethod_StreamCallerStatus : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithSplitStreamingMethod_StreamCallerStatus() {
-      ::grpc::Service::MarkMethodStreamed(30,
+      ::grpc::Service::MarkMethodStreamed(40,
         new ::grpc::internal::SplitServerStreamingHandler<
           ::ondewo::vtsi::StreamCallerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
             [this](::grpc::ServerContext* context,
@@ -6383,7 +8916,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithSplitStreamingMethod_StreamListenerStatus() {
-      ::grpc::Service::MarkMethodStreamed(31,
+      ::grpc::Service::MarkMethodStreamed(41,
         new ::grpc::internal::SplitServerStreamingHandler<
           ::ondewo::vtsi::StreamListenerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
             [this](::grpc::ServerContext* context,
@@ -6410,7 +8943,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithSplitStreamingMethod_StreamScheduledCallerStatus() {
-      ::grpc::Service::MarkMethodStreamed(32,
+      ::grpc::Service::MarkMethodStreamed(42,
         new ::grpc::internal::SplitServerStreamingHandler<
           ::ondewo::vtsi::StreamScheduledCallerStatusRequest, ::ondewo::vtsi::StreamCallResourceStatusResponse>(
             [this](::grpc::ServerContext* context,
@@ -6437,7 +8970,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithSplitStreamingMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodStreamed(37,
+      ::grpc::Service::MarkMethodStreamed(47,
         new ::grpc::internal::SplitServerStreamingHandler<
           ::ondewo::vtsi::ListenCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>(
             [this](::grpc::ServerContext* context,
@@ -6459,7 +8992,7 @@ class Calls final {
     virtual ::grpc::Status StreamedListenCallAudio(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::ondewo::vtsi::ListenCallAudioRequest,::ondewo::vtsi::StreamCallAudioResponse>* server_split_streamer) = 0;
   };
   typedef WithSplitStreamingMethod_StreamCallerStatus<WithSplitStreamingMethod_StreamListenerStatus<WithSplitStreamingMethod_StreamScheduledCallerStatus<WithSplitStreamingMethod_ListenCallAudio<Service > > > > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_StartCaller<WithStreamedUnaryMethod_StartCallers<WithStreamedUnaryMethod_ListCallers<WithStreamedUnaryMethod_GetCaller<WithStreamedUnaryMethod_DeleteCaller<WithStreamedUnaryMethod_DeleteCallers<WithStreamedUnaryMethod_StopCaller<WithStreamedUnaryMethod_StopCallers<WithStreamedUnaryMethod_StartListener<WithStreamedUnaryMethod_StartListeners<WithStreamedUnaryMethod_StopListener<WithStreamedUnaryMethod_StopListeners<WithStreamedUnaryMethod_ListListeners<WithStreamedUnaryMethod_GetListener<WithStreamedUnaryMethod_DeleteListener<WithStreamedUnaryMethod_DeleteListeners<WithStreamedUnaryMethod_StartScheduledCaller<WithStreamedUnaryMethod_StartScheduledCallers<WithStreamedUnaryMethod_AddCallersToCampaign<WithStreamedUnaryMethod_AddScheduledCallersToCampaign<WithStreamedUnaryMethod_GetScheduledCaller<WithStreamedUnaryMethod_ListScheduledCallers<WithStreamedUnaryMethod_CancelScheduledCaller<WithStreamedUnaryMethod_StopCall<WithStreamedUnaryMethod_StopCalls<WithStreamedUnaryMethod_StopAllCalls<WithStreamedUnaryMethod_TransferCall<WithStreamedUnaryMethod_TransferCalls<WithStreamedUnaryMethod_GetCall<WithStreamedUnaryMethod_ListCalls<WithSplitStreamingMethod_StreamCallerStatus<WithSplitStreamingMethod_StreamListenerStatus<WithSplitStreamingMethod_StreamScheduledCallerStatus<WithStreamedUnaryMethod_InviteToCall<WithStreamedUnaryMethod_RemoveCallParticipant<WithStreamedUnaryMethod_SetCallMediaControl<WithSplitStreamingMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_StartCaller<WithStreamedUnaryMethod_StartCallers<WithStreamedUnaryMethod_ListCallers<WithStreamedUnaryMethod_GetCaller<WithStreamedUnaryMethod_UpdateCaller<WithStreamedUnaryMethod_UpdateCallers<WithStreamedUnaryMethod_DeleteCaller<WithStreamedUnaryMethod_DeleteCallers<WithStreamedUnaryMethod_StopCaller<WithStreamedUnaryMethod_StopCallers<WithStreamedUnaryMethod_StartListener<WithStreamedUnaryMethod_StartListeners<WithStreamedUnaryMethod_StopListener<WithStreamedUnaryMethod_StopListeners<WithStreamedUnaryMethod_ListListeners<WithStreamedUnaryMethod_GetListener<WithStreamedUnaryMethod_UpdateListener<WithStreamedUnaryMethod_UpdateListeners<WithStreamedUnaryMethod_DeleteListener<WithStreamedUnaryMethod_DeleteListeners<WithStreamedUnaryMethod_StartScheduledCaller<WithStreamedUnaryMethod_StartScheduledCallers<WithStreamedUnaryMethod_AddCallersToCampaign<WithStreamedUnaryMethod_AddScheduledCallersToCampaign<WithStreamedUnaryMethod_GetScheduledCaller<WithStreamedUnaryMethod_ListScheduledCallers<WithStreamedUnaryMethod_UpdateScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCallers<WithStreamedUnaryMethod_RetryScheduledCaller<WithStreamedUnaryMethod_StopCall<WithStreamedUnaryMethod_StopCalls<WithStreamedUnaryMethod_StopAllCalls<WithStreamedUnaryMethod_TransferCall<WithStreamedUnaryMethod_TransferCalls<WithStreamedUnaryMethod_GetCall<WithStreamedUnaryMethod_ListCalls<WithStreamedUnaryMethod_GetCallStatistics<WithStreamedUnaryMethod_UpdateCall<WithStreamedUnaryMethod_UpdateCalls<WithSplitStreamingMethod_StreamCallerStatus<WithSplitStreamingMethod_StreamListenerStatus<WithSplitStreamingMethod_StreamScheduledCallerStatus<WithStreamedUnaryMethod_InviteToCall<WithStreamedUnaryMethod_RemoveCallParticipant<WithStreamedUnaryMethod_SetCallMediaControl<WithSplitStreamingMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace vtsi

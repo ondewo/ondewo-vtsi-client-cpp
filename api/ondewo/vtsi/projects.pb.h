@@ -32,7 +32,6 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include <google/protobuf/field_mask.pb.h>
-#include <google/protobuf/struct.pb.h>
 #include <google/protobuf/timestamp.pb.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -157,6 +156,34 @@ inline bool VtsiProjectSorting_VtsiProjectSortingField_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<VtsiProjectSorting_VtsiProjectSortingField>(
     VtsiProjectSorting_VtsiProjectSortingField_descriptor(), name, value);
 }
+enum TrunkRegistrationState : int {
+  TRUNK_REGISTRATION_STATE_UNSPECIFIED = 0,
+  TRUNK_REGISTRATION_STATE_REGISTERED = 1,
+  TRUNK_REGISTRATION_STATE_UNREGISTERED = 2,
+  TRUNK_REGISTRATION_STATE_REJECTED = 3,
+  TRUNK_REGISTRATION_STATE_NOT_CONFIGURED = 4,
+  TrunkRegistrationState_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  TrunkRegistrationState_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool TrunkRegistrationState_IsValid(int value);
+constexpr TrunkRegistrationState TrunkRegistrationState_MIN = TRUNK_REGISTRATION_STATE_UNSPECIFIED;
+constexpr TrunkRegistrationState TrunkRegistrationState_MAX = TRUNK_REGISTRATION_STATE_NOT_CONFIGURED;
+constexpr int TrunkRegistrationState_ARRAYSIZE = TrunkRegistrationState_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TrunkRegistrationState_descriptor();
+template<typename T>
+inline const std::string& TrunkRegistrationState_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, TrunkRegistrationState>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function TrunkRegistrationState_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    TrunkRegistrationState_descriptor(), enum_t_value);
+}
+inline bool TrunkRegistrationState_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, TrunkRegistrationState* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<TrunkRegistrationState>(
+    TrunkRegistrationState_descriptor(), name, value);
+}
 enum VtsiProjectStatus : int {
   UNSPECIFIED = 0,
   UNDEPLOYED = 1,
@@ -166,12 +193,13 @@ enum VtsiProjectStatus : int {
   UNDEPLOYING = 5,
   DELETING = 6,
   DELETED = 7,
+  DEPLOY_FAILED = 8,
   VtsiProjectStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   VtsiProjectStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool VtsiProjectStatus_IsValid(int value);
 constexpr VtsiProjectStatus VtsiProjectStatus_MIN = UNSPECIFIED;
-constexpr VtsiProjectStatus VtsiProjectStatus_MAX = DELETED;
+constexpr VtsiProjectStatus VtsiProjectStatus_MAX = DEPLOY_FAILED;
 constexpr int VtsiProjectStatus_ARRAYSIZE = VtsiProjectStatus_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* VtsiProjectStatus_descriptor();
@@ -396,9 +424,12 @@ class VtsiProject final :
     kDisplayNameFieldNumber = 2,
     kCreatedByFieldNumber = 7,
     kModifiedByFieldNumber = 9,
+    kStatusMessageFieldNumber = 18,
+    kAsteriskVersionEffectiveFieldNumber = 21,
     kAsteriskConfigsFieldNumber = 5,
     kCreatedAtFieldNumber = 8,
     kModifiedAtFieldNumber = 10,
+    kStatusChangedAtFieldNumber = 19,
     kMaxCallersFieldNumber = 3,
     kMaxListenersFieldNumber = 4,
     kVtsiProjectStatusFieldNumber = 6,
@@ -407,6 +438,7 @@ class VtsiProject final :
     kAsteriskPortFieldNumber = 13,
     kDeployedCallersFieldNumber = 15,
     kDeployedListenersFieldNumber = 16,
+    kTrunkRegistrationStateFieldNumber = 20,
   };
   // repeated string nlu_agent_names = 14;
   int nlu_agent_names_size() const;
@@ -512,6 +544,34 @@ class VtsiProject final :
   std::string* _internal_mutable_modified_by();
   public:
 
+  // string status_message = 18;
+  void clear_status_message();
+  const std::string& status_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_status_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_status_message();
+  PROTOBUF_NODISCARD std::string* release_status_message();
+  void set_allocated_status_message(std::string* status_message);
+  private:
+  const std::string& _internal_status_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_status_message(const std::string& value);
+  std::string* _internal_mutable_status_message();
+  public:
+
+  // string asterisk_version_effective = 21;
+  void clear_asterisk_version_effective();
+  const std::string& asterisk_version_effective() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_asterisk_version_effective(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_asterisk_version_effective();
+  PROTOBUF_NODISCARD std::string* release_asterisk_version_effective();
+  void set_allocated_asterisk_version_effective(std::string* asterisk_version_effective);
+  private:
+  const std::string& _internal_asterisk_version_effective() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_asterisk_version_effective(const std::string& value);
+  std::string* _internal_mutable_asterisk_version_effective();
+  public:
+
   // .ondewo.vtsi.AsteriskConfigs asterisk_configs = 5;
   bool has_asterisk_configs() const;
   private:
@@ -565,6 +625,24 @@ class VtsiProject final :
   void unsafe_arena_set_allocated_modified_at(
       ::PROTOBUF_NAMESPACE_ID::Timestamp* modified_at);
   ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_modified_at();
+
+  // .google.protobuf.Timestamp status_changed_at = 19;
+  bool has_status_changed_at() const;
+  private:
+  bool _internal_has_status_changed_at() const;
+  public:
+  void clear_status_changed_at();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& status_changed_at() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_status_changed_at();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_status_changed_at();
+  void set_allocated_status_changed_at(::PROTOBUF_NAMESPACE_ID::Timestamp* status_changed_at);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_status_changed_at() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_status_changed_at();
+  public:
+  void unsafe_arena_set_allocated_status_changed_at(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* status_changed_at);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_status_changed_at();
 
   // int32 max_callers = 3;
   void clear_max_callers();
@@ -638,6 +716,15 @@ class VtsiProject final :
   void _internal_set_deployed_listeners(int32_t value);
   public:
 
+  // .ondewo.vtsi.TrunkRegistrationState trunk_registration_state = 20;
+  void clear_trunk_registration_state();
+  ::ondewo::vtsi::TrunkRegistrationState trunk_registration_state() const;
+  void set_trunk_registration_state(::ondewo::vtsi::TrunkRegistrationState value);
+  private:
+  ::ondewo::vtsi::TrunkRegistrationState _internal_trunk_registration_state() const;
+  void _internal_set_trunk_registration_state(::ondewo::vtsi::TrunkRegistrationState value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.VtsiProject)
  private:
   class _Internal;
@@ -652,9 +739,12 @@ class VtsiProject final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr display_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr created_by_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr modified_by_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr status_message_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr asterisk_version_effective_;
     ::ondewo::vtsi::AsteriskConfigs* asterisk_configs_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* created_at_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* modified_at_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* status_changed_at_;
     int32_t max_callers_;
     int32_t max_listeners_;
     int vtsi_project_status_;
@@ -663,6 +753,7 @@ class VtsiProject final :
     int32_t asterisk_port_;
     int32_t deployed_callers_;
     int32_t deployed_listeners_;
+    int trunk_registration_state_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1570,15 +1661,16 @@ class CreateVtsiProjectRequest final :
   enum : int {
     kErrorMessageFieldNumber = 2,
     kVtsiProjectFieldNumber = 1,
+    kValidateOnlyFieldNumber = 3,
   };
-  // string error_message = 2;
-  void clear_error_message();
-  const std::string& error_message() const;
+  // string error_message = 2 [deprecated = true];
+  PROTOBUF_DEPRECATED void clear_error_message();
+  PROTOBUF_DEPRECATED const std::string& error_message() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_error_message(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_error_message();
-  PROTOBUF_NODISCARD std::string* release_error_message();
-  void set_allocated_error_message(std::string* error_message);
+  PROTOBUF_DEPRECATED void set_error_message(ArgT0&& arg0, ArgT... args);
+  PROTOBUF_DEPRECATED std::string* mutable_error_message();
+  PROTOBUF_NODISCARD PROTOBUF_DEPRECATED std::string* release_error_message();
+  PROTOBUF_DEPRECATED void set_allocated_error_message(std::string* error_message);
   private:
   const std::string& _internal_error_message() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
@@ -1603,6 +1695,15 @@ class CreateVtsiProjectRequest final :
       ::ondewo::vtsi::VtsiProject* vtsi_project);
   ::ondewo::vtsi::VtsiProject* unsafe_arena_release_vtsi_project();
 
+  // bool validate_only = 3;
+  void clear_validate_only();
+  bool validate_only() const;
+  void set_validate_only(bool value);
+  private:
+  bool _internal_validate_only() const;
+  void _internal_set_validate_only(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.CreateVtsiProjectRequest)
  private:
   class _Internal;
@@ -1613,6 +1714,7 @@ class CreateVtsiProjectRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
     ::ondewo::vtsi::VtsiProject* vtsi_project_;
+    bool validate_only_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1915,6 +2017,7 @@ class GetVtsiProjectRequest final :
 
   enum : int {
     kNameFieldNumber = 1,
+    kFieldMaskFieldNumber = 3,
     kVtsiProjectViewFieldNumber = 2,
   };
   // string name = 1;
@@ -1930,6 +2033,24 @@ class GetVtsiProjectRequest final :
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
   std::string* _internal_mutable_name();
   public:
+
+  // .google.protobuf.FieldMask field_mask = 3;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
 
   // .ondewo.vtsi.VtsiProjectView vtsi_project_view = 2;
   void clear_vtsi_project_view();
@@ -1949,6 +2070,7 @@ class GetVtsiProjectRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     int vtsi_project_view_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -2079,9 +2201,15 @@ class ListVtsiProjectsRequest final :
 
   enum : int {
     kNluAgentNamesFieldNumber = 4,
+    kStatusesFieldNumber = 7,
     kPageTokenFieldNumber = 2,
+    kDisplayNameContainsFieldNumber = 8,
     kVtsiProjectSortingFieldNumber = 3,
+    kFieldMaskFieldNumber = 5,
+    kCreatedAfterFieldNumber = 9,
+    kCreatedBeforeFieldNumber = 10,
     kVtsiProjectViewFieldNumber = 1,
+    kPageSizeFieldNumber = 6,
   };
   // repeated string nlu_agent_names = 4;
   int nlu_agent_names_size() const;
@@ -2107,6 +2235,23 @@ class ListVtsiProjectsRequest final :
   std::string* _internal_add_nlu_agent_names();
   public:
 
+  // repeated .ondewo.vtsi.VtsiProjectStatus statuses = 7;
+  int statuses_size() const;
+  private:
+  int _internal_statuses_size() const;
+  public:
+  void clear_statuses();
+  private:
+  ::ondewo::vtsi::VtsiProjectStatus _internal_statuses(int index) const;
+  void _internal_add_statuses(::ondewo::vtsi::VtsiProjectStatus value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_statuses();
+  public:
+  ::ondewo::vtsi::VtsiProjectStatus statuses(int index) const;
+  void set_statuses(int index, ::ondewo::vtsi::VtsiProjectStatus value);
+  void add_statuses(::ondewo::vtsi::VtsiProjectStatus value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& statuses() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_statuses();
+
   // optional string page_token = 2;
   bool has_page_token() const;
   private:
@@ -2123,6 +2268,20 @@ class ListVtsiProjectsRequest final :
   const std::string& _internal_page_token() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_page_token(const std::string& value);
   std::string* _internal_mutable_page_token();
+  public:
+
+  // string display_name_contains = 8;
+  void clear_display_name_contains();
+  const std::string& display_name_contains() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_display_name_contains(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_display_name_contains();
+  PROTOBUF_NODISCARD std::string* release_display_name_contains();
+  void set_allocated_display_name_contains(std::string* display_name_contains);
+  private:
+  const std::string& _internal_display_name_contains() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_display_name_contains(const std::string& value);
+  std::string* _internal_mutable_display_name_contains();
   public:
 
   // optional .ondewo.vtsi.VtsiProjectSorting vtsi_project_sorting = 3;
@@ -2143,6 +2302,60 @@ class ListVtsiProjectsRequest final :
       ::ondewo::vtsi::VtsiProjectSorting* vtsi_project_sorting);
   ::ondewo::vtsi::VtsiProjectSorting* unsafe_arena_release_vtsi_project_sorting();
 
+  // .google.protobuf.FieldMask field_mask = 5;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
+  // .google.protobuf.Timestamp created_after = 9;
+  bool has_created_after() const;
+  private:
+  bool _internal_has_created_after() const;
+  public:
+  void clear_created_after();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& created_after() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_created_after();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_created_after();
+  void set_allocated_created_after(::PROTOBUF_NAMESPACE_ID::Timestamp* created_after);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_created_after() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_created_after();
+  public:
+  void unsafe_arena_set_allocated_created_after(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* created_after);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_created_after();
+
+  // .google.protobuf.Timestamp created_before = 10;
+  bool has_created_before() const;
+  private:
+  bool _internal_has_created_before() const;
+  public:
+  void clear_created_before();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& created_before() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_created_before();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_created_before();
+  void set_allocated_created_before(::PROTOBUF_NAMESPACE_ID::Timestamp* created_before);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_created_before() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_created_before();
+  public:
+  void unsafe_arena_set_allocated_created_before(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* created_before);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_created_before();
+
   // .ondewo.vtsi.VtsiProjectView vtsi_project_view = 1;
   void clear_vtsi_project_view();
   ::ondewo::vtsi::VtsiProjectView vtsi_project_view() const;
@@ -2150,6 +2363,15 @@ class ListVtsiProjectsRequest final :
   private:
   ::ondewo::vtsi::VtsiProjectView _internal_vtsi_project_view() const;
   void _internal_set_vtsi_project_view(::ondewo::vtsi::VtsiProjectView value);
+  public:
+
+  // int32 page_size = 6;
+  void clear_page_size();
+  int32_t page_size() const;
+  void set_page_size(int32_t value);
+  private:
+  int32_t _internal_page_size() const;
+  void _internal_set_page_size(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.ListVtsiProjectsRequest)
@@ -2163,9 +2385,16 @@ class ListVtsiProjectsRequest final :
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> nlu_agent_names_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> statuses_;
+    mutable std::atomic<int> _statuses_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr page_token_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr display_name_contains_;
     ::ondewo::vtsi::VtsiProjectSorting* vtsi_project_sorting_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_after_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_before_;
     int vtsi_project_view_;
+    int32_t page_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fvtsi_2fprojects_2eproto;
@@ -2672,6 +2901,8 @@ class UpdateVtsiProjectRequest final :
   enum : int {
     kVtsiProjectFieldNumber = 1,
     kUpdateMaskFieldNumber = 2,
+    kFieldMaskFieldNumber = 3,
+    kValidateOnlyFieldNumber = 4,
   };
   // .ondewo.vtsi.VtsiProject vtsi_project = 1;
   bool has_vtsi_project() const;
@@ -2709,6 +2940,33 @@ class UpdateVtsiProjectRequest final :
       ::PROTOBUF_NAMESPACE_ID::FieldMask* update_mask);
   ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_update_mask();
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
+  // bool validate_only = 4;
+  void clear_validate_only();
+  bool validate_only() const;
+  void set_validate_only(bool value);
+  private:
+  bool _internal_validate_only() const;
+  void _internal_set_validate_only(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.UpdateVtsiProjectRequest)
  private:
   class _Internal;
@@ -2719,6 +2977,8 @@ class UpdateVtsiProjectRequest final :
   struct Impl_ {
     ::ondewo::vtsi::VtsiProject* vtsi_project_;
     ::PROTOBUF_NAMESPACE_ID::FieldMask* update_mask_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
+    bool validate_only_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2849,6 +3109,7 @@ class UpdateVtsiProjectResponse final :
   enum : int {
     kNameFieldNumber = 1,
     kErrorMessageFieldNumber = 2,
+    kVtsiProjectFieldNumber = 3,
   };
   // string name = 1;
   void clear_name();
@@ -2878,6 +3139,24 @@ class UpdateVtsiProjectResponse final :
   std::string* _internal_mutable_error_message();
   public:
 
+  // .ondewo.vtsi.VtsiProject vtsi_project = 3;
+  bool has_vtsi_project() const;
+  private:
+  bool _internal_has_vtsi_project() const;
+  public:
+  void clear_vtsi_project();
+  const ::ondewo::vtsi::VtsiProject& vtsi_project() const;
+  PROTOBUF_NODISCARD ::ondewo::vtsi::VtsiProject* release_vtsi_project();
+  ::ondewo::vtsi::VtsiProject* mutable_vtsi_project();
+  void set_allocated_vtsi_project(::ondewo::vtsi::VtsiProject* vtsi_project);
+  private:
+  const ::ondewo::vtsi::VtsiProject& _internal_vtsi_project() const;
+  ::ondewo::vtsi::VtsiProject* _internal_mutable_vtsi_project();
+  public:
+  void unsafe_arena_set_allocated_vtsi_project(
+      ::ondewo::vtsi::VtsiProject* vtsi_project);
+  ::ondewo::vtsi::VtsiProject* unsafe_arena_release_vtsi_project();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.UpdateVtsiProjectResponse)
  private:
   class _Internal;
@@ -2888,6 +3167,7 @@ class UpdateVtsiProjectResponse final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    ::ondewo::vtsi::VtsiProject* vtsi_project_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4640,6 +4920,211 @@ VtsiProject::mutable_transfer_phone_number_allowlist() {
   return &_impl_.transfer_phone_number_allowlist_;
 }
 
+// string status_message = 18;
+inline void VtsiProject::clear_status_message() {
+  _impl_.status_message_.ClearToEmpty();
+}
+inline const std::string& VtsiProject::status_message() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProject.status_message)
+  return _internal_status_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void VtsiProject::set_status_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.status_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProject.status_message)
+}
+inline std::string* VtsiProject::mutable_status_message() {
+  std::string* _s = _internal_mutable_status_message();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.VtsiProject.status_message)
+  return _s;
+}
+inline const std::string& VtsiProject::_internal_status_message() const {
+  return _impl_.status_message_.Get();
+}
+inline void VtsiProject::_internal_set_status_message(const std::string& value) {
+  
+  _impl_.status_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* VtsiProject::_internal_mutable_status_message() {
+  
+  return _impl_.status_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* VtsiProject::release_status_message() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.VtsiProject.status_message)
+  return _impl_.status_message_.Release();
+}
+inline void VtsiProject::set_allocated_status_message(std::string* status_message) {
+  if (status_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.status_message_.SetAllocated(status_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.status_message_.IsDefault()) {
+    _impl_.status_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.VtsiProject.status_message)
+}
+
+// .google.protobuf.Timestamp status_changed_at = 19;
+inline bool VtsiProject::_internal_has_status_changed_at() const {
+  return this != internal_default_instance() && _impl_.status_changed_at_ != nullptr;
+}
+inline bool VtsiProject::has_status_changed_at() const {
+  return _internal_has_status_changed_at();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& VtsiProject::_internal_status_changed_at() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.status_changed_at_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& VtsiProject::status_changed_at() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProject.status_changed_at)
+  return _internal_status_changed_at();
+}
+inline void VtsiProject::unsafe_arena_set_allocated_status_changed_at(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* status_changed_at) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.status_changed_at_);
+  }
+  _impl_.status_changed_at_ = status_changed_at;
+  if (status_changed_at) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.VtsiProject.status_changed_at)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* VtsiProject::release_status_changed_at() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.status_changed_at_;
+  _impl_.status_changed_at_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* VtsiProject::unsafe_arena_release_status_changed_at() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.VtsiProject.status_changed_at)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.status_changed_at_;
+  _impl_.status_changed_at_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* VtsiProject::_internal_mutable_status_changed_at() {
+  
+  if (_impl_.status_changed_at_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.status_changed_at_ = p;
+  }
+  return _impl_.status_changed_at_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* VtsiProject::mutable_status_changed_at() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_status_changed_at();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.VtsiProject.status_changed_at)
+  return _msg;
+}
+inline void VtsiProject::set_allocated_status_changed_at(::PROTOBUF_NAMESPACE_ID::Timestamp* status_changed_at) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.status_changed_at_);
+  }
+  if (status_changed_at) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(status_changed_at));
+    if (message_arena != submessage_arena) {
+      status_changed_at = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, status_changed_at, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.status_changed_at_ = status_changed_at;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.VtsiProject.status_changed_at)
+}
+
+// .ondewo.vtsi.TrunkRegistrationState trunk_registration_state = 20;
+inline void VtsiProject::clear_trunk_registration_state() {
+  _impl_.trunk_registration_state_ = 0;
+}
+inline ::ondewo::vtsi::TrunkRegistrationState VtsiProject::_internal_trunk_registration_state() const {
+  return static_cast< ::ondewo::vtsi::TrunkRegistrationState >(_impl_.trunk_registration_state_);
+}
+inline ::ondewo::vtsi::TrunkRegistrationState VtsiProject::trunk_registration_state() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProject.trunk_registration_state)
+  return _internal_trunk_registration_state();
+}
+inline void VtsiProject::_internal_set_trunk_registration_state(::ondewo::vtsi::TrunkRegistrationState value) {
+  
+  _impl_.trunk_registration_state_ = value;
+}
+inline void VtsiProject::set_trunk_registration_state(::ondewo::vtsi::TrunkRegistrationState value) {
+  _internal_set_trunk_registration_state(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProject.trunk_registration_state)
+}
+
+// string asterisk_version_effective = 21;
+inline void VtsiProject::clear_asterisk_version_effective() {
+  _impl_.asterisk_version_effective_.ClearToEmpty();
+}
+inline const std::string& VtsiProject::asterisk_version_effective() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProject.asterisk_version_effective)
+  return _internal_asterisk_version_effective();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void VtsiProject::set_asterisk_version_effective(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.asterisk_version_effective_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProject.asterisk_version_effective)
+}
+inline std::string* VtsiProject::mutable_asterisk_version_effective() {
+  std::string* _s = _internal_mutable_asterisk_version_effective();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.VtsiProject.asterisk_version_effective)
+  return _s;
+}
+inline const std::string& VtsiProject::_internal_asterisk_version_effective() const {
+  return _impl_.asterisk_version_effective_.Get();
+}
+inline void VtsiProject::_internal_set_asterisk_version_effective(const std::string& value) {
+  
+  _impl_.asterisk_version_effective_.Set(value, GetArenaForAllocation());
+}
+inline std::string* VtsiProject::_internal_mutable_asterisk_version_effective() {
+  
+  return _impl_.asterisk_version_effective_.Mutable(GetArenaForAllocation());
+}
+inline std::string* VtsiProject::release_asterisk_version_effective() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.VtsiProject.asterisk_version_effective)
+  return _impl_.asterisk_version_effective_.Release();
+}
+inline void VtsiProject::set_allocated_asterisk_version_effective(std::string* asterisk_version_effective) {
+  if (asterisk_version_effective != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.asterisk_version_effective_.SetAllocated(asterisk_version_effective, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.asterisk_version_effective_.IsDefault()) {
+    _impl_.asterisk_version_effective_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.VtsiProject.asterisk_version_effective)
+}
+
 // -------------------------------------------------------------------
 
 // AsteriskConfigsVariables
@@ -5827,7 +6312,7 @@ inline void CreateVtsiProjectRequest::set_allocated_vtsi_project(::ondewo::vtsi:
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CreateVtsiProjectRequest.vtsi_project)
 }
 
-// string error_message = 2;
+// string error_message = 2 [deprecated = true];
 inline void CreateVtsiProjectRequest::clear_error_message() {
   _impl_.error_message_.ClearToEmpty();
 }
@@ -5875,6 +6360,26 @@ inline void CreateVtsiProjectRequest::set_allocated_error_message(std::string* e
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CreateVtsiProjectRequest.error_message)
+}
+
+// bool validate_only = 3;
+inline void CreateVtsiProjectRequest::clear_validate_only() {
+  _impl_.validate_only_ = false;
+}
+inline bool CreateVtsiProjectRequest::_internal_validate_only() const {
+  return _impl_.validate_only_;
+}
+inline bool CreateVtsiProjectRequest::validate_only() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CreateVtsiProjectRequest.validate_only)
+  return _internal_validate_only();
+}
+inline void CreateVtsiProjectRequest::_internal_set_validate_only(bool value) {
+  
+  _impl_.validate_only_ = value;
+}
+inline void CreateVtsiProjectRequest::set_validate_only(bool value) {
+  _internal_set_validate_only(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.CreateVtsiProjectRequest.validate_only)
 }
 
 // -------------------------------------------------------------------
@@ -6093,6 +6598,91 @@ inline void GetVtsiProjectRequest::_internal_set_vtsi_project_view(::ondewo::vts
 inline void GetVtsiProjectRequest::set_vtsi_project_view(::ondewo::vtsi::VtsiProjectView value) {
   _internal_set_vtsi_project_view(value);
   // @@protoc_insertion_point(field_set:ondewo.vtsi.GetVtsiProjectRequest.vtsi_project_view)
+}
+
+// .google.protobuf.FieldMask field_mask = 3;
+inline bool GetVtsiProjectRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool GetVtsiProjectRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetVtsiProjectRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetVtsiProjectRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.GetVtsiProjectRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void GetVtsiProjectRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.GetVtsiProjectRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetVtsiProjectRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetVtsiProjectRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.GetVtsiProjectRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetVtsiProjectRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetVtsiProjectRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.GetVtsiProjectRequest.field_mask)
+  return _msg;
+}
+inline void GetVtsiProjectRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetVtsiProjectRequest.field_mask)
 }
 
 // -------------------------------------------------------------------
@@ -6350,6 +6940,374 @@ inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
 ListVtsiProjectsRequest::mutable_nlu_agent_names() {
   // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.ListVtsiProjectsRequest.nlu_agent_names)
   return &_impl_.nlu_agent_names_;
+}
+
+// .google.protobuf.FieldMask field_mask = 5;
+inline bool ListVtsiProjectsRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool ListVtsiProjectsRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListVtsiProjectsRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListVtsiProjectsRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListVtsiProjectsRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void ListVtsiProjectsRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.ListVtsiProjectsRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListVtsiProjectsRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListVtsiProjectsRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ListVtsiProjectsRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListVtsiProjectsRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListVtsiProjectsRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ListVtsiProjectsRequest.field_mask)
+  return _msg;
+}
+inline void ListVtsiProjectsRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListVtsiProjectsRequest.field_mask)
+}
+
+// int32 page_size = 6;
+inline void ListVtsiProjectsRequest::clear_page_size() {
+  _impl_.page_size_ = 0;
+}
+inline int32_t ListVtsiProjectsRequest::_internal_page_size() const {
+  return _impl_.page_size_;
+}
+inline int32_t ListVtsiProjectsRequest::page_size() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListVtsiProjectsRequest.page_size)
+  return _internal_page_size();
+}
+inline void ListVtsiProjectsRequest::_internal_set_page_size(int32_t value) {
+  
+  _impl_.page_size_ = value;
+}
+inline void ListVtsiProjectsRequest::set_page_size(int32_t value) {
+  _internal_set_page_size(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ListVtsiProjectsRequest.page_size)
+}
+
+// repeated .ondewo.vtsi.VtsiProjectStatus statuses = 7;
+inline int ListVtsiProjectsRequest::_internal_statuses_size() const {
+  return _impl_.statuses_.size();
+}
+inline int ListVtsiProjectsRequest::statuses_size() const {
+  return _internal_statuses_size();
+}
+inline void ListVtsiProjectsRequest::clear_statuses() {
+  _impl_.statuses_.Clear();
+}
+inline ::ondewo::vtsi::VtsiProjectStatus ListVtsiProjectsRequest::_internal_statuses(int index) const {
+  return static_cast< ::ondewo::vtsi::VtsiProjectStatus >(_impl_.statuses_.Get(index));
+}
+inline ::ondewo::vtsi::VtsiProjectStatus ListVtsiProjectsRequest::statuses(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListVtsiProjectsRequest.statuses)
+  return _internal_statuses(index);
+}
+inline void ListVtsiProjectsRequest::set_statuses(int index, ::ondewo::vtsi::VtsiProjectStatus value) {
+  _impl_.statuses_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ListVtsiProjectsRequest.statuses)
+}
+inline void ListVtsiProjectsRequest::_internal_add_statuses(::ondewo::vtsi::VtsiProjectStatus value) {
+  _impl_.statuses_.Add(value);
+}
+inline void ListVtsiProjectsRequest::add_statuses(::ondewo::vtsi::VtsiProjectStatus value) {
+  _internal_add_statuses(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.ListVtsiProjectsRequest.statuses)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
+ListVtsiProjectsRequest::statuses() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.ListVtsiProjectsRequest.statuses)
+  return _impl_.statuses_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+ListVtsiProjectsRequest::_internal_mutable_statuses() {
+  return &_impl_.statuses_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+ListVtsiProjectsRequest::mutable_statuses() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.ListVtsiProjectsRequest.statuses)
+  return _internal_mutable_statuses();
+}
+
+// string display_name_contains = 8;
+inline void ListVtsiProjectsRequest::clear_display_name_contains() {
+  _impl_.display_name_contains_.ClearToEmpty();
+}
+inline const std::string& ListVtsiProjectsRequest::display_name_contains() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListVtsiProjectsRequest.display_name_contains)
+  return _internal_display_name_contains();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ListVtsiProjectsRequest::set_display_name_contains(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.display_name_contains_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ListVtsiProjectsRequest.display_name_contains)
+}
+inline std::string* ListVtsiProjectsRequest::mutable_display_name_contains() {
+  std::string* _s = _internal_mutable_display_name_contains();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ListVtsiProjectsRequest.display_name_contains)
+  return _s;
+}
+inline const std::string& ListVtsiProjectsRequest::_internal_display_name_contains() const {
+  return _impl_.display_name_contains_.Get();
+}
+inline void ListVtsiProjectsRequest::_internal_set_display_name_contains(const std::string& value) {
+  
+  _impl_.display_name_contains_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ListVtsiProjectsRequest::_internal_mutable_display_name_contains() {
+  
+  return _impl_.display_name_contains_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ListVtsiProjectsRequest::release_display_name_contains() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ListVtsiProjectsRequest.display_name_contains)
+  return _impl_.display_name_contains_.Release();
+}
+inline void ListVtsiProjectsRequest::set_allocated_display_name_contains(std::string* display_name_contains) {
+  if (display_name_contains != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.display_name_contains_.SetAllocated(display_name_contains, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.display_name_contains_.IsDefault()) {
+    _impl_.display_name_contains_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListVtsiProjectsRequest.display_name_contains)
+}
+
+// .google.protobuf.Timestamp created_after = 9;
+inline bool ListVtsiProjectsRequest::_internal_has_created_after() const {
+  return this != internal_default_instance() && _impl_.created_after_ != nullptr;
+}
+inline bool ListVtsiProjectsRequest::has_created_after() const {
+  return _internal_has_created_after();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& ListVtsiProjectsRequest::_internal_created_after() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.created_after_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& ListVtsiProjectsRequest::created_after() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListVtsiProjectsRequest.created_after)
+  return _internal_created_after();
+}
+inline void ListVtsiProjectsRequest::unsafe_arena_set_allocated_created_after(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_after) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_after_);
+  }
+  _impl_.created_after_ = created_after;
+  if (created_after) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.ListVtsiProjectsRequest.created_after)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* ListVtsiProjectsRequest::release_created_after() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_after_;
+  _impl_.created_after_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* ListVtsiProjectsRequest::unsafe_arena_release_created_after() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ListVtsiProjectsRequest.created_after)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_after_;
+  _impl_.created_after_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* ListVtsiProjectsRequest::_internal_mutable_created_after() {
+  
+  if (_impl_.created_after_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.created_after_ = p;
+  }
+  return _impl_.created_after_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* ListVtsiProjectsRequest::mutable_created_after() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_created_after();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ListVtsiProjectsRequest.created_after)
+  return _msg;
+}
+inline void ListVtsiProjectsRequest::set_allocated_created_after(::PROTOBUF_NAMESPACE_ID::Timestamp* created_after) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_after_);
+  }
+  if (created_after) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(created_after));
+    if (message_arena != submessage_arena) {
+      created_after = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, created_after, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.created_after_ = created_after;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListVtsiProjectsRequest.created_after)
+}
+
+// .google.protobuf.Timestamp created_before = 10;
+inline bool ListVtsiProjectsRequest::_internal_has_created_before() const {
+  return this != internal_default_instance() && _impl_.created_before_ != nullptr;
+}
+inline bool ListVtsiProjectsRequest::has_created_before() const {
+  return _internal_has_created_before();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& ListVtsiProjectsRequest::_internal_created_before() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.created_before_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& ListVtsiProjectsRequest::created_before() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListVtsiProjectsRequest.created_before)
+  return _internal_created_before();
+}
+inline void ListVtsiProjectsRequest::unsafe_arena_set_allocated_created_before(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* created_before) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_before_);
+  }
+  _impl_.created_before_ = created_before;
+  if (created_before) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.ListVtsiProjectsRequest.created_before)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* ListVtsiProjectsRequest::release_created_before() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_before_;
+  _impl_.created_before_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* ListVtsiProjectsRequest::unsafe_arena_release_created_before() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ListVtsiProjectsRequest.created_before)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.created_before_;
+  _impl_.created_before_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* ListVtsiProjectsRequest::_internal_mutable_created_before() {
+  
+  if (_impl_.created_before_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.created_before_ = p;
+  }
+  return _impl_.created_before_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* ListVtsiProjectsRequest::mutable_created_before() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_created_before();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ListVtsiProjectsRequest.created_before)
+  return _msg;
+}
+inline void ListVtsiProjectsRequest::set_allocated_created_before(::PROTOBUF_NAMESPACE_ID::Timestamp* created_before) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.created_before_);
+  }
+  if (created_before) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(created_before));
+    if (message_arena != submessage_arena) {
+      created_before = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, created_before, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.created_before_ = created_before;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListVtsiProjectsRequest.created_before)
 }
 
 // -------------------------------------------------------------------
@@ -6685,6 +7643,111 @@ inline void UpdateVtsiProjectRequest::set_allocated_update_mask(::PROTOBUF_NAMES
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.UpdateVtsiProjectRequest.update_mask)
 }
 
+// .google.protobuf.FieldMask field_mask = 3;
+inline bool UpdateVtsiProjectRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool UpdateVtsiProjectRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& UpdateVtsiProjectRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& UpdateVtsiProjectRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.UpdateVtsiProjectRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void UpdateVtsiProjectRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.UpdateVtsiProjectRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateVtsiProjectRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateVtsiProjectRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.UpdateVtsiProjectRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateVtsiProjectRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateVtsiProjectRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.UpdateVtsiProjectRequest.field_mask)
+  return _msg;
+}
+inline void UpdateVtsiProjectRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.UpdateVtsiProjectRequest.field_mask)
+}
+
+// bool validate_only = 4;
+inline void UpdateVtsiProjectRequest::clear_validate_only() {
+  _impl_.validate_only_ = false;
+}
+inline bool UpdateVtsiProjectRequest::_internal_validate_only() const {
+  return _impl_.validate_only_;
+}
+inline bool UpdateVtsiProjectRequest::validate_only() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.UpdateVtsiProjectRequest.validate_only)
+  return _internal_validate_only();
+}
+inline void UpdateVtsiProjectRequest::_internal_set_validate_only(bool value) {
+  
+  _impl_.validate_only_ = value;
+}
+inline void UpdateVtsiProjectRequest::set_validate_only(bool value) {
+  _internal_set_validate_only(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.UpdateVtsiProjectRequest.validate_only)
+}
+
 // -------------------------------------------------------------------
 
 // UpdateVtsiProjectResponse
@@ -6787,6 +7850,96 @@ inline void UpdateVtsiProjectResponse::set_allocated_error_message(std::string* 
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.UpdateVtsiProjectResponse.error_message)
+}
+
+// .ondewo.vtsi.VtsiProject vtsi_project = 3;
+inline bool UpdateVtsiProjectResponse::_internal_has_vtsi_project() const {
+  return this != internal_default_instance() && _impl_.vtsi_project_ != nullptr;
+}
+inline bool UpdateVtsiProjectResponse::has_vtsi_project() const {
+  return _internal_has_vtsi_project();
+}
+inline void UpdateVtsiProjectResponse::clear_vtsi_project() {
+  if (GetArenaForAllocation() == nullptr && _impl_.vtsi_project_ != nullptr) {
+    delete _impl_.vtsi_project_;
+  }
+  _impl_.vtsi_project_ = nullptr;
+}
+inline const ::ondewo::vtsi::VtsiProject& UpdateVtsiProjectResponse::_internal_vtsi_project() const {
+  const ::ondewo::vtsi::VtsiProject* p = _impl_.vtsi_project_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::vtsi::VtsiProject&>(
+      ::ondewo::vtsi::_VtsiProject_default_instance_);
+}
+inline const ::ondewo::vtsi::VtsiProject& UpdateVtsiProjectResponse::vtsi_project() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.UpdateVtsiProjectResponse.vtsi_project)
+  return _internal_vtsi_project();
+}
+inline void UpdateVtsiProjectResponse::unsafe_arena_set_allocated_vtsi_project(
+    ::ondewo::vtsi::VtsiProject* vtsi_project) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.vtsi_project_);
+  }
+  _impl_.vtsi_project_ = vtsi_project;
+  if (vtsi_project) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.UpdateVtsiProjectResponse.vtsi_project)
+}
+inline ::ondewo::vtsi::VtsiProject* UpdateVtsiProjectResponse::release_vtsi_project() {
+  
+  ::ondewo::vtsi::VtsiProject* temp = _impl_.vtsi_project_;
+  _impl_.vtsi_project_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::vtsi::VtsiProject* UpdateVtsiProjectResponse::unsafe_arena_release_vtsi_project() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.UpdateVtsiProjectResponse.vtsi_project)
+  
+  ::ondewo::vtsi::VtsiProject* temp = _impl_.vtsi_project_;
+  _impl_.vtsi_project_ = nullptr;
+  return temp;
+}
+inline ::ondewo::vtsi::VtsiProject* UpdateVtsiProjectResponse::_internal_mutable_vtsi_project() {
+  
+  if (_impl_.vtsi_project_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::vtsi::VtsiProject>(GetArenaForAllocation());
+    _impl_.vtsi_project_ = p;
+  }
+  return _impl_.vtsi_project_;
+}
+inline ::ondewo::vtsi::VtsiProject* UpdateVtsiProjectResponse::mutable_vtsi_project() {
+  ::ondewo::vtsi::VtsiProject* _msg = _internal_mutable_vtsi_project();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.UpdateVtsiProjectResponse.vtsi_project)
+  return _msg;
+}
+inline void UpdateVtsiProjectResponse::set_allocated_vtsi_project(::ondewo::vtsi::VtsiProject* vtsi_project) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.vtsi_project_;
+  }
+  if (vtsi_project) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(vtsi_project);
+    if (message_arena != submessage_arena) {
+      vtsi_project = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, vtsi_project, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.vtsi_project_ = vtsi_project;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.UpdateVtsiProjectResponse.vtsi_project)
 }
 
 // -------------------------------------------------------------------
@@ -7312,6 +8465,11 @@ template <> struct is_proto_enum< ::ondewo::vtsi::VtsiProjectSorting_VtsiProject
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::VtsiProjectSorting_VtsiProjectSortingField>() {
   return ::ondewo::vtsi::VtsiProjectSorting_VtsiProjectSortingField_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::vtsi::TrunkRegistrationState> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::TrunkRegistrationState>() {
+  return ::ondewo::vtsi::TrunkRegistrationState_descriptor();
 }
 template <> struct is_proto_enum< ::ondewo::vtsi::VtsiProjectStatus> : ::std::true_type {};
 template <>

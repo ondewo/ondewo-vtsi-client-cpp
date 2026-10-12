@@ -29,8 +29,12 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/map.h>  // IWYU pragma: export
+#include <google/protobuf/map_entry.h>
+#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/field_mask.pb.h>
 #include <google/protobuf/timestamp.pb.h>
 #include "ondewo/nlu/common.pb.h"
 #include "ondewo/vtsi/calls.pb.h"
@@ -65,6 +69,12 @@ extern DeleteCallLogsRequestDefaultTypeInternal _DeleteCallLogsRequest_default_i
 class DeleteCallLogsResponse;
 struct DeleteCallLogsResponseDefaultTypeInternal;
 extern DeleteCallLogsResponseDefaultTypeInternal _DeleteCallLogsResponse_default_instance_;
+class ExportCallLogsRequest;
+struct ExportCallLogsRequestDefaultTypeInternal;
+extern ExportCallLogsRequestDefaultTypeInternal _ExportCallLogsRequest_default_instance_;
+class ExportCallLogsResponse;
+struct ExportCallLogsResponseDefaultTypeInternal;
+extern ExportCallLogsResponseDefaultTypeInternal _ExportCallLogsResponse_default_instance_;
 class GetCallLogStreamRequest;
 struct GetCallLogStreamRequestDefaultTypeInternal;
 extern GetCallLogStreamRequestDefaultTypeInternal _GetCallLogStreamRequest_default_instance_;
@@ -80,6 +90,9 @@ extern ListCallLogsRequestDefaultTypeInternal _ListCallLogsRequest_default_insta
 class ListCallLogsResponse;
 struct ListCallLogsResponseDefaultTypeInternal;
 extern ListCallLogsResponseDefaultTypeInternal _ListCallLogsResponse_default_instance_;
+class ListCallLogsResponse_CountByLevelEntry_DoNotUse;
+struct ListCallLogsResponse_CountByLevelEntry_DoNotUseDefaultTypeInternal;
+extern ListCallLogsResponse_CountByLevelEntry_DoNotUseDefaultTypeInternal _ListCallLogsResponse_CountByLevelEntry_DoNotUse_default_instance_;
 class SipHeaderFilter;
 struct SipHeaderFilterDefaultTypeInternal;
 extern SipHeaderFilterDefaultTypeInternal _SipHeaderFilter_default_instance_;
@@ -97,11 +110,14 @@ template<> ::ondewo::vtsi::CallLogFilter* Arena::CreateMaybeMessage<::ondewo::vt
 template<> ::ondewo::vtsi::CallLogStream* Arena::CreateMaybeMessage<::ondewo::vtsi::CallLogStream>(Arena*);
 template<> ::ondewo::vtsi::DeleteCallLogsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::DeleteCallLogsRequest>(Arena*);
 template<> ::ondewo::vtsi::DeleteCallLogsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::DeleteCallLogsResponse>(Arena*);
+template<> ::ondewo::vtsi::ExportCallLogsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::ExportCallLogsRequest>(Arena*);
+template<> ::ondewo::vtsi::ExportCallLogsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::ExportCallLogsResponse>(Arena*);
 template<> ::ondewo::vtsi::GetCallLogStreamRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::GetCallLogStreamRequest>(Arena*);
 template<> ::ondewo::vtsi::ListCallLogStreamsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::ListCallLogStreamsRequest>(Arena*);
 template<> ::ondewo::vtsi::ListCallLogStreamsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::ListCallLogStreamsResponse>(Arena*);
 template<> ::ondewo::vtsi::ListCallLogsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::ListCallLogsRequest>(Arena*);
 template<> ::ondewo::vtsi::ListCallLogsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::ListCallLogsResponse>(Arena*);
+template<> ::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse>(Arena*);
 template<> ::ondewo::vtsi::SipHeaderFilter* Arena::CreateMaybeMessage<::ondewo::vtsi::SipHeaderFilter>(Arena*);
 template<> ::ondewo::vtsi::StreamCallLogsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::StreamCallLogsRequest>(Arena*);
 template<> ::ondewo::vtsi::StreamCallLogsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::StreamCallLogsResponse>(Arena*);
@@ -222,6 +238,62 @@ inline bool CallLogFilterField_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, CallLogFilterField* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<CallLogFilterField>(
     CallLogFilterField_descriptor(), name, value);
+}
+enum LogStreamEndReason : int {
+  LOG_STREAM_END_REASON_UNSPECIFIED = 0,
+  LOG_STREAM_END_REASON_ALL_CAPTURES_TERMINATED = 1,
+  LOG_STREAM_END_REASON_MAX_DURATION = 2,
+  LOG_STREAM_END_REASON_SERVER_SHUTDOWN = 3,
+  LOG_STREAM_END_REASON_PERMISSION_REVOKED = 4,
+  LOG_STREAM_END_REASON_CREDENTIALS_EXPIRED = 5,
+  LogStreamEndReason_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  LogStreamEndReason_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool LogStreamEndReason_IsValid(int value);
+constexpr LogStreamEndReason LogStreamEndReason_MIN = LOG_STREAM_END_REASON_UNSPECIFIED;
+constexpr LogStreamEndReason LogStreamEndReason_MAX = LOG_STREAM_END_REASON_CREDENTIALS_EXPIRED;
+constexpr int LogStreamEndReason_ARRAYSIZE = LogStreamEndReason_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LogStreamEndReason_descriptor();
+template<typename T>
+inline const std::string& LogStreamEndReason_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, LogStreamEndReason>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function LogStreamEndReason_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    LogStreamEndReason_descriptor(), enum_t_value);
+}
+inline bool LogStreamEndReason_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, LogStreamEndReason* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<LogStreamEndReason>(
+    LogStreamEndReason_descriptor(), name, value);
+}
+enum LogExportFormat : int {
+  LOG_EXPORT_FORMAT_UNSPECIFIED = 0,
+  LOG_EXPORT_FORMAT_TEXT = 1,
+  LOG_EXPORT_FORMAT_NDJSON = 2,
+  LOG_EXPORT_FORMAT_CSV = 3,
+  LogExportFormat_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  LogExportFormat_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool LogExportFormat_IsValid(int value);
+constexpr LogExportFormat LogExportFormat_MIN = LOG_EXPORT_FORMAT_UNSPECIFIED;
+constexpr LogExportFormat LogExportFormat_MAX = LOG_EXPORT_FORMAT_CSV;
+constexpr int LogExportFormat_ARRAYSIZE = LogExportFormat_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LogExportFormat_descriptor();
+template<typename T>
+inline const std::string& LogExportFormat_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, LogExportFormat>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function LogExportFormat_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    LogExportFormat_descriptor(), enum_t_value);
+}
+inline bool LogExportFormat_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, LogExportFormat* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<LogExportFormat>(
+    LogExportFormat_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -891,6 +963,9 @@ class CallLogFilter final :
     kLogLevelsFieldNumber = 24,
     kEmitterPrefixesFieldNumber = 28,
     kThreadNamesFieldNumber = 29,
+    kSipPortNumbersFieldNumber = 32,
+    kCsiPortNumbersFieldNumber = 33,
+    kAsteriskPortNumbersFieldNumber = 34,
     kTextFieldNumber = 26,
     kRegexFieldNumber = 27,
     kStartTimeFieldNumber = 30,
@@ -1138,73 +1213,73 @@ class CallLogFilter final :
   std::string* _internal_add_sip_accounts();
   public:
 
-  // repeated string sip_ports = 11;
-  int sip_ports_size() const;
+  // repeated string sip_ports = 11 [deprecated = true];
+  PROTOBUF_DEPRECATED int sip_ports_size() const;
   private:
   int _internal_sip_ports_size() const;
   public:
-  void clear_sip_ports();
-  const std::string& sip_ports(int index) const;
-  std::string* mutable_sip_ports(int index);
-  void set_sip_ports(int index, const std::string& value);
-  void set_sip_ports(int index, std::string&& value);
-  void set_sip_ports(int index, const char* value);
-  void set_sip_ports(int index, const char* value, size_t size);
-  std::string* add_sip_ports();
-  void add_sip_ports(const std::string& value);
-  void add_sip_ports(std::string&& value);
-  void add_sip_ports(const char* value);
-  void add_sip_ports(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& sip_ports() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_sip_ports();
+  PROTOBUF_DEPRECATED void clear_sip_ports();
+  PROTOBUF_DEPRECATED const std::string& sip_ports(int index) const;
+  PROTOBUF_DEPRECATED std::string* mutable_sip_ports(int index);
+  PROTOBUF_DEPRECATED void set_sip_ports(int index, const std::string& value);
+  PROTOBUF_DEPRECATED void set_sip_ports(int index, std::string&& value);
+  PROTOBUF_DEPRECATED void set_sip_ports(int index, const char* value);
+  PROTOBUF_DEPRECATED void set_sip_ports(int index, const char* value, size_t size);
+  PROTOBUF_DEPRECATED std::string* add_sip_ports();
+  PROTOBUF_DEPRECATED void add_sip_ports(const std::string& value);
+  PROTOBUF_DEPRECATED void add_sip_ports(std::string&& value);
+  PROTOBUF_DEPRECATED void add_sip_ports(const char* value);
+  PROTOBUF_DEPRECATED void add_sip_ports(const char* value, size_t size);
+  PROTOBUF_DEPRECATED const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& sip_ports() const;
+  PROTOBUF_DEPRECATED ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_sip_ports();
   private:
   const std::string& _internal_sip_ports(int index) const;
   std::string* _internal_add_sip_ports();
   public:
 
-  // repeated string csi_ports = 12;
-  int csi_ports_size() const;
+  // repeated string csi_ports = 12 [deprecated = true];
+  PROTOBUF_DEPRECATED int csi_ports_size() const;
   private:
   int _internal_csi_ports_size() const;
   public:
-  void clear_csi_ports();
-  const std::string& csi_ports(int index) const;
-  std::string* mutable_csi_ports(int index);
-  void set_csi_ports(int index, const std::string& value);
-  void set_csi_ports(int index, std::string&& value);
-  void set_csi_ports(int index, const char* value);
-  void set_csi_ports(int index, const char* value, size_t size);
-  std::string* add_csi_ports();
-  void add_csi_ports(const std::string& value);
-  void add_csi_ports(std::string&& value);
-  void add_csi_ports(const char* value);
-  void add_csi_ports(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& csi_ports() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_csi_ports();
+  PROTOBUF_DEPRECATED void clear_csi_ports();
+  PROTOBUF_DEPRECATED const std::string& csi_ports(int index) const;
+  PROTOBUF_DEPRECATED std::string* mutable_csi_ports(int index);
+  PROTOBUF_DEPRECATED void set_csi_ports(int index, const std::string& value);
+  PROTOBUF_DEPRECATED void set_csi_ports(int index, std::string&& value);
+  PROTOBUF_DEPRECATED void set_csi_ports(int index, const char* value);
+  PROTOBUF_DEPRECATED void set_csi_ports(int index, const char* value, size_t size);
+  PROTOBUF_DEPRECATED std::string* add_csi_ports();
+  PROTOBUF_DEPRECATED void add_csi_ports(const std::string& value);
+  PROTOBUF_DEPRECATED void add_csi_ports(std::string&& value);
+  PROTOBUF_DEPRECATED void add_csi_ports(const char* value);
+  PROTOBUF_DEPRECATED void add_csi_ports(const char* value, size_t size);
+  PROTOBUF_DEPRECATED const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& csi_ports() const;
+  PROTOBUF_DEPRECATED ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_csi_ports();
   private:
   const std::string& _internal_csi_ports(int index) const;
   std::string* _internal_add_csi_ports();
   public:
 
-  // repeated string asterisk_ports = 13;
-  int asterisk_ports_size() const;
+  // repeated string asterisk_ports = 13 [deprecated = true];
+  PROTOBUF_DEPRECATED int asterisk_ports_size() const;
   private:
   int _internal_asterisk_ports_size() const;
   public:
-  void clear_asterisk_ports();
-  const std::string& asterisk_ports(int index) const;
-  std::string* mutable_asterisk_ports(int index);
-  void set_asterisk_ports(int index, const std::string& value);
-  void set_asterisk_ports(int index, std::string&& value);
-  void set_asterisk_ports(int index, const char* value);
-  void set_asterisk_ports(int index, const char* value, size_t size);
-  std::string* add_asterisk_ports();
-  void add_asterisk_ports(const std::string& value);
-  void add_asterisk_ports(std::string&& value);
-  void add_asterisk_ports(const char* value);
-  void add_asterisk_ports(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& asterisk_ports() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_asterisk_ports();
+  PROTOBUF_DEPRECATED void clear_asterisk_ports();
+  PROTOBUF_DEPRECATED const std::string& asterisk_ports(int index) const;
+  PROTOBUF_DEPRECATED std::string* mutable_asterisk_ports(int index);
+  PROTOBUF_DEPRECATED void set_asterisk_ports(int index, const std::string& value);
+  PROTOBUF_DEPRECATED void set_asterisk_ports(int index, std::string&& value);
+  PROTOBUF_DEPRECATED void set_asterisk_ports(int index, const char* value);
+  PROTOBUF_DEPRECATED void set_asterisk_ports(int index, const char* value, size_t size);
+  PROTOBUF_DEPRECATED std::string* add_asterisk_ports();
+  PROTOBUF_DEPRECATED void add_asterisk_ports(const std::string& value);
+  PROTOBUF_DEPRECATED void add_asterisk_ports(std::string&& value);
+  PROTOBUF_DEPRECATED void add_asterisk_ports(const char* value);
+  PROTOBUF_DEPRECATED void add_asterisk_ports(const char* value, size_t size);
+  PROTOBUF_DEPRECATED const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& asterisk_ports() const;
+  PROTOBUF_DEPRECATED ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_asterisk_ports();
   private:
   const std::string& _internal_asterisk_ports(int index) const;
   std::string* _internal_add_asterisk_ports();
@@ -1464,6 +1539,72 @@ class CallLogFilter final :
   std::string* _internal_add_thread_names();
   public:
 
+  // repeated int32 sip_port_numbers = 32;
+  int sip_port_numbers_size() const;
+  private:
+  int _internal_sip_port_numbers_size() const;
+  public:
+  void clear_sip_port_numbers();
+  private:
+  int32_t _internal_sip_port_numbers(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_sip_port_numbers() const;
+  void _internal_add_sip_port_numbers(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_sip_port_numbers();
+  public:
+  int32_t sip_port_numbers(int index) const;
+  void set_sip_port_numbers(int index, int32_t value);
+  void add_sip_port_numbers(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      sip_port_numbers() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_sip_port_numbers();
+
+  // repeated int32 csi_port_numbers = 33;
+  int csi_port_numbers_size() const;
+  private:
+  int _internal_csi_port_numbers_size() const;
+  public:
+  void clear_csi_port_numbers();
+  private:
+  int32_t _internal_csi_port_numbers(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_csi_port_numbers() const;
+  void _internal_add_csi_port_numbers(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_csi_port_numbers();
+  public:
+  int32_t csi_port_numbers(int index) const;
+  void set_csi_port_numbers(int index, int32_t value);
+  void add_csi_port_numbers(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      csi_port_numbers() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_csi_port_numbers();
+
+  // repeated int32 asterisk_port_numbers = 34;
+  int asterisk_port_numbers_size() const;
+  private:
+  int _internal_asterisk_port_numbers_size() const;
+  public:
+  void clear_asterisk_port_numbers();
+  private:
+  int32_t _internal_asterisk_port_numbers(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_asterisk_port_numbers() const;
+  void _internal_add_asterisk_port_numbers(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_asterisk_port_numbers();
+  public:
+  int32_t asterisk_port_numbers(int index) const;
+  void set_asterisk_port_numbers(int index, int32_t value);
+  void add_asterisk_port_numbers(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      asterisk_port_numbers() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_asterisk_port_numbers();
+
   // optional string text = 26;
   bool has_text() const;
   private:
@@ -1597,6 +1738,12 @@ class CallLogFilter final :
     mutable std::atomic<int> _log_levels_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> emitter_prefixes_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> thread_names_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > sip_port_numbers_;
+    mutable std::atomic<int> _sip_port_numbers_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > csi_port_numbers_;
+    mutable std::atomic<int> _csi_port_numbers_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > asterisk_port_numbers_;
+    mutable std::atomic<int> _asterisk_port_numbers_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr text_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr regex_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time_;
@@ -1738,6 +1885,7 @@ class CallLogStream final :
     kSipAccountFieldNumber = 8,
     kImageFieldNumber = 12,
     kCaptureErrorFieldNumber = 14,
+    kVtsiProjectNameFieldNumber = 22,
     kCaptureStartedAtFieldNumber = 15,
     kCaptureFinishedAtFieldNumber = 16,
     kChannelFieldNumber = 4,
@@ -1862,6 +2010,20 @@ class CallLogStream final :
   const std::string& _internal_capture_error() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_capture_error(const std::string& value);
   std::string* _internal_mutable_capture_error();
+  public:
+
+  // string vtsi_project_name = 22;
+  void clear_vtsi_project_name();
+  const std::string& vtsi_project_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_vtsi_project_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_vtsi_project_name();
+  PROTOBUF_NODISCARD std::string* release_vtsi_project_name();
+  void set_allocated_vtsi_project_name(std::string* vtsi_project_name);
+  private:
+  const std::string& _internal_vtsi_project_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_vtsi_project_name(const std::string& value);
+  std::string* _internal_mutable_vtsi_project_name();
   public:
 
   // .google.protobuf.Timestamp capture_started_at = 15;
@@ -2015,6 +2177,7 @@ class CallLogStream final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_account_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr image_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr capture_error_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* capture_started_at_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* capture_finished_at_;
     int channel_;
@@ -2386,6 +2549,7 @@ class StreamCallLogsResponse final :
     kEndReasonFieldNumber = 6,
     kDroppedLineCountFieldNumber = 4,
     kCaptureStateFieldNumber = 2,
+    kEndReasonCodeFieldNumber = 7,
   };
   // repeated .ondewo.vtsi.CallLogEntry log_entries = 1;
   int log_entries_size() const;
@@ -2465,6 +2629,15 @@ class StreamCallLogsResponse final :
   void _internal_set_capture_state(::ondewo::vtsi::LogCaptureState value);
   public:
 
+  // .ondewo.vtsi.LogStreamEndReason end_reason_code = 7;
+  void clear_end_reason_code();
+  ::ondewo::vtsi::LogStreamEndReason end_reason_code() const;
+  void set_end_reason_code(::ondewo::vtsi::LogStreamEndReason value);
+  private:
+  ::ondewo::vtsi::LogStreamEndReason _internal_end_reason_code() const;
+  void _internal_set_end_reason_code(::ondewo::vtsi::LogStreamEndReason value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.StreamCallLogsResponse)
  private:
   class _Internal;
@@ -2479,6 +2652,7 @@ class StreamCallLogsResponse final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr end_reason_;
     int64_t dropped_line_count_;
     int capture_state_;
+    int end_reason_code_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2610,10 +2784,12 @@ class ListCallLogsRequest final :
     kVtsiProjectNameFieldNumber = 1,
     kResumeTokenFieldNumber = 6,
     kFilterFieldNumber = 2,
+    kFieldMaskFieldNumber = 8,
     kBeforeSeqFieldNumber = 4,
     kAfterSeqFieldNumber = 5,
     kMaxLinesFieldNumber = 3,
     kOldestFirstFieldNumber = 7,
+    kIncludeCountsFieldNumber = 9,
   };
   // string vtsi_project_name = 1;
   void clear_vtsi_project_name();
@@ -2664,6 +2840,24 @@ class ListCallLogsRequest final :
   void unsafe_arena_set_allocated_filter(
       ::ondewo::vtsi::CallLogFilter* filter);
   ::ondewo::vtsi::CallLogFilter* unsafe_arena_release_filter();
+
+  // .google.protobuf.FieldMask field_mask = 8;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
 
   // optional int64 before_seq = 4;
   bool has_before_seq() const;
@@ -2717,6 +2911,15 @@ class ListCallLogsRequest final :
   void _internal_set_oldest_first(bool value);
   public:
 
+  // bool include_counts = 9;
+  void clear_include_counts();
+  bool include_counts() const;
+  void set_include_counts(bool value);
+  private:
+  bool _internal_include_counts() const;
+  void _internal_set_include_counts(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.ListCallLogsRequest)
  private:
   class _Internal;
@@ -2730,14 +2933,42 @@ class ListCallLogsRequest final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr resume_token_;
     ::ondewo::vtsi::CallLogFilter* filter_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     int64_t before_seq_;
     int64_t after_seq_;
     int32_t max_lines_;
     bool oldest_first_;
+    bool include_counts_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fvtsi_2flogs_2eproto;
 };
+// -------------------------------------------------------------------
+
+class ListCallLogsResponse_CountByLevelEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<ListCallLogsResponse_CountByLevelEntry_DoNotUse, 
+    std::string, int64_t,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_INT64> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<ListCallLogsResponse_CountByLevelEntry_DoNotUse, 
+    std::string, int64_t,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_INT64> SuperType;
+  ListCallLogsResponse_CountByLevelEntry_DoNotUse();
+  explicit PROTOBUF_CONSTEXPR ListCallLogsResponse_CountByLevelEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit ListCallLogsResponse_CountByLevelEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const ListCallLogsResponse_CountByLevelEntry_DoNotUse& other);
+  static const ListCallLogsResponse_CountByLevelEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const ListCallLogsResponse_CountByLevelEntry_DoNotUse*>(&_ListCallLogsResponse_CountByLevelEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(std::string* s) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(s->data(), static_cast<int>(s->size()), ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE, "ondewo.vtsi.ListCallLogsResponse.CountByLevelEntry.key");
+ }
+  static bool ValidateValue(void*) { return true; }
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  friend struct ::TableStruct_ondewo_2fvtsi_2flogs_2eproto;
+};
+
 // -------------------------------------------------------------------
 
 class ListCallLogsResponse final :
@@ -2788,7 +3019,7 @@ class ListCallLogsResponse final :
                &_ListCallLogsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(ListCallLogsResponse& a, ListCallLogsResponse& b) {
     a.Swap(&b);
@@ -2849,6 +3080,8 @@ class ListCallLogsResponse final :
   protected:
   explicit ListCallLogsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
   public:
 
   static const ClassData _class_data_;
@@ -2858,14 +3091,17 @@ class ListCallLogsResponse final :
 
   // nested types ----------------------------------------------------
 
+
   // accessors -------------------------------------------------------
 
   enum : int {
     kLogEntriesFieldNumber = 1,
     kScopeLimitedFiltersFieldNumber = 8,
+    kCountByLevelFieldNumber = 10,
     kNextResumeTokenFieldNumber = 7,
     kMinAvailableSeqFieldNumber = 3,
     kMaxAvailableSeqFieldNumber = 4,
+    kTotalMatchingCountFieldNumber = 9,
     kTruncatedFieldNumber = 2,
     kHasMoreOlderFieldNumber = 5,
     kHasMoreNewerFieldNumber = 6,
@@ -2905,6 +3141,23 @@ class ListCallLogsResponse final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& scope_limited_filters() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_scope_limited_filters();
 
+  // map<string, int64> count_by_level = 10;
+  int count_by_level_size() const;
+  private:
+  int _internal_count_by_level_size() const;
+  public:
+  void clear_count_by_level();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >&
+      _internal_count_by_level() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >*
+      _internal_mutable_count_by_level();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >&
+      count_by_level() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >*
+      mutable_count_by_level();
+
   // string next_resume_token = 7;
   void clear_next_resume_token();
   const std::string& next_resume_token() const;
@@ -2935,6 +3188,19 @@ class ListCallLogsResponse final :
   private:
   int64_t _internal_max_available_seq() const;
   void _internal_set_max_available_seq(int64_t value);
+  public:
+
+  // optional int64 total_matching_count = 9;
+  bool has_total_matching_count() const;
+  private:
+  bool _internal_has_total_matching_count() const;
+  public:
+  void clear_total_matching_count();
+  int64_t total_matching_count() const;
+  void set_total_matching_count(int64_t value);
+  private:
+  int64_t _internal_total_matching_count() const;
+  void _internal_set_total_matching_count(int64_t value);
   public:
 
   // bool truncated = 2;
@@ -2972,16 +3238,23 @@ class ListCallLogsResponse final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::vtsi::CallLogEntry > log_entries_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> scope_limited_filters_;
     mutable std::atomic<int> _scope_limited_filters_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+        ListCallLogsResponse_CountByLevelEntry_DoNotUse,
+        std::string, int64_t,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_INT64> count_by_level_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr next_resume_token_;
     int64_t min_available_seq_;
     int64_t max_available_seq_;
+    int64_t total_matching_count_;
     bool truncated_;
     bool has_more_older_;
     bool has_more_newer_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fvtsi_2flogs_2eproto;
@@ -3036,7 +3309,7 @@ class GetCallLogStreamRequest final :
                &_GetCallLogStreamRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   friend void swap(GetCallLogStreamRequest& a, GetCallLogStreamRequest& b) {
     a.Swap(&b);
@@ -3111,6 +3384,7 @@ class GetCallLogStreamRequest final :
   enum : int {
     kVtsiProjectNameFieldNumber = 1,
     kNameFieldNumber = 2,
+    kFieldMaskFieldNumber = 3,
   };
   // string vtsi_project_name = 1;
   void clear_vtsi_project_name();
@@ -3140,6 +3414,24 @@ class GetCallLogStreamRequest final :
   std::string* _internal_mutable_name();
   public:
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.GetCallLogStreamRequest)
  private:
   class _Internal;
@@ -3150,6 +3442,7 @@ class GetCallLogStreamRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3205,7 +3498,7 @@ class ListCallLogStreamsRequest final :
                &_ListCallLogStreamsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   friend void swap(ListCallLogStreamsRequest& a, ListCallLogStreamsRequest& b) {
     a.Swap(&b);
@@ -3278,10 +3571,30 @@ class ListCallLogStreamsRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kCaptureStatesFieldNumber = 6,
     kVtsiProjectNameFieldNumber = 1,
     kPageTokenFieldNumber = 3,
     kFilterFieldNumber = 2,
+    kFieldMaskFieldNumber = 4,
+    kPageSizeFieldNumber = 5,
   };
+  // repeated .ondewo.vtsi.LogCaptureState capture_states = 6;
+  int capture_states_size() const;
+  private:
+  int _internal_capture_states_size() const;
+  public:
+  void clear_capture_states();
+  private:
+  ::ondewo::vtsi::LogCaptureState _internal_capture_states(int index) const;
+  void _internal_add_capture_states(::ondewo::vtsi::LogCaptureState value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_capture_states();
+  public:
+  ::ondewo::vtsi::LogCaptureState capture_states(int index) const;
+  void set_capture_states(int index, ::ondewo::vtsi::LogCaptureState value);
+  void add_capture_states(::ondewo::vtsi::LogCaptureState value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& capture_states() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_capture_states();
+
   // string vtsi_project_name = 1;
   void clear_vtsi_project_name();
   const std::string& vtsi_project_name() const;
@@ -3332,6 +3645,33 @@ class ListCallLogStreamsRequest final :
       ::ondewo::vtsi::CallLogFilter* filter);
   ::ondewo::vtsi::CallLogFilter* unsafe_arena_release_filter();
 
+  // .google.protobuf.FieldMask field_mask = 4;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
+  // int32 page_size = 5;
+  void clear_page_size();
+  int32_t page_size() const;
+  void set_page_size(int32_t value);
+  private:
+  int32_t _internal_page_size() const;
+  void _internal_set_page_size(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.ListCallLogStreamsRequest)
  private:
   class _Internal;
@@ -3342,9 +3682,13 @@ class ListCallLogStreamsRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> capture_states_;
+    mutable std::atomic<int> _capture_states_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr page_token_;
     ::ondewo::vtsi::CallLogFilter* filter_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
+    int32_t page_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fvtsi_2flogs_2eproto;
@@ -3399,7 +3743,7 @@ class ListCallLogStreamsResponse final :
                &_ListCallLogStreamsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    11;
 
   friend void swap(ListCallLogStreamsResponse& a, ListCallLogStreamsResponse& b) {
     a.Swap(&b);
@@ -3572,7 +3916,7 @@ class DeleteCallLogsRequest final :
                &_DeleteCallLogsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    12;
 
   friend void swap(DeleteCallLogsRequest& a, DeleteCallLogsRequest& b) {
     a.Swap(&b);
@@ -3647,6 +3991,7 @@ class DeleteCallLogsRequest final :
   enum : int {
     kVtsiProjectNameFieldNumber = 1,
     kFilterFieldNumber = 2,
+    kValidateOnlyFieldNumber = 3,
   };
   // string vtsi_project_name = 1;
   void clear_vtsi_project_name();
@@ -3680,6 +4025,15 @@ class DeleteCallLogsRequest final :
       ::ondewo::vtsi::CallLogFilter* filter);
   ::ondewo::vtsi::CallLogFilter* unsafe_arena_release_filter();
 
+  // bool validate_only = 3;
+  void clear_validate_only();
+  bool validate_only() const;
+  void set_validate_only(bool value);
+  private:
+  bool _internal_validate_only() const;
+  void _internal_set_validate_only(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.DeleteCallLogsRequest)
  private:
   class _Internal;
@@ -3690,6 +4044,7 @@ class DeleteCallLogsRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::ondewo::vtsi::CallLogFilter* filter_;
+    bool validate_only_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3745,7 +4100,7 @@ class DeleteCallLogsResponse final :
                &_DeleteCallLogsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    13;
 
   friend void swap(DeleteCallLogsResponse& a, DeleteCallLogsResponse& b) {
     a.Swap(&b);
@@ -3849,6 +4204,387 @@ class DeleteCallLogsResponse final :
   struct Impl_ {
     int64_t deleted_log_entry_count_;
     int64_t deleted_log_stream_count_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2flogs_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ExportCallLogsRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.ExportCallLogsRequest) */ {
+ public:
+  inline ExportCallLogsRequest() : ExportCallLogsRequest(nullptr) {}
+  ~ExportCallLogsRequest() override;
+  explicit PROTOBUF_CONSTEXPR ExportCallLogsRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ExportCallLogsRequest(const ExportCallLogsRequest& from);
+  ExportCallLogsRequest(ExportCallLogsRequest&& from) noexcept
+    : ExportCallLogsRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ExportCallLogsRequest& operator=(const ExportCallLogsRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ExportCallLogsRequest& operator=(ExportCallLogsRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ExportCallLogsRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ExportCallLogsRequest* internal_default_instance() {
+    return reinterpret_cast<const ExportCallLogsRequest*>(
+               &_ExportCallLogsRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    14;
+
+  friend void swap(ExportCallLogsRequest& a, ExportCallLogsRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ExportCallLogsRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ExportCallLogsRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ExportCallLogsRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ExportCallLogsRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ExportCallLogsRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ExportCallLogsRequest& from) {
+    ExportCallLogsRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExportCallLogsRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.ExportCallLogsRequest";
+  }
+  protected:
+  explicit ExportCallLogsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kVtsiProjectNameFieldNumber = 1,
+    kFilterFieldNumber = 2,
+    kFormatFieldNumber = 3,
+    kIncludeMetadataFieldNumber = 4,
+  };
+  // string vtsi_project_name = 1;
+  void clear_vtsi_project_name();
+  const std::string& vtsi_project_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_vtsi_project_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_vtsi_project_name();
+  PROTOBUF_NODISCARD std::string* release_vtsi_project_name();
+  void set_allocated_vtsi_project_name(std::string* vtsi_project_name);
+  private:
+  const std::string& _internal_vtsi_project_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_vtsi_project_name(const std::string& value);
+  std::string* _internal_mutable_vtsi_project_name();
+  public:
+
+  // .ondewo.vtsi.CallLogFilter filter = 2;
+  bool has_filter() const;
+  private:
+  bool _internal_has_filter() const;
+  public:
+  void clear_filter();
+  const ::ondewo::vtsi::CallLogFilter& filter() const;
+  PROTOBUF_NODISCARD ::ondewo::vtsi::CallLogFilter* release_filter();
+  ::ondewo::vtsi::CallLogFilter* mutable_filter();
+  void set_allocated_filter(::ondewo::vtsi::CallLogFilter* filter);
+  private:
+  const ::ondewo::vtsi::CallLogFilter& _internal_filter() const;
+  ::ondewo::vtsi::CallLogFilter* _internal_mutable_filter();
+  public:
+  void unsafe_arena_set_allocated_filter(
+      ::ondewo::vtsi::CallLogFilter* filter);
+  ::ondewo::vtsi::CallLogFilter* unsafe_arena_release_filter();
+
+  // .ondewo.vtsi.LogExportFormat format = 3;
+  void clear_format();
+  ::ondewo::vtsi::LogExportFormat format() const;
+  void set_format(::ondewo::vtsi::LogExportFormat value);
+  private:
+  ::ondewo::vtsi::LogExportFormat _internal_format() const;
+  void _internal_set_format(::ondewo::vtsi::LogExportFormat value);
+  public:
+
+  // bool include_metadata = 4;
+  void clear_include_metadata();
+  bool include_metadata() const;
+  void set_include_metadata(bool value);
+  private:
+  bool _internal_include_metadata() const;
+  void _internal_set_include_metadata(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.ExportCallLogsRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
+    ::ondewo::vtsi::CallLogFilter* filter_;
+    int format_;
+    bool include_metadata_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2flogs_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ExportCallLogsResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.ExportCallLogsResponse) */ {
+ public:
+  inline ExportCallLogsResponse() : ExportCallLogsResponse(nullptr) {}
+  ~ExportCallLogsResponse() override;
+  explicit PROTOBUF_CONSTEXPR ExportCallLogsResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ExportCallLogsResponse(const ExportCallLogsResponse& from);
+  ExportCallLogsResponse(ExportCallLogsResponse&& from) noexcept
+    : ExportCallLogsResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline ExportCallLogsResponse& operator=(const ExportCallLogsResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ExportCallLogsResponse& operator=(ExportCallLogsResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ExportCallLogsResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ExportCallLogsResponse* internal_default_instance() {
+    return reinterpret_cast<const ExportCallLogsResponse*>(
+               &_ExportCallLogsResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    15;
+
+  friend void swap(ExportCallLogsResponse& a, ExportCallLogsResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ExportCallLogsResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ExportCallLogsResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ExportCallLogsResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ExportCallLogsResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ExportCallLogsResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ExportCallLogsResponse& from) {
+    ExportCallLogsResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExportCallLogsResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.ExportCallLogsResponse";
+  }
+  protected:
+  explicit ExportCallLogsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kChunkFieldNumber = 1,
+    kEntryCountFieldNumber = 2,
+    kLastFieldNumber = 3,
+    kTruncatedFieldNumber = 4,
+  };
+  // bytes chunk = 1;
+  void clear_chunk();
+  const std::string& chunk() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_chunk(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_chunk();
+  PROTOBUF_NODISCARD std::string* release_chunk();
+  void set_allocated_chunk(std::string* chunk);
+  private:
+  const std::string& _internal_chunk() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_chunk(const std::string& value);
+  std::string* _internal_mutable_chunk();
+  public:
+
+  // int64 entry_count = 2;
+  void clear_entry_count();
+  int64_t entry_count() const;
+  void set_entry_count(int64_t value);
+  private:
+  int64_t _internal_entry_count() const;
+  void _internal_set_entry_count(int64_t value);
+  public:
+
+  // bool last = 3;
+  void clear_last();
+  bool last() const;
+  void set_last(bool value);
+  private:
+  bool _internal_last() const;
+  void _internal_set_last(bool value);
+  public:
+
+  // bool truncated = 4;
+  void clear_truncated();
+  bool truncated() const;
+  void set_truncated(bool value);
+  private:
+  bool _internal_truncated() const;
+  void _internal_set_truncated(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.ExportCallLogsResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr chunk_;
+    int64_t entry_count_;
+    bool last_;
+    bool truncated_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -5328,7 +6064,7 @@ CallLogFilter::mutable_sip_accounts() {
   return &_impl_.sip_accounts_;
 }
 
-// repeated string sip_ports = 11;
+// repeated string sip_ports = 11 [deprecated = true];
 inline int CallLogFilter::_internal_sip_ports_size() const {
   return _impl_.sip_ports_.size();
 }
@@ -5403,7 +6139,7 @@ CallLogFilter::mutable_sip_ports() {
   return &_impl_.sip_ports_;
 }
 
-// repeated string csi_ports = 12;
+// repeated string csi_ports = 12 [deprecated = true];
 inline int CallLogFilter::_internal_csi_ports_size() const {
   return _impl_.csi_ports_.size();
 }
@@ -5478,7 +6214,7 @@ CallLogFilter::mutable_csi_ports() {
   return &_impl_.csi_ports_;
 }
 
-// repeated string asterisk_ports = 13;
+// repeated string asterisk_ports = 13 [deprecated = true];
 inline int CallLogFilter::_internal_asterisk_ports_size() const {
   return _impl_.asterisk_ports_.size();
 }
@@ -6648,6 +7384,147 @@ inline void CallLogFilter::set_allocated_end_time(::PROTOBUF_NAMESPACE_ID::Times
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CallLogFilter.end_time)
 }
 
+// repeated int32 sip_port_numbers = 32;
+inline int CallLogFilter::_internal_sip_port_numbers_size() const {
+  return _impl_.sip_port_numbers_.size();
+}
+inline int CallLogFilter::sip_port_numbers_size() const {
+  return _internal_sip_port_numbers_size();
+}
+inline void CallLogFilter::clear_sip_port_numbers() {
+  _impl_.sip_port_numbers_.Clear();
+}
+inline int32_t CallLogFilter::_internal_sip_port_numbers(int index) const {
+  return _impl_.sip_port_numbers_.Get(index);
+}
+inline int32_t CallLogFilter::sip_port_numbers(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CallLogFilter.sip_port_numbers)
+  return _internal_sip_port_numbers(index);
+}
+inline void CallLogFilter::set_sip_port_numbers(int index, int32_t value) {
+  _impl_.sip_port_numbers_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.CallLogFilter.sip_port_numbers)
+}
+inline void CallLogFilter::_internal_add_sip_port_numbers(int32_t value) {
+  _impl_.sip_port_numbers_.Add(value);
+}
+inline void CallLogFilter::add_sip_port_numbers(int32_t value) {
+  _internal_add_sip_port_numbers(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.CallLogFilter.sip_port_numbers)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+CallLogFilter::_internal_sip_port_numbers() const {
+  return _impl_.sip_port_numbers_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+CallLogFilter::sip_port_numbers() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.CallLogFilter.sip_port_numbers)
+  return _internal_sip_port_numbers();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+CallLogFilter::_internal_mutable_sip_port_numbers() {
+  return &_impl_.sip_port_numbers_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+CallLogFilter::mutable_sip_port_numbers() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.CallLogFilter.sip_port_numbers)
+  return _internal_mutable_sip_port_numbers();
+}
+
+// repeated int32 csi_port_numbers = 33;
+inline int CallLogFilter::_internal_csi_port_numbers_size() const {
+  return _impl_.csi_port_numbers_.size();
+}
+inline int CallLogFilter::csi_port_numbers_size() const {
+  return _internal_csi_port_numbers_size();
+}
+inline void CallLogFilter::clear_csi_port_numbers() {
+  _impl_.csi_port_numbers_.Clear();
+}
+inline int32_t CallLogFilter::_internal_csi_port_numbers(int index) const {
+  return _impl_.csi_port_numbers_.Get(index);
+}
+inline int32_t CallLogFilter::csi_port_numbers(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CallLogFilter.csi_port_numbers)
+  return _internal_csi_port_numbers(index);
+}
+inline void CallLogFilter::set_csi_port_numbers(int index, int32_t value) {
+  _impl_.csi_port_numbers_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.CallLogFilter.csi_port_numbers)
+}
+inline void CallLogFilter::_internal_add_csi_port_numbers(int32_t value) {
+  _impl_.csi_port_numbers_.Add(value);
+}
+inline void CallLogFilter::add_csi_port_numbers(int32_t value) {
+  _internal_add_csi_port_numbers(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.CallLogFilter.csi_port_numbers)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+CallLogFilter::_internal_csi_port_numbers() const {
+  return _impl_.csi_port_numbers_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+CallLogFilter::csi_port_numbers() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.CallLogFilter.csi_port_numbers)
+  return _internal_csi_port_numbers();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+CallLogFilter::_internal_mutable_csi_port_numbers() {
+  return &_impl_.csi_port_numbers_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+CallLogFilter::mutable_csi_port_numbers() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.CallLogFilter.csi_port_numbers)
+  return _internal_mutable_csi_port_numbers();
+}
+
+// repeated int32 asterisk_port_numbers = 34;
+inline int CallLogFilter::_internal_asterisk_port_numbers_size() const {
+  return _impl_.asterisk_port_numbers_.size();
+}
+inline int CallLogFilter::asterisk_port_numbers_size() const {
+  return _internal_asterisk_port_numbers_size();
+}
+inline void CallLogFilter::clear_asterisk_port_numbers() {
+  _impl_.asterisk_port_numbers_.Clear();
+}
+inline int32_t CallLogFilter::_internal_asterisk_port_numbers(int index) const {
+  return _impl_.asterisk_port_numbers_.Get(index);
+}
+inline int32_t CallLogFilter::asterisk_port_numbers(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CallLogFilter.asterisk_port_numbers)
+  return _internal_asterisk_port_numbers(index);
+}
+inline void CallLogFilter::set_asterisk_port_numbers(int index, int32_t value) {
+  _impl_.asterisk_port_numbers_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.CallLogFilter.asterisk_port_numbers)
+}
+inline void CallLogFilter::_internal_add_asterisk_port_numbers(int32_t value) {
+  _impl_.asterisk_port_numbers_.Add(value);
+}
+inline void CallLogFilter::add_asterisk_port_numbers(int32_t value) {
+  _internal_add_asterisk_port_numbers(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.CallLogFilter.asterisk_port_numbers)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+CallLogFilter::_internal_asterisk_port_numbers() const {
+  return _impl_.asterisk_port_numbers_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+CallLogFilter::asterisk_port_numbers() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.CallLogFilter.asterisk_port_numbers)
+  return _internal_asterisk_port_numbers();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+CallLogFilter::_internal_mutable_asterisk_port_numbers() {
+  return &_impl_.asterisk_port_numbers_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+CallLogFilter::mutable_asterisk_port_numbers() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.CallLogFilter.asterisk_port_numbers)
+  return _internal_mutable_asterisk_port_numbers();
+}
+
 // -------------------------------------------------------------------
 
 // CallLogStream
@@ -7442,6 +8319,56 @@ inline void CallLogStream::set_dropped_line_count(int64_t value) {
   // @@protoc_insertion_point(field_set:ondewo.vtsi.CallLogStream.dropped_line_count)
 }
 
+// string vtsi_project_name = 22;
+inline void CallLogStream::clear_vtsi_project_name() {
+  _impl_.vtsi_project_name_.ClearToEmpty();
+}
+inline const std::string& CallLogStream::vtsi_project_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CallLogStream.vtsi_project_name)
+  return _internal_vtsi_project_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CallLogStream::set_vtsi_project_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.vtsi_project_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.CallLogStream.vtsi_project_name)
+}
+inline std::string* CallLogStream::mutable_vtsi_project_name() {
+  std::string* _s = _internal_mutable_vtsi_project_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.CallLogStream.vtsi_project_name)
+  return _s;
+}
+inline const std::string& CallLogStream::_internal_vtsi_project_name() const {
+  return _impl_.vtsi_project_name_.Get();
+}
+inline void CallLogStream::_internal_set_vtsi_project_name(const std::string& value) {
+  
+  _impl_.vtsi_project_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CallLogStream::_internal_mutable_vtsi_project_name() {
+  
+  return _impl_.vtsi_project_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CallLogStream::release_vtsi_project_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.CallLogStream.vtsi_project_name)
+  return _impl_.vtsi_project_name_.Release();
+}
+inline void CallLogStream::set_allocated_vtsi_project_name(std::string* vtsi_project_name) {
+  if (vtsi_project_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.vtsi_project_name_.SetAllocated(vtsi_project_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.vtsi_project_name_.IsDefault()) {
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CallLogStream.vtsi_project_name)
+}
+
 // -------------------------------------------------------------------
 
 // StreamCallLogsRequest
@@ -7944,6 +8871,26 @@ inline void StreamCallLogsResponse::set_allocated_end_reason(std::string* end_re
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.StreamCallLogsResponse.end_reason)
 }
 
+// .ondewo.vtsi.LogStreamEndReason end_reason_code = 7;
+inline void StreamCallLogsResponse::clear_end_reason_code() {
+  _impl_.end_reason_code_ = 0;
+}
+inline ::ondewo::vtsi::LogStreamEndReason StreamCallLogsResponse::_internal_end_reason_code() const {
+  return static_cast< ::ondewo::vtsi::LogStreamEndReason >(_impl_.end_reason_code_);
+}
+inline ::ondewo::vtsi::LogStreamEndReason StreamCallLogsResponse::end_reason_code() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.StreamCallLogsResponse.end_reason_code)
+  return _internal_end_reason_code();
+}
+inline void StreamCallLogsResponse::_internal_set_end_reason_code(::ondewo::vtsi::LogStreamEndReason value) {
+  
+  _impl_.end_reason_code_ = value;
+}
+inline void StreamCallLogsResponse::set_end_reason_code(::ondewo::vtsi::LogStreamEndReason value) {
+  _internal_set_end_reason_code(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.StreamCallLogsResponse.end_reason_code)
+}
+
 // -------------------------------------------------------------------
 
 // ListCallLogsRequest
@@ -8268,6 +9215,113 @@ inline void ListCallLogsRequest::set_oldest_first(bool value) {
   // @@protoc_insertion_point(field_set:ondewo.vtsi.ListCallLogsRequest.oldest_first)
 }
 
+// .google.protobuf.FieldMask field_mask = 8;
+inline bool ListCallLogsRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool ListCallLogsRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListCallLogsRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListCallLogsRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListCallLogsRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void ListCallLogsRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.ListCallLogsRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListCallLogsRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListCallLogsRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ListCallLogsRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListCallLogsRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListCallLogsRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ListCallLogsRequest.field_mask)
+  return _msg;
+}
+inline void ListCallLogsRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListCallLogsRequest.field_mask)
+}
+
+// bool include_counts = 9;
+inline void ListCallLogsRequest::clear_include_counts() {
+  _impl_.include_counts_ = false;
+}
+inline bool ListCallLogsRequest::_internal_include_counts() const {
+  return _impl_.include_counts_;
+}
+inline bool ListCallLogsRequest::include_counts() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListCallLogsRequest.include_counts)
+  return _internal_include_counts();
+}
+inline void ListCallLogsRequest::_internal_set_include_counts(bool value) {
+  
+  _impl_.include_counts_ = value;
+}
+inline void ListCallLogsRequest::set_include_counts(bool value) {
+  _internal_set_include_counts(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ListCallLogsRequest.include_counts)
+}
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // ListCallLogsResponse
@@ -8505,6 +9559,63 @@ ListCallLogsResponse::mutable_scope_limited_filters() {
   return _internal_mutable_scope_limited_filters();
 }
 
+// optional int64 total_matching_count = 9;
+inline bool ListCallLogsResponse::_internal_has_total_matching_count() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool ListCallLogsResponse::has_total_matching_count() const {
+  return _internal_has_total_matching_count();
+}
+inline void ListCallLogsResponse::clear_total_matching_count() {
+  _impl_.total_matching_count_ = int64_t{0};
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline int64_t ListCallLogsResponse::_internal_total_matching_count() const {
+  return _impl_.total_matching_count_;
+}
+inline int64_t ListCallLogsResponse::total_matching_count() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListCallLogsResponse.total_matching_count)
+  return _internal_total_matching_count();
+}
+inline void ListCallLogsResponse::_internal_set_total_matching_count(int64_t value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.total_matching_count_ = value;
+}
+inline void ListCallLogsResponse::set_total_matching_count(int64_t value) {
+  _internal_set_total_matching_count(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ListCallLogsResponse.total_matching_count)
+}
+
+// map<string, int64> count_by_level = 10;
+inline int ListCallLogsResponse::_internal_count_by_level_size() const {
+  return _impl_.count_by_level_.size();
+}
+inline int ListCallLogsResponse::count_by_level_size() const {
+  return _internal_count_by_level_size();
+}
+inline void ListCallLogsResponse::clear_count_by_level() {
+  _impl_.count_by_level_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >&
+ListCallLogsResponse::_internal_count_by_level() const {
+  return _impl_.count_by_level_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >&
+ListCallLogsResponse::count_by_level() const {
+  // @@protoc_insertion_point(field_map:ondewo.vtsi.ListCallLogsResponse.count_by_level)
+  return _internal_count_by_level();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >*
+ListCallLogsResponse::_internal_mutable_count_by_level() {
+  return _impl_.count_by_level_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >*
+ListCallLogsResponse::mutable_count_by_level() {
+  // @@protoc_insertion_point(field_mutable_map:ondewo.vtsi.ListCallLogsResponse.count_by_level)
+  return _internal_mutable_count_by_level();
+}
+
 // -------------------------------------------------------------------
 
 // GetCallLogStreamRequest
@@ -8607,6 +9718,91 @@ inline void GetCallLogStreamRequest::set_allocated_name(std::string* name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetCallLogStreamRequest.name)
+}
+
+// .google.protobuf.FieldMask field_mask = 3;
+inline bool GetCallLogStreamRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool GetCallLogStreamRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetCallLogStreamRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetCallLogStreamRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.GetCallLogStreamRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void GetCallLogStreamRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.GetCallLogStreamRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetCallLogStreamRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetCallLogStreamRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.GetCallLogStreamRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetCallLogStreamRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetCallLogStreamRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.GetCallLogStreamRequest.field_mask)
+  return _msg;
+}
+inline void GetCallLogStreamRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetCallLogStreamRequest.field_mask)
 }
 
 // -------------------------------------------------------------------
@@ -8819,6 +10015,154 @@ inline void ListCallLogStreamsRequest::set_allocated_page_token(std::string* pag
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListCallLogStreamsRequest.page_token)
+}
+
+// .google.protobuf.FieldMask field_mask = 4;
+inline bool ListCallLogStreamsRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool ListCallLogStreamsRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListCallLogStreamsRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListCallLogStreamsRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListCallLogStreamsRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void ListCallLogStreamsRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.ListCallLogStreamsRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListCallLogStreamsRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListCallLogStreamsRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ListCallLogStreamsRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListCallLogStreamsRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListCallLogStreamsRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ListCallLogStreamsRequest.field_mask)
+  return _msg;
+}
+inline void ListCallLogStreamsRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListCallLogStreamsRequest.field_mask)
+}
+
+// int32 page_size = 5;
+inline void ListCallLogStreamsRequest::clear_page_size() {
+  _impl_.page_size_ = 0;
+}
+inline int32_t ListCallLogStreamsRequest::_internal_page_size() const {
+  return _impl_.page_size_;
+}
+inline int32_t ListCallLogStreamsRequest::page_size() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListCallLogStreamsRequest.page_size)
+  return _internal_page_size();
+}
+inline void ListCallLogStreamsRequest::_internal_set_page_size(int32_t value) {
+  
+  _impl_.page_size_ = value;
+}
+inline void ListCallLogStreamsRequest::set_page_size(int32_t value) {
+  _internal_set_page_size(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ListCallLogStreamsRequest.page_size)
+}
+
+// repeated .ondewo.vtsi.LogCaptureState capture_states = 6;
+inline int ListCallLogStreamsRequest::_internal_capture_states_size() const {
+  return _impl_.capture_states_.size();
+}
+inline int ListCallLogStreamsRequest::capture_states_size() const {
+  return _internal_capture_states_size();
+}
+inline void ListCallLogStreamsRequest::clear_capture_states() {
+  _impl_.capture_states_.Clear();
+}
+inline ::ondewo::vtsi::LogCaptureState ListCallLogStreamsRequest::_internal_capture_states(int index) const {
+  return static_cast< ::ondewo::vtsi::LogCaptureState >(_impl_.capture_states_.Get(index));
+}
+inline ::ondewo::vtsi::LogCaptureState ListCallLogStreamsRequest::capture_states(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListCallLogStreamsRequest.capture_states)
+  return _internal_capture_states(index);
+}
+inline void ListCallLogStreamsRequest::set_capture_states(int index, ::ondewo::vtsi::LogCaptureState value) {
+  _impl_.capture_states_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ListCallLogStreamsRequest.capture_states)
+}
+inline void ListCallLogStreamsRequest::_internal_add_capture_states(::ondewo::vtsi::LogCaptureState value) {
+  _impl_.capture_states_.Add(value);
+}
+inline void ListCallLogStreamsRequest::add_capture_states(::ondewo::vtsi::LogCaptureState value) {
+  _internal_add_capture_states(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.ListCallLogStreamsRequest.capture_states)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
+ListCallLogStreamsRequest::capture_states() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.ListCallLogStreamsRequest.capture_states)
+  return _impl_.capture_states_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+ListCallLogStreamsRequest::_internal_mutable_capture_states() {
+  return &_impl_.capture_states_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+ListCallLogStreamsRequest::mutable_capture_states() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.ListCallLogStreamsRequest.capture_states)
+  return _internal_mutable_capture_states();
 }
 
 // -------------------------------------------------------------------
@@ -9059,6 +10403,26 @@ inline void DeleteCallLogsRequest::set_allocated_filter(::ondewo::vtsi::CallLogF
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.DeleteCallLogsRequest.filter)
 }
 
+// bool validate_only = 3;
+inline void DeleteCallLogsRequest::clear_validate_only() {
+  _impl_.validate_only_ = false;
+}
+inline bool DeleteCallLogsRequest::_internal_validate_only() const {
+  return _impl_.validate_only_;
+}
+inline bool DeleteCallLogsRequest::validate_only() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.DeleteCallLogsRequest.validate_only)
+  return _internal_validate_only();
+}
+inline void DeleteCallLogsRequest::_internal_set_validate_only(bool value) {
+  
+  _impl_.validate_only_ = value;
+}
+inline void DeleteCallLogsRequest::set_validate_only(bool value) {
+  _internal_set_validate_only(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.DeleteCallLogsRequest.validate_only)
+}
+
 // -------------------------------------------------------------------
 
 // DeleteCallLogsResponse
@@ -9103,9 +10467,313 @@ inline void DeleteCallLogsResponse::set_deleted_log_stream_count(int64_t value) 
   // @@protoc_insertion_point(field_set:ondewo.vtsi.DeleteCallLogsResponse.deleted_log_stream_count)
 }
 
+// -------------------------------------------------------------------
+
+// ExportCallLogsRequest
+
+// string vtsi_project_name = 1;
+inline void ExportCallLogsRequest::clear_vtsi_project_name() {
+  _impl_.vtsi_project_name_.ClearToEmpty();
+}
+inline const std::string& ExportCallLogsRequest::vtsi_project_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ExportCallLogsRequest.vtsi_project_name)
+  return _internal_vtsi_project_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ExportCallLogsRequest::set_vtsi_project_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.vtsi_project_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ExportCallLogsRequest.vtsi_project_name)
+}
+inline std::string* ExportCallLogsRequest::mutable_vtsi_project_name() {
+  std::string* _s = _internal_mutable_vtsi_project_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ExportCallLogsRequest.vtsi_project_name)
+  return _s;
+}
+inline const std::string& ExportCallLogsRequest::_internal_vtsi_project_name() const {
+  return _impl_.vtsi_project_name_.Get();
+}
+inline void ExportCallLogsRequest::_internal_set_vtsi_project_name(const std::string& value) {
+  
+  _impl_.vtsi_project_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ExportCallLogsRequest::_internal_mutable_vtsi_project_name() {
+  
+  return _impl_.vtsi_project_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ExportCallLogsRequest::release_vtsi_project_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ExportCallLogsRequest.vtsi_project_name)
+  return _impl_.vtsi_project_name_.Release();
+}
+inline void ExportCallLogsRequest::set_allocated_vtsi_project_name(std::string* vtsi_project_name) {
+  if (vtsi_project_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.vtsi_project_name_.SetAllocated(vtsi_project_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.vtsi_project_name_.IsDefault()) {
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ExportCallLogsRequest.vtsi_project_name)
+}
+
+// .ondewo.vtsi.CallLogFilter filter = 2;
+inline bool ExportCallLogsRequest::_internal_has_filter() const {
+  return this != internal_default_instance() && _impl_.filter_ != nullptr;
+}
+inline bool ExportCallLogsRequest::has_filter() const {
+  return _internal_has_filter();
+}
+inline void ExportCallLogsRequest::clear_filter() {
+  if (GetArenaForAllocation() == nullptr && _impl_.filter_ != nullptr) {
+    delete _impl_.filter_;
+  }
+  _impl_.filter_ = nullptr;
+}
+inline const ::ondewo::vtsi::CallLogFilter& ExportCallLogsRequest::_internal_filter() const {
+  const ::ondewo::vtsi::CallLogFilter* p = _impl_.filter_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::vtsi::CallLogFilter&>(
+      ::ondewo::vtsi::_CallLogFilter_default_instance_);
+}
+inline const ::ondewo::vtsi::CallLogFilter& ExportCallLogsRequest::filter() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ExportCallLogsRequest.filter)
+  return _internal_filter();
+}
+inline void ExportCallLogsRequest::unsafe_arena_set_allocated_filter(
+    ::ondewo::vtsi::CallLogFilter* filter) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.filter_);
+  }
+  _impl_.filter_ = filter;
+  if (filter) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.ExportCallLogsRequest.filter)
+}
+inline ::ondewo::vtsi::CallLogFilter* ExportCallLogsRequest::release_filter() {
+  
+  ::ondewo::vtsi::CallLogFilter* temp = _impl_.filter_;
+  _impl_.filter_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::vtsi::CallLogFilter* ExportCallLogsRequest::unsafe_arena_release_filter() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ExportCallLogsRequest.filter)
+  
+  ::ondewo::vtsi::CallLogFilter* temp = _impl_.filter_;
+  _impl_.filter_ = nullptr;
+  return temp;
+}
+inline ::ondewo::vtsi::CallLogFilter* ExportCallLogsRequest::_internal_mutable_filter() {
+  
+  if (_impl_.filter_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::vtsi::CallLogFilter>(GetArenaForAllocation());
+    _impl_.filter_ = p;
+  }
+  return _impl_.filter_;
+}
+inline ::ondewo::vtsi::CallLogFilter* ExportCallLogsRequest::mutable_filter() {
+  ::ondewo::vtsi::CallLogFilter* _msg = _internal_mutable_filter();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ExportCallLogsRequest.filter)
+  return _msg;
+}
+inline void ExportCallLogsRequest::set_allocated_filter(::ondewo::vtsi::CallLogFilter* filter) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.filter_;
+  }
+  if (filter) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(filter);
+    if (message_arena != submessage_arena) {
+      filter = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, filter, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.filter_ = filter;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ExportCallLogsRequest.filter)
+}
+
+// .ondewo.vtsi.LogExportFormat format = 3;
+inline void ExportCallLogsRequest::clear_format() {
+  _impl_.format_ = 0;
+}
+inline ::ondewo::vtsi::LogExportFormat ExportCallLogsRequest::_internal_format() const {
+  return static_cast< ::ondewo::vtsi::LogExportFormat >(_impl_.format_);
+}
+inline ::ondewo::vtsi::LogExportFormat ExportCallLogsRequest::format() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ExportCallLogsRequest.format)
+  return _internal_format();
+}
+inline void ExportCallLogsRequest::_internal_set_format(::ondewo::vtsi::LogExportFormat value) {
+  
+  _impl_.format_ = value;
+}
+inline void ExportCallLogsRequest::set_format(::ondewo::vtsi::LogExportFormat value) {
+  _internal_set_format(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ExportCallLogsRequest.format)
+}
+
+// bool include_metadata = 4;
+inline void ExportCallLogsRequest::clear_include_metadata() {
+  _impl_.include_metadata_ = false;
+}
+inline bool ExportCallLogsRequest::_internal_include_metadata() const {
+  return _impl_.include_metadata_;
+}
+inline bool ExportCallLogsRequest::include_metadata() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ExportCallLogsRequest.include_metadata)
+  return _internal_include_metadata();
+}
+inline void ExportCallLogsRequest::_internal_set_include_metadata(bool value) {
+  
+  _impl_.include_metadata_ = value;
+}
+inline void ExportCallLogsRequest::set_include_metadata(bool value) {
+  _internal_set_include_metadata(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ExportCallLogsRequest.include_metadata)
+}
+
+// -------------------------------------------------------------------
+
+// ExportCallLogsResponse
+
+// bytes chunk = 1;
+inline void ExportCallLogsResponse::clear_chunk() {
+  _impl_.chunk_.ClearToEmpty();
+}
+inline const std::string& ExportCallLogsResponse::chunk() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ExportCallLogsResponse.chunk)
+  return _internal_chunk();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ExportCallLogsResponse::set_chunk(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.chunk_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ExportCallLogsResponse.chunk)
+}
+inline std::string* ExportCallLogsResponse::mutable_chunk() {
+  std::string* _s = _internal_mutable_chunk();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ExportCallLogsResponse.chunk)
+  return _s;
+}
+inline const std::string& ExportCallLogsResponse::_internal_chunk() const {
+  return _impl_.chunk_.Get();
+}
+inline void ExportCallLogsResponse::_internal_set_chunk(const std::string& value) {
+  
+  _impl_.chunk_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ExportCallLogsResponse::_internal_mutable_chunk() {
+  
+  return _impl_.chunk_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ExportCallLogsResponse::release_chunk() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ExportCallLogsResponse.chunk)
+  return _impl_.chunk_.Release();
+}
+inline void ExportCallLogsResponse::set_allocated_chunk(std::string* chunk) {
+  if (chunk != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.chunk_.SetAllocated(chunk, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.chunk_.IsDefault()) {
+    _impl_.chunk_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ExportCallLogsResponse.chunk)
+}
+
+// int64 entry_count = 2;
+inline void ExportCallLogsResponse::clear_entry_count() {
+  _impl_.entry_count_ = int64_t{0};
+}
+inline int64_t ExportCallLogsResponse::_internal_entry_count() const {
+  return _impl_.entry_count_;
+}
+inline int64_t ExportCallLogsResponse::entry_count() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ExportCallLogsResponse.entry_count)
+  return _internal_entry_count();
+}
+inline void ExportCallLogsResponse::_internal_set_entry_count(int64_t value) {
+  
+  _impl_.entry_count_ = value;
+}
+inline void ExportCallLogsResponse::set_entry_count(int64_t value) {
+  _internal_set_entry_count(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ExportCallLogsResponse.entry_count)
+}
+
+// bool last = 3;
+inline void ExportCallLogsResponse::clear_last() {
+  _impl_.last_ = false;
+}
+inline bool ExportCallLogsResponse::_internal_last() const {
+  return _impl_.last_;
+}
+inline bool ExportCallLogsResponse::last() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ExportCallLogsResponse.last)
+  return _internal_last();
+}
+inline void ExportCallLogsResponse::_internal_set_last(bool value) {
+  
+  _impl_.last_ = value;
+}
+inline void ExportCallLogsResponse::set_last(bool value) {
+  _internal_set_last(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ExportCallLogsResponse.last)
+}
+
+// bool truncated = 4;
+inline void ExportCallLogsResponse::clear_truncated() {
+  _impl_.truncated_ = false;
+}
+inline bool ExportCallLogsResponse::_internal_truncated() const {
+  return _impl_.truncated_;
+}
+inline bool ExportCallLogsResponse::truncated() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ExportCallLogsResponse.truncated)
+  return _internal_truncated();
+}
+inline void ExportCallLogsResponse::_internal_set_truncated(bool value) {
+  
+  _impl_.truncated_ = value;
+}
+inline void ExportCallLogsResponse::set_truncated(bool value) {
+  _internal_set_truncated(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.ExportCallLogsResponse.truncated)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -9157,6 +10825,16 @@ template <> struct is_proto_enum< ::ondewo::vtsi::CallLogFilterField> : ::std::t
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::CallLogFilterField>() {
   return ::ondewo::vtsi::CallLogFilterField_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::vtsi::LogStreamEndReason> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::LogStreamEndReason>() {
+  return ::ondewo::vtsi::LogStreamEndReason_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::vtsi::LogExportFormat> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::LogExportFormat>() {
+  return ::ondewo::vtsi::LogExportFormat_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

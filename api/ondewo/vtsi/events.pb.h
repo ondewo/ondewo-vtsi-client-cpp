@@ -91,6 +91,12 @@ extern ListWebhooksRequestDefaultTypeInternal _ListWebhooksRequest_default_insta
 class ListWebhooksResponse;
 struct ListWebhooksResponseDefaultTypeInternal;
 extern ListWebhooksResponseDefaultTypeInternal _ListWebhooksResponse_default_instance_;
+class RedeliverWebhookEventsRequest;
+struct RedeliverWebhookEventsRequestDefaultTypeInternal;
+extern RedeliverWebhookEventsRequestDefaultTypeInternal _RedeliverWebhookEventsRequest_default_instance_;
+class RedeliverWebhookEventsResponse;
+struct RedeliverWebhookEventsResponseDefaultTypeInternal;
+extern RedeliverWebhookEventsResponseDefaultTypeInternal _RedeliverWebhookEventsResponse_default_instance_;
 class SubscribeVtsiEventsRequest;
 struct SubscribeVtsiEventsRequestDefaultTypeInternal;
 extern SubscribeVtsiEventsRequestDefaultTypeInternal _SubscribeVtsiEventsRequest_default_instance_;
@@ -145,6 +151,8 @@ template<> ::ondewo::vtsi::ListVtsiEventSubscriptionsRequest* Arena::CreateMaybe
 template<> ::ondewo::vtsi::ListVtsiEventSubscriptionsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::ListVtsiEventSubscriptionsResponse>(Arena*);
 template<> ::ondewo::vtsi::ListWebhooksRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::ListWebhooksRequest>(Arena*);
 template<> ::ondewo::vtsi::ListWebhooksResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::ListWebhooksResponse>(Arena*);
+template<> ::ondewo::vtsi::RedeliverWebhookEventsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::RedeliverWebhookEventsRequest>(Arena*);
+template<> ::ondewo::vtsi::RedeliverWebhookEventsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::RedeliverWebhookEventsResponse>(Arena*);
 template<> ::ondewo::vtsi::SubscribeVtsiEventsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::SubscribeVtsiEventsRequest>(Arena*);
 template<> ::ondewo::vtsi::SubscribeVtsiEventsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::SubscribeVtsiEventsResponse>(Arena*);
 template<> ::ondewo::vtsi::TestWebhookRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::TestWebhookRequest>(Arena*);
@@ -186,6 +194,7 @@ enum VtsiEvent : int {
   VTSI_EVENT_CALL_LISTENING_RESUMED = 119,
   VTSI_EVENT_CALL_AUDIO_STREAM_CONNECTED = 120,
   VTSI_EVENT_CALL_AUDIO_STREAM_DISCONNECTED = 121,
+  VTSI_EVENT_CALL_UPDATED = 122,
   VTSI_EVENT_CALLER_STARTED = 200,
   VTSI_EVENT_CALLER_START_FAILED = 201,
   VTSI_EVENT_CALLER_STOPPED = 202,
@@ -193,6 +202,7 @@ enum VtsiEvent : int {
   VTSI_EVENT_CALLER_RESTARTED = 204,
   VTSI_EVENT_CALLER_UNHEALTHY = 205,
   VTSI_EVENT_CALLER_HEALTHY = 206,
+  VTSI_EVENT_CALLER_UPDATED = 207,
   VTSI_EVENT_LISTENER_STARTED = 300,
   VTSI_EVENT_LISTENER_START_FAILED = 301,
   VTSI_EVENT_LISTENER_STOPPED = 302,
@@ -200,11 +210,13 @@ enum VtsiEvent : int {
   VTSI_EVENT_LISTENER_RESTARTED = 304,
   VTSI_EVENT_LISTENER_UNHEALTHY = 305,
   VTSI_EVENT_LISTENER_HEALTHY = 306,
+  VTSI_EVENT_LISTENER_UPDATED = 307,
   VTSI_EVENT_SCHEDULED_CALLER_CREATED = 400,
   VTSI_EVENT_SCHEDULED_CALLER_FIRED = 401,
   VTSI_EVENT_SCHEDULED_CALLER_FAILED = 402,
   VTSI_EVENT_SCHEDULED_CALLER_CANCELLED = 403,
   VTSI_EVENT_SCHEDULED_CALLER_RETRY_SCHEDULED = 404,
+  VTSI_EVENT_SCHEDULED_CALLER_UPDATED = 405,
   VTSI_EVENT_CAMPAIGN_CREATED = 500,
   VTSI_EVENT_CAMPAIGN_UPDATED = 501,
   VTSI_EVENT_CAMPAIGN_DELETED = 502,
@@ -224,6 +236,9 @@ enum VtsiEvent : int {
   VTSI_EVENT_CAMPAIGN_CALL_RETRY_SCHEDULED = 516,
   VTSI_EVENT_CAMPAIGN_CALL_CANCELLED = 517,
   VTSI_EVENT_CAMPAIGN_AUTO_STOPPED = 518,
+  VTSI_EVENT_CAMPAIGN_CALL_REQUEUED = 519,
+  VTSI_EVENT_CAMPAIGN_CALLING_WINDOW_OPENED = 520,
+  VTSI_EVENT_CAMPAIGN_CALLING_WINDOW_CLOSED = 521,
   VTSI_EVENT_VTSI_PROJECT_UPDATED = 601,
   VTSI_EVENT_VTSI_PROJECT_DELETED = 602,
   VTSI_EVENT_VTSI_PROJECT_DEPLOYED = 603,
@@ -825,6 +840,7 @@ class VtsiEventSubscription final :
     kResourceNamePrefixesFieldNumber = 6,
     kWebhookNamesFieldNumber = 7,
     kCampaignNamesFieldNumber = 13,
+    kExcludedEventsFieldNumber = 14,
     kNameFieldNumber = 1,
     kVtsiProjectNameFieldNumber = 2,
     kDisplayNameFieldNumber = 3,
@@ -923,6 +939,23 @@ class VtsiEventSubscription final :
   const std::string& _internal_campaign_names(int index) const;
   std::string* _internal_add_campaign_names();
   public:
+
+  // repeated .ondewo.vtsi.VtsiEvent excluded_events = 14;
+  int excluded_events_size() const;
+  private:
+  int _internal_excluded_events_size() const;
+  public:
+  void clear_excluded_events();
+  private:
+  ::ondewo::vtsi::VtsiEvent _internal_excluded_events(int index) const;
+  void _internal_add_excluded_events(::ondewo::vtsi::VtsiEvent value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_excluded_events();
+  public:
+  ::ondewo::vtsi::VtsiEvent excluded_events(int index) const;
+  void set_excluded_events(int index, ::ondewo::vtsi::VtsiEvent value);
+  void add_excluded_events(::ondewo::vtsi::VtsiEvent value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& excluded_events() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_excluded_events();
 
   // string name = 1;
   void clear_name();
@@ -1061,6 +1094,8 @@ class VtsiEventSubscription final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> resource_name_prefixes_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> webhook_names_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> campaign_names_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> excluded_events_;
+    mutable std::atomic<int> _excluded_events_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr display_name_;
@@ -1473,6 +1508,7 @@ class Webhook final :
     kUrlFieldNumber = 4,
     kCreatedByFieldNumber = 10,
     kModifiedByFieldNumber = 12,
+    kSigningSecretFieldNumber = 14,
     kTimeoutFieldNumber = 8,
     kDeliveryStatisticsFieldNumber = 9,
     kCreatedAtFieldNumber = 11,
@@ -1579,6 +1615,20 @@ class Webhook final :
   const std::string& _internal_modified_by() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_modified_by(const std::string& value);
   std::string* _internal_mutable_modified_by();
+  public:
+
+  // string signing_secret = 14;
+  void clear_signing_secret();
+  const std::string& signing_secret() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_signing_secret(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_signing_secret();
+  PROTOBUF_NODISCARD std::string* release_signing_secret();
+  void set_allocated_signing_secret(std::string* signing_secret);
+  private:
+  const std::string& _internal_signing_secret() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_signing_secret(const std::string& value);
+  std::string* _internal_mutable_signing_secret();
   public:
 
   // .google.protobuf.Duration timeout = 8;
@@ -1690,6 +1740,7 @@ class Webhook final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr url_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr created_by_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr modified_by_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr signing_secret_;
     ::PROTOBUF_NAMESPACE_ID::Duration* timeout_;
     ::ondewo::vtsi::WebhookDeliveryStatistics* delivery_statistics_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* created_at_;
@@ -1827,6 +1878,8 @@ class VtsiEventFilter final :
     kEventsFieldNumber = 1,
     kResourceNamePrefixesFieldNumber = 2,
     kCampaignNamesFieldNumber = 3,
+    kExcludedEventsFieldNumber = 5,
+    kAllEventsFieldNumber = 4,
   };
   // repeated .ondewo.vtsi.VtsiEvent events = 1;
   int events_size() const;
@@ -1893,6 +1946,32 @@ class VtsiEventFilter final :
   std::string* _internal_add_campaign_names();
   public:
 
+  // repeated .ondewo.vtsi.VtsiEvent excluded_events = 5;
+  int excluded_events_size() const;
+  private:
+  int _internal_excluded_events_size() const;
+  public:
+  void clear_excluded_events();
+  private:
+  ::ondewo::vtsi::VtsiEvent _internal_excluded_events(int index) const;
+  void _internal_add_excluded_events(::ondewo::vtsi::VtsiEvent value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_excluded_events();
+  public:
+  ::ondewo::vtsi::VtsiEvent excluded_events(int index) const;
+  void set_excluded_events(int index, ::ondewo::vtsi::VtsiEvent value);
+  void add_excluded_events(::ondewo::vtsi::VtsiEvent value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& excluded_events() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_excluded_events();
+
+  // bool all_events = 4;
+  void clear_all_events();
+  bool all_events() const;
+  void set_all_events(bool value);
+  private:
+  bool _internal_all_events() const;
+  void _internal_set_all_events(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.VtsiEventFilter)
  private:
   class _Internal;
@@ -1905,6 +1984,9 @@ class VtsiEventFilter final :
     mutable std::atomic<int> _events_cached_byte_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> resource_name_prefixes_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> campaign_names_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> excluded_events_;
+    mutable std::atomic<int> _excluded_events_cached_byte_size_;
+    bool all_events_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2035,6 +2117,7 @@ class CreateVtsiEventSubscriptionRequest final :
   enum : int {
     kVtsiProjectNameFieldNumber = 1,
     kEventSubscriptionFieldNumber = 2,
+    kFieldMaskFieldNumber = 3,
   };
   // string vtsi_project_name = 1;
   void clear_vtsi_project_name();
@@ -2068,6 +2151,24 @@ class CreateVtsiEventSubscriptionRequest final :
       ::ondewo::vtsi::VtsiEventSubscription* event_subscription);
   ::ondewo::vtsi::VtsiEventSubscription* unsafe_arena_release_event_subscription();
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.CreateVtsiEventSubscriptionRequest)
  private:
   class _Internal;
@@ -2078,6 +2179,7 @@ class CreateVtsiEventSubscriptionRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::ondewo::vtsi::VtsiEventSubscription* event_subscription_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2207,6 +2309,7 @@ class GetVtsiEventSubscriptionRequest final :
 
   enum : int {
     kNameFieldNumber = 1,
+    kFieldMaskFieldNumber = 2,
   };
   // string name = 1;
   void clear_name();
@@ -2222,6 +2325,24 @@ class GetVtsiEventSubscriptionRequest final :
   std::string* _internal_mutable_name();
   public:
 
+  // .google.protobuf.FieldMask field_mask = 2;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.GetVtsiEventSubscriptionRequest)
  private:
   class _Internal;
@@ -2231,6 +2352,7 @@ class GetVtsiEventSubscriptionRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2361,6 +2483,7 @@ class UpdateVtsiEventSubscriptionRequest final :
   enum : int {
     kEventSubscriptionFieldNumber = 1,
     kUpdateMaskFieldNumber = 2,
+    kFieldMaskFieldNumber = 3,
   };
   // .ondewo.vtsi.VtsiEventSubscription event_subscription = 1;
   bool has_event_subscription() const;
@@ -2398,6 +2521,24 @@ class UpdateVtsiEventSubscriptionRequest final :
       ::PROTOBUF_NAMESPACE_ID::FieldMask* update_mask);
   ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_update_mask();
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.UpdateVtsiEventSubscriptionRequest)
  private:
   class _Internal;
@@ -2408,6 +2549,7 @@ class UpdateVtsiEventSubscriptionRequest final :
   struct Impl_ {
     ::ondewo::vtsi::VtsiEventSubscription* event_subscription_;
     ::PROTOBUF_NAMESPACE_ID::FieldMask* update_mask_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2537,6 +2679,7 @@ class DeleteVtsiEventSubscriptionRequest final :
 
   enum : int {
     kNameFieldNumber = 1,
+    kFieldMaskFieldNumber = 2,
   };
   // string name = 1;
   void clear_name();
@@ -2552,6 +2695,24 @@ class DeleteVtsiEventSubscriptionRequest final :
   std::string* _internal_mutable_name();
   public:
 
+  // .google.protobuf.FieldMask field_mask = 2;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.DeleteVtsiEventSubscriptionRequest)
  private:
   class _Internal;
@@ -2561,6 +2722,7 @@ class DeleteVtsiEventSubscriptionRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2844,6 +3006,7 @@ class ListVtsiEventSubscriptionsRequest final :
   enum : int {
     kVtsiProjectNameFieldNumber = 1,
     kPageTokenFieldNumber = 3,
+    kFieldMaskFieldNumber = 4,
     kPageSizeFieldNumber = 2,
   };
   // string vtsi_project_name = 1;
@@ -2878,6 +3041,24 @@ class ListVtsiEventSubscriptionsRequest final :
   std::string* _internal_mutable_page_token();
   public:
 
+  // .google.protobuf.FieldMask field_mask = 4;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // int32 page_size = 2;
   void clear_page_size();
   int32_t page_size() const;
@@ -2899,6 +3080,7 @@ class ListVtsiEventSubscriptionsRequest final :
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr page_token_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     int32_t page_size_;
   };
   union { Impl_ _impl_; };
@@ -3202,6 +3384,7 @@ class CreateWebhookRequest final :
   enum : int {
     kVtsiProjectNameFieldNumber = 1,
     kWebhookFieldNumber = 2,
+    kFieldMaskFieldNumber = 3,
   };
   // string vtsi_project_name = 1;
   void clear_vtsi_project_name();
@@ -3235,6 +3418,24 @@ class CreateWebhookRequest final :
       ::ondewo::vtsi::Webhook* webhook);
   ::ondewo::vtsi::Webhook* unsafe_arena_release_webhook();
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.CreateWebhookRequest)
  private:
   class _Internal;
@@ -3245,6 +3446,7 @@ class CreateWebhookRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::ondewo::vtsi::Webhook* webhook_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3374,6 +3576,7 @@ class GetWebhookRequest final :
 
   enum : int {
     kNameFieldNumber = 1,
+    kFieldMaskFieldNumber = 2,
   };
   // string name = 1;
   void clear_name();
@@ -3389,6 +3592,24 @@ class GetWebhookRequest final :
   std::string* _internal_mutable_name();
   public:
 
+  // .google.protobuf.FieldMask field_mask = 2;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.GetWebhookRequest)
  private:
   class _Internal;
@@ -3398,6 +3619,7 @@ class GetWebhookRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3528,6 +3750,7 @@ class UpdateWebhookRequest final :
   enum : int {
     kWebhookFieldNumber = 1,
     kUpdateMaskFieldNumber = 2,
+    kFieldMaskFieldNumber = 3,
   };
   // .ondewo.vtsi.Webhook webhook = 1;
   bool has_webhook() const;
@@ -3565,6 +3788,24 @@ class UpdateWebhookRequest final :
       ::PROTOBUF_NAMESPACE_ID::FieldMask* update_mask);
   ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_update_mask();
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.UpdateWebhookRequest)
  private:
   class _Internal;
@@ -3575,6 +3816,7 @@ class UpdateWebhookRequest final :
   struct Impl_ {
     ::ondewo::vtsi::Webhook* webhook_;
     ::PROTOBUF_NAMESPACE_ID::FieldMask* update_mask_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -3704,6 +3946,7 @@ class DeleteWebhookRequest final :
 
   enum : int {
     kNameFieldNumber = 1,
+    kFieldMaskFieldNumber = 2,
   };
   // string name = 1;
   void clear_name();
@@ -3719,6 +3962,24 @@ class DeleteWebhookRequest final :
   std::string* _internal_mutable_name();
   public:
 
+  // .google.protobuf.FieldMask field_mask = 2;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.DeleteWebhookRequest)
  private:
   class _Internal;
@@ -3728,6 +3989,7 @@ class DeleteWebhookRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4022,6 +4284,7 @@ class ListWebhooksRequest final :
   enum : int {
     kVtsiProjectNameFieldNumber = 1,
     kPageTokenFieldNumber = 3,
+    kFieldMaskFieldNumber = 4,
     kPageSizeFieldNumber = 2,
   };
   // string vtsi_project_name = 1;
@@ -4056,6 +4319,24 @@ class ListWebhooksRequest final :
   std::string* _internal_mutable_page_token();
   public:
 
+  // .google.protobuf.FieldMask field_mask = 4;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
+
   // int32 page_size = 2;
   void clear_page_size();
   int32_t page_size() const;
@@ -4077,6 +4358,7 @@ class ListWebhooksRequest final :
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr page_token_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     int32_t page_size_;
   };
   union { Impl_ _impl_; };
@@ -4379,6 +4661,7 @@ class TestWebhookRequest final :
 
   enum : int {
     kNameFieldNumber = 1,
+    kSampleEventFieldNumber = 2,
   };
   // string name = 1;
   void clear_name();
@@ -4394,6 +4677,15 @@ class TestWebhookRequest final :
   std::string* _internal_mutable_name();
   public:
 
+  // .ondewo.vtsi.VtsiEvent sample_event = 2;
+  void clear_sample_event();
+  ::ondewo::vtsi::VtsiEvent sample_event() const;
+  void set_sample_event(::ondewo::vtsi::VtsiEvent value);
+  private:
+  ::ondewo::vtsi::VtsiEvent _internal_sample_event() const;
+  void _internal_set_sample_event(::ondewo::vtsi::VtsiEvent value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.TestWebhookRequest)
  private:
   class _Internal;
@@ -4403,6 +4695,7 @@ class TestWebhookRequest final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    int sample_event_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4750,6 +5043,7 @@ class SubscribeVtsiEventsRequest final :
   enum : int {
     kVtsiProjectNameFieldNumber = 1,
     kResumeTokenFieldNumber = 4,
+    kStartTimeFieldNumber = 5,
     kEventSubscriptionNameFieldNumber = 2,
     kFilterFieldNumber = 3,
   };
@@ -4784,6 +5078,24 @@ class SubscribeVtsiEventsRequest final :
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_resume_token(const std::string& value);
   std::string* _internal_mutable_resume_token();
   public:
+
+  // .google.protobuf.Timestamp start_time = 5;
+  bool has_start_time() const;
+  private:
+  bool _internal_has_start_time() const;
+  public:
+  void clear_start_time();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& start_time() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_start_time();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_start_time();
+  void set_allocated_start_time(::PROTOBUF_NAMESPACE_ID::Timestamp* start_time);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_start_time() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_start_time();
+  public:
+  void unsafe_arena_set_allocated_start_time(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_start_time();
 
   // string event_subscription_name = 2;
   bool has_event_subscription_name() const;
@@ -4840,6 +5152,7 @@ class SubscribeVtsiEventsRequest final :
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr resume_token_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time_;
     union SelectorUnion {
       constexpr SelectorUnion() : _constinit_{} {}
         ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
@@ -4979,6 +5292,7 @@ class SubscribeVtsiEventsResponse final :
     kResumeTokenFieldNumber = 2,
     kEndReasonFieldNumber = 4,
     kDroppedEventCountFieldNumber = 3,
+    kEndReasonTypeFieldNumber = 5,
   };
   // repeated .ondewo.vtsi.VtsiEventMessage events = 1;
   int events_size() const;
@@ -5035,6 +5349,15 @@ class SubscribeVtsiEventsResponse final :
   void _internal_set_dropped_event_count(int64_t value);
   public:
 
+  // .ondewo.vtsi.StreamEndReason end_reason_type = 5;
+  void clear_end_reason_type();
+  ::ondewo::vtsi::StreamEndReason end_reason_type() const;
+  void set_end_reason_type(::ondewo::vtsi::StreamEndReason value);
+  private:
+  ::ondewo::vtsi::StreamEndReason _internal_end_reason_type() const;
+  void _internal_set_end_reason_type(::ondewo::vtsi::StreamEndReason value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.SubscribeVtsiEventsResponse)
  private:
   class _Internal;
@@ -5047,6 +5370,436 @@ class SubscribeVtsiEventsResponse final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr resume_token_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr end_reason_;
     int64_t dropped_event_count_;
+    int end_reason_type_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fevents_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RedeliverWebhookEventsRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.RedeliverWebhookEventsRequest) */ {
+ public:
+  inline RedeliverWebhookEventsRequest() : RedeliverWebhookEventsRequest(nullptr) {}
+  ~RedeliverWebhookEventsRequest() override;
+  explicit PROTOBUF_CONSTEXPR RedeliverWebhookEventsRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RedeliverWebhookEventsRequest(const RedeliverWebhookEventsRequest& from);
+  RedeliverWebhookEventsRequest(RedeliverWebhookEventsRequest&& from) noexcept
+    : RedeliverWebhookEventsRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline RedeliverWebhookEventsRequest& operator=(const RedeliverWebhookEventsRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RedeliverWebhookEventsRequest& operator=(RedeliverWebhookEventsRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RedeliverWebhookEventsRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RedeliverWebhookEventsRequest* internal_default_instance() {
+    return reinterpret_cast<const RedeliverWebhookEventsRequest*>(
+               &_RedeliverWebhookEventsRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    25;
+
+  friend void swap(RedeliverWebhookEventsRequest& a, RedeliverWebhookEventsRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RedeliverWebhookEventsRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RedeliverWebhookEventsRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RedeliverWebhookEventsRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<RedeliverWebhookEventsRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RedeliverWebhookEventsRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const RedeliverWebhookEventsRequest& from) {
+    RedeliverWebhookEventsRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RedeliverWebhookEventsRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.RedeliverWebhookEventsRequest";
+  }
+  protected:
+  explicit RedeliverWebhookEventsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kEventIdsFieldNumber = 2,
+    kWebhookNameFieldNumber = 1,
+    kStartTimeFieldNumber = 3,
+    kEndTimeFieldNumber = 4,
+    kFilterFieldNumber = 5,
+  };
+  // repeated string event_ids = 2;
+  int event_ids_size() const;
+  private:
+  int _internal_event_ids_size() const;
+  public:
+  void clear_event_ids();
+  const std::string& event_ids(int index) const;
+  std::string* mutable_event_ids(int index);
+  void set_event_ids(int index, const std::string& value);
+  void set_event_ids(int index, std::string&& value);
+  void set_event_ids(int index, const char* value);
+  void set_event_ids(int index, const char* value, size_t size);
+  std::string* add_event_ids();
+  void add_event_ids(const std::string& value);
+  void add_event_ids(std::string&& value);
+  void add_event_ids(const char* value);
+  void add_event_ids(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& event_ids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_event_ids();
+  private:
+  const std::string& _internal_event_ids(int index) const;
+  std::string* _internal_add_event_ids();
+  public:
+
+  // string webhook_name = 1;
+  void clear_webhook_name();
+  const std::string& webhook_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_webhook_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_webhook_name();
+  PROTOBUF_NODISCARD std::string* release_webhook_name();
+  void set_allocated_webhook_name(std::string* webhook_name);
+  private:
+  const std::string& _internal_webhook_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_webhook_name(const std::string& value);
+  std::string* _internal_mutable_webhook_name();
+  public:
+
+  // .google.protobuf.Timestamp start_time = 3;
+  bool has_start_time() const;
+  private:
+  bool _internal_has_start_time() const;
+  public:
+  void clear_start_time();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& start_time() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_start_time();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_start_time();
+  void set_allocated_start_time(::PROTOBUF_NAMESPACE_ID::Timestamp* start_time);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_start_time() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_start_time();
+  public:
+  void unsafe_arena_set_allocated_start_time(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_start_time();
+
+  // .google.protobuf.Timestamp end_time = 4;
+  bool has_end_time() const;
+  private:
+  bool _internal_has_end_time() const;
+  public:
+  void clear_end_time();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& end_time() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_end_time();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_end_time();
+  void set_allocated_end_time(::PROTOBUF_NAMESPACE_ID::Timestamp* end_time);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_end_time() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_end_time();
+  public:
+  void unsafe_arena_set_allocated_end_time(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* end_time);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_end_time();
+
+  // .ondewo.vtsi.VtsiEventFilter filter = 5;
+  bool has_filter() const;
+  private:
+  bool _internal_has_filter() const;
+  public:
+  void clear_filter();
+  const ::ondewo::vtsi::VtsiEventFilter& filter() const;
+  PROTOBUF_NODISCARD ::ondewo::vtsi::VtsiEventFilter* release_filter();
+  ::ondewo::vtsi::VtsiEventFilter* mutable_filter();
+  void set_allocated_filter(::ondewo::vtsi::VtsiEventFilter* filter);
+  private:
+  const ::ondewo::vtsi::VtsiEventFilter& _internal_filter() const;
+  ::ondewo::vtsi::VtsiEventFilter* _internal_mutable_filter();
+  public:
+  void unsafe_arena_set_allocated_filter(
+      ::ondewo::vtsi::VtsiEventFilter* filter);
+  ::ondewo::vtsi::VtsiEventFilter* unsafe_arena_release_filter();
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.RedeliverWebhookEventsRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> event_ids_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr webhook_name_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* end_time_;
+    ::ondewo::vtsi::VtsiEventFilter* filter_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fevents_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RedeliverWebhookEventsResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.RedeliverWebhookEventsResponse) */ {
+ public:
+  inline RedeliverWebhookEventsResponse() : RedeliverWebhookEventsResponse(nullptr) {}
+  ~RedeliverWebhookEventsResponse() override;
+  explicit PROTOBUF_CONSTEXPR RedeliverWebhookEventsResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RedeliverWebhookEventsResponse(const RedeliverWebhookEventsResponse& from);
+  RedeliverWebhookEventsResponse(RedeliverWebhookEventsResponse&& from) noexcept
+    : RedeliverWebhookEventsResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline RedeliverWebhookEventsResponse& operator=(const RedeliverWebhookEventsResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RedeliverWebhookEventsResponse& operator=(RedeliverWebhookEventsResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RedeliverWebhookEventsResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RedeliverWebhookEventsResponse* internal_default_instance() {
+    return reinterpret_cast<const RedeliverWebhookEventsResponse*>(
+               &_RedeliverWebhookEventsResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    26;
+
+  friend void swap(RedeliverWebhookEventsResponse& a, RedeliverWebhookEventsResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RedeliverWebhookEventsResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RedeliverWebhookEventsResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RedeliverWebhookEventsResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<RedeliverWebhookEventsResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RedeliverWebhookEventsResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const RedeliverWebhookEventsResponse& from) {
+    RedeliverWebhookEventsResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RedeliverWebhookEventsResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.RedeliverWebhookEventsResponse";
+  }
+  protected:
+  explicit RedeliverWebhookEventsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNextStartTimeFieldNumber = 4,
+    kEnqueuedCountFieldNumber = 1,
+    kNotInJournalCountFieldNumber = 2,
+    kNotEnqueuedCountFieldNumber = 3,
+  };
+  // .google.protobuf.Timestamp next_start_time = 4;
+  bool has_next_start_time() const;
+  private:
+  bool _internal_has_next_start_time() const;
+  public:
+  void clear_next_start_time();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& next_start_time() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_next_start_time();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_next_start_time();
+  void set_allocated_next_start_time(::PROTOBUF_NAMESPACE_ID::Timestamp* next_start_time);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_next_start_time() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_next_start_time();
+  public:
+  void unsafe_arena_set_allocated_next_start_time(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* next_start_time);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_next_start_time();
+
+  // int32 enqueued_count = 1;
+  void clear_enqueued_count();
+  int32_t enqueued_count() const;
+  void set_enqueued_count(int32_t value);
+  private:
+  int32_t _internal_enqueued_count() const;
+  void _internal_set_enqueued_count(int32_t value);
+  public:
+
+  // int32 not_in_journal_count = 2;
+  void clear_not_in_journal_count();
+  int32_t not_in_journal_count() const;
+  void set_not_in_journal_count(int32_t value);
+  private:
+  int32_t _internal_not_in_journal_count() const;
+  void _internal_set_not_in_journal_count(int32_t value);
+  public:
+
+  // int32 not_enqueued_count = 3;
+  void clear_not_enqueued_count();
+  int32_t not_enqueued_count() const;
+  void set_not_enqueued_count(int32_t value);
+  private:
+  int32_t _internal_not_enqueued_count() const;
+  void _internal_set_not_enqueued_count(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.RedeliverWebhookEventsResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* next_start_time_;
+    int32_t enqueued_count_;
+    int32_t not_in_journal_count_;
+    int32_t not_enqueued_count_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -6442,6 +7195,49 @@ VtsiEventSubscription::mutable_campaign_names() {
   return &_impl_.campaign_names_;
 }
 
+// repeated .ondewo.vtsi.VtsiEvent excluded_events = 14;
+inline int VtsiEventSubscription::_internal_excluded_events_size() const {
+  return _impl_.excluded_events_.size();
+}
+inline int VtsiEventSubscription::excluded_events_size() const {
+  return _internal_excluded_events_size();
+}
+inline void VtsiEventSubscription::clear_excluded_events() {
+  _impl_.excluded_events_.Clear();
+}
+inline ::ondewo::vtsi::VtsiEvent VtsiEventSubscription::_internal_excluded_events(int index) const {
+  return static_cast< ::ondewo::vtsi::VtsiEvent >(_impl_.excluded_events_.Get(index));
+}
+inline ::ondewo::vtsi::VtsiEvent VtsiEventSubscription::excluded_events(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiEventSubscription.excluded_events)
+  return _internal_excluded_events(index);
+}
+inline void VtsiEventSubscription::set_excluded_events(int index, ::ondewo::vtsi::VtsiEvent value) {
+  _impl_.excluded_events_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiEventSubscription.excluded_events)
+}
+inline void VtsiEventSubscription::_internal_add_excluded_events(::ondewo::vtsi::VtsiEvent value) {
+  _impl_.excluded_events_.Add(value);
+}
+inline void VtsiEventSubscription::add_excluded_events(::ondewo::vtsi::VtsiEvent value) {
+  _internal_add_excluded_events(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.VtsiEventSubscription.excluded_events)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
+VtsiEventSubscription::excluded_events() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.VtsiEventSubscription.excluded_events)
+  return _impl_.excluded_events_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+VtsiEventSubscription::_internal_mutable_excluded_events() {
+  return &_impl_.excluded_events_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+VtsiEventSubscription::mutable_excluded_events() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.VtsiEventSubscription.excluded_events)
+  return _internal_mutable_excluded_events();
+}
+
 // -------------------------------------------------------------------
 
 // WebhookDeliveryStatistics
@@ -7466,6 +8262,56 @@ inline void Webhook::set_allocated_modified_at(::PROTOBUF_NAMESPACE_ID::Timestam
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.Webhook.modified_at)
 }
 
+// string signing_secret = 14;
+inline void Webhook::clear_signing_secret() {
+  _impl_.signing_secret_.ClearToEmpty();
+}
+inline const std::string& Webhook::signing_secret() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.Webhook.signing_secret)
+  return _internal_signing_secret();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Webhook::set_signing_secret(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.signing_secret_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.Webhook.signing_secret)
+}
+inline std::string* Webhook::mutable_signing_secret() {
+  std::string* _s = _internal_mutable_signing_secret();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.Webhook.signing_secret)
+  return _s;
+}
+inline const std::string& Webhook::_internal_signing_secret() const {
+  return _impl_.signing_secret_.Get();
+}
+inline void Webhook::_internal_set_signing_secret(const std::string& value) {
+  
+  _impl_.signing_secret_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Webhook::_internal_mutable_signing_secret() {
+  
+  return _impl_.signing_secret_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Webhook::release_signing_secret() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.Webhook.signing_secret)
+  return _impl_.signing_secret_.Release();
+}
+inline void Webhook::set_allocated_signing_secret(std::string* signing_secret) {
+  if (signing_secret != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.signing_secret_.SetAllocated(signing_secret, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.signing_secret_.IsDefault()) {
+    _impl_.signing_secret_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.Webhook.signing_secret)
+}
+
 // -------------------------------------------------------------------
 
 // VtsiEventFilter
@@ -7663,6 +8509,69 @@ VtsiEventFilter::mutable_campaign_names() {
   return &_impl_.campaign_names_;
 }
 
+// bool all_events = 4;
+inline void VtsiEventFilter::clear_all_events() {
+  _impl_.all_events_ = false;
+}
+inline bool VtsiEventFilter::_internal_all_events() const {
+  return _impl_.all_events_;
+}
+inline bool VtsiEventFilter::all_events() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiEventFilter.all_events)
+  return _internal_all_events();
+}
+inline void VtsiEventFilter::_internal_set_all_events(bool value) {
+  
+  _impl_.all_events_ = value;
+}
+inline void VtsiEventFilter::set_all_events(bool value) {
+  _internal_set_all_events(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiEventFilter.all_events)
+}
+
+// repeated .ondewo.vtsi.VtsiEvent excluded_events = 5;
+inline int VtsiEventFilter::_internal_excluded_events_size() const {
+  return _impl_.excluded_events_.size();
+}
+inline int VtsiEventFilter::excluded_events_size() const {
+  return _internal_excluded_events_size();
+}
+inline void VtsiEventFilter::clear_excluded_events() {
+  _impl_.excluded_events_.Clear();
+}
+inline ::ondewo::vtsi::VtsiEvent VtsiEventFilter::_internal_excluded_events(int index) const {
+  return static_cast< ::ondewo::vtsi::VtsiEvent >(_impl_.excluded_events_.Get(index));
+}
+inline ::ondewo::vtsi::VtsiEvent VtsiEventFilter::excluded_events(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiEventFilter.excluded_events)
+  return _internal_excluded_events(index);
+}
+inline void VtsiEventFilter::set_excluded_events(int index, ::ondewo::vtsi::VtsiEvent value) {
+  _impl_.excluded_events_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiEventFilter.excluded_events)
+}
+inline void VtsiEventFilter::_internal_add_excluded_events(::ondewo::vtsi::VtsiEvent value) {
+  _impl_.excluded_events_.Add(value);
+}
+inline void VtsiEventFilter::add_excluded_events(::ondewo::vtsi::VtsiEvent value) {
+  _internal_add_excluded_events(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.VtsiEventFilter.excluded_events)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
+VtsiEventFilter::excluded_events() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.VtsiEventFilter.excluded_events)
+  return _impl_.excluded_events_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+VtsiEventFilter::_internal_mutable_excluded_events() {
+  return &_impl_.excluded_events_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+VtsiEventFilter::mutable_excluded_events() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.VtsiEventFilter.excluded_events)
+  return _internal_mutable_excluded_events();
+}
+
 // -------------------------------------------------------------------
 
 // CreateVtsiEventSubscriptionRequest
@@ -7807,6 +8716,91 @@ inline void CreateVtsiEventSubscriptionRequest::set_allocated_event_subscription
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CreateVtsiEventSubscriptionRequest.event_subscription)
 }
 
+// .google.protobuf.FieldMask field_mask = 3;
+inline bool CreateVtsiEventSubscriptionRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool CreateVtsiEventSubscriptionRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& CreateVtsiEventSubscriptionRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& CreateVtsiEventSubscriptionRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CreateVtsiEventSubscriptionRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void CreateVtsiEventSubscriptionRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.CreateVtsiEventSubscriptionRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* CreateVtsiEventSubscriptionRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* CreateVtsiEventSubscriptionRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.CreateVtsiEventSubscriptionRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* CreateVtsiEventSubscriptionRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* CreateVtsiEventSubscriptionRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.CreateVtsiEventSubscriptionRequest.field_mask)
+  return _msg;
+}
+inline void CreateVtsiEventSubscriptionRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CreateVtsiEventSubscriptionRequest.field_mask)
+}
+
 // -------------------------------------------------------------------
 
 // GetVtsiEventSubscriptionRequest
@@ -7859,6 +8853,91 @@ inline void GetVtsiEventSubscriptionRequest::set_allocated_name(std::string* nam
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetVtsiEventSubscriptionRequest.name)
+}
+
+// .google.protobuf.FieldMask field_mask = 2;
+inline bool GetVtsiEventSubscriptionRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool GetVtsiEventSubscriptionRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetVtsiEventSubscriptionRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetVtsiEventSubscriptionRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.GetVtsiEventSubscriptionRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void GetVtsiEventSubscriptionRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.GetVtsiEventSubscriptionRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetVtsiEventSubscriptionRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetVtsiEventSubscriptionRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.GetVtsiEventSubscriptionRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetVtsiEventSubscriptionRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetVtsiEventSubscriptionRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.GetVtsiEventSubscriptionRequest.field_mask)
+  return _msg;
+}
+inline void GetVtsiEventSubscriptionRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetVtsiEventSubscriptionRequest.field_mask)
 }
 
 // -------------------------------------------------------------------
@@ -8040,6 +9119,91 @@ inline void UpdateVtsiEventSubscriptionRequest::set_allocated_update_mask(::PROT
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.UpdateVtsiEventSubscriptionRequest.update_mask)
 }
 
+// .google.protobuf.FieldMask field_mask = 3;
+inline bool UpdateVtsiEventSubscriptionRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool UpdateVtsiEventSubscriptionRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& UpdateVtsiEventSubscriptionRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& UpdateVtsiEventSubscriptionRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.UpdateVtsiEventSubscriptionRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void UpdateVtsiEventSubscriptionRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.UpdateVtsiEventSubscriptionRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateVtsiEventSubscriptionRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateVtsiEventSubscriptionRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.UpdateVtsiEventSubscriptionRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateVtsiEventSubscriptionRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateVtsiEventSubscriptionRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.UpdateVtsiEventSubscriptionRequest.field_mask)
+  return _msg;
+}
+inline void UpdateVtsiEventSubscriptionRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.UpdateVtsiEventSubscriptionRequest.field_mask)
+}
+
 // -------------------------------------------------------------------
 
 // DeleteVtsiEventSubscriptionRequest
@@ -8092,6 +9256,91 @@ inline void DeleteVtsiEventSubscriptionRequest::set_allocated_name(std::string* 
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.DeleteVtsiEventSubscriptionRequest.name)
+}
+
+// .google.protobuf.FieldMask field_mask = 2;
+inline bool DeleteVtsiEventSubscriptionRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool DeleteVtsiEventSubscriptionRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& DeleteVtsiEventSubscriptionRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& DeleteVtsiEventSubscriptionRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.DeleteVtsiEventSubscriptionRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void DeleteVtsiEventSubscriptionRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.DeleteVtsiEventSubscriptionRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* DeleteVtsiEventSubscriptionRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* DeleteVtsiEventSubscriptionRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.DeleteVtsiEventSubscriptionRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* DeleteVtsiEventSubscriptionRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* DeleteVtsiEventSubscriptionRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.DeleteVtsiEventSubscriptionRequest.field_mask)
+  return _msg;
+}
+inline void DeleteVtsiEventSubscriptionRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.DeleteVtsiEventSubscriptionRequest.field_mask)
 }
 
 // -------------------------------------------------------------------
@@ -8288,6 +9537,91 @@ inline void ListVtsiEventSubscriptionsRequest::set_allocated_page_token(std::str
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListVtsiEventSubscriptionsRequest.page_token)
+}
+
+// .google.protobuf.FieldMask field_mask = 4;
+inline bool ListVtsiEventSubscriptionsRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool ListVtsiEventSubscriptionsRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListVtsiEventSubscriptionsRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListVtsiEventSubscriptionsRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListVtsiEventSubscriptionsRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void ListVtsiEventSubscriptionsRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.ListVtsiEventSubscriptionsRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListVtsiEventSubscriptionsRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListVtsiEventSubscriptionsRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ListVtsiEventSubscriptionsRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListVtsiEventSubscriptionsRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListVtsiEventSubscriptionsRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ListVtsiEventSubscriptionsRequest.field_mask)
+  return _msg;
+}
+inline void ListVtsiEventSubscriptionsRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListVtsiEventSubscriptionsRequest.field_mask)
 }
 
 // -------------------------------------------------------------------
@@ -8528,6 +9862,91 @@ inline void CreateWebhookRequest::set_allocated_webhook(::ondewo::vtsi::Webhook*
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CreateWebhookRequest.webhook)
 }
 
+// .google.protobuf.FieldMask field_mask = 3;
+inline bool CreateWebhookRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool CreateWebhookRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& CreateWebhookRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& CreateWebhookRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CreateWebhookRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void CreateWebhookRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.CreateWebhookRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* CreateWebhookRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* CreateWebhookRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.CreateWebhookRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* CreateWebhookRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* CreateWebhookRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.CreateWebhookRequest.field_mask)
+  return _msg;
+}
+inline void CreateWebhookRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CreateWebhookRequest.field_mask)
+}
+
 // -------------------------------------------------------------------
 
 // GetWebhookRequest
@@ -8580,6 +9999,91 @@ inline void GetWebhookRequest::set_allocated_name(std::string* name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetWebhookRequest.name)
+}
+
+// .google.protobuf.FieldMask field_mask = 2;
+inline bool GetWebhookRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool GetWebhookRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetWebhookRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetWebhookRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.GetWebhookRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void GetWebhookRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.GetWebhookRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetWebhookRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetWebhookRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.GetWebhookRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetWebhookRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetWebhookRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.GetWebhookRequest.field_mask)
+  return _msg;
+}
+inline void GetWebhookRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.GetWebhookRequest.field_mask)
 }
 
 // -------------------------------------------------------------------
@@ -8761,6 +10265,91 @@ inline void UpdateWebhookRequest::set_allocated_update_mask(::PROTOBUF_NAMESPACE
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.UpdateWebhookRequest.update_mask)
 }
 
+// .google.protobuf.FieldMask field_mask = 3;
+inline bool UpdateWebhookRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool UpdateWebhookRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& UpdateWebhookRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& UpdateWebhookRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.UpdateWebhookRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void UpdateWebhookRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.UpdateWebhookRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateWebhookRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateWebhookRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.UpdateWebhookRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateWebhookRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* UpdateWebhookRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.UpdateWebhookRequest.field_mask)
+  return _msg;
+}
+inline void UpdateWebhookRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.UpdateWebhookRequest.field_mask)
+}
+
 // -------------------------------------------------------------------
 
 // DeleteWebhookRequest
@@ -8813,6 +10402,91 @@ inline void DeleteWebhookRequest::set_allocated_name(std::string* name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.DeleteWebhookRequest.name)
+}
+
+// .google.protobuf.FieldMask field_mask = 2;
+inline bool DeleteWebhookRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool DeleteWebhookRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& DeleteWebhookRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& DeleteWebhookRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.DeleteWebhookRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void DeleteWebhookRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.DeleteWebhookRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* DeleteWebhookRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* DeleteWebhookRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.DeleteWebhookRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* DeleteWebhookRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* DeleteWebhookRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.DeleteWebhookRequest.field_mask)
+  return _msg;
+}
+inline void DeleteWebhookRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.DeleteWebhookRequest.field_mask)
 }
 
 // -------------------------------------------------------------------
@@ -9031,6 +10705,91 @@ inline void ListWebhooksRequest::set_allocated_page_token(std::string* page_toke
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListWebhooksRequest.page_token)
 }
 
+// .google.protobuf.FieldMask field_mask = 4;
+inline bool ListWebhooksRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool ListWebhooksRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListWebhooksRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& ListWebhooksRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.ListWebhooksRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void ListWebhooksRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.ListWebhooksRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListWebhooksRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListWebhooksRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.ListWebhooksRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListWebhooksRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* ListWebhooksRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.ListWebhooksRequest.field_mask)
+  return _msg;
+}
+inline void ListWebhooksRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.ListWebhooksRequest.field_mask)
+}
+
 // -------------------------------------------------------------------
 
 // ListWebhooksResponse
@@ -9177,6 +10936,26 @@ inline void TestWebhookRequest::set_allocated_name(std::string* name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.TestWebhookRequest.name)
+}
+
+// .ondewo.vtsi.VtsiEvent sample_event = 2;
+inline void TestWebhookRequest::clear_sample_event() {
+  _impl_.sample_event_ = 0;
+}
+inline ::ondewo::vtsi::VtsiEvent TestWebhookRequest::_internal_sample_event() const {
+  return static_cast< ::ondewo::vtsi::VtsiEvent >(_impl_.sample_event_);
+}
+inline ::ondewo::vtsi::VtsiEvent TestWebhookRequest::sample_event() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.TestWebhookRequest.sample_event)
+  return _internal_sample_event();
+}
+inline void TestWebhookRequest::_internal_set_sample_event(::ondewo::vtsi::VtsiEvent value) {
+  
+  _impl_.sample_event_ = value;
+}
+inline void TestWebhookRequest::set_sample_event(::ondewo::vtsi::VtsiEvent value) {
+  _internal_set_sample_event(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.TestWebhookRequest.sample_event)
 }
 
 // -------------------------------------------------------------------
@@ -9681,6 +11460,91 @@ inline void SubscribeVtsiEventsRequest::set_allocated_resume_token(std::string* 
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SubscribeVtsiEventsRequest.resume_token)
 }
 
+// .google.protobuf.Timestamp start_time = 5;
+inline bool SubscribeVtsiEventsRequest::_internal_has_start_time() const {
+  return this != internal_default_instance() && _impl_.start_time_ != nullptr;
+}
+inline bool SubscribeVtsiEventsRequest::has_start_time() const {
+  return _internal_has_start_time();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SubscribeVtsiEventsRequest::_internal_start_time() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.start_time_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SubscribeVtsiEventsRequest::start_time() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SubscribeVtsiEventsRequest.start_time)
+  return _internal_start_time();
+}
+inline void SubscribeVtsiEventsRequest::unsafe_arena_set_allocated_start_time(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.start_time_);
+  }
+  _impl_.start_time_ = start_time;
+  if (start_time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.SubscribeVtsiEventsRequest.start_time)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SubscribeVtsiEventsRequest::release_start_time() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.start_time_;
+  _impl_.start_time_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SubscribeVtsiEventsRequest::unsafe_arena_release_start_time() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SubscribeVtsiEventsRequest.start_time)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.start_time_;
+  _impl_.start_time_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SubscribeVtsiEventsRequest::_internal_mutable_start_time() {
+  
+  if (_impl_.start_time_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.start_time_ = p;
+  }
+  return _impl_.start_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SubscribeVtsiEventsRequest::mutable_start_time() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_start_time();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SubscribeVtsiEventsRequest.start_time)
+  return _msg;
+}
+inline void SubscribeVtsiEventsRequest::set_allocated_start_time(::PROTOBUF_NAMESPACE_ID::Timestamp* start_time) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.start_time_);
+  }
+  if (start_time) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(start_time));
+    if (message_arena != submessage_arena) {
+      start_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, start_time, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.start_time_ = start_time;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SubscribeVtsiEventsRequest.start_time)
+}
+
 inline bool SubscribeVtsiEventsRequest::has_selector() const {
   return selector_case() != SELECTOR_NOT_SET;
 }
@@ -9854,9 +11718,571 @@ inline void SubscribeVtsiEventsResponse::set_allocated_end_reason(std::string* e
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SubscribeVtsiEventsResponse.end_reason)
 }
 
+// .ondewo.vtsi.StreamEndReason end_reason_type = 5;
+inline void SubscribeVtsiEventsResponse::clear_end_reason_type() {
+  _impl_.end_reason_type_ = 0;
+}
+inline ::ondewo::vtsi::StreamEndReason SubscribeVtsiEventsResponse::_internal_end_reason_type() const {
+  return static_cast< ::ondewo::vtsi::StreamEndReason >(_impl_.end_reason_type_);
+}
+inline ::ondewo::vtsi::StreamEndReason SubscribeVtsiEventsResponse::end_reason_type() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SubscribeVtsiEventsResponse.end_reason_type)
+  return _internal_end_reason_type();
+}
+inline void SubscribeVtsiEventsResponse::_internal_set_end_reason_type(::ondewo::vtsi::StreamEndReason value) {
+  
+  _impl_.end_reason_type_ = value;
+}
+inline void SubscribeVtsiEventsResponse::set_end_reason_type(::ondewo::vtsi::StreamEndReason value) {
+  _internal_set_end_reason_type(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SubscribeVtsiEventsResponse.end_reason_type)
+}
+
+// -------------------------------------------------------------------
+
+// RedeliverWebhookEventsRequest
+
+// string webhook_name = 1;
+inline void RedeliverWebhookEventsRequest::clear_webhook_name() {
+  _impl_.webhook_name_.ClearToEmpty();
+}
+inline const std::string& RedeliverWebhookEventsRequest::webhook_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsRequest.webhook_name)
+  return _internal_webhook_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RedeliverWebhookEventsRequest::set_webhook_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.webhook_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.RedeliverWebhookEventsRequest.webhook_name)
+}
+inline std::string* RedeliverWebhookEventsRequest::mutable_webhook_name() {
+  std::string* _s = _internal_mutable_webhook_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.RedeliverWebhookEventsRequest.webhook_name)
+  return _s;
+}
+inline const std::string& RedeliverWebhookEventsRequest::_internal_webhook_name() const {
+  return _impl_.webhook_name_.Get();
+}
+inline void RedeliverWebhookEventsRequest::_internal_set_webhook_name(const std::string& value) {
+  
+  _impl_.webhook_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RedeliverWebhookEventsRequest::_internal_mutable_webhook_name() {
+  
+  return _impl_.webhook_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RedeliverWebhookEventsRequest::release_webhook_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.RedeliverWebhookEventsRequest.webhook_name)
+  return _impl_.webhook_name_.Release();
+}
+inline void RedeliverWebhookEventsRequest::set_allocated_webhook_name(std::string* webhook_name) {
+  if (webhook_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.webhook_name_.SetAllocated(webhook_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.webhook_name_.IsDefault()) {
+    _impl_.webhook_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.RedeliverWebhookEventsRequest.webhook_name)
+}
+
+// repeated string event_ids = 2;
+inline int RedeliverWebhookEventsRequest::_internal_event_ids_size() const {
+  return _impl_.event_ids_.size();
+}
+inline int RedeliverWebhookEventsRequest::event_ids_size() const {
+  return _internal_event_ids_size();
+}
+inline void RedeliverWebhookEventsRequest::clear_event_ids() {
+  _impl_.event_ids_.Clear();
+}
+inline std::string* RedeliverWebhookEventsRequest::add_event_ids() {
+  std::string* _s = _internal_add_event_ids();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+  return _s;
+}
+inline const std::string& RedeliverWebhookEventsRequest::_internal_event_ids(int index) const {
+  return _impl_.event_ids_.Get(index);
+}
+inline const std::string& RedeliverWebhookEventsRequest::event_ids(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+  return _internal_event_ids(index);
+}
+inline std::string* RedeliverWebhookEventsRequest::mutable_event_ids(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+  return _impl_.event_ids_.Mutable(index);
+}
+inline void RedeliverWebhookEventsRequest::set_event_ids(int index, const std::string& value) {
+  _impl_.event_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+}
+inline void RedeliverWebhookEventsRequest::set_event_ids(int index, std::string&& value) {
+  _impl_.event_ids_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+}
+inline void RedeliverWebhookEventsRequest::set_event_ids(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.event_ids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+}
+inline void RedeliverWebhookEventsRequest::set_event_ids(int index, const char* value, size_t size) {
+  _impl_.event_ids_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+}
+inline std::string* RedeliverWebhookEventsRequest::_internal_add_event_ids() {
+  return _impl_.event_ids_.Add();
+}
+inline void RedeliverWebhookEventsRequest::add_event_ids(const std::string& value) {
+  _impl_.event_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+}
+inline void RedeliverWebhookEventsRequest::add_event_ids(std::string&& value) {
+  _impl_.event_ids_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+}
+inline void RedeliverWebhookEventsRequest::add_event_ids(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.event_ids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+}
+inline void RedeliverWebhookEventsRequest::add_event_ids(const char* value, size_t size) {
+  _impl_.event_ids_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+RedeliverWebhookEventsRequest::event_ids() const {
+  // @@protoc_insertion_point(field_list:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+  return _impl_.event_ids_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+RedeliverWebhookEventsRequest::mutable_event_ids() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.vtsi.RedeliverWebhookEventsRequest.event_ids)
+  return &_impl_.event_ids_;
+}
+
+// .google.protobuf.Timestamp start_time = 3;
+inline bool RedeliverWebhookEventsRequest::_internal_has_start_time() const {
+  return this != internal_default_instance() && _impl_.start_time_ != nullptr;
+}
+inline bool RedeliverWebhookEventsRequest::has_start_time() const {
+  return _internal_has_start_time();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& RedeliverWebhookEventsRequest::_internal_start_time() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.start_time_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& RedeliverWebhookEventsRequest::start_time() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsRequest.start_time)
+  return _internal_start_time();
+}
+inline void RedeliverWebhookEventsRequest::unsafe_arena_set_allocated_start_time(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.start_time_);
+  }
+  _impl_.start_time_ = start_time;
+  if (start_time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.RedeliverWebhookEventsRequest.start_time)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsRequest::release_start_time() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.start_time_;
+  _impl_.start_time_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsRequest::unsafe_arena_release_start_time() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.RedeliverWebhookEventsRequest.start_time)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.start_time_;
+  _impl_.start_time_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsRequest::_internal_mutable_start_time() {
+  
+  if (_impl_.start_time_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.start_time_ = p;
+  }
+  return _impl_.start_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsRequest::mutable_start_time() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_start_time();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.RedeliverWebhookEventsRequest.start_time)
+  return _msg;
+}
+inline void RedeliverWebhookEventsRequest::set_allocated_start_time(::PROTOBUF_NAMESPACE_ID::Timestamp* start_time) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.start_time_);
+  }
+  if (start_time) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(start_time));
+    if (message_arena != submessage_arena) {
+      start_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, start_time, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.start_time_ = start_time;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.RedeliverWebhookEventsRequest.start_time)
+}
+
+// .google.protobuf.Timestamp end_time = 4;
+inline bool RedeliverWebhookEventsRequest::_internal_has_end_time() const {
+  return this != internal_default_instance() && _impl_.end_time_ != nullptr;
+}
+inline bool RedeliverWebhookEventsRequest::has_end_time() const {
+  return _internal_has_end_time();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& RedeliverWebhookEventsRequest::_internal_end_time() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.end_time_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& RedeliverWebhookEventsRequest::end_time() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsRequest.end_time)
+  return _internal_end_time();
+}
+inline void RedeliverWebhookEventsRequest::unsafe_arena_set_allocated_end_time(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* end_time) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.end_time_);
+  }
+  _impl_.end_time_ = end_time;
+  if (end_time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.RedeliverWebhookEventsRequest.end_time)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsRequest::release_end_time() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.end_time_;
+  _impl_.end_time_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsRequest::unsafe_arena_release_end_time() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.RedeliverWebhookEventsRequest.end_time)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.end_time_;
+  _impl_.end_time_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsRequest::_internal_mutable_end_time() {
+  
+  if (_impl_.end_time_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.end_time_ = p;
+  }
+  return _impl_.end_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsRequest::mutable_end_time() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_end_time();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.RedeliverWebhookEventsRequest.end_time)
+  return _msg;
+}
+inline void RedeliverWebhookEventsRequest::set_allocated_end_time(::PROTOBUF_NAMESPACE_ID::Timestamp* end_time) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.end_time_);
+  }
+  if (end_time) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(end_time));
+    if (message_arena != submessage_arena) {
+      end_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, end_time, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.end_time_ = end_time;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.RedeliverWebhookEventsRequest.end_time)
+}
+
+// .ondewo.vtsi.VtsiEventFilter filter = 5;
+inline bool RedeliverWebhookEventsRequest::_internal_has_filter() const {
+  return this != internal_default_instance() && _impl_.filter_ != nullptr;
+}
+inline bool RedeliverWebhookEventsRequest::has_filter() const {
+  return _internal_has_filter();
+}
+inline void RedeliverWebhookEventsRequest::clear_filter() {
+  if (GetArenaForAllocation() == nullptr && _impl_.filter_ != nullptr) {
+    delete _impl_.filter_;
+  }
+  _impl_.filter_ = nullptr;
+}
+inline const ::ondewo::vtsi::VtsiEventFilter& RedeliverWebhookEventsRequest::_internal_filter() const {
+  const ::ondewo::vtsi::VtsiEventFilter* p = _impl_.filter_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::vtsi::VtsiEventFilter&>(
+      ::ondewo::vtsi::_VtsiEventFilter_default_instance_);
+}
+inline const ::ondewo::vtsi::VtsiEventFilter& RedeliverWebhookEventsRequest::filter() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsRequest.filter)
+  return _internal_filter();
+}
+inline void RedeliverWebhookEventsRequest::unsafe_arena_set_allocated_filter(
+    ::ondewo::vtsi::VtsiEventFilter* filter) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.filter_);
+  }
+  _impl_.filter_ = filter;
+  if (filter) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.RedeliverWebhookEventsRequest.filter)
+}
+inline ::ondewo::vtsi::VtsiEventFilter* RedeliverWebhookEventsRequest::release_filter() {
+  
+  ::ondewo::vtsi::VtsiEventFilter* temp = _impl_.filter_;
+  _impl_.filter_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::vtsi::VtsiEventFilter* RedeliverWebhookEventsRequest::unsafe_arena_release_filter() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.RedeliverWebhookEventsRequest.filter)
+  
+  ::ondewo::vtsi::VtsiEventFilter* temp = _impl_.filter_;
+  _impl_.filter_ = nullptr;
+  return temp;
+}
+inline ::ondewo::vtsi::VtsiEventFilter* RedeliverWebhookEventsRequest::_internal_mutable_filter() {
+  
+  if (_impl_.filter_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::vtsi::VtsiEventFilter>(GetArenaForAllocation());
+    _impl_.filter_ = p;
+  }
+  return _impl_.filter_;
+}
+inline ::ondewo::vtsi::VtsiEventFilter* RedeliverWebhookEventsRequest::mutable_filter() {
+  ::ondewo::vtsi::VtsiEventFilter* _msg = _internal_mutable_filter();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.RedeliverWebhookEventsRequest.filter)
+  return _msg;
+}
+inline void RedeliverWebhookEventsRequest::set_allocated_filter(::ondewo::vtsi::VtsiEventFilter* filter) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.filter_;
+  }
+  if (filter) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(filter);
+    if (message_arena != submessage_arena) {
+      filter = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, filter, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.filter_ = filter;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.RedeliverWebhookEventsRequest.filter)
+}
+
+// -------------------------------------------------------------------
+
+// RedeliverWebhookEventsResponse
+
+// int32 enqueued_count = 1;
+inline void RedeliverWebhookEventsResponse::clear_enqueued_count() {
+  _impl_.enqueued_count_ = 0;
+}
+inline int32_t RedeliverWebhookEventsResponse::_internal_enqueued_count() const {
+  return _impl_.enqueued_count_;
+}
+inline int32_t RedeliverWebhookEventsResponse::enqueued_count() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsResponse.enqueued_count)
+  return _internal_enqueued_count();
+}
+inline void RedeliverWebhookEventsResponse::_internal_set_enqueued_count(int32_t value) {
+  
+  _impl_.enqueued_count_ = value;
+}
+inline void RedeliverWebhookEventsResponse::set_enqueued_count(int32_t value) {
+  _internal_set_enqueued_count(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.RedeliverWebhookEventsResponse.enqueued_count)
+}
+
+// int32 not_in_journal_count = 2;
+inline void RedeliverWebhookEventsResponse::clear_not_in_journal_count() {
+  _impl_.not_in_journal_count_ = 0;
+}
+inline int32_t RedeliverWebhookEventsResponse::_internal_not_in_journal_count() const {
+  return _impl_.not_in_journal_count_;
+}
+inline int32_t RedeliverWebhookEventsResponse::not_in_journal_count() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsResponse.not_in_journal_count)
+  return _internal_not_in_journal_count();
+}
+inline void RedeliverWebhookEventsResponse::_internal_set_not_in_journal_count(int32_t value) {
+  
+  _impl_.not_in_journal_count_ = value;
+}
+inline void RedeliverWebhookEventsResponse::set_not_in_journal_count(int32_t value) {
+  _internal_set_not_in_journal_count(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.RedeliverWebhookEventsResponse.not_in_journal_count)
+}
+
+// int32 not_enqueued_count = 3;
+inline void RedeliverWebhookEventsResponse::clear_not_enqueued_count() {
+  _impl_.not_enqueued_count_ = 0;
+}
+inline int32_t RedeliverWebhookEventsResponse::_internal_not_enqueued_count() const {
+  return _impl_.not_enqueued_count_;
+}
+inline int32_t RedeliverWebhookEventsResponse::not_enqueued_count() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsResponse.not_enqueued_count)
+  return _internal_not_enqueued_count();
+}
+inline void RedeliverWebhookEventsResponse::_internal_set_not_enqueued_count(int32_t value) {
+  
+  _impl_.not_enqueued_count_ = value;
+}
+inline void RedeliverWebhookEventsResponse::set_not_enqueued_count(int32_t value) {
+  _internal_set_not_enqueued_count(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.RedeliverWebhookEventsResponse.not_enqueued_count)
+}
+
+// .google.protobuf.Timestamp next_start_time = 4;
+inline bool RedeliverWebhookEventsResponse::_internal_has_next_start_time() const {
+  return this != internal_default_instance() && _impl_.next_start_time_ != nullptr;
+}
+inline bool RedeliverWebhookEventsResponse::has_next_start_time() const {
+  return _internal_has_next_start_time();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& RedeliverWebhookEventsResponse::_internal_next_start_time() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.next_start_time_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& RedeliverWebhookEventsResponse::next_start_time() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.RedeliverWebhookEventsResponse.next_start_time)
+  return _internal_next_start_time();
+}
+inline void RedeliverWebhookEventsResponse::unsafe_arena_set_allocated_next_start_time(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* next_start_time) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.next_start_time_);
+  }
+  _impl_.next_start_time_ = next_start_time;
+  if (next_start_time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.RedeliverWebhookEventsResponse.next_start_time)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsResponse::release_next_start_time() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.next_start_time_;
+  _impl_.next_start_time_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsResponse::unsafe_arena_release_next_start_time() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.RedeliverWebhookEventsResponse.next_start_time)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.next_start_time_;
+  _impl_.next_start_time_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsResponse::_internal_mutable_next_start_time() {
+  
+  if (_impl_.next_start_time_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.next_start_time_ = p;
+  }
+  return _impl_.next_start_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* RedeliverWebhookEventsResponse::mutable_next_start_time() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_next_start_time();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.RedeliverWebhookEventsResponse.next_start_time)
+  return _msg;
+}
+inline void RedeliverWebhookEventsResponse::set_allocated_next_start_time(::PROTOBUF_NAMESPACE_ID::Timestamp* next_start_time) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.next_start_time_);
+  }
+  if (next_start_time) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(next_start_time));
+    if (message_arena != submessage_arena) {
+      next_start_time = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, next_start_time, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.next_start_time_ = next_start_time;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.RedeliverWebhookEventsResponse.next_start_time)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

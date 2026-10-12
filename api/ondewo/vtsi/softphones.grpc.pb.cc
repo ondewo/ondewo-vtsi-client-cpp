@@ -33,6 +33,7 @@ static const char* Softphones_method_names[] = {
   "/ondewo.vtsi.Softphones/GetSoftphoneCertificate",
   "/ondewo.vtsi.Softphones/RevokeSoftphoneCertificate",
   "/ondewo.vtsi.Softphones/GetSoftphoneProvisioning",
+  "/ondewo.vtsi.Softphones/GetSoftphoneRegistration",
 };
 
 std::unique_ptr< Softphones::Stub> Softphones::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -52,6 +53,7 @@ Softphones::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel
   , rpcmethod_GetSoftphoneCertificate_(Softphones_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_RevokeSoftphoneCertificate_(Softphones_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_GetSoftphoneProvisioning_(Softphones_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetSoftphoneRegistration_(Softphones_method_names[10], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status Softphones::Stub::CreateSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::CreateSoftphoneAccountRequest& request, ::ondewo::vtsi::CreateSoftphoneAccountResponse* response) {
@@ -284,6 +286,29 @@ void Softphones::Stub::async::GetSoftphoneProvisioning(::grpc::ClientContext* co
   return result;
 }
 
+::grpc::Status Softphones::Stub::GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::ondewo::vtsi::SoftphoneRegistration* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::ondewo::vtsi::SoftphoneRegistration, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetSoftphoneRegistration_, context, request, response);
+}
+
+void Softphones::Stub::async::GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::ondewo::vtsi::SoftphoneRegistration, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetSoftphoneRegistration_, context, request, response, std::move(f));
+}
+
+void Softphones::Stub::async::GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetSoftphoneRegistration_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneRegistration>* Softphones::Stub::PrepareAsyncGetSoftphoneRegistrationRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::SoftphoneRegistration, ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetSoftphoneRegistration_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneRegistration>* Softphones::Stub::AsyncGetSoftphoneRegistrationRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetSoftphoneRegistrationRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 Softphones::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Softphones_method_names[0],
@@ -385,6 +410,16 @@ Softphones::Service::Service() {
              ::ondewo::vtsi::SoftphoneProvisioning* resp) {
                return service->GetSoftphoneProvisioning(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Softphones_method_names[10],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Softphones::Service, ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::ondewo::vtsi::SoftphoneRegistration, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Softphones::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* req,
+             ::ondewo::vtsi::SoftphoneRegistration* resp) {
+               return service->GetSoftphoneRegistration(ctx, req, resp);
+             }, this)));
 }
 
 Softphones::Service::~Service() {
@@ -454,6 +489,13 @@ Softphones::Service::~Service() {
 }
 
 ::grpc::Status Softphones::Service::GetSoftphoneProvisioning(::grpc::ServerContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest* request, ::ondewo::vtsi::SoftphoneProvisioning* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Softphones::Service::GetSoftphoneRegistration(::grpc::ServerContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response) {
   (void) context;
   (void) request;
   (void) response;

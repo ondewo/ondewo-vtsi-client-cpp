@@ -70,6 +70,10 @@ namespace vtsi {
 // not be updated, the RPC fails with <code>FAILED_PRECONDITION</code>; the stored change is applied by
 // the next successful change or deployment. <code>CreateSoftphoneAccount</code> and
 // <code>RotateSoftphoneCredentials</code> return their one-time secrets even then.</p>
+// <p>Authorization (only when the server enforces it, see the <code>Projects</code> service): a caller
+// without a credential is <code>UNAUTHENTICATED</code>; every RPC of this service requires
+// <code>PROJECT_DEVELOPER</code> or higher on the account&apos;s project, otherwise
+// <code>PERMISSION_DENIED</code>, also for an unknown project.</p>
 class Softphones final {
  public:
   static constexpr char const* service_full_name() {
@@ -96,6 +100,13 @@ class Softphones final {
     // <p>The account is reachable on either TLS port only from the project&apos;s
     // <code>softphone_permit_cidrs</code> (default: the server&apos;s list, private networks unless the
     // operator changed it); see <code>AsteriskConfigsVariables.softphone_permit_cidrs</code>.</p>
+    // <p>Idempotency: with <code>idempotency_key</code> a retry after a lost response does not create a
+    // second account; it ROTATES the credentials of the account the first attempt created and returns
+    // NEW one-time secrets (see <code>CreateSoftphoneAccountRequest.idempotency_key</code>). Without a key a
+    // retry is answered <code>ALREADY_EXISTS</code> for the same <code>sip_username</code>; recover the
+    // lost secrets then with <code>RotateSoftphoneCredentials</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SOFTPHONE_ACCOUNT_CREATED</code> (a replayed key:
+    // <code>VTSI_EVENT_SOFTPHONE_CREDENTIALS_ROTATED</code>).</p>
     virtual ::grpc::Status CreateSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::CreateSoftphoneAccountRequest& request, ::ondewo::vtsi::CreateSoftphoneAccountResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CreateSoftphoneAccountResponse>> AsyncCreateSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::CreateSoftphoneAccountRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::CreateSoftphoneAccountResponse>>(AsyncCreateSoftphoneAccountRaw(context, request, cq));
@@ -131,8 +142,19 @@ class Softphones final {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneAccount>>(PrepareAsyncUpdateSoftphoneAccountRaw(context, request, cq));
     }
     // <p>Deletes a softphone account. Its endpoint is removed from the Asterisk, its registrations are
-    // dropped and every certificate it holds is revoked. Deletion is permanent.</p>
-    // <p>Errors: <code>NOT_FOUND</code> if the account does not exist.</p>
+    // dropped, its calls in progress are hung up and every certificate it holds is revoked. Deletion is
+    // permanent.</p>
+    // <p>Not idempotent: deleting an account that no longer exists (also a retry of a deletion that
+    // succeeded) is <code>NOT_FOUND</code>. Allowed in every project status, also while the project is
+    // being deleted.</p>
+    // <p>Errors: <code>NOT_FOUND</code> if the account does not exist; <code>INVALID_ARGUMENT</code> for a
+    // malformed name; <code>FAILED_PRECONDITION</code> when the deletion was STORED but the running
+    // Asterisk of a deployed project could not be updated (reload failed, container unreachable, or the
+    // project&apos;s Asterisk configuration stayed locked by another change for too long): the account is
+    // gone from the database and its removal from the Asterisk is applied by the next successful change or
+    // deployment, so a retry is <code>NOT_FOUND</code>; <code>INTERNAL</code> when the account was removed
+    // but one of its calls could not be hung up. Never <code>ABORTED</code>: a deletion is not compared
+    // against concurrent changes, it wins over them.</p>
     virtual ::grpc::Status DeleteSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteSoftphoneAccountRequest& request, ::ondewo::vtsi::DeleteSoftphoneAccountResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteSoftphoneAccountResponse>> AsyncDeleteSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteSoftphoneAccountRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::DeleteSoftphoneAccountResponse>>(AsyncDeleteSoftphoneAccountRaw(context, request, cq));
@@ -216,7 +238,14 @@ class Softphones final {
     // Revoking an already revoked certificate is idempotent and keeps the original revocation time and
     // reason.</p>
     // <p>Errors: <code>NOT_FOUND</code> if the certificate does not exist; <code>INVALID_ARGUMENT</code>
-    // for a malformed name or an over-long reason.</p>
+    // for a malformed name or an over-long reason; <code>FAILED_PRECONDITION</code> when the revocation
+    // (and the lock) was STORED but the running Asterisk of a deployed project could not be updated
+    // (reload failed, container unreachable, or the project&apos;s Asterisk configuration stayed locked by
+    // another change for too long): it is applied by the next successful change or deployment, and a
+    // retry is idempotent; <code>ABORTED</code> when the account was changed concurrently (e.g. a rotation
+    // or an update committed between the read and the write), in which case nothing was stored and the
+    // request can be retried.</p>
+    // <p>Events: <code>VTSI_EVENT_SOFTPHONE_CERTIFICATE_REVOKED</code> (not for an idempotent repeat).</p>
     virtual ::grpc::Status RevokeSoftphoneCertificate(::grpc::ClientContext* context, const ::ondewo::vtsi::RevokeSoftphoneCertificateRequest& request, ::ondewo::vtsi::SoftphoneCertificate* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneCertificate>> AsyncRevokeSoftphoneCertificate(::grpc::ClientContext* context, const ::ondewo::vtsi::RevokeSoftphoneCertificateRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneCertificate>>(AsyncRevokeSoftphoneCertificateRaw(context, request, cq));
@@ -244,6 +273,29 @@ class Softphones final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneProvisioning>> PrepareAsyncGetSoftphoneProvisioning(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneProvisioning>>(PrepareAsyncGetSoftphoneProvisioningRaw(context, request, cq));
     }
+    // ////////////////////////////////////////////////////////////////////////////
+    // Softphone registration endpoints
+    // ////////////////////////////////////////////////////////////////////////////
+    //
+    // <p>Returns the CURRENT registrations (contacts) of a softphone account, read LIVE from the running
+    // Asterisk of the project at the moment of the request (in the manner of <code>pjsip show
+    // contacts</code>). Nothing is stored: two calls may differ, and an empty <code>contacts</code> list
+    // means no device is registered right now (a disabled or locked account never has one). Answers
+    // &quot;is the softphone of this account connected, from where, with which client, and is it
+    // reachable?&quot;.</p>
+    // <p>Errors: <code>NOT_FOUND</code> if the account does not exist; <code>INVALID_ARGUMENT</code> for a
+    // malformed name or an unknown <code>field_mask</code> path; <code>FAILED_PRECONDITION</code> if the
+    // project is not <code>DEPLOYED</code> (there is no running Asterisk to ask);
+    // <code>UNAVAILABLE</code> if the project&apos;s Asterisk could not be queried (container not running
+    // or not answering within the server&apos;s timeout); retry later.</p>
+    // <p>Read only, no event. Authorization: <code>PROJECT_DEVELOPER</code> or higher on the project.</p>
+    virtual ::grpc::Status GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::ondewo::vtsi::SoftphoneRegistration* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneRegistration>> AsyncGetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneRegistration>>(AsyncGetSoftphoneRegistrationRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneRegistration>> PrepareAsyncGetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneRegistration>>(PrepareAsyncGetSoftphoneRegistrationRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -265,6 +317,13 @@ class Softphones final {
       // <p>The account is reachable on either TLS port only from the project&apos;s
       // <code>softphone_permit_cidrs</code> (default: the server&apos;s list, private networks unless the
       // operator changed it); see <code>AsteriskConfigsVariables.softphone_permit_cidrs</code>.</p>
+      // <p>Idempotency: with <code>idempotency_key</code> a retry after a lost response does not create a
+      // second account; it ROTATES the credentials of the account the first attempt created and returns
+      // NEW one-time secrets (see <code>CreateSoftphoneAccountRequest.idempotency_key</code>). Without a key a
+      // retry is answered <code>ALREADY_EXISTS</code> for the same <code>sip_username</code>; recover the
+      // lost secrets then with <code>RotateSoftphoneCredentials</code>.</p>
+      // <p>Events: <code>VTSI_EVENT_SOFTPHONE_ACCOUNT_CREATED</code> (a replayed key:
+      // <code>VTSI_EVENT_SOFTPHONE_CREDENTIALS_ROTATED</code>).</p>
       virtual void CreateSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::CreateSoftphoneAccountRequest* request, ::ondewo::vtsi::CreateSoftphoneAccountResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void CreateSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::CreateSoftphoneAccountRequest* request, ::ondewo::vtsi::CreateSoftphoneAccountResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // <p>Returns a softphone account. Never returns a secret.</p>
@@ -285,8 +344,19 @@ class Softphones final {
       virtual void UpdateSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateSoftphoneAccountRequest* request, ::ondewo::vtsi::SoftphoneAccount* response, std::function<void(::grpc::Status)>) = 0;
       virtual void UpdateSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::UpdateSoftphoneAccountRequest* request, ::ondewo::vtsi::SoftphoneAccount* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // <p>Deletes a softphone account. Its endpoint is removed from the Asterisk, its registrations are
-      // dropped and every certificate it holds is revoked. Deletion is permanent.</p>
-      // <p>Errors: <code>NOT_FOUND</code> if the account does not exist.</p>
+      // dropped, its calls in progress are hung up and every certificate it holds is revoked. Deletion is
+      // permanent.</p>
+      // <p>Not idempotent: deleting an account that no longer exists (also a retry of a deletion that
+      // succeeded) is <code>NOT_FOUND</code>. Allowed in every project status, also while the project is
+      // being deleted.</p>
+      // <p>Errors: <code>NOT_FOUND</code> if the account does not exist; <code>INVALID_ARGUMENT</code> for a
+      // malformed name; <code>FAILED_PRECONDITION</code> when the deletion was STORED but the running
+      // Asterisk of a deployed project could not be updated (reload failed, container unreachable, or the
+      // project&apos;s Asterisk configuration stayed locked by another change for too long): the account is
+      // gone from the database and its removal from the Asterisk is applied by the next successful change or
+      // deployment, so a retry is <code>NOT_FOUND</code>; <code>INTERNAL</code> when the account was removed
+      // but one of its calls could not be hung up. Never <code>ABORTED</code>: a deletion is not compared
+      // against concurrent changes, it wins over them.</p>
       virtual void DeleteSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteSoftphoneAccountRequest* request, ::ondewo::vtsi::DeleteSoftphoneAccountResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void DeleteSoftphoneAccount(::grpc::ClientContext* context, const ::ondewo::vtsi::DeleteSoftphoneAccountRequest* request, ::ondewo::vtsi::DeleteSoftphoneAccountResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // <p>Lists the softphone accounts of a VTSI project, filtered, sorted and paged. Never returns a
@@ -345,7 +415,14 @@ class Softphones final {
       // Revoking an already revoked certificate is idempotent and keeps the original revocation time and
       // reason.</p>
       // <p>Errors: <code>NOT_FOUND</code> if the certificate does not exist; <code>INVALID_ARGUMENT</code>
-      // for a malformed name or an over-long reason.</p>
+      // for a malformed name or an over-long reason; <code>FAILED_PRECONDITION</code> when the revocation
+      // (and the lock) was STORED but the running Asterisk of a deployed project could not be updated
+      // (reload failed, container unreachable, or the project&apos;s Asterisk configuration stayed locked by
+      // another change for too long): it is applied by the next successful change or deployment, and a
+      // retry is idempotent; <code>ABORTED</code> when the account was changed concurrently (e.g. a rotation
+      // or an update committed between the read and the write), in which case nothing was stored and the
+      // request can be retried.</p>
+      // <p>Events: <code>VTSI_EVENT_SOFTPHONE_CERTIFICATE_REVOKED</code> (not for an idempotent repeat).</p>
       virtual void RevokeSoftphoneCertificate(::grpc::ClientContext* context, const ::ondewo::vtsi::RevokeSoftphoneCertificateRequest* request, ::ondewo::vtsi::SoftphoneCertificate* response, std::function<void(::grpc::Status)>) = 0;
       virtual void RevokeSoftphoneCertificate(::grpc::ClientContext* context, const ::ondewo::vtsi::RevokeSoftphoneCertificateRequest* request, ::ondewo::vtsi::SoftphoneCertificate* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // ////////////////////////////////////////////////////////////////////////////
@@ -363,6 +440,24 @@ class Softphones final {
       // <code>SOFTPHONE_CERTIFICATE_STATUS_ACTIVE</code> certificate.</p>
       virtual void GetSoftphoneProvisioning(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest* request, ::ondewo::vtsi::SoftphoneProvisioning* response, std::function<void(::grpc::Status)>) = 0;
       virtual void GetSoftphoneProvisioning(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest* request, ::ondewo::vtsi::SoftphoneProvisioning* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // ////////////////////////////////////////////////////////////////////////////
+      // Softphone registration endpoints
+      // ////////////////////////////////////////////////////////////////////////////
+      //
+      // <p>Returns the CURRENT registrations (contacts) of a softphone account, read LIVE from the running
+      // Asterisk of the project at the moment of the request (in the manner of <code>pjsip show
+      // contacts</code>). Nothing is stored: two calls may differ, and an empty <code>contacts</code> list
+      // means no device is registered right now (a disabled or locked account never has one). Answers
+      // &quot;is the softphone of this account connected, from where, with which client, and is it
+      // reachable?&quot;.</p>
+      // <p>Errors: <code>NOT_FOUND</code> if the account does not exist; <code>INVALID_ARGUMENT</code> for a
+      // malformed name or an unknown <code>field_mask</code> path; <code>FAILED_PRECONDITION</code> if the
+      // project is not <code>DEPLOYED</code> (there is no running Asterisk to ask);
+      // <code>UNAVAILABLE</code> if the project&apos;s Asterisk could not be queried (container not running
+      // or not answering within the server&apos;s timeout); retry later.</p>
+      // <p>Read only, no event. Authorization: <code>PROJECT_DEVELOPER</code> or higher on the project.</p>
+      virtual void GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -388,6 +483,8 @@ class Softphones final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneCertificate>* PrepareAsyncRevokeSoftphoneCertificateRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RevokeSoftphoneCertificateRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneProvisioning>* AsyncGetSoftphoneProvisioningRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneProvisioning>* PrepareAsyncGetSoftphoneProvisioningRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneRegistration>* AsyncGetSoftphoneRegistrationRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SoftphoneRegistration>* PrepareAsyncGetSoftphoneRegistrationRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -462,6 +559,13 @@ class Softphones final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneProvisioning>> PrepareAsyncGetSoftphoneProvisioning(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneProvisioning>>(PrepareAsyncGetSoftphoneProvisioningRaw(context, request, cq));
     }
+    ::grpc::Status GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::ondewo::vtsi::SoftphoneRegistration* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneRegistration>> AsyncGetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneRegistration>>(AsyncGetSoftphoneRegistrationRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneRegistration>> PrepareAsyncGetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneRegistration>>(PrepareAsyncGetSoftphoneRegistrationRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -485,6 +589,8 @@ class Softphones final {
       void RevokeSoftphoneCertificate(::grpc::ClientContext* context, const ::ondewo::vtsi::RevokeSoftphoneCertificateRequest* request, ::ondewo::vtsi::SoftphoneCertificate* response, ::grpc::ClientUnaryReactor* reactor) override;
       void GetSoftphoneProvisioning(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest* request, ::ondewo::vtsi::SoftphoneProvisioning* response, std::function<void(::grpc::Status)>) override;
       void GetSoftphoneProvisioning(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest* request, ::ondewo::vtsi::SoftphoneProvisioning* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response, std::function<void(::grpc::Status)>) override;
+      void GetSoftphoneRegistration(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -516,6 +622,8 @@ class Softphones final {
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneCertificate>* PrepareAsyncRevokeSoftphoneCertificateRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RevokeSoftphoneCertificateRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneProvisioning>* AsyncGetSoftphoneProvisioningRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneProvisioning>* PrepareAsyncGetSoftphoneProvisioningRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneRegistration>* AsyncGetSoftphoneRegistrationRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SoftphoneRegistration>* PrepareAsyncGetSoftphoneRegistrationRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_CreateSoftphoneAccount_;
     const ::grpc::internal::RpcMethod rpcmethod_GetSoftphoneAccount_;
     const ::grpc::internal::RpcMethod rpcmethod_UpdateSoftphoneAccount_;
@@ -526,6 +634,7 @@ class Softphones final {
     const ::grpc::internal::RpcMethod rpcmethod_GetSoftphoneCertificate_;
     const ::grpc::internal::RpcMethod rpcmethod_RevokeSoftphoneCertificate_;
     const ::grpc::internal::RpcMethod rpcmethod_GetSoftphoneProvisioning_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetSoftphoneRegistration_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -551,6 +660,13 @@ class Softphones final {
     // <p>The account is reachable on either TLS port only from the project&apos;s
     // <code>softphone_permit_cidrs</code> (default: the server&apos;s list, private networks unless the
     // operator changed it); see <code>AsteriskConfigsVariables.softphone_permit_cidrs</code>.</p>
+    // <p>Idempotency: with <code>idempotency_key</code> a retry after a lost response does not create a
+    // second account; it ROTATES the credentials of the account the first attempt created and returns
+    // NEW one-time secrets (see <code>CreateSoftphoneAccountRequest.idempotency_key</code>). Without a key a
+    // retry is answered <code>ALREADY_EXISTS</code> for the same <code>sip_username</code>; recover the
+    // lost secrets then with <code>RotateSoftphoneCredentials</code>.</p>
+    // <p>Events: <code>VTSI_EVENT_SOFTPHONE_ACCOUNT_CREATED</code> (a replayed key:
+    // <code>VTSI_EVENT_SOFTPHONE_CREDENTIALS_ROTATED</code>).</p>
     virtual ::grpc::Status CreateSoftphoneAccount(::grpc::ServerContext* context, const ::ondewo::vtsi::CreateSoftphoneAccountRequest* request, ::ondewo::vtsi::CreateSoftphoneAccountResponse* response);
     // <p>Returns a softphone account. Never returns a secret.</p>
     // <p>Errors: <code>NOT_FOUND</code> if the account does not exist; <code>INVALID_ARGUMENT</code> for a
@@ -568,8 +684,19 @@ class Softphones final {
     // operator changed it); see <code>AsteriskConfigsVariables.softphone_permit_cidrs</code>.</p>
     virtual ::grpc::Status UpdateSoftphoneAccount(::grpc::ServerContext* context, const ::ondewo::vtsi::UpdateSoftphoneAccountRequest* request, ::ondewo::vtsi::SoftphoneAccount* response);
     // <p>Deletes a softphone account. Its endpoint is removed from the Asterisk, its registrations are
-    // dropped and every certificate it holds is revoked. Deletion is permanent.</p>
-    // <p>Errors: <code>NOT_FOUND</code> if the account does not exist.</p>
+    // dropped, its calls in progress are hung up and every certificate it holds is revoked. Deletion is
+    // permanent.</p>
+    // <p>Not idempotent: deleting an account that no longer exists (also a retry of a deletion that
+    // succeeded) is <code>NOT_FOUND</code>. Allowed in every project status, also while the project is
+    // being deleted.</p>
+    // <p>Errors: <code>NOT_FOUND</code> if the account does not exist; <code>INVALID_ARGUMENT</code> for a
+    // malformed name; <code>FAILED_PRECONDITION</code> when the deletion was STORED but the running
+    // Asterisk of a deployed project could not be updated (reload failed, container unreachable, or the
+    // project&apos;s Asterisk configuration stayed locked by another change for too long): the account is
+    // gone from the database and its removal from the Asterisk is applied by the next successful change or
+    // deployment, so a retry is <code>NOT_FOUND</code>; <code>INTERNAL</code> when the account was removed
+    // but one of its calls could not be hung up. Never <code>ABORTED</code>: a deletion is not compared
+    // against concurrent changes, it wins over them.</p>
     virtual ::grpc::Status DeleteSoftphoneAccount(::grpc::ServerContext* context, const ::ondewo::vtsi::DeleteSoftphoneAccountRequest* request, ::ondewo::vtsi::DeleteSoftphoneAccountResponse* response);
     // <p>Lists the softphone accounts of a VTSI project, filtered, sorted and paged. Never returns a
     // secret.</p>
@@ -623,7 +750,14 @@ class Softphones final {
     // Revoking an already revoked certificate is idempotent and keeps the original revocation time and
     // reason.</p>
     // <p>Errors: <code>NOT_FOUND</code> if the certificate does not exist; <code>INVALID_ARGUMENT</code>
-    // for a malformed name or an over-long reason.</p>
+    // for a malformed name or an over-long reason; <code>FAILED_PRECONDITION</code> when the revocation
+    // (and the lock) was STORED but the running Asterisk of a deployed project could not be updated
+    // (reload failed, container unreachable, or the project&apos;s Asterisk configuration stayed locked by
+    // another change for too long): it is applied by the next successful change or deployment, and a
+    // retry is idempotent; <code>ABORTED</code> when the account was changed concurrently (e.g. a rotation
+    // or an update committed between the read and the write), in which case nothing was stored and the
+    // request can be retried.</p>
+    // <p>Events: <code>VTSI_EVENT_SOFTPHONE_CERTIFICATE_REVOKED</code> (not for an idempotent repeat).</p>
     virtual ::grpc::Status RevokeSoftphoneCertificate(::grpc::ServerContext* context, const ::ondewo::vtsi::RevokeSoftphoneCertificateRequest* request, ::ondewo::vtsi::SoftphoneCertificate* response);
     // ////////////////////////////////////////////////////////////////////////////
     // Softphone provisioning endpoints
@@ -639,6 +773,23 @@ class Softphones final {
     // <code>SOFTPHONE_TRANSPORT_SECURITY_CLIENT_CERTIFICATE</code> account has no
     // <code>SOFTPHONE_CERTIFICATE_STATUS_ACTIVE</code> certificate.</p>
     virtual ::grpc::Status GetSoftphoneProvisioning(::grpc::ServerContext* context, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest* request, ::ondewo::vtsi::SoftphoneProvisioning* response);
+    // ////////////////////////////////////////////////////////////////////////////
+    // Softphone registration endpoints
+    // ////////////////////////////////////////////////////////////////////////////
+    //
+    // <p>Returns the CURRENT registrations (contacts) of a softphone account, read LIVE from the running
+    // Asterisk of the project at the moment of the request (in the manner of <code>pjsip show
+    // contacts</code>). Nothing is stored: two calls may differ, and an empty <code>contacts</code> list
+    // means no device is registered right now (a disabled or locked account never has one). Answers
+    // &quot;is the softphone of this account connected, from where, with which client, and is it
+    // reachable?&quot;.</p>
+    // <p>Errors: <code>NOT_FOUND</code> if the account does not exist; <code>INVALID_ARGUMENT</code> for a
+    // malformed name or an unknown <code>field_mask</code> path; <code>FAILED_PRECONDITION</code> if the
+    // project is not <code>DEPLOYED</code> (there is no running Asterisk to ask);
+    // <code>UNAVAILABLE</code> if the project&apos;s Asterisk could not be queried (container not running
+    // or not answering within the server&apos;s timeout); retry later.</p>
+    // <p>Read only, no event. Authorization: <code>PROJECT_DEVELOPER</code> or higher on the project.</p>
+    virtual ::grpc::Status GetSoftphoneRegistration(::grpc::ServerContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_CreateSoftphoneAccount : public BaseClass {
@@ -840,7 +991,27 @@ class Softphones final {
       ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_CreateSoftphoneAccount<WithAsyncMethod_GetSoftphoneAccount<WithAsyncMethod_UpdateSoftphoneAccount<WithAsyncMethod_DeleteSoftphoneAccount<WithAsyncMethod_ListSoftphoneAccounts<WithAsyncMethod_RotateSoftphoneCredentials<WithAsyncMethod_ListSoftphoneCertificates<WithAsyncMethod_GetSoftphoneCertificate<WithAsyncMethod_RevokeSoftphoneCertificate<WithAsyncMethod_GetSoftphoneProvisioning<Service > > > > > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_GetSoftphoneRegistration : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetSoftphoneRegistration() {
+      ::grpc::Service::MarkMethodAsync(10);
+    }
+    ~WithAsyncMethod_GetSoftphoneRegistration() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetSoftphoneRegistration(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* /*request*/, ::ondewo::vtsi::SoftphoneRegistration* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetSoftphoneRegistration(::grpc::ServerContext* context, ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::SoftphoneRegistration>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_CreateSoftphoneAccount<WithAsyncMethod_GetSoftphoneAccount<WithAsyncMethod_UpdateSoftphoneAccount<WithAsyncMethod_DeleteSoftphoneAccount<WithAsyncMethod_ListSoftphoneAccounts<WithAsyncMethod_RotateSoftphoneCredentials<WithAsyncMethod_ListSoftphoneCertificates<WithAsyncMethod_GetSoftphoneCertificate<WithAsyncMethod_RevokeSoftphoneCertificate<WithAsyncMethod_GetSoftphoneProvisioning<WithAsyncMethod_GetSoftphoneRegistration<Service > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_CreateSoftphoneAccount : public BaseClass {
    private:
@@ -1111,7 +1282,34 @@ class Softphones final {
     virtual ::grpc::ServerUnaryReactor* GetSoftphoneProvisioning(
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest* /*request*/, ::ondewo::vtsi::SoftphoneProvisioning* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_CreateSoftphoneAccount<WithCallbackMethod_GetSoftphoneAccount<WithCallbackMethod_UpdateSoftphoneAccount<WithCallbackMethod_DeleteSoftphoneAccount<WithCallbackMethod_ListSoftphoneAccounts<WithCallbackMethod_RotateSoftphoneCredentials<WithCallbackMethod_ListSoftphoneCertificates<WithCallbackMethod_GetSoftphoneCertificate<WithCallbackMethod_RevokeSoftphoneCertificate<WithCallbackMethod_GetSoftphoneProvisioning<Service > > > > > > > > > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_GetSoftphoneRegistration : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_GetSoftphoneRegistration() {
+      ::grpc::Service::MarkMethodCallback(10,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::ondewo::vtsi::SoftphoneRegistration>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* request, ::ondewo::vtsi::SoftphoneRegistration* response) { return this->GetSoftphoneRegistration(context, request, response); }));}
+    void SetMessageAllocatorFor_GetSoftphoneRegistration(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::ondewo::vtsi::SoftphoneRegistration>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::ondewo::vtsi::SoftphoneRegistration>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_GetSoftphoneRegistration() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetSoftphoneRegistration(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* /*request*/, ::ondewo::vtsi::SoftphoneRegistration* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetSoftphoneRegistration(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* /*request*/, ::ondewo::vtsi::SoftphoneRegistration* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_CreateSoftphoneAccount<WithCallbackMethod_GetSoftphoneAccount<WithCallbackMethod_UpdateSoftphoneAccount<WithCallbackMethod_DeleteSoftphoneAccount<WithCallbackMethod_ListSoftphoneAccounts<WithCallbackMethod_RotateSoftphoneCredentials<WithCallbackMethod_ListSoftphoneCertificates<WithCallbackMethod_GetSoftphoneCertificate<WithCallbackMethod_RevokeSoftphoneCertificate<WithCallbackMethod_GetSoftphoneProvisioning<WithCallbackMethod_GetSoftphoneRegistration<Service > > > > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_CreateSoftphoneAccount : public BaseClass {
@@ -1279,6 +1477,23 @@ class Softphones final {
     }
     // disable synchronous version of this method
     ::grpc::Status GetSoftphoneProvisioning(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneProvisioningRequest* /*request*/, ::ondewo::vtsi::SoftphoneProvisioning* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_GetSoftphoneRegistration : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetSoftphoneRegistration() {
+      ::grpc::Service::MarkMethodGeneric(10);
+    }
+    ~WithGenericMethod_GetSoftphoneRegistration() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetSoftphoneRegistration(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* /*request*/, ::ondewo::vtsi::SoftphoneRegistration* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1481,6 +1696,26 @@ class Softphones final {
     }
     void RequestGetSoftphoneProvisioning(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_GetSoftphoneRegistration : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetSoftphoneRegistration() {
+      ::grpc::Service::MarkMethodRaw(10);
+    }
+    ~WithRawMethod_GetSoftphoneRegistration() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetSoftphoneRegistration(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* /*request*/, ::ondewo::vtsi::SoftphoneRegistration* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetSoftphoneRegistration(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1701,6 +1936,28 @@ class Softphones final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* GetSoftphoneProvisioning(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_GetSoftphoneRegistration : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_GetSoftphoneRegistration() {
+      ::grpc::Service::MarkMethodRawCallback(10,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetSoftphoneRegistration(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_GetSoftphoneRegistration() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetSoftphoneRegistration(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* /*request*/, ::ondewo::vtsi::SoftphoneRegistration* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetSoftphoneRegistration(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -1973,9 +2230,36 @@ class Softphones final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedGetSoftphoneProvisioning(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::GetSoftphoneProvisioningRequest,::ondewo::vtsi::SoftphoneProvisioning>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_CreateSoftphoneAccount<WithStreamedUnaryMethod_GetSoftphoneAccount<WithStreamedUnaryMethod_UpdateSoftphoneAccount<WithStreamedUnaryMethod_DeleteSoftphoneAccount<WithStreamedUnaryMethod_ListSoftphoneAccounts<WithStreamedUnaryMethod_RotateSoftphoneCredentials<WithStreamedUnaryMethod_ListSoftphoneCertificates<WithStreamedUnaryMethod_GetSoftphoneCertificate<WithStreamedUnaryMethod_RevokeSoftphoneCertificate<WithStreamedUnaryMethod_GetSoftphoneProvisioning<Service > > > > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_GetSoftphoneRegistration : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetSoftphoneRegistration() {
+      ::grpc::Service::MarkMethodStreamed(10,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::ondewo::vtsi::SoftphoneRegistration>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::GetSoftphoneRegistrationRequest, ::ondewo::vtsi::SoftphoneRegistration>* streamer) {
+                       return this->StreamedGetSoftphoneRegistration(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetSoftphoneRegistration() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetSoftphoneRegistration(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::GetSoftphoneRegistrationRequest* /*request*/, ::ondewo::vtsi::SoftphoneRegistration* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetSoftphoneRegistration(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::GetSoftphoneRegistrationRequest,::ondewo::vtsi::SoftphoneRegistration>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_CreateSoftphoneAccount<WithStreamedUnaryMethod_GetSoftphoneAccount<WithStreamedUnaryMethod_UpdateSoftphoneAccount<WithStreamedUnaryMethod_DeleteSoftphoneAccount<WithStreamedUnaryMethod_ListSoftphoneAccounts<WithStreamedUnaryMethod_RotateSoftphoneCredentials<WithStreamedUnaryMethod_ListSoftphoneCertificates<WithStreamedUnaryMethod_GetSoftphoneCertificate<WithStreamedUnaryMethod_RevokeSoftphoneCertificate<WithStreamedUnaryMethod_GetSoftphoneProvisioning<WithStreamedUnaryMethod_GetSoftphoneRegistration<Service > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_CreateSoftphoneAccount<WithStreamedUnaryMethod_GetSoftphoneAccount<WithStreamedUnaryMethod_UpdateSoftphoneAccount<WithStreamedUnaryMethod_DeleteSoftphoneAccount<WithStreamedUnaryMethod_ListSoftphoneAccounts<WithStreamedUnaryMethod_RotateSoftphoneCredentials<WithStreamedUnaryMethod_ListSoftphoneCertificates<WithStreamedUnaryMethod_GetSoftphoneCertificate<WithStreamedUnaryMethod_RevokeSoftphoneCertificate<WithStreamedUnaryMethod_GetSoftphoneProvisioning<Service > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_CreateSoftphoneAccount<WithStreamedUnaryMethod_GetSoftphoneAccount<WithStreamedUnaryMethod_UpdateSoftphoneAccount<WithStreamedUnaryMethod_DeleteSoftphoneAccount<WithStreamedUnaryMethod_ListSoftphoneAccounts<WithStreamedUnaryMethod_RotateSoftphoneCredentials<WithStreamedUnaryMethod_ListSoftphoneCertificates<WithStreamedUnaryMethod_GetSoftphoneCertificate<WithStreamedUnaryMethod_RevokeSoftphoneCertificate<WithStreamedUnaryMethod_GetSoftphoneProvisioning<WithStreamedUnaryMethod_GetSoftphoneRegistration<Service > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace vtsi

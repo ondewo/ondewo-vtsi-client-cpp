@@ -34,6 +34,7 @@ static const char* Events_method_names[] = {
   "/ondewo.vtsi.Events/DeleteWebhook",
   "/ondewo.vtsi.Events/ListWebhooks",
   "/ondewo.vtsi.Events/TestWebhook",
+  "/ondewo.vtsi.Events/RedeliverWebhookEvents",
   "/ondewo.vtsi.Events/SubscribeVtsiEvents",
 };
 
@@ -55,7 +56,8 @@ Events::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, co
   , rpcmethod_DeleteWebhook_(Events_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_ListWebhooks_(Events_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_TestWebhook_(Events_method_names[10], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_SubscribeVtsiEvents_(Events_method_names[11], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RedeliverWebhookEvents_(Events_method_names[11], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SubscribeVtsiEvents_(Events_method_names[12], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   {}
 
 ::grpc::Status Events::Stub::CreateVtsiEventSubscription(::grpc::ClientContext* context, const ::ondewo::vtsi::CreateVtsiEventSubscriptionRequest& request, ::ondewo::vtsi::VtsiEventSubscription* response) {
@@ -311,6 +313,29 @@ void Events::Stub::async::TestWebhook(::grpc::ClientContext* context, const ::on
   return result;
 }
 
+::grpc::Status Events::Stub::RedeliverWebhookEvents(::grpc::ClientContext* context, const ::ondewo::vtsi::RedeliverWebhookEventsRequest& request, ::ondewo::vtsi::RedeliverWebhookEventsResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::vtsi::RedeliverWebhookEventsRequest, ::ondewo::vtsi::RedeliverWebhookEventsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_RedeliverWebhookEvents_, context, request, response);
+}
+
+void Events::Stub::async::RedeliverWebhookEvents(::grpc::ClientContext* context, const ::ondewo::vtsi::RedeliverWebhookEventsRequest* request, ::ondewo::vtsi::RedeliverWebhookEventsResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::vtsi::RedeliverWebhookEventsRequest, ::ondewo::vtsi::RedeliverWebhookEventsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RedeliverWebhookEvents_, context, request, response, std::move(f));
+}
+
+void Events::Stub::async::RedeliverWebhookEvents(::grpc::ClientContext* context, const ::ondewo::vtsi::RedeliverWebhookEventsRequest* request, ::ondewo::vtsi::RedeliverWebhookEventsResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_RedeliverWebhookEvents_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::RedeliverWebhookEventsResponse>* Events::Stub::PrepareAsyncRedeliverWebhookEventsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RedeliverWebhookEventsRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::vtsi::RedeliverWebhookEventsResponse, ::ondewo::vtsi::RedeliverWebhookEventsRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_RedeliverWebhookEvents_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::RedeliverWebhookEventsResponse>* Events::Stub::AsyncRedeliverWebhookEventsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RedeliverWebhookEventsRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncRedeliverWebhookEventsRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 ::grpc::ClientReader< ::ondewo::vtsi::SubscribeVtsiEventsResponse>* Events::Stub::SubscribeVtsiEventsRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SubscribeVtsiEventsRequest& request) {
   return ::grpc::internal::ClientReaderFactory< ::ondewo::vtsi::SubscribeVtsiEventsResponse>::Create(channel_.get(), rpcmethod_SubscribeVtsiEvents_, context, request);
 }
@@ -440,6 +465,16 @@ Events::Service::Service() {
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Events_method_names[11],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Events::Service, ::ondewo::vtsi::RedeliverWebhookEventsRequest, ::ondewo::vtsi::RedeliverWebhookEventsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Events::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::vtsi::RedeliverWebhookEventsRequest* req,
+             ::ondewo::vtsi::RedeliverWebhookEventsResponse* resp) {
+               return service->RedeliverWebhookEvents(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Events_method_names[12],
       ::grpc::internal::RpcMethod::SERVER_STREAMING,
       new ::grpc::internal::ServerStreamingHandler< Events::Service, ::ondewo::vtsi::SubscribeVtsiEventsRequest, ::ondewo::vtsi::SubscribeVtsiEventsResponse>(
           [](Events::Service* service,
@@ -524,6 +559,13 @@ Events::Service::~Service() {
 }
 
 ::grpc::Status Events::Service::TestWebhook(::grpc::ServerContext* context, const ::ondewo::vtsi::TestWebhookRequest* request, ::ondewo::vtsi::TestWebhookResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Events::Service::RedeliverWebhookEvents(::grpc::ServerContext* context, const ::ondewo::vtsi::RedeliverWebhookEventsRequest* request, ::ondewo::vtsi::RedeliverWebhookEventsResponse* response) {
   (void) context;
   (void) request;
   (void) response;

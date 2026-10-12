@@ -96,6 +96,12 @@ PROTOBUF_CONSTEXPR CallLogFilter::CallLogFilter(
   , /*decltype(_impl_._log_levels_cached_byte_size_)*/{0}
   , /*decltype(_impl_.emitter_prefixes_)*/{}
   , /*decltype(_impl_.thread_names_)*/{}
+  , /*decltype(_impl_.sip_port_numbers_)*/{}
+  , /*decltype(_impl_._sip_port_numbers_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.csi_port_numbers_)*/{}
+  , /*decltype(_impl_._csi_port_numbers_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.asterisk_port_numbers_)*/{}
+  , /*decltype(_impl_._asterisk_port_numbers_cached_byte_size_)*/{0}
   , /*decltype(_impl_.text_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.regex_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.start_time_)*/nullptr
@@ -121,6 +127,7 @@ PROTOBUF_CONSTEXPR CallLogStream::CallLogStream(
   , /*decltype(_impl_.sip_account_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.image_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.capture_error_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.capture_started_at_)*/nullptr
   , /*decltype(_impl_.capture_finished_at_)*/nullptr
   , /*decltype(_impl_.channel_)*/0
@@ -170,6 +177,7 @@ PROTOBUF_CONSTEXPR StreamCallLogsResponse::StreamCallLogsResponse(
   , /*decltype(_impl_.end_reason_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.dropped_line_count_)*/int64_t{0}
   , /*decltype(_impl_.capture_state_)*/0
+  , /*decltype(_impl_.end_reason_code_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct StreamCallLogsResponseDefaultTypeInternal {
   PROTOBUF_CONSTEXPR StreamCallLogsResponseDefaultTypeInternal()
@@ -187,10 +195,12 @@ PROTOBUF_CONSTEXPR ListCallLogsRequest::ListCallLogsRequest(
   , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.resume_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.filter_)*/nullptr
+  , /*decltype(_impl_.field_mask_)*/nullptr
   , /*decltype(_impl_.before_seq_)*/int64_t{0}
   , /*decltype(_impl_.after_seq_)*/int64_t{0}
   , /*decltype(_impl_.max_lines_)*/0
-  , /*decltype(_impl_.oldest_first_)*/false} {}
+  , /*decltype(_impl_.oldest_first_)*/false
+  , /*decltype(_impl_.include_counts_)*/false} {}
 struct ListCallLogsRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ListCallLogsRequestDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -200,18 +210,32 @@ struct ListCallLogsRequestDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListCallLogsRequestDefaultTypeInternal _ListCallLogsRequest_default_instance_;
+PROTOBUF_CONSTEXPR ListCallLogsResponse_CountByLevelEntry_DoNotUse::ListCallLogsResponse_CountByLevelEntry_DoNotUse(
+    ::_pbi::ConstantInitialized) {}
+struct ListCallLogsResponse_CountByLevelEntry_DoNotUseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ListCallLogsResponse_CountByLevelEntry_DoNotUseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ListCallLogsResponse_CountByLevelEntry_DoNotUseDefaultTypeInternal() {}
+  union {
+    ListCallLogsResponse_CountByLevelEntry_DoNotUse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListCallLogsResponse_CountByLevelEntry_DoNotUseDefaultTypeInternal _ListCallLogsResponse_CountByLevelEntry_DoNotUse_default_instance_;
 PROTOBUF_CONSTEXPR ListCallLogsResponse::ListCallLogsResponse(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.log_entries_)*/{}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.log_entries_)*/{}
   , /*decltype(_impl_.scope_limited_filters_)*/{}
   , /*decltype(_impl_._scope_limited_filters_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.count_by_level_)*/{::_pbi::ConstantInitialized()}
   , /*decltype(_impl_.next_resume_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.min_available_seq_)*/int64_t{0}
   , /*decltype(_impl_.max_available_seq_)*/int64_t{0}
+  , /*decltype(_impl_.total_matching_count_)*/int64_t{0}
   , /*decltype(_impl_.truncated_)*/false
   , /*decltype(_impl_.has_more_older_)*/false
-  , /*decltype(_impl_.has_more_newer_)*/false
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.has_more_newer_)*/false} {}
 struct ListCallLogsResponseDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ListCallLogsResponseDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -225,6 +249,7 @@ PROTOBUF_CONSTEXPR GetCallLogStreamRequest::GetCallLogStreamRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.field_mask_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct GetCallLogStreamRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR GetCallLogStreamRequestDefaultTypeInternal()
@@ -239,9 +264,13 @@ PROTOBUF_CONSTEXPR ListCallLogStreamsRequest::ListCallLogStreamsRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.capture_states_)*/{}
+  , /*decltype(_impl_._capture_states_cached_byte_size_)*/{0}
   , /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.page_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.filter_)*/nullptr} {}
+  , /*decltype(_impl_.filter_)*/nullptr
+  , /*decltype(_impl_.field_mask_)*/nullptr
+  , /*decltype(_impl_.page_size_)*/0} {}
 struct ListCallLogStreamsRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ListCallLogStreamsRequestDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -269,6 +298,7 @@ PROTOBUF_CONSTEXPR DeleteCallLogsRequest::DeleteCallLogsRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.filter_)*/nullptr
+  , /*decltype(_impl_.validate_only_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct DeleteCallLogsRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR DeleteCallLogsRequestDefaultTypeInternal()
@@ -293,10 +323,42 @@ struct DeleteCallLogsResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DeleteCallLogsResponseDefaultTypeInternal _DeleteCallLogsResponse_default_instance_;
+PROTOBUF_CONSTEXPR ExportCallLogsRequest::ExportCallLogsRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.filter_)*/nullptr
+  , /*decltype(_impl_.format_)*/0
+  , /*decltype(_impl_.include_metadata_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct ExportCallLogsRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ExportCallLogsRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ExportCallLogsRequestDefaultTypeInternal() {}
+  union {
+    ExportCallLogsRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ExportCallLogsRequestDefaultTypeInternal _ExportCallLogsRequest_default_instance_;
+PROTOBUF_CONSTEXPR ExportCallLogsResponse::ExportCallLogsResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.chunk_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.entry_count_)*/int64_t{0}
+  , /*decltype(_impl_.last_)*/false
+  , /*decltype(_impl_.truncated_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct ExportCallLogsResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ExportCallLogsResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ExportCallLogsResponseDefaultTypeInternal() {}
+  union {
+    ExportCallLogsResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ExportCallLogsResponseDefaultTypeInternal _ExportCallLogsResponse_default_instance_;
 }  // namespace vtsi
 }  // namespace ondewo
-static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[13];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fvtsi_2flogs_2eproto[4];
+static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[16];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fvtsi_2flogs_2eproto[6];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fvtsi_2flogs_2eproto = nullptr;
 
 const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -366,6 +428,9 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogFilter, _impl_.thread_names_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogFilter, _impl_.start_time_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogFilter, _impl_.end_time_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogFilter, _impl_.sip_port_numbers_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogFilter, _impl_.csi_port_numbers_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogFilter, _impl_.asterisk_port_numbers_),
   ~0u,
   ~0u,
   ~0u,
@@ -397,6 +462,9 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   ~0u,
   2,
   3,
+  ~0u,
+  ~0u,
+  ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogStream, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -424,6 +492,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogStream, _impl_.max_available_seq_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogStream, _impl_.line_count_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogStream, _impl_.dropped_line_count_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallLogStream, _impl_.vtsi_project_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCallLogsRequest, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCallLogsRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -452,6 +521,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCallLogsResponse, _impl_.dropped_line_count_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCallLogsResponse, _impl_.resume_token_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCallLogsResponse, _impl_.end_reason_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::StreamCallLogsResponse, _impl_.end_reason_code_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsRequest, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -465,6 +535,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsRequest, _impl_.after_seq_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsRequest, _impl_.resume_token_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsRequest, _impl_.oldest_first_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsRequest, _impl_.include_counts_),
   ~0u,
   1,
   4,
@@ -472,7 +544,19 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   3,
   0,
   5,
-  ~0u,  // no _has_bits_
+  ~0u,
+  ~0u,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse, key_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse, value_),
+  0,
+  1,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -486,6 +570,18 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse, _impl_.has_more_newer_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse, _impl_.next_resume_token_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse, _impl_.scope_limited_filters_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse, _impl_.total_matching_count_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogsResponse, _impl_.count_by_level_),
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  0,
+  ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCallLogStreamRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -494,6 +590,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCallLogStreamRequest, _impl_.vtsi_project_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCallLogStreamRequest, _impl_.name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::GetCallLogStreamRequest, _impl_.field_mask_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsRequest, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -503,9 +600,15 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsRequest, _impl_.vtsi_project_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsRequest, _impl_.filter_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsRequest, _impl_.page_token_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsRequest, _impl_.page_size_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsRequest, _impl_.capture_states_),
   ~0u,
   1,
   0,
+  ~0u,
+  ~0u,
+  ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ListCallLogStreamsResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -522,6 +625,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCallLogsRequest, _impl_.vtsi_project_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCallLogsRequest, _impl_.filter_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCallLogsRequest, _impl_.validate_only_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCallLogsResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -530,21 +634,44 @@ const uint32_t TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets[] PROTOBUF_SECT
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCallLogsResponse, _impl_.deleted_log_entry_count_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DeleteCallLogsResponse, _impl_.deleted_log_stream_count_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsRequest, _impl_.filter_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsRequest, _impl_.format_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsRequest, _impl_.include_metadata_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsResponse, _impl_.chunk_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsResponse, _impl_.entry_count_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsResponse, _impl_.last_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ExportCallLogsResponse, _impl_.truncated_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::ondewo::vtsi::CallLogEntry)},
   { 21, -1, -1, sizeof(::ondewo::vtsi::SipHeaderFilter)},
-  { 29, 66, -1, sizeof(::ondewo::vtsi::CallLogFilter)},
-  { 97, -1, -1, sizeof(::ondewo::vtsi::CallLogStream)},
-  { 124, 135, -1, sizeof(::ondewo::vtsi::StreamCallLogsRequest)},
-  { 140, -1, -1, sizeof(::ondewo::vtsi::StreamCallLogsResponse)},
-  { 152, 165, -1, sizeof(::ondewo::vtsi::ListCallLogsRequest)},
-  { 172, -1, -1, sizeof(::ondewo::vtsi::ListCallLogsResponse)},
-  { 186, -1, -1, sizeof(::ondewo::vtsi::GetCallLogStreamRequest)},
-  { 194, 203, -1, sizeof(::ondewo::vtsi::ListCallLogStreamsRequest)},
-  { 206, -1, -1, sizeof(::ondewo::vtsi::ListCallLogStreamsResponse)},
-  { 214, -1, -1, sizeof(::ondewo::vtsi::DeleteCallLogsRequest)},
-  { 222, -1, -1, sizeof(::ondewo::vtsi::DeleteCallLogsResponse)},
+  { 29, 69, -1, sizeof(::ondewo::vtsi::CallLogFilter)},
+  { 103, -1, -1, sizeof(::ondewo::vtsi::CallLogStream)},
+  { 131, 142, -1, sizeof(::ondewo::vtsi::StreamCallLogsRequest)},
+  { 147, -1, -1, sizeof(::ondewo::vtsi::StreamCallLogsResponse)},
+  { 160, 175, -1, sizeof(::ondewo::vtsi::ListCallLogsRequest)},
+  { 184, 192, -1, sizeof(::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse)},
+  { 194, 210, -1, sizeof(::ondewo::vtsi::ListCallLogsResponse)},
+  { 220, -1, -1, sizeof(::ondewo::vtsi::GetCallLogStreamRequest)},
+  { 229, 241, -1, sizeof(::ondewo::vtsi::ListCallLogStreamsRequest)},
+  { 247, -1, -1, sizeof(::ondewo::vtsi::ListCallLogStreamsResponse)},
+  { 255, -1, -1, sizeof(::ondewo::vtsi::DeleteCallLogsRequest)},
+  { 264, -1, -1, sizeof(::ondewo::vtsi::DeleteCallLogsResponse)},
+  { 272, -1, -1, sizeof(::ondewo::vtsi::ExportCallLogsRequest)},
+  { 282, -1, -1, sizeof(::ondewo::vtsi::ExportCallLogsResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -555,153 +682,193 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::vtsi::_StreamCallLogsRequest_default_instance_._instance,
   &::ondewo::vtsi::_StreamCallLogsResponse_default_instance_._instance,
   &::ondewo::vtsi::_ListCallLogsRequest_default_instance_._instance,
+  &::ondewo::vtsi::_ListCallLogsResponse_CountByLevelEntry_DoNotUse_default_instance_._instance,
   &::ondewo::vtsi::_ListCallLogsResponse_default_instance_._instance,
   &::ondewo::vtsi::_GetCallLogStreamRequest_default_instance_._instance,
   &::ondewo::vtsi::_ListCallLogStreamsRequest_default_instance_._instance,
   &::ondewo::vtsi::_ListCallLogStreamsResponse_default_instance_._instance,
   &::ondewo::vtsi::_DeleteCallLogsRequest_default_instance_._instance,
   &::ondewo::vtsi::_DeleteCallLogsResponse_default_instance_._instance,
+  &::ondewo::vtsi::_ExportCallLogsRequest_default_instance_._instance,
+  &::ondewo::vtsi::_ExportCallLogsResponse_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_ondewo_2fvtsi_2flogs_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\026ondewo/vtsi/logs.proto\022\013ondewo.vtsi\032\037g"
-  "oogle/protobuf/timestamp.proto\032\027ondewo/n"
-  "lu/common.proto\032\027ondewo/vtsi/calls.proto"
-  "\"\250\003\n\014CallLogEntry\022\013\n\003seq\030\001 \001(\003\022-\n\ttimest"
-  "amp\030\002 \001(\0132\032.google.protobuf.Timestamp\022\032\n"
-  "\022timestamp_is_exact\030\003 \001(\010\022&\n\005level\030\004 \001(\016"
-  "2\027.ondewo.nlu.LogSeverity\022\017\n\007message\030\005 \001"
-  "(\t\022\024\n\014container_id\030\006 \001(\t\022\026\n\016container_na"
-  "me\030\007 \001(\t\022*\n\nlog_source\030\010 \001(\0162\026.ondewo.vt"
-  "si.LogSource\022.\n\007channel\030\t \001(\0162\035.ondewo.v"
-  "tsi.LogStreamChannel\022\017\n\007emitter\030\n \001(\t\022\023\n"
-  "\013thread_name\030\013 \001(\t\022\022\n\nlog_stream\030\014 \001(\t\022\014"
-  "\n\004call\030\r \001(\t\022\030\n\020nlu_session_name\030\016 \001(\t\022\033"
-  "\n\023physical_line_count\030\017 \001(\005\"-\n\017SipHeader"
-  "Filter\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\360\007\n\rC"
-  "allLogFilter\022\022\n\ncall_names\030\001 \003(\t\022\024\n\014call"
-  "er_names\030\002 \003(\t\022\026\n\016listener_names\030\003 \003(\t\022\022"
-  "\n\ncaller_ids\030\004 \003(\t\022\024\n\014listener_ids\030\005 \003(\t"
-  "\022\020\n\010call_ids\030\006 \003(\t\022\027\n\017container_names\030\007 "
-  "\003(\t\022\025\n\rcontainer_ids\030\010 \003(\t\022\030\n\020log_stream"
-  "_names\030\t \003(\t\022\024\n\014sip_accounts\030\n \003(\t\022\021\n\tsi"
-  "p_ports\030\013 \003(\t\022\021\n\tcsi_ports\030\014 \003(\t\022\026\n\016aste"
-  "risk_ports\030\r \003(\t\022\025\n\rphone_numbers\030\016 \003(\t\022"
-  "\022\n\ncallee_ids\030\017 \003(\t\022\031\n\021nlu_session_names"
-  "\030\020 \003(\t\022\031\n\021nlu_session_uuids\030\021 \003(\t\022\031\n\021nlu"
-  "_project_uuids\030\022 \003(\t\022)\n\ncall_types\030\023 \003(\016"
-  "2\025.ondewo.vtsi.CallType\0221\n\013sip_headers\030\024"
-  " \003(\0132\034.ondewo.vtsi.SipHeaderFilter\022+\n\013lo"
-  "g_sources\030\025 \003(\0162\026.ondewo.vtsi.LogSource\022"
-  "/\n\010channels\030\026 \003(\0162\035.ondewo.vtsi.LogStrea"
-  "mChannel\022.\n\rmin_log_level\030\027 \001(\0162\027.ondewo"
-  ".nlu.LogSeverity\022+\n\nlog_levels\030\030 \003(\0162\027.o"
-  "ndewo.nlu.LogSeverity\022$\n\027include_unlevel"
-  "ed_lines\030\031 \001(\010H\000\210\001\001\022\021\n\004text\030\032 \001(\tH\001\210\001\001\022\022"
-  "\n\005regex\030\033 \001(\tH\002\210\001\001\022\030\n\020emitter_prefixes\030\034"
-  " \003(\t\022\024\n\014thread_names\030\035 \003(\t\0223\n\nstart_time"
-  "\030\036 \001(\0132\032.google.protobuf.TimestampH\003\210\001\001\022"
-  "1\n\010end_time\030\037 \001(\0132\032.google.protobuf.Time"
-  "stampH\004\210\001\001B\032\n\030_include_unleveled_linesB\007"
-  "\n\005_textB\010\n\006_regexB\r\n\013_start_timeB\013\n\t_end"
-  "_time\"\354\004\n\rCallLogStream\022\014\n\004name\030\001 \001(\t\022\026\n"
-  "\016container_name\030\002 \001(\t\022\024\n\014container_id\030\003 "
-  "\001(\t\022.\n\007channel\030\004 \001(\0162\035.ondewo.vtsi.LogSt"
-  "reamChannel\022\022\n\nproject_id\030\005 \001(\t\022\026\n\016voip_"
-  "call_name\030\006 \001(\t\022(\n\tcall_type\030\007 \001(\0162\025.ond"
-  "ewo.vtsi.CallType\022\023\n\013sip_account\030\010 \001(\t\022\020"
-  "\n\010sip_port\030\t \001(\005\022\020\n\010csi_port\030\n \001(\005\022\025\n\ras"
-  "terisk_port\030\013 \001(\005\022\r\n\005image\030\014 \001(\t\0223\n\rcapt"
-  "ure_state\030\r \001(\0162\034.ondewo.vtsi.LogCapture"
-  "State\022\025\n\rcapture_error\030\016 \001(\t\0226\n\022capture_"
-  "started_at\030\017 \001(\0132\032.google.protobuf.Times"
-  "tamp\0227\n\023capture_finished_at\030\020 \001(\0132\032.goog"
-  "le.protobuf.Timestamp\022\027\n\017partial_capture"
-  "\030\021 \001(\010\022\031\n\021min_available_seq\030\022 \001(\003\022\031\n\021max"
-  "_available_seq\030\023 \001(\003\022\022\n\nline_count\030\024 \001(\003"
-  "\022\032\n\022dropped_line_count\030\025 \001(\003\"\350\001\n\025StreamC"
-  "allLogsRequest\022\031\n\021vtsi_project_name\030\001 \001("
-  "\t\022/\n\006filter\030\002 \001(\0132\032.ondewo.vtsi.CallLogF"
-  "ilterH\000\210\001\001\022\027\n\ntail_lines\030\003 \001(\005H\001\210\001\001\022\031\n\014r"
-  "esume_token\030\004 \001(\tH\002\210\001\001\022\026\n\tafter_seq\030\005 \001("
-  "\003H\003\210\001\001B\t\n\007_filterB\r\n\013_tail_linesB\017\n\r_res"
-  "ume_tokenB\014\n\n_after_seq\"\332\001\n\026StreamCallLo"
-  "gsResponse\022.\n\013log_entries\030\001 \003(\0132\031.ondewo"
-  ".vtsi.CallLogEntry\0223\n\rcapture_state\030\002 \001("
-  "\0162\034.ondewo.vtsi.LogCaptureState\022\025\n\rcaptu"
-  "re_error\030\003 \001(\t\022\032\n\022dropped_line_count\030\004 \001"
-  "(\003\022\024\n\014resume_token\030\005 \001(\t\022\022\n\nend_reason\030\006"
-  " \001(\t\"\270\002\n\023ListCallLogsRequest\022\031\n\021vtsi_pro"
-  "ject_name\030\001 \001(\t\022/\n\006filter\030\002 \001(\0132\032.ondewo"
-  ".vtsi.CallLogFilterH\000\210\001\001\022\026\n\tmax_lines\030\003 "
-  "\001(\005H\001\210\001\001\022\027\n\nbefore_seq\030\004 \001(\003H\002\210\001\001\022\026\n\taft"
-  "er_seq\030\005 \001(\003H\003\210\001\001\022\031\n\014resume_token\030\006 \001(\tH"
-  "\004\210\001\001\022\031\n\014oldest_first\030\007 \001(\010H\005\210\001\001B\t\n\007_filt"
-  "erB\014\n\n_max_linesB\r\n\013_before_seqB\014\n\n_afte"
-  "r_seqB\017\n\r_resume_tokenB\017\n\r_oldest_first\""
-  "\232\002\n\024ListCallLogsResponse\022.\n\013log_entries\030"
-  "\001 \003(\0132\031.ondewo.vtsi.CallLogEntry\022\021\n\ttrun"
-  "cated\030\002 \001(\010\022\031\n\021min_available_seq\030\003 \001(\003\022\031"
-  "\n\021max_available_seq\030\004 \001(\003\022\026\n\016has_more_ol"
-  "der\030\005 \001(\010\022\026\n\016has_more_newer\030\006 \001(\010\022\031\n\021nex"
-  "t_resume_token\030\007 \001(\t\022>\n\025scope_limited_fi"
-  "lters\030\010 \003(\0162\037.ondewo.vtsi.CallLogFilterF"
-  "ield\"B\n\027GetCallLogStreamRequest\022\031\n\021vtsi_"
-  "project_name\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\"\232\001\n\031Lis"
-  "tCallLogStreamsRequest\022\031\n\021vtsi_project_n"
-  "ame\030\001 \001(\t\022/\n\006filter\030\002 \001(\0132\032.ondewo.vtsi."
-  "CallLogFilterH\000\210\001\001\022\027\n\npage_token\030\003 \001(\tH\001"
-  "\210\001\001B\t\n\007_filterB\r\n\013_page_token\"f\n\032ListCal"
-  "lLogStreamsResponse\022/\n\013log_streams\030\001 \003(\013"
-  "2\032.ondewo.vtsi.CallLogStream\022\027\n\017next_pag"
-  "e_token\030\002 \001(\t\"^\n\025DeleteCallLogsRequest\022\031"
-  "\n\021vtsi_project_name\030\001 \001(\t\022*\n\006filter\030\002 \001("
-  "\0132\032.ondewo.vtsi.CallLogFilter\"[\n\026DeleteC"
-  "allLogsResponse\022\037\n\027deleted_log_entry_cou"
-  "nt\030\001 \001(\003\022 \n\030deleted_log_stream_count\030\002 \001"
-  "(\003*\232\001\n\tLogSource\022\032\n\026LOG_SOURCE_UNSPECIFI"
-  "ED\020\000\022\022\n\016LOG_SOURCE_SIP\020\001\022\022\n\016LOG_SOURCE_C"
-  "SI\020\002\022\027\n\023LOG_SOURCE_ASTERISK\020\003\022\031\n\025LOG_SOU"
-  "RCE_PULSEAUDIO\020\004\022\025\n\021LOG_SOURCE_SYSTEM\020\005*"
-  "t\n\020LogStreamChannel\022\"\n\036LOG_STREAM_CHANNE"
-  "L_UNSPECIFIED\020\000\022\035\n\031LOG_STREAM_CHANNEL_ST"
-  "DOUT\020\001\022\035\n\031LOG_STREAM_CHANNEL_STDERR\020\002*\262\001"
-  "\n\017LogCaptureState\022!\n\035LOG_CAPTURE_STATE_U"
-  "NSPECIFIED\020\000\022\037\n\033LOG_CAPTURE_STATE_CAPTUR"
-  "ING\020\001\022\035\n\031LOG_CAPTURE_STATE_STOPPED\020\002\022\034\n\030"
-  "LOG_CAPTURE_STATE_FAILED\020\003\022\036\n\032LOG_CAPTUR"
-  "E_STATE_DETACHED\020\004*\302\002\n\022CallLogFilterFiel"
-  "d\022%\n!CALL_LOG_FILTER_FIELD_UNSPECIFIED\020\000"
-  "\022\036\n\032CALL_LOG_FILTER_FIELD_TEXT\020\001\022\037\n\033CALL"
-  "_LOG_FILTER_FIELD_REGEX\020\002\022%\n!CALL_LOG_FI"
-  "LTER_FIELD_LOG_SOURCES\020\003\022\"\n\036CALL_LOG_FIL"
-  "TER_FIELD_CHANNELS\020\004\022*\n&CALL_LOG_FILTER_"
-  "FIELD_EMITTER_PREFIXES\020\005\022&\n\"CALL_LOG_FIL"
-  "TER_FIELD_THREAD_NAMES\020\006\022%\n!CALL_LOG_FIL"
-  "TER_FIELD_SIP_HEADERS\020\0072\320\003\n\004Logs\022[\n\016Stre"
-  "amCallLogs\022\".ondewo.vtsi.StreamCallLogsR"
-  "equest\032#.ondewo.vtsi.StreamCallLogsRespo"
-  "nse0\001\022S\n\014ListCallLogs\022 .ondewo.vtsi.List"
-  "CallLogsRequest\032!.ondewo.vtsi.ListCallLo"
-  "gsResponse\022T\n\020GetCallLogStream\022$.ondewo."
-  "vtsi.GetCallLogStreamRequest\032\032.ondewo.vt"
-  "si.CallLogStream\022e\n\022ListCallLogStreams\022&"
-  ".ondewo.vtsi.ListCallLogStreamsRequest\032\'"
-  ".ondewo.vtsi.ListCallLogStreamsResponse\022"
-  "Y\n\016DeleteCallLogs\022\".ondewo.vtsi.DeleteCa"
-  "llLogsRequest\032#.ondewo.vtsi.DeleteCallLo"
-  "gsResponseb\006proto3"
+  "\n\026ondewo/vtsi/logs.proto\022\013ondewo.vtsi\032 g"
+  "oogle/protobuf/field_mask.proto\032\037google/"
+  "protobuf/timestamp.proto\032\027ondewo/nlu/com"
+  "mon.proto\032\027ondewo/vtsi/calls.proto\"\250\003\n\014C"
+  "allLogEntry\022\013\n\003seq\030\001 \001(\003\022-\n\ttimestamp\030\002 "
+  "\001(\0132\032.google.protobuf.Timestamp\022\032\n\022times"
+  "tamp_is_exact\030\003 \001(\010\022&\n\005level\030\004 \001(\0162\027.ond"
+  "ewo.nlu.LogSeverity\022\017\n\007message\030\005 \001(\t\022\024\n\014"
+  "container_id\030\006 \001(\t\022\026\n\016container_name\030\007 \001"
+  "(\t\022*\n\nlog_source\030\010 \001(\0162\026.ondewo.vtsi.Log"
+  "Source\022.\n\007channel\030\t \001(\0162\035.ondewo.vtsi.Lo"
+  "gStreamChannel\022\017\n\007emitter\030\n \001(\t\022\023\n\013threa"
+  "d_name\030\013 \001(\t\022\022\n\nlog_stream\030\014 \001(\t\022\014\n\004call"
+  "\030\r \001(\t\022\030\n\020nlu_session_name\030\016 \001(\t\022\033\n\023phys"
+  "ical_line_count\030\017 \001(\005\"-\n\017SipHeaderFilter"
+  "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t\"\317\010\n\rCallLog"
+  "Filter\022\022\n\ncall_names\030\001 \003(\t\022\024\n\014caller_nam"
+  "es\030\002 \003(\t\022\026\n\016listener_names\030\003 \003(\t\022\022\n\ncall"
+  "er_ids\030\004 \003(\t\022\024\n\014listener_ids\030\005 \003(\t\022\020\n\010ca"
+  "ll_ids\030\006 \003(\t\022\027\n\017container_names\030\007 \003(\t\022\025\n"
+  "\rcontainer_ids\030\010 \003(\t\022\030\n\020log_stream_names"
+  "\030\t \003(\t\022\024\n\014sip_accounts\030\n \003(\t\022\025\n\tsip_port"
+  "s\030\013 \003(\tB\002\030\001\022\025\n\tcsi_ports\030\014 \003(\tB\002\030\001\022\032\n\016as"
+  "terisk_ports\030\r \003(\tB\002\030\001\022\025\n\rphone_numbers\030"
+  "\016 \003(\t\022\022\n\ncallee_ids\030\017 \003(\t\022\031\n\021nlu_session"
+  "_names\030\020 \003(\t\022\031\n\021nlu_session_uuids\030\021 \003(\t\022"
+  "\031\n\021nlu_project_uuids\030\022 \003(\t\022)\n\ncall_types"
+  "\030\023 \003(\0162\025.ondewo.vtsi.CallType\0221\n\013sip_hea"
+  "ders\030\024 \003(\0132\034.ondewo.vtsi.SipHeaderFilter"
+  "\022+\n\013log_sources\030\025 \003(\0162\026.ondewo.vtsi.LogS"
+  "ource\022/\n\010channels\030\026 \003(\0162\035.ondewo.vtsi.Lo"
+  "gStreamChannel\022.\n\rmin_log_level\030\027 \001(\0162\027."
+  "ondewo.nlu.LogSeverity\022+\n\nlog_levels\030\030 \003"
+  "(\0162\027.ondewo.nlu.LogSeverity\022$\n\027include_u"
+  "nleveled_lines\030\031 \001(\010H\000\210\001\001\022\021\n\004text\030\032 \001(\tH"
+  "\001\210\001\001\022\022\n\005regex\030\033 \001(\tH\002\210\001\001\022\030\n\020emitter_pref"
+  "ixes\030\034 \003(\t\022\024\n\014thread_names\030\035 \003(\t\0223\n\nstar"
+  "t_time\030\036 \001(\0132\032.google.protobuf.Timestamp"
+  "H\003\210\001\001\0221\n\010end_time\030\037 \001(\0132\032.google.protobu"
+  "f.TimestampH\004\210\001\001\022\030\n\020sip_port_numbers\030  \003"
+  "(\005\022\030\n\020csi_port_numbers\030! \003(\005\022\035\n\025asterisk"
+  "_port_numbers\030\" \003(\005B\032\n\030_include_unlevele"
+  "d_linesB\007\n\005_textB\010\n\006_regexB\r\n\013_start_tim"
+  "eB\013\n\t_end_time\"\207\005\n\rCallLogStream\022\014\n\004name"
+  "\030\001 \001(\t\022\026\n\016container_name\030\002 \001(\t\022\024\n\014contai"
+  "ner_id\030\003 \001(\t\022.\n\007channel\030\004 \001(\0162\035.ondewo.v"
+  "tsi.LogStreamChannel\022\022\n\nproject_id\030\005 \001(\t"
+  "\022\026\n\016voip_call_name\030\006 \001(\t\022(\n\tcall_type\030\007 "
+  "\001(\0162\025.ondewo.vtsi.CallType\022\023\n\013sip_accoun"
+  "t\030\010 \001(\t\022\020\n\010sip_port\030\t \001(\005\022\020\n\010csi_port\030\n "
+  "\001(\005\022\025\n\rasterisk_port\030\013 \001(\005\022\r\n\005image\030\014 \001("
+  "\t\0223\n\rcapture_state\030\r \001(\0162\034.ondewo.vtsi.L"
+  "ogCaptureState\022\025\n\rcapture_error\030\016 \001(\t\0226\n"
+  "\022capture_started_at\030\017 \001(\0132\032.google.proto"
+  "buf.Timestamp\0227\n\023capture_finished_at\030\020 \001"
+  "(\0132\032.google.protobuf.Timestamp\022\027\n\017partia"
+  "l_capture\030\021 \001(\010\022\031\n\021min_available_seq\030\022 \001"
+  "(\003\022\031\n\021max_available_seq\030\023 \001(\003\022\022\n\nline_co"
+  "unt\030\024 \001(\003\022\032\n\022dropped_line_count\030\025 \001(\003\022\031\n"
+  "\021vtsi_project_name\030\026 \001(\t\"\350\001\n\025StreamCallL"
+  "ogsRequest\022\031\n\021vtsi_project_name\030\001 \001(\t\022/\n"
+  "\006filter\030\002 \001(\0132\032.ondewo.vtsi.CallLogFilte"
+  "rH\000\210\001\001\022\027\n\ntail_lines\030\003 \001(\005H\001\210\001\001\022\031\n\014resum"
+  "e_token\030\004 \001(\tH\002\210\001\001\022\026\n\tafter_seq\030\005 \001(\003H\003\210"
+  "\001\001B\t\n\007_filterB\r\n\013_tail_linesB\017\n\r_resume_"
+  "tokenB\014\n\n_after_seq\"\224\002\n\026StreamCallLogsRe"
+  "sponse\022.\n\013log_entries\030\001 \003(\0132\031.ondewo.vts"
+  "i.CallLogEntry\0223\n\rcapture_state\030\002 \001(\0162\034."
+  "ondewo.vtsi.LogCaptureState\022\025\n\rcapture_e"
+  "rror\030\003 \001(\t\022\032\n\022dropped_line_count\030\004 \001(\003\022\024"
+  "\n\014resume_token\030\005 \001(\t\022\022\n\nend_reason\030\006 \001(\t"
+  "\0228\n\017end_reason_code\030\007 \001(\0162\037.ondewo.vtsi."
+  "LogStreamEndReason\"\200\003\n\023ListCallLogsReque"
+  "st\022\031\n\021vtsi_project_name\030\001 \001(\t\022/\n\006filter\030"
+  "\002 \001(\0132\032.ondewo.vtsi.CallLogFilterH\000\210\001\001\022\026"
+  "\n\tmax_lines\030\003 \001(\005H\001\210\001\001\022\027\n\nbefore_seq\030\004 \001"
+  "(\003H\002\210\001\001\022\026\n\tafter_seq\030\005 \001(\003H\003\210\001\001\022\031\n\014resum"
+  "e_token\030\006 \001(\tH\004\210\001\001\022\031\n\014oldest_first\030\007 \001(\010"
+  "H\005\210\001\001\022.\n\nfield_mask\030\010 \001(\0132\032.google.proto"
+  "buf.FieldMask\022\026\n\016include_counts\030\t \001(\010B\t\n"
+  "\007_filterB\014\n\n_max_linesB\r\n\013_before_seqB\014\n"
+  "\n_after_seqB\017\n\r_resume_tokenB\017\n\r_oldest_"
+  "first\"\330\003\n\024ListCallLogsResponse\022.\n\013log_en"
+  "tries\030\001 \003(\0132\031.ondewo.vtsi.CallLogEntry\022\021"
+  "\n\ttruncated\030\002 \001(\010\022\031\n\021min_available_seq\030\003"
+  " \001(\003\022\031\n\021max_available_seq\030\004 \001(\003\022\026\n\016has_m"
+  "ore_older\030\005 \001(\010\022\026\n\016has_more_newer\030\006 \001(\010\022"
+  "\031\n\021next_resume_token\030\007 \001(\t\022>\n\025scope_limi"
+  "ted_filters\030\010 \003(\0162\037.ondewo.vtsi.CallLogF"
+  "ilterField\022!\n\024total_matching_count\030\t \001(\003"
+  "H\000\210\001\001\022K\n\016count_by_level\030\n \003(\01323.ondewo.v"
+  "tsi.ListCallLogsResponse.CountByLevelEnt"
+  "ry\0323\n\021CountByLevelEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005"
+  "value\030\002 \001(\003:\0028\001B\027\n\025_total_matching_count"
+  "\"r\n\027GetCallLogStreamRequest\022\031\n\021vtsi_proj"
+  "ect_name\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022.\n\nfield_ma"
+  "sk\030\003 \001(\0132\032.google.protobuf.FieldMask\"\223\002\n"
+  "\031ListCallLogStreamsRequest\022\031\n\021vtsi_proje"
+  "ct_name\030\001 \001(\t\022/\n\006filter\030\002 \001(\0132\032.ondewo.v"
+  "tsi.CallLogFilterH\000\210\001\001\022\027\n\npage_token\030\003 \001"
+  "(\tH\001\210\001\001\022.\n\nfield_mask\030\004 \001(\0132\032.google.pro"
+  "tobuf.FieldMask\022\021\n\tpage_size\030\005 \001(\005\0224\n\016ca"
+  "pture_states\030\006 \003(\0162\034.ondewo.vtsi.LogCapt"
+  "ureStateB\t\n\007_filterB\r\n\013_page_token\"f\n\032Li"
+  "stCallLogStreamsResponse\022/\n\013log_streams\030"
+  "\001 \003(\0132\032.ondewo.vtsi.CallLogStream\022\027\n\017nex"
+  "t_page_token\030\002 \001(\t\"u\n\025DeleteCallLogsRequ"
+  "est\022\031\n\021vtsi_project_name\030\001 \001(\t\022*\n\006filter"
+  "\030\002 \001(\0132\032.ondewo.vtsi.CallLogFilter\022\025\n\rva"
+  "lidate_only\030\003 \001(\010\"[\n\026DeleteCallLogsRespo"
+  "nse\022\037\n\027deleted_log_entry_count\030\001 \001(\003\022 \n\030"
+  "deleted_log_stream_count\030\002 \001(\003\"\246\001\n\025Expor"
+  "tCallLogsRequest\022\031\n\021vtsi_project_name\030\001 "
+  "\001(\t\022*\n\006filter\030\002 \001(\0132\032.ondewo.vtsi.CallLo"
+  "gFilter\022,\n\006format\030\003 \001(\0162\034.ondewo.vtsi.Lo"
+  "gExportFormat\022\030\n\020include_metadata\030\004 \001(\010\""
+  "]\n\026ExportCallLogsResponse\022\r\n\005chunk\030\001 \001(\014"
+  "\022\023\n\013entry_count\030\002 \001(\003\022\014\n\004last\030\003 \001(\010\022\021\n\tt"
+  "runcated\030\004 \001(\010*\232\001\n\tLogSource\022\032\n\026LOG_SOUR"
+  "CE_UNSPECIFIED\020\000\022\022\n\016LOG_SOURCE_SIP\020\001\022\022\n\016"
+  "LOG_SOURCE_CSI\020\002\022\027\n\023LOG_SOURCE_ASTERISK\020"
+  "\003\022\031\n\025LOG_SOURCE_PULSEAUDIO\020\004\022\025\n\021LOG_SOUR"
+  "CE_SYSTEM\020\005*t\n\020LogStreamChannel\022\"\n\036LOG_S"
+  "TREAM_CHANNEL_UNSPECIFIED\020\000\022\035\n\031LOG_STREA"
+  "M_CHANNEL_STDOUT\020\001\022\035\n\031LOG_STREAM_CHANNEL"
+  "_STDERR\020\002*\262\001\n\017LogCaptureState\022!\n\035LOG_CAP"
+  "TURE_STATE_UNSPECIFIED\020\000\022\037\n\033LOG_CAPTURE_"
+  "STATE_CAPTURING\020\001\022\035\n\031LOG_CAPTURE_STATE_S"
+  "TOPPED\020\002\022\034\n\030LOG_CAPTURE_STATE_FAILED\020\003\022\036"
+  "\n\032LOG_CAPTURE_STATE_DETACHED\020\004*\302\002\n\022CallL"
+  "ogFilterField\022%\n!CALL_LOG_FILTER_FIELD_U"
+  "NSPECIFIED\020\000\022\036\n\032CALL_LOG_FILTER_FIELD_TE"
+  "XT\020\001\022\037\n\033CALL_LOG_FILTER_FIELD_REGEX\020\002\022%\n"
+  "!CALL_LOG_FILTER_FIELD_LOG_SOURCES\020\003\022\"\n\036"
+  "CALL_LOG_FILTER_FIELD_CHANNELS\020\004\022*\n&CALL"
+  "_LOG_FILTER_FIELD_EMITTER_PREFIXES\020\005\022&\n\""
+  "CALL_LOG_FILTER_FIELD_THREAD_NAMES\020\006\022%\n!"
+  "CALL_LOG_FILTER_FIELD_SIP_HEADERS\020\007*\236\002\n\022"
+  "LogStreamEndReason\022%\n!LOG_STREAM_END_REA"
+  "SON_UNSPECIFIED\020\000\0221\n-LOG_STREAM_END_REAS"
+  "ON_ALL_CAPTURES_TERMINATED\020\001\022&\n\"LOG_STRE"
+  "AM_END_REASON_MAX_DURATION\020\002\022)\n%LOG_STRE"
+  "AM_END_REASON_SERVER_SHUTDOWN\020\003\022,\n(LOG_S"
+  "TREAM_END_REASON_PERMISSION_REVOKED\020\004\022-\n"
+  ")LOG_STREAM_END_REASON_CREDENTIALS_EXPIR"
+  "ED\020\005*\211\001\n\017LogExportFormat\022!\n\035LOG_EXPORT_F"
+  "ORMAT_UNSPECIFIED\020\000\022\032\n\026LOG_EXPORT_FORMAT"
+  "_TEXT\020\001\022\034\n\030LOG_EXPORT_FORMAT_NDJSON\020\002\022\031\n"
+  "\025LOG_EXPORT_FORMAT_CSV\020\0032\255\004\n\004Logs\022[\n\016Str"
+  "eamCallLogs\022\".ondewo.vtsi.StreamCallLogs"
+  "Request\032#.ondewo.vtsi.StreamCallLogsResp"
+  "onse0\001\022S\n\014ListCallLogs\022 .ondewo.vtsi.Lis"
+  "tCallLogsRequest\032!.ondewo.vtsi.ListCallL"
+  "ogsResponse\022T\n\020GetCallLogStream\022$.ondewo"
+  ".vtsi.GetCallLogStreamRequest\032\032.ondewo.v"
+  "tsi.CallLogStream\022e\n\022ListCallLogStreams\022"
+  "&.ondewo.vtsi.ListCallLogStreamsRequest\032"
+  "\'.ondewo.vtsi.ListCallLogStreamsResponse"
+  "\022Y\n\016DeleteCallLogs\022\".ondewo.vtsi.DeleteC"
+  "allLogsRequest\032#.ondewo.vtsi.DeleteCallL"
+  "ogsResponse\022[\n\016ExportCallLogs\022\".ondewo.v"
+  "tsi.ExportCallLogsRequest\032#.ondewo.vtsi."
+  "ExportCallLogsResponse0\001b\006proto3"
   ;
-static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2flogs_2eproto_deps[3] = {
+static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2flogs_2eproto_deps[4] = {
+  &::descriptor_table_google_2fprotobuf_2ffield_5fmask_2eproto,
   &::descriptor_table_google_2fprotobuf_2ftimestamp_2eproto,
   &::descriptor_table_ondewo_2fnlu_2fcommon_2eproto,
   &::descriptor_table_ondewo_2fvtsi_2fcalls_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fvtsi_2flogs_2eproto = {
-    false, false, 5058, descriptor_table_protodef_ondewo_2fvtsi_2flogs_2eproto,
+    false, false, 6512, descriptor_table_protodef_ondewo_2fvtsi_2flogs_2eproto,
     "ondewo/vtsi/logs.proto",
-    &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once, descriptor_table_ondewo_2fvtsi_2flogs_2eproto_deps, 3, 13,
+    &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once, descriptor_table_ondewo_2fvtsi_2flogs_2eproto_deps, 4, 16,
     schemas, file_default_instances, TableStruct_ondewo_2fvtsi_2flogs_2eproto::offsets,
     file_level_metadata_ondewo_2fvtsi_2flogs_2eproto, file_level_enum_descriptors_ondewo_2fvtsi_2flogs_2eproto,
     file_level_service_descriptors_ondewo_2fvtsi_2flogs_2eproto,
@@ -778,6 +945,40 @@ bool CallLogFilterField_IsValid(int value) {
     case 5:
     case 6:
     case 7:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LogStreamEndReason_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fvtsi_2flogs_2eproto);
+  return file_level_enum_descriptors_ondewo_2fvtsi_2flogs_2eproto[4];
+}
+bool LogStreamEndReason_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LogExportFormat_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fvtsi_2flogs_2eproto);
+  return file_level_enum_descriptors_ondewo_2fvtsi_2flogs_2eproto[5];
+}
+bool LogExportFormat_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
       return true;
     default:
       return false;
@@ -1884,6 +2085,12 @@ CallLogFilter::CallLogFilter(const CallLogFilter& from)
     , /*decltype(_impl_._log_levels_cached_byte_size_)*/{0}
     , decltype(_impl_.emitter_prefixes_){from._impl_.emitter_prefixes_}
     , decltype(_impl_.thread_names_){from._impl_.thread_names_}
+    , decltype(_impl_.sip_port_numbers_){from._impl_.sip_port_numbers_}
+    , /*decltype(_impl_._sip_port_numbers_cached_byte_size_)*/{0}
+    , decltype(_impl_.csi_port_numbers_){from._impl_.csi_port_numbers_}
+    , /*decltype(_impl_._csi_port_numbers_cached_byte_size_)*/{0}
+    , decltype(_impl_.asterisk_port_numbers_){from._impl_.asterisk_port_numbers_}
+    , /*decltype(_impl_._asterisk_port_numbers_cached_byte_size_)*/{0}
     , decltype(_impl_.text_){}
     , decltype(_impl_.regex_){}
     , decltype(_impl_.start_time_){nullptr}
@@ -1956,6 +2163,12 @@ inline void CallLogFilter::SharedCtor(
     , /*decltype(_impl_._log_levels_cached_byte_size_)*/{0}
     , decltype(_impl_.emitter_prefixes_){arena}
     , decltype(_impl_.thread_names_){arena}
+    , decltype(_impl_.sip_port_numbers_){arena}
+    , /*decltype(_impl_._sip_port_numbers_cached_byte_size_)*/{0}
+    , decltype(_impl_.csi_port_numbers_){arena}
+    , /*decltype(_impl_._csi_port_numbers_cached_byte_size_)*/{0}
+    , decltype(_impl_.asterisk_port_numbers_){arena}
+    , /*decltype(_impl_._asterisk_port_numbers_cached_byte_size_)*/{0}
     , decltype(_impl_.text_){}
     , decltype(_impl_.regex_){}
     , decltype(_impl_.start_time_){nullptr}
@@ -2009,6 +2222,9 @@ inline void CallLogFilter::SharedDtor() {
   _impl_.log_levels_.~RepeatedField();
   _impl_.emitter_prefixes_.~RepeatedPtrField();
   _impl_.thread_names_.~RepeatedPtrField();
+  _impl_.sip_port_numbers_.~RepeatedField();
+  _impl_.csi_port_numbers_.~RepeatedField();
+  _impl_.asterisk_port_numbers_.~RepeatedField();
   _impl_.text_.Destroy();
   _impl_.regex_.Destroy();
   if (this != internal_default_instance()) delete _impl_.start_time_;
@@ -2050,6 +2266,9 @@ void CallLogFilter::Clear() {
   _impl_.log_levels_.Clear();
   _impl_.emitter_prefixes_.Clear();
   _impl_.thread_names_.Clear();
+  _impl_.sip_port_numbers_.Clear();
+  _impl_.csi_port_numbers_.Clear();
+  _impl_.asterisk_port_numbers_.Clear();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
@@ -2230,7 +2449,7 @@ const char* CallLogFilter::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
-      // repeated string sip_ports = 11;
+      // repeated string sip_ports = 11 [deprecated = true];
       case 11:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
           ptr -= 1;
@@ -2245,7 +2464,7 @@ const char* CallLogFilter::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
-      // repeated string csi_ports = 12;
+      // repeated string csi_ports = 12 [deprecated = true];
       case 12:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
           ptr -= 1;
@@ -2260,7 +2479,7 @@ const char* CallLogFilter::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
-      // repeated string asterisk_ports = 13;
+      // repeated string asterisk_ports = 13 [deprecated = true];
       case 13:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 106)) {
           ptr -= 1;
@@ -2495,6 +2714,39 @@ const char* CallLogFilter::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
+      // repeated int32 sip_port_numbers = 32;
+      case 32:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 2)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_sip_port_numbers(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 0) {
+          _internal_add_sip_port_numbers(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated int32 csi_port_numbers = 33;
+      case 33:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_csi_port_numbers(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 8) {
+          _internal_add_csi_port_numbers(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated int32 asterisk_port_numbers = 34;
+      case 34:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_asterisk_port_numbers(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 16) {
+          _internal_add_asterisk_port_numbers(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -2625,7 +2877,7 @@ uint8_t* CallLogFilter::_InternalSerialize(
     target = stream->WriteString(10, s, target);
   }
 
-  // repeated string sip_ports = 11;
+  // repeated string sip_ports = 11 [deprecated = true];
   for (int i = 0, n = this->_internal_sip_ports_size(); i < n; i++) {
     const auto& s = this->_internal_sip_ports(i);
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
@@ -2635,7 +2887,7 @@ uint8_t* CallLogFilter::_InternalSerialize(
     target = stream->WriteString(11, s, target);
   }
 
-  // repeated string csi_ports = 12;
+  // repeated string csi_ports = 12 [deprecated = true];
   for (int i = 0, n = this->_internal_csi_ports_size(); i < n; i++) {
     const auto& s = this->_internal_csi_ports(i);
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
@@ -2645,7 +2897,7 @@ uint8_t* CallLogFilter::_InternalSerialize(
     target = stream->WriteString(12, s, target);
   }
 
-  // repeated string asterisk_ports = 13;
+  // repeated string asterisk_ports = 13 [deprecated = true];
   for (int i = 0, n = this->_internal_asterisk_ports_size(); i < n; i++) {
     const auto& s = this->_internal_asterisk_ports(i);
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
@@ -2816,6 +3068,33 @@ uint8_t* CallLogFilter::_InternalSerialize(
         _Internal::end_time(this).GetCachedSize(), target, stream);
   }
 
+  // repeated int32 sip_port_numbers = 32;
+  {
+    int byte_size = _impl_._sip_port_numbers_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          32, _internal_sip_port_numbers(), byte_size, target);
+    }
+  }
+
+  // repeated int32 csi_port_numbers = 33;
+  {
+    int byte_size = _impl_._csi_port_numbers_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          33, _internal_csi_port_numbers(), byte_size, target);
+    }
+  }
+
+  // repeated int32 asterisk_port_numbers = 34;
+  {
+    int byte_size = _impl_._asterisk_port_numbers_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          34, _internal_asterisk_port_numbers(), byte_size, target);
+    }
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2912,7 +3191,7 @@ size_t CallLogFilter::ByteSizeLong() const {
       _impl_.sip_accounts_.Get(i));
   }
 
-  // repeated string sip_ports = 11;
+  // repeated string sip_ports = 11 [deprecated = true];
   total_size += 1 *
       ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.sip_ports_.size());
   for (int i = 0, n = _impl_.sip_ports_.size(); i < n; i++) {
@@ -2920,7 +3199,7 @@ size_t CallLogFilter::ByteSizeLong() const {
       _impl_.sip_ports_.Get(i));
   }
 
-  // repeated string csi_ports = 12;
+  // repeated string csi_ports = 12 [deprecated = true];
   total_size += 1 *
       ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.csi_ports_.size());
   for (int i = 0, n = _impl_.csi_ports_.size(); i < n; i++) {
@@ -2928,7 +3207,7 @@ size_t CallLogFilter::ByteSizeLong() const {
       _impl_.csi_ports_.Get(i));
   }
 
-  // repeated string asterisk_ports = 13;
+  // repeated string asterisk_ports = 13 [deprecated = true];
   total_size += 1 *
       ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.asterisk_ports_.size());
   for (int i = 0, n = _impl_.asterisk_ports_.size(); i < n; i++) {
@@ -3067,6 +3346,48 @@ size_t CallLogFilter::ByteSizeLong() const {
       _impl_.thread_names_.Get(i));
   }
 
+  // repeated int32 sip_port_numbers = 32;
+  {
+    size_t data_size = ::_pbi::WireFormatLite::
+      Int32Size(this->_impl_.sip_port_numbers_);
+    if (data_size > 0) {
+      total_size += 2 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._sip_port_numbers_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // repeated int32 csi_port_numbers = 33;
+  {
+    size_t data_size = ::_pbi::WireFormatLite::
+      Int32Size(this->_impl_.csi_port_numbers_);
+    if (data_size > 0) {
+      total_size += 2 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._csi_port_numbers_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // repeated int32 asterisk_port_numbers = 34;
+  {
+    size_t data_size = ::_pbi::WireFormatLite::
+      Int32Size(this->_impl_.asterisk_port_numbers_);
+    if (data_size > 0) {
+      total_size += 2 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._asterisk_port_numbers_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x0000000fu) {
     // optional string text = 26;
@@ -3152,6 +3473,9 @@ void CallLogFilter::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   _this->_impl_.log_levels_.MergeFrom(from._impl_.log_levels_);
   _this->_impl_.emitter_prefixes_.MergeFrom(from._impl_.emitter_prefixes_);
   _this->_impl_.thread_names_.MergeFrom(from._impl_.thread_names_);
+  _this->_impl_.sip_port_numbers_.MergeFrom(from._impl_.sip_port_numbers_);
+  _this->_impl_.csi_port_numbers_.MergeFrom(from._impl_.csi_port_numbers_);
+  _this->_impl_.asterisk_port_numbers_.MergeFrom(from._impl_.asterisk_port_numbers_);
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
@@ -3220,6 +3544,9 @@ void CallLogFilter::InternalSwap(CallLogFilter* other) {
   _impl_.log_levels_.InternalSwap(&other->_impl_.log_levels_);
   _impl_.emitter_prefixes_.InternalSwap(&other->_impl_.emitter_prefixes_);
   _impl_.thread_names_.InternalSwap(&other->_impl_.thread_names_);
+  _impl_.sip_port_numbers_.InternalSwap(&other->_impl_.sip_port_numbers_);
+  _impl_.csi_port_numbers_.InternalSwap(&other->_impl_.csi_port_numbers_);
+  _impl_.asterisk_port_numbers_.InternalSwap(&other->_impl_.asterisk_port_numbers_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.text_, lhs_arena,
       &other->_impl_.text_, rhs_arena
@@ -3288,6 +3615,7 @@ CallLogStream::CallLogStream(const CallLogStream& from)
     , decltype(_impl_.sip_account_){}
     , decltype(_impl_.image_){}
     , decltype(_impl_.capture_error_){}
+    , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.capture_started_at_){nullptr}
     , decltype(_impl_.capture_finished_at_){nullptr}
     , decltype(_impl_.channel_){}
@@ -3368,6 +3696,14 @@ CallLogStream::CallLogStream(const CallLogStream& from)
     _this->_impl_.capture_error_.Set(from._internal_capture_error(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_capture_started_at()) {
     _this->_impl_.capture_started_at_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.capture_started_at_);
   }
@@ -3393,6 +3729,7 @@ inline void CallLogStream::SharedCtor(
     , decltype(_impl_.sip_account_){}
     , decltype(_impl_.image_){}
     , decltype(_impl_.capture_error_){}
+    , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.capture_started_at_){nullptr}
     , decltype(_impl_.capture_finished_at_){nullptr}
     , decltype(_impl_.channel_){0}
@@ -3440,6 +3777,10 @@ inline void CallLogStream::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.capture_error_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 CallLogStream::~CallLogStream() {
@@ -3461,6 +3802,7 @@ inline void CallLogStream::SharedDtor() {
   _impl_.sip_account_.Destroy();
   _impl_.image_.Destroy();
   _impl_.capture_error_.Destroy();
+  _impl_.vtsi_project_name_.Destroy();
   if (this != internal_default_instance()) delete _impl_.capture_started_at_;
   if (this != internal_default_instance()) delete _impl_.capture_finished_at_;
 }
@@ -3483,6 +3825,7 @@ void CallLogStream::Clear() {
   _impl_.sip_account_.ClearToEmpty();
   _impl_.image_.ClearToEmpty();
   _impl_.capture_error_.ClearToEmpty();
+  _impl_.vtsi_project_name_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.capture_started_at_ != nullptr) {
     delete _impl_.capture_started_at_;
   }
@@ -3690,6 +4033,16 @@ const char* CallLogStream::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
+      // string vtsi_project_name = 22;
+      case 22:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 178)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CallLogStream.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -3882,6 +4235,16 @@ uint8_t* CallLogStream::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(21, this->_internal_dropped_line_count(), target);
   }
 
+  // string vtsi_project_name = 22;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CallLogStream.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        22, this->_internal_vtsi_project_name(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3952,6 +4315,13 @@ size_t CallLogStream::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_capture_error());
+  }
+
+  // string vtsi_project_name = 22;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
   }
 
   // .google.protobuf.Timestamp capture_started_at = 15;
@@ -4076,6 +4446,9 @@ void CallLogStream::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   if (!from._internal_capture_error().empty()) {
     _this->_internal_set_capture_error(from._internal_capture_error());
   }
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
   if (from._internal_has_capture_started_at()) {
     _this->_internal_mutable_capture_started_at()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_capture_started_at());
@@ -4167,6 +4540,10 @@ void CallLogStream::InternalSwap(CallLogStream* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.capture_error_, lhs_arena,
       &other->_impl_.capture_error_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(CallLogStream, _impl_.partial_capture_)
@@ -4593,6 +4970,7 @@ StreamCallLogsResponse::StreamCallLogsResponse(const StreamCallLogsResponse& fro
     , decltype(_impl_.end_reason_){}
     , decltype(_impl_.dropped_line_count_){}
     , decltype(_impl_.capture_state_){}
+    , decltype(_impl_.end_reason_code_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -4621,8 +4999,8 @@ StreamCallLogsResponse::StreamCallLogsResponse(const StreamCallLogsResponse& fro
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.dropped_line_count_, &from._impl_.dropped_line_count_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.capture_state_) -
-    reinterpret_cast<char*>(&_impl_.dropped_line_count_)) + sizeof(_impl_.capture_state_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.end_reason_code_) -
+    reinterpret_cast<char*>(&_impl_.dropped_line_count_)) + sizeof(_impl_.end_reason_code_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.StreamCallLogsResponse)
 }
 
@@ -4637,6 +5015,7 @@ inline void StreamCallLogsResponse::SharedCtor(
     , decltype(_impl_.end_reason_){}
     , decltype(_impl_.dropped_line_count_){int64_t{0}}
     , decltype(_impl_.capture_state_){0}
+    , decltype(_impl_.end_reason_code_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.capture_error_.InitDefault();
@@ -4685,8 +5064,8 @@ void StreamCallLogsResponse::Clear() {
   _impl_.resume_token_.ClearToEmpty();
   _impl_.end_reason_.ClearToEmpty();
   ::memset(&_impl_.dropped_line_count_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.capture_state_) -
-      reinterpret_cast<char*>(&_impl_.dropped_line_count_)) + sizeof(_impl_.capture_state_));
+      reinterpret_cast<char*>(&_impl_.end_reason_code_) -
+      reinterpret_cast<char*>(&_impl_.dropped_line_count_)) + sizeof(_impl_.end_reason_code_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -4753,6 +5132,15 @@ const char* StreamCallLogsResponse::_InternalParse(const char* ptr, ::_pbi::Pars
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.StreamCallLogsResponse.end_reason"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.LogStreamEndReason end_reason_code = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_end_reason_code(static_cast<::ondewo::vtsi::LogStreamEndReason>(val));
         } else
           goto handle_unusual;
         continue;
@@ -4836,6 +5224,13 @@ uint8_t* StreamCallLogsResponse::_InternalSerialize(
         6, this->_internal_end_reason(), target);
   }
 
+  // .ondewo.vtsi.LogStreamEndReason end_reason_code = 7;
+  if (this->_internal_end_reason_code() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      7, this->_internal_end_reason_code(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4891,6 +5286,12 @@ size_t StreamCallLogsResponse::ByteSizeLong() const {
       ::_pbi::WireFormatLite::EnumSize(this->_internal_capture_state());
   }
 
+  // .ondewo.vtsi.LogStreamEndReason end_reason_code = 7;
+  if (this->_internal_end_reason_code() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_end_reason_code());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -4925,6 +5326,9 @@ void StreamCallLogsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
   if (from._internal_capture_state() != 0) {
     _this->_internal_set_capture_state(from._internal_capture_state());
   }
+  if (from._internal_end_reason_code() != 0) {
+    _this->_internal_set_end_reason_code(from._internal_end_reason_code());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -4958,8 +5362,8 @@ void StreamCallLogsResponse::InternalSwap(StreamCallLogsResponse* other) {
       &other->_impl_.end_reason_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(StreamCallLogsResponse, _impl_.capture_state_)
-      + sizeof(StreamCallLogsResponse::_impl_.capture_state_)
+      PROTOBUF_FIELD_OFFSET(StreamCallLogsResponse, _impl_.end_reason_code_)
+      + sizeof(StreamCallLogsResponse::_impl_.end_reason_code_)
       - PROTOBUF_FIELD_OFFSET(StreamCallLogsResponse, _impl_.dropped_line_count_)>(
           reinterpret_cast<char*>(&_impl_.dropped_line_count_),
           reinterpret_cast<char*>(&other->_impl_.dropped_line_count_));
@@ -4995,11 +5399,22 @@ class ListCallLogsRequest::_Internal {
   static void set_has_oldest_first(HasBits* has_bits) {
     (*has_bits)[0] |= 32u;
   }
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const ListCallLogsRequest* msg);
 };
 
 const ::ondewo::vtsi::CallLogFilter&
 ListCallLogsRequest::_Internal::filter(const ListCallLogsRequest* msg) {
   return *msg->_impl_.filter_;
+}
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+ListCallLogsRequest::_Internal::field_mask(const ListCallLogsRequest* msg) {
+  return *msg->_impl_.field_mask_;
+}
+void ListCallLogsRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
 }
 ListCallLogsRequest::ListCallLogsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -5016,10 +5431,12 @@ ListCallLogsRequest::ListCallLogsRequest(const ListCallLogsRequest& from)
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.resume_token_){}
     , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , decltype(_impl_.before_seq_){}
     , decltype(_impl_.after_seq_){}
     , decltype(_impl_.max_lines_){}
-    , decltype(_impl_.oldest_first_){}};
+    , decltype(_impl_.oldest_first_){}
+    , decltype(_impl_.include_counts_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.vtsi_project_name_.InitDefault();
@@ -5041,9 +5458,12 @@ ListCallLogsRequest::ListCallLogsRequest(const ListCallLogsRequest& from)
   if (from._internal_has_filter()) {
     _this->_impl_.filter_ = new ::ondewo::vtsi::CallLogFilter(*from._impl_.filter_);
   }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
   ::memcpy(&_impl_.before_seq_, &from._impl_.before_seq_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.oldest_first_) -
-    reinterpret_cast<char*>(&_impl_.before_seq_)) + sizeof(_impl_.oldest_first_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.include_counts_) -
+    reinterpret_cast<char*>(&_impl_.before_seq_)) + sizeof(_impl_.include_counts_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.ListCallLogsRequest)
 }
 
@@ -5057,10 +5477,12 @@ inline void ListCallLogsRequest::SharedCtor(
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.resume_token_){}
     , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , decltype(_impl_.before_seq_){int64_t{0}}
     , decltype(_impl_.after_seq_){int64_t{0}}
     , decltype(_impl_.max_lines_){0}
     , decltype(_impl_.oldest_first_){false}
+    , decltype(_impl_.include_counts_){false}
   };
   _impl_.vtsi_project_name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -5086,6 +5508,7 @@ inline void ListCallLogsRequest::SharedDtor() {
   _impl_.vtsi_project_name_.Destroy();
   _impl_.resume_token_.Destroy();
   if (this != internal_default_instance()) delete _impl_.filter_;
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
 }
 
 void ListCallLogsRequest::SetCachedSize(int size) const {
@@ -5109,11 +5532,16 @@ void ListCallLogsRequest::Clear() {
       _impl_.filter_->Clear();
     }
   }
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   if (cached_has_bits & 0x0000003cu) {
     ::memset(&_impl_.before_seq_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&_impl_.oldest_first_) -
         reinterpret_cast<char*>(&_impl_.before_seq_)) + sizeof(_impl_.oldest_first_));
   }
+  _impl_.include_counts_ = false;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -5185,6 +5613,22 @@ const char* ListCallLogsRequest::_InternalParse(const char* ptr, ::_pbi::ParseCo
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
           _Internal::set_has_oldest_first(&has_bits);
           _impl_.oldest_first_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool include_counts = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _impl_.include_counts_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -5270,6 +5714,19 @@ uint8_t* ListCallLogsRequest::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(7, this->_internal_oldest_first(), target);
   }
 
+  // .google.protobuf.FieldMask field_mask = 8;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(8, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  // bool include_counts = 9;
+  if (this->_internal_include_counts() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(9, this->_internal_include_counts(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -5294,7 +5751,7 @@ size_t ListCallLogsRequest::ByteSizeLong() const {
   }
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000003fu) {
+  if (cached_has_bits & 0x00000003u) {
     // optional string resume_token = 6;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
@@ -5309,6 +5766,15 @@ size_t ListCallLogsRequest::ByteSizeLong() const {
           *_impl_.filter_);
     }
 
+  }
+  // .google.protobuf.FieldMask field_mask = 8;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
+  if (cached_has_bits & 0x0000003cu) {
     // optional int64 before_seq = 4;
     if (cached_has_bits & 0x00000004u) {
       total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_before_seq());
@@ -5330,6 +5796,11 @@ size_t ListCallLogsRequest::ByteSizeLong() const {
     }
 
   }
+  // bool include_counts = 9;
+  if (this->_internal_include_counts() != 0) {
+    total_size += 1 + 1;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -5352,7 +5823,7 @@ void ListCallLogsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
     _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
   }
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000003fu) {
+  if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_set_resume_token(from._internal_resume_token());
     }
@@ -5360,6 +5831,12 @@ void ListCallLogsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
       _this->_internal_mutable_filter()->::ondewo::vtsi::CallLogFilter::MergeFrom(
           from._internal_filter());
     }
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
+  if (cached_has_bits & 0x0000003cu) {
     if (cached_has_bits & 0x00000004u) {
       _this->_impl_.before_seq_ = from._impl_.before_seq_;
     }
@@ -5373,6 +5850,9 @@ void ListCallLogsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
       _this->_impl_.oldest_first_ = from._impl_.oldest_first_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  if (from._internal_include_counts() != 0) {
+    _this->_internal_set_include_counts(from._internal_include_counts());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -5403,8 +5883,8 @@ void ListCallLogsRequest::InternalSwap(ListCallLogsRequest* other) {
       &other->_impl_.resume_token_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ListCallLogsRequest, _impl_.oldest_first_)
-      + sizeof(ListCallLogsRequest::_impl_.oldest_first_)
+      PROTOBUF_FIELD_OFFSET(ListCallLogsRequest, _impl_.include_counts_)
+      + sizeof(ListCallLogsRequest::_impl_.include_counts_)
       - PROTOBUF_FIELD_OFFSET(ListCallLogsRequest, _impl_.filter_)>(
           reinterpret_cast<char*>(&_impl_.filter_),
           reinterpret_cast<char*>(&other->_impl_.filter_));
@@ -5418,32 +5898,57 @@ void ListCallLogsRequest::InternalSwap(ListCallLogsRequest* other) {
 
 // ===================================================================
 
+ListCallLogsResponse_CountByLevelEntry_DoNotUse::ListCallLogsResponse_CountByLevelEntry_DoNotUse() {}
+ListCallLogsResponse_CountByLevelEntry_DoNotUse::ListCallLogsResponse_CountByLevelEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+    : SuperType(arena) {}
+void ListCallLogsResponse_CountByLevelEntry_DoNotUse::MergeFrom(const ListCallLogsResponse_CountByLevelEntry_DoNotUse& other) {
+  MergeFromInternal(other);
+}
+::PROTOBUF_NAMESPACE_ID::Metadata ListCallLogsResponse_CountByLevelEntry_DoNotUse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[7]);
+}
+
+// ===================================================================
+
 class ListCallLogsResponse::_Internal {
  public:
+  using HasBits = decltype(std::declval<ListCallLogsResponse>()._impl_._has_bits_);
+  static void set_has_total_matching_count(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 ListCallLogsResponse::ListCallLogsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
+  if (arena != nullptr && !is_message_owned) {
+    arena->OwnCustomDestructor(this, &ListCallLogsResponse::ArenaDtor);
+  }
   // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.ListCallLogsResponse)
 }
 ListCallLogsResponse::ListCallLogsResponse(const ListCallLogsResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ListCallLogsResponse* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.log_entries_){from._impl_.log_entries_}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.log_entries_){from._impl_.log_entries_}
     , decltype(_impl_.scope_limited_filters_){from._impl_.scope_limited_filters_}
     , /*decltype(_impl_._scope_limited_filters_cached_byte_size_)*/{0}
+    , /*decltype(_impl_.count_by_level_)*/{}
     , decltype(_impl_.next_resume_token_){}
     , decltype(_impl_.min_available_seq_){}
     , decltype(_impl_.max_available_seq_){}
+    , decltype(_impl_.total_matching_count_){}
     , decltype(_impl_.truncated_){}
     , decltype(_impl_.has_more_older_){}
-    , decltype(_impl_.has_more_newer_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.has_more_newer_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.count_by_level_.MergeFrom(from._impl_.count_by_level_);
   _impl_.next_resume_token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.next_resume_token_.Set("", GetArenaForAllocation());
@@ -5463,16 +5968,19 @@ inline void ListCallLogsResponse::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.log_entries_){arena}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.log_entries_){arena}
     , decltype(_impl_.scope_limited_filters_){arena}
     , /*decltype(_impl_._scope_limited_filters_cached_byte_size_)*/{0}
+    , /*decltype(_impl_.count_by_level_)*/{::_pbi::ArenaInitialized(), arena}
     , decltype(_impl_.next_resume_token_){}
     , decltype(_impl_.min_available_seq_){int64_t{0}}
     , decltype(_impl_.max_available_seq_){int64_t{0}}
+    , decltype(_impl_.total_matching_count_){int64_t{0}}
     , decltype(_impl_.truncated_){false}
     , decltype(_impl_.has_more_older_){false}
     , decltype(_impl_.has_more_newer_){false}
-    , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.next_resume_token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -5484,6 +5992,7 @@ ListCallLogsResponse::~ListCallLogsResponse() {
   // @@protoc_insertion_point(destructor:ondewo.vtsi.ListCallLogsResponse)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
+    ArenaDtor(this);
     return;
   }
   SharedDtor();
@@ -5493,9 +6002,15 @@ inline void ListCallLogsResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.log_entries_.~RepeatedPtrField();
   _impl_.scope_limited_filters_.~RepeatedField();
+  _impl_.count_by_level_.Destruct();
+  _impl_.count_by_level_.~MapField();
   _impl_.next_resume_token_.Destroy();
 }
 
+void ListCallLogsResponse::ArenaDtor(void* object) {
+  ListCallLogsResponse* _this = reinterpret_cast< ListCallLogsResponse* >(object);
+  _this->_impl_.count_by_level_.Destruct();
+}
 void ListCallLogsResponse::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
@@ -5508,15 +6023,22 @@ void ListCallLogsResponse::Clear() {
 
   _impl_.log_entries_.Clear();
   _impl_.scope_limited_filters_.Clear();
+  _impl_.count_by_level_.Clear();
   _impl_.next_resume_token_.ClearToEmpty();
   ::memset(&_impl_.min_available_seq_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.max_available_seq_) -
+      reinterpret_cast<char*>(&_impl_.min_available_seq_)) + sizeof(_impl_.max_available_seq_));
+  _impl_.total_matching_count_ = int64_t{0};
+  ::memset(&_impl_.truncated_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.has_more_newer_) -
-      reinterpret_cast<char*>(&_impl_.min_available_seq_)) + sizeof(_impl_.has_more_newer_));
+      reinterpret_cast<char*>(&_impl_.truncated_)) + sizeof(_impl_.has_more_newer_));
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* ListCallLogsResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -5596,6 +6118,28 @@ const char* ListCallLogsResponse::_InternalParse(const char* ptr, ::_pbi::ParseC
         } else
           goto handle_unusual;
         continue;
+      // optional int64 total_matching_count = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _Internal::set_has_total_matching_count(&has_bits);
+          _impl_.total_matching_count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // map<string, int64> count_by_level = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(&_impl_.count_by_level_, ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<82>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -5612,6 +6156,7 @@ const char* ListCallLogsResponse::_InternalParse(const char* ptr, ::_pbi::ParseC
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -5682,6 +6227,38 @@ uint8_t* ListCallLogsResponse::_InternalSerialize(
     }
   }
 
+  // optional int64 total_matching_count = 9;
+  if (_internal_has_total_matching_count()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(9, this->_internal_total_matching_count(), target);
+  }
+
+  // map<string, int64> count_by_level = 10;
+  if (!this->_internal_count_by_level().empty()) {
+    using MapType = ::_pb::Map<std::string, int64_t>;
+    using WireHelper = ListCallLogsResponse_CountByLevelEntry_DoNotUse::Funcs;
+    const auto& map_field = this->_internal_count_by_level();
+    auto check_utf8 = [](const MapType::value_type& entry) {
+      (void)entry;
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+        entry.first.data(), static_cast<int>(entry.first.length()),
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+        "ondewo.vtsi.ListCallLogsResponse.CountByLevelEntry.key");
+    };
+
+    if (stream->IsSerializationDeterministic() && map_field.size() > 1) {
+      for (const auto& entry : ::_pbi::MapSorterPtr<MapType>(map_field)) {
+        target = WireHelper::InternalSerialize(10, entry.first, entry.second, target, stream);
+        check_utf8(entry);
+      }
+    } else {
+      for (const auto& entry : map_field) {
+        target = WireHelper::InternalSerialize(10, entry.first, entry.second, target, stream);
+        check_utf8(entry);
+      }
+    }
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -5722,6 +6299,15 @@ size_t ListCallLogsResponse::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // map<string, int64> count_by_level = 10;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(this->_internal_count_by_level_size());
+  for (::PROTOBUF_NAMESPACE_ID::Map< std::string, int64_t >::const_iterator
+      it = this->_internal_count_by_level().begin();
+      it != this->_internal_count_by_level().end(); ++it) {
+    total_size += ListCallLogsResponse_CountByLevelEntry_DoNotUse::Funcs::ByteSizeLong(it->first, it->second);
+  }
+
   // string next_resume_token = 7;
   if (!this->_internal_next_resume_token().empty()) {
     total_size += 1 +
@@ -5737,6 +6323,12 @@ size_t ListCallLogsResponse::ByteSizeLong() const {
   // int64 max_available_seq = 4;
   if (this->_internal_max_available_seq() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_max_available_seq());
+  }
+
+  // optional int64 total_matching_count = 9;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_total_matching_count());
   }
 
   // bool truncated = 2;
@@ -5774,6 +6366,7 @@ void ListCallLogsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
 
   _this->_impl_.log_entries_.MergeFrom(from._impl_.log_entries_);
   _this->_impl_.scope_limited_filters_.MergeFrom(from._impl_.scope_limited_filters_);
+  _this->_impl_.count_by_level_.MergeFrom(from._impl_.count_by_level_);
   if (!from._internal_next_resume_token().empty()) {
     _this->_internal_set_next_resume_token(from._internal_next_resume_token());
   }
@@ -5782,6 +6375,9 @@ void ListCallLogsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
   }
   if (from._internal_max_available_seq() != 0) {
     _this->_internal_set_max_available_seq(from._internal_max_available_seq());
+  }
+  if (from._internal_has_total_matching_count()) {
+    _this->_internal_set_total_matching_count(from._internal_total_matching_count());
   }
   if (from._internal_truncated() != 0) {
     _this->_internal_set_truncated(from._internal_truncated());
@@ -5811,8 +6407,10 @@ void ListCallLogsResponse::InternalSwap(ListCallLogsResponse* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.log_entries_.InternalSwap(&other->_impl_.log_entries_);
   _impl_.scope_limited_filters_.InternalSwap(&other->_impl_.scope_limited_filters_);
+  _impl_.count_by_level_.InternalSwap(&other->_impl_.count_by_level_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.next_resume_token_, lhs_arena,
       &other->_impl_.next_resume_token_, rhs_arena
@@ -5828,15 +6426,26 @@ void ListCallLogsResponse::InternalSwap(ListCallLogsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCallLogsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[7]);
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[8]);
 }
 
 // ===================================================================
 
 class GetCallLogStreamRequest::_Internal {
  public:
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const GetCallLogStreamRequest* msg);
 };
 
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+GetCallLogStreamRequest::_Internal::field_mask(const GetCallLogStreamRequest* msg) {
+  return *msg->_impl_.field_mask_;
+}
+void GetCallLogStreamRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+}
 GetCallLogStreamRequest::GetCallLogStreamRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -5849,6 +6458,7 @@ GetCallLogStreamRequest::GetCallLogStreamRequest(const GetCallLogStreamRequest& 
   new (&_impl_) Impl_{
       decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.name_){}
+    , decltype(_impl_.field_mask_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -5868,6 +6478,9 @@ GetCallLogStreamRequest::GetCallLogStreamRequest(const GetCallLogStreamRequest& 
     _this->_impl_.name_.Set(from._internal_name(), 
       _this->GetArenaForAllocation());
   }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.GetCallLogStreamRequest)
 }
 
@@ -5878,6 +6491,7 @@ inline void GetCallLogStreamRequest::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.name_){}
+    , decltype(_impl_.field_mask_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.vtsi_project_name_.InitDefault();
@@ -5903,6 +6517,7 @@ inline void GetCallLogStreamRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.vtsi_project_name_.Destroy();
   _impl_.name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
 }
 
 void GetCallLogStreamRequest::SetCachedSize(int size) const {
@@ -5917,6 +6532,10 @@ void GetCallLogStreamRequest::Clear() {
 
   _impl_.vtsi_project_name_.ClearToEmpty();
   _impl_.name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -5943,6 +6562,14 @@ const char* GetCallLogStreamRequest::_InternalParse(const char* ptr, ::_pbi::Par
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.GetCallLogStreamRequest.name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -5995,6 +6622,13 @@ uint8_t* GetCallLogStreamRequest::_InternalSerialize(
         2, this->_internal_name(), target);
   }
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -6025,6 +6659,13 @@ size_t GetCallLogStreamRequest::ByteSizeLong() const {
         this->_internal_name());
   }
 
+  // .google.protobuf.FieldMask field_mask = 3;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -6048,6 +6689,10 @@ void GetCallLogStreamRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg
   }
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -6076,12 +6721,13 @@ void GetCallLogStreamRequest::InternalSwap(GetCallLogStreamRequest* other) {
       &_impl_.name_, lhs_arena,
       &other->_impl_.name_, rhs_arena
   );
+  swap(_impl_.field_mask_, other->_impl_.field_mask_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetCallLogStreamRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[8]);
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[9]);
 }
 
 // ===================================================================
@@ -6096,11 +6742,22 @@ class ListCallLogStreamsRequest::_Internal {
   static void set_has_page_token(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const ListCallLogStreamsRequest* msg);
 };
 
 const ::ondewo::vtsi::CallLogFilter&
 ListCallLogStreamsRequest::_Internal::filter(const ListCallLogStreamsRequest* msg) {
   return *msg->_impl_.filter_;
+}
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+ListCallLogStreamsRequest::_Internal::field_mask(const ListCallLogStreamsRequest* msg) {
+  return *msg->_impl_.field_mask_;
+}
+void ListCallLogStreamsRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
 }
 ListCallLogStreamsRequest::ListCallLogStreamsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -6114,9 +6771,13 @@ ListCallLogStreamsRequest::ListCallLogStreamsRequest(const ListCallLogStreamsReq
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.capture_states_){from._impl_.capture_states_}
+    , /*decltype(_impl_._capture_states_cached_byte_size_)*/{0}
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.page_token_){}
-    , decltype(_impl_.filter_){nullptr}};
+    , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.page_size_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.vtsi_project_name_.InitDefault();
@@ -6138,6 +6799,10 @@ ListCallLogStreamsRequest::ListCallLogStreamsRequest(const ListCallLogStreamsReq
   if (from._internal_has_filter()) {
     _this->_impl_.filter_ = new ::ondewo::vtsi::CallLogFilter(*from._impl_.filter_);
   }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
+  }
+  _this->_impl_.page_size_ = from._impl_.page_size_;
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.ListCallLogStreamsRequest)
 }
 
@@ -6148,9 +6813,13 @@ inline void ListCallLogStreamsRequest::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.capture_states_){arena}
+    , /*decltype(_impl_._capture_states_cached_byte_size_)*/{0}
     , decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.page_token_){}
     , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
+    , decltype(_impl_.page_size_){0}
   };
   _impl_.vtsi_project_name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -6173,9 +6842,11 @@ ListCallLogStreamsRequest::~ListCallLogStreamsRequest() {
 
 inline void ListCallLogStreamsRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.capture_states_.~RepeatedField();
   _impl_.vtsi_project_name_.Destroy();
   _impl_.page_token_.Destroy();
   if (this != internal_default_instance()) delete _impl_.filter_;
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
 }
 
 void ListCallLogStreamsRequest::SetCachedSize(int size) const {
@@ -6188,6 +6859,7 @@ void ListCallLogStreamsRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.capture_states_.Clear();
   _impl_.vtsi_project_name_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000003u) {
@@ -6199,6 +6871,11 @@ void ListCallLogStreamsRequest::Clear() {
       _impl_.filter_->Clear();
     }
   }
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
+  _impl_.page_size_ = 0;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -6235,6 +6912,34 @@ const char* ListCallLogStreamsRequest::_InternalParse(const char* ptr, ::_pbi::P
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ListCallLogStreamsRequest.page_token"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 page_size = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _impl_.page_size_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .ondewo.vtsi.LogCaptureState capture_states = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_capture_states(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 48) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_add_capture_states(static_cast<::ondewo::vtsi::LogCaptureState>(val));
         } else
           goto handle_unusual;
         continue;
@@ -6295,6 +7000,28 @@ uint8_t* ListCallLogStreamsRequest::_InternalSerialize(
         3, this->_internal_page_token(), target);
   }
 
+  // .google.protobuf.FieldMask field_mask = 4;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  // int32 page_size = 5;
+  if (this->_internal_page_size() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_page_size(), target);
+  }
+
+  // repeated .ondewo.vtsi.LogCaptureState capture_states = 6;
+  {
+    int byte_size = _impl_._capture_states_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteEnumPacked(
+          6, _impl_.capture_states_, byte_size, target);
+    }
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -6310,6 +7037,23 @@ size_t ListCallLogStreamsRequest::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // repeated .ondewo.vtsi.LogCaptureState capture_states = 6;
+  {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_capture_states_size());for (unsigned int i = 0; i < count; i++) {
+      data_size += ::_pbi::WireFormatLite::EnumSize(
+        this->_internal_capture_states(static_cast<int>(i)));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._capture_states_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
 
   // string vtsi_project_name = 1;
   if (!this->_internal_vtsi_project_name().empty()) {
@@ -6335,6 +7079,18 @@ size_t ListCallLogStreamsRequest::ByteSizeLong() const {
     }
 
   }
+  // .google.protobuf.FieldMask field_mask = 4;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
+  }
+
+  // int32 page_size = 5;
+  if (this->_internal_page_size() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_page_size());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -6353,6 +7109,7 @@ void ListCallLogStreamsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_m
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  _this->_impl_.capture_states_.MergeFrom(from._impl_.capture_states_);
   if (!from._internal_vtsi_project_name().empty()) {
     _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
   }
@@ -6365,6 +7122,13 @@ void ListCallLogStreamsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_m
       _this->_internal_mutable_filter()->::ondewo::vtsi::CallLogFilter::MergeFrom(
           from._internal_filter());
     }
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
+  }
+  if (from._internal_page_size() != 0) {
+    _this->_internal_set_page_size(from._internal_page_size());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -6386,6 +7150,7 @@ void ListCallLogStreamsRequest::InternalSwap(ListCallLogStreamsRequest* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.capture_states_.InternalSwap(&other->_impl_.capture_states_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.vtsi_project_name_, lhs_arena,
       &other->_impl_.vtsi_project_name_, rhs_arena
@@ -6394,13 +7159,18 @@ void ListCallLogStreamsRequest::InternalSwap(ListCallLogStreamsRequest* other) {
       &_impl_.page_token_, lhs_arena,
       &other->_impl_.page_token_, rhs_arena
   );
-  swap(_impl_.filter_, other->_impl_.filter_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ListCallLogStreamsRequest, _impl_.page_size_)
+      + sizeof(ListCallLogStreamsRequest::_impl_.page_size_)
+      - PROTOBUF_FIELD_OFFSET(ListCallLogStreamsRequest, _impl_.filter_)>(
+          reinterpret_cast<char*>(&_impl_.filter_),
+          reinterpret_cast<char*>(&other->_impl_.filter_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCallLogStreamsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[9]);
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[10]);
 }
 
 // ===================================================================
@@ -6637,7 +7407,7 @@ void ListCallLogStreamsResponse::InternalSwap(ListCallLogStreamsResponse* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCallLogStreamsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[10]);
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[11]);
 }
 
 // ===================================================================
@@ -6663,6 +7433,7 @@ DeleteCallLogsRequest::DeleteCallLogsRequest(const DeleteCallLogsRequest& from)
   new (&_impl_) Impl_{
       decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.validate_only_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -6677,6 +7448,7 @@ DeleteCallLogsRequest::DeleteCallLogsRequest(const DeleteCallLogsRequest& from)
   if (from._internal_has_filter()) {
     _this->_impl_.filter_ = new ::ondewo::vtsi::CallLogFilter(*from._impl_.filter_);
   }
+  _this->_impl_.validate_only_ = from._impl_.validate_only_;
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.DeleteCallLogsRequest)
 }
 
@@ -6687,6 +7459,7 @@ inline void DeleteCallLogsRequest::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.vtsi_project_name_){}
     , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.validate_only_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.vtsi_project_name_.InitDefault();
@@ -6725,6 +7498,7 @@ void DeleteCallLogsRequest::Clear() {
     delete _impl_.filter_;
   }
   _impl_.filter_ = nullptr;
+  _impl_.validate_only_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -6748,6 +7522,14 @@ const char* DeleteCallLogsRequest::_InternalParse(const char* ptr, ::_pbi::Parse
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_filter(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool validate_only = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.validate_only_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -6798,6 +7580,12 @@ uint8_t* DeleteCallLogsRequest::_InternalSerialize(
         _Internal::filter(this).GetCachedSize(), target, stream);
   }
 
+  // bool validate_only = 3;
+  if (this->_internal_validate_only() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(3, this->_internal_validate_only(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -6828,6 +7616,11 @@ size_t DeleteCallLogsRequest::ByteSizeLong() const {
         *_impl_.filter_);
   }
 
+  // bool validate_only = 3;
+  if (this->_internal_validate_only() != 0) {
+    total_size += 1 + 1;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -6853,6 +7646,9 @@ void DeleteCallLogsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
     _this->_internal_mutable_filter()->::ondewo::vtsi::CallLogFilter::MergeFrom(
         from._internal_filter());
   }
+  if (from._internal_validate_only() != 0) {
+    _this->_internal_set_validate_only(from._internal_validate_only());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -6876,13 +7672,18 @@ void DeleteCallLogsRequest::InternalSwap(DeleteCallLogsRequest* other) {
       &_impl_.vtsi_project_name_, lhs_arena,
       &other->_impl_.vtsi_project_name_, rhs_arena
   );
-  swap(_impl_.filter_, other->_impl_.filter_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(DeleteCallLogsRequest, _impl_.validate_only_)
+      + sizeof(DeleteCallLogsRequest::_impl_.validate_only_)
+      - PROTOBUF_FIELD_OFFSET(DeleteCallLogsRequest, _impl_.filter_)>(
+          reinterpret_cast<char*>(&_impl_.filter_),
+          reinterpret_cast<char*>(&other->_impl_.filter_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteCallLogsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[11]);
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[12]);
 }
 
 // ===================================================================
@@ -7093,7 +7894,596 @@ void DeleteCallLogsResponse::InternalSwap(DeleteCallLogsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteCallLogsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[12]);
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[13]);
+}
+
+// ===================================================================
+
+class ExportCallLogsRequest::_Internal {
+ public:
+  static const ::ondewo::vtsi::CallLogFilter& filter(const ExportCallLogsRequest* msg);
+};
+
+const ::ondewo::vtsi::CallLogFilter&
+ExportCallLogsRequest::_Internal::filter(const ExportCallLogsRequest* msg) {
+  return *msg->_impl_.filter_;
+}
+ExportCallLogsRequest::ExportCallLogsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.ExportCallLogsRequest)
+}
+ExportCallLogsRequest::ExportCallLogsRequest(const ExportCallLogsRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  ExportCallLogsRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.format_){}
+    , decltype(_impl_.include_metadata_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_filter()) {
+    _this->_impl_.filter_ = new ::ondewo::vtsi::CallLogFilter(*from._impl_.filter_);
+  }
+  ::memcpy(&_impl_.format_, &from._impl_.format_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.include_metadata_) -
+    reinterpret_cast<char*>(&_impl_.format_)) + sizeof(_impl_.include_metadata_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.ExportCallLogsRequest)
+}
+
+inline void ExportCallLogsRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.filter_){nullptr}
+    , decltype(_impl_.format_){0}
+    , decltype(_impl_.include_metadata_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+ExportCallLogsRequest::~ExportCallLogsRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.ExportCallLogsRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void ExportCallLogsRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.filter_;
+}
+
+void ExportCallLogsRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void ExportCallLogsRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.ExportCallLogsRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.filter_ != nullptr) {
+    delete _impl_.filter_;
+  }
+  _impl_.filter_ = nullptr;
+  ::memset(&_impl_.format_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.include_metadata_) -
+      reinterpret_cast<char*>(&_impl_.format_)) + sizeof(_impl_.include_metadata_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ExportCallLogsRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string vtsi_project_name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ExportCallLogsRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.CallLogFilter filter = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_filter(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.LogExportFormat format = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_format(static_cast<::ondewo::vtsi::LogExportFormat>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool include_metadata = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.include_metadata_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* ExportCallLogsRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.ExportCallLogsRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string vtsi_project_name = 1;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.ExportCallLogsRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_vtsi_project_name(), target);
+  }
+
+  // .ondewo.vtsi.CallLogFilter filter = 2;
+  if (this->_internal_has_filter()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::filter(this),
+        _Internal::filter(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.vtsi.LogExportFormat format = 3;
+  if (this->_internal_format() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      3, this->_internal_format(), target);
+  }
+
+  // bool include_metadata = 4;
+  if (this->_internal_include_metadata() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(4, this->_internal_include_metadata(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.ExportCallLogsRequest)
+  return target;
+}
+
+size_t ExportCallLogsRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.ExportCallLogsRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string vtsi_project_name = 1;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // .ondewo.vtsi.CallLogFilter filter = 2;
+  if (this->_internal_has_filter()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.filter_);
+  }
+
+  // .ondewo.vtsi.LogExportFormat format = 3;
+  if (this->_internal_format() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_format());
+  }
+
+  // bool include_metadata = 4;
+  if (this->_internal_include_metadata() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ExportCallLogsRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    ExportCallLogsRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ExportCallLogsRequest::GetClassData() const { return &_class_data_; }
+
+
+void ExportCallLogsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<ExportCallLogsRequest*>(&to_msg);
+  auto& from = static_cast<const ExportCallLogsRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.ExportCallLogsRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (from._internal_has_filter()) {
+    _this->_internal_mutable_filter()->::ondewo::vtsi::CallLogFilter::MergeFrom(
+        from._internal_filter());
+  }
+  if (from._internal_format() != 0) {
+    _this->_internal_set_format(from._internal_format());
+  }
+  if (from._internal_include_metadata() != 0) {
+    _this->_internal_set_include_metadata(from._internal_include_metadata());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ExportCallLogsRequest::CopyFrom(const ExportCallLogsRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.ExportCallLogsRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ExportCallLogsRequest::IsInitialized() const {
+  return true;
+}
+
+void ExportCallLogsRequest::InternalSwap(ExportCallLogsRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ExportCallLogsRequest, _impl_.include_metadata_)
+      + sizeof(ExportCallLogsRequest::_impl_.include_metadata_)
+      - PROTOBUF_FIELD_OFFSET(ExportCallLogsRequest, _impl_.filter_)>(
+          reinterpret_cast<char*>(&_impl_.filter_),
+          reinterpret_cast<char*>(&other->_impl_.filter_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ExportCallLogsRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[14]);
+}
+
+// ===================================================================
+
+class ExportCallLogsResponse::_Internal {
+ public:
+};
+
+ExportCallLogsResponse::ExportCallLogsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.ExportCallLogsResponse)
+}
+ExportCallLogsResponse::ExportCallLogsResponse(const ExportCallLogsResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  ExportCallLogsResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.chunk_){}
+    , decltype(_impl_.entry_count_){}
+    , decltype(_impl_.last_){}
+    , decltype(_impl_.truncated_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.chunk_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.chunk_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_chunk().empty()) {
+    _this->_impl_.chunk_.Set(from._internal_chunk(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.entry_count_, &from._impl_.entry_count_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.truncated_) -
+    reinterpret_cast<char*>(&_impl_.entry_count_)) + sizeof(_impl_.truncated_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.ExportCallLogsResponse)
+}
+
+inline void ExportCallLogsResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.chunk_){}
+    , decltype(_impl_.entry_count_){int64_t{0}}
+    , decltype(_impl_.last_){false}
+    , decltype(_impl_.truncated_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.chunk_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.chunk_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+ExportCallLogsResponse::~ExportCallLogsResponse() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.ExportCallLogsResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void ExportCallLogsResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.chunk_.Destroy();
+}
+
+void ExportCallLogsResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void ExportCallLogsResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.ExportCallLogsResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.chunk_.ClearToEmpty();
+  ::memset(&_impl_.entry_count_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.truncated_) -
+      reinterpret_cast<char*>(&_impl_.entry_count_)) + sizeof(_impl_.truncated_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ExportCallLogsResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bytes chunk = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_chunk();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 entry_count = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.entry_count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool last = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.last_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool truncated = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.truncated_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* ExportCallLogsResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.ExportCallLogsResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bytes chunk = 1;
+  if (!this->_internal_chunk().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        1, this->_internal_chunk(), target);
+  }
+
+  // int64 entry_count = 2;
+  if (this->_internal_entry_count() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_entry_count(), target);
+  }
+
+  // bool last = 3;
+  if (this->_internal_last() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(3, this->_internal_last(), target);
+  }
+
+  // bool truncated = 4;
+  if (this->_internal_truncated() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(4, this->_internal_truncated(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.ExportCallLogsResponse)
+  return target;
+}
+
+size_t ExportCallLogsResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.ExportCallLogsResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bytes chunk = 1;
+  if (!this->_internal_chunk().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_chunk());
+  }
+
+  // int64 entry_count = 2;
+  if (this->_internal_entry_count() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_entry_count());
+  }
+
+  // bool last = 3;
+  if (this->_internal_last() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool truncated = 4;
+  if (this->_internal_truncated() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ExportCallLogsResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    ExportCallLogsResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ExportCallLogsResponse::GetClassData() const { return &_class_data_; }
+
+
+void ExportCallLogsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<ExportCallLogsResponse*>(&to_msg);
+  auto& from = static_cast<const ExportCallLogsResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.ExportCallLogsResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_chunk().empty()) {
+    _this->_internal_set_chunk(from._internal_chunk());
+  }
+  if (from._internal_entry_count() != 0) {
+    _this->_internal_set_entry_count(from._internal_entry_count());
+  }
+  if (from._internal_last() != 0) {
+    _this->_internal_set_last(from._internal_last());
+  }
+  if (from._internal_truncated() != 0) {
+    _this->_internal_set_truncated(from._internal_truncated());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ExportCallLogsResponse::CopyFrom(const ExportCallLogsResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.ExportCallLogsResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ExportCallLogsResponse::IsInitialized() const {
+  return true;
+}
+
+void ExportCallLogsResponse::InternalSwap(ExportCallLogsResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.chunk_, lhs_arena,
+      &other->_impl_.chunk_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ExportCallLogsResponse, _impl_.truncated_)
+      + sizeof(ExportCallLogsResponse::_impl_.truncated_)
+      - PROTOBUF_FIELD_OFFSET(ExportCallLogsResponse, _impl_.entry_count_)>(
+          reinterpret_cast<char*>(&_impl_.entry_count_),
+          reinterpret_cast<char*>(&other->_impl_.entry_count_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ExportCallLogsResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2flogs_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2flogs_2eproto[15]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -7128,6 +8518,10 @@ template<> PROTOBUF_NOINLINE ::ondewo::vtsi::ListCallLogsRequest*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::ListCallLogsRequest >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::ListCallLogsRequest >(arena);
 }
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::ListCallLogsResponse_CountByLevelEntry_DoNotUse >(arena);
+}
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::ListCallLogsResponse*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::ListCallLogsResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::ListCallLogsResponse >(arena);
@@ -7151,6 +8545,14 @@ Arena::CreateMaybeMessage< ::ondewo::vtsi::DeleteCallLogsRequest >(Arena* arena)
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::DeleteCallLogsResponse*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::DeleteCallLogsResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::DeleteCallLogsResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::ExportCallLogsRequest*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::ExportCallLogsRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::ExportCallLogsRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::ExportCallLogsResponse*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::ExportCallLogsResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::ExportCallLogsResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
