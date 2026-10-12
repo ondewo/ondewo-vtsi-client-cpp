@@ -474,8 +474,14 @@ check_release_credentials: ## Fail loudly when the GitHub release credential is 
 
 # Depends on the check so that calling login_to_gh on its own is guarded too - `release` has
 # already run it by then, and make will not run it twice within one invocation.
+# gh refuses `auth login` (exit 1) while GH_TOKEN or GITHUB_TOKEN is set, because it authenticates
+# with that variable instead - which aborted the 9.1.0 release after the branch and tag were pushed.
 login_to_gh: check_release_credentials ## Login to Github CLI with Access Token
-	@echo "$${GITHUB_GH_TOKEN}" | gh auth login -p ssh --with-token
+	@if [ -n "$${GH_TOKEN}" ] || [ -n "$${GITHUB_TOKEN}" ]; then \
+		echo "$(YELLOW)[NOOP]$(NC) GH_TOKEN/GITHUB_TOKEN is set - gh authenticates with it, skipping 'gh auth login'"; \
+	else \
+		echo "$${GITHUB_GH_TOKEN}" | gh auth login -p ssh --with-token; \
+	fi
 
 check_release_notes: ## Assert RELEASE.md carries an entry for ONDEWO_VTSI_VERSION
 # $(CURRENT_RELEASE_NOTES) is a perl flip-flop over RELEASE.md, so a forgotten entry - or a
