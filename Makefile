@@ -626,7 +626,9 @@ build_gh_release: check_release_notes check_release_credentials gh_image ## Crea
 # Read-only. The tag is on origin, the GitHub release has a non-empty body, and the archive the
 # release workflow attached downloads and passes `sha256sum -c` (tools/verify_release_asset.sh,
 # the same script release.yml runs after its upload; it waits up to 20 min for the asset and stops
-# at once if the tag's release run failed).
+# at once if the tag's release run failed). VERIFY_ATTEMPTS / VERIFY_INTERVAL_S bound that wait
+# (`make release_verify VERIFY_ATTEMPTS=3 VERIFY_INTERVAL_S=10`, as the release driver runs it);
+# `-e NAME` without a value forwards them only when set, so the script's defaults apply otherwise.
 release_verify: check_release_credentials gh_image ## Verify the published release: tag on origin, non-empty notes, archive attached and matching its sha256
 	@git ls-remote --exit-code origin "refs/tags/$(ONDEWO_VTSI_VERSION)" >/dev/null || { \
 		echo "$(RED)[ERROR]$(NC) the tag $(ONDEWO_VTSI_VERSION) is not on origin"; \
@@ -634,8 +636,9 @@ release_verify: check_release_credentials gh_image ## Verify the published relea
 	}
 	@echo "$(GREEN)[SUCCESS]$(NC) refs/tags/$(ONDEWO_VTSI_VERSION) is on origin"
 	@$(LOAD_RELEASE_CREDENTIALS); \
-	GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) sh -s -- "$(ONDEWO_VTSI_VERSION)" "$(GH_REPO_PATH)" "$(LIBRARY_NAME)" \
-		< tools/verify_release_asset.sh
+	GH_TOKEN="$$GITHUB_GH_TOKEN" docker run --rm -i --user "`id -u`:`id -g`" -e HOME=/tmp -e GH_TOKEN \
+		-e VERIFY_ATTEMPTS -e VERIFY_INTERVAL_S $(GH_IMAGE) \
+		sh -s -- "$(ONDEWO_VTSI_VERSION)" "$(GH_REPO_PATH)" "$(LIBRARY_NAME)" < tools/verify_release_asset.sh
 
 ########################################################
 #		PACKAGE

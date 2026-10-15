@@ -29,6 +29,8 @@
 #     9. a caller's DEVOPS_ACCOUNT_DIR is used as-is and left in place;
 #    11. standalone, check_release_credentials loads the token from DEVOPS_ACCOUNT_DIR without
 #        printing it, and refuses without one; `make -n` of the devops step clones nothing.
+#    12. `make release_verify VERIFY_ATTEMPTS=.. VERIFY_INTERVAL_S=..` hands both overrides into the
+#        container that runs tools/verify_release_asset.sh (docker and git are stubbed on PATH).
 #
 # Registered with CTest by tests/CMakeLists.txt; run by hand as:
 #   sh tests/test_release_order.sh <repository root>
@@ -273,6 +275,36 @@ out="$(cd "$sandbox/repo" && env -u DEVOPS_ACCOUNT_DIR -u GITHUB_GH_TOKEN TMPDIR
 [ "$rc" -eq 0 ] || fail "make -n run_release_with_devops failed ($rc) - did it try to clone?: $out"
 case "$out" in *"dry run (make -n)"*) ;; *) fail "make -n run_release_with_devops did not take the dry-run path: $out" ;; esac
 tmp_is_empty || fail "make -n run_release_with_devops created a clone directory"
+
+# 12. command-line overrides of the verify wait reach the container. The docker stub prints, for
+#     every `-e NAME` of a `docker run`, the value docker would copy into the container - but only
+#     for VERIFY_*, never the token; the git stub answers `ls-remote` as if the tag existed.
+mkdir -p "$sandbox/bin" "$sandbox/repo/tools"
+cat > "$sandbox/bin/docker" <<'EOF'
+#!/bin/sh
+[ "$1" = "run" ] || exit 0
+while [ $# -gt 0 ]; do
+  if [ "$1" = "-e" ]; then
+    case "$2" in
+      VERIFY_*) eval "value=\${$2-unset}"; printf 'FORWARDED %s=[%s]\n' "$2" "$value" ;;
+    esac
+    shift
+  fi
+  shift
+done
+cat >/dev/null
+EOF
+printf '#!/bin/sh\nexit 0\n' > "$sandbox/bin/git"
+chmod +x "$sandbox/bin/docker" "$sandbox/bin/git"
+: > "$sandbox/repo/tools/verify_release_asset.sh"
+rc=0
+out="$(cd "$sandbox/repo" && env -u GITHUB_GH_TOKEN -u VERIFY_ATTEMPTS -u VERIFY_INTERVAL_S PATH="$sandbox/bin:$PATH" \
+  DEVOPS_ACCOUNT_DIR="$sandbox/fixture" \
+  make --no-print-directory release_verify VERIFY_ATTEMPTS=7 VERIFY_INTERVAL_S=4 2>&1)" || rc=$?
+[ "$rc" -eq 0 ] || fail "release_verify with stubbed docker/git failed ($rc): $out"
+case "$out" in *"FORWARDED VERIFY_ATTEMPTS=[7]"*) ;; *) fail "VERIFY_ATTEMPTS=7 on the command line does not reach the verify container: $out" ;; esac
+case "$out" in *"FORWARDED VERIFY_INTERVAL_S=[4]"*) ;; *) fail "VERIFY_INTERVAL_S=4 on the command line does not reach the verify container: $out" ;; esac
+no_token_printed "release_verify overrides"
 
 [ "$failures" -eq 0 ] || { echo "${failures} release-order check(s) failed" >&2; exit 1; }
 echo "release order OK: preflight -> build -> test -> commit -> push -> branch -> tag -> GitHub release -> verify; devops clone deleted before release and on every failure"
