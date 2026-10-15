@@ -354,17 +354,21 @@ That is the whole pipeline, and each step is also a target of its own:
 
 1. `make update_submodules` - `git submodule update --init --recursive`
 2. `make checkout_defined_submodule_versions` - check out the tags pinned in the Makefile's Variables chapter
-3. `make build_compiler` - build the image from the `ondewo-proto-compiler` submodule
+3. `make build_compiler` - build `ondewo-cpp-proto-compiler:<version>` from the `ondewo-proto-compiler` submodule,
+   tagged with the version pinned in `ONDEWO_PROTO_COMPILER_GIT_BRANCH` (never an implicit `:latest`)
 4. `make generate_ondewo_protos` - run the image over the `.proto` tree
 5. `make build_library` - configure, compile and install the library with CMake on the host
 
 Step 4 is the contract with the compiler image, and it is a single `docker run`:
 
 ```shell
-docker run \
-  -v $(pwd):/input-volume \
-  -v $(pwd):/output-volume \
-  ondewo-cpp-proto-compiler ondewo-vtsi-api ondewo ondewo_vtsi_client
+docker run --rm \
+  -v "$(pwd)/ondewo-vtsi-api:/input-volume/ondewo-vtsi-api:ro" \
+  -v "$(pwd)/CMakeLists.txt:/input-volume/CMakeLists.txt:ro" \
+  -v "$(pwd)/ondewo-client-config.cmake.in:/input-volume/ondewo-client-config.cmake.in:ro" \
+  -v "$(pwd)/client:/input-volume/client:ro" \
+  -v "$(pwd):/output-volume" \
+  ondewo-cpp-proto-compiler:5.15.7 ondewo-vtsi-api ondewo ondewo_vtsi_client
 ```
 
 The three positional arguments are the proto root relative to the input volume, the sub-directory of that root
@@ -374,6 +378,11 @@ excluded on purpose, since generating them again would break the link on duplica
 
 Notes on the volumes:
 
+- The input volume holds only what the compiler reads, each piece mounted read-only: the proto tree, the two
+  build files and the hand-written `client/` helper. It used to be the whole repository root, which fed the
+  committed `public-api.h` back in - and the image uses an input `public-api.h` verbatim instead of generating
+  one, so a `.proto` added upstream never reached the umbrella header (`ondewo/vtsi/call_configs.proto` was
+  missing from it for exactly that reason). It also showed the root container everything else in the tree.
 - The image copies the input volume into an internal scratch directory and compiles there, so the mounted
   `.proto` sources are never modified.
 - In the output volume it deletes only what it owns - `api/`, `include/ondewo_vtsi_client/`,
@@ -408,6 +417,12 @@ make test
   fails here rather than after it has been published. It needs no credentials and uploads nothing, and CI runs
   it on every push.
 
+The CTest suite also runs three script tests over the release automation: `test_release_notes.sh` (the
+`RELEASE.md` headings and the anchored release-notes slice), `test_release_makefile_hygiene.sh` (no credential
+on any argv) and `test_release_order.sh` (the release order below, and - behaviourally, against a stubbed
+release and a fixture clone - that the devops-accounts clone is deleted before the release starts and on
+every failure).
+
 `tests/test_tls.cc` exercises `<ondewo/client/channel.h>` against real in-process gRPC servers with a PKI the
 openssl CLI generates at test time (no key is committed): TLS, mutual TLS, a server refusing a client without a
 certificate or with one from an unrelated CA, a wrong CA, the system trust store, a non-PEM CA, CRLF PEMs, server
@@ -417,23 +432,52 @@ the same 100 % line floor as `tests/`.
 
 ## Release
 
-See `RELEASE.md` for the release history and the Makefile's Release and Package chapters for the automation
-(`make ondewo_release`). There is no package registry for C++, so a release is a git tag, a GitHub release,
-and the built package attached to it:
+`make ondewo_release` cuts a release; the version is `ONDEWO_VTSI_VERSION` in the Makefile and `RELEASE.md`
+must carry its entry. There is no package registry for C++, so a release is a git tag, a GitHub release, and
+the built archive attached to it. The steps, in this order (pinned by `tests/test_release_order.sh`):
 
-| Target                 | What it does                                                                      |
-| ---------------------- | --------------------------------------------------------------------------------- |
-| `make build_package`   | stages the CMake install tree into `dist/<library>-<version>-<platform>.tar.gz` + `.sha256` |
-| `make verify_package`  | extracts that archive and consumes it from an unrelated CMake project              |
-| `make publish_dry_run` | both of the above - the credential-free packaging gate, also run by CI             |
-| `make publish`         | the dry-run, then `gh release upload` of the archive and its checksum              |
+1. **`spc`** refuses a version whose release branch or tag already exists locally.
+2. **Credentials.** `GITHUB_GH_TOKEN` is read from `account_github.env` of the devops-accounts repo - from the
+   clone named by `DEVOPS_ACCOUNT_DIR` when the caller (the release driver in `ondewo-vtsi-api`) provides one,
+   otherwise from a fresh clone in a `mktemp -d` directory outside the repository. Our own clone is deleted
+   right after the token is read, before anything else runs, and by a trap on every failure. The token only
+   ever travels in the environment of the targets that use it - never on an argv, never into a build or test
+   process, and never persisted: there is no `gh auth login`.
+3. **`make release_preflight`** - read-only, before anything is built or pushed:
+   - the host tools exist: docker (with a reachable daemon), make, git and perl;
+   - `RELEASE.md` has a non-empty section headed exactly `## Release ONDEWO VTSI C++ Client <version>`;
+   - GitHub accepts the token and it may push to this repository
+     (`gh api repos/ondewo/ondewo-vtsi-client-cpp --jq .permissions.push` is `true`);
+   - the version is neither a tag nor a `release/<version>` branch on origin (`git ls-remote --exit-code`) nor
+     an existing GitHub release.
+4. **Build and test gate:** stubs regenerated, the library built and the **full** `make test` run - committed
+   stubs, every `.proto` generated, the CTest suite, the package smoke test and `publish_dry_run`, which builds
+   the release archive and consumes it after extraction. Nothing is committed before this passes.
+5. **Commit and push:** `git diff --cached --quiet || git commit` (a real commit failure stops the release),
+   `git push`, the `release/<version>` branch, the tag.
+6. **GitHub release** with the `RELEASE.md` notes (`make build_gh_release`, refuses empty notes).
+7. **Publish:** the tag push starts `.github/workflows/release.yml`, the **only uploader**: it builds the
+   archive on the pinned ubuntu-24.04 runner, verifies it and attaches
+   `ondewo_vtsi_client-<version>-linux-x86_64.tar.gz` plus its `.sha256` to the release. The publish has to
+   come after the tag for that reason.
+8. **`make release_verify`** - read-only: the tag is on origin, the release body is not empty, and the
+   archive attached by the workflow downloads and passes `sha256sum -c` (`tools/verify_release_asset.sh`;
+   waits up to 20 minutes and stops at once if the tag's release run failed). The workflow runs the same
+   script after its upload.
 
-`make release` runs `make publish` after `make push_to_gh`, because `gh release upload` needs the release to
-exist. Pushing the version tag additionally starts `.github/workflows/release.yml`, which rebuilds the archive
-on a pinned runner, verifies it the same way and attaches it with the `ONDEWO_GH_TOKEN` repository secret -
-whichever gets there first wins, and the other replaces its own identical asset. The only credential involved
-anywhere is the GitHub token (`GITHUB_GH_TOKEN`, read from `account_github.env` in the devops-accounts repo by
-`make ondewo_release`); there is no registry account.
+**Host requirements:** docker, make, git and perl - nothing else. cmake and the C++ toolchain run in the
+digest-pinned `toolchain.Dockerfile` image when `cmake` is not on the host (`USE_DOCKER_TOOLCHAIN`), the proto
+compiler in `ondewo-cpp-proto-compiler:<version>`, and the GitHub CLI in the pinned `gh.Dockerfile` image
+(gh by version and sha256, base by digest). Neither gh nor sha256sum is needed on the host.
+
+| Target                   | What it does                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| `make release_preflight` | the read-only gate of step 3                                                               |
+| `make build_package`     | stages the CMake install tree into `dist/<library>-<version>-<platform>.tar.gz` + `.sha256` |
+| `make verify_package`    | extracts that archive and consumes it from an unrelated CMake project                     |
+| `make publish_dry_run`   | both of the above - the credential-free packaging gate, part of `make test`               |
+| `make upload_package`    | `gh release upload` of the archive - run by `release.yml` only                             |
+| `make release_verify`    | the read-only check of step 8                                                              |
 
 The workflow authenticates with the repository secret **`ONDEWO_GH_TOKEN`** - the same value as
 `GITHUB_GH_TOKEN` above. It cannot be called `GITHUB_GH_TOKEN`, because GitHub reserves every secret name
