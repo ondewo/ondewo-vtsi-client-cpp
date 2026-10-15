@@ -61,6 +61,8 @@
 #include "ondewo/sip/sip.pb.h"
 #include "ondewo/t2s/text-to-speech.grpc.pb.h"
 #include "ondewo/t2s/text-to-speech.pb.h"
+#include "ondewo/vtsi/call_configs.grpc.pb.h"
+#include "ondewo/vtsi/call_configs.pb.h"
 #include "ondewo/vtsi/calls.grpc.pb.h"
 #include "ondewo/vtsi/calls.pb.h"
 #include "ondewo/vtsi/campaigns.grpc.pb.h"

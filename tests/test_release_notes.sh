@@ -23,9 +23,11 @@ version="$(sed -n "s/^ONDEWO_${product}_VERSION=\(.*\)$/\1/p" Makefile | head -n
 [ -n "$product" ] && [ -n "$version" ] || { echo "FAIL: no ONDEWO_<PRODUCT>_VERSION= in the Makefile" >&2; exit 1; }
 heading="## Release ONDEWO ${product} C++ Client "
 
-# 1. The Makefile slices exactly the heading pinned here, up to the ***** separator.
-grep -qF "perl -ne 'print if /Release ONDEWO ${product} C\\+\\+ Client \${ONDEWO_${product}_VERSION}/../^\\*{5}/'" Makefile \
-  || fail "CURRENT_RELEASE_NOTES is not the perl range /Release ONDEWO ${product} C\\+\\+ Client \${ONDEWO_${product}_VERSION}/../^\\*{5}/"
+# 1. The Makefile slices exactly the heading pinned here, up to the ***** separator. The heading
+#    is anchored at both ends and the version is \Q..\E-quoted, so "9.1.1" cannot slice a
+#    "9.1.10" entry and the dots are literal. (`\#` is make's escape for a literal `#`.)
+grep -qF "perl -ne 'print if /^\\#+ Release ONDEWO ${product} C\\+\\+ Client \\Q\${ONDEWO_${product}_VERSION}\\E\$\$/../^\\*{5}/'" Makefile \
+  || fail "CURRENT_RELEASE_NOTES is not the anchored perl range /^#+ Release ONDEWO ${product} C\\+\\+ Client \\Q\${ONDEWO_${product}_VERSION}\\E\$/../^\\*{5}/"
 
 # 2. Every release heading uses that spelling and a MAJOR.MINOR.PATCH version.
 grep -q "^## Release" RELEASE.md || fail "RELEASE.md has no '## Release' heading"

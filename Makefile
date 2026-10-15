@@ -1,4 +1,9 @@
-export
+# No bare `export`: it handed every variable - GITHUB_GH_TOKEN included - to every recipe, i.e. to
+# cmake, the compilers, the test binaries and the pre-commit hooks. The release credential is
+# exported ONLY to the targets that use it (`<target>: export GITHUB_GH_TOKEN := ...` below), and
+# the global `unexport` keeps it out of every other recipe even when it arrives from the
+# environment (run_release_with_devops sets it there for `$(MAKE) release`).
+unexport GITHUB_GH_TOKEN GH_TOKEN GITHUB_TOKEN
 
 # =====================================================================================
 # ondewo-vtsi-client-cpp - Makefile
@@ -30,11 +35,14 @@ export
 # 2 - Update RELEASE.md
 # 3 - make build
 # -------------- Release Process Steps --------------
-# 1 - Get Credentials from devops-accounts repo
-# 2 - Create Release Branch and push
-# 3 - Create Release Tag and push
-# 4 - GitHub Release
-# 5 - Attach the release archive to the GitHub Release (there is no C++ package registry)
+# `make ondewo_release` (or `make release` with GITHUB_GH_TOKEN exported):
+# 1 - spc, then the credential is read from devops-accounts and the clone is deleted at once
+# 2 - release_preflight: host tools, release notes, token valid with push rights, version unreleased
+# 3 - generate the stubs, build the library, run the FULL test suite incl. the packaging dry-run
+# 4 - commit, push, release branch, release tag
+# 5 - GitHub release with the RELEASE.md notes (gh in the pinned GH_IMAGE)
+# 6 - .github/workflows/release.yml - the ONLY uploader - attaches the archive from the tag push;
+#     release_verify waits for it, downloads it and checks it with `sha256sum -c`
 
 ########################################################
 # 		Variables
@@ -59,8 +67,11 @@ ONDEWO_API_DIR=ondewo-vtsi-api
 ONDEWO_PROTO_COMPILER_DIR=ondewo-proto-compiler
 
 # The image tag is the ONLY contract with the proto compiler - `make build_compiler` rebuilds it
-# from the submodule, but any locally built ondewo-cpp-proto-compiler image is used as-is.
-PROTO_COMPILER_IMAGE=ondewo-cpp-proto-compiler
+# from the submodule. It is tagged with the compiler version pinned above, never with an implicit
+# :latest, so a generation can only run against the compiler the pin names (the driver in
+# ondewo-vtsi-api rewrites ONDEWO_PROTO_COMPILER_GIT_BRANCH=tags/<version> before a release).
+PROTO_COMPILER_VERSION=$(patsubst tags/%,%,$(ONDEWO_PROTO_COMPILER_GIT_BRANCH))
+PROTO_COMPILER_IMAGE=ondewo-cpp-proto-compiler:$(PROTO_COMPILER_VERSION)
 
 # Entrypoint argument 1: the proto root, relative to the mounted /input-volume (the repo root).
 # Entrypoint argument 2: the sub-directory of that root whose protos are the compilation entry
@@ -92,9 +103,10 @@ USE_DOCKER_TOOLCHAIN?=$(if $(shell command -v cmake 2>/dev/null),false,true)
 toolchain=$(if $(filter true,$(USE_DOCKER_TOOLCHAIN)),in_toolchain_$(1),$(1))
 
 # The release archive - this client's ONLY distribution channel for a prebuilt consumer. C++ has
-# no package registry, so `make publish` stages the CMake install tree into a versioned directory,
-# tars it and attaches it to the GitHub release; `find_package(<library> CONFIG REQUIRED)` against
-# the extracted archive is what the generated *-config.cmake files exist for.
+# no package registry, so `make build_package` stages the CMake install tree into a versioned
+# directory and tars it, and the release workflow attaches it to the GitHub release;
+# `find_package(<library> CONFIG REQUIRED)` against the extracted archive is what the generated
+# *-config.cmake files exist for.
 # The archive is a BINARY artifact (static archive + headers + CMake package files), so the name
 # carries the platform it was built on and PACKAGE-INFO.txt inside records the exact protobuf/gRPC
 # it was compiled against - C++ gencode and runtime have no cross-version guarantee.
@@ -123,12 +135,27 @@ COVERAGE_MIN?=100
 # first markdown **bold** span inside the entry and silently truncates the notes there, with no
 # error from `gh release create`. The '+' of "C++" is escaped because an unescaped one is a perl
 # regex quantifier ("Nested quantifiers in regex") - keep the escaping if you rename the heading.
+# The heading is ANCHORED (`^#+ ... \Q<version>\E$$`): unanchored, the notes of 9.1.1 would also
+# be sliced out of a "9.1.10" heading, and \Q..\E makes the dots of the version literal.
 CURRENT_RELEASE_NOTES=`cat RELEASE.md \
-	| perl -ne 'print if /Release ONDEWO VTSI C\+\+ Client ${ONDEWO_VTSI_VERSION}/../^\*{5}/'`
+	| perl -ne 'print if /^\#+ Release ONDEWO VTSI C\+\+ Client \Q${ONDEWO_VTSI_VERSION}\E$$/../^\*{5}/'`
 
-GH_REPO="https://github.com/ondewo/ondewo-vtsi-client-cpp"
-DEVOPS_ACCOUNT_GIT="ondewo-devops-accounts"
-DEVOPS_ACCOUNT_DIR="./${DEVOPS_ACCOUNT_GIT}"
+GH_REPO_PATH=ondewo/ondewo-vtsi-client-cpp
+GH_REPO="https://github.com/$(GH_REPO_PATH)"
+DEVOPS_ACCOUNT_GIT=ondewo-devops-accounts
+# How run_release_with_devops obtains the credentials when DEVOPS_ACCOUNT_DIR (environment) does not
+# name an existing clone: cloned into a fresh `mktemp -d` OUTSIDE the repository - never into a
+# directory that is mounted into a container - and deleted again before `$(MAKE) release` starts.
+# Overridable only so tests/test_release_order.sh can feed a fixture instead of the real repo.
+DEVOPS_ACCOUNT_CLONE=git clone -q --depth 1 git@bitbucket.org:ondewo/$(DEVOPS_ACCOUNT_GIT).git
+
+# The GitHub CLI runs in a pinned image (gh.Dockerfile), so the release host needs no gh at all.
+# The token reaches it per call - `GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) gh ...` puts it into the
+# environment of the docker client, and `-e GH_TOKEN` copies it from there into the container -
+# never on an argv, never in a file, and there is no `gh auth login` on the host.
+GH_VERSION=$(shell sed -n 's/^ARG GH_VERSION=//p' gh.Dockerfile)
+GH_IMAGE=ondewo-vtsi-client-cpp-gh:$(GH_VERSION)
+GH_RUN=docker run --rm -i --user "`id -u`:`id -g`" -e HOME=/tmp -e GH_TOKEN $(GH_IMAGE)
 
 # `make` with no target prints the help listing.
 .DEFAULT_GOAL := help
@@ -161,6 +188,7 @@ help: ## Print usage info about help targets
 makefile_chapters: ## Shows all sections of Makefile
 	@echo `cat Makefile| grep "########################################################" -A 1 | grep -v "########################################################"`
 
+TEST: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
 TEST: ## Diagnostics - report whether release credentials are set and print the current release notes
 # The placeholder counts as unset - `$(if $(GITHUB_GH_TOKEN),...)` alone reports "yes" for the
 # default ENTER_YOUR_TOKEN_HERE and hides the one thing this line exists to tell you.
@@ -181,9 +209,12 @@ TEST: ## Diagnostics - report whether release credentials are set and print the 
 
 build: checkout_defined_submodule_versions build_compiler generate_ondewo_protos build_library ## Build source code: submodules -> compiler image -> generated stubs -> CMake library
 
-build_compiler: ## Build the ondewo-cpp-proto-compiler docker image from the submodule
+# The same `docker build --no-cache` as the submodule's cpp/build.sh, but tagged with the pinned
+# compiler version instead of build.sh's hard-coded :latest. The build context is the submodule's
+# cpp/ directory only.
+build_compiler: ## Build the ondewo-cpp-proto-compiler:<version> docker image from the submodule
 	@echo "$(BLUE)[INFO]$(NC) Building $(PROTO_COMPILER_IMAGE) from $(ONDEWO_PROTO_COMPILER_DIR)/cpp ..."
-	cd $(ONDEWO_PROTO_COMPILER_DIR)/cpp && sh build.sh
+	docker build --no-cache -t $(PROTO_COMPILER_IMAGE) $(ONDEWO_PROTO_COMPILER_DIR)/cpp
 	@echo "$(GREEN)[SUCCESS]$(NC) $(PROTO_COMPILER_IMAGE) built"
 
 # Derived from ondewo-proto-compiler/cpp/example/run-compile.sh: same image tag, same three
@@ -192,16 +223,24 @@ build_compiler: ## Build the ondewo-cpp-proto-compiler docker image from the sub
 # `--user` either, because the image's scripts write into the root-owned /image-data tree
 # (fix_file_ownership below hands the results back afterwards).
 #
-# Both volumes are the repo root: the input volume must contain the ondewo-vtsi-api proto tree, and the
-# output volume is where the generated library belongs. The image only ever deletes what it owns
-# there (api/, include/$(LIBRARY_NAME)/, lib/lib$(LIBRARY_NAME).a, lib/cmake/$(LIBRARY_NAME)/) and
-# overwrites the wholly generated public-api.h - never the whole directory - and it compiles inside
-# an internal copy, so the mounted .proto sources are never mutated.
+# The INPUT volume is assembled from exactly what the compiler reads, each mounted read-only: the
+# ondewo-vtsi-api proto tree, the two committed build files and the hand-written client/ helper the
+# committed CMakeLists.txt installs. It used to be the whole repository root, which (a) showed the
+# root container everything in the working tree - a devops-accounts clone included - and (b) fed
+# the COMMITTED public-api.h back in, which the image then used verbatim instead of regenerating
+# it, so a .proto added upstream would never have reached the umbrella header.
+# The OUTPUT volume is the repository root, where the generated library belongs. The image only
+# ever deletes what it owns there (api/, include/$(LIBRARY_NAME)/, lib/lib$(LIBRARY_NAME).a,
+# lib/cmake/$(LIBRARY_NAME)/), overwrites the wholly generated public-api.h, and never overwrites an
+# existing CMakeLists.txt / ondewo-client-config.cmake.in (it writes api/*.generated instead).
 generate_ondewo_protos: ## Generate the C++ gRPC client stubs and the CMake library from the .proto files
 	@echo "$(BLUE)[INFO]$(NC) Generating C++ stubs from $(ONDEWO_API_DIR)/$(ONDEWO_PROTOS_SUBDIR) into api/ ..."
-	docker run \
-		-v ${shell pwd}:/input-volume \
-		-v ${shell pwd}:/output-volume \
+	docker run --rm \
+		-v "$(CURDIR)/$(ONDEWO_API_DIR):/input-volume/$(ONDEWO_API_DIR):ro" \
+		-v "$(CURDIR)/CMakeLists.txt:/input-volume/CMakeLists.txt:ro" \
+		-v "$(CURDIR)/ondewo-client-config.cmake.in:/input-volume/ondewo-client-config.cmake.in:ro" \
+		-v "$(CURDIR)/client:/input-volume/client:ro" \
+		-v "$(CURDIR):/output-volume" \
 		$(PROTO_COMPILER_IMAGE) $(ONDEWO_API_DIR) $(ONDEWO_PROTOS_SUBDIR) $(LIBRARY_NAME)
 	-make fix_file_ownership
 	@echo "$(GREEN)[SUCCESS]$(NC) Stubs generated"
@@ -241,8 +280,8 @@ build_library: ## Configure, compile and install the CMake library from the gene
 toolchain_image: ## Build the pinned ubuntu-24.04 CMake/protoc toolchain image (toolchain.Dockerfile)
 	docker build -t $(TOOLCHAIN_IMAGE) - < toolchain.Dockerfile
 
-# Only HOME is passed into the container: the Makefile `export`s every variable to its recipes, and
-# none of them - GITHUB_GH_TOKEN least of all - may reach the container's environment.
+# Only HOME is passed into the container: no host variable - GITHUB_GH_TOKEN least of all - may
+# reach the toolchain's environment (the token is unexported here anyway, see the top of the file).
 in_toolchain_%: toolchain_image ## Run `make <target>` inside the toolchain image, e.g. `make in_toolchain_test`
 	docker run --rm -v "$(CURDIR):$(CURDIR)" -w "$(CURDIR)" --user "`id -u`:`id -g`" -e HOME=/tmp \
 		$(TOOLCHAIN_IMAGE) make $* USE_DOCKER_TOOLCHAIN=false
@@ -411,20 +450,30 @@ checkout_defined_submodule_versions: update_submodules ## Check out the submodul
 ########################################################
 #		Release
 
-release: ## Automate the entire release process
+# The order is the contract every ONDEWO VTSI client shares, pinned by tests/test_release_order.sh:
+#   release_preflight -> build -> FULL test suite -> commit -> push -> release branch -> tag
+#   -> GitHub release -> release_verify
+# Nothing that cannot be taken back (a push, a branch or tag on origin, a GitHub release) happens
+# before every check that can be refuted locally has passed: `spc` refuses every retry for as long
+# as the branch and the tag exist, and a published tag is what consumers pin.
+#
+# The registry of this client is the GitHub release asset, and its ONLY uploader is
+# .github/workflows/release.yml, started by the tag push: it builds the archive on the pinned
+# ubuntu-24.04 runner, so every release carries the same linux-x86_64 asset whichever machine cut
+# it. The local release used to upload as well, both with --clobber, and since archives are not
+# byte-reproducible two interleaved uploads could leave a tarball and a .sha256 from different
+# builders. The publish therefore necessarily happens AFTER the tag, so release_verify comes last
+# and waits for that upload.
+release: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
+release: ## Automate the entire release process (credential in GITHUB_GH_TOKEN; `make ondewo_release` reads it)
 	@echo "$(BLUE)[INFO]$(NC) Start Release"
-# FIRST, before anything is built, committed, branched, tagged or pushed. Everything that can
-# be refuted without touching origin is refuted here, because none of what follows can be taken
-# back: create_release_branch and create_release_tag push to origin, `spc` then refuses every
-# retry for as long as that branch and that tag exist, and a published tag is what consumers
-# pin. The release credential used to be exercised for the first time in `login_to_gh`, which
-# runs inside `push_to_gh` - three steps AFTER the branch and the tag are already on origin, so
-# a missing token left an immovable tag behind and blocked its own retry.
-	make check_release_credentials
-	make check_release_notes
+	make release_preflight
 	make checkout_defined_submodule_versions build_compiler generate_ondewo_protos
 	make $(call toolchain,build_library)
 	-make precommit_hooks_run_all_files
+# The FULL gate: committed stubs, every .proto generated, the GoogleTest/CTest suite (including the
+# release-notes, release-hygiene and release-order script tests), the package smoke test and the
+# packaging dry-run that builds the archive and consumes it - all before the first commit.
 	make $(call toolchain,test)
 	git status
 # api/, public-api.h and the two generated build files are COMMITTED on purpose: C++ has no
@@ -440,16 +489,14 @@ release: ## Automate the entire release process
 	git add $(ONDEWO_PROTO_COMPILER_DIR)
 	git add $(ONDEWO_API_DIR)
 	git status
-	-git commit --no-verify -m "Preparing for Release ${ONDEWO_VTSI_VERSION}"
+# Commit only when something is staged, but never swallow a REAL commit failure (e.g. no git
+# identity): with `-git commit` the tag below would silently name the previous commit.
+	git diff --cached --quiet || git commit --no-verify -m "Preparing for Release ${ONDEWO_VTSI_VERSION}"
 	git push
 	make create_release_branch
 	make create_release_tag
-	make push_to_gh
-# Strictly after push_to_gh: `gh release upload` attaches assets to a release that must already
-# exist. The release workflow does the same upload from the tag push, so whichever gets there
-# first wins and the other one clobbers its own identical asset.
-	make $(call toolchain,publish_dry_run)
-	make login_to_gh upload_package
+	make build_gh_release
+	make release_verify
 	@echo "$(GREEN)[SUCCESS]$(NC) Release Finished"
 
 create_release_branch: ## Create Release Branch and push it to origin
@@ -460,47 +507,112 @@ create_release_tag: ## Create Release Tag and push it to origin
 	git tag -a ${ONDEWO_VTSI_VERSION} -m "release/${ONDEWO_VTSI_VERSION}"
 	git push origin ${ONDEWO_VTSI_VERSION}
 
+# Read-only: changes nothing locally that is tracked, and nothing on origin or on GitHub. Each check
+# refutes something that would otherwise only fail after the tag is on origin.
+release_preflight: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
+release_preflight: check_host_tools check_release_notes check_gh_token_valid check_version_unreleased ## Read-only release gate: host tools, release notes, token valid with push rights, version not yet released
+	@echo "$(GREEN)[SUCCESS]$(NC) release preflight passed for $(ONDEWO_VTSI_VERSION) - nothing was changed"
+
+# docker runs the proto compiler, the C++ toolchain when cmake is absent, and gh; perl slices the
+# release notes. cmake, gh and sha256sum are NOT required on the host.
+check_host_tools: ## Assert the host tools the release needs exist: docker (with a reachable daemon), make, git, perl
+	@missing=""; \
+	for tool in docker make git perl; do \
+		command -v "$$tool" >/dev/null 2>&1 || missing="$$missing $$tool"; \
+	done; \
+	if [ -n "$$missing" ]; then \
+		echo "$(RED)[ERROR]$(NC) the release needs these host tools, which are missing:$$missing"; \
+		exit 1; \
+	fi
+	@docker info >/dev/null 2>&1 || { \
+		echo "$(RED)[ERROR]$(NC) docker is installed but its daemon is not reachable - the release runs the compiler, the toolchain and gh in containers"; \
+		exit 1; \
+	}
+	@echo "$(GREEN)[SUCCESS]$(NC) host tools present: docker make git perl"
+
 check_release_credentials: ## Fail loudly when the GitHub release credential is unset or still the placeholder
 # The value is only ever tested, never printed - not even partially. The placeholder counts as
-# unset: `$(if $(GITHUB_GH_TOKEN),...)` alone reports the default ENTER_YOUR_TOKEN_HERE as "set"
-# and would let a release run all the way to the `gh auth login` below before failing.
+# unset: `$(if $(GITHUB_GH_TOKEN),...)` alone reports the default ENTER_YOUR_TOKEN_HERE as "set".
 	@if [ -z "$${GITHUB_GH_TOKEN}" ] || [ "$${GITHUB_GH_TOKEN}" = "ENTER_YOUR_TOKEN_HERE" ]; then \
 		echo "$(RED)[ERROR]$(NC) refusing to release - GITHUB_GH_TOKEN is not set"; \
-		echo "        use 'make ondewo_release', which reads it from ${DEVOPS_ACCOUNT_GIT}/account_github.env,"; \
+		echo "        use 'make ondewo_release', which reads it from $(DEVOPS_ACCOUNT_GIT)/account_github.env,"; \
 		echo "        or create a token at https://github.com/settings/tokens and export GITHUB_GH_TOKEN"; \
 		exit 1; \
 	fi
 	@echo "$(GREEN)[SUCCESS]$(NC) the GitHub release credential is set"
 
-# Depends on the check so that calling login_to_gh on its own is guarded too - `release` has
-# already run it by then, and make will not run it twice within one invocation.
-# gh refuses `auth login` (exit 1) while GH_TOKEN or GITHUB_TOKEN is set, because it authenticates
-# with that variable instead - which aborted the 9.1.0 release after the branch and tag were pushed.
-login_to_gh: check_release_credentials ## Login to Github CLI with Access Token
-	@if [ -n "$${GH_TOKEN}" ] || [ -n "$${GITHUB_TOKEN}" ]; then \
-		echo "$(YELLOW)[NOOP]$(NC) GH_TOKEN/GITHUB_TOKEN is set - gh authenticates with it, skipping 'gh auth login'"; \
-	else \
-		echo "$${GITHUB_GH_TOKEN}" | gh auth login -p ssh --with-token; \
-	fi
+gh_image: ## Build the pinned GitHub CLI image (gh.Dockerfile) every gh call of the release runs in
+	@docker build -q -t $(GH_IMAGE) - < gh.Dockerfile >/dev/null
+	@echo "$(GREEN)[SUCCESS]$(NC) $(GH_IMAGE) is available"
 
-check_release_notes: ## Assert RELEASE.md carries an entry for ONDEWO_VTSI_VERSION
+# A set token is not a valid one. GET /repos/<owner>/<repo> changes nothing; `.permissions` is only
+# present for an authenticated caller, and `push` is exactly what the release branch, the tag and
+# the GitHub release need. GH_TOKEN is set from GITHUB_GH_TOKEN for this one command, so a stale
+# GH_TOKEN / GITHUB_TOKEN of the host can neither stand in for the release token nor shadow it.
+check_gh_token_valid: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
+check_gh_token_valid: check_release_credentials gh_image ## Assert GitHub accepts GITHUB_GH_TOKEN and lets it push to this repository (read-only)
+	@push=$$(GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) gh api "repos/$(GH_REPO_PATH)" --jq .permissions.push) \
+		|| { echo "$(RED)[ERROR]$(NC) GitHub refused GITHUB_GH_TOKEN (see the gh error above)"; exit 1; }; \
+	if [ "$$push" != "true" ]; then \
+		echo "$(RED)[ERROR]$(NC) GITHUB_GH_TOKEN is valid but may not push to $(GH_REPO_PATH) (permissions.push=$$push)"; \
+		exit 1; \
+	fi
+	@echo "$(GREEN)[SUCCESS]$(NC) GitHub accepts GITHUB_GH_TOKEN and it may push to $(GH_REPO_PATH)"
+
+# The version must not exist on ORIGIN yet - `spc` only sees the local refs - and must not have a
+# GitHub release (this client's registry). `git ls-remote --exit-code` matches the full ref names
+# exactly (exit 2 = no match), and gh's "release not found" is the only answer that means "free".
+check_version_unreleased: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
+check_version_unreleased: check_release_credentials gh_image ## Assert the version is neither a tag/release branch on origin nor a GitHub release (read-only)
+	@status=0; refs=$$(git ls-remote --exit-code origin "refs/tags/$(ONDEWO_VTSI_VERSION)" "refs/heads/release/$(ONDEWO_VTSI_VERSION)") || status=$$?; \
+	case "$$status" in \
+		0) echo "$(RED)[ERROR]$(NC) $(ONDEWO_VTSI_VERSION) already exists on origin:"; echo "$$refs"; exit 1 ;; \
+		2) echo "$(GREEN)[SUCCESS]$(NC) neither refs/tags/$(ONDEWO_VTSI_VERSION) nor refs/heads/release/$(ONDEWO_VTSI_VERSION) exists on origin" ;; \
+		*) echo "$(RED)[ERROR]$(NC) cannot list the refs of origin (git ls-remote exit $$status)"; exit 1 ;; \
+	esac
+	@if out=$$(GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) gh release view "$(ONDEWO_VTSI_VERSION)" --repo "$(GH_REPO_PATH)" --json tagName 2>&1); then \
+		echo "$(RED)[ERROR]$(NC) a GitHub release $(ONDEWO_VTSI_VERSION) already exists on $(GH_REPO_PATH)"; \
+		exit 1; \
+	fi; \
+	case "$$out" in \
+		*"release not found"*) echo "$(GREEN)[SUCCESS]$(NC) no GitHub release $(ONDEWO_VTSI_VERSION) yet" ;; \
+		*) echo "$(RED)[ERROR]$(NC) cannot query the GitHub releases of $(GH_REPO_PATH): $$out"; exit 1 ;; \
+	esac
+
+check_release_notes: ## Assert RELEASE.md carries a non-empty entry headed exactly 'Release ONDEWO VTSI C++ Client <version>'
 # $(CURRENT_RELEASE_NOTES) is a perl flip-flop over RELEASE.md, so a forgotten entry - or a
 # heading whose wording drifted away from what that flip-flop greps for - slices to the empty
 # string. `gh release create -n ""` does not complain about that: it succeeds and publishes an
-# EMPTY release, which is then only noticed by whoever reads the release page. The tag is
-# immutable by then and `spc` blocks the retry, so this has to refuse before anything is pushed.
+# EMPTY release. The heading line alone (an entry with no content) is refused as well.
 	@notes="$(CURRENT_RELEASE_NOTES)"; \
-	if [ -z "$$notes" ]; then \
-		echo "$(RED)[ERROR]$(NC) RELEASE.md has no '## Release ONDEWO VTSI C++ Client ${ONDEWO_VTSI_VERSION}' entry"; \
+	content=$$(printf '%s\n' "$$notes" | sed '1d' | grep -v '^\*\{5\}' | grep -c '[^[:space:]]' || true); \
+	if [ -z "$$notes" ] || [ "$$content" -lt 1 ]; then \
+		echo "$(RED)[ERROR]$(NC) RELEASE.md has no non-empty '## Release ONDEWO VTSI C++ Client ${ONDEWO_VTSI_VERSION}' entry"; \
 		echo "        The GitHub release would be created with empty notes - add the entry first."; \
 		exit 1; \
 	fi; \
 	echo "$(GREEN)[SUCCESS]$(NC) RELEASE.md has release notes for ${ONDEWO_VTSI_VERSION}"
 
 # The guard is a prerequisite, not just a step of `release`, so that a hand-run
-# `make build_gh_release` cannot publish an empty release either.
-build_gh_release: check_release_notes ## Generate Github Release with CLI
-	gh release create --repo $(GH_REPO) "$(ONDEWO_VTSI_VERSION)" -n "$(CURRENT_RELEASE_NOTES)" -t "Release ${ONDEWO_VTSI_VERSION}"
+# `make build_gh_release` cannot publish an empty release either. The notes reach gh on stdin.
+build_gh_release: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
+build_gh_release: check_release_notes check_release_credentials gh_image ## Create the GitHub release with the RELEASE.md notes (gh in GH_IMAGE)
+	@printf '%s\n' "$(CURRENT_RELEASE_NOTES)" | GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) \
+		gh release create --repo "$(GH_REPO_PATH)" "$(ONDEWO_VTSI_VERSION)" --notes-file - --title "Release ${ONDEWO_VTSI_VERSION}"
+
+# Read-only. The tag is on origin, the GitHub release has a non-empty body, and the archive the
+# release workflow attached downloads and passes `sha256sum -c` (tools/verify_release_asset.sh,
+# the same script release.yml runs after its upload; it waits up to 20 min for the asset and stops
+# at once if the tag's release run failed).
+release_verify: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
+release_verify: check_release_credentials gh_image ## Verify the published release: tag on origin, non-empty notes, archive attached and matching its sha256
+	@git ls-remote --exit-code origin "refs/tags/$(ONDEWO_VTSI_VERSION)" >/dev/null || { \
+		echo "$(RED)[ERROR]$(NC) the tag $(ONDEWO_VTSI_VERSION) is not on origin"; \
+		exit 1; \
+	}
+	@echo "$(GREEN)[SUCCESS]$(NC) refs/tags/$(ONDEWO_VTSI_VERSION) is on origin"
+	GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) sh -s -- "$(ONDEWO_VTSI_VERSION)" "$(GH_REPO_PATH)" "$(LIBRARY_NAME)" \
+		< tools/verify_release_asset.sh
 
 ########################################################
 #		PACKAGE
@@ -509,20 +621,18 @@ build_gh_release: check_release_notes ## Generate Github Release with CLI
 # GitHub release. The GitHub release asset IS the package; the sibling clients' PyPI/npm chapters
 # sit in exactly this slot of their Makefiles.
 #
-#   make publish_dry_run   everything except the upload - no credentials, runs in CI on every push
-#   make publish           the same, then attaches the archive to the GitHub release
+#   make publish_dry_run   everything except the upload - no credentials, part of `make test`, so it
+#                          runs in CI on every push and in `make release` before the first commit
+#   make upload_package    the upload itself - run ONLY by .github/workflows/release.yml from the tag
+#                          push, which makes the workflow this client's single uploader
+#   make release_verify    downloads what was attached and checks it with `sha256sum -c`
 #
-# The only credential involved is GITHUB_GH_TOKEN, which the release flow already reads from the
-# devops-accounts repo (see the DEVOPS-ACCOUNTS chapter) - there is no registry account to add.
+# There is no `make publish` any more: a second uploader next to the workflow raced it.
 
-publish: build_package verify_package login_to_gh upload_package ## Build, verify and attach the release archive to the GitHub release
-	@echo "$(GREEN)[SUCCESS]$(NC) $(PACKAGE_NAME).tar.gz published as a GitHub release asset"
-
-# The credential-free half of `publish`, and the packaging gate CI runs on every push: if the
-# archive cannot be built, or cannot be consumed once extracted, that fails here rather than
-# during a release.
-publish_dry_run: build_package verify_package ## Everything `make publish` does except the upload - no credentials needed
-	@echo "$(BLUE)[INFO]$(NC) would upload: gh release upload --repo $(GH_REPO) --clobber $(ONDEWO_VTSI_VERSION) $(PACKAGE_ARCHIVE) $(PACKAGE_ARCHIVE).sha256"
+# The credential-free packaging gate: if the archive cannot be built, or cannot be consumed once
+# extracted, that fails here rather than during a release.
+publish_dry_run: build_package verify_package ## Build the release archive and consume it after extraction - no credentials, uploads nothing
+	@echo "$(BLUE)[INFO]$(NC) the release workflow would attach $(PACKAGE_ARCHIVE) and $(PACKAGE_ARCHIVE).sha256"
 	@echo "$(GREEN)[SUCCESS]$(NC) Packaging dry-run complete - nothing was uploaded"
 
 build_package: ## Stage the install tree into dist/<library>-<version>-<platform>.tar.gz and checksum it
@@ -621,11 +731,13 @@ verify_package: ## Extract the release archive and consume it with find_package(
 	@rm -rf $(PACKAGE_TEST_DIR)
 	@echo "$(GREEN)[SUCCESS]$(NC) $(PACKAGE_NAME).tar.gz is consumable with find_package($(LIBRARY_NAME)) after extraction"
 
-# Attaches the archive to the GitHub release for the current version. `gh` takes its credential
-# from the environment (GH_TOKEN, set by the release workflow from a GitHub secret) or from the
-# `gh auth login` that login_to_gh performed - no token is ever named on this command line.
-# --clobber so a re-run after a fixed build replaces the asset instead of failing.
-upload_package: ## Attach the release archive and its checksum to the GitHub release of the current version
+# Run by .github/workflows/release.yml ONLY (the single uploader - see the Release chapter), with
+# the runner's gh and GH_TOKEN from the ONDEWO_GH_TOKEN repository secret in its environment; no
+# token is ever named on this command line. GH_TOKEN is exported to this one recipe because the
+# global `unexport` keeps it from every other one. --clobber so a re-run of the workflow after a
+# fixed build replaces its own asset instead of failing.
+upload_package: export GH_TOKEN := $(GH_TOKEN)
+upload_package: ## CI only (release.yml): attach the release archive and its checksum to the GitHub release
 	@test -f $(PACKAGE_ARCHIVE) || { \
 		echo "$(RED)[ERROR]$(NC) $(PACKAGE_ARCHIVE) does not exist - run 'make build_package' first"; \
 		exit 1; \
@@ -636,27 +748,52 @@ upload_package: ## Attach the release archive and its checksum to the GitHub rel
 ########################################################
 #		GITHUB
 
-push_to_gh: login_to_gh build_gh_release ## Logs into GitHub CLI and Releases
+# No `gh auth login` anywhere: it stored the token in ~/.config/gh/hosts.yml on the release host and
+# needed a host gh. Every gh call runs in GH_IMAGE with GH_TOKEN for that one call.
+push_to_gh: build_gh_release ## Create the GitHub release (alias of build_gh_release)
 	@echo 'Released to Github'
 
 ########################################################
 #		DEVOPS-ACCOUNTS
 
-ondewo_release: spc clone_devops_accounts run_release_with_devops ## Release with credentials from devops-accounts repo
-	@rm -rf ${DEVOPS_ACCOUNT_GIT}
+ondewo_release: spc run_release_with_devops ## Release with credentials from the devops-accounts repo
 
-clone_devops_accounts: ## Clones devops-accounts repo
-	if [ -d $(DEVOPS_ACCOUNT_GIT) ]; then rm -Rf $(DEVOPS_ACCOUNT_GIT); fi
-	git clone git@bitbucket.org:ondewo/${DEVOPS_ACCOUNT_GIT}.git
-
+# Where the credentials come from:
+#   - DEVOPS_ACCOUNT_DIR (environment) names an existing directory: the caller's clone - e.g. the
+#     single temp clone of the release driver in ondewo-vtsi-api - is read and left in place, it
+#     belongs to the caller;
+#   - otherwise the repo is cloned into a fresh `mktemp -d` OUTSIDE this repository, so it is never
+#     inside a directory mounted into the compiler, toolchain or gh containers.
+# The own clone is DELETED right after the token is read - before `$(MAKE) release`, which needs
+# only the value, now in the environment - and by the EXIT trap when anything before that fails.
 # The credential is exported into the sub-make's ENVIRONMENT. `make release NAME=<value>` would put
 # its value on make's argv, which /proc/<pid>/cmdline shows to every user on the host; the grep is
 # anchored so that a comment mentioning the name cannot replace the value.
-run_release_with_devops: ## Read credentials from the cloned devops-accounts repo and run the full release
-	@set -a \
-		&& eval "$$(grep -h -E '^GITHUB_GH_TOKEN=' ${DEVOPS_ACCOUNT_DIR}/account_github.env)" \
-		&& set +a \
-		&& $(MAKE) release
+run_release_with_devops: ## Read the credential from devops-accounts, delete the clone, then run the full release
+	@set -eu; \
+	owned=""; \
+	if [ -n "$${DEVOPS_ACCOUNT_DIR:-}" ] && [ -d "$${DEVOPS_ACCOUNT_DIR}" ]; then \
+		accounts="$${DEVOPS_ACCOUNT_DIR}"; \
+		echo "$(BLUE)[INFO]$(NC) reading the credentials from DEVOPS_ACCOUNT_DIR (the caller's clone, left in place)"; \
+	else \
+		accounts="$$(mktemp -d)"; \
+		owned="$$accounts"; \
+		trap 'rm -rf "$$owned"' EXIT; \
+		trap 'exit 1' HUP INT TERM; \
+		$(DEVOPS_ACCOUNT_CLONE) "$$accounts"; \
+	fi; \
+	grep -q -E '^GITHUB_GH_TOKEN=' "$$accounts/account_github.env" || { \
+		echo "$(RED)[ERROR]$(NC) $(DEVOPS_ACCOUNT_GIT)/account_github.env carries no GITHUB_GH_TOKEN="; \
+		exit 1; \
+	}; \
+	set -a; \
+	eval "$$(grep -h -E '^GITHUB_GH_TOKEN=' "$$accounts/account_github.env")"; \
+	set +a; \
+	if [ -n "$$owned" ]; then \
+		rm -rf "$$owned"; \
+		echo "$(BLUE)[INFO]$(NC) the $(DEVOPS_ACCOUNT_GIT) clone is deleted - only the token in the environment is left"; \
+	fi; \
+	$(MAKE) release
 
 spc: ## Checks if the Release Branch and Tag already exist
 	$(eval filtered_branches:= $(shell git branch --all | grep -E "(^|[ /])release/$(subst .,\.,${ONDEWO_VTSI_VERSION})$$"))

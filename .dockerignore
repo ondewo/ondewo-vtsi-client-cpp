@@ -1,0 +1,17 @@
+# No docker build of this repository uses its root as the build context: toolchain.Dockerfile and
+# gh.Dockerfile are built from stdin (`docker build - < file`, no context at all) and the proto
+# compiler from the ondewo-proto-compiler/cpp submodule directory. This file is the safety net for
+# the day someone adds `docker build .`: credentials, history and build output must never be sent
+# to a daemon or end up in a layer.
+ondewo-devops-accounts
+.git
+node_modules
+ondewo-vtsi-api
+ondewo-proto-compiler
+build
+build-tests
+dist
+.package-test
+.smoke-test
+include
+lib

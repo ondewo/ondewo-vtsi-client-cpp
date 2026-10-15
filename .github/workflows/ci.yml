@@ -1,8 +1,11 @@
 name: ci
 
+# Every branch (master and release/** included) and every tag, so the commit a release tag names
+# carries a CI result of its own.
 on:
   push:
     branches: ['**']
+    tags: ['**']
   pull_request:
   workflow_dispatch:
 
@@ -108,8 +111,8 @@ jobs:
       # verify_package extracts that tarball into a throwaway tree and builds
       # tests/package-consume against it - find_package() resolved from the extracted archive
       # (and asserted to come from there), umbrella header included, exported ondewo:: target
-      # linked with the whole archive forced in. publish_dry_run is `make publish` minus the
-      # `gh release upload`, so what CI proves here is exactly what a release publishes.
+      # linked with the whole archive forced in. release.yml runs the same target before its
+      # `make upload_package`, so what CI proves here is exactly what a release publishes.
       - name: Build and consume the release archive (publish dry-run)
         run: make publish_dry_run
 

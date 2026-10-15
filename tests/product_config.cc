@@ -2,47 +2,16 @@
 
 namespace ondewo_client_test {
 
-// Mirrors the #include list of the generated public-api.h, one .proto per pair of headers:
+// Every .proto of the generated umbrella header public-api.h, one per pair of headers. DERIVED at
+// configure time by tests/CMakeLists.txt - the equivalent of
 //   sed -n 's|^#include "\(.*\)\.pb\.h"$|\1|p' public-api.h | sed 's|\.grpc$||' | sort -u
+// - so an API release that adds a .proto needs no edit here.
 //
-// VTSI is a composition product: ondewo/vtsi/{calls,campaigns,events,logs,projects,softphones}.proto
-// are the six .proto files the VTSI API declares itself (campaigns, events and softphones since
-// API 9.0.0), and they pull the NLU, QA, S2T, SIP and T2S surfaces in
-// as imports - a call started through VTSI is configured with all of them, so all of them are
-// generated and linked.
+// VTSI is a composition product: ondewo/vtsi/*.proto are the files the VTSI API declares itself,
+// and they pull the NLU, QA, S2T, SIP and T2S surfaces in as imports - a call started through
+// VTSI is configured with all of them, so all of them are generated and linked.
 const std::vector<std::string> kProtoFileNames = {
-    "google/api/annotations.proto",
-    "google/api/http.proto",
-    "google/rpc/status.proto",
-    "google/type/latlng.proto",
-    "ondewo/nlu/agent.proto",
-    "ondewo/nlu/aiservices.proto",
-    "ondewo/nlu/ccai_project.proto",
-    "ondewo/nlu/common.proto",
-    "ondewo/nlu/context.proto",
-    "ondewo/nlu/entity_type.proto",
-    "ondewo/nlu/intent.proto",
-    "ondewo/nlu/llm_evaluation.proto",
-    "ondewo/nlu/operation_metadata.proto",
-    "ondewo/nlu/operations.proto",
-    "ondewo/nlu/project_role.proto",
-    "ondewo/nlu/project_statistics.proto",
-    "ondewo/nlu/rag.proto",
-    "ondewo/nlu/server_statistics.proto",
-    "ondewo/nlu/session.proto",
-    "ondewo/nlu/user.proto",
-    "ondewo/nlu/utility.proto",
-    "ondewo/nlu/webhook.proto",
-    "ondewo/qa/qa.proto",
-    "ondewo/s2t/speech-to-text.proto",
-    "ondewo/sip/sip.proto",
-    "ondewo/t2s/text-to-speech.proto",
-    "ondewo/vtsi/calls.proto",
-    "ondewo/vtsi/campaigns.proto",
-    "ondewo/vtsi/events.proto",
-    "ondewo/vtsi/logs.proto",
-    "ondewo/vtsi/projects.proto",
-    "ondewo/vtsi/softphones.proto",
+#include "proto_file_names.inc"
 };
 
 // The product's own six services plus the 16 NLU services and the QA / S2T / SIP / T2S

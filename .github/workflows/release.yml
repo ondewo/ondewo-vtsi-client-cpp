@@ -2,8 +2,12 @@ name: release
 
 # C++ has no package registry, so "publishing" this client means attaching a versioned archive of
 # the CMake install tree - static library, public headers and package-config files - to the GitHub
-# release. `make release` does that locally; this workflow does the same from the tag push, so a
-# release made from any machine ends up with the same asset built on a known toolchain.
+# release. This workflow is the ONLY uploader: `make release` pushes the tag (which starts this
+# run), creates the GitHub release with the notes and then `make release_verify` waits for the
+# asset this run attaches. A release cut from any machine therefore carries the same asset, built
+# on the pinned runner below. (The local release used to upload too, both with --clobber; archives
+# are not byte-reproducible, so two interleaved uploads could leave a tarball and a .sha256 from
+# different builders.)
 #
 # The trigger is the bare MAJOR.MINOR.PATCH tag `make create_release_tag` pushes. Nothing else
 # starts a release: no branch push, no manual dispatch, no pre-release suffix.
@@ -150,21 +154,14 @@ jobs:
           GH_TOKEN: ${{ secrets.ONDEWO_GH_TOKEN }}
         run: make upload_package
 
-      # The upload must not be able to end in "0 assets, exit 0". Read the release back and fail
-      # if the archive and its checksum are not both on it.
-      - name: Verify the assets are attached to the release
+      # The upload must not be able to end in "0 assets, exit 0". Read the release back exactly as
+      # a consumer would: non-empty notes, the archive and its .sha256 attached, both downloaded,
+      # and `sha256sum -c` passing. The same script `make release_verify` runs on the release host.
+      - name: Verify the published release (notes, assets, sha256)
         env:
           GH_TOKEN: ${{ secrets.ONDEWO_GH_TOKEN }}
+          VERIFY_ATTEMPTS: '3'
+          VERIFY_INTERVAL_S: '10'
         run: |
-          assets="$(gh release view "${GITHUB_REF_NAME}" --repo "${GITHUB_REPOSITORY}" \
-            --json assets --jq '.assets[].name')"
-          echo "attached assets:"
-          echo "${assets}"
-          echo "${assets}" | grep -q '\.tar\.gz$' || {
-            echo "::error title=Nothing published::No .tar.gz asset is attached to release ${GITHUB_REF_NAME}."
-            exit 1
-          }
-          echo "${assets}" | grep -q '\.tar\.gz\.sha256$' || {
-            echo "::error title=Nothing published::No .tar.gz.sha256 asset is attached to release ${GITHUB_REF_NAME}."
-            exit 1
-          }
+          library="$(sed -n 's/^LIBRARY_NAME=//p' Makefile)"
+          sh tools/verify_release_asset.sh "${GITHUB_REF_NAME}" "${GITHUB_REPOSITORY}" "${library}"
