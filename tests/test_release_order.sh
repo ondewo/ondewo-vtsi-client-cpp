@@ -17,13 +17,18 @@
 #     5. run_release_with_devops deletes its own clone before `$(MAKE) release` and has an EXIT
 #        trap for the failure paths;
 #     6. the proto compiler image carries a version tag and never sees the repository root as its
-#        input volume.
+#        input volume;
+#    10. every target is defined by exactly one `<target>:` line, and every recipe line that uses
+#        GITHUB_GH_TOKEN first runs $(LOAD_RELEASE_CREDENTIALS), so release_preflight and
+#        release_verify work STANDALONE with only DEVOPS_ACCOUNT_DIR set (the release driver);
 #   BEHAVIOURAL - runs run_release_with_devops from a copy of the Makefile whose `release` is a
 #     stub, with a fixture instead of the real devops-accounts repo:
 #     7. the clone is gone BEFORE `release` starts, the token has arrived in its environment, and
 #        nothing printed it;
 #     8. the clone is gone after a failing release, a failing clone and a file without the token;
-#     9. a caller's DEVOPS_ACCOUNT_DIR is used as-is and left in place.
+#     9. a caller's DEVOPS_ACCOUNT_DIR is used as-is and left in place;
+#    11. standalone, check_release_credentials loads the token from DEVOPS_ACCOUNT_DIR without
+#        printing it, and refuses without one; `make -n` of the devops step clones nothing.
 #
 # Registered with CTest by tests/CMakeLists.txt; run by hand as:
 #   sh tests/test_release_order.sh <repository root>
@@ -140,7 +145,7 @@ static_out="$(perl -e '
   my $devops = join("\n", @{ $recipe{run_release_with_devops} || [] });
   fail("run_release_with_devops has no recipe") unless length $devops;
   my $rm   = index($devops, q{rm -rf "$$owned"; });
-  my $make = index($devops, q{$(MAKE) release});
+  my $make = rindex($devops, q{$(MAKE) release});   # the last one; the first is the dry-run branch
   fail("run_release_with_devops does not delete its clone before \$(MAKE) release")
     unless $rm >= 0 && $make > $rm;
   fail("run_release_with_devops has no EXIT trap removing its clone")
@@ -156,6 +161,28 @@ static_out="$(perl -e '
   my $gen = join("\n", @{ $recipe{generate_ondewo_protos} || [] });
   fail("generate_ondewo_protos mounts the repository root as the input volume")
     if $gen =~ /(?:\$\(CURDIR\)|pwd\})"?:\/input-volume(?:[":\s]|$)/;
+
+  # 10. One definition line per target; the token is loaded on every line that uses it.
+  my %lines;
+  for my $line (@raw) {
+    $lines{$1}++ if $line =~ /^([A-Za-z0-9_.\-]+)\s*:(?!=)/;
+  }
+  for my $t (sort keys %lines) {
+    fail("$t is defined on $lines{$t} lines - keep exactly one `$t:` line") if $lines{$t} > 1;
+  }
+  for my $t (sort keys %recipe) {
+    next if $t eq "run_release_with_devops";      # reads the token itself, from its own clone
+    for my $c (@{ $recipe{$t} }) {
+      next unless $c =~ /\$\$\{?GITHUB_GH_TOKEN\b/;
+      fail("$t: uses GITHUB_GH_TOKEN without loading it first (start the line with \$(LOAD_RELEASE_CREDENTIALS)): $c")
+        unless $c =~ /^\@?\$\(LOAD_RELEASE_CREDENTIALS\);/;
+    }
+  }
+  my ($ct) = join("\n", @raw) =~ /^CREDENTIAL_TARGETS=((?:[^\n]*\\\n)*[^\n]*)/m;
+  my %ct = map { $_ => 1 } split /[\s\\]+/, ($ct // "");
+  for my $need (qw(release release_preflight check_release_credentials release_verify build_gh_release)) {
+    fail("CREDENTIAL_TARGETS does not export the token to $need") unless $ct{$need};
+  }
 
   print STDERR "FAIL: $_\n" for @failures;
   print scalar(@failures), "\n";
@@ -226,6 +253,26 @@ case "$out" in *STUB_TOKEN_ARRIVED*) ;; *) fail "DEVOPS_ACCOUNT_DIR: release did
 [ -f "$sandbox/fixture/account_github.env" ] || fail "DEVOPS_ACCOUNT_DIR: the caller's clone was deleted"
 tmp_is_empty || fail "DEVOPS_ACCOUNT_DIR: something was cloned although the caller supplied a clone"
 no_token_printed "DEVOPS_ACCOUNT_DIR"
+
+# 11. standalone credential loading, and a dry run that clones nothing
+standalone() {
+  rc=0
+  out="$(cd "$sandbox/repo" && env -u DEVOPS_ACCOUNT_DIR -u GITHUB_GH_TOKEN -u GH_TOKEN -u GITHUB_TOKEN \
+    ${1:+DEVOPS_ACCOUNT_DIR="$1"} make --no-print-directory check_release_credentials 2>&1)" || rc=$?
+}
+standalone "$sandbox/fixture"
+[ "$rc" -eq 0 ] || fail "standalone: check_release_credentials did not load the token from DEVOPS_ACCOUNT_DIR: $out"
+no_token_printed "standalone"
+standalone "$sandbox/fixture-without-token"
+[ "$rc" -ne 0 ] || fail "standalone: check_release_credentials passed with a DEVOPS_ACCOUNT_DIR that has no token"
+standalone ""
+[ "$rc" -ne 0 ] || fail "standalone: check_release_credentials passed without any credential"
+rc=0
+out="$(cd "$sandbox/repo" && env -u DEVOPS_ACCOUNT_DIR -u GITHUB_GH_TOKEN TMPDIR="$sandbox/tmp" \
+  make -n --no-print-directory run_release_with_devops DEVOPS_ACCOUNT_CLONE="false" 2>&1)" || rc=$?
+[ "$rc" -eq 0 ] || fail "make -n run_release_with_devops failed ($rc) - did it try to clone?: $out"
+case "$out" in *"dry run (make -n)"*) ;; *) fail "make -n run_release_with_devops did not take the dry-run path: $out" ;; esac
+tmp_is_empty || fail "make -n run_release_with_devops created a clone directory"
 
 [ "$failures" -eq 0 ] || { echo "${failures} release-order check(s) failed" >&2; exit 1; }
 echo "release order OK: preflight -> build -> test -> commit -> push -> branch -> tag -> GitHub release -> verify; devops clone deleted before release and on every failure"

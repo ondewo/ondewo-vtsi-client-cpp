@@ -1,6 +1,6 @@
 # No bare `export`: it handed every variable - GITHUB_GH_TOKEN included - to every recipe, i.e. to
 # cmake, the compilers, the test binaries and the pre-commit hooks. The release credential is
-# exported ONLY to the targets that use it (`<target>: export GITHUB_GH_TOKEN := ...` below), and
+# exported ONLY to the targets that use it (CREDENTIAL_TARGETS below), and
 # the global `unexport` keeps it out of every other recipe even when it arrives from the
 # environment (run_release_with_devops sets it there for `$(MAKE) release`).
 unexport GITHUB_GH_TOKEN GH_TOKEN GITHUB_TOKEN
@@ -157,6 +157,30 @@ GH_VERSION=$(shell sed -n 's/^ARG GH_VERSION=//p' gh.Dockerfile)
 GH_IMAGE=ondewo-vtsi-client-cpp-gh:$(GH_VERSION)
 GH_RUN=docker run --rm -i --user "`id -u`:`id -g`" -e HOME=/tmp -e GH_TOKEN $(GH_IMAGE)
 
+# The targets the release credential is exported to - ONE line, so that every target is still
+# defined by exactly one `<target>:` line (prerequisites of these inherit the export). Everything
+# else - cmake, the compilers, the tests, pre-commit - runs without it (the global `unexport` above).
+# upload_package is the release workflow's step and gets the runner's GH_TOKEN the same way.
+CREDENTIAL_TARGETS=TEST release release_preflight check_release_credentials check_gh_token_valid \
+	check_version_unreleased build_gh_release push_to_gh release_verify
+$(CREDENTIAL_TARGETS): export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
+CI_UPLOAD_TARGETS=upload_package
+$(CI_UPLOAD_TARGETS): export GH_TOKEN := $(GH_TOKEN)
+
+# The release driver (ondewo-vtsi-api) also runs `make release_preflight` and `make release_verify`
+# STANDALONE, with only an absolute DEVOPS_ACCOUNT_DIR in the environment. Every recipe line that
+# uses the token therefore starts with this: when GITHUB_GH_TOKEN is not already set, it is read
+# from $$DEVOPS_ACCOUNT_DIR/account_github.env (anchored ^NAME=) into THAT line's shell only -
+# never onto an argv, never into a log, never into a file. The name carries no TOKEN on purpose:
+# tests/test_release_makefile_hygiene.sh flags a make-expanded $(...TOKEN...) in a recipe.
+LOAD_RELEASE_CREDENTIALS=if { [ -z "$$GITHUB_GH_TOKEN" ] || [ "$$GITHUB_GH_TOKEN" = "ENTER_YOUR_TOKEN_HERE" ]; } \
+	&& [ -n "$${DEVOPS_ACCOUNT_DIR:-}" ] && [ -f "$${DEVOPS_ACCOUNT_DIR}/account_github.env" ]; then \
+	set -a; eval "`grep -h -E '^GITHUB_GH_TOKEN=' "$${DEVOPS_ACCOUNT_DIR}/account_github.env"`"; set +a; fi
+
+# Non-empty under `make -n`. make executes a recipe line holding $(MAKE) even then, so
+# run_release_with_devops checks this and clones nothing in a dry run.
+MAKE_DRY_RUN=$(findstring n,$(firstword -$(MAKEFLAGS)))
+
 # `make` with no target prints the help listing.
 .DEFAULT_GOAL := help
 
@@ -188,11 +212,11 @@ help: ## Print usage info about help targets
 makefile_chapters: ## Shows all sections of Makefile
 	@echo `cat Makefile| grep "########################################################" -A 1 | grep -v "########################################################"`
 
-TEST: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
 TEST: ## Diagnostics - report whether release credentials are set and print the current release notes
 # The placeholder counts as unset - `$(if $(GITHUB_GH_TOKEN),...)` alone reports "yes" for the
 # default ENTER_YOUR_TOKEN_HERE and hides the one thing this line exists to tell you.
-	@if [ -z "$${GITHUB_GH_TOKEN}" ] || [ "$${GITHUB_GH_TOKEN}" = "ENTER_YOUR_TOKEN_HERE" ]; then \
+	@$(LOAD_RELEASE_CREDENTIALS); \
+	if [ -z "$${GITHUB_GH_TOKEN}" ] || [ "$${GITHUB_GH_TOKEN}" = "ENTER_YOUR_TOKEN_HERE" ]; then \
 		echo "GITHUB_GH_TOKEN is set: no"; \
 	else \
 		echo "GITHUB_GH_TOKEN is set: yes"; \
@@ -464,7 +488,6 @@ checkout_defined_submodule_versions: update_submodules ## Check out the submodul
 # byte-reproducible two interleaved uploads could leave a tarball and a .sha256 from different
 # builders. The publish therefore necessarily happens AFTER the tag, so release_verify comes last
 # and waits for that upload.
-release: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
 release: ## Automate the entire release process (credential in GITHUB_GH_TOKEN; `make ondewo_release` reads it)
 	@echo "$(BLUE)[INFO]$(NC) Start Release"
 	make release_preflight
@@ -509,7 +532,6 @@ create_release_tag: ## Create Release Tag and push it to origin
 
 # Read-only: changes nothing locally that is tracked, and nothing on origin or on GitHub. Each check
 # refutes something that would otherwise only fail after the tag is on origin.
-release_preflight: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
 release_preflight: check_host_tools check_release_notes check_gh_token_valid check_version_unreleased ## Read-only release gate: host tools, release notes, token valid with push rights, version not yet released
 	@echo "$(GREEN)[SUCCESS]$(NC) release preflight passed for $(ONDEWO_VTSI_VERSION) - nothing was changed"
 
@@ -533,7 +555,8 @@ check_host_tools: ## Assert the host tools the release needs exist: docker (with
 check_release_credentials: ## Fail loudly when the GitHub release credential is unset or still the placeholder
 # The value is only ever tested, never printed - not even partially. The placeholder counts as
 # unset: `$(if $(GITHUB_GH_TOKEN),...)` alone reports the default ENTER_YOUR_TOKEN_HERE as "set".
-	@if [ -z "$${GITHUB_GH_TOKEN}" ] || [ "$${GITHUB_GH_TOKEN}" = "ENTER_YOUR_TOKEN_HERE" ]; then \
+	@$(LOAD_RELEASE_CREDENTIALS); \
+	if [ -z "$${GITHUB_GH_TOKEN}" ] || [ "$${GITHUB_GH_TOKEN}" = "ENTER_YOUR_TOKEN_HERE" ]; then \
 		echo "$(RED)[ERROR]$(NC) refusing to release - GITHUB_GH_TOKEN is not set"; \
 		echo "        use 'make ondewo_release', which reads it from $(DEVOPS_ACCOUNT_GIT)/account_github.env,"; \
 		echo "        or create a token at https://github.com/settings/tokens and export GITHUB_GH_TOKEN"; \
@@ -549,9 +572,9 @@ gh_image: ## Build the pinned GitHub CLI image (gh.Dockerfile) every gh call of 
 # present for an authenticated caller, and `push` is exactly what the release branch, the tag and
 # the GitHub release need. GH_TOKEN is set from GITHUB_GH_TOKEN for this one command, so a stale
 # GH_TOKEN / GITHUB_TOKEN of the host can neither stand in for the release token nor shadow it.
-check_gh_token_valid: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
 check_gh_token_valid: check_release_credentials gh_image ## Assert GitHub accepts GITHUB_GH_TOKEN and lets it push to this repository (read-only)
-	@push=$$(GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) gh api "repos/$(GH_REPO_PATH)" --jq .permissions.push) \
+	@$(LOAD_RELEASE_CREDENTIALS); \
+	push=$$(GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) gh api "repos/$(GH_REPO_PATH)" --jq .permissions.push) \
 		|| { echo "$(RED)[ERROR]$(NC) GitHub refused GITHUB_GH_TOKEN (see the gh error above)"; exit 1; }; \
 	if [ "$$push" != "true" ]; then \
 		echo "$(RED)[ERROR]$(NC) GITHUB_GH_TOKEN is valid but may not push to $(GH_REPO_PATH) (permissions.push=$$push)"; \
@@ -562,7 +585,6 @@ check_gh_token_valid: check_release_credentials gh_image ## Assert GitHub accept
 # The version must not exist on ORIGIN yet - `spc` only sees the local refs - and must not have a
 # GitHub release (this client's registry). `git ls-remote --exit-code` matches the full ref names
 # exactly (exit 2 = no match), and gh's "release not found" is the only answer that means "free".
-check_version_unreleased: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
 check_version_unreleased: check_release_credentials gh_image ## Assert the version is neither a tag/release branch on origin nor a GitHub release (read-only)
 	@status=0; refs=$$(git ls-remote --exit-code origin "refs/tags/$(ONDEWO_VTSI_VERSION)" "refs/heads/release/$(ONDEWO_VTSI_VERSION)") || status=$$?; \
 	case "$$status" in \
@@ -570,7 +592,8 @@ check_version_unreleased: check_release_credentials gh_image ## Assert the versi
 		2) echo "$(GREEN)[SUCCESS]$(NC) neither refs/tags/$(ONDEWO_VTSI_VERSION) nor refs/heads/release/$(ONDEWO_VTSI_VERSION) exists on origin" ;; \
 		*) echo "$(RED)[ERROR]$(NC) cannot list the refs of origin (git ls-remote exit $$status)"; exit 1 ;; \
 	esac
-	@if out=$$(GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) gh release view "$(ONDEWO_VTSI_VERSION)" --repo "$(GH_REPO_PATH)" --json tagName 2>&1); then \
+	@$(LOAD_RELEASE_CREDENTIALS); \
+	if out=$$(GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) gh release view "$(ONDEWO_VTSI_VERSION)" --repo "$(GH_REPO_PATH)" --json tagName 2>&1); then \
 		echo "$(RED)[ERROR]$(NC) a GitHub release $(ONDEWO_VTSI_VERSION) already exists on $(GH_REPO_PATH)"; \
 		exit 1; \
 	fi; \
@@ -595,22 +618,22 @@ check_release_notes: ## Assert RELEASE.md carries a non-empty entry headed exact
 
 # The guard is a prerequisite, not just a step of `release`, so that a hand-run
 # `make build_gh_release` cannot publish an empty release either. The notes reach gh on stdin.
-build_gh_release: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
 build_gh_release: check_release_notes check_release_credentials gh_image ## Create the GitHub release with the RELEASE.md notes (gh in GH_IMAGE)
-	@printf '%s\n' "$(CURRENT_RELEASE_NOTES)" | GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) \
+	@$(LOAD_RELEASE_CREDENTIALS); \
+	printf '%s\n' "$(CURRENT_RELEASE_NOTES)" | GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) \
 		gh release create --repo "$(GH_REPO_PATH)" "$(ONDEWO_VTSI_VERSION)" --notes-file - --title "Release ${ONDEWO_VTSI_VERSION}"
 
 # Read-only. The tag is on origin, the GitHub release has a non-empty body, and the archive the
 # release workflow attached downloads and passes `sha256sum -c` (tools/verify_release_asset.sh,
 # the same script release.yml runs after its upload; it waits up to 20 min for the asset and stops
 # at once if the tag's release run failed).
-release_verify: export GITHUB_GH_TOKEN := $(GITHUB_GH_TOKEN)
 release_verify: check_release_credentials gh_image ## Verify the published release: tag on origin, non-empty notes, archive attached and matching its sha256
 	@git ls-remote --exit-code origin "refs/tags/$(ONDEWO_VTSI_VERSION)" >/dev/null || { \
 		echo "$(RED)[ERROR]$(NC) the tag $(ONDEWO_VTSI_VERSION) is not on origin"; \
 		exit 1; \
 	}
 	@echo "$(GREEN)[SUCCESS]$(NC) refs/tags/$(ONDEWO_VTSI_VERSION) is on origin"
+	@$(LOAD_RELEASE_CREDENTIALS); \
 	GH_TOKEN="$$GITHUB_GH_TOKEN" $(GH_RUN) sh -s -- "$(ONDEWO_VTSI_VERSION)" "$(GH_REPO_PATH)" "$(LIBRARY_NAME)" \
 		< tools/verify_release_asset.sh
 
@@ -736,7 +759,6 @@ verify_package: ## Extract the release archive and consume it with find_package(
 # token is ever named on this command line. GH_TOKEN is exported to this one recipe because the
 # global `unexport` keeps it from every other one. --clobber so a re-run of the workflow after a
 # fixed build replaces its own asset instead of failing.
-upload_package: export GH_TOKEN := $(GH_TOKEN)
 upload_package: ## CI only (release.yml): attach the release archive and its checksum to the GitHub release
 	@test -f $(PACKAGE_ARCHIVE) || { \
 		echo "$(RED)[ERROR]$(NC) $(PACKAGE_ARCHIVE) does not exist - run 'make build_package' first"; \
@@ -771,6 +793,11 @@ ondewo_release: spc run_release_with_devops ## Release with credentials from the
 # anchored so that a comment mentioning the name cannot replace the value.
 run_release_with_devops: ## Read the credential from devops-accounts, delete the clone, then run the full release
 	@set -eu; \
+	if [ -n "$(MAKE_DRY_RUN)" ]; then \
+		echo "$(BLUE)[INFO]$(NC) dry run (make -n): no credentials are read and nothing is cloned"; \
+		$(MAKE) release; \
+		exit 0; \
+	fi; \
 	owned=""; \
 	if [ -n "$${DEVOPS_ACCOUNT_DIR:-}" ] && [ -d "$${DEVOPS_ACCOUNT_DIR}" ]; then \
 		accounts="$${DEVOPS_ACCOUNT_DIR}"; \

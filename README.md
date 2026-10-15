@@ -442,7 +442,8 @@ the built archive attached to it. The steps, in this order (pinned by `tests/tes
    otherwise from a fresh clone in a `mktemp -d` directory outside the repository. Our own clone is deleted
    right after the token is read, before anything else runs, and by a trap on every failure. The token only
    ever travels in the environment of the targets that use it - never on an argv, never into a build or test
-   process, and never persisted: there is no `gh auth login`.
+   process, and never persisted: there is no `gh auth login`. `make -n ondewo_release` reads and clones
+   nothing.
 3. **`make release_preflight`** - read-only, before anything is built or pushed:
    - the host tools exist: docker (with a reachable daemon), make, git and perl;
    - `RELEASE.md` has a non-empty section headed exactly `## Release ONDEWO VTSI C++ Client <version>`;
@@ -464,6 +465,11 @@ the built archive attached to it. The steps, in this order (pinned by `tests/tes
    archive attached by the workflow downloads and passes `sha256sum -c` (`tools/verify_release_asset.sh`;
    waits up to 20 minutes and stops at once if the tag's release run failed). The workflow runs the same
    script after its upload.
+
+`make release_preflight` and `make release_verify` also run on their own with only `DEVOPS_ACCOUNT_DIR` set
+(the release driver does this): every step that needs the token reads it from
+`$DEVOPS_ACCOUNT_DIR/account_github.env` when `GITHUB_GH_TOKEN` is not already in the environment, into that
+step's shell only.
 
 **Host requirements:** docker, make, git and perl - nothing else. cmake and the C++ toolchain run in the
 digest-pinned `toolchain.Dockerfile` image when `cmake` is not on the host (`USE_DOCKER_TOOLCHAIN`), the proto
