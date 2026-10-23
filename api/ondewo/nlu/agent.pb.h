@@ -5088,6 +5088,7 @@ class GetAgentStatisticsRequest final :
     kLlmAgentNameFilterFieldNumber = 7,
     kLlmGroupBysFieldNumber = 8,
     kLlmCcaiServiceProviderFilterFieldNumber = 10,
+    kLlmBaseUrlFilterFieldNumber = 11,
     kParentFieldNumber = 1,
     kLanguageCodeFieldNumber = 3,
     kFieldMaskFieldNumber = 9,
@@ -5207,6 +5208,30 @@ class GetAgentStatisticsRequest final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& llm_ccai_service_provider_filter() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_llm_ccai_service_provider_filter();
 
+  // repeated string llm_base_url_filter = 11;
+  int llm_base_url_filter_size() const;
+  private:
+  int _internal_llm_base_url_filter_size() const;
+  public:
+  void clear_llm_base_url_filter();
+  const std::string& llm_base_url_filter(int index) const;
+  std::string* mutable_llm_base_url_filter(int index);
+  void set_llm_base_url_filter(int index, const std::string& value);
+  void set_llm_base_url_filter(int index, std::string&& value);
+  void set_llm_base_url_filter(int index, const char* value);
+  void set_llm_base_url_filter(int index, const char* value, size_t size);
+  std::string* add_llm_base_url_filter();
+  void add_llm_base_url_filter(const std::string& value);
+  void add_llm_base_url_filter(std::string&& value);
+  void add_llm_base_url_filter(const char* value);
+  void add_llm_base_url_filter(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& llm_base_url_filter() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_llm_base_url_filter();
+  private:
+  const std::string& _internal_llm_base_url_filter(int index) const;
+  std::string* _internal_add_llm_base_url_filter();
+  public:
+
   // string parent = 1;
   void clear_parent();
   const std::string& parent() const;
@@ -5285,6 +5310,7 @@ class GetAgentStatisticsRequest final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> llm_group_bys_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> llm_ccai_service_provider_filter_;
     mutable std::atomic<int> _llm_ccai_service_provider_filter_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> llm_base_url_filter_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr parent_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr language_code_;
     ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
@@ -5621,6 +5647,7 @@ class GetSessionsStatisticsRequest final :
     kLlmAgentNameFilterFieldNumber = 13,
     kLlmToolNameFilterFieldNumber = 14,
     kLlmCcaiServiceProviderFilterFieldNumber = 15,
+    kLlmBaseUrlFilterFieldNumber = 16,
     kParentFieldNumber = 1,
     kSqlQueryFieldNumber = 10,
     kSessionFilterFieldNumber = 4,
@@ -5808,6 +5835,30 @@ class GetSessionsStatisticsRequest final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& llm_ccai_service_provider_filter() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_llm_ccai_service_provider_filter();
 
+  // repeated string llm_base_url_filter = 16;
+  int llm_base_url_filter_size() const;
+  private:
+  int _internal_llm_base_url_filter_size() const;
+  public:
+  void clear_llm_base_url_filter();
+  const std::string& llm_base_url_filter(int index) const;
+  std::string* mutable_llm_base_url_filter(int index);
+  void set_llm_base_url_filter(int index, const std::string& value);
+  void set_llm_base_url_filter(int index, std::string&& value);
+  void set_llm_base_url_filter(int index, const char* value);
+  void set_llm_base_url_filter(int index, const char* value, size_t size);
+  std::string* add_llm_base_url_filter();
+  void add_llm_base_url_filter(const std::string& value);
+  void add_llm_base_url_filter(std::string&& value);
+  void add_llm_base_url_filter(const char* value);
+  void add_llm_base_url_filter(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& llm_base_url_filter() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_llm_base_url_filter();
+  private:
+  const std::string& _internal_llm_base_url_filter(int index) const;
+  std::string* _internal_add_llm_base_url_filter();
+  public:
+
   // string parent = 1;
   void clear_parent();
   const std::string& parent() const;
@@ -5916,6 +5967,7 @@ class GetSessionsStatisticsRequest final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> llm_tool_name_filter_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> llm_ccai_service_provider_filter_;
     mutable std::atomic<int> _llm_ccai_service_provider_filter_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> llm_base_url_filter_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr parent_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sql_query_;
     ::ondewo::nlu::SessionFilter* session_filter_;
@@ -6251,6 +6303,7 @@ class GetSessionsStatisticsTimeSeriesRequest final :
     kLlmAgentNameFilterFieldNumber = 8,
     kLlmToolNameFilterFieldNumber = 9,
     kLlmCcaiServiceProviderFilterFieldNumber = 10,
+    kLlmBaseUrlFilterFieldNumber = 12,
     kParentFieldNumber = 1,
     kSessionFilterFieldNumber = 3,
     kFieldMaskFieldNumber = 11,
@@ -6371,6 +6424,30 @@ class GetSessionsStatisticsTimeSeriesRequest final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& llm_ccai_service_provider_filter() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_llm_ccai_service_provider_filter();
 
+  // repeated string llm_base_url_filter = 12;
+  int llm_base_url_filter_size() const;
+  private:
+  int _internal_llm_base_url_filter_size() const;
+  public:
+  void clear_llm_base_url_filter();
+  const std::string& llm_base_url_filter(int index) const;
+  std::string* mutable_llm_base_url_filter(int index);
+  void set_llm_base_url_filter(int index, const std::string& value);
+  void set_llm_base_url_filter(int index, std::string&& value);
+  void set_llm_base_url_filter(int index, const char* value);
+  void set_llm_base_url_filter(int index, const char* value, size_t size);
+  std::string* add_llm_base_url_filter();
+  void add_llm_base_url_filter(const std::string& value);
+  void add_llm_base_url_filter(std::string&& value);
+  void add_llm_base_url_filter(const char* value);
+  void add_llm_base_url_filter(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& llm_base_url_filter() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_llm_base_url_filter();
+  private:
+  const std::string& _internal_llm_base_url_filter(int index) const;
+  std::string* _internal_add_llm_base_url_filter();
+  public:
+
   // string parent = 1;
   void clear_parent();
   const std::string& parent() const;
@@ -6462,6 +6539,7 @@ class GetSessionsStatisticsTimeSeriesRequest final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> llm_tool_name_filter_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> llm_ccai_service_provider_filter_;
     mutable std::atomic<int> _llm_ccai_service_provider_filter_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> llm_base_url_filter_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr parent_;
     ::ondewo::nlu::SessionFilter* session_filter_;
     ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
@@ -22572,6 +22650,81 @@ GetAgentStatisticsRequest::mutable_llm_ccai_service_provider_filter() {
   return _internal_mutable_llm_ccai_service_provider_filter();
 }
 
+// repeated string llm_base_url_filter = 11;
+inline int GetAgentStatisticsRequest::_internal_llm_base_url_filter_size() const {
+  return _impl_.llm_base_url_filter_.size();
+}
+inline int GetAgentStatisticsRequest::llm_base_url_filter_size() const {
+  return _internal_llm_base_url_filter_size();
+}
+inline void GetAgentStatisticsRequest::clear_llm_base_url_filter() {
+  _impl_.llm_base_url_filter_.Clear();
+}
+inline std::string* GetAgentStatisticsRequest::add_llm_base_url_filter() {
+  std::string* _s = _internal_add_llm_base_url_filter();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+  return _s;
+}
+inline const std::string& GetAgentStatisticsRequest::_internal_llm_base_url_filter(int index) const {
+  return _impl_.llm_base_url_filter_.Get(index);
+}
+inline const std::string& GetAgentStatisticsRequest::llm_base_url_filter(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+  return _internal_llm_base_url_filter(index);
+}
+inline std::string* GetAgentStatisticsRequest::mutable_llm_base_url_filter(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+  return _impl_.llm_base_url_filter_.Mutable(index);
+}
+inline void GetAgentStatisticsRequest::set_llm_base_url_filter(int index, const std::string& value) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+}
+inline void GetAgentStatisticsRequest::set_llm_base_url_filter(int index, std::string&& value) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+}
+inline void GetAgentStatisticsRequest::set_llm_base_url_filter(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+}
+inline void GetAgentStatisticsRequest::set_llm_base_url_filter(int index, const char* value, size_t size) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+}
+inline std::string* GetAgentStatisticsRequest::_internal_add_llm_base_url_filter() {
+  return _impl_.llm_base_url_filter_.Add();
+}
+inline void GetAgentStatisticsRequest::add_llm_base_url_filter(const std::string& value) {
+  _impl_.llm_base_url_filter_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+}
+inline void GetAgentStatisticsRequest::add_llm_base_url_filter(std::string&& value) {
+  _impl_.llm_base_url_filter_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+}
+inline void GetAgentStatisticsRequest::add_llm_base_url_filter(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.llm_base_url_filter_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+}
+inline void GetAgentStatisticsRequest::add_llm_base_url_filter(const char* value, size_t size) {
+  _impl_.llm_base_url_filter_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+GetAgentStatisticsRequest::llm_base_url_filter() const {
+  // @@protoc_insertion_point(field_list:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+  return _impl_.llm_base_url_filter_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+GetAgentStatisticsRequest::mutable_llm_base_url_filter() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter)
+  return &_impl_.llm_base_url_filter_;
+}
+
 // -------------------------------------------------------------------
 
 // GetAgentStatisticsResponse
@@ -23615,6 +23768,81 @@ GetSessionsStatisticsRequest::mutable_llm_ccai_service_provider_filter() {
   return _internal_mutable_llm_ccai_service_provider_filter();
 }
 
+// repeated string llm_base_url_filter = 16;
+inline int GetSessionsStatisticsRequest::_internal_llm_base_url_filter_size() const {
+  return _impl_.llm_base_url_filter_.size();
+}
+inline int GetSessionsStatisticsRequest::llm_base_url_filter_size() const {
+  return _internal_llm_base_url_filter_size();
+}
+inline void GetSessionsStatisticsRequest::clear_llm_base_url_filter() {
+  _impl_.llm_base_url_filter_.Clear();
+}
+inline std::string* GetSessionsStatisticsRequest::add_llm_base_url_filter() {
+  std::string* _s = _internal_add_llm_base_url_filter();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+  return _s;
+}
+inline const std::string& GetSessionsStatisticsRequest::_internal_llm_base_url_filter(int index) const {
+  return _impl_.llm_base_url_filter_.Get(index);
+}
+inline const std::string& GetSessionsStatisticsRequest::llm_base_url_filter(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+  return _internal_llm_base_url_filter(index);
+}
+inline std::string* GetSessionsStatisticsRequest::mutable_llm_base_url_filter(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+  return _impl_.llm_base_url_filter_.Mutable(index);
+}
+inline void GetSessionsStatisticsRequest::set_llm_base_url_filter(int index, const std::string& value) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsRequest::set_llm_base_url_filter(int index, std::string&& value) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsRequest::set_llm_base_url_filter(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsRequest::set_llm_base_url_filter(int index, const char* value, size_t size) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+}
+inline std::string* GetSessionsStatisticsRequest::_internal_add_llm_base_url_filter() {
+  return _impl_.llm_base_url_filter_.Add();
+}
+inline void GetSessionsStatisticsRequest::add_llm_base_url_filter(const std::string& value) {
+  _impl_.llm_base_url_filter_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsRequest::add_llm_base_url_filter(std::string&& value) {
+  _impl_.llm_base_url_filter_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsRequest::add_llm_base_url_filter(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.llm_base_url_filter_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsRequest::add_llm_base_url_filter(const char* value, size_t size) {
+  _impl_.llm_base_url_filter_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+GetSessionsStatisticsRequest::llm_base_url_filter() const {
+  // @@protoc_insertion_point(field_list:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+  return _impl_.llm_base_url_filter_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+GetSessionsStatisticsRequest::mutable_llm_base_url_filter() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter)
+  return &_impl_.llm_base_url_filter_;
+}
+
 // -------------------------------------------------------------------
 
 // GetSessionsStatisticsResponse
@@ -24419,6 +24647,81 @@ inline void GetSessionsStatisticsTimeSeriesRequest::set_allocated_field_mask(::P
   }
   _impl_.field_mask_ = field_mask;
   // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.field_mask)
+}
+
+// repeated string llm_base_url_filter = 12;
+inline int GetSessionsStatisticsTimeSeriesRequest::_internal_llm_base_url_filter_size() const {
+  return _impl_.llm_base_url_filter_.size();
+}
+inline int GetSessionsStatisticsTimeSeriesRequest::llm_base_url_filter_size() const {
+  return _internal_llm_base_url_filter_size();
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::clear_llm_base_url_filter() {
+  _impl_.llm_base_url_filter_.Clear();
+}
+inline std::string* GetSessionsStatisticsTimeSeriesRequest::add_llm_base_url_filter() {
+  std::string* _s = _internal_add_llm_base_url_filter();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+  return _s;
+}
+inline const std::string& GetSessionsStatisticsTimeSeriesRequest::_internal_llm_base_url_filter(int index) const {
+  return _impl_.llm_base_url_filter_.Get(index);
+}
+inline const std::string& GetSessionsStatisticsTimeSeriesRequest::llm_base_url_filter(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+  return _internal_llm_base_url_filter(index);
+}
+inline std::string* GetSessionsStatisticsTimeSeriesRequest::mutable_llm_base_url_filter(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+  return _impl_.llm_base_url_filter_.Mutable(index);
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::set_llm_base_url_filter(int index, const std::string& value) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::set_llm_base_url_filter(int index, std::string&& value) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::set_llm_base_url_filter(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::set_llm_base_url_filter(int index, const char* value, size_t size) {
+  _impl_.llm_base_url_filter_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+}
+inline std::string* GetSessionsStatisticsTimeSeriesRequest::_internal_add_llm_base_url_filter() {
+  return _impl_.llm_base_url_filter_.Add();
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::add_llm_base_url_filter(const std::string& value) {
+  _impl_.llm_base_url_filter_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::add_llm_base_url_filter(std::string&& value) {
+  _impl_.llm_base_url_filter_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::add_llm_base_url_filter(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.llm_base_url_filter_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+}
+inline void GetSessionsStatisticsTimeSeriesRequest::add_llm_base_url_filter(const char* value, size_t size) {
+  _impl_.llm_base_url_filter_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+GetSessionsStatisticsTimeSeriesRequest::llm_base_url_filter() const {
+  // @@protoc_insertion_point(field_list:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+  return _impl_.llm_base_url_filter_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+GetSessionsStatisticsTimeSeriesRequest::mutable_llm_base_url_filter() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter)
+  return &_impl_.llm_base_url_filter_;
 }
 
 // -------------------------------------------------------------------

@@ -11771,6 +11771,7 @@ class RagCrawlerConfig final :
     kOutputConfigFieldNumber = 3,
     kStatusFilterFieldNumber = 4,
     kIncrementalConfigFieldNumber = 5,
+    kMaxPagesFieldNumber = 6,
   };
   // .ondewo.nlu.RagCrawlerConcurrencyConfig concurrency_config = 1;
   bool has_concurrency_config() const;
@@ -11862,6 +11863,19 @@ class RagCrawlerConfig final :
       ::ondewo::nlu::RagCrawlerIncrementalConfig* incremental_config);
   ::ondewo::nlu::RagCrawlerIncrementalConfig* unsafe_arena_release_incremental_config();
 
+  // optional int32 max_pages = 6;
+  bool has_max_pages() const;
+  private:
+  bool _internal_has_max_pages() const;
+  public:
+  void clear_max_pages();
+  int32_t max_pages() const;
+  void set_max_pages(int32_t value);
+  private:
+  int32_t _internal_max_pages() const;
+  void _internal_set_max_pages(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.nlu.RagCrawlerConfig)
  private:
   class _Internal;
@@ -11870,12 +11884,14 @@ class RagCrawlerConfig final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::ondewo::nlu::RagCrawlerConcurrencyConfig* concurrency_config_;
     ::ondewo::nlu::RagCrawlerDeepCrawlerConfig* deep_crawler_config_;
     ::ondewo::nlu::RagCrawlerResultsConfig* output_config_;
     ::ondewo::nlu::RagCrawlerStatusFilter* status_filter_;
     ::ondewo::nlu::RagCrawlerIncrementalConfig* incremental_config_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    int32_t max_pages_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fnlu_2frag_2eproto;
@@ -12072,10 +12088,10 @@ class RagCrawlerDeepCrawlerConfig final :
   void _internal_set_normalize_url_case(bool value);
   public:
 
-  // int32 max_pages = 4;
-  void clear_max_pages();
-  int32_t max_pages() const;
-  void set_max_pages(int32_t value);
+  // int32 max_pages = 4 [deprecated = true];
+  PROTOBUF_DEPRECATED void clear_max_pages();
+  PROTOBUF_DEPRECATED int32_t max_pages() const;
+  PROTOBUF_DEPRECATED void set_max_pages(int32_t value);
   private:
   int32_t _internal_max_pages() const;
   void _internal_set_max_pages(int32_t value);
@@ -32574,6 +32590,34 @@ inline void RagCrawlerConfig::set_allocated_incremental_config(::ondewo::nlu::Ra
   // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.RagCrawlerConfig.incremental_config)
 }
 
+// optional int32 max_pages = 6;
+inline bool RagCrawlerConfig::_internal_has_max_pages() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool RagCrawlerConfig::has_max_pages() const {
+  return _internal_has_max_pages();
+}
+inline void RagCrawlerConfig::clear_max_pages() {
+  _impl_.max_pages_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline int32_t RagCrawlerConfig::_internal_max_pages() const {
+  return _impl_.max_pages_;
+}
+inline int32_t RagCrawlerConfig::max_pages() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.RagCrawlerConfig.max_pages)
+  return _internal_max_pages();
+}
+inline void RagCrawlerConfig::_internal_set_max_pages(int32_t value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.max_pages_ = value;
+}
+inline void RagCrawlerConfig::set_max_pages(int32_t value) {
+  _internal_set_max_pages(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.RagCrawlerConfig.max_pages)
+}
+
 // -------------------------------------------------------------------
 
 // RagCrawlerDeepCrawlerConfig
@@ -32646,7 +32690,7 @@ inline void RagCrawlerDeepCrawlerConfig::set_max_depth(int32_t value) {
   // @@protoc_insertion_point(field_set:ondewo.nlu.RagCrawlerDeepCrawlerConfig.max_depth)
 }
 
-// int32 max_pages = 4;
+// int32 max_pages = 4 [deprecated = true];
 inline void RagCrawlerDeepCrawlerConfig::clear_max_pages() {
   _impl_.max_pages_ = 0;
 }

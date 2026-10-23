@@ -309,9 +309,15 @@ extern ListUserIdsOfAllSessionsRequestDefaultTypeInternal _ListUserIdsOfAllSessi
 class ListUserIdsResponse;
 struct ListUserIdsResponseDefaultTypeInternal;
 extern ListUserIdsResponseDefaultTypeInternal _ListUserIdsResponse_default_instance_;
+class LlmAgentNodeEvent;
+struct LlmAgentNodeEventDefaultTypeInternal;
+extern LlmAgentNodeEventDefaultTypeInternal _LlmAgentNodeEvent_default_instance_;
 class LlmAgentUsage;
 struct LlmAgentUsageDefaultTypeInternal;
 extern LlmAgentUsageDefaultTypeInternal _LlmAgentUsage_default_instance_;
+class LlmBaseUrlUsage;
+struct LlmBaseUrlUsageDefaultTypeInternal;
+extern LlmBaseUrlUsageDefaultTypeInternal _LlmBaseUrlUsage_default_instance_;
 class LlmCacheStats;
 struct LlmCacheStatsDefaultTypeInternal;
 extern LlmCacheStatsDefaultTypeInternal _LlmCacheStats_default_instance_;
@@ -542,7 +548,9 @@ template<> ::ondewo::nlu::ListTagsOfAllSessionsRequest* Arena::CreateMaybeMessag
 template<> ::ondewo::nlu::ListTagsResponse* Arena::CreateMaybeMessage<::ondewo::nlu::ListTagsResponse>(Arena*);
 template<> ::ondewo::nlu::ListUserIdsOfAllSessionsRequest* Arena::CreateMaybeMessage<::ondewo::nlu::ListUserIdsOfAllSessionsRequest>(Arena*);
 template<> ::ondewo::nlu::ListUserIdsResponse* Arena::CreateMaybeMessage<::ondewo::nlu::ListUserIdsResponse>(Arena*);
+template<> ::ondewo::nlu::LlmAgentNodeEvent* Arena::CreateMaybeMessage<::ondewo::nlu::LlmAgentNodeEvent>(Arena*);
 template<> ::ondewo::nlu::LlmAgentUsage* Arena::CreateMaybeMessage<::ondewo::nlu::LlmAgentUsage>(Arena*);
+template<> ::ondewo::nlu::LlmBaseUrlUsage* Arena::CreateMaybeMessage<::ondewo::nlu::LlmBaseUrlUsage>(Arena*);
 template<> ::ondewo::nlu::LlmCacheStats* Arena::CreateMaybeMessage<::ondewo::nlu::LlmCacheStats>(Arena*);
 template<> ::ondewo::nlu::LlmCallFinishedEvent* Arena::CreateMaybeMessage<::ondewo::nlu::LlmCallFinishedEvent>(Arena*);
 template<> ::ondewo::nlu::LlmCallStartedEvent* Arena::CreateMaybeMessage<::ondewo::nlu::LlmCallStartedEvent>(Arena*);
@@ -752,6 +760,33 @@ inline bool LlmSafetyLocation_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, LlmSafetyLocation* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<LlmSafetyLocation>(
     LlmSafetyLocation_descriptor(), name, value);
+}
+enum LlmAgentNodePhase : int {
+  LLM_AGENT_NODE_PHASE_UNSPECIFIED = 0,
+  LLM_AGENT_NODE_PHASE_STARTED = 1,
+  LLM_AGENT_NODE_PHASE_COMPLETED = 2,
+  LLM_AGENT_NODE_PHASE_FAILED = 3,
+  LlmAgentNodePhase_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  LlmAgentNodePhase_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool LlmAgentNodePhase_IsValid(int value);
+constexpr LlmAgentNodePhase LlmAgentNodePhase_MIN = LLM_AGENT_NODE_PHASE_UNSPECIFIED;
+constexpr LlmAgentNodePhase LlmAgentNodePhase_MAX = LLM_AGENT_NODE_PHASE_FAILED;
+constexpr int LlmAgentNodePhase_ARRAYSIZE = LlmAgentNodePhase_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LlmAgentNodePhase_descriptor();
+template<typename T>
+inline const std::string& LlmAgentNodePhase_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, LlmAgentNodePhase>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function LlmAgentNodePhase_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    LlmAgentNodePhase_descriptor(), enum_t_value);
+}
+inline bool LlmAgentNodePhase_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, LlmAgentNodePhase* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<LlmAgentNodePhase>(
+    LlmAgentNodePhase_descriptor(), name, value);
 }
 enum AudioEncoding : int {
   AUDIO_ENCODING_UNSPECIFIED = 0,
@@ -6202,6 +6237,216 @@ class LlmCcaiServiceUsage final :
 };
 // -------------------------------------------------------------------
 
+class LlmBaseUrlUsage final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.nlu.LlmBaseUrlUsage) */ {
+ public:
+  inline LlmBaseUrlUsage() : LlmBaseUrlUsage(nullptr) {}
+  ~LlmBaseUrlUsage() override;
+  explicit PROTOBUF_CONSTEXPR LlmBaseUrlUsage(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  LlmBaseUrlUsage(const LlmBaseUrlUsage& from);
+  LlmBaseUrlUsage(LlmBaseUrlUsage&& from) noexcept
+    : LlmBaseUrlUsage() {
+    *this = ::std::move(from);
+  }
+
+  inline LlmBaseUrlUsage& operator=(const LlmBaseUrlUsage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LlmBaseUrlUsage& operator=(LlmBaseUrlUsage&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LlmBaseUrlUsage& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LlmBaseUrlUsage* internal_default_instance() {
+    return reinterpret_cast<const LlmBaseUrlUsage*>(
+               &_LlmBaseUrlUsage_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    18;
+
+  friend void swap(LlmBaseUrlUsage& a, LlmBaseUrlUsage& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LlmBaseUrlUsage* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LlmBaseUrlUsage* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LlmBaseUrlUsage* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<LlmBaseUrlUsage>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const LlmBaseUrlUsage& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const LlmBaseUrlUsage& from) {
+    LlmBaseUrlUsage::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LlmBaseUrlUsage* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.nlu.LlmBaseUrlUsage";
+  }
+  protected:
+  explicit LlmBaseUrlUsage(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kModelNamesFieldNumber = 4,
+    kBaseUrlFieldNumber = 1,
+    kLlmTokenUsageFieldNumber = 3,
+    kCallCountFieldNumber = 2,
+  };
+  // repeated string model_names = 4;
+  int model_names_size() const;
+  private:
+  int _internal_model_names_size() const;
+  public:
+  void clear_model_names();
+  const std::string& model_names(int index) const;
+  std::string* mutable_model_names(int index);
+  void set_model_names(int index, const std::string& value);
+  void set_model_names(int index, std::string&& value);
+  void set_model_names(int index, const char* value);
+  void set_model_names(int index, const char* value, size_t size);
+  std::string* add_model_names();
+  void add_model_names(const std::string& value);
+  void add_model_names(std::string&& value);
+  void add_model_names(const char* value);
+  void add_model_names(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& model_names() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_model_names();
+  private:
+  const std::string& _internal_model_names(int index) const;
+  std::string* _internal_add_model_names();
+  public:
+
+  // string base_url = 1;
+  void clear_base_url();
+  const std::string& base_url() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_base_url(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_base_url();
+  PROTOBUF_NODISCARD std::string* release_base_url();
+  void set_allocated_base_url(std::string* base_url);
+  private:
+  const std::string& _internal_base_url() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_base_url(const std::string& value);
+  std::string* _internal_mutable_base_url();
+  public:
+
+  // .ondewo.nlu.LlmTokenUsage llm_token_usage = 3;
+  bool has_llm_token_usage() const;
+  private:
+  bool _internal_has_llm_token_usage() const;
+  public:
+  void clear_llm_token_usage();
+  const ::ondewo::nlu::LlmTokenUsage& llm_token_usage() const;
+  PROTOBUF_NODISCARD ::ondewo::nlu::LlmTokenUsage* release_llm_token_usage();
+  ::ondewo::nlu::LlmTokenUsage* mutable_llm_token_usage();
+  void set_allocated_llm_token_usage(::ondewo::nlu::LlmTokenUsage* llm_token_usage);
+  private:
+  const ::ondewo::nlu::LlmTokenUsage& _internal_llm_token_usage() const;
+  ::ondewo::nlu::LlmTokenUsage* _internal_mutable_llm_token_usage();
+  public:
+  void unsafe_arena_set_allocated_llm_token_usage(
+      ::ondewo::nlu::LlmTokenUsage* llm_token_usage);
+  ::ondewo::nlu::LlmTokenUsage* unsafe_arena_release_llm_token_usage();
+
+  // int64 call_count = 2;
+  void clear_call_count();
+  int64_t call_count() const;
+  void set_call_count(int64_t value);
+  private:
+  int64_t _internal_call_count() const;
+  void _internal_set_call_count(int64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.nlu.LlmBaseUrlUsage)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> model_names_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr base_url_;
+    ::ondewo::nlu::LlmTokenUsage* llm_token_usage_;
+    int64_t call_count_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fnlu_2fsession_2eproto;
+};
+// -------------------------------------------------------------------
+
 class LlmAgentUsage final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.nlu.LlmAgentUsage) */ {
  public:
@@ -6250,7 +6495,7 @@ class LlmAgentUsage final :
                &_LlmAgentUsage_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    19;
 
   friend void swap(LlmAgentUsage& a, LlmAgentUsage& b) {
     a.Swap(&b);
@@ -6477,7 +6722,7 @@ class LlmToolUsage final :
                &_LlmToolUsage_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    20;
 
   friend void swap(LlmToolUsage& a, LlmToolUsage& b) {
     a.Swap(&b);
@@ -6757,7 +7002,7 @@ class LlmErrorStat final :
                &_LlmErrorStat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    21;
 
   friend void swap(LlmErrorStat& a, LlmErrorStat& b) {
     a.Swap(&b);
@@ -6948,7 +7193,7 @@ class LlmErrorStats final :
                &_LlmErrorStats_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    22;
 
   friend void swap(LlmErrorStats& a, LlmErrorStats& b) {
     a.Swap(&b);
@@ -7149,7 +7394,7 @@ class LlmFinishReasonStat final :
                &_LlmFinishReasonStat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    23;
 
   friend void swap(LlmFinishReasonStat& a, LlmFinishReasonStat& b) {
     a.Swap(&b);
@@ -7324,7 +7569,7 @@ class LlmReasoningEffortStat final :
                &_LlmReasoningEffortStat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    24;
 
   friend void swap(LlmReasoningEffortStat& a, LlmReasoningEffortStat& b) {
     a.Swap(&b);
@@ -7514,7 +7759,7 @@ class LlmTelemetryReport final :
                &_LlmTelemetryReport_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    25;
 
   friend void swap(LlmTelemetryReport& a, LlmTelemetryReport& b) {
     a.Swap(&b);
@@ -7595,6 +7840,7 @@ class LlmTelemetryReport final :
     kToolsUsedFieldNumber = 10,
     kFinishReasonDistributionFieldNumber = 14,
     kReasoningEffortDistributionFieldNumber = 15,
+    kBaseUrlsUsedFieldNumber = 21,
     kLlmTokenUsageFieldNumber = 1,
     kLatencyStatsFieldNumber = 11,
     kCacheStatsFieldNumber = 12,
@@ -7751,6 +7997,24 @@ class LlmTelemetryReport final :
   ::ondewo::nlu::LlmReasoningEffortStat* add_reasoning_effort_distribution();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmReasoningEffortStat >&
       reasoning_effort_distribution() const;
+
+  // repeated .ondewo.nlu.LlmBaseUrlUsage base_urls_used = 21;
+  int base_urls_used_size() const;
+  private:
+  int _internal_base_urls_used_size() const;
+  public:
+  void clear_base_urls_used();
+  ::ondewo::nlu::LlmBaseUrlUsage* mutable_base_urls_used(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmBaseUrlUsage >*
+      mutable_base_urls_used();
+  private:
+  const ::ondewo::nlu::LlmBaseUrlUsage& _internal_base_urls_used(int index) const;
+  ::ondewo::nlu::LlmBaseUrlUsage* _internal_add_base_urls_used();
+  public:
+  const ::ondewo::nlu::LlmBaseUrlUsage& base_urls_used(int index) const;
+  ::ondewo::nlu::LlmBaseUrlUsage* add_base_urls_used();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmBaseUrlUsage >&
+      base_urls_used() const;
 
   // .ondewo.nlu.LlmTokenUsage llm_token_usage = 1;
   bool has_llm_token_usage() const;
@@ -7921,6 +8185,7 @@ class LlmTelemetryReport final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmToolUsage > tools_used_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmFinishReasonStat > finish_reason_distribution_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmReasoningEffortStat > reasoning_effort_distribution_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmBaseUrlUsage > base_urls_used_;
     ::ondewo::nlu::LlmTokenUsage* llm_token_usage_;
     ::ondewo::nlu::LlmLatencyStats* latency_stats_;
     ::ondewo::nlu::LlmCacheStats* cache_stats_;
@@ -7988,7 +8253,7 @@ class LlmSafetyCategoryStat final :
                &_LlmSafetyCategoryStat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    26;
 
   friend void swap(LlmSafetyCategoryStat& a, LlmSafetyCategoryStat& b) {
     a.Swap(&b);
@@ -8163,7 +8428,7 @@ class LlmSafetyStats final :
                &_LlmSafetyStats_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    27;
 
   friend void swap(LlmSafetyStats& a, LlmSafetyStats& b) {
     a.Swap(&b);
@@ -8353,7 +8618,7 @@ class LlmCallStartedEvent final :
                &_LlmCallStartedEvent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    28;
 
   friend void swap(LlmCallStartedEvent& a, LlmCallStartedEvent& b) {
     a.Swap(&b);
@@ -8574,7 +8839,7 @@ class LlmCallFinishedEvent final :
                &_LlmCallFinishedEvent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    29;
 
   friend void swap(LlmCallFinishedEvent& a, LlmCallFinishedEvent& b) {
     a.Swap(&b);
@@ -8778,7 +9043,7 @@ class LlmToolCallStartedEvent final :
                &_LlmToolCallStartedEvent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    30;
 
   friend void swap(LlmToolCallStartedEvent& a, LlmToolCallStartedEvent& b) {
     a.Swap(&b);
@@ -9003,7 +9268,7 @@ class LlmToolCallFinishedEvent final :
                &_LlmToolCallFinishedEvent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    31;
 
   friend void swap(LlmToolCallFinishedEvent& a, LlmToolCallFinishedEvent& b) {
     a.Swap(&b);
@@ -9259,7 +9524,7 @@ class LlmThinkingDeltaEvent final :
                &_LlmThinkingDeltaEvent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    32;
 
   friend void swap(LlmThinkingDeltaEvent& a, LlmThinkingDeltaEvent& b) {
     a.Swap(&b);
@@ -9448,7 +9713,7 @@ class LlmTokenUsageUpdateEvent final :
                &_LlmTokenUsageUpdateEvent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    33;
 
   friend void swap(LlmTokenUsageUpdateEvent& a, LlmTokenUsageUpdateEvent& b) {
     a.Swap(&b);
@@ -9573,6 +9838,275 @@ class LlmTokenUsageUpdateEvent final :
 };
 // -------------------------------------------------------------------
 
+class LlmAgentNodeEvent final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.nlu.LlmAgentNodeEvent) */ {
+ public:
+  inline LlmAgentNodeEvent() : LlmAgentNodeEvent(nullptr) {}
+  ~LlmAgentNodeEvent() override;
+  explicit PROTOBUF_CONSTEXPR LlmAgentNodeEvent(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  LlmAgentNodeEvent(const LlmAgentNodeEvent& from);
+  LlmAgentNodeEvent(LlmAgentNodeEvent&& from) noexcept
+    : LlmAgentNodeEvent() {
+    *this = ::std::move(from);
+  }
+
+  inline LlmAgentNodeEvent& operator=(const LlmAgentNodeEvent& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LlmAgentNodeEvent& operator=(LlmAgentNodeEvent&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LlmAgentNodeEvent& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LlmAgentNodeEvent* internal_default_instance() {
+    return reinterpret_cast<const LlmAgentNodeEvent*>(
+               &_LlmAgentNodeEvent_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    34;
+
+  friend void swap(LlmAgentNodeEvent& a, LlmAgentNodeEvent& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LlmAgentNodeEvent* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LlmAgentNodeEvent* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LlmAgentNodeEvent* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<LlmAgentNodeEvent>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const LlmAgentNodeEvent& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const LlmAgentNodeEvent& from) {
+    LlmAgentNodeEvent::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LlmAgentNodeEvent* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.nlu.LlmAgentNodeEvent";
+  }
+  protected:
+  explicit LlmAgentNodeEvent(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kLlmAgentNodeEventNodePathFieldNumber = 4,
+    kLlmAgentNodeEventNodeRunIdFieldNumber = 1,
+    kLlmAgentNodeEventParentNodeRunIdFieldNumber = 2,
+    kLlmAgentNodeEventNodeDisplayNameFieldNumber = 3,
+    kLlmAgentNodeEventErrorMessageFieldNumber = 8,
+    kTimestampFieldNumber = 6,
+    kLlmAgentNodePhaseFieldNumber = 5,
+    kLlmAgentNodeEventDurationInSFieldNumber = 7,
+  };
+  // repeated string llm_agent_node_event_node_path = 4;
+  int llm_agent_node_event_node_path_size() const;
+  private:
+  int _internal_llm_agent_node_event_node_path_size() const;
+  public:
+  void clear_llm_agent_node_event_node_path();
+  const std::string& llm_agent_node_event_node_path(int index) const;
+  std::string* mutable_llm_agent_node_event_node_path(int index);
+  void set_llm_agent_node_event_node_path(int index, const std::string& value);
+  void set_llm_agent_node_event_node_path(int index, std::string&& value);
+  void set_llm_agent_node_event_node_path(int index, const char* value);
+  void set_llm_agent_node_event_node_path(int index, const char* value, size_t size);
+  std::string* add_llm_agent_node_event_node_path();
+  void add_llm_agent_node_event_node_path(const std::string& value);
+  void add_llm_agent_node_event_node_path(std::string&& value);
+  void add_llm_agent_node_event_node_path(const char* value);
+  void add_llm_agent_node_event_node_path(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& llm_agent_node_event_node_path() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_llm_agent_node_event_node_path();
+  private:
+  const std::string& _internal_llm_agent_node_event_node_path(int index) const;
+  std::string* _internal_add_llm_agent_node_event_node_path();
+  public:
+
+  // string llm_agent_node_event_node_run_id = 1;
+  void clear_llm_agent_node_event_node_run_id();
+  const std::string& llm_agent_node_event_node_run_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_llm_agent_node_event_node_run_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_llm_agent_node_event_node_run_id();
+  PROTOBUF_NODISCARD std::string* release_llm_agent_node_event_node_run_id();
+  void set_allocated_llm_agent_node_event_node_run_id(std::string* llm_agent_node_event_node_run_id);
+  private:
+  const std::string& _internal_llm_agent_node_event_node_run_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_llm_agent_node_event_node_run_id(const std::string& value);
+  std::string* _internal_mutable_llm_agent_node_event_node_run_id();
+  public:
+
+  // string llm_agent_node_event_parent_node_run_id = 2;
+  void clear_llm_agent_node_event_parent_node_run_id();
+  const std::string& llm_agent_node_event_parent_node_run_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_llm_agent_node_event_parent_node_run_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_llm_agent_node_event_parent_node_run_id();
+  PROTOBUF_NODISCARD std::string* release_llm_agent_node_event_parent_node_run_id();
+  void set_allocated_llm_agent_node_event_parent_node_run_id(std::string* llm_agent_node_event_parent_node_run_id);
+  private:
+  const std::string& _internal_llm_agent_node_event_parent_node_run_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_llm_agent_node_event_parent_node_run_id(const std::string& value);
+  std::string* _internal_mutable_llm_agent_node_event_parent_node_run_id();
+  public:
+
+  // string llm_agent_node_event_node_display_name = 3;
+  void clear_llm_agent_node_event_node_display_name();
+  const std::string& llm_agent_node_event_node_display_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_llm_agent_node_event_node_display_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_llm_agent_node_event_node_display_name();
+  PROTOBUF_NODISCARD std::string* release_llm_agent_node_event_node_display_name();
+  void set_allocated_llm_agent_node_event_node_display_name(std::string* llm_agent_node_event_node_display_name);
+  private:
+  const std::string& _internal_llm_agent_node_event_node_display_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_llm_agent_node_event_node_display_name(const std::string& value);
+  std::string* _internal_mutable_llm_agent_node_event_node_display_name();
+  public:
+
+  // string llm_agent_node_event_error_message = 8;
+  void clear_llm_agent_node_event_error_message();
+  const std::string& llm_agent_node_event_error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_llm_agent_node_event_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_llm_agent_node_event_error_message();
+  PROTOBUF_NODISCARD std::string* release_llm_agent_node_event_error_message();
+  void set_allocated_llm_agent_node_event_error_message(std::string* llm_agent_node_event_error_message);
+  private:
+  const std::string& _internal_llm_agent_node_event_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_llm_agent_node_event_error_message(const std::string& value);
+  std::string* _internal_mutable_llm_agent_node_event_error_message();
+  public:
+
+  // .google.protobuf.Timestamp timestamp = 6;
+  bool has_timestamp() const;
+  private:
+  bool _internal_has_timestamp() const;
+  public:
+  void clear_timestamp();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& timestamp() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_timestamp();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_timestamp();
+  void set_allocated_timestamp(::PROTOBUF_NAMESPACE_ID::Timestamp* timestamp);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_timestamp() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_timestamp();
+  public:
+  void unsafe_arena_set_allocated_timestamp(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* timestamp);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_timestamp();
+
+  // .ondewo.nlu.LlmAgentNodePhase llm_agent_node_phase = 5;
+  void clear_llm_agent_node_phase();
+  ::ondewo::nlu::LlmAgentNodePhase llm_agent_node_phase() const;
+  void set_llm_agent_node_phase(::ondewo::nlu::LlmAgentNodePhase value);
+  private:
+  ::ondewo::nlu::LlmAgentNodePhase _internal_llm_agent_node_phase() const;
+  void _internal_set_llm_agent_node_phase(::ondewo::nlu::LlmAgentNodePhase value);
+  public:
+
+  // float llm_agent_node_event_duration_in_s = 7;
+  void clear_llm_agent_node_event_duration_in_s();
+  float llm_agent_node_event_duration_in_s() const;
+  void set_llm_agent_node_event_duration_in_s(float value);
+  private:
+  float _internal_llm_agent_node_event_duration_in_s() const;
+  void _internal_set_llm_agent_node_event_duration_in_s(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.nlu.LlmAgentNodeEvent)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> llm_agent_node_event_node_path_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr llm_agent_node_event_node_run_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr llm_agent_node_event_parent_node_run_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr llm_agent_node_event_node_display_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr llm_agent_node_event_error_message_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* timestamp_;
+    int llm_agent_node_phase_;
+    float llm_agent_node_event_duration_in_s_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fnlu_2fsession_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ReferencedChunk final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.nlu.ReferencedChunk) */ {
  public:
@@ -9621,7 +10155,7 @@ class ReferencedChunk final :
                &_ReferencedChunk_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    35;
 
   friend void swap(ReferencedChunk& a, ReferencedChunk& b) {
     a.Swap(&b);
@@ -9892,7 +10426,7 @@ class QueryResult final :
                &_QueryResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    36;
 
   friend void swap(QueryResult& a, QueryResult& b) {
     a.Swap(&b);
@@ -10338,7 +10872,7 @@ class StreamingDetectIntentRequest final :
                &_StreamingDetectIntentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    37;
 
   friend void swap(StreamingDetectIntentRequest& a, StreamingDetectIntentRequest& b) {
     a.Swap(&b);
@@ -10560,6 +11094,7 @@ class StreamingDetectIntentResponse final :
     kLlmToolCallFinished = 8,
     kLlmThinkingDelta = 9,
     kLlmTokenUsageUpdate = 10,
+    kLlmAgentNodeEvent = 11,
     TELEMETRY_EVENT_NOT_SET = 0,
   };
 
@@ -10568,7 +11103,7 @@ class StreamingDetectIntentResponse final :
                &_StreamingDetectIntentResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    38;
 
   friend void swap(StreamingDetectIntentResponse& a, StreamingDetectIntentResponse& b) {
     a.Swap(&b);
@@ -10651,6 +11186,7 @@ class StreamingDetectIntentResponse final :
     kLlmToolCallFinishedFieldNumber = 8,
     kLlmThinkingDeltaFieldNumber = 9,
     kLlmTokenUsageUpdateFieldNumber = 10,
+    kLlmAgentNodeEventFieldNumber = 11,
   };
   // string response_id = 1;
   void clear_response_id();
@@ -10828,6 +11364,24 @@ class StreamingDetectIntentResponse final :
       ::ondewo::nlu::LlmTokenUsageUpdateEvent* llm_token_usage_update);
   ::ondewo::nlu::LlmTokenUsageUpdateEvent* unsafe_arena_release_llm_token_usage_update();
 
+  // .ondewo.nlu.LlmAgentNodeEvent llm_agent_node_event = 11;
+  bool has_llm_agent_node_event() const;
+  private:
+  bool _internal_has_llm_agent_node_event() const;
+  public:
+  void clear_llm_agent_node_event();
+  const ::ondewo::nlu::LlmAgentNodeEvent& llm_agent_node_event() const;
+  PROTOBUF_NODISCARD ::ondewo::nlu::LlmAgentNodeEvent* release_llm_agent_node_event();
+  ::ondewo::nlu::LlmAgentNodeEvent* mutable_llm_agent_node_event();
+  void set_allocated_llm_agent_node_event(::ondewo::nlu::LlmAgentNodeEvent* llm_agent_node_event);
+  private:
+  const ::ondewo::nlu::LlmAgentNodeEvent& _internal_llm_agent_node_event() const;
+  ::ondewo::nlu::LlmAgentNodeEvent* _internal_mutable_llm_agent_node_event();
+  public:
+  void unsafe_arena_set_allocated_llm_agent_node_event(
+      ::ondewo::nlu::LlmAgentNodeEvent* llm_agent_node_event);
+  ::ondewo::nlu::LlmAgentNodeEvent* unsafe_arena_release_llm_agent_node_event();
+
   void clear_telemetry_event();
   TelemetryEventCase telemetry_event_case() const;
   // @@protoc_insertion_point(class_scope:ondewo.nlu.StreamingDetectIntentResponse)
@@ -10839,6 +11393,7 @@ class StreamingDetectIntentResponse final :
   void set_has_llm_tool_call_finished();
   void set_has_llm_thinking_delta();
   void set_has_llm_token_usage_update();
+  void set_has_llm_agent_node_event();
 
   inline bool has_telemetry_event() const;
   inline void clear_has_telemetry_event();
@@ -10860,6 +11415,7 @@ class StreamingDetectIntentResponse final :
       ::ondewo::nlu::LlmToolCallFinishedEvent* llm_tool_call_finished_;
       ::ondewo::nlu::LlmThinkingDeltaEvent* llm_thinking_delta_;
       ::ondewo::nlu::LlmTokenUsageUpdateEvent* llm_token_usage_update_;
+      ::ondewo::nlu::LlmAgentNodeEvent* llm_agent_node_event_;
     } telemetry_event_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     uint32_t _oneof_case_[1];
@@ -10918,7 +11474,7 @@ class StreamingRecognitionResult final :
                &_StreamingRecognitionResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    39;
 
   friend void swap(StreamingRecognitionResult& a, StreamingRecognitionResult& b) {
     a.Swap(&b);
@@ -11136,7 +11692,7 @@ class InputAudioConfig final :
                &_InputAudioConfig_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    40;
 
   friend void swap(InputAudioConfig& a, InputAudioConfig& b) {
     a.Swap(&b);
@@ -11337,7 +11893,7 @@ class TextInput final :
                &_TextInput_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    41;
 
   friend void swap(TextInput& a, TextInput& b) {
     a.Swap(&b);
@@ -11506,7 +12062,7 @@ class EventInput final :
                &_EventInput_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    42;
 
   friend void swap(EventInput& a, EventInput& b) {
     a.Swap(&b);
@@ -11695,7 +12251,7 @@ class Session final :
                &_Session_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    43;
 
   friend void swap(Session& a, Session& b) {
     a.Swap(&b);
@@ -11992,7 +12548,7 @@ class SessionStep final :
                &_SessionStep_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    44;
 
   friend void swap(SessionStep& a, SessionStep& b) {
     a.Swap(&b);
@@ -12337,7 +12893,7 @@ class GetSessionStepRequest final :
                &_GetSessionStepRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    45;
 
   friend void swap(GetSessionStepRequest& a, GetSessionStepRequest& b) {
     a.Swap(&b);
@@ -12510,7 +13066,7 @@ class UpdateSessionStepRequest final :
                &_UpdateSessionStepRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    46;
 
   friend void swap(UpdateSessionStepRequest& a, UpdateSessionStepRequest& b) {
     a.Swap(&b);
@@ -12707,7 +13263,7 @@ class DeleteSessionStepRequest final :
                &_DeleteSessionStepRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    47;
 
   friend void swap(DeleteSessionStepRequest& a, DeleteSessionStepRequest& b) {
     a.Swap(&b);
@@ -12860,7 +13416,7 @@ class CreateSessionStepRequest final :
                &_CreateSessionStepRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    48;
 
   friend void swap(CreateSessionStepRequest& a, CreateSessionStepRequest& b) {
     a.Swap(&b);
@@ -13053,7 +13609,7 @@ class ListSessionsRequest final :
                &_ListSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    49;
 
   friend void swap(ListSessionsRequest& a, ListSessionsRequest& b) {
     a.Swap(&b);
@@ -13273,7 +13829,7 @@ class ContextFilter final :
                &_ContextFilter_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    50;
 
   friend void swap(ContextFilter& a, ContextFilter& b) {
     a.Swap(&b);
@@ -13469,7 +14025,7 @@ class SessionFilter final :
                &_SessionFilter_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    51;
 
   friend void swap(SessionFilter& a, SessionFilter& b) {
     a.Swap(&b);
@@ -14390,7 +14946,7 @@ class SessionInfo_ContextSteps final :
                &_SessionInfo_ContextSteps_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    52;
 
   friend void swap(SessionInfo_ContextSteps& a, SessionInfo_ContextSteps& b) {
     a.Swap(&b);
@@ -14547,7 +15103,7 @@ class SessionInfo final :
                &_SessionInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    53;
 
   friend void swap(SessionInfo& a, SessionInfo& b) {
     a.Swap(&b);
@@ -15263,7 +15819,7 @@ class ListSessionsResponse final :
                &_ListSessionsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    54;
 
   friend void swap(ListSessionsResponse& a, ListSessionsResponse& b) {
     a.Swap(&b);
@@ -15436,7 +15992,7 @@ class GetSessionRequest final :
                &_GetSessionRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    55;
 
   friend void swap(GetSessionRequest& a, GetSessionRequest& b) {
     a.Swap(&b);
@@ -15620,7 +16176,7 @@ class CreateSessionRequest final :
                &_CreateSessionRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    56;
 
   friend void swap(CreateSessionRequest& a, CreateSessionRequest& b) {
     a.Swap(&b);
@@ -15835,7 +16391,7 @@ class DeleteSessionRequest final :
                &_DeleteSessionRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    57;
 
   friend void swap(DeleteSessionRequest& a, DeleteSessionRequest& b) {
     a.Swap(&b);
@@ -15988,7 +16544,7 @@ class CreateSessionReviewRequest final :
                &_CreateSessionReviewRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    58;
 
   friend void swap(CreateSessionReviewRequest& a, CreateSessionReviewRequest& b) {
     a.Swap(&b);
@@ -16188,7 +16744,7 @@ class SessionReview final :
                &_SessionReview_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    57;
+    59;
 
   friend void swap(SessionReview& a, SessionReview& b) {
     a.Swap(&b);
@@ -16465,7 +17021,7 @@ class SessionReviewStep final :
                &_SessionReviewStep_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    58;
+    60;
 
   friend void swap(SessionReviewStep& a, SessionReviewStep& b) {
     a.Swap(&b);
@@ -16862,7 +17418,7 @@ class DetectedIntent final :
                &_DetectedIntent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    59;
+    61;
 
   friend void swap(DetectedIntent& a, DetectedIntent& b) {
     a.Swap(&b);
@@ -17077,7 +17633,7 @@ class ListSessionLabelsRequest final :
                &_ListSessionLabelsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    60;
+    62;
 
   friend void swap(ListSessionLabelsRequest& a, ListSessionLabelsRequest& b) {
     a.Swap(&b);
@@ -17230,7 +17786,7 @@ class ListSessionLabelsOfAllSessionsRequest final :
                &_ListSessionLabelsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    61;
+    63;
 
   friend void swap(ListSessionLabelsOfAllSessionsRequest& a, ListSessionLabelsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -17423,7 +17979,7 @@ class ListSessionLabelsResponse final :
                &_ListSessionLabelsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    62;
+    64;
 
   friend void swap(ListSessionLabelsResponse& a, ListSessionLabelsResponse& b) {
     a.Swap(&b);
@@ -17586,7 +18142,7 @@ class ListLanguageCodesOfAllSessionsRequest final :
                &_ListLanguageCodesOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    63;
+    65;
 
   friend void swap(ListLanguageCodesOfAllSessionsRequest& a, ListLanguageCodesOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -17779,7 +18335,7 @@ class ListLanguageCodesResponse final :
                &_ListLanguageCodesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    64;
+    66;
 
   friend void swap(ListLanguageCodesResponse& a, ListLanguageCodesResponse& b) {
     a.Swap(&b);
@@ -17942,7 +18498,7 @@ class ListMatchedIntentsOfAllSessionsRequest final :
                &_ListMatchedIntentsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    65;
+    67;
 
   friend void swap(ListMatchedIntentsOfAllSessionsRequest& a, ListMatchedIntentsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -18135,7 +18691,7 @@ class ListMatchedIntentsResponse final :
                &_ListMatchedIntentsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    68;
 
   friend void swap(ListMatchedIntentsResponse& a, ListMatchedIntentsResponse& b) {
     a.Swap(&b);
@@ -18298,7 +18854,7 @@ class ListMatchedEntityTypesOfAllSessionsRequest final :
                &_ListMatchedEntityTypesOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    67;
+    69;
 
   friend void swap(ListMatchedEntityTypesOfAllSessionsRequest& a, ListMatchedEntityTypesOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -18491,7 +19047,7 @@ class ListMatchedEntityTypesResponse final :
                &_ListMatchedEntityTypesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    68;
+    70;
 
   friend void swap(ListMatchedEntityTypesResponse& a, ListMatchedEntityTypesResponse& b) {
     a.Swap(&b);
@@ -18654,7 +19210,7 @@ class ListUserIdsOfAllSessionsRequest final :
                &_ListUserIdsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    69;
+    71;
 
   friend void swap(ListUserIdsOfAllSessionsRequest& a, ListUserIdsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -18847,7 +19403,7 @@ class ListUserIdsResponse final :
                &_ListUserIdsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    70;
+    72;
 
   friend void swap(ListUserIdsResponse& a, ListUserIdsResponse& b) {
     a.Swap(&b);
@@ -19010,7 +19566,7 @@ class ListIdentifiedUserIdsOfAllSessionsRequest final :
                &_ListIdentifiedUserIdsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    71;
+    73;
 
   friend void swap(ListIdentifiedUserIdsOfAllSessionsRequest& a, ListIdentifiedUserIdsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -19203,7 +19759,7 @@ class ListIdentifiedUserIdsResponse final :
                &_ListIdentifiedUserIdsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    72;
+    74;
 
   friend void swap(ListIdentifiedUserIdsResponse& a, ListIdentifiedUserIdsResponse& b) {
     a.Swap(&b);
@@ -19366,7 +19922,7 @@ class ListTagsOfAllSessionsRequest final :
                &_ListTagsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    73;
+    75;
 
   friend void swap(ListTagsOfAllSessionsRequest& a, ListTagsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -19559,7 +20115,7 @@ class ListTagsResponse final :
                &_ListTagsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    74;
+    76;
 
   friend void swap(ListTagsResponse& a, ListTagsResponse& b) {
     a.Swap(&b);
@@ -19722,7 +20278,7 @@ class ListInputContextsOfAllSessionsRequest final :
                &_ListInputContextsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    77;
 
   friend void swap(ListInputContextsOfAllSessionsRequest& a, ListInputContextsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -19915,7 +20471,7 @@ class ListInputContextsResponse final :
                &_ListInputContextsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    78;
 
   friend void swap(ListInputContextsResponse& a, ListInputContextsResponse& b) {
     a.Swap(&b);
@@ -20078,7 +20634,7 @@ class ListOutputContextsOfAllSessionsRequest final :
                &_ListOutputContextsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    79;
 
   friend void swap(ListOutputContextsOfAllSessionsRequest& a, ListOutputContextsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -20271,7 +20827,7 @@ class ListOutputContextsResponse final :
                &_ListOutputContextsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    80;
 
   friend void swap(ListOutputContextsResponse& a, ListOutputContextsResponse& b) {
     a.Swap(&b);
@@ -20434,7 +20990,7 @@ class ListPlatformsOfAllSessionsRequest final :
                &_ListPlatformsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    81;
 
   friend void swap(ListPlatformsOfAllSessionsRequest& a, ListPlatformsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -20627,7 +21183,7 @@ class ListPlatformsResponse final :
                &_ListPlatformsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    80;
+    82;
 
   friend void swap(ListPlatformsResponse& a, ListPlatformsResponse& b) {
     a.Swap(&b);
@@ -20790,7 +21346,7 @@ class ListAccountIdsOfAllSessionsRequest final :
                &_ListAccountIdsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    81;
+    83;
 
   friend void swap(ListAccountIdsOfAllSessionsRequest& a, ListAccountIdsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -20983,7 +21539,7 @@ class ListAccountIdsResponse final :
                &_ListAccountIdsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    82;
+    84;
 
   friend void swap(ListAccountIdsResponse& a, ListAccountIdsResponse& b) {
     a.Swap(&b);
@@ -21146,7 +21702,7 @@ class ListPropertyIdsOfAllSessionsRequest final :
                &_ListPropertyIdsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    83;
+    85;
 
   friend void swap(ListPropertyIdsOfAllSessionsRequest& a, ListPropertyIdsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -21319,7 +21875,7 @@ class ListPropertyIdsResponse final :
                &_ListPropertyIdsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    84;
+    86;
 
   friend void swap(ListPropertyIdsResponse& a, ListPropertyIdsResponse& b) {
     a.Swap(&b);
@@ -21482,7 +22038,7 @@ class ListDatastreamIdsOfAllSessionsRequest final :
                &_ListDatastreamIdsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    85;
+    87;
 
   friend void swap(ListDatastreamIdsOfAllSessionsRequest& a, ListDatastreamIdsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -21655,7 +22211,7 @@ class ListDatastreamIdsResponse final :
                &_ListDatastreamIdsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    86;
+    88;
 
   friend void swap(ListDatastreamIdsResponse& a, ListDatastreamIdsResponse& b) {
     a.Swap(&b);
@@ -21818,7 +22374,7 @@ class ListOriginIdsOfAllSessionsRequest final :
                &_ListOriginIdsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    87;
+    89;
 
   friend void swap(ListOriginIdsOfAllSessionsRequest& a, ListOriginIdsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -22011,7 +22567,7 @@ class ListOriginIdsResponse final :
                &_ListOriginIdsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    88;
+    90;
 
   friend void swap(ListOriginIdsResponse& a, ListOriginIdsResponse& b) {
     a.Swap(&b);
@@ -22174,7 +22730,7 @@ class AddSessionLabelsRequest final :
                &_AddSessionLabelsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    89;
+    91;
 
   friend void swap(AddSessionLabelsRequest& a, AddSessionLabelsRequest& b) {
     a.Swap(&b);
@@ -22353,7 +22909,7 @@ class DeleteSessionLabelsRequest final :
                &_DeleteSessionLabelsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    90;
+    92;
 
   friend void swap(DeleteSessionLabelsRequest& a, DeleteSessionLabelsRequest& b) {
     a.Swap(&b);
@@ -22532,7 +23088,7 @@ class AddSessionCommentRequest final :
                &_AddSessionCommentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    91;
+    93;
 
   friend void swap(AddSessionCommentRequest& a, AddSessionCommentRequest& b) {
     a.Swap(&b);
@@ -22705,7 +23261,7 @@ class DeleteSessionCommentsRequest final :
                &_DeleteSessionCommentsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    92;
+    94;
 
   friend void swap(DeleteSessionCommentsRequest& a, DeleteSessionCommentsRequest& b) {
     a.Swap(&b);
@@ -22884,7 +23440,7 @@ class UpdateSessionCommentsRequest final :
                &_UpdateSessionCommentsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    93;
+    95;
 
   friend void swap(UpdateSessionCommentsRequest& a, UpdateSessionCommentsRequest& b) {
     a.Swap(&b);
@@ -23057,7 +23613,7 @@ class ListSessionCommentsRequest final :
                &_ListSessionCommentsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    94;
+    96;
 
   friend void swap(ListSessionCommentsRequest& a, ListSessionCommentsRequest& b) {
     a.Swap(&b);
@@ -23262,7 +23818,7 @@ class ListSessionCommentsOfAllSessionsRequest final :
                &_ListSessionCommentsOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    95;
+    97;
 
   friend void swap(ListSessionCommentsOfAllSessionsRequest& a, ListSessionCommentsOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -23487,7 +24043,7 @@ class ListSessionCommentsResponse final :
                &_ListSessionCommentsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    96;
+    98;
 
   friend void swap(ListSessionCommentsResponse& a, ListSessionCommentsResponse& b) {
     a.Swap(&b);
@@ -23660,7 +24216,7 @@ class SessionFeedback final :
                &_SessionFeedback_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    97;
+    99;
 
   friend void swap(SessionFeedback& a, SessionFeedback& b) {
     a.Swap(&b);
@@ -24103,7 +24659,7 @@ class AddSessionFeedbackRequest final :
                &_AddSessionFeedbackRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    98;
+    100;
 
   friend void swap(AddSessionFeedbackRequest& a, AddSessionFeedbackRequest& b) {
     a.Swap(&b);
@@ -24276,7 +24832,7 @@ class AddSessionStepFeedbackRequest final :
                &_AddSessionStepFeedbackRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    99;
+    101;
 
   friend void swap(AddSessionStepFeedbackRequest& a, AddSessionStepFeedbackRequest& b) {
     a.Swap(&b);
@@ -24465,7 +25021,7 @@ class GetSessionFeedbackRequest final :
                &_GetSessionFeedbackRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    100;
+    102;
 
   friend void swap(GetSessionFeedbackRequest& a, GetSessionFeedbackRequest& b) {
     a.Swap(&b);
@@ -24638,7 +25194,7 @@ class UpdateSessionFeedbackRequest final :
                &_UpdateSessionFeedbackRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    101;
+    103;
 
   friend void swap(UpdateSessionFeedbackRequest& a, UpdateSessionFeedbackRequest& b) {
     a.Swap(&b);
@@ -24815,7 +25371,7 @@ class DeleteSessionFeedbackRequest final :
                &_DeleteSessionFeedbackRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    102;
+    104;
 
   friend void swap(DeleteSessionFeedbackRequest& a, DeleteSessionFeedbackRequest& b) {
     a.Swap(&b);
@@ -24968,7 +25524,7 @@ class ListSessionFeedbackRequest final :
                &_ListSessionFeedbackRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    103;
+    105;
 
   friend void swap(ListSessionFeedbackRequest& a, ListSessionFeedbackRequest& b) {
     a.Swap(&b);
@@ -25157,7 +25713,7 @@ class ListSessionFeedbackOfAllSessionsRequest final :
                &_ListSessionFeedbackOfAllSessionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    104;
+    106;
 
   friend void swap(ListSessionFeedbackOfAllSessionsRequest& a, ListSessionFeedbackOfAllSessionsRequest& b) {
     a.Swap(&b);
@@ -25402,7 +25958,7 @@ class ListSessionFeedbackResponse final :
                &_ListSessionFeedbackResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    105;
+    107;
 
   friend void swap(ListSessionFeedbackResponse& a, ListSessionFeedbackResponse& b) {
     a.Swap(&b);
@@ -25586,7 +26142,7 @@ class FeedbackFilter final :
                &_FeedbackFilter_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    106;
+    108;
 
   friend void swap(FeedbackFilter& a, FeedbackFilter& b) {
     a.Swap(&b);
@@ -25964,7 +26520,7 @@ class FeedbackBreakdownBucket final :
                &_FeedbackBreakdownBucket_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    107;
+    109;
 
   friend void swap(FeedbackBreakdownBucket& a, FeedbackBreakdownBucket& b) {
     a.Swap(&b);
@@ -26150,7 +26706,7 @@ class FeedbackStatistics final :
                &_FeedbackStatistics_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    108;
+    110;
 
   friend void swap(FeedbackStatistics& a, FeedbackStatistics& b) {
     a.Swap(&b);
@@ -26508,7 +27064,7 @@ class GetFeedbackStatisticsRequest final :
                &_GetFeedbackStatisticsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    109;
+    111;
 
   friend void swap(GetFeedbackStatisticsRequest& a, GetFeedbackStatisticsRequest& b) {
     a.Swap(&b);
@@ -26732,7 +27288,7 @@ class GetFeedbackStatisticsResponse final :
                &_GetFeedbackStatisticsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    110;
+    112;
 
   friend void swap(GetFeedbackStatisticsResponse& a, GetFeedbackStatisticsResponse& b) {
     a.Swap(&b);
@@ -26889,7 +27445,7 @@ class FeedbackTimeSeriesBucket final :
                &_FeedbackTimeSeriesBucket_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    111;
+    113;
 
   friend void swap(FeedbackTimeSeriesBucket& a, FeedbackTimeSeriesBucket& b) {
     a.Swap(&b);
@@ -27099,7 +27655,7 @@ class GetFeedbackStatisticsTimeSeriesRequest final :
                &_GetFeedbackStatisticsTimeSeriesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    112;
+    114;
 
   friend void swap(GetFeedbackStatisticsTimeSeriesRequest& a, GetFeedbackStatisticsTimeSeriesRequest& b) {
     a.Swap(&b);
@@ -27401,7 +27957,7 @@ class GetFeedbackStatisticsTimeSeriesResponse final :
                &_GetFeedbackStatisticsTimeSeriesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    113;
+    115;
 
   friend void swap(GetFeedbackStatisticsTimeSeriesResponse& a, GetFeedbackStatisticsTimeSeriesResponse& b) {
     a.Swap(&b);
@@ -27558,7 +28114,7 @@ class ListSessionReviewsRequest final :
                &_ListSessionReviewsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    114;
+    116;
 
   friend void swap(ListSessionReviewsRequest& a, ListSessionReviewsRequest& b) {
     a.Swap(&b);
@@ -27738,7 +28294,7 @@ class ListSessionReviewsResponse final :
                &_ListSessionReviewsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    115;
+    117;
 
   friend void swap(ListSessionReviewsResponse& a, ListSessionReviewsResponse& b) {
     a.Swap(&b);
@@ -27911,7 +28467,7 @@ class GetSessionReviewRequest final :
                &_GetSessionReviewRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    116;
+    118;
 
   friend void swap(GetSessionReviewRequest& a, GetSessionReviewRequest& b) {
     a.Swap(&b);
@@ -28095,7 +28651,7 @@ class GetLatestSessionReviewRequest final :
                &_GetLatestSessionReviewRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    117;
+    119;
 
   friend void swap(GetLatestSessionReviewRequest& a, GetLatestSessionReviewRequest& b) {
     a.Swap(&b);
@@ -28287,7 +28843,7 @@ class FileResource final :
                &_FileResource_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    118;
+    120;
 
   friend void swap(FileResource& a, FileResource& b) {
     a.Swap(&b);
@@ -28519,7 +29075,7 @@ class DocumentFileResource final :
                &_DocumentFileResource_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    119;
+    121;
 
   friend void swap(DocumentFileResource& a, DocumentFileResource& b) {
     a.Swap(&b);
@@ -28776,7 +29332,7 @@ class ImageFileResource final :
                &_ImageFileResource_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    120;
+    122;
 
   friend void swap(ImageFileResource& a, ImageFileResource& b) {
     a.Swap(&b);
@@ -29033,7 +29589,7 @@ class AudioFileResource final :
                &_AudioFileResource_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    121;
+    123;
 
   friend void swap(AudioFileResource& a, AudioFileResource& b) {
     a.Swap(&b);
@@ -29359,7 +29915,7 @@ class VideoFileResource final :
                &_VideoFileResource_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    122;
+    124;
 
   friend void swap(VideoFileResource& a, VideoFileResource& b) {
     a.Swap(&b);
@@ -29654,7 +30210,7 @@ class GetAudioFilesRequest final :
                &_GetAudioFilesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    123;
+    125;
 
   friend void swap(GetAudioFilesRequest& a, GetAudioFilesRequest& b) {
     a.Swap(&b);
@@ -29891,7 +30447,7 @@ class GetAudioFilesResponse final :
                &_GetAudioFilesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    124;
+    126;
 
   friend void swap(GetAudioFilesResponse& a, GetAudioFilesResponse& b) {
     a.Swap(&b);
@@ -30080,7 +30636,7 @@ class AddAudioFilesRequest final :
                &_AddAudioFilesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    125;
+    127;
 
   friend void swap(AddAudioFilesRequest& a, AddAudioFilesRequest& b) {
     a.Swap(&b);
@@ -30285,7 +30841,7 @@ class AddAudioFilesResponse final :
                &_AddAudioFilesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    126;
+    128;
 
   friend void swap(AddAudioFilesResponse& a, AddAudioFilesResponse& b) {
     a.Swap(&b);
@@ -30458,7 +31014,7 @@ class DeleteAudioFilesRequest final :
                &_DeleteAudioFilesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    127;
+    129;
 
   friend void swap(DeleteAudioFilesRequest& a, DeleteAudioFilesRequest& b) {
     a.Swap(&b);
@@ -30637,7 +31193,7 @@ class DeleteAudioFilesResponse final :
                &_DeleteAudioFilesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    128;
+    130;
 
   friend void swap(DeleteAudioFilesResponse& a, DeleteAudioFilesResponse& b) {
     a.Swap(&b);
@@ -30816,7 +31372,7 @@ class ListAudioFilesRequest final :
                &_ListAudioFilesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    129;
+    131;
 
   friend void swap(ListAudioFilesRequest& a, ListAudioFilesRequest& b) {
     a.Swap(&b);
@@ -31043,7 +31599,7 @@ class ListAudioFilesResponse final :
                &_ListAudioFilesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    130;
+    132;
 
   friend void swap(ListAudioFilesResponse& a, ListAudioFilesResponse& b) {
     a.Swap(&b);
@@ -31232,7 +31788,7 @@ class GetAudioFileOfSessionRequest final :
                &_GetAudioFileOfSessionRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    131;
+    133;
 
   friend void swap(GetAudioFileOfSessionRequest& a, GetAudioFileOfSessionRequest& b) {
     a.Swap(&b);
@@ -39779,6 +40335,245 @@ LlmCcaiServiceUsage::mutable_model_names() {
 
 // -------------------------------------------------------------------
 
+// LlmBaseUrlUsage
+
+// string base_url = 1;
+inline void LlmBaseUrlUsage::clear_base_url() {
+  _impl_.base_url_.ClearToEmpty();
+}
+inline const std::string& LlmBaseUrlUsage::base_url() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmBaseUrlUsage.base_url)
+  return _internal_base_url();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LlmBaseUrlUsage::set_base_url(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.base_url_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmBaseUrlUsage.base_url)
+}
+inline std::string* LlmBaseUrlUsage::mutable_base_url() {
+  std::string* _s = _internal_mutable_base_url();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmBaseUrlUsage.base_url)
+  return _s;
+}
+inline const std::string& LlmBaseUrlUsage::_internal_base_url() const {
+  return _impl_.base_url_.Get();
+}
+inline void LlmBaseUrlUsage::_internal_set_base_url(const std::string& value) {
+  
+  _impl_.base_url_.Set(value, GetArenaForAllocation());
+}
+inline std::string* LlmBaseUrlUsage::_internal_mutable_base_url() {
+  
+  return _impl_.base_url_.Mutable(GetArenaForAllocation());
+}
+inline std::string* LlmBaseUrlUsage::release_base_url() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.LlmBaseUrlUsage.base_url)
+  return _impl_.base_url_.Release();
+}
+inline void LlmBaseUrlUsage::set_allocated_base_url(std::string* base_url) {
+  if (base_url != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.base_url_.SetAllocated(base_url, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.base_url_.IsDefault()) {
+    _impl_.base_url_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmBaseUrlUsage.base_url)
+}
+
+// int64 call_count = 2;
+inline void LlmBaseUrlUsage::clear_call_count() {
+  _impl_.call_count_ = int64_t{0};
+}
+inline int64_t LlmBaseUrlUsage::_internal_call_count() const {
+  return _impl_.call_count_;
+}
+inline int64_t LlmBaseUrlUsage::call_count() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmBaseUrlUsage.call_count)
+  return _internal_call_count();
+}
+inline void LlmBaseUrlUsage::_internal_set_call_count(int64_t value) {
+  
+  _impl_.call_count_ = value;
+}
+inline void LlmBaseUrlUsage::set_call_count(int64_t value) {
+  _internal_set_call_count(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmBaseUrlUsage.call_count)
+}
+
+// .ondewo.nlu.LlmTokenUsage llm_token_usage = 3;
+inline bool LlmBaseUrlUsage::_internal_has_llm_token_usage() const {
+  return this != internal_default_instance() && _impl_.llm_token_usage_ != nullptr;
+}
+inline bool LlmBaseUrlUsage::has_llm_token_usage() const {
+  return _internal_has_llm_token_usage();
+}
+inline void LlmBaseUrlUsage::clear_llm_token_usage() {
+  if (GetArenaForAllocation() == nullptr && _impl_.llm_token_usage_ != nullptr) {
+    delete _impl_.llm_token_usage_;
+  }
+  _impl_.llm_token_usage_ = nullptr;
+}
+inline const ::ondewo::nlu::LlmTokenUsage& LlmBaseUrlUsage::_internal_llm_token_usage() const {
+  const ::ondewo::nlu::LlmTokenUsage* p = _impl_.llm_token_usage_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::nlu::LlmTokenUsage&>(
+      ::ondewo::nlu::_LlmTokenUsage_default_instance_);
+}
+inline const ::ondewo::nlu::LlmTokenUsage& LlmBaseUrlUsage::llm_token_usage() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmBaseUrlUsage.llm_token_usage)
+  return _internal_llm_token_usage();
+}
+inline void LlmBaseUrlUsage::unsafe_arena_set_allocated_llm_token_usage(
+    ::ondewo::nlu::LlmTokenUsage* llm_token_usage) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.llm_token_usage_);
+  }
+  _impl_.llm_token_usage_ = llm_token_usage;
+  if (llm_token_usage) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.nlu.LlmBaseUrlUsage.llm_token_usage)
+}
+inline ::ondewo::nlu::LlmTokenUsage* LlmBaseUrlUsage::release_llm_token_usage() {
+  
+  ::ondewo::nlu::LlmTokenUsage* temp = _impl_.llm_token_usage_;
+  _impl_.llm_token_usage_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::nlu::LlmTokenUsage* LlmBaseUrlUsage::unsafe_arena_release_llm_token_usage() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.LlmBaseUrlUsage.llm_token_usage)
+  
+  ::ondewo::nlu::LlmTokenUsage* temp = _impl_.llm_token_usage_;
+  _impl_.llm_token_usage_ = nullptr;
+  return temp;
+}
+inline ::ondewo::nlu::LlmTokenUsage* LlmBaseUrlUsage::_internal_mutable_llm_token_usage() {
+  
+  if (_impl_.llm_token_usage_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::nlu::LlmTokenUsage>(GetArenaForAllocation());
+    _impl_.llm_token_usage_ = p;
+  }
+  return _impl_.llm_token_usage_;
+}
+inline ::ondewo::nlu::LlmTokenUsage* LlmBaseUrlUsage::mutable_llm_token_usage() {
+  ::ondewo::nlu::LlmTokenUsage* _msg = _internal_mutable_llm_token_usage();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmBaseUrlUsage.llm_token_usage)
+  return _msg;
+}
+inline void LlmBaseUrlUsage::set_allocated_llm_token_usage(::ondewo::nlu::LlmTokenUsage* llm_token_usage) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.llm_token_usage_;
+  }
+  if (llm_token_usage) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(llm_token_usage);
+    if (message_arena != submessage_arena) {
+      llm_token_usage = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, llm_token_usage, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.llm_token_usage_ = llm_token_usage;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmBaseUrlUsage.llm_token_usage)
+}
+
+// repeated string model_names = 4;
+inline int LlmBaseUrlUsage::_internal_model_names_size() const {
+  return _impl_.model_names_.size();
+}
+inline int LlmBaseUrlUsage::model_names_size() const {
+  return _internal_model_names_size();
+}
+inline void LlmBaseUrlUsage::clear_model_names() {
+  _impl_.model_names_.Clear();
+}
+inline std::string* LlmBaseUrlUsage::add_model_names() {
+  std::string* _s = _internal_add_model_names();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.nlu.LlmBaseUrlUsage.model_names)
+  return _s;
+}
+inline const std::string& LlmBaseUrlUsage::_internal_model_names(int index) const {
+  return _impl_.model_names_.Get(index);
+}
+inline const std::string& LlmBaseUrlUsage::model_names(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmBaseUrlUsage.model_names)
+  return _internal_model_names(index);
+}
+inline std::string* LlmBaseUrlUsage::mutable_model_names(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmBaseUrlUsage.model_names)
+  return _impl_.model_names_.Mutable(index);
+}
+inline void LlmBaseUrlUsage::set_model_names(int index, const std::string& value) {
+  _impl_.model_names_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmBaseUrlUsage.model_names)
+}
+inline void LlmBaseUrlUsage::set_model_names(int index, std::string&& value) {
+  _impl_.model_names_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmBaseUrlUsage.model_names)
+}
+inline void LlmBaseUrlUsage::set_model_names(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.model_names_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.nlu.LlmBaseUrlUsage.model_names)
+}
+inline void LlmBaseUrlUsage::set_model_names(int index, const char* value, size_t size) {
+  _impl_.model_names_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.nlu.LlmBaseUrlUsage.model_names)
+}
+inline std::string* LlmBaseUrlUsage::_internal_add_model_names() {
+  return _impl_.model_names_.Add();
+}
+inline void LlmBaseUrlUsage::add_model_names(const std::string& value) {
+  _impl_.model_names_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.nlu.LlmBaseUrlUsage.model_names)
+}
+inline void LlmBaseUrlUsage::add_model_names(std::string&& value) {
+  _impl_.model_names_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.nlu.LlmBaseUrlUsage.model_names)
+}
+inline void LlmBaseUrlUsage::add_model_names(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.model_names_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.nlu.LlmBaseUrlUsage.model_names)
+}
+inline void LlmBaseUrlUsage::add_model_names(const char* value, size_t size) {
+  _impl_.model_names_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.nlu.LlmBaseUrlUsage.model_names)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+LlmBaseUrlUsage::model_names() const {
+  // @@protoc_insertion_point(field_list:ondewo.nlu.LlmBaseUrlUsage.model_names)
+  return _impl_.model_names_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+LlmBaseUrlUsage::mutable_model_names() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.nlu.LlmBaseUrlUsage.model_names)
+  return &_impl_.model_names_;
+}
+
+// -------------------------------------------------------------------
+
 // LlmAgentUsage
 
 // string agent_name = 1;
@@ -41920,6 +42715,46 @@ inline void LlmTelemetryReport::set_allocated_safety_stats(::ondewo::nlu::LlmSaf
   // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmTelemetryReport.safety_stats)
 }
 
+// repeated .ondewo.nlu.LlmBaseUrlUsage base_urls_used = 21;
+inline int LlmTelemetryReport::_internal_base_urls_used_size() const {
+  return _impl_.base_urls_used_.size();
+}
+inline int LlmTelemetryReport::base_urls_used_size() const {
+  return _internal_base_urls_used_size();
+}
+inline void LlmTelemetryReport::clear_base_urls_used() {
+  _impl_.base_urls_used_.Clear();
+}
+inline ::ondewo::nlu::LlmBaseUrlUsage* LlmTelemetryReport::mutable_base_urls_used(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmTelemetryReport.base_urls_used)
+  return _impl_.base_urls_used_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmBaseUrlUsage >*
+LlmTelemetryReport::mutable_base_urls_used() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.nlu.LlmTelemetryReport.base_urls_used)
+  return &_impl_.base_urls_used_;
+}
+inline const ::ondewo::nlu::LlmBaseUrlUsage& LlmTelemetryReport::_internal_base_urls_used(int index) const {
+  return _impl_.base_urls_used_.Get(index);
+}
+inline const ::ondewo::nlu::LlmBaseUrlUsage& LlmTelemetryReport::base_urls_used(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmTelemetryReport.base_urls_used)
+  return _internal_base_urls_used(index);
+}
+inline ::ondewo::nlu::LlmBaseUrlUsage* LlmTelemetryReport::_internal_add_base_urls_used() {
+  return _impl_.base_urls_used_.Add();
+}
+inline ::ondewo::nlu::LlmBaseUrlUsage* LlmTelemetryReport::add_base_urls_used() {
+  ::ondewo::nlu::LlmBaseUrlUsage* _add = _internal_add_base_urls_used();
+  // @@protoc_insertion_point(field_add:ondewo.nlu.LlmTelemetryReport.base_urls_used)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::LlmBaseUrlUsage >&
+LlmTelemetryReport::base_urls_used() const {
+  // @@protoc_insertion_point(field_list:ondewo.nlu.LlmTelemetryReport.base_urls_used)
+  return _impl_.base_urls_used_;
+}
+
 // -------------------------------------------------------------------
 
 // LlmSafetyCategoryStat
@@ -43745,6 +44580,410 @@ inline void LlmTokenUsageUpdateEvent::set_allocated_llm_token_usage(::ondewo::nl
   }
   _impl_.llm_token_usage_ = llm_token_usage;
   // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmTokenUsageUpdateEvent.llm_token_usage)
+}
+
+// -------------------------------------------------------------------
+
+// LlmAgentNodeEvent
+
+// string llm_agent_node_event_node_run_id = 1;
+inline void LlmAgentNodeEvent::clear_llm_agent_node_event_node_run_id() {
+  _impl_.llm_agent_node_event_node_run_id_.ClearToEmpty();
+}
+inline const std::string& LlmAgentNodeEvent::llm_agent_node_event_node_run_id() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_run_id)
+  return _internal_llm_agent_node_event_node_run_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LlmAgentNodeEvent::set_llm_agent_node_event_node_run_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.llm_agent_node_event_node_run_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_run_id)
+}
+inline std::string* LlmAgentNodeEvent::mutable_llm_agent_node_event_node_run_id() {
+  std::string* _s = _internal_mutable_llm_agent_node_event_node_run_id();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_run_id)
+  return _s;
+}
+inline const std::string& LlmAgentNodeEvent::_internal_llm_agent_node_event_node_run_id() const {
+  return _impl_.llm_agent_node_event_node_run_id_.Get();
+}
+inline void LlmAgentNodeEvent::_internal_set_llm_agent_node_event_node_run_id(const std::string& value) {
+  
+  _impl_.llm_agent_node_event_node_run_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* LlmAgentNodeEvent::_internal_mutable_llm_agent_node_event_node_run_id() {
+  
+  return _impl_.llm_agent_node_event_node_run_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* LlmAgentNodeEvent::release_llm_agent_node_event_node_run_id() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_run_id)
+  return _impl_.llm_agent_node_event_node_run_id_.Release();
+}
+inline void LlmAgentNodeEvent::set_allocated_llm_agent_node_event_node_run_id(std::string* llm_agent_node_event_node_run_id) {
+  if (llm_agent_node_event_node_run_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.llm_agent_node_event_node_run_id_.SetAllocated(llm_agent_node_event_node_run_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.llm_agent_node_event_node_run_id_.IsDefault()) {
+    _impl_.llm_agent_node_event_node_run_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_run_id)
+}
+
+// string llm_agent_node_event_parent_node_run_id = 2;
+inline void LlmAgentNodeEvent::clear_llm_agent_node_event_parent_node_run_id() {
+  _impl_.llm_agent_node_event_parent_node_run_id_.ClearToEmpty();
+}
+inline const std::string& LlmAgentNodeEvent::llm_agent_node_event_parent_node_run_id() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_parent_node_run_id)
+  return _internal_llm_agent_node_event_parent_node_run_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LlmAgentNodeEvent::set_llm_agent_node_event_parent_node_run_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.llm_agent_node_event_parent_node_run_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_parent_node_run_id)
+}
+inline std::string* LlmAgentNodeEvent::mutable_llm_agent_node_event_parent_node_run_id() {
+  std::string* _s = _internal_mutable_llm_agent_node_event_parent_node_run_id();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_parent_node_run_id)
+  return _s;
+}
+inline const std::string& LlmAgentNodeEvent::_internal_llm_agent_node_event_parent_node_run_id() const {
+  return _impl_.llm_agent_node_event_parent_node_run_id_.Get();
+}
+inline void LlmAgentNodeEvent::_internal_set_llm_agent_node_event_parent_node_run_id(const std::string& value) {
+  
+  _impl_.llm_agent_node_event_parent_node_run_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* LlmAgentNodeEvent::_internal_mutable_llm_agent_node_event_parent_node_run_id() {
+  
+  return _impl_.llm_agent_node_event_parent_node_run_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* LlmAgentNodeEvent::release_llm_agent_node_event_parent_node_run_id() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_parent_node_run_id)
+  return _impl_.llm_agent_node_event_parent_node_run_id_.Release();
+}
+inline void LlmAgentNodeEvent::set_allocated_llm_agent_node_event_parent_node_run_id(std::string* llm_agent_node_event_parent_node_run_id) {
+  if (llm_agent_node_event_parent_node_run_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.llm_agent_node_event_parent_node_run_id_.SetAllocated(llm_agent_node_event_parent_node_run_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.llm_agent_node_event_parent_node_run_id_.IsDefault()) {
+    _impl_.llm_agent_node_event_parent_node_run_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_parent_node_run_id)
+}
+
+// string llm_agent_node_event_node_display_name = 3;
+inline void LlmAgentNodeEvent::clear_llm_agent_node_event_node_display_name() {
+  _impl_.llm_agent_node_event_node_display_name_.ClearToEmpty();
+}
+inline const std::string& LlmAgentNodeEvent::llm_agent_node_event_node_display_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_display_name)
+  return _internal_llm_agent_node_event_node_display_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LlmAgentNodeEvent::set_llm_agent_node_event_node_display_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.llm_agent_node_event_node_display_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_display_name)
+}
+inline std::string* LlmAgentNodeEvent::mutable_llm_agent_node_event_node_display_name() {
+  std::string* _s = _internal_mutable_llm_agent_node_event_node_display_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_display_name)
+  return _s;
+}
+inline const std::string& LlmAgentNodeEvent::_internal_llm_agent_node_event_node_display_name() const {
+  return _impl_.llm_agent_node_event_node_display_name_.Get();
+}
+inline void LlmAgentNodeEvent::_internal_set_llm_agent_node_event_node_display_name(const std::string& value) {
+  
+  _impl_.llm_agent_node_event_node_display_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* LlmAgentNodeEvent::_internal_mutable_llm_agent_node_event_node_display_name() {
+  
+  return _impl_.llm_agent_node_event_node_display_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* LlmAgentNodeEvent::release_llm_agent_node_event_node_display_name() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_display_name)
+  return _impl_.llm_agent_node_event_node_display_name_.Release();
+}
+inline void LlmAgentNodeEvent::set_allocated_llm_agent_node_event_node_display_name(std::string* llm_agent_node_event_node_display_name) {
+  if (llm_agent_node_event_node_display_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.llm_agent_node_event_node_display_name_.SetAllocated(llm_agent_node_event_node_display_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.llm_agent_node_event_node_display_name_.IsDefault()) {
+    _impl_.llm_agent_node_event_node_display_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_display_name)
+}
+
+// repeated string llm_agent_node_event_node_path = 4;
+inline int LlmAgentNodeEvent::_internal_llm_agent_node_event_node_path_size() const {
+  return _impl_.llm_agent_node_event_node_path_.size();
+}
+inline int LlmAgentNodeEvent::llm_agent_node_event_node_path_size() const {
+  return _internal_llm_agent_node_event_node_path_size();
+}
+inline void LlmAgentNodeEvent::clear_llm_agent_node_event_node_path() {
+  _impl_.llm_agent_node_event_node_path_.Clear();
+}
+inline std::string* LlmAgentNodeEvent::add_llm_agent_node_event_node_path() {
+  std::string* _s = _internal_add_llm_agent_node_event_node_path();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+  return _s;
+}
+inline const std::string& LlmAgentNodeEvent::_internal_llm_agent_node_event_node_path(int index) const {
+  return _impl_.llm_agent_node_event_node_path_.Get(index);
+}
+inline const std::string& LlmAgentNodeEvent::llm_agent_node_event_node_path(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+  return _internal_llm_agent_node_event_node_path(index);
+}
+inline std::string* LlmAgentNodeEvent::mutable_llm_agent_node_event_node_path(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+  return _impl_.llm_agent_node_event_node_path_.Mutable(index);
+}
+inline void LlmAgentNodeEvent::set_llm_agent_node_event_node_path(int index, const std::string& value) {
+  _impl_.llm_agent_node_event_node_path_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+}
+inline void LlmAgentNodeEvent::set_llm_agent_node_event_node_path(int index, std::string&& value) {
+  _impl_.llm_agent_node_event_node_path_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+}
+inline void LlmAgentNodeEvent::set_llm_agent_node_event_node_path(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.llm_agent_node_event_node_path_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+}
+inline void LlmAgentNodeEvent::set_llm_agent_node_event_node_path(int index, const char* value, size_t size) {
+  _impl_.llm_agent_node_event_node_path_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+}
+inline std::string* LlmAgentNodeEvent::_internal_add_llm_agent_node_event_node_path() {
+  return _impl_.llm_agent_node_event_node_path_.Add();
+}
+inline void LlmAgentNodeEvent::add_llm_agent_node_event_node_path(const std::string& value) {
+  _impl_.llm_agent_node_event_node_path_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+}
+inline void LlmAgentNodeEvent::add_llm_agent_node_event_node_path(std::string&& value) {
+  _impl_.llm_agent_node_event_node_path_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+}
+inline void LlmAgentNodeEvent::add_llm_agent_node_event_node_path(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.llm_agent_node_event_node_path_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+}
+inline void LlmAgentNodeEvent::add_llm_agent_node_event_node_path(const char* value, size_t size) {
+  _impl_.llm_agent_node_event_node_path_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+LlmAgentNodeEvent::llm_agent_node_event_node_path() const {
+  // @@protoc_insertion_point(field_list:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+  return _impl_.llm_agent_node_event_node_path_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+LlmAgentNodeEvent::mutable_llm_agent_node_event_node_path() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path)
+  return &_impl_.llm_agent_node_event_node_path_;
+}
+
+// .ondewo.nlu.LlmAgentNodePhase llm_agent_node_phase = 5;
+inline void LlmAgentNodeEvent::clear_llm_agent_node_phase() {
+  _impl_.llm_agent_node_phase_ = 0;
+}
+inline ::ondewo::nlu::LlmAgentNodePhase LlmAgentNodeEvent::_internal_llm_agent_node_phase() const {
+  return static_cast< ::ondewo::nlu::LlmAgentNodePhase >(_impl_.llm_agent_node_phase_);
+}
+inline ::ondewo::nlu::LlmAgentNodePhase LlmAgentNodeEvent::llm_agent_node_phase() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_phase)
+  return _internal_llm_agent_node_phase();
+}
+inline void LlmAgentNodeEvent::_internal_set_llm_agent_node_phase(::ondewo::nlu::LlmAgentNodePhase value) {
+  
+  _impl_.llm_agent_node_phase_ = value;
+}
+inline void LlmAgentNodeEvent::set_llm_agent_node_phase(::ondewo::nlu::LlmAgentNodePhase value) {
+  _internal_set_llm_agent_node_phase(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_phase)
+}
+
+// .google.protobuf.Timestamp timestamp = 6;
+inline bool LlmAgentNodeEvent::_internal_has_timestamp() const {
+  return this != internal_default_instance() && _impl_.timestamp_ != nullptr;
+}
+inline bool LlmAgentNodeEvent::has_timestamp() const {
+  return _internal_has_timestamp();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& LlmAgentNodeEvent::_internal_timestamp() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.timestamp_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& LlmAgentNodeEvent::timestamp() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmAgentNodeEvent.timestamp)
+  return _internal_timestamp();
+}
+inline void LlmAgentNodeEvent::unsafe_arena_set_allocated_timestamp(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* timestamp) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.timestamp_);
+  }
+  _impl_.timestamp_ = timestamp;
+  if (timestamp) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.nlu.LlmAgentNodeEvent.timestamp)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* LlmAgentNodeEvent::release_timestamp() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.timestamp_;
+  _impl_.timestamp_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* LlmAgentNodeEvent::unsafe_arena_release_timestamp() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.LlmAgentNodeEvent.timestamp)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.timestamp_;
+  _impl_.timestamp_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* LlmAgentNodeEvent::_internal_mutable_timestamp() {
+  
+  if (_impl_.timestamp_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.timestamp_ = p;
+  }
+  return _impl_.timestamp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* LlmAgentNodeEvent::mutable_timestamp() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_timestamp();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmAgentNodeEvent.timestamp)
+  return _msg;
+}
+inline void LlmAgentNodeEvent::set_allocated_timestamp(::PROTOBUF_NAMESPACE_ID::Timestamp* timestamp) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.timestamp_);
+  }
+  if (timestamp) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(timestamp));
+    if (message_arena != submessage_arena) {
+      timestamp = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, timestamp, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.timestamp_ = timestamp;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmAgentNodeEvent.timestamp)
+}
+
+// float llm_agent_node_event_duration_in_s = 7;
+inline void LlmAgentNodeEvent::clear_llm_agent_node_event_duration_in_s() {
+  _impl_.llm_agent_node_event_duration_in_s_ = 0;
+}
+inline float LlmAgentNodeEvent::_internal_llm_agent_node_event_duration_in_s() const {
+  return _impl_.llm_agent_node_event_duration_in_s_;
+}
+inline float LlmAgentNodeEvent::llm_agent_node_event_duration_in_s() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_duration_in_s)
+  return _internal_llm_agent_node_event_duration_in_s();
+}
+inline void LlmAgentNodeEvent::_internal_set_llm_agent_node_event_duration_in_s(float value) {
+  
+  _impl_.llm_agent_node_event_duration_in_s_ = value;
+}
+inline void LlmAgentNodeEvent::set_llm_agent_node_event_duration_in_s(float value) {
+  _internal_set_llm_agent_node_event_duration_in_s(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_duration_in_s)
+}
+
+// string llm_agent_node_event_error_message = 8;
+inline void LlmAgentNodeEvent::clear_llm_agent_node_event_error_message() {
+  _impl_.llm_agent_node_event_error_message_.ClearToEmpty();
+}
+inline const std::string& LlmAgentNodeEvent::llm_agent_node_event_error_message() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_error_message)
+  return _internal_llm_agent_node_event_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LlmAgentNodeEvent::set_llm_agent_node_event_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.llm_agent_node_event_error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_error_message)
+}
+inline std::string* LlmAgentNodeEvent::mutable_llm_agent_node_event_error_message() {
+  std::string* _s = _internal_mutable_llm_agent_node_event_error_message();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_error_message)
+  return _s;
+}
+inline const std::string& LlmAgentNodeEvent::_internal_llm_agent_node_event_error_message() const {
+  return _impl_.llm_agent_node_event_error_message_.Get();
+}
+inline void LlmAgentNodeEvent::_internal_set_llm_agent_node_event_error_message(const std::string& value) {
+  
+  _impl_.llm_agent_node_event_error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* LlmAgentNodeEvent::_internal_mutable_llm_agent_node_event_error_message() {
+  
+  return _impl_.llm_agent_node_event_error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* LlmAgentNodeEvent::release_llm_agent_node_event_error_message() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_error_message)
+  return _impl_.llm_agent_node_event_error_message_.Release();
+}
+inline void LlmAgentNodeEvent::set_allocated_llm_agent_node_event_error_message(std::string* llm_agent_node_event_error_message) {
+  if (llm_agent_node_event_error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.llm_agent_node_event_error_message_.SetAllocated(llm_agent_node_event_error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.llm_agent_node_event_error_message_.IsDefault()) {
+    _impl_.llm_agent_node_event_error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_error_message)
 }
 
 // -------------------------------------------------------------------
@@ -46153,6 +47392,80 @@ inline ::ondewo::nlu::LlmTokenUsageUpdateEvent* StreamingDetectIntentResponse::_
 inline ::ondewo::nlu::LlmTokenUsageUpdateEvent* StreamingDetectIntentResponse::mutable_llm_token_usage_update() {
   ::ondewo::nlu::LlmTokenUsageUpdateEvent* _msg = _internal_mutable_llm_token_usage_update();
   // @@protoc_insertion_point(field_mutable:ondewo.nlu.StreamingDetectIntentResponse.llm_token_usage_update)
+  return _msg;
+}
+
+// .ondewo.nlu.LlmAgentNodeEvent llm_agent_node_event = 11;
+inline bool StreamingDetectIntentResponse::_internal_has_llm_agent_node_event() const {
+  return telemetry_event_case() == kLlmAgentNodeEvent;
+}
+inline bool StreamingDetectIntentResponse::has_llm_agent_node_event() const {
+  return _internal_has_llm_agent_node_event();
+}
+inline void StreamingDetectIntentResponse::set_has_llm_agent_node_event() {
+  _impl_._oneof_case_[0] = kLlmAgentNodeEvent;
+}
+inline void StreamingDetectIntentResponse::clear_llm_agent_node_event() {
+  if (_internal_has_llm_agent_node_event()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.telemetry_event_.llm_agent_node_event_;
+    }
+    clear_has_telemetry_event();
+  }
+}
+inline ::ondewo::nlu::LlmAgentNodeEvent* StreamingDetectIntentResponse::release_llm_agent_node_event() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.StreamingDetectIntentResponse.llm_agent_node_event)
+  if (_internal_has_llm_agent_node_event()) {
+    clear_has_telemetry_event();
+    ::ondewo::nlu::LlmAgentNodeEvent* temp = _impl_.telemetry_event_.llm_agent_node_event_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.telemetry_event_.llm_agent_node_event_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::ondewo::nlu::LlmAgentNodeEvent& StreamingDetectIntentResponse::_internal_llm_agent_node_event() const {
+  return _internal_has_llm_agent_node_event()
+      ? *_impl_.telemetry_event_.llm_agent_node_event_
+      : reinterpret_cast< ::ondewo::nlu::LlmAgentNodeEvent&>(::ondewo::nlu::_LlmAgentNodeEvent_default_instance_);
+}
+inline const ::ondewo::nlu::LlmAgentNodeEvent& StreamingDetectIntentResponse::llm_agent_node_event() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.StreamingDetectIntentResponse.llm_agent_node_event)
+  return _internal_llm_agent_node_event();
+}
+inline ::ondewo::nlu::LlmAgentNodeEvent* StreamingDetectIntentResponse::unsafe_arena_release_llm_agent_node_event() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ondewo.nlu.StreamingDetectIntentResponse.llm_agent_node_event)
+  if (_internal_has_llm_agent_node_event()) {
+    clear_has_telemetry_event();
+    ::ondewo::nlu::LlmAgentNodeEvent* temp = _impl_.telemetry_event_.llm_agent_node_event_;
+    _impl_.telemetry_event_.llm_agent_node_event_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void StreamingDetectIntentResponse::unsafe_arena_set_allocated_llm_agent_node_event(::ondewo::nlu::LlmAgentNodeEvent* llm_agent_node_event) {
+  clear_telemetry_event();
+  if (llm_agent_node_event) {
+    set_has_llm_agent_node_event();
+    _impl_.telemetry_event_.llm_agent_node_event_ = llm_agent_node_event;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.nlu.StreamingDetectIntentResponse.llm_agent_node_event)
+}
+inline ::ondewo::nlu::LlmAgentNodeEvent* StreamingDetectIntentResponse::_internal_mutable_llm_agent_node_event() {
+  if (!_internal_has_llm_agent_node_event()) {
+    clear_telemetry_event();
+    set_has_llm_agent_node_event();
+    _impl_.telemetry_event_.llm_agent_node_event_ = CreateMaybeMessage< ::ondewo::nlu::LlmAgentNodeEvent >(GetArenaForAllocation());
+  }
+  return _impl_.telemetry_event_.llm_agent_node_event_;
+}
+inline ::ondewo::nlu::LlmAgentNodeEvent* StreamingDetectIntentResponse::mutable_llm_agent_node_event() {
+  ::ondewo::nlu::LlmAgentNodeEvent* _msg = _internal_mutable_llm_agent_node_event();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.StreamingDetectIntentResponse.llm_agent_node_event)
   return _msg;
 }
 
@@ -69676,6 +70989,10 @@ inline void GetAudioFileOfSessionRequest::set_allocated_field_mask(::PROTOBUF_NA
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -69713,6 +71030,11 @@ template <> struct is_proto_enum< ::ondewo::nlu::LlmSafetyLocation> : ::std::tru
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::nlu::LlmSafetyLocation>() {
   return ::ondewo::nlu::LlmSafetyLocation_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::nlu::LlmAgentNodePhase> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::nlu::LlmAgentNodePhase>() {
+  return ::ondewo::nlu::LlmAgentNodePhase_descriptor();
 }
 template <> struct is_proto_enum< ::ondewo::nlu::AudioEncoding> : ::std::true_type {};
 template <>

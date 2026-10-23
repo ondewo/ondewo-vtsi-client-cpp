@@ -103,12 +103,13 @@ enum OperationMetadata_OperationType : int {
   OperationMetadata_OperationType_ADD_RAG_CRAWLER_RESULT_TO_DATASET = 11,
   OperationMetadata_OperationType_REMOVE_RAG_CRAWLER_RESULT_FROM_DATASET = 12,
   OperationMetadata_OperationType_CHANGE_DATASET_EMBEDDING_MODEL = 13,
+  OperationMetadata_OperationType_REPARSE_DATASET = 14,
   OperationMetadata_OperationType_OperationMetadata_OperationType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   OperationMetadata_OperationType_OperationMetadata_OperationType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool OperationMetadata_OperationType_IsValid(int value);
 constexpr OperationMetadata_OperationType OperationMetadata_OperationType_OperationType_MIN = OperationMetadata_OperationType_OPERATION_TYPE_UNSPECIFIED;
-constexpr OperationMetadata_OperationType OperationMetadata_OperationType_OperationType_MAX = OperationMetadata_OperationType_CHANGE_DATASET_EMBEDDING_MODEL;
+constexpr OperationMetadata_OperationType OperationMetadata_OperationType_OperationType_MAX = OperationMetadata_OperationType_REPARSE_DATASET;
 constexpr int OperationMetadata_OperationType_OperationType_ARRAYSIZE = OperationMetadata_OperationType_OperationType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* OperationMetadata_OperationType_descriptor();
@@ -312,6 +313,8 @@ class OperationMetadata final :
     OperationMetadata_OperationType_REMOVE_RAG_CRAWLER_RESULT_FROM_DATASET;
   static constexpr OperationType CHANGE_DATASET_EMBEDDING_MODEL =
     OperationMetadata_OperationType_CHANGE_DATASET_EMBEDDING_MODEL;
+  static constexpr OperationType REPARSE_DATASET =
+    OperationMetadata_OperationType_REPARSE_DATASET;
   static inline bool OperationType_IsValid(int value) {
     return OperationMetadata_OperationType_IsValid(value);
   }

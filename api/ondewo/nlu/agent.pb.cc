@@ -374,6 +374,7 @@ PROTOBUF_CONSTEXPR GetAgentStatisticsRequest::GetAgentStatisticsRequest(
   , /*decltype(_impl_.llm_group_bys_)*/{}
   , /*decltype(_impl_.llm_ccai_service_provider_filter_)*/{}
   , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.llm_base_url_filter_)*/{}
   , /*decltype(_impl_.parent_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.language_code_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.field_mask_)*/nullptr
@@ -416,6 +417,7 @@ PROTOBUF_CONSTEXPR GetSessionsStatisticsRequest::GetSessionsStatisticsRequest(
   , /*decltype(_impl_.llm_tool_name_filter_)*/{}
   , /*decltype(_impl_.llm_ccai_service_provider_filter_)*/{}
   , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.llm_base_url_filter_)*/{}
   , /*decltype(_impl_.parent_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.sql_query_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.session_filter_)*/nullptr
@@ -457,6 +459,7 @@ PROTOBUF_CONSTEXPR GetSessionsStatisticsTimeSeriesRequest::GetSessionsStatistics
   , /*decltype(_impl_.llm_tool_name_filter_)*/{}
   , /*decltype(_impl_.llm_ccai_service_provider_filter_)*/{}
   , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.llm_base_url_filter_)*/{}
   , /*decltype(_impl_.parent_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.session_filter_)*/nullptr
   , /*decltype(_impl_.field_mask_)*/nullptr
@@ -1598,6 +1601,7 @@ const uint32_t TableStruct_ondewo_2fnlu_2fagent_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetAgentStatisticsRequest, _impl_.llm_group_bys_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetAgentStatisticsRequest, _impl_.field_mask_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetAgentStatisticsRequest, _impl_.llm_ccai_service_provider_filter_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetAgentStatisticsRequest, _impl_.llm_base_url_filter_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetAgentStatisticsResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1629,6 +1633,7 @@ const uint32_t TableStruct_ondewo_2fnlu_2fagent_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsRequest, _impl_.llm_agent_name_filter_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsRequest, _impl_.llm_tool_name_filter_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsRequest, _impl_.llm_ccai_service_provider_filter_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsRequest, _impl_.llm_base_url_filter_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1656,6 +1661,7 @@ const uint32_t TableStruct_ondewo_2fnlu_2fagent_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsTimeSeriesRequest, _impl_.llm_tool_name_filter_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsTimeSeriesRequest, _impl_.llm_ccai_service_provider_filter_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsTimeSeriesRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetSessionsStatisticsTimeSeriesRequest, _impl_.llm_base_url_filter_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmTelemetryTimeSeriesBucket, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2257,62 +2263,62 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 197, -1, -1, sizeof(::ondewo::nlu::RestoreAgentRequest)},
   { 207, -1, -1, sizeof(::ondewo::nlu::MigrateAgentRequest)},
   { 214, -1, -1, sizeof(::ondewo::nlu::GetAgentStatisticsRequest)},
-  { 230, -1, -1, sizeof(::ondewo::nlu::GetAgentStatisticsResponse)},
-  { 240, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsRequest)},
-  { 261, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsResponse)},
-  { 271, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsTimeSeriesRequest)},
-  { 288, -1, -1, sizeof(::ondewo::nlu::LlmTelemetryTimeSeriesBucket)},
-  { 297, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsTimeSeriesResponse)},
-  { 305, -1, -1, sizeof(::ondewo::nlu::AddUserToProjectRequest)},
-  { 314, -1, -1, sizeof(::ondewo::nlu::RemoveUserFromProjectRequest)},
-  { 322, -1, -1, sizeof(::ondewo::nlu::ListUsersInProjectRequest)},
-  { 331, -1, -1, sizeof(::ondewo::nlu::UserInProject)},
-  { 340, -1, -1, sizeof(::ondewo::nlu::ListUsersInProjectResponse)},
-  { 348, -1, -1, sizeof(::ondewo::nlu::GetPlatformInfoResponse)},
-  { 356, -1, -1, sizeof(::ondewo::nlu::ListProjectPermissionsRequest)},
-  { 364, -1, -1, sizeof(::ondewo::nlu::ListProjectPermissionsResponse)},
-  { 372, -1, -1, sizeof(::ondewo::nlu::SetAgentStatusRequest)},
-  { 381, -1, -1, sizeof(::ondewo::nlu::AgentSorting)},
-  { 389, -1, -1, sizeof(::ondewo::nlu::SetResourcesRequest)},
-  { 400, -1, -1, sizeof(::ondewo::nlu::DeleteResourcesRequest)},
-  { 410, -1, -1, sizeof(::ondewo::nlu::ExportResourcesRequest)},
-  { 420, -1, -1, sizeof(::ondewo::nlu::ExportResourcesResponse)},
-  { 431, -1, -1, sizeof(::ondewo::nlu::GetModelStatusesRequest)},
-  { 441, -1, -1, sizeof(::ondewo::nlu::ModelStatus)},
-  { 453, -1, -1, sizeof(::ondewo::nlu::GetModelStatusesResponse)},
-  { 460, -1, -1, sizeof(::ondewo::nlu::CustomPlatformInfo)},
-  { 473, -1, -1, sizeof(::ondewo::nlu::GetPlatformMappingRequest)},
-  { 480, -1, -1, sizeof(::ondewo::nlu::PlatformMapping)},
-  { 488, -1, -1, sizeof(::ondewo::nlu::FullTextSearchRequest)},
-  { 498, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntityType_EntityTypeSearchResult)},
-  { 511, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntityType)},
-  { 524, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntity_EntitySearchResult)},
-  { 539, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntity)},
-  { 552, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult)},
-  { 569, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntitySynonym)},
-  { 582, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntent_IntentSearchResult)},
-  { 597, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntent)},
-  { 610, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextIn_IntentContextInSearchResult)},
-  { 625, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextIn)},
-  { 638, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult)},
-  { 653, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextOut)},
-  { 666, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult)},
-  { 685, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentUsersays)},
-  { 698, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentTags_IntentTagsSearchResult)},
-  { 714, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentTags)},
-  { 727, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentResponse_IntentResponseSearchResult)},
-  { 744, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentResponse)},
-  { 757, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentParameters_IntentParametersSearchResult)},
-  { 773, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentParameters)},
-  { 786, -1, -1, sizeof(::ondewo::nlu::ReindexAgentRequest)},
-  { 795, -1, -1, sizeof(::ondewo::nlu::CreateProjectTechnicalUserRequest)},
-  { 803, -1, -1, sizeof(::ondewo::nlu::CreateProjectTechnicalUserResponse)},
-  { 812, -1, -1, sizeof(::ondewo::nlu::ListProjectTechnicalUsersRequest)},
-  { 820, -1, -1, sizeof(::ondewo::nlu::ProjectTechnicalUser)},
-  { 830, -1, -1, sizeof(::ondewo::nlu::ListProjectTechnicalUsersResponse)},
-  { 838, -1, -1, sizeof(::ondewo::nlu::DeleteProjectTechnicalUserRequest)},
-  { 846, -1, -1, sizeof(::ondewo::nlu::RotateProjectTechnicalUserPasswordRequest)},
-  { 854, -1, -1, sizeof(::ondewo::nlu::RotateProjectTechnicalUserPasswordResponse)},
+  { 231, -1, -1, sizeof(::ondewo::nlu::GetAgentStatisticsResponse)},
+  { 241, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsRequest)},
+  { 263, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsResponse)},
+  { 273, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsTimeSeriesRequest)},
+  { 291, -1, -1, sizeof(::ondewo::nlu::LlmTelemetryTimeSeriesBucket)},
+  { 300, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsTimeSeriesResponse)},
+  { 308, -1, -1, sizeof(::ondewo::nlu::AddUserToProjectRequest)},
+  { 317, -1, -1, sizeof(::ondewo::nlu::RemoveUserFromProjectRequest)},
+  { 325, -1, -1, sizeof(::ondewo::nlu::ListUsersInProjectRequest)},
+  { 334, -1, -1, sizeof(::ondewo::nlu::UserInProject)},
+  { 343, -1, -1, sizeof(::ondewo::nlu::ListUsersInProjectResponse)},
+  { 351, -1, -1, sizeof(::ondewo::nlu::GetPlatformInfoResponse)},
+  { 359, -1, -1, sizeof(::ondewo::nlu::ListProjectPermissionsRequest)},
+  { 367, -1, -1, sizeof(::ondewo::nlu::ListProjectPermissionsResponse)},
+  { 375, -1, -1, sizeof(::ondewo::nlu::SetAgentStatusRequest)},
+  { 384, -1, -1, sizeof(::ondewo::nlu::AgentSorting)},
+  { 392, -1, -1, sizeof(::ondewo::nlu::SetResourcesRequest)},
+  { 403, -1, -1, sizeof(::ondewo::nlu::DeleteResourcesRequest)},
+  { 413, -1, -1, sizeof(::ondewo::nlu::ExportResourcesRequest)},
+  { 423, -1, -1, sizeof(::ondewo::nlu::ExportResourcesResponse)},
+  { 434, -1, -1, sizeof(::ondewo::nlu::GetModelStatusesRequest)},
+  { 444, -1, -1, sizeof(::ondewo::nlu::ModelStatus)},
+  { 456, -1, -1, sizeof(::ondewo::nlu::GetModelStatusesResponse)},
+  { 463, -1, -1, sizeof(::ondewo::nlu::CustomPlatformInfo)},
+  { 476, -1, -1, sizeof(::ondewo::nlu::GetPlatformMappingRequest)},
+  { 483, -1, -1, sizeof(::ondewo::nlu::PlatformMapping)},
+  { 491, -1, -1, sizeof(::ondewo::nlu::FullTextSearchRequest)},
+  { 501, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntityType_EntityTypeSearchResult)},
+  { 514, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntityType)},
+  { 527, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntity_EntitySearchResult)},
+  { 542, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntity)},
+  { 555, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult)},
+  { 572, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntitySynonym)},
+  { 585, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntent_IntentSearchResult)},
+  { 600, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntent)},
+  { 613, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextIn_IntentContextInSearchResult)},
+  { 628, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextIn)},
+  { 641, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult)},
+  { 656, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextOut)},
+  { 669, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult)},
+  { 688, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentUsersays)},
+  { 701, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentTags_IntentTagsSearchResult)},
+  { 717, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentTags)},
+  { 730, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentResponse_IntentResponseSearchResult)},
+  { 747, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentResponse)},
+  { 760, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentParameters_IntentParametersSearchResult)},
+  { 776, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentParameters)},
+  { 789, -1, -1, sizeof(::ondewo::nlu::ReindexAgentRequest)},
+  { 798, -1, -1, sizeof(::ondewo::nlu::CreateProjectTechnicalUserRequest)},
+  { 806, -1, -1, sizeof(::ondewo::nlu::CreateProjectTechnicalUserResponse)},
+  { 815, -1, -1, sizeof(::ondewo::nlu::ListProjectTechnicalUsersRequest)},
+  { 823, -1, -1, sizeof(::ondewo::nlu::ProjectTechnicalUser)},
+  { 833, -1, -1, sizeof(::ondewo::nlu::ListProjectTechnicalUsersResponse)},
+  { 841, -1, -1, sizeof(::ondewo::nlu::DeleteProjectTechnicalUserRequest)},
+  { 849, -1, -1, sizeof(::ondewo::nlu::RotateProjectTechnicalUserPasswordRequest)},
+  { 857, -1, -1, sizeof(::ondewo::nlu::RotateProjectTechnicalUserPasswordResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2479,7 +2485,7 @@ const char descriptor_table_protodef_ondewo_2fnlu_2fagent_2eproto[] PROTOBUF_SEC
   "ent\"\\\n\023RestoreAgentRequest\022\016\n\006parent\030\001 \001"
   "(\t\022\023\n\tagent_uri\030\002 \001(\tH\000\022\027\n\ragent_content"
   "\030\003 \001(\014H\000B\007\n\005agent\",\n\023MigrateAgentRequest"
-  "\022\025\n\ragent_content\030\001 \001(\014\"\372\002\n\031GetAgentStat"
+  "\022\025\n\ragent_content\030\001 \001(\014\"\227\003\n\031GetAgentStat"
   "isticsRequest\022\016\n\006parent\030\001 \001(\t\022(\n\006format\030"
   "\002 \001(\0162\030.ondewo.nlu.ReportFormat\022\025\n\rlangu"
   "age_code\030\003 \001(\t\022$\n\004type\030\004 \001(\0162\026.ondewo.nl"
@@ -2489,482 +2495,484 @@ const char descriptor_table_protodef_ondewo_2fnlu_2fagent_2eproto[] PROTOBUF_SEC
   "\t\022.\n\nfield_mask\030\t \001(\0132\032.google.protobuf."
   "FieldMask\022I\n llm_ccai_service_provider_f"
   "ilter\030\n \003(\0162\037.ondewo.nlu.CcaiServiceProv"
-  "ider\"\273\001\n\032GetAgentStatisticsResponse\022\017\n\007r"
-  "eports\030\001 \001(\014\022(\n\006format\030\002 \001(\0162\030.ondewo.nl"
-  "u.ReportFormat\022$\n\004type\030\003 \001(\0162\026.ondewo.nl"
-  "u.ReportType\022<\n\024llm_telemetry_report\030\004 \001"
-  "(\0132\036.ondewo.nlu.LlmTelemetryReport\"\244\004\n\034G"
-  "etSessionsStatisticsRequest\022\016\n\006parent\030\001 "
-  "\001(\t\022(\n\006format\030\002 \001(\0162\030.ondewo.nlu.ReportF"
-  "ormat\022,\n\004type\030\003 \001(\0162\036.ondewo.nlu.Session"
-  "sReportType\0221\n\016session_filter\030\004 \001(\0132\031.on"
-  "dewo.nlu.SessionFilter\0222\n\017context_filter"
-  "s\030\005 \003(\0132\031.ondewo.nlu.ContextFilter\022\r\n\005li"
-  "mit\030\006 \001(\005\022\021\n\tgroup_bys\030\007 \003(\t\022\021\n\torder_by"
-  "s\030\010 \003(\t\022.\n\nfield_mask\030\t \001(\0132\032.google.pro"
-  "tobuf.FieldMask\022\021\n\tsql_query\030\n \001(\t\022\030\n\020ll"
-  "m_model_filter\030\013 \003(\t\022\033\n\023llm_provider_fil"
-  "ter\030\014 \003(\t\022\035\n\025llm_agent_name_filter\030\r \003(\t"
-  "\022\034\n\024llm_tool_name_filter\030\016 \003(\t\022I\n llm_cc"
-  "ai_service_provider_filter\030\017 \003(\0162\037.ondew"
-  "o.nlu.CcaiServiceProvider\"\306\001\n\035GetSession"
-  "sStatisticsResponse\022\017\n\007reports\030\001 \001(\014\022(\n\006"
-  "format\030\002 \001(\0162\030.ondewo.nlu.ReportFormat\022,"
-  "\n\004type\030\003 \001(\0162\036.ondewo.nlu.SessionsReport"
-  "Type\022<\n\024llm_telemetry_report\030\004 \001(\0132\036.ond"
-  "ewo.nlu.LlmTelemetryReport\"\273\003\n&GetSessio"
-  "nsStatisticsTimeSeriesRequest\022\016\n\006parent\030"
-  "\001 \001(\t\022,\n\004type\030\002 \001(\0162\036.ondewo.nlu.Session"
-  "sReportType\0221\n\016session_filter\030\003 \001(\0132\031.on"
-  "dewo.nlu.SessionFilter\022\034\n\024bucket_width_s"
-  "econds\030\004 \001(\005\022\023\n\013max_buckets\030\005 \001(\005\022\030\n\020llm"
-  "_model_filter\030\006 \003(\t\022\033\n\023llm_provider_filt"
-  "er\030\007 \003(\t\022\035\n\025llm_agent_name_filter\030\010 \003(\t\022"
-  "\034\n\024llm_tool_name_filter\030\t \003(\t\022I\n llm_cca"
-  "i_service_provider_filter\030\n \003(\0162\037.ondewo"
-  ".nlu.CcaiServiceProvider\022.\n\nfield_mask\030\013"
-  " \001(\0132\032.google.protobuf.FieldMask\"\276\001\n\034Llm"
-  "TelemetryTimeSeriesBucket\0220\n\014bucket_star"
-  "t\030\001 \001(\0132\032.google.protobuf.Timestamp\022.\n\nb"
-  "ucket_end\030\002 \001(\0132\032.google.protobuf.Timest"
-  "amp\022<\n\024llm_telemetry_report\030\003 \001(\0132\036.onde"
-  "wo.nlu.LlmTelemetryReport\"\234\001\n\'GetSession"
-  "sStatisticsTimeSeriesResponse\022S\n!llm_tel"
-  "emetry_time_series_buckets\030\001 \003(\0132(.ondew"
-  "o.nlu.LlmTelemetryTimeSeriesBucket\022\034\n\024bu"
-  "cket_width_seconds\030\002 \001(\005\"S\n\027AddUserToPro"
-  "jectRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007user_id\030\002"
-  " \001(\t\022\027\n\017project_role_id\030\004 \001(\r\"\?\n\034RemoveU"
-  "serFromProjectRequest\022\016\n\006parent\030\001 \001(\t\022\017\n"
-  "\007user_id\030\002 \001(\t\"o\n\031ListUsersInProjectRequ"
-  "est\022\016\n\006parent\030\001 \001(\t\022\022\n\npage_token\030\002 \001(\t\022"
-  ".\n\nfield_mask\030\003 \001(\0132\032.google.protobuf.Fi"
-  "eldMask\"P\n\rUserInProject\022\016\n\006parent\030\001 \001(\t"
-  "\022\036\n\004user\030\002 \001(\0132\020.ondewo.nlu.User\022\017\n\007role"
-  "_id\030\003 \001(\r\"_\n\032ListUsersInProjectResponse\022"
-  "(\n\005users\030\001 \003(\0132\031.ondewo.nlu.UserInProjec"
-  "t\022\027\n\017next_page_token\030\002 \001(\t\"\?\n\027GetPlatfor"
-  "mInfoResponse\022\017\n\007version\030\001 \001(\t\022\023\n\013commit"
-  "_hash\030\002 \001(\t\"c\n\035ListProjectPermissionsReq"
-  "uest\022\022\n\npage_token\030\001 \001(\t\022.\n\nfield_mask\030\002"
-  " \001(\0132\032.google.protobuf.FieldMask\"N\n\036List"
-  "ProjectPermissionsResponse\022\023\n\013permission"
-  "s\030\001 \003(\t\022\027\n\017next_page_token\030\002 \001(\t\"{\n\025SetA"
-  "gentStatusRequest\022\016\n\006parent\030\001 \001(\t\022\'\n\006sta"
-  "tus\030\002 \001(\0162\027.ondewo.nlu.AgentStatus\022)\n\nag"
-  "ent_view\030\003 \001(\0162\025.ondewo.nlu.AgentView\"\243\002"
-  "\n\014AgentSorting\022A\n\rsorting_field\030\001 \001(\0162*."
-  "ondewo.nlu.AgentSorting.AgentSortingFiel"
-  "d\022-\n\014sorting_mode\030\002 \001(\0162\027.ondewo.nlu.Sor"
-  "tingMode\"\240\001\n\021AgentSortingField\022\024\n\020NO_AGE"
-  "NT_SORTING\020\000\022\026\n\022SORT_AGENT_BY_NAME\020\001\022\037\n\033"
-  "SORT_AGENT_BY_CREATION_DATE\020\002\022\036\n\032SORT_AG"
-  "ENT_BY_LAST_UPDATED\020\003\022\034\n\030SORT_AGENT_BY_O"
-  "WNER_NAME\020\004\"o\n\023SetResourcesRequest\022\016\n\006pa"
-  "rent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\025"
-  "\n\rresource_file\030\004 \001(\014\022\025\n\rlanguage_code\030\005"
-  " \001(\t\"[\n\026DeleteResourcesRequest\022\016\n\006parent"
-  "\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\025\n\rla"
-  "nguage_code\030\004 \001(\t\"[\n\026ExportResourcesRequ"
-  "est\022\016\n\006parent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004typ"
-  "e\030\003 \001(\t\022\025\n\rlanguage_code\030\004 \001(\t\"s\n\027Export"
-  "ResourcesResponse\022\016\n\006parent\030\001 \001(\t\022\014\n\004nam"
-  "e\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\025\n\rlanguage_code\030\004"
-  " \001(\t\022\025\n\rresource_file\030\005 \001(\014\"k\n\027GetModelS"
-  "tatusesRequest\022\016\n\006parent\030\001 \001(\t\022\025\n\rcache_"
-  "version\030\002 \001(\005\022\025\n\rlanguage_code\030\003 \001(\t\022\022\n\n"
-  "model_name\030\004 \001(\t\"\300\002\n\013ModelStatus\022\025\n\rcach"
-  "e_version\030\001 \001(\005\022\025\n\rlanguage_code\030\002 \001(\t\022\022"
-  "\n\nmodel_name\030\003 \001(\t\0223\n\017status_set_time\030\004 "
-  "\001(\0132\032.google.protobuf.Timestamp\022\016\n\006confi"
-  "g\030\005 \001(\t\0222\n\006status\030\006 \001(\0162\".ondewo.nlu.Mod"
-  "elStatus.StatusName\"v\n\nStatusName\022\013\n\007UNK"
-  "NOWN\020\000\022\020\n\014INITIALIZING\020\001\022\017\n\013INITIALIZED\020"
-  "\002\022\020\n\014LOADING_DATA\020\003\022\014\n\010TRAINING\020\004\022\013\n\007TES"
-  "TING\020\005\022\013\n\007TRAINED\020\006\"K\n\030GetModelStatusesR"
-  "esponse\022/\n\016model_statuses\030\001 \003(\0132\027.ondewo"
-  ".nlu.ModelStatus\"\375\001\n\022CustomPlatformInfo\022"
-  "5\n\010platform\030\001 \001(\0162#.ondewo.nlu.Intent.Me"
-  "ssage.Platform\022\024\n\014display_name\030\002 \001(\t\022\020\n\010"
-  "position\030\003 \001(\r\022.\n\ncreated_at\030\004 \001(\0132\032.goo"
-  "gle.protobuf.Timestamp\022/\n\013modified_at\030\005 "
-  "\001(\0132\032.google.protobuf.Timestamp\022\022\n\ncreat"
-  "ed_by\030\006 \001(\t\022\023\n\013modified_by\030\007 \001(\t\"+\n\031GetP"
-  "latformMappingRequest\022\016\n\006parent\030\001 \001(\t\"X\n"
-  "\017PlatformMapping\022\016\n\006parent\030\001 \001(\t\0225\n\rplat"
-  "form_info\030\002 \003(\0132\036.ondewo.nlu.CustomPlatf"
-  "ormInfo\"\231\003\n\025FullTextSearchRequest\022\016\n\006par"
-  "ent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\014\n\004term"
-  "\030\003 \001(\t\022\022\n\npage_token\030\004 \001(\t\"\266\002\n\tQueryType"
-  "\022\007\n\003ALL\020\000\022\025\n\021OndewoEntityQuery\020\001\022\031\n\025Onde"
-  "woEntityTypeQuery\020\002\022\034\n\030OndewoEntitySynon"
-  "ymQuery\020\003\022\025\n\021OndewoIntentQuery\020\004\022\036\n\032Onde"
-  "woIntentContextInQuery\020\005\022\037\n\033OndewoIntent"
-  "ContextOutQuery\020\006\022\035\n\031OndewoIntentUsersay"
-  "sQuery\020\007\022\031\n\025OndewoIntentTagsQuery\020\010\022\037\n\033O"
-  "ndewoIntentParametersQuery\020\t\022\035\n\031OndewoIn"
-  "tentResponseQuery\020\n\"\322\003\n FullTextSearchRe"
-  "sponseEntityType\022\016\n\006parent\030\001 \001(\t\022\025\n\rlang"
-  "uage_code\030\002 \001(\t\022`\n\023entity_type_results\030\003"
+  "ider\022\033\n\023llm_base_url_filter\030\013 \003(\t\"\273\001\n\032Ge"
+  "tAgentStatisticsResponse\022\017\n\007reports\030\001 \001("
+  "\014\022(\n\006format\030\002 \001(\0162\030.ondewo.nlu.ReportFor"
+  "mat\022$\n\004type\030\003 \001(\0162\026.ondewo.nlu.ReportTyp"
+  "e\022<\n\024llm_telemetry_report\030\004 \001(\0132\036.ondewo"
+  ".nlu.LlmTelemetryReport\"\301\004\n\034GetSessionsS"
+  "tatisticsRequest\022\016\n\006parent\030\001 \001(\t\022(\n\006form"
+  "at\030\002 \001(\0162\030.ondewo.nlu.ReportFormat\022,\n\004ty"
+  "pe\030\003 \001(\0162\036.ondewo.nlu.SessionsReportType"
+  "\0221\n\016session_filter\030\004 \001(\0132\031.ondewo.nlu.Se"
+  "ssionFilter\0222\n\017context_filters\030\005 \003(\0132\031.o"
+  "ndewo.nlu.ContextFilter\022\r\n\005limit\030\006 \001(\005\022\021"
+  "\n\tgroup_bys\030\007 \003(\t\022\021\n\torder_bys\030\010 \003(\t\022.\n\n"
+  "field_mask\030\t \001(\0132\032.google.protobuf.Field"
+  "Mask\022\021\n\tsql_query\030\n \001(\t\022\030\n\020llm_model_fil"
+  "ter\030\013 \003(\t\022\033\n\023llm_provider_filter\030\014 \003(\t\022\035"
+  "\n\025llm_agent_name_filter\030\r \003(\t\022\034\n\024llm_too"
+  "l_name_filter\030\016 \003(\t\022I\n llm_ccai_service_"
+  "provider_filter\030\017 \003(\0162\037.ondewo.nlu.CcaiS"
+  "erviceProvider\022\033\n\023llm_base_url_filter\030\020 "
+  "\003(\t\"\306\001\n\035GetSessionsStatisticsResponse\022\017\n"
+  "\007reports\030\001 \001(\014\022(\n\006format\030\002 \001(\0162\030.ondewo."
+  "nlu.ReportFormat\022,\n\004type\030\003 \001(\0162\036.ondewo."
+  "nlu.SessionsReportType\022<\n\024llm_telemetry_"
+  "report\030\004 \001(\0132\036.ondewo.nlu.LlmTelemetryRe"
+  "port\"\330\003\n&GetSessionsStatisticsTimeSeries"
+  "Request\022\016\n\006parent\030\001 \001(\t\022,\n\004type\030\002 \001(\0162\036."
+  "ondewo.nlu.SessionsReportType\0221\n\016session"
+  "_filter\030\003 \001(\0132\031.ondewo.nlu.SessionFilter"
+  "\022\034\n\024bucket_width_seconds\030\004 \001(\005\022\023\n\013max_bu"
+  "ckets\030\005 \001(\005\022\030\n\020llm_model_filter\030\006 \003(\t\022\033\n"
+  "\023llm_provider_filter\030\007 \003(\t\022\035\n\025llm_agent_"
+  "name_filter\030\010 \003(\t\022\034\n\024llm_tool_name_filte"
+  "r\030\t \003(\t\022I\n llm_ccai_service_provider_fil"
+  "ter\030\n \003(\0162\037.ondewo.nlu.CcaiServiceProvid"
+  "er\022.\n\nfield_mask\030\013 \001(\0132\032.google.protobuf"
+  ".FieldMask\022\033\n\023llm_base_url_filter\030\014 \003(\t\""
+  "\276\001\n\034LlmTelemetryTimeSeriesBucket\0220\n\014buck"
+  "et_start\030\001 \001(\0132\032.google.protobuf.Timesta"
+  "mp\022.\n\nbucket_end\030\002 \001(\0132\032.google.protobuf"
+  ".Timestamp\022<\n\024llm_telemetry_report\030\003 \001(\013"
+  "2\036.ondewo.nlu.LlmTelemetryReport\"\234\001\n\'Get"
+  "SessionsStatisticsTimeSeriesResponse\022S\n!"
+  "llm_telemetry_time_series_buckets\030\001 \003(\0132"
+  "(.ondewo.nlu.LlmTelemetryTimeSeriesBucke"
+  "t\022\034\n\024bucket_width_seconds\030\002 \001(\005\"S\n\027AddUs"
+  "erToProjectRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007us"
+  "er_id\030\002 \001(\t\022\027\n\017project_role_id\030\004 \001(\r\"\?\n\034"
+  "RemoveUserFromProjectRequest\022\016\n\006parent\030\001"
+  " \001(\t\022\017\n\007user_id\030\002 \001(\t\"o\n\031ListUsersInProj"
+  "ectRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\npage_token"
+  "\030\002 \001(\t\022.\n\nfield_mask\030\003 \001(\0132\032.google.prot"
+  "obuf.FieldMask\"P\n\rUserInProject\022\016\n\006paren"
+  "t\030\001 \001(\t\022\036\n\004user\030\002 \001(\0132\020.ondewo.nlu.User\022"
+  "\017\n\007role_id\030\003 \001(\r\"_\n\032ListUsersInProjectRe"
+  "sponse\022(\n\005users\030\001 \003(\0132\031.ondewo.nlu.UserI"
+  "nProject\022\027\n\017next_page_token\030\002 \001(\t\"\?\n\027Get"
+  "PlatformInfoResponse\022\017\n\007version\030\001 \001(\t\022\023\n"
+  "\013commit_hash\030\002 \001(\t\"c\n\035ListProjectPermiss"
+  "ionsRequest\022\022\n\npage_token\030\001 \001(\t\022.\n\nfield"
+  "_mask\030\002 \001(\0132\032.google.protobuf.FieldMask\""
+  "N\n\036ListProjectPermissionsResponse\022\023\n\013per"
+  "missions\030\001 \003(\t\022\027\n\017next_page_token\030\002 \001(\t\""
+  "{\n\025SetAgentStatusRequest\022\016\n\006parent\030\001 \001(\t"
+  "\022\'\n\006status\030\002 \001(\0162\027.ondewo.nlu.AgentStatu"
+  "s\022)\n\nagent_view\030\003 \001(\0162\025.ondewo.nlu.Agent"
+  "View\"\243\002\n\014AgentSorting\022A\n\rsorting_field\030\001"
+  " \001(\0162*.ondewo.nlu.AgentSorting.AgentSort"
+  "ingField\022-\n\014sorting_mode\030\002 \001(\0162\027.ondewo."
+  "nlu.SortingMode\"\240\001\n\021AgentSortingField\022\024\n"
+  "\020NO_AGENT_SORTING\020\000\022\026\n\022SORT_AGENT_BY_NAM"
+  "E\020\001\022\037\n\033SORT_AGENT_BY_CREATION_DATE\020\002\022\036\n\032"
+  "SORT_AGENT_BY_LAST_UPDATED\020\003\022\034\n\030SORT_AGE"
+  "NT_BY_OWNER_NAME\020\004\"o\n\023SetResourcesReques"
+  "t\022\016\n\006parent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030"
+  "\003 \001(\t\022\025\n\rresource_file\030\004 \001(\014\022\025\n\rlanguage"
+  "_code\030\005 \001(\t\"[\n\026DeleteResourcesRequest\022\016\n"
+  "\006parent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001("
+  "\t\022\025\n\rlanguage_code\030\004 \001(\t\"[\n\026ExportResour"
+  "cesRequest\022\016\n\006parent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t"
+  "\022\014\n\004type\030\003 \001(\t\022\025\n\rlanguage_code\030\004 \001(\t\"s\n"
+  "\027ExportResourcesResponse\022\016\n\006parent\030\001 \001(\t"
+  "\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\025\n\rlanguage"
+  "_code\030\004 \001(\t\022\025\n\rresource_file\030\005 \001(\014\"k\n\027Ge"
+  "tModelStatusesRequest\022\016\n\006parent\030\001 \001(\t\022\025\n"
+  "\rcache_version\030\002 \001(\005\022\025\n\rlanguage_code\030\003 "
+  "\001(\t\022\022\n\nmodel_name\030\004 \001(\t\"\300\002\n\013ModelStatus\022"
+  "\025\n\rcache_version\030\001 \001(\005\022\025\n\rlanguage_code\030"
+  "\002 \001(\t\022\022\n\nmodel_name\030\003 \001(\t\0223\n\017status_set_"
+  "time\030\004 \001(\0132\032.google.protobuf.Timestamp\022\016"
+  "\n\006config\030\005 \001(\t\0222\n\006status\030\006 \001(\0162\".ondewo."
+  "nlu.ModelStatus.StatusName\"v\n\nStatusName"
+  "\022\013\n\007UNKNOWN\020\000\022\020\n\014INITIALIZING\020\001\022\017\n\013INITI"
+  "ALIZED\020\002\022\020\n\014LOADING_DATA\020\003\022\014\n\010TRAINING\020\004"
+  "\022\013\n\007TESTING\020\005\022\013\n\007TRAINED\020\006\"K\n\030GetModelSt"
+  "atusesResponse\022/\n\016model_statuses\030\001 \003(\0132\027"
+  ".ondewo.nlu.ModelStatus\"\375\001\n\022CustomPlatfo"
+  "rmInfo\0225\n\010platform\030\001 \001(\0162#.ondewo.nlu.In"
+  "tent.Message.Platform\022\024\n\014display_name\030\002 "
+  "\001(\t\022\020\n\010position\030\003 \001(\r\022.\n\ncreated_at\030\004 \001("
+  "\0132\032.google.protobuf.Timestamp\022/\n\013modifie"
+  "d_at\030\005 \001(\0132\032.google.protobuf.Timestamp\022\022"
+  "\n\ncreated_by\030\006 \001(\t\022\023\n\013modified_by\030\007 \001(\t\""
+  "+\n\031GetPlatformMappingRequest\022\016\n\006parent\030\001"
+  " \001(\t\"X\n\017PlatformMapping\022\016\n\006parent\030\001 \001(\t\022"
+  "5\n\rplatform_info\030\002 \003(\0132\036.ondewo.nlu.Cust"
+  "omPlatformInfo\"\231\003\n\025FullTextSearchRequest"
+  "\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022"
+  "\014\n\004term\030\003 \001(\t\022\022\n\npage_token\030\004 \001(\t\"\266\002\n\tQu"
+  "eryType\022\007\n\003ALL\020\000\022\025\n\021OndewoEntityQuery\020\001\022"
+  "\031\n\025OndewoEntityTypeQuery\020\002\022\034\n\030OndewoEnti"
+  "tySynonymQuery\020\003\022\025\n\021OndewoIntentQuery\020\004\022"
+  "\036\n\032OndewoIntentContextInQuery\020\005\022\037\n\033Ondew"
+  "oIntentContextOutQuery\020\006\022\035\n\031OndewoIntent"
+  "UsersaysQuery\020\007\022\031\n\025OndewoIntentTagsQuery"
+  "\020\010\022\037\n\033OndewoIntentParametersQuery\020\t\022\035\n\031O"
+  "ndewoIntentResponseQuery\020\n\"\322\003\n FullTextS"
+  "earchResponseEntityType\022\016\n\006parent\030\001 \001(\t\022"
+  "\025\n\rlanguage_code\030\002 \001(\t\022`\n\023entity_type_re"
+  "sults\030\003 \003(\0132C.ondewo.nlu.FullTextSearchR"
+  "esponseEntityType.EntityTypeSearchResult"
+  "\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n"
+  "\004time\030\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\330\001\n"
+  "\026EntityTypeSearchResult\022\014\n\004name\030\001 \001(\t\022\024\n"
+  "\014display_name\030\002 \001(\t\022\020\n\010language\030\003 \001(\t\022.\n"
+  "\ncreated_at\030\004 \001(\0132\032.google.protobuf.Time"
+  "stamp\022/\n\013modified_at\030\005 \001(\0132\032.google.prot"
+  "obuf.Timestamp\022\022\n\ncreated_by\030\006 \001(\t\022\023\n\013mo"
+  "dified_by\030\007 \001(\t\"\371\003\n\034FullTextSearchRespon"
+  "seEntity\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_cod"
+  "e\030\002 \001(\t\022S\n\016entity_results\030\003 \003(\0132;.ondewo"
+  ".nlu.FullTextSearchResponseEntity.Entity"
+  "SearchResult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_qu"
+  "ery\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_tok"
+  "en\030\007 \001(\t\032\220\002\n\022EntitySearchResult\022\014\n\004name\030"
+  "\001 \001(\t\022\024\n\014display_name\030\002 \001(\t\022\030\n\020entity_ty"
+  "pe_name\030\003 \001(\t\022 \n\030entity_type_display_nam"
+  "e\030\004 \001(\t\022\020\n\010language\030\005 \001(\t\022.\n\ncreated_at\030"
+  "\006 \001(\0132\032.google.protobuf.Timestamp\022/\n\013mod"
+  "ified_at\030\007 \001(\0132\032.google.protobuf.Timesta"
+  "mp\022\022\n\ncreated_by\030\010 \001(\t\022\023\n\013modified_by\030\t "
+  "\001(\t\"\317\004\n#FullTextSearchResponseEntitySyno"
+  "nym\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001"
+  "(\t\022i\n\026entity_synonym_results\030\003 \003(\0132I.ond"
+  "ewo.nlu.FullTextSearchResponseEntitySyno"
+  "nym.EntitySynonymSearchResult\022\014\n\004term\030\004 "
+  "\001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002"
+  "\022\027\n\017next_page_token\030\007 \001(\t\032\311\002\n\031EntitySyno"
+  "nymSearchResult\022\014\n\004name\030\001 \001(\t\022\024\n\014display"
+  "_name\030\002 \001(\t\022\030\n\020entity_type_name\030\003 \001(\t\022 \n"
+  "\030entity_type_display_name\030\004 \001(\t\022\023\n\013entit"
+  "y_name\030\005 \001(\t\022\033\n\023entity_display_name\030\006 \001("
+  "\t\022\020\n\010language\030\007 \001(\t\022.\n\ncreated_at\030\010 \001(\0132"
+  "\032.google.protobuf.Timestamp\022/\n\013modified_"
+  "at\030\t \001(\0132\032.google.protobuf.Timestamp\022\022\n\n"
+  "created_by\030\n \001(\t\022\023\n\013modified_by\030\013 \001(\t\"\340\003"
+  "\n\034FullTextSearchResponseIntent\022\016\n\006parent"
+  "\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022S\n\016intent_"
+  "results\030\003 \003(\0132;.ondewo.nlu.FullTextSearc"
+  "hResponseIntent.IntentSearchResult\022\014\n\004te"
+  "rm\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030"
+  "\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\367\001\n\022Inten"
+  "tSearchResult\022\014\n\004name\030\001 \001(\t\022\024\n\014display_n"
+  "ame\030\002 \001(\t\022\023\n\013domain_name\030\003 \001(\t\022\014\n\004tags\030\004"
+  " \003(\t\022\020\n\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001"
+  "(\0132\032.google.protobuf.Timestamp\022/\n\013modifi"
+  "ed_at\030\007 \001(\0132\032.google.protobuf.Timestamp\022"
+  "\022\n\ncreated_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t"
+  "\"\226\004\n%FullTextSearchResponseIntentContext"
+  "In\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001("
+  "\t\022p\n\031intent_context_in_results\030\003 \003(\0132M.o"
+  "ndewo.nlu.FullTextSearchResponseIntentCo"
+  "ntextIn.IntentContextInSearchResult\022\014\n\004t"
+  "erm\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time"
+  "\030\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\207\002\n\033Inte"
+  "ntContextInSearchResult\022\014\n\004name\030\001 \001(\t\022\023\n"
+  "\013intent_name\030\002 \001(\t\022\033\n\023intent_display_nam"
+  "e\030\003 \001(\t\022\014\n\004tags\030\004 \003(\t\022\020\n\010language\030\005 \001(\t\022"
+  ".\n\ncreated_at\030\006 \001(\0132\032.google.protobuf.Ti"
+  "mestamp\022/\n\013modified_at\030\007 \001(\0132\032.google.pr"
+  "otobuf.Timestamp\022\022\n\ncreated_by\030\010 \001(\t\022\023\n\013"
+  "modified_by\030\t \001(\t\"\233\004\n&FullTextSearchResp"
+  "onseIntentContextOut\022\016\n\006parent\030\001 \001(\t\022\025\n\r"
+  "language_code\030\002 \001(\t\022s\n\032intent_context_ou"
+  "t_results\030\003 \003(\0132O.ondewo.nlu.FullTextSea"
+  "rchResponseIntentContextOut.IntentContex"
+  "tOutSearchResult\022\014\n\004term\030\004 \001(\t\022\025\n\relasti"
+  "c_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page"
+  "_token\030\007 \001(\t\032\210\002\n\034IntentContextOutSearchR"
+  "esult\022\014\n\004name\030\001 \001(\t\022\023\n\013intent_name\030\002 \001(\t"
+  "\022\033\n\023intent_display_name\030\003 \001(\t\022\014\n\004tags\030\004 "
+  "\003(\t\022\020\n\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001("
+  "\0132\032.google.protobuf.Timestamp\022/\n\013modifie"
+  "d_at\030\007 \001(\0132\032.google.protobuf.Timestamp\022\022"
+  "\n\ncreated_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t\""
+  "\351\004\n$FullTextSearchResponseIntentUsersays"
+  "\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022"
+  "l\n\027intent_usersays_results\030\003 \003(\0132K.ondew"
+  "o.nlu.FullTextSearchResponseIntentUsersa"
+  "ys.IntentUsersaysSearchResult\022\014\n\004term\030\004 "
+  "\001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002"
+  "\022\027\n\017next_page_token\030\007 \001(\t\032\337\002\n\032IntentUser"
+  "saysSearchResult\022\014\n\004name\030\001 \001(\t\022\014\n\004text\030\002"
+  " \001(\t\022\034\n\024text_as_entity_types\030\003 \001(\t\022\035\n\025te"
+  "xt_as_entity_values\030\004 \001(\t\022\014\n\004type\030\005 \001(\t\022"
+  "\023\n\013intent_name\030\006 \001(\t\022\033\n\023intent_display_n"
+  "ame\030\007 \001(\t\022\014\n\004tags\030\010 \003(\t\022\020\n\010language\030\t \001("
+  "\t\022.\n\ncreated_at\030\n \001(\0132\032.google.protobuf."
+  "Timestamp\022/\n\013modified_at\030\013 \001(\0132\032.google."
+  "protobuf.Timestamp\022\022\n\ncreated_by\030\014 \001(\t\022\023"
+  "\n\013modified_by\030\r \001(\t\"\212\004\n FullTextSearchRe"
+  "sponseIntentTags\022\016\n\006parent\030\001 \001(\t\022\025\n\rlang"
+  "uage_code\030\002 \001(\t\022`\n\023intent_tags_results\030\003"
   " \003(\0132C.ondewo.nlu.FullTextSearchResponse"
-  "EntityType.EntityTypeSearchResult\022\014\n\004ter"
+  "IntentTags.IntentTagsSearchResult\022\014\n\004ter"
   "m\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006"
-  " \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\330\001\n\026Entity"
-  "TypeSearchResult\022\014\n\004name\030\001 \001(\t\022\024\n\014displa"
-  "y_name\030\002 \001(\t\022\020\n\010language\030\003 \001(\t\022.\n\ncreate"
-  "d_at\030\004 \001(\0132\032.google.protobuf.Timestamp\022/"
-  "\n\013modified_at\030\005 \001(\0132\032.google.protobuf.Ti"
-  "mestamp\022\022\n\ncreated_by\030\006 \001(\t\022\023\n\013modified_"
-  "by\030\007 \001(\t\"\371\003\n\034FullTextSearchResponseEntit"
-  "y\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t"
-  "\022S\n\016entity_results\030\003 \003(\0132;.ondewo.nlu.Fu"
-  "llTextSearchResponseEntity.EntitySearchR"
-  "esult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_query\030\005 \001"
-  "(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_token\030\007 \001("
-  "\t\032\220\002\n\022EntitySearchResult\022\014\n\004name\030\001 \001(\t\022\024"
-  "\n\014display_name\030\002 \001(\t\022\030\n\020entity_type_name"
-  "\030\003 \001(\t\022 \n\030entity_type_display_name\030\004 \001(\t"
-  "\022\020\n\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001(\0132\032"
+  " \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\220\002\n\026Intent"
+  "TagsSearchResult\022\014\n\004name\030\001 \001(\t\022\014\n\004text\030\002"
+  " \001(\t\022\023\n\013intent_name\030\003 \001(\t\022\033\n\023intent_disp"
+  "lay_name\030\004 \001(\t\022\014\n\004tags\030\005 \003(\t\022\020\n\010language"
+  "\030\006 \001(\t\022.\n\ncreated_at\030\007 \001(\0132\032.google.prot"
+  "obuf.Timestamp\022/\n\013modified_at\030\010 \001(\0132\032.go"
+  "ogle.protobuf.Timestamp\022\022\n\ncreated_by\030\t "
+  "\001(\t\022\023\n\013modified_by\030\n \001(\t\"\271\004\n$FullTextSea"
+  "rchResponseIntentResponse\022\016\n\006parent\030\001 \001("
+  "\t\022\025\n\rlanguage_code\030\002 \001(\t\022l\n\027intent_respo"
+  "nse_results\030\003 \003(\0132K.ondewo.nlu.FullTextS"
+  "earchResponseIntentResponse.IntentRespon"
+  "seSearchResult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_"
+  "query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_t"
+  "oken\030\007 \001(\t\032\257\002\n\032IntentResponseSearchResul"
+  "t\022\014\n\004text\030\001 \001(\t\022\020\n\010platform\030\002 \001(\t\022\025\n\rres"
+  "ponse_type\030\003 \001(\t\022\023\n\013intent_name\030\004 \001(\t\022\033\n"
+  "\023intent_display_name\030\005 \001(\t\022\014\n\004tags\030\006 \003(\t"
+  "\022\020\n\010language\030\007 \001(\t\022.\n\ncreated_at\030\010 \001(\0132\032"
   ".google.protobuf.Timestamp\022/\n\013modified_a"
-  "t\030\007 \001(\0132\032.google.protobuf.Timestamp\022\022\n\nc"
-  "reated_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t\"\317\004\n"
-  "#FullTextSearchResponseEntitySynonym\022\016\n\006"
-  "parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022i\n\026e"
-  "ntity_synonym_results\030\003 \003(\0132I.ondewo.nlu"
-  ".FullTextSearchResponseEntitySynonym.Ent"
-  "itySynonymSearchResult\022\014\n\004term\030\004 \001(\t\022\025\n\r"
-  "elastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017nex"
-  "t_page_token\030\007 \001(\t\032\311\002\n\031EntitySynonymSear"
-  "chResult\022\014\n\004name\030\001 \001(\t\022\024\n\014display_name\030\002"
-  " \001(\t\022\030\n\020entity_type_name\030\003 \001(\t\022 \n\030entity"
-  "_type_display_name\030\004 \001(\t\022\023\n\013entity_name\030"
-  "\005 \001(\t\022\033\n\023entity_display_name\030\006 \001(\t\022\020\n\010la"
-  "nguage\030\007 \001(\t\022.\n\ncreated_at\030\010 \001(\0132\032.googl"
-  "e.protobuf.Timestamp\022/\n\013modified_at\030\t \001("
-  "\0132\032.google.protobuf.Timestamp\022\022\n\ncreated"
-  "_by\030\n \001(\t\022\023\n\013modified_by\030\013 \001(\t\"\340\003\n\034FullT"
-  "extSearchResponseIntent\022\016\n\006parent\030\001 \001(\t\022"
-  "\025\n\rlanguage_code\030\002 \001(\t\022S\n\016intent_results"
-  "\030\003 \003(\0132;.ondewo.nlu.FullTextSearchRespon"
-  "seIntent.IntentSearchResult\022\014\n\004term\030\004 \001("
-  "\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027"
-  "\n\017next_page_token\030\007 \001(\t\032\367\001\n\022IntentSearch"
-  "Result\022\014\n\004name\030\001 \001(\t\022\024\n\014display_name\030\002 \001"
-  "(\t\022\023\n\013domain_name\030\003 \001(\t\022\014\n\004tags\030\004 \003(\t\022\020\n"
-  "\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001(\0132\032.go"
-  "ogle.protobuf.Timestamp\022/\n\013modified_at\030\007"
-  " \001(\0132\032.google.protobuf.Timestamp\022\022\n\ncrea"
-  "ted_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t\"\226\004\n%Fu"
-  "llTextSearchResponseIntentContextIn\022\016\n\006p"
-  "arent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022p\n\031in"
-  "tent_context_in_results\030\003 \003(\0132M.ondewo.n"
-  "lu.FullTextSearchResponseIntentContextIn"
-  ".IntentContextInSearchResult\022\014\n\004term\030\004 \001"
-  "(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022"
-  "\027\n\017next_page_token\030\007 \001(\t\032\207\002\n\033IntentConte"
-  "xtInSearchResult\022\014\n\004name\030\001 \001(\t\022\023\n\013intent"
-  "_name\030\002 \001(\t\022\033\n\023intent_display_name\030\003 \001(\t"
-  "\022\014\n\004tags\030\004 \003(\t\022\020\n\010language\030\005 \001(\t\022.\n\ncrea"
-  "ted_at\030\006 \001(\0132\032.google.protobuf.Timestamp"
-  "\022/\n\013modified_at\030\007 \001(\0132\032.google.protobuf."
-  "Timestamp\022\022\n\ncreated_by\030\010 \001(\t\022\023\n\013modifie"
-  "d_by\030\t \001(\t\"\233\004\n&FullTextSearchResponseInt"
-  "entContextOut\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguag"
-  "e_code\030\002 \001(\t\022s\n\032intent_context_out_resul"
-  "ts\030\003 \003(\0132O.ondewo.nlu.FullTextSearchResp"
-  "onseIntentContextOut.IntentContextOutSea"
-  "rchResult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_query"
-  "\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_token\030"
-  "\007 \001(\t\032\210\002\n\034IntentContextOutSearchResult\022\014"
-  "\n\004name\030\001 \001(\t\022\023\n\013intent_name\030\002 \001(\t\022\033\n\023int"
-  "ent_display_name\030\003 \001(\t\022\014\n\004tags\030\004 \003(\t\022\020\n\010"
-  "language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001(\0132\032.goo"
-  "gle.protobuf.Timestamp\022/\n\013modified_at\030\007 "
-  "\001(\0132\032.google.protobuf.Timestamp\022\022\n\ncreat"
-  "ed_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t\"\351\004\n$Ful"
-  "lTextSearchResponseIntentUsersays\022\016\n\006par"
-  "ent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022l\n\027inte"
-  "nt_usersays_results\030\003 \003(\0132K.ondewo.nlu.F"
-  "ullTextSearchResponseIntentUsersays.Inte"
-  "ntUsersaysSearchResult\022\014\n\004term\030\004 \001(\t\022\025\n\r"
-  "elastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017nex"
-  "t_page_token\030\007 \001(\t\032\337\002\n\032IntentUsersaysSea"
-  "rchResult\022\014\n\004name\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\022\034\n"
-  "\024text_as_entity_types\030\003 \001(\t\022\035\n\025text_as_e"
-  "ntity_values\030\004 \001(\t\022\014\n\004type\030\005 \001(\t\022\023\n\013inte"
-  "nt_name\030\006 \001(\t\022\033\n\023intent_display_name\030\007 \001"
-  "(\t\022\014\n\004tags\030\010 \003(\t\022\020\n\010language\030\t \001(\t\022.\n\ncr"
-  "eated_at\030\n \001(\0132\032.google.protobuf.Timesta"
-  "mp\022/\n\013modified_at\030\013 \001(\0132\032.google.protobu"
-  "f.Timestamp\022\022\n\ncreated_by\030\014 \001(\t\022\023\n\013modif"
-  "ied_by\030\r \001(\t\"\212\004\n FullTextSearchResponseI"
-  "ntentTags\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_co"
-  "de\030\002 \001(\t\022`\n\023intent_tags_results\030\003 \003(\0132C."
-  "ondewo.nlu.FullTextSearchResponseIntentT"
-  "ags.IntentTagsSearchResult\022\014\n\004term\030\004 \001(\t"
-  "\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n"
-  "\017next_page_token\030\007 \001(\t\032\220\002\n\026IntentTagsSea"
-  "rchResult\022\014\n\004name\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\022\023\n"
-  "\013intent_name\030\003 \001(\t\022\033\n\023intent_display_nam"
-  "e\030\004 \001(\t\022\014\n\004tags\030\005 \003(\t\022\020\n\010language\030\006 \001(\t\022"
-  ".\n\ncreated_at\030\007 \001(\0132\032.google.protobuf.Ti"
-  "mestamp\022/\n\013modified_at\030\010 \001(\0132\032.google.pr"
-  "otobuf.Timestamp\022\022\n\ncreated_by\030\t \001(\t\022\023\n\013"
-  "modified_by\030\n \001(\t\"\271\004\n$FullTextSearchResp"
-  "onseIntentResponse\022\016\n\006parent\030\001 \001(\t\022\025\n\rla"
-  "nguage_code\030\002 \001(\t\022l\n\027intent_response_res"
-  "ults\030\003 \003(\0132K.ondewo.nlu.FullTextSearchRe"
-  "sponseIntentResponse.IntentResponseSearc"
-  "hResult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_query\030\005"
-  " \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_token\030\007 "
-  "\001(\t\032\257\002\n\032IntentResponseSearchResult\022\014\n\004te"
-  "xt\030\001 \001(\t\022\020\n\010platform\030\002 \001(\t\022\025\n\rresponse_t"
-  "ype\030\003 \001(\t\022\023\n\013intent_name\030\004 \001(\t\022\033\n\023intent"
-  "_display_name\030\005 \001(\t\022\014\n\004tags\030\006 \003(\t\022\020\n\010lan"
-  "guage\030\007 \001(\t\022.\n\ncreated_at\030\010 \001(\0132\032.google"
-  ".protobuf.Timestamp\022/\n\013modified_at\030\t \001(\013"
-  "2\032.google.protobuf.Timestamp\022\022\n\ncreated_"
-  "by\030\n \001(\t\022\023\n\013modified_by\030\013 \001(\t\"\304\004\n&FullTe"
-  "xtSearchResponseIntentParameters\022\016\n\006pare"
-  "nt\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022r\n\031inten"
-  "t_parameters_results\030\003 \003(\0132O.ondewo.nlu."
-  "FullTextSearchResponseIntentParameters.I"
-  "ntentParametersSearchResult\022\014\n\004term\030\004 \001("
-  "\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027"
-  "\n\017next_page_token\030\007 \001(\t\032\262\002\n\034IntentParame"
-  "tersSearchResult\022\026\n\016parameter_name\030\001 \001(\t"
-  "\022\036\n\026parameter_display_name\030\002 \001(\t\022\023\n\013inte"
-  "nt_name\030\003 \001(\t\022\033\n\023intent_display_name\030\004 \001"
-  "(\t\022\014\n\004tags\030\005 \003(\t\022\020\n\010language\030\006 \001(\t\022.\n\ncr"
-  "eated_at\030\007 \001(\0132\032.google.protobuf.Timesta"
-  "mp\022/\n\013modified_at\030\010 \001(\0132\032.google.protobu"
-  "f.Timestamp\022\022\n\ncreated_by\030\t \001(\t\022\023\n\013modif"
-  "ied_by\030\n \001(\t\"|\n\023ReindexAgentRequest\022\016\n\006p"
-  "arent\030\001 \001(\t\022\023\n\013branch_name\030\002 \001(\t\022@\n\013inde"
-  "x_types\030\003 \003(\0162+.ondewo.nlu.FullTextSearc"
-  "hRequest.QueryType\"A\n!CreateProjectTechn"
-  "icalUserRequest\022\016\n\006parent\030\001 \001(\t\022\014\n\004name\030"
-  "\002 \001(\t\"Y\n\"CreateProjectTechnicalUserRespo"
-  "nse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022\020"
-  "\n\010password\030\003 \001(\t\"F\n ListProjectTechnical"
-  "UsersRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\npage_tok"
-  "en\030\002 \001(\t\"}\n\024ProjectTechnicalUser\022\017\n\007user"
-  "_id\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022.\n\ncreated_a"
-  "t\030\003 \001(\0132\032.google.protobuf.Timestamp\022\022\n\nc"
-  "reated_by\030\004 \001(\t\"w\n!ListProjectTechnicalU"
-  "sersResponse\0229\n\017technical_users\030\001 \003(\0132 ."
-  "ondewo.nlu.ProjectTechnicalUser\022\027\n\017next_"
-  "page_token\030\002 \001(\t\"D\n!DeleteProjectTechnic"
-  "alUserRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007user_id"
-  "\030\002 \001(\t\"L\n)RotateProjectTechnicalUserPass"
-  "wordRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007user_id\030\002"
-  " \001(\t\"a\n*RotateProjectTechnicalUserPasswo"
-  "rdResponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010username\030"
-  "\002 \001(\t\022\020\n\010password\030\003 \001(\t*l\n\tAgentView\022\032\n\026"
-  "AGENT_VIEW_UNSPECIFIED\020\000\022\023\n\017AGENT_VIEW_F"
-  "ULL\020\001\022\026\n\022AGENT_VIEW_SHALLOW\020\002\022\026\n\022AGENT_V"
-  "IEW_MINIMUM\020\003*J\n\022InitiationProtocol\022\027\n\023A"
-  "S_SOON_AS_POSSIBLE\020\000\022\020\n\014WHEN_TRAINED\020\001\022\t"
-  "\n\005NEVER\020\002*\360\005\n\nReportType\022\007\n\003ALL\020\000\022\027\n\023INT"
-  "ENT_PER_LANGUAGE\020\001\022\027\n\023ENTITY_PER_LANGUAG"
-  "E\020\002\022\024\n\020ENTITY_COLLISION\020\003\022\022\n\016INTENT_GENE"
-  "RAL\020\004\022\031\n\025AGENT_LLM_TOKEN_USAGE\020\005\022\031\n\025AGEN"
-  "T_LLM_MODELS_USED\020\006\022\034\n\030AGENT_LLM_PROVIDE"
-  "RS_USED\020\007\022 \n\034AGENT_LLM_CCAI_SERVICES_USE"
-  "D\020\010\022\031\n\025AGENT_LLM_AGENTS_USED\020\t\022\024\n\020AGENT_"
-  "LLM_ERRORS\020\n\022\036\n\032AGENT_LLM_CACHE_EFFICIEN"
-  "CY\020\013\022\036\n\032AGENT_LLM_REASONING_EFFORT\020\014\022\031\n\025"
-  "AGENT_LLM_TOP_X_TOOLS\020\r\022\033\n\027AGENT_LLM_LEA"
-  "ST_X_TOOLS\020\016\022\025\n\021AGENT_LLM_LATENCY\020\017\022\034\n\030A"
-  "GENT_LLM_FINISH_REASONS\020\020\022\036\n\032AGENT_LLM_T"
-  "OTAL_STATISTICS\020\021\022\037\n\033AGENT_LLM_INPUT_TOK"
-  "EN_USAGE\020\022\022 \n\034AGENT_LLM_OUTPUT_TOKEN_USA"
-  "GE\020\023\022\"\n\036AGENT_LLM_THINKING_TOKEN_USAGE\020\024"
-  "\022#\n\037AGENT_LLM_TOOL_CALL_TOKEN_USAGE\020\025\022\032\n"
-  "\026AGENT_LLM_TOP_X_MODELS\020\026\022*\n&AGENT_LLM_T"
-  "OP_X_CCAI_SERVICE_PROVIDERS\020\027\022\037\n\033AGENT_L"
-  "LM_TOP_X_AGENT_NAMES\020\030\022\024\n\020AGENT_LLM_SAFE"
-  "TY\020\031*\366\t\n\022SessionsReportType\022\014\n\010SESSIONS\020"
-  "\000\022\021\n\rSESSION_STEPS\020\001\022\031\n\025SESSION_TOP_X_IN"
-  "TENTS\020\002\022\036\n\032SESSION_TOP_X_ENTITY_TYPES\020\003\022"
-  "\037\n\033SESSION_TOP_X_ENTITY_VALUES\020\004\022\027\n\023SESS"
-  "ION_TOP_X_USERS\020\005\022\030\n\024SESSION_TOP_X_LABEL"
-  "S\020\006\022\026\n\022SESSION_TOP_X_TAGS\020\007\022\037\n\033SESSION_T"
-  "OP_X_PHONE_NUMBERS\020\010\022\033\n\027SESSION_HUMAN_HA"
-  "NDOVERS\020\t\022\025\n\021SESSION_SQL_QUERY\020\n\022\033\n\027SESS"
-  "ION_LEAST_X_INTENTS\020\013\022 \n\034SESSION_LEAST_X"
-  "_ENTITY_TYPES\020\014\022!\n\035SESSION_LEAST_X_ENTIT"
-  "Y_VALUES\020\r\022\031\n\025SESSION_LEAST_X_USERS\020\016\022\032\n"
-  "\026SESSION_LEAST_X_LABELS\020\017\022\030\n\024SESSION_LEA"
-  "ST_X_TAGS\020\020\022\024\n\020TOTAL_STATISTICS\020\021\022\033\n\027SES"
-  "SION_LLM_TOKEN_USAGE\020\022\022\032\n\026SESSION_LLM_TO"
-  "OL_CALLS\020\023\022\030\n\024SESSION_LLM_THINKING\020\024\022\036\n\032"
-  "SESSION_LLM_FINISH_REASONS\020\025\022\027\n\023SESSION_"
-  "LLM_LATENCY\020\026\022\033\n\027SESSION_LLM_RAG_METRICS"
-  "\020\027\022\033\n\027SESSION_LLM_MODELS_USED\020\030\022\036\n\032SESSI"
-  "ON_LLM_PROVIDERS_USED\020\031\022\"\n\036SESSION_LLM_C"
-  "CAI_SERVICES_USED\020\032\022\033\n\027SESSION_LLM_AGENT"
-  "S_USED\020\033\022\026\n\022SESSION_LLM_ERRORS\020\034\022 \n\034SESS"
-  "ION_LLM_CACHE_EFFICIENCY\020\035\022 \n\034SESSION_LL"
-  "M_REASONING_EFFORT\020\036\022\033\n\027SESSION_LLM_TOP_"
-  "X_TOOLS\020\037\022\035\n\031SESSION_LLM_LEAST_X_TOOLS\020 "
-  "\022 \n\034SESSION_LLM_TOTAL_STATISTICS\020!\022!\n\035SE"
-  "SSION_LLM_INPUT_TOKEN_USAGE\020\"\022\"\n\036SESSION"
-  "_LLM_OUTPUT_TOKEN_USAGE\020#\022$\n SESSION_LLM"
-  "_THINKING_TOKEN_USAGE\020$\022%\n!SESSION_LLM_T"
-  "OOL_CALL_TOKEN_USAGE\020%\022\034\n\030SESSION_LLM_TO"
-  "P_X_MODELS\020&\022,\n(SESSION_LLM_TOP_X_CCAI_S"
-  "ERVICE_PROVIDERS\020\'\022!\n\035SESSION_LLM_TOP_X_"
-  "AGENT_NAMES\020(\022\026\n\022SESSION_LLM_SAFETY\020)*+\n"
-  "\014ReportFormat\022\007\n\003CSV\020\000\022\010\n\004HTML\020\001\022\010\n\004JSON"
-  "\020\002*\'\n\013AgentStatus\022\n\n\006ACTIVE\020\000\022\014\n\010INACTIV"
-  "E\020\0012\331-\n\006Agents\022Y\n\013CreateAgent\022\036.ondewo.n"
-  "lu.CreateAgentRequest\032\021.ondewo.nlu.Agent"
-  "\"\027\202\323\344\223\002\021\"\014/v2/projects:\001*\022p\n\013UpdateAgent"
-  "\022\036.ondewo.nlu.UpdateAgentRequest\032\021.ondew"
-  "o.nlu.Agent\".\202\323\344\223\002(2#/v2/{agent.parent=p"
-  "rojects/*/agent}:\001*\022a\n\010GetAgent\022\033.ondewo"
-  ".nlu.GetAgentRequest\032\021.ondewo.nlu.Agent\""
-  "%\202\323\344\223\002\037\022\035/v2/{parent=projects/*/agent}\022l"
-  "\n\013DeleteAgent\022\036.ondewo.nlu.DeleteAgentRe"
-  "quest\032\026.google.protobuf.Empty\"%\202\323\344\223\002\037*\035/"
-  "v2/{parent=projects/*/agent}\022W\n\017DeleteAl"
-  "lAgents\022\026.google.protobuf.Empty\032\026.google"
-  ".protobuf.Empty\"\024\202\323\344\223\002\016*\014/v2/projects\022a\n"
-  "\nListAgents\022\035.ondewo.nlu.ListAgentsReque"
-  "st\032\036.ondewo.nlu.ListAgentsResponse\"\024\202\323\344\223"
-  "\002\016\022\014/v2/projects\022m\n\020ListAgentsOfUser\022\035.o"
-  "ndewo.nlu.ListAgentsRequest\032$.ondewo.nlu"
-  ".ListAgentsOfUserResponse\"\024\202\323\344\223\002\016\022\014/v2/p"
-  "rojects\022h\n\rListAllAgents\022\035.ondewo.nlu.Li"
-  "stAgentsRequest\032\036.ondewo.nlu.ListAgentsR"
-  "esponse\"\030\202\323\344\223\002\022\022\020/v2/projects:all\022\213\001\n\020Ad"
-  "dUserToProject\022#.ondewo.nlu.AddUserToPro"
-  "jectRequest\032\026.google.protobuf.Empty\":\202\323\344"
-  "\223\0024\"//v2/{parent=projects/*/agent}/users"
-  "/{user_id=*}:\001*\022\222\001\n\025RemoveUserFromProjec"
-  "t\022(.ondewo.nlu.RemoveUserFromProjectRequ"
-  "est\032\026.google.protobuf.Empty\"7\202\323\344\223\0021*//v2"
-  "/{parent=projects/*/agent}/users/{user_i"
-  "d=*}\022\220\001\n\022ListUsersInProject\022%.ondewo.nlu"
-  ".ListUsersInProjectRequest\032&.ondewo.nlu."
-  "ListUsersInProjectResponse\"+\202\323\344\223\002%\022#/v2/"
-  "{parent=projects/*/agent}/users\022c\n\017GetPl"
-  "atformInfo\022\026.google.protobuf.Empty\032#.ond"
-  "ewo.nlu.GetPlatformInfoResponse\"\023\202\323\344\223\002\r\022"
-  "\013/v2/version\022\220\001\n\026ListProjectPermissions\022"
-  ").ondewo.nlu.ListProjectPermissionsReque"
-  "st\032*.ondewo.nlu.ListProjectPermissionsRe"
-  "sponse\"\037\202\323\344\223\002\031\022\027/v2/project_permissions\022"
-  "r\n\nTrainAgent\022\035.ondewo.nlu.TrainAgentReq"
-  "uest\032\025.ondewo.nlu.Operation\".\202\323\344\223\002(\"#/v2"
-  "/{parent=projects/*/agent}:train:\001*\022x\n\nB"
-  "uildCache\022\035.ondewo.nlu.BuildCacheRequest"
-  "\032\025.ondewo.nlu.Operation\"4\202\323\344\223\002.\")/v2/{pa"
-  "rent=projects/*/agent}:build_cache:\001*\022u\n"
-  "\013ExportAgent\022\036.ondewo.nlu.ExportAgentReq"
-  "uest\032\025.ondewo.nlu.Operation\"/\202\323\344\223\002)\"$/v2"
-  "/{parent=projects/*/agent}:export:\001*\022\221\001\n"
-  "\024ExportBenchmarkAgent\022\'.ondewo.nlu.Expor"
-  "tBenchmarkAgentRequest\032\025.ondewo.nlu.Oper"
-  "ation\"9\202\323\344\223\0023\"./v2/{parent=projects/*/ag"
-  "ent}:export_benchmark:\001*\022u\n\013ImportAgent\022"
-  "\036.ondewo.nlu.ImportAgentRequest\032\025.ondewo"
-  ".nlu.Operation\"/\202\323\344\223\002)\"$/v2/{parent=proj"
-  "ects/*/agent}:import:\001*\022x\n\014MigrateAgent\022"
-  "\037.ondewo.nlu.MigrateAgentRequest\032\025.ondew"
-  "o.nlu.Operation\"0\202\323\344\223\002*\"%/v2/{parent=pro"
-  "jects/*/agent}:migrate:\001*\022\227\001\n\024OptimizeRa"
-  "nkingMatch\022\'.ondewo.nlu.OptimizeRankingM"
-  "atchRequest\032\025.ondewo.nlu.Operation\"\?\202\323\344\223"
-  "\0029\"4/v2/{parent=projects/*/agent}:optimi"
-  "ze_ranking_match:\001*\022x\n\014RestoreAgent\022\037.on"
-  "dewo.nlu.RestoreAgentRequest\032\025.ondewo.nl"
-  "u.Operation\"0\202\323\344\223\002*\"%/v2/{parent=project"
-  "s/*/agent}:restore:\001*\022\225\001\n\022GetAgentStatis"
-  "tics\022%.ondewo.nlu.GetAgentStatisticsRequ"
-  "est\032&.ondewo.nlu.GetAgentStatisticsRespo"
-  "nse\"0\202\323\344\223\002*\022(/v2/{parent=projects/*/agen"
-  "t}:statistics\022\246\001\n\025GetSessionsStatistics\022"
-  "(.ondewo.nlu.GetSessionsStatisticsReques"
-  "t\032).ondewo.nlu.GetSessionsStatisticsResp"
-  "onse\"8\202\323\344\223\0022\0220/v2/{parent=projects/*/age"
-  "nt}:session_statistics\022\320\001\n\037GetSessionsSt"
-  "atisticsTimeSeries\0222.ondewo.nlu.GetSessi"
-  "onsStatisticsTimeSeriesRequest\0323.ondewo."
-  "nlu.GetSessionsStatisticsTimeSeriesRespo"
-  "nse\"D\202\323\344\223\002>\022</v2/{parent=projects/*/agen"
-  "t}:session_statistics_time_series\022w\n\016Set"
-  "AgentStatus\022!.ondewo.nlu.SetAgentStatusR"
-  "equest\032\021.ondewo.nlu.Agent\"/\202\323\344\223\002)\"$/v2/{"
-  "parent=projects/*/agent}:status:\001*\022{\n\014Se"
-  "tResources\022\037.ondewo.nlu.SetResourcesRequ"
-  "est\032\026.google.protobuf.Empty\"2\202\323\344\223\002,\"\'/v2"
+  "t\030\t \001(\0132\032.google.protobuf.Timestamp\022\022\n\nc"
+  "reated_by\030\n \001(\t\022\023\n\013modified_by\030\013 \001(\t\"\304\004\n"
+  "&FullTextSearchResponseIntentParameters\022"
+  "\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022r"
+  "\n\031intent_parameters_results\030\003 \003(\0132O.onde"
+  "wo.nlu.FullTextSearchResponseIntentParam"
+  "eters.IntentParametersSearchResult\022\014\n\004te"
+  "rm\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030"
+  "\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\262\002\n\034Inten"
+  "tParametersSearchResult\022\026\n\016parameter_nam"
+  "e\030\001 \001(\t\022\036\n\026parameter_display_name\030\002 \001(\t\022"
+  "\023\n\013intent_name\030\003 \001(\t\022\033\n\023intent_display_n"
+  "ame\030\004 \001(\t\022\014\n\004tags\030\005 \003(\t\022\020\n\010language\030\006 \001("
+  "\t\022.\n\ncreated_at\030\007 \001(\0132\032.google.protobuf."
+  "Timestamp\022/\n\013modified_at\030\010 \001(\0132\032.google."
+  "protobuf.Timestamp\022\022\n\ncreated_by\030\t \001(\t\022\023"
+  "\n\013modified_by\030\n \001(\t\"|\n\023ReindexAgentReque"
+  "st\022\016\n\006parent\030\001 \001(\t\022\023\n\013branch_name\030\002 \001(\t\022"
+  "@\n\013index_types\030\003 \003(\0162+.ondewo.nlu.FullTe"
+  "xtSearchRequest.QueryType\"A\n!CreateProje"
+  "ctTechnicalUserRequest\022\016\n\006parent\030\001 \001(\t\022\014"
+  "\n\004name\030\002 \001(\t\"Y\n\"CreateProjectTechnicalUs"
+  "erResponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010username\030"
+  "\002 \001(\t\022\020\n\010password\030\003 \001(\t\"F\n ListProjectTe"
+  "chnicalUsersRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\np"
+  "age_token\030\002 \001(\t\"}\n\024ProjectTechnicalUser\022"
+  "\017\n\007user_id\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022.\n\ncr"
+  "eated_at\030\003 \001(\0132\032.google.protobuf.Timesta"
+  "mp\022\022\n\ncreated_by\030\004 \001(\t\"w\n!ListProjectTec"
+  "hnicalUsersResponse\0229\n\017technical_users\030\001"
+  " \003(\0132 .ondewo.nlu.ProjectTechnicalUser\022\027"
+  "\n\017next_page_token\030\002 \001(\t\"D\n!DeleteProject"
+  "TechnicalUserRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007"
+  "user_id\030\002 \001(\t\"L\n)RotateProjectTechnicalU"
+  "serPasswordRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007us"
+  "er_id\030\002 \001(\t\"a\n*RotateProjectTechnicalUse"
+  "rPasswordResponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010us"
+  "ername\030\002 \001(\t\022\020\n\010password\030\003 \001(\t*l\n\tAgentV"
+  "iew\022\032\n\026AGENT_VIEW_UNSPECIFIED\020\000\022\023\n\017AGENT"
+  "_VIEW_FULL\020\001\022\026\n\022AGENT_VIEW_SHALLOW\020\002\022\026\n\022"
+  "AGENT_VIEW_MINIMUM\020\003*J\n\022InitiationProtoc"
+  "ol\022\027\n\023AS_SOON_AS_POSSIBLE\020\000\022\020\n\014WHEN_TRAI"
+  "NED\020\001\022\t\n\005NEVER\020\002*\360\005\n\nReportType\022\007\n\003ALL\020\000"
+  "\022\027\n\023INTENT_PER_LANGUAGE\020\001\022\027\n\023ENTITY_PER_"
+  "LANGUAGE\020\002\022\024\n\020ENTITY_COLLISION\020\003\022\022\n\016INTE"
+  "NT_GENERAL\020\004\022\031\n\025AGENT_LLM_TOKEN_USAGE\020\005\022"
+  "\031\n\025AGENT_LLM_MODELS_USED\020\006\022\034\n\030AGENT_LLM_"
+  "PROVIDERS_USED\020\007\022 \n\034AGENT_LLM_CCAI_SERVI"
+  "CES_USED\020\010\022\031\n\025AGENT_LLM_AGENTS_USED\020\t\022\024\n"
+  "\020AGENT_LLM_ERRORS\020\n\022\036\n\032AGENT_LLM_CACHE_E"
+  "FFICIENCY\020\013\022\036\n\032AGENT_LLM_REASONING_EFFOR"
+  "T\020\014\022\031\n\025AGENT_LLM_TOP_X_TOOLS\020\r\022\033\n\027AGENT_"
+  "LLM_LEAST_X_TOOLS\020\016\022\025\n\021AGENT_LLM_LATENCY"
+  "\020\017\022\034\n\030AGENT_LLM_FINISH_REASONS\020\020\022\036\n\032AGEN"
+  "T_LLM_TOTAL_STATISTICS\020\021\022\037\n\033AGENT_LLM_IN"
+  "PUT_TOKEN_USAGE\020\022\022 \n\034AGENT_LLM_OUTPUT_TO"
+  "KEN_USAGE\020\023\022\"\n\036AGENT_LLM_THINKING_TOKEN_"
+  "USAGE\020\024\022#\n\037AGENT_LLM_TOOL_CALL_TOKEN_USA"
+  "GE\020\025\022\032\n\026AGENT_LLM_TOP_X_MODELS\020\026\022*\n&AGEN"
+  "T_LLM_TOP_X_CCAI_SERVICE_PROVIDERS\020\027\022\037\n\033"
+  "AGENT_LLM_TOP_X_AGENT_NAMES\020\030\022\024\n\020AGENT_L"
+  "LM_SAFETY\020\031*\366\t\n\022SessionsReportType\022\014\n\010SE"
+  "SSIONS\020\000\022\021\n\rSESSION_STEPS\020\001\022\031\n\025SESSION_T"
+  "OP_X_INTENTS\020\002\022\036\n\032SESSION_TOP_X_ENTITY_T"
+  "YPES\020\003\022\037\n\033SESSION_TOP_X_ENTITY_VALUES\020\004\022"
+  "\027\n\023SESSION_TOP_X_USERS\020\005\022\030\n\024SESSION_TOP_"
+  "X_LABELS\020\006\022\026\n\022SESSION_TOP_X_TAGS\020\007\022\037\n\033SE"
+  "SSION_TOP_X_PHONE_NUMBERS\020\010\022\033\n\027SESSION_H"
+  "UMAN_HANDOVERS\020\t\022\025\n\021SESSION_SQL_QUERY\020\n\022"
+  "\033\n\027SESSION_LEAST_X_INTENTS\020\013\022 \n\034SESSION_"
+  "LEAST_X_ENTITY_TYPES\020\014\022!\n\035SESSION_LEAST_"
+  "X_ENTITY_VALUES\020\r\022\031\n\025SESSION_LEAST_X_USE"
+  "RS\020\016\022\032\n\026SESSION_LEAST_X_LABELS\020\017\022\030\n\024SESS"
+  "ION_LEAST_X_TAGS\020\020\022\024\n\020TOTAL_STATISTICS\020\021"
+  "\022\033\n\027SESSION_LLM_TOKEN_USAGE\020\022\022\032\n\026SESSION"
+  "_LLM_TOOL_CALLS\020\023\022\030\n\024SESSION_LLM_THINKIN"
+  "G\020\024\022\036\n\032SESSION_LLM_FINISH_REASONS\020\025\022\027\n\023S"
+  "ESSION_LLM_LATENCY\020\026\022\033\n\027SESSION_LLM_RAG_"
+  "METRICS\020\027\022\033\n\027SESSION_LLM_MODELS_USED\020\030\022\036"
+  "\n\032SESSION_LLM_PROVIDERS_USED\020\031\022\"\n\036SESSIO"
+  "N_LLM_CCAI_SERVICES_USED\020\032\022\033\n\027SESSION_LL"
+  "M_AGENTS_USED\020\033\022\026\n\022SESSION_LLM_ERRORS\020\034\022"
+  " \n\034SESSION_LLM_CACHE_EFFICIENCY\020\035\022 \n\034SES"
+  "SION_LLM_REASONING_EFFORT\020\036\022\033\n\027SESSION_L"
+  "LM_TOP_X_TOOLS\020\037\022\035\n\031SESSION_LLM_LEAST_X_"
+  "TOOLS\020 \022 \n\034SESSION_LLM_TOTAL_STATISTICS\020"
+  "!\022!\n\035SESSION_LLM_INPUT_TOKEN_USAGE\020\"\022\"\n\036"
+  "SESSION_LLM_OUTPUT_TOKEN_USAGE\020#\022$\n SESS"
+  "ION_LLM_THINKING_TOKEN_USAGE\020$\022%\n!SESSIO"
+  "N_LLM_TOOL_CALL_TOKEN_USAGE\020%\022\034\n\030SESSION"
+  "_LLM_TOP_X_MODELS\020&\022,\n(SESSION_LLM_TOP_X"
+  "_CCAI_SERVICE_PROVIDERS\020\'\022!\n\035SESSION_LLM"
+  "_TOP_X_AGENT_NAMES\020(\022\026\n\022SESSION_LLM_SAFE"
+  "TY\020)*+\n\014ReportFormat\022\007\n\003CSV\020\000\022\010\n\004HTML\020\001\022"
+  "\010\n\004JSON\020\002*\'\n\013AgentStatus\022\n\n\006ACTIVE\020\000\022\014\n\010"
+  "INACTIVE\020\0012\331-\n\006Agents\022Y\n\013CreateAgent\022\036.o"
+  "ndewo.nlu.CreateAgentRequest\032\021.ondewo.nl"
+  "u.Agent\"\027\202\323\344\223\002\021\"\014/v2/projects:\001*\022p\n\013Upda"
+  "teAgent\022\036.ondewo.nlu.UpdateAgentRequest\032"
+  "\021.ondewo.nlu.Agent\".\202\323\344\223\002(2#/v2/{agent.p"
+  "arent=projects/*/agent}:\001*\022a\n\010GetAgent\022\033"
+  ".ondewo.nlu.GetAgentRequest\032\021.ondewo.nlu"
+  ".Agent\"%\202\323\344\223\002\037\022\035/v2/{parent=projects/*/a"
+  "gent}\022l\n\013DeleteAgent\022\036.ondewo.nlu.Delete"
+  "AgentRequest\032\026.google.protobuf.Empty\"%\202\323"
+  "\344\223\002\037*\035/v2/{parent=projects/*/agent}\022W\n\017D"
+  "eleteAllAgents\022\026.google.protobuf.Empty\032\026"
+  ".google.protobuf.Empty\"\024\202\323\344\223\002\016*\014/v2/proj"
+  "ects\022a\n\nListAgents\022\035.ondewo.nlu.ListAgen"
+  "tsRequest\032\036.ondewo.nlu.ListAgentsRespons"
+  "e\"\024\202\323\344\223\002\016\022\014/v2/projects\022m\n\020ListAgentsOfU"
+  "ser\022\035.ondewo.nlu.ListAgentsRequest\032$.ond"
+  "ewo.nlu.ListAgentsOfUserResponse\"\024\202\323\344\223\002\016"
+  "\022\014/v2/projects\022h\n\rListAllAgents\022\035.ondewo"
+  ".nlu.ListAgentsRequest\032\036.ondewo.nlu.List"
+  "AgentsResponse\"\030\202\323\344\223\002\022\022\020/v2/projects:all"
+  "\022\213\001\n\020AddUserToProject\022#.ondewo.nlu.AddUs"
+  "erToProjectRequest\032\026.google.protobuf.Emp"
+  "ty\":\202\323\344\223\0024\"//v2/{parent=projects/*/agent"
+  "}/users/{user_id=*}:\001*\022\222\001\n\025RemoveUserFro"
+  "mProject\022(.ondewo.nlu.RemoveUserFromProj"
+  "ectRequest\032\026.google.protobuf.Empty\"7\202\323\344\223"
+  "\0021*//v2/{parent=projects/*/agent}/users/"
+  "{user_id=*}\022\220\001\n\022ListUsersInProject\022%.ond"
+  "ewo.nlu.ListUsersInProjectRequest\032&.onde"
+  "wo.nlu.ListUsersInProjectResponse\"+\202\323\344\223\002"
+  "%\022#/v2/{parent=projects/*/agent}/users\022c"
+  "\n\017GetPlatformInfo\022\026.google.protobuf.Empt"
+  "y\032#.ondewo.nlu.GetPlatformInfoResponse\"\023"
+  "\202\323\344\223\002\r\022\013/v2/version\022\220\001\n\026ListProjectPermi"
+  "ssions\022).ondewo.nlu.ListProjectPermissio"
+  "nsRequest\032*.ondewo.nlu.ListProjectPermis"
+  "sionsResponse\"\037\202\323\344\223\002\031\022\027/v2/project_permi"
+  "ssions\022r\n\nTrainAgent\022\035.ondewo.nlu.TrainA"
+  "gentRequest\032\025.ondewo.nlu.Operation\".\202\323\344\223"
+  "\002(\"#/v2/{parent=projects/*/agent}:train:"
+  "\001*\022x\n\nBuildCache\022\035.ondewo.nlu.BuildCache"
+  "Request\032\025.ondewo.nlu.Operation\"4\202\323\344\223\002.\")"
+  "/v2/{parent=projects/*/agent}:build_cach"
+  "e:\001*\022u\n\013ExportAgent\022\036.ondewo.nlu.ExportA"
+  "gentRequest\032\025.ondewo.nlu.Operation\"/\202\323\344\223"
+  "\002)\"$/v2/{parent=projects/*/agent}:export"
+  ":\001*\022\221\001\n\024ExportBenchmarkAgent\022\'.ondewo.nl"
+  "u.ExportBenchmarkAgentRequest\032\025.ondewo.n"
+  "lu.Operation\"9\202\323\344\223\0023\"./v2/{parent=projec"
+  "ts/*/agent}:export_benchmark:\001*\022u\n\013Impor"
+  "tAgent\022\036.ondewo.nlu.ImportAgentRequest\032\025"
+  ".ondewo.nlu.Operation\"/\202\323\344\223\002)\"$/v2/{pare"
+  "nt=projects/*/agent}:import:\001*\022x\n\014Migrat"
+  "eAgent\022\037.ondewo.nlu.MigrateAgentRequest\032"
+  "\025.ondewo.nlu.Operation\"0\202\323\344\223\002*\"%/v2/{par"
+  "ent=projects/*/agent}:migrate:\001*\022\227\001\n\024Opt"
+  "imizeRankingMatch\022\'.ondewo.nlu.OptimizeR"
+  "ankingMatchRequest\032\025.ondewo.nlu.Operatio"
+  "n\"\?\202\323\344\223\0029\"4/v2/{parent=projects/*/agent}"
+  ":optimize_ranking_match:\001*\022x\n\014RestoreAge"
+  "nt\022\037.ondewo.nlu.RestoreAgentRequest\032\025.on"
+  "dewo.nlu.Operation\"0\202\323\344\223\002*\"%/v2/{parent="
+  "projects/*/agent}:restore:\001*\022\225\001\n\022GetAgen"
+  "tStatistics\022%.ondewo.nlu.GetAgentStatist"
+  "icsRequest\032&.ondewo.nlu.GetAgentStatisti"
+  "csResponse\"0\202\323\344\223\002*\022(/v2/{parent=projects"
+  "/*/agent}:statistics\022\246\001\n\025GetSessionsStat"
+  "istics\022(.ondewo.nlu.GetSessionsStatistic"
+  "sRequest\032).ondewo.nlu.GetSessionsStatist"
+  "icsResponse\"8\202\323\344\223\0022\0220/v2/{parent=project"
+  "s/*/agent}:session_statistics\022\320\001\n\037GetSes"
+  "sionsStatisticsTimeSeries\0222.ondewo.nlu.G"
+  "etSessionsStatisticsTimeSeriesRequest\0323."
+  "ondewo.nlu.GetSessionsStatisticsTimeSeri"
+  "esResponse\"D\202\323\344\223\002>\022</v2/{parent=projects"
+  "/*/agent}:session_statistics_time_series"
+  "\022w\n\016SetAgentStatus\022!.ondewo.nlu.SetAgent"
+  "StatusRequest\032\021.ondewo.nlu.Agent\"/\202\323\344\223\002)"
+  "\"$/v2/{parent=projects/*/agent}:status:\001"
+  "*\022{\n\014SetResources\022\037.ondewo.nlu.SetResour"
+  "cesRequest\032\026.google.protobuf.Empty\"2\202\323\344\223"
+  "\002,\"\'/v2/{parent=projects/*/agent}:resour"
+  "ces:\001*\022~\n\017DeleteResources\022\".ondewo.nlu.D"
+  "eleteResourcesRequest\032\026.google.protobuf."
+  "Empty\"/\202\323\344\223\002)*\'/v2/{parent=projects/*/ag"
+  "ent}:resources\022\216\001\n\017ExportResources\022\".ond"
+  "ewo.nlu.ExportResourcesRequest\032#.ondewo."
+  "nlu.ExportResourcesResponse\"2\202\323\344\223\002,\"\'/v2"
   "/{parent=projects/*/agent}:resources:\001*\022"
-  "~\n\017DeleteResources\022\".ondewo.nlu.DeleteRe"
-  "sourcesRequest\032\026.google.protobuf.Empty\"/"
-  "\202\323\344\223\002)*\'/v2/{parent=projects/*/agent}:re"
-  "sources\022\216\001\n\017ExportResources\022\".ondewo.nlu"
-  ".ExportResourcesRequest\032#.ondewo.nlu.Exp"
-  "ortResourcesResponse\"2\202\323\344\223\002,\"\'/v2/{paren"
-  "t=projects/*/agent}:resources:\001*\022]\n\020GetM"
-  "odelStatuses\022#.ondewo.nlu.GetModelStatus"
-  "esRequest\032$.ondewo.nlu.GetModelStatusesR"
-  "esponse\022X\n\022GetPlatformMapping\022%.ondewo.n"
-  "lu.GetPlatformMappingRequest\032\033.ondewo.nl"
-  "u.PlatformMapping\022N\n\022SetPlatformMapping\022"
-  "\033.ondewo.nlu.PlatformMapping\032\033.ondewo.nl"
-  "u.PlatformMapping\022n\n\033GetFullTextSearchEn"
-  "tityType\022!.ondewo.nlu.FullTextSearchRequ"
-  "est\032,.ondewo.nlu.FullTextSearchResponseE"
-  "ntityType\022f\n\027GetFullTextSearchEntity\022!.o"
-  "ndewo.nlu.FullTextSearchRequest\032(.ondewo"
-  ".nlu.FullTextSearchResponseEntity\022t\n\036Get"
-  "FullTextSearchEntitySynonym\022!.ondewo.nlu"
-  ".FullTextSearchRequest\032/.ondewo.nlu.Full"
-  "TextSearchResponseEntitySynonym\022f\n\027GetFu"
-  "llTextSearchIntent\022!.ondewo.nlu.FullText"
-  "SearchRequest\032(.ondewo.nlu.FullTextSearc"
-  "hResponseIntent\022x\n GetFullTextSearchInte"
-  "ntContextIn\022!.ondewo.nlu.FullTextSearchR"
-  "equest\0321.ondewo.nlu.FullTextSearchRespon"
-  "seIntentContextIn\022z\n!GetFullTextSearchIn"
-  "tentContextOut\022!.ondewo.nlu.FullTextSear"
-  "chRequest\0322.ondewo.nlu.FullTextSearchRes"
-  "ponseIntentContextOut\022v\n\037GetFullTextSear"
-  "chIntentUsersays\022!.ondewo.nlu.FullTextSe"
-  "archRequest\0320.ondewo.nlu.FullTextSearchR"
-  "esponseIntentUsersays\022n\n\033GetFullTextSear"
-  "chIntentTags\022!.ondewo.nlu.FullTextSearch"
-  "Request\032,.ondewo.nlu.FullTextSearchRespo"
-  "nseIntentTags\022v\n\037GetFullTextSearchIntent"
-  "Response\022!.ondewo.nlu.FullTextSearchRequ"
-  "est\0320.ondewo.nlu.FullTextSearchResponseI"
-  "ntentResponse\022z\n!GetFullTextSearchIntent"
-  "Parameters\022!.ondewo.nlu.FullTextSearchRe"
-  "quest\0322.ondewo.nlu.FullTextSearchRespons"
-  "eIntentParameters\022F\n\014ReindexAgent\022\037.onde"
-  "wo.nlu.ReindexAgentRequest\032\025.ondewo.nlu."
-  "Operation\022\265\001\n\032CreateProjectTechnicalUser"
-  "\022-.ondewo.nlu.CreateProjectTechnicalUser"
-  "Request\032..ondewo.nlu.CreateProjectTechni"
-  "calUserResponse\"8\202\323\344\223\0022\"-/v2/{parent=pro"
-  "jects/*/agent}/technical_users:\001*\022\257\001\n\031Li"
-  "stProjectTechnicalUsers\022,.ondewo.nlu.Lis"
-  "tProjectTechnicalUsersRequest\032-.ondewo.n"
-  "lu.ListProjectTechnicalUsersResponse\"5\202\323"
-  "\344\223\002/\022-/v2/{parent=projects/*/agent}/tech"
-  "nical_users\022\246\001\n\032DeleteProjectTechnicalUs"
-  "er\022-.ondewo.nlu.DeleteProjectTechnicalUs"
-  "erRequest\032\026.google.protobuf.Empty\"A\202\323\344\223\002"
-  ";*9/v2/{parent=projects/*/agent}/technic"
-  "al_users/{user_id=*}\022\350\001\n\"RotateProjectTe"
-  "chnicalUserPassword\0225.ondewo.nlu.RotateP"
-  "rojectTechnicalUserPasswordRequest\0326.ond"
-  "ewo.nlu.RotateProjectTechnicalUserPasswo"
-  "rdResponse\"S\202\323\344\223\002M\"H/v2/{parent=projects"
-  "/*/agent}/technical_users/{user_id=*}:ro"
-  "tatePassword:\001*b\006proto3"
+  "]\n\020GetModelStatuses\022#.ondewo.nlu.GetMode"
+  "lStatusesRequest\032$.ondewo.nlu.GetModelSt"
+  "atusesResponse\022X\n\022GetPlatformMapping\022%.o"
+  "ndewo.nlu.GetPlatformMappingRequest\032\033.on"
+  "dewo.nlu.PlatformMapping\022N\n\022SetPlatformM"
+  "apping\022\033.ondewo.nlu.PlatformMapping\032\033.on"
+  "dewo.nlu.PlatformMapping\022n\n\033GetFullTextS"
+  "earchEntityType\022!.ondewo.nlu.FullTextSea"
+  "rchRequest\032,.ondewo.nlu.FullTextSearchRe"
+  "sponseEntityType\022f\n\027GetFullTextSearchEnt"
+  "ity\022!.ondewo.nlu.FullTextSearchRequest\032("
+  ".ondewo.nlu.FullTextSearchResponseEntity"
+  "\022t\n\036GetFullTextSearchEntitySynonym\022!.ond"
+  "ewo.nlu.FullTextSearchRequest\032/.ondewo.n"
+  "lu.FullTextSearchResponseEntitySynonym\022f"
+  "\n\027GetFullTextSearchIntent\022!.ondewo.nlu.F"
+  "ullTextSearchRequest\032(.ondewo.nlu.FullTe"
+  "xtSearchResponseIntent\022x\n GetFullTextSea"
+  "rchIntentContextIn\022!.ondewo.nlu.FullText"
+  "SearchRequest\0321.ondewo.nlu.FullTextSearc"
+  "hResponseIntentContextIn\022z\n!GetFullTextS"
+  "earchIntentContextOut\022!.ondewo.nlu.FullT"
+  "extSearchRequest\0322.ondewo.nlu.FullTextSe"
+  "archResponseIntentContextOut\022v\n\037GetFullT"
+  "extSearchIntentUsersays\022!.ondewo.nlu.Ful"
+  "lTextSearchRequest\0320.ondewo.nlu.FullText"
+  "SearchResponseIntentUsersays\022n\n\033GetFullT"
+  "extSearchIntentTags\022!.ondewo.nlu.FullTex"
+  "tSearchRequest\032,.ondewo.nlu.FullTextSear"
+  "chResponseIntentTags\022v\n\037GetFullTextSearc"
+  "hIntentResponse\022!.ondewo.nlu.FullTextSea"
+  "rchRequest\0320.ondewo.nlu.FullTextSearchRe"
+  "sponseIntentResponse\022z\n!GetFullTextSearc"
+  "hIntentParameters\022!.ondewo.nlu.FullTextS"
+  "earchRequest\0322.ondewo.nlu.FullTextSearch"
+  "ResponseIntentParameters\022F\n\014ReindexAgent"
+  "\022\037.ondewo.nlu.ReindexAgentRequest\032\025.onde"
+  "wo.nlu.Operation\022\265\001\n\032CreateProjectTechni"
+  "calUser\022-.ondewo.nlu.CreateProjectTechni"
+  "calUserRequest\032..ondewo.nlu.CreateProjec"
+  "tTechnicalUserResponse\"8\202\323\344\223\0022\"-/v2/{par"
+  "ent=projects/*/agent}/technical_users:\001*"
+  "\022\257\001\n\031ListProjectTechnicalUsers\022,.ondewo."
+  "nlu.ListProjectTechnicalUsersRequest\032-.o"
+  "ndewo.nlu.ListProjectTechnicalUsersRespo"
+  "nse\"5\202\323\344\223\002/\022-/v2/{parent=projects/*/agen"
+  "t}/technical_users\022\246\001\n\032DeleteProjectTech"
+  "nicalUser\022-.ondewo.nlu.DeleteProjectTech"
+  "nicalUserRequest\032\026.google.protobuf.Empty"
+  "\"A\202\323\344\223\002;*9/v2/{parent=projects/*/agent}/"
+  "technical_users/{user_id=*}\022\350\001\n\"RotatePr"
+  "ojectTechnicalUserPassword\0225.ondewo.nlu."
+  "RotateProjectTechnicalUserPasswordReques"
+  "t\0326.ondewo.nlu.RotateProjectTechnicalUse"
+  "rPasswordResponse\"S\202\323\344\223\002M\"H/v2/{parent=p"
+  "rojects/*/agent}/technical_users/{user_i"
+  "d=*}:rotatePassword:\001*b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2fagent_2eproto_deps[12] = {
   &::descriptor_table_google_2fapi_2fannotations_2eproto,
@@ -2982,7 +2990,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2fagen
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fnlu_2fagent_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fnlu_2fagent_2eproto = {
-    false, false, 22623, descriptor_table_protodef_ondewo_2fnlu_2fagent_2eproto,
+    false, false, 22710, descriptor_table_protodef_ondewo_2fnlu_2fagent_2eproto,
     "ondewo/nlu/agent.proto",
     &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once, descriptor_table_ondewo_2fnlu_2fagent_2eproto_deps, 12, 80,
     schemas, file_default_instances, TableStruct_ondewo_2fnlu_2fagent_2eproto::offsets,
@@ -9759,6 +9767,7 @@ GetAgentStatisticsRequest::GetAgentStatisticsRequest(const GetAgentStatisticsReq
     , decltype(_impl_.llm_group_bys_){from._impl_.llm_group_bys_}
     , decltype(_impl_.llm_ccai_service_provider_filter_){from._impl_.llm_ccai_service_provider_filter_}
     , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+    , decltype(_impl_.llm_base_url_filter_){from._impl_.llm_base_url_filter_}
     , decltype(_impl_.parent_){}
     , decltype(_impl_.language_code_){}
     , decltype(_impl_.field_mask_){nullptr}
@@ -9803,6 +9812,7 @@ inline void GetAgentStatisticsRequest::SharedCtor(
     , decltype(_impl_.llm_group_bys_){arena}
     , decltype(_impl_.llm_ccai_service_provider_filter_){arena}
     , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+    , decltype(_impl_.llm_base_url_filter_){arena}
     , decltype(_impl_.parent_){}
     , decltype(_impl_.language_code_){}
     , decltype(_impl_.field_mask_){nullptr}
@@ -9836,6 +9846,7 @@ inline void GetAgentStatisticsRequest::SharedDtor() {
   _impl_.llm_agent_name_filter_.~RepeatedPtrField();
   _impl_.llm_group_bys_.~RepeatedPtrField();
   _impl_.llm_ccai_service_provider_filter_.~RepeatedField();
+  _impl_.llm_base_url_filter_.~RepeatedPtrField();
   _impl_.parent_.Destroy();
   _impl_.language_code_.Destroy();
   if (this != internal_default_instance()) delete _impl_.field_mask_;
@@ -9856,6 +9867,7 @@ void GetAgentStatisticsRequest::Clear() {
   _impl_.llm_agent_name_filter_.Clear();
   _impl_.llm_group_bys_.Clear();
   _impl_.llm_ccai_service_provider_filter_.Clear();
+  _impl_.llm_base_url_filter_.Clear();
   _impl_.parent_.ClearToEmpty();
   _impl_.language_code_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
@@ -9992,6 +10004,21 @@ const char* GetAgentStatisticsRequest::_InternalParse(const char* ptr, ::_pbi::P
         } else
           goto handle_unusual;
         continue;
+      // repeated string llm_base_url_filter = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_llm_base_url_filter();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<90>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -10111,6 +10138,16 @@ uint8_t* GetAgentStatisticsRequest::_InternalSerialize(
     }
   }
 
+  // repeated string llm_base_url_filter = 11;
+  for (int i = 0, n = this->_internal_llm_base_url_filter_size(); i < n; i++) {
+    const auto& s = this->_internal_llm_base_url_filter(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.GetAgentStatisticsRequest.llm_base_url_filter");
+    target = stream->WriteString(11, s, target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -10176,6 +10213,14 @@ size_t GetAgentStatisticsRequest::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // repeated string llm_base_url_filter = 11;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.llm_base_url_filter_.size());
+  for (int i = 0, n = _impl_.llm_base_url_filter_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.llm_base_url_filter_.Get(i));
+  }
+
   // string parent = 1;
   if (!this->_internal_parent().empty()) {
     total_size += 1 +
@@ -10232,6 +10277,7 @@ void GetAgentStatisticsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_m
   _this->_impl_.llm_agent_name_filter_.MergeFrom(from._impl_.llm_agent_name_filter_);
   _this->_impl_.llm_group_bys_.MergeFrom(from._impl_.llm_group_bys_);
   _this->_impl_.llm_ccai_service_provider_filter_.MergeFrom(from._impl_.llm_ccai_service_provider_filter_);
+  _this->_impl_.llm_base_url_filter_.MergeFrom(from._impl_.llm_base_url_filter_);
   if (!from._internal_parent().empty()) {
     _this->_internal_set_parent(from._internal_parent());
   }
@@ -10272,6 +10318,7 @@ void GetAgentStatisticsRequest::InternalSwap(GetAgentStatisticsRequest* other) {
   _impl_.llm_agent_name_filter_.InternalSwap(&other->_impl_.llm_agent_name_filter_);
   _impl_.llm_group_bys_.InternalSwap(&other->_impl_.llm_group_bys_);
   _impl_.llm_ccai_service_provider_filter_.InternalSwap(&other->_impl_.llm_ccai_service_provider_filter_);
+  _impl_.llm_base_url_filter_.InternalSwap(&other->_impl_.llm_base_url_filter_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.parent_, lhs_arena,
       &other->_impl_.parent_, rhs_arena
@@ -10655,6 +10702,7 @@ GetSessionsStatisticsRequest::GetSessionsStatisticsRequest(const GetSessionsStat
     , decltype(_impl_.llm_tool_name_filter_){from._impl_.llm_tool_name_filter_}
     , decltype(_impl_.llm_ccai_service_provider_filter_){from._impl_.llm_ccai_service_provider_filter_}
     , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+    , decltype(_impl_.llm_base_url_filter_){from._impl_.llm_base_url_filter_}
     , decltype(_impl_.parent_){}
     , decltype(_impl_.sql_query_){}
     , decltype(_impl_.session_filter_){nullptr}
@@ -10707,6 +10755,7 @@ inline void GetSessionsStatisticsRequest::SharedCtor(
     , decltype(_impl_.llm_tool_name_filter_){arena}
     , decltype(_impl_.llm_ccai_service_provider_filter_){arena}
     , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+    , decltype(_impl_.llm_base_url_filter_){arena}
     , decltype(_impl_.parent_){}
     , decltype(_impl_.sql_query_){}
     , decltype(_impl_.session_filter_){nullptr}
@@ -10745,6 +10794,7 @@ inline void GetSessionsStatisticsRequest::SharedDtor() {
   _impl_.llm_agent_name_filter_.~RepeatedPtrField();
   _impl_.llm_tool_name_filter_.~RepeatedPtrField();
   _impl_.llm_ccai_service_provider_filter_.~RepeatedField();
+  _impl_.llm_base_url_filter_.~RepeatedPtrField();
   _impl_.parent_.Destroy();
   _impl_.sql_query_.Destroy();
   if (this != internal_default_instance()) delete _impl_.session_filter_;
@@ -10769,6 +10819,7 @@ void GetSessionsStatisticsRequest::Clear() {
   _impl_.llm_agent_name_filter_.Clear();
   _impl_.llm_tool_name_filter_.Clear();
   _impl_.llm_ccai_service_provider_filter_.Clear();
+  _impl_.llm_base_url_filter_.Clear();
   _impl_.parent_.ClearToEmpty();
   _impl_.sql_query_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.session_filter_ != nullptr) {
@@ -10968,6 +11019,21 @@ const char* GetSessionsStatisticsRequest::_InternalParse(const char* ptr, ::_pbi
         } else
           goto handle_unusual;
         continue;
+      // repeated string llm_base_url_filter = 16;
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 130)) {
+          ptr -= 2;
+          do {
+            ptr += 2;
+            auto str = _internal_add_llm_base_url_filter();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<130>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -11128,6 +11194,16 @@ uint8_t* GetSessionsStatisticsRequest::_InternalSerialize(
     }
   }
 
+  // repeated string llm_base_url_filter = 16;
+  for (int i = 0, n = this->_internal_llm_base_url_filter_size(); i < n; i++) {
+    const auto& s = this->_internal_llm_base_url_filter(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.GetSessionsStatisticsRequest.llm_base_url_filter");
+    target = stream->WriteString(16, s, target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -11216,6 +11292,14 @@ size_t GetSessionsStatisticsRequest::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // repeated string llm_base_url_filter = 16;
+  total_size += 2 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.llm_base_url_filter_.size());
+  for (int i = 0, n = _impl_.llm_base_url_filter_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.llm_base_url_filter_.Get(i));
+  }
+
   // string parent = 1;
   if (!this->_internal_parent().empty()) {
     total_size += 1 +
@@ -11287,6 +11371,7 @@ void GetSessionsStatisticsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& t
   _this->_impl_.llm_agent_name_filter_.MergeFrom(from._impl_.llm_agent_name_filter_);
   _this->_impl_.llm_tool_name_filter_.MergeFrom(from._impl_.llm_tool_name_filter_);
   _this->_impl_.llm_ccai_service_provider_filter_.MergeFrom(from._impl_.llm_ccai_service_provider_filter_);
+  _this->_impl_.llm_base_url_filter_.MergeFrom(from._impl_.llm_base_url_filter_);
   if (!from._internal_parent().empty()) {
     _this->_internal_set_parent(from._internal_parent());
   }
@@ -11337,6 +11422,7 @@ void GetSessionsStatisticsRequest::InternalSwap(GetSessionsStatisticsRequest* ot
   _impl_.llm_agent_name_filter_.InternalSwap(&other->_impl_.llm_agent_name_filter_);
   _impl_.llm_tool_name_filter_.InternalSwap(&other->_impl_.llm_tool_name_filter_);
   _impl_.llm_ccai_service_provider_filter_.InternalSwap(&other->_impl_.llm_ccai_service_provider_filter_);
+  _impl_.llm_base_url_filter_.InternalSwap(&other->_impl_.llm_base_url_filter_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.parent_, lhs_arena,
       &other->_impl_.parent_, rhs_arena
@@ -11714,6 +11800,7 @@ GetSessionsStatisticsTimeSeriesRequest::GetSessionsStatisticsTimeSeriesRequest(c
     , decltype(_impl_.llm_tool_name_filter_){from._impl_.llm_tool_name_filter_}
     , decltype(_impl_.llm_ccai_service_provider_filter_){from._impl_.llm_ccai_service_provider_filter_}
     , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+    , decltype(_impl_.llm_base_url_filter_){from._impl_.llm_base_url_filter_}
     , decltype(_impl_.parent_){}
     , decltype(_impl_.session_filter_){nullptr}
     , decltype(_impl_.field_mask_){nullptr}
@@ -11754,6 +11841,7 @@ inline void GetSessionsStatisticsTimeSeriesRequest::SharedCtor(
     , decltype(_impl_.llm_tool_name_filter_){arena}
     , decltype(_impl_.llm_ccai_service_provider_filter_){arena}
     , /*decltype(_impl_._llm_ccai_service_provider_filter_cached_byte_size_)*/{0}
+    , decltype(_impl_.llm_base_url_filter_){arena}
     , decltype(_impl_.parent_){}
     , decltype(_impl_.session_filter_){nullptr}
     , decltype(_impl_.field_mask_){nullptr}
@@ -11784,6 +11872,7 @@ inline void GetSessionsStatisticsTimeSeriesRequest::SharedDtor() {
   _impl_.llm_agent_name_filter_.~RepeatedPtrField();
   _impl_.llm_tool_name_filter_.~RepeatedPtrField();
   _impl_.llm_ccai_service_provider_filter_.~RepeatedField();
+  _impl_.llm_base_url_filter_.~RepeatedPtrField();
   _impl_.parent_.Destroy();
   if (this != internal_default_instance()) delete _impl_.session_filter_;
   if (this != internal_default_instance()) delete _impl_.field_mask_;
@@ -11804,6 +11893,7 @@ void GetSessionsStatisticsTimeSeriesRequest::Clear() {
   _impl_.llm_agent_name_filter_.Clear();
   _impl_.llm_tool_name_filter_.Clear();
   _impl_.llm_ccai_service_provider_filter_.Clear();
+  _impl_.llm_base_url_filter_.Clear();
   _impl_.parent_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.session_filter_ != nullptr) {
     delete _impl_.session_filter_;
@@ -11948,6 +12038,21 @@ const char* GetSessionsStatisticsTimeSeriesRequest::_InternalParse(const char* p
         } else
           goto handle_unusual;
         continue;
+      // repeated string llm_base_url_filter = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_llm_base_url_filter();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<98>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -12069,6 +12174,16 @@ uint8_t* GetSessionsStatisticsTimeSeriesRequest::_InternalSerialize(
         _Internal::field_mask(this).GetCachedSize(), target, stream);
   }
 
+  // repeated string llm_base_url_filter = 12;
+  for (int i = 0, n = this->_internal_llm_base_url_filter_size(); i < n; i++) {
+    const auto& s = this->_internal_llm_base_url_filter(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.GetSessionsStatisticsTimeSeriesRequest.llm_base_url_filter");
+    target = stream->WriteString(12, s, target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -12134,6 +12249,14 @@ size_t GetSessionsStatisticsTimeSeriesRequest::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // repeated string llm_base_url_filter = 12;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.llm_base_url_filter_.size());
+  for (int i = 0, n = _impl_.llm_base_url_filter_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.llm_base_url_filter_.Get(i));
+  }
+
   // string parent = 1;
   if (!this->_internal_parent().empty()) {
     total_size += 1 +
@@ -12194,6 +12317,7 @@ void GetSessionsStatisticsTimeSeriesRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::
   _this->_impl_.llm_agent_name_filter_.MergeFrom(from._impl_.llm_agent_name_filter_);
   _this->_impl_.llm_tool_name_filter_.MergeFrom(from._impl_.llm_tool_name_filter_);
   _this->_impl_.llm_ccai_service_provider_filter_.MergeFrom(from._impl_.llm_ccai_service_provider_filter_);
+  _this->_impl_.llm_base_url_filter_.MergeFrom(from._impl_.llm_base_url_filter_);
   if (!from._internal_parent().empty()) {
     _this->_internal_set_parent(from._internal_parent());
   }
@@ -12238,6 +12362,7 @@ void GetSessionsStatisticsTimeSeriesRequest::InternalSwap(GetSessionsStatisticsT
   _impl_.llm_agent_name_filter_.InternalSwap(&other->_impl_.llm_agent_name_filter_);
   _impl_.llm_tool_name_filter_.InternalSwap(&other->_impl_.llm_tool_name_filter_);
   _impl_.llm_ccai_service_provider_filter_.InternalSwap(&other->_impl_.llm_ccai_service_provider_filter_);
+  _impl_.llm_base_url_filter_.InternalSwap(&other->_impl_.llm_base_url_filter_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.parent_, lhs_arena,
       &other->_impl_.parent_, rhs_arena

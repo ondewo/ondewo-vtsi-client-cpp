@@ -864,12 +864,14 @@ struct RagCrawlerConcurrencyConfigDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RagCrawlerConcurrencyConfigDefaultTypeInternal _RagCrawlerConcurrencyConfig_default_instance_;
 PROTOBUF_CONSTEXPR RagCrawlerConfig::RagCrawlerConfig(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.concurrency_config_)*/nullptr
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.concurrency_config_)*/nullptr
   , /*decltype(_impl_.deep_crawler_config_)*/nullptr
   , /*decltype(_impl_.output_config_)*/nullptr
   , /*decltype(_impl_.status_filter_)*/nullptr
   , /*decltype(_impl_.incremental_config_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.max_pages_)*/0} {}
 struct RagCrawlerConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR RagCrawlerConfigDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -2054,7 +2056,7 @@ const uint32_t TableStruct_ondewo_2fnlu_2frag_2eproto::offsets[] PROTOBUF_SECTIO
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerConcurrencyConfig, _impl_.max_concurrent_requests_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerConcurrencyConfig, _impl_.slow_crawl_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerConfig, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -2065,6 +2067,13 @@ const uint32_t TableStruct_ondewo_2fnlu_2frag_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerConfig, _impl_.output_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerConfig, _impl_.status_filter_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerConfig, _impl_.incremental_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerConfig, _impl_.max_pages_),
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  0,
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerDeepCrawlerConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RagCrawlerDeepCrawlerConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2469,35 +2478,35 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 666, 675, -1, sizeof(::ondewo::nlu::RagCrawlerBrowserConfig)},
   { 678, -1, -1, sizeof(::ondewo::nlu::RagCrawlerCookie)},
   { 687, -1, -1, sizeof(::ondewo::nlu::RagCrawlerConcurrencyConfig)},
-  { 695, -1, -1, sizeof(::ondewo::nlu::RagCrawlerConfig)},
-  { 706, 718, -1, sizeof(::ondewo::nlu::RagCrawlerDeepCrawlerConfig)},
-  { 724, 735, -1, sizeof(::ondewo::nlu::RagCrawlerResultsConfig)},
-  { 740, -1, -1, sizeof(::ondewo::nlu::RagCrawlerContentScope)},
-  { 748, 758, -1, sizeof(::ondewo::nlu::RagCrawlerDensityPruning)},
-  { 762, -1, -1, sizeof(::ondewo::nlu::RagCrawlerMetaDataExtractor)},
-  { 771, 781, -1, sizeof(::ondewo::nlu::RagCrawlerRetryConfig)},
-  { 785, 793, -1, sizeof(::ondewo::nlu::RagCrawlerStatusFilter)},
-  { 795, 803, -1, sizeof(::ondewo::nlu::RagCrawlerIncrementalConfig)},
-  { 805, 813, -1, sizeof(::ondewo::nlu::RagCrawlerContentResult)},
-  { 815, 824, -1, sizeof(::ondewo::nlu::RagCrawlerExecutionInfo)},
-  { 827, -1, -1, sizeof(::ondewo::nlu::RagCrawlerResult)},
-  { 841, -1, -1, sizeof(::ondewo::nlu::RagStartCrawlerRequest)},
-  { 850, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerRunRequest)},
-  { 859, 872, -1, sizeof(::ondewo::nlu::RagListCrawlerRunsRequest)},
-  { 879, -1, -1, sizeof(::ondewo::nlu::RagListCrawlerRunsResponse)},
-  { 887, -1, -1, sizeof(::ondewo::nlu::RagDeleteCrawlerRunsRequest)},
-  { 897, -1, -1, sizeof(::ondewo::nlu::RagDeleteCrawlerRunsResponse)},
-  { 905, -1, -1, sizeof(::ondewo::nlu::RagStopCrawlerRequest)},
-  { 914, -1, -1, sizeof(::ondewo::nlu::RagStopCrawlerResponse)},
-  { 922, 936, -1, sizeof(::ondewo::nlu::RagGetCrawlerResultsRequest)},
-  { 944, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerResultsResponse)},
-  { 953, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerResultRequest)},
-  { 964, -1, -1, sizeof(::ondewo::nlu::RagAddCrawlerResultsToDatasetsRequest)},
-  { 975, -1, -1, sizeof(::ondewo::nlu::RagRemoveCrawlerResultsFromDatasetsRequest)},
-  { 986, 1000, -1, sizeof(::ondewo::nlu::RagGetCrawlerAttachedDatasetsRequest)},
-  { 1008, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerAttachedDatasetsResponse)},
-  { 1016, 1036, -1, sizeof(::ondewo::nlu::RagGetCrawlerRunLogsRequest)},
-  { 1050, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerRunLogsResponse)},
+  { 695, 707, -1, sizeof(::ondewo::nlu::RagCrawlerConfig)},
+  { 713, 725, -1, sizeof(::ondewo::nlu::RagCrawlerDeepCrawlerConfig)},
+  { 731, 742, -1, sizeof(::ondewo::nlu::RagCrawlerResultsConfig)},
+  { 747, -1, -1, sizeof(::ondewo::nlu::RagCrawlerContentScope)},
+  { 755, 765, -1, sizeof(::ondewo::nlu::RagCrawlerDensityPruning)},
+  { 769, -1, -1, sizeof(::ondewo::nlu::RagCrawlerMetaDataExtractor)},
+  { 778, 788, -1, sizeof(::ondewo::nlu::RagCrawlerRetryConfig)},
+  { 792, 800, -1, sizeof(::ondewo::nlu::RagCrawlerStatusFilter)},
+  { 802, 810, -1, sizeof(::ondewo::nlu::RagCrawlerIncrementalConfig)},
+  { 812, 820, -1, sizeof(::ondewo::nlu::RagCrawlerContentResult)},
+  { 822, 831, -1, sizeof(::ondewo::nlu::RagCrawlerExecutionInfo)},
+  { 834, -1, -1, sizeof(::ondewo::nlu::RagCrawlerResult)},
+  { 848, -1, -1, sizeof(::ondewo::nlu::RagStartCrawlerRequest)},
+  { 857, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerRunRequest)},
+  { 866, 879, -1, sizeof(::ondewo::nlu::RagListCrawlerRunsRequest)},
+  { 886, -1, -1, sizeof(::ondewo::nlu::RagListCrawlerRunsResponse)},
+  { 894, -1, -1, sizeof(::ondewo::nlu::RagDeleteCrawlerRunsRequest)},
+  { 904, -1, -1, sizeof(::ondewo::nlu::RagDeleteCrawlerRunsResponse)},
+  { 912, -1, -1, sizeof(::ondewo::nlu::RagStopCrawlerRequest)},
+  { 921, -1, -1, sizeof(::ondewo::nlu::RagStopCrawlerResponse)},
+  { 929, 943, -1, sizeof(::ondewo::nlu::RagGetCrawlerResultsRequest)},
+  { 951, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerResultsResponse)},
+  { 960, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerResultRequest)},
+  { 971, -1, -1, sizeof(::ondewo::nlu::RagAddCrawlerResultsToDatasetsRequest)},
+  { 982, -1, -1, sizeof(::ondewo::nlu::RagRemoveCrawlerResultsFromDatasetsRequest)},
+  { 993, 1007, -1, sizeof(::ondewo::nlu::RagGetCrawlerAttachedDatasetsRequest)},
+  { 1015, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerAttachedDatasetsResponse)},
+  { 1023, 1043, -1, sizeof(::ondewo::nlu::RagGetCrawlerRunLogsRequest)},
+  { 1057, -1, -1, sizeof(::ondewo::nlu::RagGetCrawlerRunLogsResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2829,7 +2838,7 @@ const char descriptor_table_protodef_ondewo_2fnlu_2frag_2eproto[] PROTOBUF_SECTI
   "Cookie\022\023\n\013cookie_name\030\001 \001(\t\022\024\n\014cookie_va"
   "lue\030\002 \001(\t\022\025\n\rcookie_domain\030\003 \001(\t\"R\n\033RagC"
   "rawlerConcurrencyConfig\022\037\n\027max_concurren"
-  "t_requests\030\001 \001(\005\022\022\n\nslow_crawl\030\002 \001(\010\"\331\002\n"
+  "t_requests\030\001 \001(\005\022\022\n\nslow_crawl\030\002 \001(\010\"\377\002\n"
   "\020RagCrawlerConfig\022C\n\022concurrency_config\030"
   "\001 \001(\0132\'.ondewo.nlu.RagCrawlerConcurrency"
   "Config\022D\n\023deep_crawler_config\030\002 \001(\0132\'.on"
@@ -2838,266 +2847,267 @@ const char descriptor_table_protodef_ondewo_2fnlu_2frag_2eproto[] PROTOBUF_SECTI
   "lerResultsConfig\0229\n\rstatus_filter\030\004 \001(\0132"
   "\".ondewo.nlu.RagCrawlerStatusFilter\022C\n\022i"
   "ncremental_config\030\005 \001(\0132\'.ondewo.nlu.Rag"
-  "CrawlerIncrementalConfig\"\233\002\n\033RagCrawlerD"
-  "eepCrawlerConfig\022\021\n\tis_active\030\001 \001(\010\022;\n\016c"
-  "rawl_strategy\030\002 \001(\0162#.ondewo.nlu.RagCraw"
-  "lerCrawlStrategy\022\026\n\tmax_depth\030\003 \001(\005H\000\210\001\001"
-  "\022\021\n\tmax_pages\030\004 \001(\005\022;\n\024deep_crawler_filt"
-  "ers\030\005 \001(\0132\035.ondewo.nlu.RagCrawlerFilters"
-  "\022\037\n\022normalize_url_case\030\006 \001(\010H\001\210\001\001B\014\n\n_ma"
-  "x_depthB\025\n\023_normalize_url_case\"\264\002\n\027RagCr"
-  "awlerResultsConfig\022\037\n\022inject_frontmatter"
-  "\030\001 \001(\010H\000\210\001\001\022E\n\024meta_data_extractors\030\002 \003("
-  "\0132\'.ondewo.nlu.RagCrawlerMetaDataExtract"
-  "or\0229\n\rcontent_scope\030\003 \001(\0132\".ondewo.nlu.R"
-  "agCrawlerContentScope\022=\n\017density_pruning"
-  "\030\004 \001(\0132$.ondewo.nlu.RagCrawlerDensityPru"
-  "ning\022 \n\030discovery_only_url_regex\030\005 \003(\tB\025"
-  "\n\023_inject_frontmatter\"N\n\026RagCrawlerConte"
-  "ntScope\022\031\n\021include_selectors\030\001 \003(\t\022\031\n\021ex"
-  "clude_selectors\030\002 \003(\t\"\372\001\n\030RagCrawlerDens"
-  "ityPruning\022\026\n\tis_active\030\001 \001(\010H\000\210\001\001\022\026\n\tth"
-  "reshold\030\002 \001(\002H\001\210\001\001\022G\n\016threshold_type\030\003 \001"
-  "(\0162*.ondewo.nlu.RagCrawlerPruningThresho"
-  "ldTypeH\002\210\001\001\022\037\n\022min_word_threshold\030\004 \001(\005H"
-  "\003\210\001\001B\014\n\n_is_activeB\014\n\n_thresholdB\021\n\017_thr"
-  "eshold_typeB\025\n\023_min_word_threshold\"t\n\033Ra"
-  "gCrawlerMetaDataExtractor\0229\n\004type\030\001 \001(\0162"
-  "+.ondewo.nlu.RagCrawlerMetaDataExtractor"
-  "Type\022\r\n\005value\030\002 \001(\t\022\013\n\003key\030\003 \001(\t\"\211\002\n\025Rag"
-  "CrawlerRetryConfig\022&\n\031page_load_timeout_"
-  "seconds\030\001 \001(\005H\000\210\001\001\022\037\n\022retry_max_attempts"
-  "\030\002 \001(\005H\001\210\001\001\022\"\n\025retry_backoff_seconds\030\003 \001"
-  "(\002H\002\210\001\001\022\036\n\021max_stall_seconds\030\004 \001(\005H\003\210\001\001B"
-  "\034\n\032_page_load_timeout_secondsB\025\n\023_retry_"
-  "max_attemptsB\030\n\026_retry_backoff_secondsB\024"
-  "\n\022_max_stall_seconds\"]\n\026RagCrawlerStatus"
-  "Filter\022\026\n\tis_active\030\001 \001(\010H\000\210\001\001\022\035\n\025accept"
-  "ed_status_codes\030\002 \003(\005B\014\n\n_is_active\"\\\n\033R"
-  "agCrawlerIncrementalConfig\022\021\n\tis_active\030"
-  "\001 \001(\010\022\031\n\014max_age_days\030\002 \001(\005H\000\210\001\001B\017\n\r_max"
-  "_age_days\"h\n\027RagCrawlerContentResult\022)\n\010"
-  "metadata\030\001 \001(\0132\027.google.protobuf.Struct\022"
-  "\025\n\010markdown\030\002 \001(\tH\000\210\001\001B\013\n\t_markdown\"\233\001\n\027"
-  "RagCrawlerExecutionInfo\0220\n\017ssl_certifica"
-  "te\030\001 \001(\0132\027.google.protobuf.Struct\022\024\n\007suc"
-  "cess\030\002 \001(\010H\000\210\001\001\022\032\n\rerror_message\030\003 \001(\tH\001"
-  "\210\001\001B\n\n\010_successB\020\n\016_error_message\"\303\002\n\020Ra"
-  "gCrawlerResult\022\014\n\004name\030\001 \001(\t\022\024\n\014crawler_"
-  "name\030\002 \001(\t\022\026\n\016operation_name\030\003 \001(\t\022\022\n\nso"
-  "urce_url\030\004 \001(\t\022/\n\rfile_resource\030\005 \001(\0132\030."
-  "ondewo.nlu.FileResource\0225\n\021last_crawled_"
-  "date\030\006 \001(\0132\032.google.protobuf.Timestamp\022;"
-  "\n\016content_result\030\007 \001(\0132#.ondewo.nlu.RagC"
-  "rawlerContentResult\022:\n\026page_last_updated"
-  "_date\030\010 \001(\0132\032.google.protobuf.Timestamp\""
-  "U\n\026RagStartCrawlerRequest\022\016\n\006parent\030\001 \001("
+  "CrawlerIncrementalConfig\022\026\n\tmax_pages\030\006 "
+  "\001(\005H\000\210\001\001B\014\n\n_max_pages\"\237\002\n\033RagCrawlerDee"
+  "pCrawlerConfig\022\021\n\tis_active\030\001 \001(\010\022;\n\016cra"
+  "wl_strategy\030\002 \001(\0162#.ondewo.nlu.RagCrawle"
+  "rCrawlStrategy\022\026\n\tmax_depth\030\003 \001(\005H\000\210\001\001\022\025"
+  "\n\tmax_pages\030\004 \001(\005B\002\030\001\022;\n\024deep_crawler_fi"
+  "lters\030\005 \001(\0132\035.ondewo.nlu.RagCrawlerFilte"
+  "rs\022\037\n\022normalize_url_case\030\006 \001(\010H\001\210\001\001B\014\n\n_"
+  "max_depthB\025\n\023_normalize_url_case\"\264\002\n\027Rag"
+  "CrawlerResultsConfig\022\037\n\022inject_frontmatt"
+  "er\030\001 \001(\010H\000\210\001\001\022E\n\024meta_data_extractors\030\002 "
+  "\003(\0132\'.ondewo.nlu.RagCrawlerMetaDataExtra"
+  "ctor\0229\n\rcontent_scope\030\003 \001(\0132\".ondewo.nlu"
+  ".RagCrawlerContentScope\022=\n\017density_pruni"
+  "ng\030\004 \001(\0132$.ondewo.nlu.RagCrawlerDensityP"
+  "runing\022 \n\030discovery_only_url_regex\030\005 \003(\t"
+  "B\025\n\023_inject_frontmatter\"N\n\026RagCrawlerCon"
+  "tentScope\022\031\n\021include_selectors\030\001 \003(\t\022\031\n\021"
+  "exclude_selectors\030\002 \003(\t\"\372\001\n\030RagCrawlerDe"
+  "nsityPruning\022\026\n\tis_active\030\001 \001(\010H\000\210\001\001\022\026\n\t"
+  "threshold\030\002 \001(\002H\001\210\001\001\022G\n\016threshold_type\030\003"
+  " \001(\0162*.ondewo.nlu.RagCrawlerPruningThres"
+  "holdTypeH\002\210\001\001\022\037\n\022min_word_threshold\030\004 \001("
+  "\005H\003\210\001\001B\014\n\n_is_activeB\014\n\n_thresholdB\021\n\017_t"
+  "hreshold_typeB\025\n\023_min_word_threshold\"t\n\033"
+  "RagCrawlerMetaDataExtractor\0229\n\004type\030\001 \001("
+  "\0162+.ondewo.nlu.RagCrawlerMetaDataExtract"
+  "orType\022\r\n\005value\030\002 \001(\t\022\013\n\003key\030\003 \001(\t\"\211\002\n\025R"
+  "agCrawlerRetryConfig\022&\n\031page_load_timeou"
+  "t_seconds\030\001 \001(\005H\000\210\001\001\022\037\n\022retry_max_attemp"
+  "ts\030\002 \001(\005H\001\210\001\001\022\"\n\025retry_backoff_seconds\030\003"
+  " \001(\002H\002\210\001\001\022\036\n\021max_stall_seconds\030\004 \001(\005H\003\210\001"
+  "\001B\034\n\032_page_load_timeout_secondsB\025\n\023_retr"
+  "y_max_attemptsB\030\n\026_retry_backoff_seconds"
+  "B\024\n\022_max_stall_seconds\"]\n\026RagCrawlerStat"
+  "usFilter\022\026\n\tis_active\030\001 \001(\010H\000\210\001\001\022\035\n\025acce"
+  "pted_status_codes\030\002 \003(\005B\014\n\n_is_active\"\\\n"
+  "\033RagCrawlerIncrementalConfig\022\021\n\tis_activ"
+  "e\030\001 \001(\010\022\031\n\014max_age_days\030\002 \001(\005H\000\210\001\001B\017\n\r_m"
+  "ax_age_days\"h\n\027RagCrawlerContentResult\022)"
+  "\n\010metadata\030\001 \001(\0132\027.google.protobuf.Struc"
+  "t\022\025\n\010markdown\030\002 \001(\tH\000\210\001\001B\013\n\t_markdown\"\233\001"
+  "\n\027RagCrawlerExecutionInfo\0220\n\017ssl_certifi"
+  "cate\030\001 \001(\0132\027.google.protobuf.Struct\022\024\n\007s"
+  "uccess\030\002 \001(\010H\000\210\001\001\022\032\n\rerror_message\030\003 \001(\t"
+  "H\001\210\001\001B\n\n\010_successB\020\n\016_error_message\"\303\002\n\020"
+  "RagCrawlerResult\022\014\n\004name\030\001 \001(\t\022\024\n\014crawle"
+  "r_name\030\002 \001(\t\022\026\n\016operation_name\030\003 \001(\t\022\022\n\n"
+  "source_url\030\004 \001(\t\022/\n\rfile_resource\030\005 \001(\0132"
+  "\030.ondewo.nlu.FileResource\0225\n\021last_crawle"
+  "d_date\030\006 \001(\0132\032.google.protobuf.Timestamp"
+  "\022;\n\016content_result\030\007 \001(\0132#.ondewo.nlu.Ra"
+  "gCrawlerContentResult\022:\n\026page_last_updat"
+  "ed_date\030\010 \001(\0132\032.google.protobuf.Timestam"
+  "p\"U\n\026RagStartCrawlerRequest\022\016\n\006parent\030\001 "
+  "\001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\024\n\014crawler_na"
+  "me\030\003 \001(\t\"Z\n\027RagGetCrawlerRunRequest\022\016\n\006p"
+  "arent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\030\n\020cr"
+  "awler_run_name\030\003 \001(\t\"\370\001\n\031RagListCrawlerR"
+  "unsRequest\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_c"
+  "ode\030\002 \001(\t\022\024\n\014crawler_name\030\003 \001(\t\022\022\n\npage_"
+  "token\030\004 \001(\t\0224\n\006status\030\005 \001(\0162$.ondewo.nlu"
+  ".OperationMetadata.Status\022\017\n\007orderby\030\006 \001"
+  "(\t\0222\n\014sorting_mode\030\007 \001(\0162\027.ondewo.nlu.So"
+  "rtingModeH\000\210\001\001B\017\n\r_sorting_mode\"b\n\032RagLi"
+  "stCrawlerRunsResponse\022+\n\014crawler_runs\030\001 "
+  "\003(\0132\025.ondewo.nlu.Operation\022\027\n\017next_page_"
+  "token\030\002 \001(\t\"v\n\033RagDeleteCrawlerRunsReque"
+  "st\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001("
+  "\t\022\031\n\021crawler_run_names\030\003 \003(\t\022\025\n\rcrawler_"
+  "names\030\004 \003(\t\"P\n\034RagDeleteCrawlerRunsRespo"
+  "nse\022\025\n\rdeleted_count\030\001 \001(\005\022\031\n\021deleted_ru"
+  "n_names\030\002 \003(\t\"L\n\025RagStopCrawlerRequest\022\016"
+  "\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\014\n"
+  "\004name\030\003 \001(\t\"=\n\026RagStopCrawlerResponse\022\014\n"
+  "\004name\030\001 \001(\t\022\025\n\rerror_message\030\002 \001(\t\"\211\002\n\033R"
+  "agGetCrawlerResultsRequest\022\016\n\006parent\030\001 \001"
+  "(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\026\n\016operation_n"
+  "ame\030\003 \001(\t\022\022\n\npage_token\030\004 \001(\t\022\021\n\turl_que"
+  "ry\030\005 \001(\t\022.\n\nfield_mask\030\006 \001(\0132\032.google.pr"
+  "otobuf.FieldMask\022\017\n\007orderby\030\007 \001(\t\0222\n\014sor"
+  "ting_mode\030\010 \001(\0162\027.ondewo.nlu.SortingMode"
+  "H\000\210\001\001B\017\n\r_sorting_mode\"\202\001\n\034RagGetCrawler"
+  "ResultsResponse\0225\n\017crawler_results\030\001 \003(\013"
+  "2\034.ondewo.nlu.RagCrawlerResult\022\027\n\017next_p"
+  "age_token\030\002 \001(\t\022\022\n\ntotal_size\030\003 \001(\005\"\230\001\n\032"
+  "RagGetCrawlerResultRequest\022\016\n\006parent\030\001 \001"
+  "(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\026\n\016operation_n"
+  "ame\030\003 \001(\t\022\013\n\003url\030\004 \001(\t\022.\n\nfield_mask\030\005 \001"
+  "(\0132\032.google.protobuf.FieldMask\"\230\001\n%RagAd"
+  "dCrawlerResultsToDatasetsRequest\022\016\n\006pare"
+  "nt\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\025\n\rcrawl"
+  "er_names\030\003 \003(\t\022\034\n\024crawler_result_names\030\004"
+  " \003(\t\022\023\n\013dataset_ids\030\005 \003(\t\"\234\001\n*RagRemoveC"
+  "rawlerResultsFromDatasetsRequest\022\016\n\006pare"
+  "nt\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\024\n\014crawl"
+  "er_name\030\003 \001(\t\022\034\n\024crawler_result_names\030\004 "
+  "\003(\t\022\023\n\013dataset_ids\030\005 \003(\t\"\220\002\n$RagGetCrawl"
+  "erAttachedDatasetsRequest\022\016\n\006parent\030\001 \001("
   "\t\022\025\n\rlanguage_code\030\002 \001(\t\022\024\n\014crawler_name"
-  "\030\003 \001(\t\"Z\n\027RagGetCrawlerRunRequest\022\016\n\006par"
-  "ent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\030\n\020craw"
-  "ler_run_name\030\003 \001(\t\"\370\001\n\031RagListCrawlerRun"
-  "sRequest\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_cod"
-  "e\030\002 \001(\t\022\024\n\014crawler_name\030\003 \001(\t\022\022\n\npage_to"
-  "ken\030\004 \001(\t\0224\n\006status\030\005 \001(\0162$.ondewo.nlu.O"
-  "perationMetadata.Status\022\017\n\007orderby\030\006 \001(\t"
-  "\0222\n\014sorting_mode\030\007 \001(\0162\027.ondewo.nlu.Sort"
-  "ingModeH\000\210\001\001B\017\n\r_sorting_mode\"b\n\032RagList"
-  "CrawlerRunsResponse\022+\n\014crawler_runs\030\001 \003("
-  "\0132\025.ondewo.nlu.Operation\022\027\n\017next_page_to"
-  "ken\030\002 \001(\t\"v\n\033RagDeleteCrawlerRunsRequest"
-  "\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022"
-  "\031\n\021crawler_run_names\030\003 \003(\t\022\025\n\rcrawler_na"
-  "mes\030\004 \003(\t\"P\n\034RagDeleteCrawlerRunsRespons"
-  "e\022\025\n\rdeleted_count\030\001 \001(\005\022\031\n\021deleted_run_"
-  "names\030\002 \003(\t\"L\n\025RagStopCrawlerRequest\022\016\n\006"
-  "parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\014\n\004n"
-  "ame\030\003 \001(\t\"=\n\026RagStopCrawlerResponse\022\014\n\004n"
-  "ame\030\001 \001(\t\022\025\n\rerror_message\030\002 \001(\t\"\211\002\n\033Rag"
-  "GetCrawlerResultsRequest\022\016\n\006parent\030\001 \001(\t"
-  "\022\025\n\rlanguage_code\030\002 \001(\t\022\026\n\016operation_nam"
-  "e\030\003 \001(\t\022\022\n\npage_token\030\004 \001(\t\022\021\n\turl_query"
-  "\030\005 \001(\t\022.\n\nfield_mask\030\006 \001(\0132\032.google.prot"
-  "obuf.FieldMask\022\017\n\007orderby\030\007 \001(\t\0222\n\014sorti"
-  "ng_mode\030\010 \001(\0162\027.ondewo.nlu.SortingModeH\000"
-  "\210\001\001B\017\n\r_sorting_mode\"\202\001\n\034RagGetCrawlerRe"
-  "sultsResponse\0225\n\017crawler_results\030\001 \003(\0132\034"
-  ".ondewo.nlu.RagCrawlerResult\022\027\n\017next_pag"
-  "e_token\030\002 \001(\t\022\022\n\ntotal_size\030\003 \001(\005\"\230\001\n\032Ra"
-  "gGetCrawlerResultRequest\022\016\n\006parent\030\001 \001(\t"
-  "\022\025\n\rlanguage_code\030\002 \001(\t\022\026\n\016operation_nam"
-  "e\030\003 \001(\t\022\013\n\003url\030\004 \001(\t\022.\n\nfield_mask\030\005 \001(\013"
-  "2\032.google.protobuf.FieldMask\"\230\001\n%RagAddC"
-  "rawlerResultsToDatasetsRequest\022\016\n\006parent"
-  "\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\025\n\rcrawler"
-  "_names\030\003 \003(\t\022\034\n\024crawler_result_names\030\004 \003"
-  "(\t\022\023\n\013dataset_ids\030\005 \003(\t\"\234\001\n*RagRemoveCra"
-  "wlerResultsFromDatasetsRequest\022\016\n\006parent"
-  "\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\024\n\014crawler"
-  "_name\030\003 \001(\t\022\034\n\024crawler_result_names\030\004 \003("
-  "\t\022\023\n\013dataset_ids\030\005 \003(\t\"\220\002\n$RagGetCrawler"
-  "AttachedDatasetsRequest\022\016\n\006parent\030\001 \001(\t\022"
-  "\025\n\rlanguage_code\030\002 \001(\t\022\024\n\014crawler_name\030\003"
-  " \001(\t\022\021\n\tpage_size\030\004 \001(\005\022\022\n\npage_token\030\005 "
-  "\001(\t\022.\n\nfield_mask\030\006 \001(\0132\032.google.protobu"
-  "f.FieldMask\022\017\n\007orderby\030\007 \001(\t\0222\n\014sorting_"
-  "mode\030\010 \001(\0162\027.ondewo.nlu.SortingModeH\000\210\001\001"
-  "B\017\n\r_sorting_mode\"j\n%RagGetCrawlerAttach"
-  "edDatasetsResponse\022(\n\010datasets\030\001 \003(\0132\026.o"
-  "ndewo.nlu.RagDataset\022\027\n\017next_page_token\030"
-  "\002 \001(\t\"\336\003\n\033RagGetCrawlerRunLogsRequest\022\016\n"
-  "\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\026\n\016"
-  "operation_name\030\003 \001(\t\022\022\n\npage_token\030\004 \001(\t"
-  "\022\021\n\tpage_size\030\005 \001(\005\022.\n\rlevel_filters\030\006 \003"
-  "(\0162\027.ondewo.nlu.LogSeverity\022\024\n\014phase_fil"
-  "ter\030\007 \001(\t\022\024\n\014search_query\030\010 \001(\t\022.\n\nstart"
-  "_time\030\t \001(\0132\032.google.protobuf.Timestamp\022"
-  ",\n\010end_time\030\n \001(\0132\032.google.protobuf.Time"
-  "stamp\022\031\n\021source_url_filter\030\013 \001(\t\022\017\n\007orde"
-  "rby\030\014 \001(\t\0222\n\014sorting_mode\030\r \001(\0162\027.ondewo"
-  ".nlu.SortingModeH\000\210\001\001\022.\n\nfield_mask\030\016 \001("
-  "\0132\032.google.protobuf.FieldMaskB\017\n\r_sortin"
-  "g_mode\"\335\001\n\034RagGetCrawlerRunLogsResponse\022"
-  "\026\n\016operation_name\030\001 \001(\t\022\024\n\014crawler_name\030"
-  "\002 \001(\t\0224\n\006status\030\003 \001(\0162$.ondewo.nlu.Opera"
-  "tionMetadata.Status\022%\n\007entries\030\004 \003(\0132\024.o"
-  "ndewo.nlu.LogEntry\022\027\n\017next_page_token\030\005 "
-  "\001(\t\022\031\n\021total_log_entries\030\006 \001(\005*\203\003\n\016RagCh"
-  "unkMethod\022 \n\034RAG_CHUNK_METHOD_UNSPECIFIE"
-  "D\020\000\022\032\n\026RAG_CHUNK_METHOD_NAIVE\020\001\022\031\n\025RAG_C"
-  "HUNK_METHOD_BOOK\020\002\022\032\n\026RAG_CHUNK_METHOD_E"
-  "MAIL\020\003\022\031\n\025RAG_CHUNK_METHOD_LAWS\020\004\022\033\n\027RAG"
-  "_CHUNK_METHOD_MANUAL\020\005\022\030\n\024RAG_CHUNK_METH"
-  "OD_ONE\020\006\022\032\n\026RAG_CHUNK_METHOD_PAPER\020\007\022\034\n\030"
-  "RAG_CHUNK_METHOD_PICTURE\020\010\022!\n\035RAG_CHUNK_"
-  "METHOD_PRESENTATION\020\t\022\027\n\023RAG_CHUNK_METHO"
-  "D_QA\020\n\022\032\n\026RAG_CHUNK_METHOD_TABLE\020\013\022\030\n\024RA"
-  "G_CHUNK_METHOD_TAG\020\014*{\n\021RagGraphRagMetho"
-  "d\022$\n RAG_GRAPH_RAG_METHOD_UNSPECIFIED\020\000\022"
-  "\036\n\032RAG_GRAPH_RAG_METHOD_LIGHT\020\001\022 \n\034RAG_G"
-  "RAPH_RAG_METHOD_GENERAL\020\002*\377\001\n\017RagDocumen"
-  "tType\022!\n\035RAG_DOCUMENT_TYPE_UNSPECIFIED\020\000"
-  "\022\031\n\025RAG_DOCUMENT_TYPE_PDF\020\001\022\031\n\025RAG_DOCUM"
-  "ENT_TYPE_DOC\020\002\022\034\n\030RAG_DOCUMENT_TYPE_VISU"
-  "AL\020\003\022\033\n\027RAG_DOCUMENT_TYPE_AURAL\020\004\022\035\n\031RAG"
-  "_DOCUMENT_TYPE_VIRTUAL\020\005\022\034\n\030RAG_DOCUMENT"
-  "_TYPE_FOLDER\020\006\022\033\n\027RAG_DOCUMENT_TYPE_OTHE"
-  "R\020\007*\326\001\n\021RagDocumentStatus\022#\n\037RAG_DOCUMEN"
-  "T_STATUS_UNSPECIFIED\020\000\022\037\n\033RAG_DOCUMENT_S"
-  "TATUS_UNSTART\020\001\022\037\n\033RAG_DOCUMENT_STATUS_R"
-  "UNNING\020\002\022\036\n\032RAG_DOCUMENT_STATUS_CANCEL\020\003"
-  "\022\034\n\030RAG_DOCUMENT_STATUS_DONE\020\004\022\034\n\030RAG_DO"
-  "CUMENT_STATUS_FAIL\020\005*J\n\010RagLogic\022\031\n\025RAG_"
-  "LOGIC_UNSPECIFIED\020\000\022\021\n\rRAG_LOGIC_AND\020\001\022\020"
-  "\n\014RAG_LOGIC_OR\020\002*\257\004\n\025RagComparisonOperat"
-  "or\022\'\n#RAG_COMPARISON_OPERATOR_UNSPECIFIE"
-  "D\020\000\022$\n RAG_COMPARISON_OPERATOR_CONTAINS\020"
-  "\001\022(\n$RAG_COMPARISON_OPERATOR_NOT_CONTAIN"
-  "S\020\002\022\036\n\032RAG_COMPARISON_OPERATOR_IN\020\003\022\"\n\036R"
-  "AG_COMPARISON_OPERATOR_NOT_IN\020\004\022&\n\"RAG_C"
-  "OMPARISON_OPERATOR_START_WITH\020\005\022$\n RAG_C"
-  "OMPARISON_OPERATOR_END_WITH\020\006\022!\n\035RAG_COM"
-  "PARISON_OPERATOR_EMPTY\020\007\022%\n!RAG_COMPARIS"
-  "ON_OPERATOR_NOT_EMPTY\020\010\022\036\n\032RAG_COMPARISO"
-  "N_OPERATOR_EQ\020\t\022\037\n\033RAG_COMPARISON_OPERAT"
-  "OR_NEQ\020\n\022\036\n\032RAG_COMPARISON_OPERATOR_GT\020\013"
-  "\022\036\n\032RAG_COMPARISON_OPERATOR_LT\020\014\022\037\n\033RAG_"
-  "COMPARISON_OPERATOR_GEQ\020\r\022\037\n\033RAG_COMPARI"
-  "SON_OPERATOR_LEQ\020\016*\263\001\n\026RagCrawlerSelecto"
-  "rType\022)\n%RAG_CRAWLER_SELECTOR_TYPE_UNSPE"
-  "CIFIED\020\000\022 \n\034RAG_CRAWLER_SELECTOR_TYPE_ID"
-  "\020\001\022\'\n#RAG_CRAWLER_SELECTOR_TYPE_CSS_CLAS"
-  "S\020\002\022#\n\037RAG_CRAWLER_SELECTOR_TYPE_XPATH\020\003"
-  "*\330\001\n%RagCrawlerAuthenticationExecutionTy"
-  "pe\0229\n5RAG_CRAWLER_AUTHENTICATION_EXECUTI"
-  "ON_TYPE_UNSPECIFIED\020\000\0229\n5RAG_CRAWLER_AUT"
-  "HENTICATION_EXECUTION_TYPE_SERVER_SIDE\020\001"
-  "\0229\n5RAG_CRAWLER_AUTHENTICATION_EXECUTION"
-  "_TYPE_CLIENT_SIDE\020\002*\262\001\n\036RagCrawlerPrunin"
-  "gThresholdType\0222\n.RAG_CRAWLER_PRUNING_TH"
-  "RESHOLD_TYPE_UNSPECIFIED\020\000\022,\n(RAG_CRAWLE"
-  "R_PRUNING_THRESHOLD_TYPE_FIXED\020\001\022.\n*RAG_"
-  "CRAWLER_PRUNING_THRESHOLD_TYPE_DYNAMIC\020\002"
-  "*\343\002\n\037RagCrawlerMetaDataExtractorType\0224\n0"
-  "RAG_CRAWLER_META_DATA_EXTRACTOR_TPYE_UNS"
-  "PECIFIED\020\000\022.\n*RAG_CRAWLER_META_DATA_EXTR"
-  "ACTOR_TYPE_REGEX\020\001\0224\n0RAG_CRAWLER_META_D"
-  "ATA_EXTRACTOR_TYPE_FIXED_VALUE\020\002\0225\n1RAG_"
-  "CRAWLER_META_DATA_EXTRACTOR_TYPE_CSS_SEL"
-  "ECTOR\020\003\0227\n3RAG_CRAWLER_META_DATA_EXTRACT"
-  "OR_TYPE_XPATH_SELECTOR\020\004\0224\n0RAG_CRAWLER_"
-  "META_DATA_EXTRACTOR_TYPE_ID_SELECTOR\020\005*\270"
-  "\001\n\027RagCrawlerCrawlStrategy\022*\n&RAG_CRAWLE"
-  "R_CRAWL_STRATEGY_UNSPECIFIED\020\000\022\"\n\036RAG_CR"
-  "AWLER_CRAWL_STRATEGY_BFS\020\001\022\"\n\036RAG_CRAWLE"
-  "R_CRAWL_STRATEGY_DFS\020\002\022)\n%RAG_CRAWLER_CR"
-  "AWL_STRATEGY_BEST_FIRST\020\0032\357\024\n\004Rags\022O\n\020Ra"
-  "gCreateDataset\022#.ondewo.nlu.RagCreateDat"
-  "asetRequest\032\026.ondewo.nlu.RagDataset\022O\n\020R"
-  "agUpdateDataset\022#.ondewo.nlu.RagUpdateDa"
-  "tasetRequest\032\026.ondewo.nlu.RagDataset\022P\n\021"
-  "RagDeleteDatasets\022\034.ondewo.nlu.RagDelete"
-  "Request\032\035.ondewo.nlu.RagPartialSuccess\022Q"
-  "\n\017RagListDatasets\022\".ondewo.nlu.RagListDa"
-  "tasetsRequest\032\032.ondewo.nlu.RagDatasetLis"
-  "t\022T\n\021RagUploadDocument\022$.ondewo.nlu.RagU"
-  "ploadDocumentRequest\032\027.ondewo.nlu.RagDoc"
-  "ument(\001\022R\n\021RagUpdateDocument\022$.ondewo.nl"
-  "u.RagUpdateDocumentRequest\032\027.ondewo.nlu."
-  "RagDocument\022Y\n\023RagDownloadDocument\022&.ond"
-  "ewo.nlu.RagDownloadDocumentRequest\032\030.ond"
-  "ewo.nlu.RagFileChunk0\001\022T\n\020RagListDocumen"
-  "ts\022#.ondewo.nlu.RagListDocumentsRequest\032"
-  "\033.ondewo.nlu.RagDocumentList\022Z\n\022RagDelet"
-  "eDocuments\022%.ondewo.nlu.RagDeleteDocumen"
-  "tsRequest\032\035.ondewo.nlu.RagPartialSuccess"
-  "\022Q\n\014RagRetrieval\022\037.ondewo.nlu.RagRetriev"
-  "alRequest\032 .ondewo.nlu.RagRetrievalRespo"
-  "nse\022U\n\021RagParseDocuments\022!.ondewo.nlu.Ra"
-  "gDocumentIdsRequest\032\035.ondewo.nlu.RagPart"
-  "ialSuccess\022R\n\016RagStopParsing\022!.ondewo.nl"
-  "u.RagDocumentIdsRequest\032\035.ondewo.nlu.Rag"
-  "PartialSuccess\022O\n\020RagCreateCrawler\022#.ond"
-  "ewo.nlu.RagCreateCrawlerRequest\032\026.ondewo"
-  ".nlu.RagCrawler\022I\n\rRagGetCrawler\022 .ondew"
-  "o.nlu.RagGetCrawlerRequest\032\026.ondewo.nlu."
-  "RagCrawler\022Z\n\017RagListCrawlers\022\".ondewo.n"
-  "lu.RagListCrawlersRequest\032#.ondewo.nlu.R"
-  "agListCrawlersResponse\022O\n\020RagUpdateCrawl"
-  "er\022#.ondewo.nlu.RagUpdateCrawlerRequest\032"
-  "\026.ondewo.nlu.RagCrawler\022]\n\020RagDeleteCraw"
-  "ler\022#.ondewo.nlu.RagDeleteCrawlerRequest"
-  "\032$.ondewo.nlu.RagDeleteCrawlerResponse\022L"
-  "\n\017RagStartCrawler\022\".ondewo.nlu.RagStartC"
-  "rawlerRequest\032\025.ondewo.nlu.Operation\022W\n\016"
-  "RagStopCrawler\022!.ondewo.nlu.RagStopCrawl"
-  "erRequest\032\".ondewo.nlu.RagStopCrawlerRes"
-  "ponse\022N\n\020RagGetCrawlerRun\022#.ondewo.nlu.R"
-  "agGetCrawlerRunRequest\032\025.ondewo.nlu.Oper"
-  "ation\022c\n\022RagListCrawlerRuns\022%.ondewo.nlu"
-  ".RagListCrawlerRunsRequest\032&.ondewo.nlu."
-  "RagListCrawlerRunsResponse\022i\n\024RagDeleteC"
-  "rawlerRuns\022\'.ondewo.nlu.RagDeleteCrawler"
-  "RunsRequest\032(.ondewo.nlu.RagDeleteCrawle"
-  "rRunsResponse\022[\n\023RagGetCrawlerResult\022&.o"
-  "ndewo.nlu.RagGetCrawlerResultRequest\032\034.o"
-  "ndewo.nlu.RagCrawlerResult\022i\n\024RagGetCraw"
-  "lerResults\022\'.ondewo.nlu.RagGetCrawlerRes"
-  "ultsRequest\032(.ondewo.nlu.RagGetCrawlerRe"
-  "sultsResponse\022j\n\036RagAddCrawlerResultsToD"
-  "atasets\0221.ondewo.nlu.RagAddCrawlerResult"
-  "sToDatasetsRequest\032\025.ondewo.nlu.Operatio"
-  "n\022t\n#RagRemoveCrawlerResultsFromDatasets"
-  "\0226.ondewo.nlu.RagRemoveCrawlerResultsFro"
-  "mDatasetsRequest\032\025.ondewo.nlu.Operation\022"
-  "\204\001\n\035RagGetCrawlerAttachedDatasets\0220.onde"
-  "wo.nlu.RagGetCrawlerAttachedDatasetsRequ"
-  "est\0321.ondewo.nlu.RagGetCrawlerAttachedDa"
-  "tasetsResponse\022`\n\021RagDeleteCrawlers\022$.on"
-  "dewo.nlu.RagDeleteCrawlersRequest\032%.onde"
-  "wo.nlu.RagDeleteCrawlersResponse\022i\n\024RagG"
-  "etCrawlerRunLogs\022\'.ondewo.nlu.RagGetCraw"
-  "lerRunLogsRequest\032(.ondewo.nlu.RagGetCra"
-  "wlerRunLogsResponseb\006proto3"
+  "\030\003 \001(\t\022\021\n\tpage_size\030\004 \001(\005\022\022\n\npage_token\030"
+  "\005 \001(\t\022.\n\nfield_mask\030\006 \001(\0132\032.google.proto"
+  "buf.FieldMask\022\017\n\007orderby\030\007 \001(\t\0222\n\014sortin"
+  "g_mode\030\010 \001(\0162\027.ondewo.nlu.SortingModeH\000\210"
+  "\001\001B\017\n\r_sorting_mode\"j\n%RagGetCrawlerAtta"
+  "chedDatasetsResponse\022(\n\010datasets\030\001 \003(\0132\026"
+  ".ondewo.nlu.RagDataset\022\027\n\017next_page_toke"
+  "n\030\002 \001(\t\"\336\003\n\033RagGetCrawlerRunLogsRequest\022"
+  "\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\026"
+  "\n\016operation_name\030\003 \001(\t\022\022\n\npage_token\030\004 \001"
+  "(\t\022\021\n\tpage_size\030\005 \001(\005\022.\n\rlevel_filters\030\006"
+  " \003(\0162\027.ondewo.nlu.LogSeverity\022\024\n\014phase_f"
+  "ilter\030\007 \001(\t\022\024\n\014search_query\030\010 \001(\t\022.\n\nsta"
+  "rt_time\030\t \001(\0132\032.google.protobuf.Timestam"
+  "p\022,\n\010end_time\030\n \001(\0132\032.google.protobuf.Ti"
+  "mestamp\022\031\n\021source_url_filter\030\013 \001(\t\022\017\n\007or"
+  "derby\030\014 \001(\t\0222\n\014sorting_mode\030\r \001(\0162\027.onde"
+  "wo.nlu.SortingModeH\000\210\001\001\022.\n\nfield_mask\030\016 "
+  "\001(\0132\032.google.protobuf.FieldMaskB\017\n\r_sort"
+  "ing_mode\"\335\001\n\034RagGetCrawlerRunLogsRespons"
+  "e\022\026\n\016operation_name\030\001 \001(\t\022\024\n\014crawler_nam"
+  "e\030\002 \001(\t\0224\n\006status\030\003 \001(\0162$.ondewo.nlu.Ope"
+  "rationMetadata.Status\022%\n\007entries\030\004 \003(\0132\024"
+  ".ondewo.nlu.LogEntry\022\027\n\017next_page_token\030"
+  "\005 \001(\t\022\031\n\021total_log_entries\030\006 \001(\005*\203\003\n\016Rag"
+  "ChunkMethod\022 \n\034RAG_CHUNK_METHOD_UNSPECIF"
+  "IED\020\000\022\032\n\026RAG_CHUNK_METHOD_NAIVE\020\001\022\031\n\025RAG"
+  "_CHUNK_METHOD_BOOK\020\002\022\032\n\026RAG_CHUNK_METHOD"
+  "_EMAIL\020\003\022\031\n\025RAG_CHUNK_METHOD_LAWS\020\004\022\033\n\027R"
+  "AG_CHUNK_METHOD_MANUAL\020\005\022\030\n\024RAG_CHUNK_ME"
+  "THOD_ONE\020\006\022\032\n\026RAG_CHUNK_METHOD_PAPER\020\007\022\034"
+  "\n\030RAG_CHUNK_METHOD_PICTURE\020\010\022!\n\035RAG_CHUN"
+  "K_METHOD_PRESENTATION\020\t\022\027\n\023RAG_CHUNK_MET"
+  "HOD_QA\020\n\022\032\n\026RAG_CHUNK_METHOD_TABLE\020\013\022\030\n\024"
+  "RAG_CHUNK_METHOD_TAG\020\014*{\n\021RagGraphRagMet"
+  "hod\022$\n RAG_GRAPH_RAG_METHOD_UNSPECIFIED\020"
+  "\000\022\036\n\032RAG_GRAPH_RAG_METHOD_LIGHT\020\001\022 \n\034RAG"
+  "_GRAPH_RAG_METHOD_GENERAL\020\002*\377\001\n\017RagDocum"
+  "entType\022!\n\035RAG_DOCUMENT_TYPE_UNSPECIFIED"
+  "\020\000\022\031\n\025RAG_DOCUMENT_TYPE_PDF\020\001\022\031\n\025RAG_DOC"
+  "UMENT_TYPE_DOC\020\002\022\034\n\030RAG_DOCUMENT_TYPE_VI"
+  "SUAL\020\003\022\033\n\027RAG_DOCUMENT_TYPE_AURAL\020\004\022\035\n\031R"
+  "AG_DOCUMENT_TYPE_VIRTUAL\020\005\022\034\n\030RAG_DOCUME"
+  "NT_TYPE_FOLDER\020\006\022\033\n\027RAG_DOCUMENT_TYPE_OT"
+  "HER\020\007*\326\001\n\021RagDocumentStatus\022#\n\037RAG_DOCUM"
+  "ENT_STATUS_UNSPECIFIED\020\000\022\037\n\033RAG_DOCUMENT"
+  "_STATUS_UNSTART\020\001\022\037\n\033RAG_DOCUMENT_STATUS"
+  "_RUNNING\020\002\022\036\n\032RAG_DOCUMENT_STATUS_CANCEL"
+  "\020\003\022\034\n\030RAG_DOCUMENT_STATUS_DONE\020\004\022\034\n\030RAG_"
+  "DOCUMENT_STATUS_FAIL\020\005*J\n\010RagLogic\022\031\n\025RA"
+  "G_LOGIC_UNSPECIFIED\020\000\022\021\n\rRAG_LOGIC_AND\020\001"
+  "\022\020\n\014RAG_LOGIC_OR\020\002*\257\004\n\025RagComparisonOper"
+  "ator\022\'\n#RAG_COMPARISON_OPERATOR_UNSPECIF"
+  "IED\020\000\022$\n RAG_COMPARISON_OPERATOR_CONTAIN"
+  "S\020\001\022(\n$RAG_COMPARISON_OPERATOR_NOT_CONTA"
+  "INS\020\002\022\036\n\032RAG_COMPARISON_OPERATOR_IN\020\003\022\"\n"
+  "\036RAG_COMPARISON_OPERATOR_NOT_IN\020\004\022&\n\"RAG"
+  "_COMPARISON_OPERATOR_START_WITH\020\005\022$\n RAG"
+  "_COMPARISON_OPERATOR_END_WITH\020\006\022!\n\035RAG_C"
+  "OMPARISON_OPERATOR_EMPTY\020\007\022%\n!RAG_COMPAR"
+  "ISON_OPERATOR_NOT_EMPTY\020\010\022\036\n\032RAG_COMPARI"
+  "SON_OPERATOR_EQ\020\t\022\037\n\033RAG_COMPARISON_OPER"
+  "ATOR_NEQ\020\n\022\036\n\032RAG_COMPARISON_OPERATOR_GT"
+  "\020\013\022\036\n\032RAG_COMPARISON_OPERATOR_LT\020\014\022\037\n\033RA"
+  "G_COMPARISON_OPERATOR_GEQ\020\r\022\037\n\033RAG_COMPA"
+  "RISON_OPERATOR_LEQ\020\016*\263\001\n\026RagCrawlerSelec"
+  "torType\022)\n%RAG_CRAWLER_SELECTOR_TYPE_UNS"
+  "PECIFIED\020\000\022 \n\034RAG_CRAWLER_SELECTOR_TYPE_"
+  "ID\020\001\022\'\n#RAG_CRAWLER_SELECTOR_TYPE_CSS_CL"
+  "ASS\020\002\022#\n\037RAG_CRAWLER_SELECTOR_TYPE_XPATH"
+  "\020\003*\330\001\n%RagCrawlerAuthenticationExecution"
+  "Type\0229\n5RAG_CRAWLER_AUTHENTICATION_EXECU"
+  "TION_TYPE_UNSPECIFIED\020\000\0229\n5RAG_CRAWLER_A"
+  "UTHENTICATION_EXECUTION_TYPE_SERVER_SIDE"
+  "\020\001\0229\n5RAG_CRAWLER_AUTHENTICATION_EXECUTI"
+  "ON_TYPE_CLIENT_SIDE\020\002*\262\001\n\036RagCrawlerPrun"
+  "ingThresholdType\0222\n.RAG_CRAWLER_PRUNING_"
+  "THRESHOLD_TYPE_UNSPECIFIED\020\000\022,\n(RAG_CRAW"
+  "LER_PRUNING_THRESHOLD_TYPE_FIXED\020\001\022.\n*RA"
+  "G_CRAWLER_PRUNING_THRESHOLD_TYPE_DYNAMIC"
+  "\020\002*\343\002\n\037RagCrawlerMetaDataExtractorType\0224"
+  "\n0RAG_CRAWLER_META_DATA_EXTRACTOR_TPYE_U"
+  "NSPECIFIED\020\000\022.\n*RAG_CRAWLER_META_DATA_EX"
+  "TRACTOR_TYPE_REGEX\020\001\0224\n0RAG_CRAWLER_META"
+  "_DATA_EXTRACTOR_TYPE_FIXED_VALUE\020\002\0225\n1RA"
+  "G_CRAWLER_META_DATA_EXTRACTOR_TYPE_CSS_S"
+  "ELECTOR\020\003\0227\n3RAG_CRAWLER_META_DATA_EXTRA"
+  "CTOR_TYPE_XPATH_SELECTOR\020\004\0224\n0RAG_CRAWLE"
+  "R_META_DATA_EXTRACTOR_TYPE_ID_SELECTOR\020\005"
+  "*\270\001\n\027RagCrawlerCrawlStrategy\022*\n&RAG_CRAW"
+  "LER_CRAWL_STRATEGY_UNSPECIFIED\020\000\022\"\n\036RAG_"
+  "CRAWLER_CRAWL_STRATEGY_BFS\020\001\022\"\n\036RAG_CRAW"
+  "LER_CRAWL_STRATEGY_DFS\020\002\022)\n%RAG_CRAWLER_"
+  "CRAWL_STRATEGY_BEST_FIRST\020\0032\357\024\n\004Rags\022O\n\020"
+  "RagCreateDataset\022#.ondewo.nlu.RagCreateD"
+  "atasetRequest\032\026.ondewo.nlu.RagDataset\022O\n"
+  "\020RagUpdateDataset\022#.ondewo.nlu.RagUpdate"
+  "DatasetRequest\032\026.ondewo.nlu.RagDataset\022P"
+  "\n\021RagDeleteDatasets\022\034.ondewo.nlu.RagDele"
+  "teRequest\032\035.ondewo.nlu.RagPartialSuccess"
+  "\022Q\n\017RagListDatasets\022\".ondewo.nlu.RagList"
+  "DatasetsRequest\032\032.ondewo.nlu.RagDatasetL"
+  "ist\022T\n\021RagUploadDocument\022$.ondewo.nlu.Ra"
+  "gUploadDocumentRequest\032\027.ondewo.nlu.RagD"
+  "ocument(\001\022R\n\021RagUpdateDocument\022$.ondewo."
+  "nlu.RagUpdateDocumentRequest\032\027.ondewo.nl"
+  "u.RagDocument\022Y\n\023RagDownloadDocument\022&.o"
+  "ndewo.nlu.RagDownloadDocumentRequest\032\030.o"
+  "ndewo.nlu.RagFileChunk0\001\022T\n\020RagListDocum"
+  "ents\022#.ondewo.nlu.RagListDocumentsReques"
+  "t\032\033.ondewo.nlu.RagDocumentList\022Z\n\022RagDel"
+  "eteDocuments\022%.ondewo.nlu.RagDeleteDocum"
+  "entsRequest\032\035.ondewo.nlu.RagPartialSucce"
+  "ss\022Q\n\014RagRetrieval\022\037.ondewo.nlu.RagRetri"
+  "evalRequest\032 .ondewo.nlu.RagRetrievalRes"
+  "ponse\022U\n\021RagParseDocuments\022!.ondewo.nlu."
+  "RagDocumentIdsRequest\032\035.ondewo.nlu.RagPa"
+  "rtialSuccess\022R\n\016RagStopParsing\022!.ondewo."
+  "nlu.RagDocumentIdsRequest\032\035.ondewo.nlu.R"
+  "agPartialSuccess\022O\n\020RagCreateCrawler\022#.o"
+  "ndewo.nlu.RagCreateCrawlerRequest\032\026.onde"
+  "wo.nlu.RagCrawler\022I\n\rRagGetCrawler\022 .ond"
+  "ewo.nlu.RagGetCrawlerRequest\032\026.ondewo.nl"
+  "u.RagCrawler\022Z\n\017RagListCrawlers\022\".ondewo"
+  ".nlu.RagListCrawlersRequest\032#.ondewo.nlu"
+  ".RagListCrawlersResponse\022O\n\020RagUpdateCra"
+  "wler\022#.ondewo.nlu.RagUpdateCrawlerReques"
+  "t\032\026.ondewo.nlu.RagCrawler\022]\n\020RagDeleteCr"
+  "awler\022#.ondewo.nlu.RagDeleteCrawlerReque"
+  "st\032$.ondewo.nlu.RagDeleteCrawlerResponse"
+  "\022L\n\017RagStartCrawler\022\".ondewo.nlu.RagStar"
+  "tCrawlerRequest\032\025.ondewo.nlu.Operation\022W"
+  "\n\016RagStopCrawler\022!.ondewo.nlu.RagStopCra"
+  "wlerRequest\032\".ondewo.nlu.RagStopCrawlerR"
+  "esponse\022N\n\020RagGetCrawlerRun\022#.ondewo.nlu"
+  ".RagGetCrawlerRunRequest\032\025.ondewo.nlu.Op"
+  "eration\022c\n\022RagListCrawlerRuns\022%.ondewo.n"
+  "lu.RagListCrawlerRunsRequest\032&.ondewo.nl"
+  "u.RagListCrawlerRunsResponse\022i\n\024RagDelet"
+  "eCrawlerRuns\022\'.ondewo.nlu.RagDeleteCrawl"
+  "erRunsRequest\032(.ondewo.nlu.RagDeleteCraw"
+  "lerRunsResponse\022[\n\023RagGetCrawlerResult\022&"
+  ".ondewo.nlu.RagGetCrawlerResultRequest\032\034"
+  ".ondewo.nlu.RagCrawlerResult\022i\n\024RagGetCr"
+  "awlerResults\022\'.ondewo.nlu.RagGetCrawlerR"
+  "esultsRequest\032(.ondewo.nlu.RagGetCrawler"
+  "ResultsResponse\022j\n\036RagAddCrawlerResultsT"
+  "oDatasets\0221.ondewo.nlu.RagAddCrawlerResu"
+  "ltsToDatasetsRequest\032\025.ondewo.nlu.Operat"
+  "ion\022t\n#RagRemoveCrawlerResultsFromDatase"
+  "ts\0226.ondewo.nlu.RagRemoveCrawlerResultsF"
+  "romDatasetsRequest\032\025.ondewo.nlu.Operatio"
+  "n\022\204\001\n\035RagGetCrawlerAttachedDatasets\0220.on"
+  "dewo.nlu.RagGetCrawlerAttachedDatasetsRe"
+  "quest\0321.ondewo.nlu.RagGetCrawlerAttached"
+  "DatasetsResponse\022`\n\021RagDeleteCrawlers\022$."
+  "ondewo.nlu.RagDeleteCrawlersRequest\032%.on"
+  "dewo.nlu.RagDeleteCrawlersResponse\022i\n\024Ra"
+  "gGetCrawlerRunLogs\022\'.ondewo.nlu.RagGetCr"
+  "awlerRunLogsRequest\032(.ondewo.nlu.RagGetC"
+  "rawlerRunLogsResponseb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2frag_2eproto_deps[7] = {
   &::descriptor_table_google_2fprotobuf_2ffield_5fmask_2eproto,
@@ -3110,7 +3120,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2frag_
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fnlu_2frag_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fnlu_2frag_2eproto = {
-    false, false, 20747, descriptor_table_protodef_ondewo_2fnlu_2frag_2eproto,
+    false, false, 20789, descriptor_table_protodef_ondewo_2fnlu_2frag_2eproto,
     "ondewo/nlu/rag.proto",
     &descriptor_table_ondewo_2fnlu_2frag_2eproto_once, descriptor_table_ondewo_2fnlu_2frag_2eproto_deps, 7, 75,
     schemas, file_default_instances, TableStruct_ondewo_2fnlu_2frag_2eproto::offsets,
@@ -22092,11 +22102,15 @@ void RagCrawlerConcurrencyConfig::InternalSwap(RagCrawlerConcurrencyConfig* othe
 
 class RagCrawlerConfig::_Internal {
  public:
+  using HasBits = decltype(std::declval<RagCrawlerConfig>()._impl_._has_bits_);
   static const ::ondewo::nlu::RagCrawlerConcurrencyConfig& concurrency_config(const RagCrawlerConfig* msg);
   static const ::ondewo::nlu::RagCrawlerDeepCrawlerConfig& deep_crawler_config(const RagCrawlerConfig* msg);
   static const ::ondewo::nlu::RagCrawlerResultsConfig& output_config(const RagCrawlerConfig* msg);
   static const ::ondewo::nlu::RagCrawlerStatusFilter& status_filter(const RagCrawlerConfig* msg);
   static const ::ondewo::nlu::RagCrawlerIncrementalConfig& incremental_config(const RagCrawlerConfig* msg);
+  static void set_has_max_pages(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::ondewo::nlu::RagCrawlerConcurrencyConfig&
@@ -22129,12 +22143,14 @@ RagCrawlerConfig::RagCrawlerConfig(const RagCrawlerConfig& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   RagCrawlerConfig* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.concurrency_config_){nullptr}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.concurrency_config_){nullptr}
     , decltype(_impl_.deep_crawler_config_){nullptr}
     , decltype(_impl_.output_config_){nullptr}
     , decltype(_impl_.status_filter_){nullptr}
     , decltype(_impl_.incremental_config_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.max_pages_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_concurrency_config()) {
@@ -22152,6 +22168,7 @@ RagCrawlerConfig::RagCrawlerConfig(const RagCrawlerConfig& from)
   if (from._internal_has_incremental_config()) {
     _this->_impl_.incremental_config_ = new ::ondewo::nlu::RagCrawlerIncrementalConfig(*from._impl_.incremental_config_);
   }
+  _this->_impl_.max_pages_ = from._impl_.max_pages_;
   // @@protoc_insertion_point(copy_constructor:ondewo.nlu.RagCrawlerConfig)
 }
 
@@ -22160,12 +22177,14 @@ inline void RagCrawlerConfig::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.concurrency_config_){nullptr}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.concurrency_config_){nullptr}
     , decltype(_impl_.deep_crawler_config_){nullptr}
     , decltype(_impl_.output_config_){nullptr}
     , decltype(_impl_.status_filter_){nullptr}
     , decltype(_impl_.incremental_config_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.max_pages_){0}
   };
 }
 
@@ -22217,11 +22236,14 @@ void RagCrawlerConfig::Clear() {
     delete _impl_.incremental_config_;
   }
   _impl_.incremental_config_ = nullptr;
+  _impl_.max_pages_ = 0;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* RagCrawlerConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -22266,6 +22288,15 @@ const char* RagCrawlerConfig::_InternalParse(const char* ptr, ::_pbi::ParseConte
         } else
           goto handle_unusual;
         continue;
+      // optional int32 max_pages = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _Internal::set_has_max_pages(&has_bits);
+          _impl_.max_pages_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -22282,6 +22313,7 @@ const char* RagCrawlerConfig::_InternalParse(const char* ptr, ::_pbi::ParseConte
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -22328,6 +22360,12 @@ uint8_t* RagCrawlerConfig::_InternalSerialize(
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(5, _Internal::incremental_config(this),
         _Internal::incremental_config(this).GetCachedSize(), target, stream);
+  }
+
+  // optional int32 max_pages = 6;
+  if (_internal_has_max_pages()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_max_pages(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -22381,6 +22419,12 @@ size_t RagCrawlerConfig::ByteSizeLong() const {
         *_impl_.incremental_config_);
   }
 
+  // optional int32 max_pages = 6;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_max_pages());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -22419,6 +22463,9 @@ void RagCrawlerConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
     _this->_internal_mutable_incremental_config()->::ondewo::nlu::RagCrawlerIncrementalConfig::MergeFrom(
         from._internal_incremental_config());
   }
+  if (from._internal_has_max_pages()) {
+    _this->_internal_set_max_pages(from._internal_max_pages());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -22436,9 +22483,10 @@ bool RagCrawlerConfig::IsInitialized() const {
 void RagCrawlerConfig::InternalSwap(RagCrawlerConfig* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(RagCrawlerConfig, _impl_.incremental_config_)
-      + sizeof(RagCrawlerConfig::_impl_.incremental_config_)
+      PROTOBUF_FIELD_OFFSET(RagCrawlerConfig, _impl_.max_pages_)
+      + sizeof(RagCrawlerConfig::_impl_.max_pages_)
       - PROTOBUF_FIELD_OFFSET(RagCrawlerConfig, _impl_.concurrency_config_)>(
           reinterpret_cast<char*>(&_impl_.concurrency_config_),
           reinterpret_cast<char*>(&other->_impl_.concurrency_config_));
@@ -22583,7 +22631,7 @@ const char* RagCrawlerDeepCrawlerConfig::_InternalParse(const char* ptr, ::_pbi:
         } else
           goto handle_unusual;
         continue;
-      // int32 max_pages = 4;
+      // int32 max_pages = 4 [deprecated = true];
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.max_pages_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
@@ -22657,7 +22705,7 @@ uint8_t* RagCrawlerDeepCrawlerConfig::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_max_depth(), target);
   }
 
-  // int32 max_pages = 4;
+  // int32 max_pages = 4 [deprecated = true];
   if (this->_internal_max_pages() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_max_pages(), target);
@@ -22721,7 +22769,7 @@ size_t RagCrawlerDeepCrawlerConfig::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // int32 max_pages = 4;
+  // int32 max_pages = 4 [deprecated = true];
   if (this->_internal_max_pages() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_max_pages());
   }

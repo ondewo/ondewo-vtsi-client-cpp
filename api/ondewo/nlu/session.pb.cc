@@ -413,6 +413,22 @@ struct LlmCcaiServiceUsageDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LlmCcaiServiceUsageDefaultTypeInternal _LlmCcaiServiceUsage_default_instance_;
+PROTOBUF_CONSTEXPR LlmBaseUrlUsage::LlmBaseUrlUsage(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.model_names_)*/{}
+  , /*decltype(_impl_.base_url_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.llm_token_usage_)*/nullptr
+  , /*decltype(_impl_.call_count_)*/int64_t{0}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct LlmBaseUrlUsageDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LlmBaseUrlUsageDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LlmBaseUrlUsageDefaultTypeInternal() {}
+  union {
+    LlmBaseUrlUsage _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LlmBaseUrlUsageDefaultTypeInternal _LlmBaseUrlUsage_default_instance_;
 PROTOBUF_CONSTEXPR LlmAgentUsage::LlmAgentUsage(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.agent_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -527,6 +543,7 @@ PROTOBUF_CONSTEXPR LlmTelemetryReport::LlmTelemetryReport(
   , /*decltype(_impl_.tools_used_)*/{}
   , /*decltype(_impl_.finish_reason_distribution_)*/{}
   , /*decltype(_impl_.reasoning_effort_distribution_)*/{}
+  , /*decltype(_impl_.base_urls_used_)*/{}
   , /*decltype(_impl_.llm_token_usage_)*/nullptr
   , /*decltype(_impl_.latency_stats_)*/nullptr
   , /*decltype(_impl_.cache_stats_)*/nullptr
@@ -678,6 +695,26 @@ struct LlmTokenUsageUpdateEventDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LlmTokenUsageUpdateEventDefaultTypeInternal _LlmTokenUsageUpdateEvent_default_instance_;
+PROTOBUF_CONSTEXPR LlmAgentNodeEvent::LlmAgentNodeEvent(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.llm_agent_node_event_node_path_)*/{}
+  , /*decltype(_impl_.llm_agent_node_event_node_run_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.llm_agent_node_event_parent_node_run_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.llm_agent_node_event_node_display_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.llm_agent_node_event_error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.timestamp_)*/nullptr
+  , /*decltype(_impl_.llm_agent_node_phase_)*/0
+  , /*decltype(_impl_.llm_agent_node_event_duration_in_s_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct LlmAgentNodeEventDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LlmAgentNodeEventDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LlmAgentNodeEventDefaultTypeInternal() {}
+  union {
+    LlmAgentNodeEvent _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LlmAgentNodeEventDefaultTypeInternal _LlmAgentNodeEvent_default_instance_;
 PROTOBUF_CONSTEXPR ReferencedChunk::ReferencedChunk(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.dataset_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -2338,8 +2375,8 @@ struct GetAudioFileOfSessionRequestDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetAudioFileOfSessionRequestDefaultTypeInternal _GetAudioFileOfSessionRequest_default_instance_;
 }  // namespace nlu
 }  // namespace ondewo
-static ::_pb::Metadata file_level_metadata_ondewo_2fnlu_2fsession_2eproto[132];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[14];
+static ::_pb::Metadata file_level_metadata_ondewo_2fnlu_2fsession_2eproto[134];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[15];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fnlu_2fsession_2eproto = nullptr;
 
 const uint32_t TableStruct_ondewo_2fnlu_2fsession_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -2690,6 +2727,16 @@ const uint32_t TableStruct_ondewo_2fnlu_2fsession_2eproto::offsets[] PROTOBUF_SE
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmCcaiServiceUsage, _impl_.base_url_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmCcaiServiceUsage, _impl_.model_names_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmBaseUrlUsage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmBaseUrlUsage, _impl_.base_url_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmBaseUrlUsage, _impl_.call_count_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmBaseUrlUsage, _impl_.llm_token_usage_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmBaseUrlUsage, _impl_.model_names_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentUsage, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -2783,6 +2830,7 @@ const uint32_t TableStruct_ondewo_2fnlu_2fsession_2eproto::offsets[] PROTOBUF_SE
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmTelemetryReport, _impl_.tool_call_tokens_total_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmTelemetryReport, _impl_.tool_call_duration_seconds_total_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmTelemetryReport, _impl_.safety_stats_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmTelemetryReport, _impl_.base_urls_used_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmSafetyCategoryStat, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2865,6 +2913,20 @@ const uint32_t TableStruct_ondewo_2fnlu_2fsession_2eproto::offsets[] PROTOBUF_SE
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmTokenUsageUpdateEvent, _impl_.llm_call_id_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmTokenUsageUpdateEvent, _impl_.llm_token_usage_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _impl_.llm_agent_node_event_node_run_id_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _impl_.llm_agent_node_event_parent_node_run_id_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _impl_.llm_agent_node_event_node_display_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _impl_.llm_agent_node_event_node_path_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _impl_.llm_agent_node_phase_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _impl_.timestamp_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _impl_.llm_agent_node_event_duration_in_s_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::LlmAgentNodeEvent, _impl_.llm_agent_node_event_error_message_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::ReferencedChunk, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -2924,6 +2986,7 @@ const uint32_t TableStruct_ondewo_2fnlu_2fsession_2eproto::offsets[] PROTOBUF_SE
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::StreamingDetectIntentResponse, _impl_.recognition_result_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::StreamingDetectIntentResponse, _impl_.query_result_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::StreamingDetectIntentResponse, _impl_.webhook_status_),
+  ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
@@ -3987,120 +4050,122 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 301, -1, -1, sizeof(::ondewo::nlu::LlmModelUsage)},
   { 322, -1, -1, sizeof(::ondewo::nlu::LlmProviderUsage)},
   { 334, -1, -1, sizeof(::ondewo::nlu::LlmCcaiServiceUsage)},
-  { 346, -1, -1, sizeof(::ondewo::nlu::LlmAgentUsage)},
-  { 358, -1, -1, sizeof(::ondewo::nlu::LlmToolUsage)},
-  { 374, -1, -1, sizeof(::ondewo::nlu::LlmErrorStat)},
-  { 384, -1, -1, sizeof(::ondewo::nlu::LlmErrorStats)},
-  { 395, -1, -1, sizeof(::ondewo::nlu::LlmFinishReasonStat)},
-  { 404, -1, -1, sizeof(::ondewo::nlu::LlmReasoningEffortStat)},
-  { 414, -1, -1, sizeof(::ondewo::nlu::LlmTelemetryReport)},
-  { 440, -1, -1, sizeof(::ondewo::nlu::LlmSafetyCategoryStat)},
-  { 449, -1, -1, sizeof(::ondewo::nlu::LlmSafetyStats)},
-  { 459, -1, -1, sizeof(::ondewo::nlu::LlmCallStartedEvent)},
-  { 470, -1, -1, sizeof(::ondewo::nlu::LlmCallFinishedEvent)},
-  { 480, -1, -1, sizeof(::ondewo::nlu::LlmToolCallStartedEvent)},
-  { 491, -1, -1, sizeof(::ondewo::nlu::LlmToolCallFinishedEvent)},
-  { 504, -1, -1, sizeof(::ondewo::nlu::LlmThinkingDeltaEvent)},
-  { 513, -1, -1, sizeof(::ondewo::nlu::LlmTokenUsageUpdateEvent)},
-  { 521, -1, -1, sizeof(::ondewo::nlu::ReferencedChunk)},
-  { 536, -1, -1, sizeof(::ondewo::nlu::QueryResult)},
-  { 560, -1, -1, sizeof(::ondewo::nlu::StreamingDetectIntentRequest)},
-  { 571, -1, -1, sizeof(::ondewo::nlu::StreamingDetectIntentResponse)},
-  { 588, -1, -1, sizeof(::ondewo::nlu::StreamingRecognitionResult)},
-  { 598, -1, -1, sizeof(::ondewo::nlu::InputAudioConfig)},
-  { 608, -1, -1, sizeof(::ondewo::nlu::TextInput)},
-  { 616, -1, -1, sizeof(::ondewo::nlu::EventInput)},
-  { 625, -1, -1, sizeof(::ondewo::nlu::Session)},
-  { 638, -1, -1, sizeof(::ondewo::nlu::SessionStep)},
-  { 655, -1, -1, sizeof(::ondewo::nlu::GetSessionStepRequest)},
-  { 663, -1, -1, sizeof(::ondewo::nlu::UpdateSessionStepRequest)},
-  { 672, -1, -1, sizeof(::ondewo::nlu::DeleteSessionStepRequest)},
-  { 679, -1, -1, sizeof(::ondewo::nlu::CreateSessionStepRequest)},
-  { 688, -1, -1, sizeof(::ondewo::nlu::ListSessionsRequest)},
-  { 699, -1, -1, sizeof(::ondewo::nlu::ContextFilter)},
-  { 709, -1, -1, sizeof(::ondewo::nlu::SessionFilter)},
-  { 764, -1, -1, sizeof(::ondewo::nlu::SessionInfo_ContextSteps)},
-  { 771, -1, -1, sizeof(::ondewo::nlu::SessionInfo)},
-  { 810, -1, -1, sizeof(::ondewo::nlu::ListSessionsResponse)},
-  { 818, -1, -1, sizeof(::ondewo::nlu::GetSessionRequest)},
-  { 827, -1, -1, sizeof(::ondewo::nlu::CreateSessionRequest)},
-  { 837, -1, -1, sizeof(::ondewo::nlu::DeleteSessionRequest)},
-  { 844, -1, -1, sizeof(::ondewo::nlu::CreateSessionReviewRequest)},
-  { 854, -1, -1, sizeof(::ondewo::nlu::SessionReview)},
-  { 866, -1, -1, sizeof(::ondewo::nlu::SessionReviewStep)},
-  { 886, -1, -1, sizeof(::ondewo::nlu::DetectedIntent)},
-  { 897, -1, -1, sizeof(::ondewo::nlu::ListSessionLabelsRequest)},
-  { 904, -1, -1, sizeof(::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest)},
-  { 913, -1, -1, sizeof(::ondewo::nlu::ListSessionLabelsResponse)},
-  { 920, -1, -1, sizeof(::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest)},
-  { 929, -1, -1, sizeof(::ondewo::nlu::ListLanguageCodesResponse)},
-  { 936, -1, -1, sizeof(::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest)},
-  { 945, -1, -1, sizeof(::ondewo::nlu::ListMatchedIntentsResponse)},
-  { 952, -1, -1, sizeof(::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest)},
-  { 961, -1, -1, sizeof(::ondewo::nlu::ListMatchedEntityTypesResponse)},
-  { 968, -1, -1, sizeof(::ondewo::nlu::ListUserIdsOfAllSessionsRequest)},
-  { 977, -1, -1, sizeof(::ondewo::nlu::ListUserIdsResponse)},
-  { 984, -1, -1, sizeof(::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest)},
-  { 993, -1, -1, sizeof(::ondewo::nlu::ListIdentifiedUserIdsResponse)},
-  { 1000, -1, -1, sizeof(::ondewo::nlu::ListTagsOfAllSessionsRequest)},
-  { 1009, -1, -1, sizeof(::ondewo::nlu::ListTagsResponse)},
-  { 1016, -1, -1, sizeof(::ondewo::nlu::ListInputContextsOfAllSessionsRequest)},
-  { 1025, -1, -1, sizeof(::ondewo::nlu::ListInputContextsResponse)},
-  { 1032, -1, -1, sizeof(::ondewo::nlu::ListOutputContextsOfAllSessionsRequest)},
-  { 1041, -1, -1, sizeof(::ondewo::nlu::ListOutputContextsResponse)},
-  { 1048, -1, -1, sizeof(::ondewo::nlu::ListPlatformsOfAllSessionsRequest)},
-  { 1057, -1, -1, sizeof(::ondewo::nlu::ListPlatformsResponse)},
-  { 1064, -1, -1, sizeof(::ondewo::nlu::ListAccountIdsOfAllSessionsRequest)},
-  { 1073, -1, -1, sizeof(::ondewo::nlu::ListAccountIdsResponse)},
-  { 1080, -1, -1, sizeof(::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest)},
-  { 1088, -1, -1, sizeof(::ondewo::nlu::ListPropertyIdsResponse)},
-  { 1095, -1, -1, sizeof(::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest)},
-  { 1103, -1, -1, sizeof(::ondewo::nlu::ListDatastreamIdsResponse)},
-  { 1110, -1, -1, sizeof(::ondewo::nlu::ListOriginIdsOfAllSessionsRequest)},
-  { 1119, -1, -1, sizeof(::ondewo::nlu::ListOriginIdsResponse)},
-  { 1126, -1, -1, sizeof(::ondewo::nlu::AddSessionLabelsRequest)},
-  { 1134, -1, -1, sizeof(::ondewo::nlu::DeleteSessionLabelsRequest)},
-  { 1142, -1, -1, sizeof(::ondewo::nlu::AddSessionCommentRequest)},
-  { 1150, -1, -1, sizeof(::ondewo::nlu::DeleteSessionCommentsRequest)},
-  { 1158, -1, -1, sizeof(::ondewo::nlu::UpdateSessionCommentsRequest)},
-  { 1166, 1176, -1, sizeof(::ondewo::nlu::ListSessionCommentsRequest)},
-  { 1180, 1191, -1, sizeof(::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest)},
-  { 1196, -1, -1, sizeof(::ondewo::nlu::ListSessionCommentsResponse)},
-  { 1204, 1229, -1, sizeof(::ondewo::nlu::SessionFeedback)},
-  { 1248, -1, -1, sizeof(::ondewo::nlu::AddSessionFeedbackRequest)},
-  { 1256, -1, -1, sizeof(::ondewo::nlu::AddSessionStepFeedbackRequest)},
-  { 1265, -1, -1, sizeof(::ondewo::nlu::GetSessionFeedbackRequest)},
-  { 1273, -1, -1, sizeof(::ondewo::nlu::UpdateSessionFeedbackRequest)},
-  { 1281, -1, -1, sizeof(::ondewo::nlu::DeleteSessionFeedbackRequest)},
-  { 1288, -1, -1, sizeof(::ondewo::nlu::ListSessionFeedbackRequest)},
-  { 1297, -1, -1, sizeof(::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest)},
-  { 1309, -1, -1, sizeof(::ondewo::nlu::ListSessionFeedbackResponse)},
-  { 1318, 1336, -1, sizeof(::ondewo::nlu::FeedbackFilter)},
-  { 1348, -1, -1, sizeof(::ondewo::nlu::FeedbackBreakdownBucket)},
-  { 1358, -1, -1, sizeof(::ondewo::nlu::FeedbackStatistics)},
-  { 1380, -1, -1, sizeof(::ondewo::nlu::GetFeedbackStatisticsRequest)},
-  { 1391, -1, -1, sizeof(::ondewo::nlu::GetFeedbackStatisticsResponse)},
-  { 1398, -1, -1, sizeof(::ondewo::nlu::FeedbackTimeSeriesBucket)},
-  { 1409, -1, -1, sizeof(::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest)},
-  { 1425, -1, -1, sizeof(::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse)},
-  { 1432, -1, -1, sizeof(::ondewo::nlu::ListSessionReviewsRequest)},
-  { 1441, -1, -1, sizeof(::ondewo::nlu::ListSessionReviewsResponse)},
-  { 1449, -1, -1, sizeof(::ondewo::nlu::GetSessionReviewRequest)},
-  { 1458, -1, -1, sizeof(::ondewo::nlu::GetLatestSessionReviewRequest)},
-  { 1467, -1, -1, sizeof(::ondewo::nlu::FileResource)},
-  { 1478, -1, -1, sizeof(::ondewo::nlu::DocumentFileResource)},
-  { 1491, -1, -1, sizeof(::ondewo::nlu::ImageFileResource)},
-  { 1504, -1, -1, sizeof(::ondewo::nlu::AudioFileResource)},
-  { 1522, -1, -1, sizeof(::ondewo::nlu::VideoFileResource)},
-  { 1538, -1, -1, sizeof(::ondewo::nlu::GetAudioFilesRequest)},
-  { 1550, -1, -1, sizeof(::ondewo::nlu::GetAudioFilesResponse)},
-  { 1559, -1, -1, sizeof(::ondewo::nlu::AddAudioFilesRequest)},
-  { 1569, -1, -1, sizeof(::ondewo::nlu::AddAudioFilesResponse)},
-  { 1577, -1, -1, sizeof(::ondewo::nlu::DeleteAudioFilesRequest)},
-  { 1585, -1, -1, sizeof(::ondewo::nlu::DeleteAudioFilesResponse)},
-  { 1593, -1, -1, sizeof(::ondewo::nlu::ListAudioFilesRequest)},
-  { 1605, -1, -1, sizeof(::ondewo::nlu::ListAudioFilesResponse)},
-  { 1614, -1, -1, sizeof(::ondewo::nlu::GetAudioFileOfSessionRequest)},
+  { 346, -1, -1, sizeof(::ondewo::nlu::LlmBaseUrlUsage)},
+  { 356, -1, -1, sizeof(::ondewo::nlu::LlmAgentUsage)},
+  { 368, -1, -1, sizeof(::ondewo::nlu::LlmToolUsage)},
+  { 384, -1, -1, sizeof(::ondewo::nlu::LlmErrorStat)},
+  { 394, -1, -1, sizeof(::ondewo::nlu::LlmErrorStats)},
+  { 405, -1, -1, sizeof(::ondewo::nlu::LlmFinishReasonStat)},
+  { 414, -1, -1, sizeof(::ondewo::nlu::LlmReasoningEffortStat)},
+  { 424, -1, -1, sizeof(::ondewo::nlu::LlmTelemetryReport)},
+  { 451, -1, -1, sizeof(::ondewo::nlu::LlmSafetyCategoryStat)},
+  { 460, -1, -1, sizeof(::ondewo::nlu::LlmSafetyStats)},
+  { 470, -1, -1, sizeof(::ondewo::nlu::LlmCallStartedEvent)},
+  { 481, -1, -1, sizeof(::ondewo::nlu::LlmCallFinishedEvent)},
+  { 491, -1, -1, sizeof(::ondewo::nlu::LlmToolCallStartedEvent)},
+  { 502, -1, -1, sizeof(::ondewo::nlu::LlmToolCallFinishedEvent)},
+  { 515, -1, -1, sizeof(::ondewo::nlu::LlmThinkingDeltaEvent)},
+  { 524, -1, -1, sizeof(::ondewo::nlu::LlmTokenUsageUpdateEvent)},
+  { 532, -1, -1, sizeof(::ondewo::nlu::LlmAgentNodeEvent)},
+  { 546, -1, -1, sizeof(::ondewo::nlu::ReferencedChunk)},
+  { 561, -1, -1, sizeof(::ondewo::nlu::QueryResult)},
+  { 585, -1, -1, sizeof(::ondewo::nlu::StreamingDetectIntentRequest)},
+  { 596, -1, -1, sizeof(::ondewo::nlu::StreamingDetectIntentResponse)},
+  { 614, -1, -1, sizeof(::ondewo::nlu::StreamingRecognitionResult)},
+  { 624, -1, -1, sizeof(::ondewo::nlu::InputAudioConfig)},
+  { 634, -1, -1, sizeof(::ondewo::nlu::TextInput)},
+  { 642, -1, -1, sizeof(::ondewo::nlu::EventInput)},
+  { 651, -1, -1, sizeof(::ondewo::nlu::Session)},
+  { 664, -1, -1, sizeof(::ondewo::nlu::SessionStep)},
+  { 681, -1, -1, sizeof(::ondewo::nlu::GetSessionStepRequest)},
+  { 689, -1, -1, sizeof(::ondewo::nlu::UpdateSessionStepRequest)},
+  { 698, -1, -1, sizeof(::ondewo::nlu::DeleteSessionStepRequest)},
+  { 705, -1, -1, sizeof(::ondewo::nlu::CreateSessionStepRequest)},
+  { 714, -1, -1, sizeof(::ondewo::nlu::ListSessionsRequest)},
+  { 725, -1, -1, sizeof(::ondewo::nlu::ContextFilter)},
+  { 735, -1, -1, sizeof(::ondewo::nlu::SessionFilter)},
+  { 790, -1, -1, sizeof(::ondewo::nlu::SessionInfo_ContextSteps)},
+  { 797, -1, -1, sizeof(::ondewo::nlu::SessionInfo)},
+  { 836, -1, -1, sizeof(::ondewo::nlu::ListSessionsResponse)},
+  { 844, -1, -1, sizeof(::ondewo::nlu::GetSessionRequest)},
+  { 853, -1, -1, sizeof(::ondewo::nlu::CreateSessionRequest)},
+  { 863, -1, -1, sizeof(::ondewo::nlu::DeleteSessionRequest)},
+  { 870, -1, -1, sizeof(::ondewo::nlu::CreateSessionReviewRequest)},
+  { 880, -1, -1, sizeof(::ondewo::nlu::SessionReview)},
+  { 892, -1, -1, sizeof(::ondewo::nlu::SessionReviewStep)},
+  { 912, -1, -1, sizeof(::ondewo::nlu::DetectedIntent)},
+  { 923, -1, -1, sizeof(::ondewo::nlu::ListSessionLabelsRequest)},
+  { 930, -1, -1, sizeof(::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest)},
+  { 939, -1, -1, sizeof(::ondewo::nlu::ListSessionLabelsResponse)},
+  { 946, -1, -1, sizeof(::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest)},
+  { 955, -1, -1, sizeof(::ondewo::nlu::ListLanguageCodesResponse)},
+  { 962, -1, -1, sizeof(::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest)},
+  { 971, -1, -1, sizeof(::ondewo::nlu::ListMatchedIntentsResponse)},
+  { 978, -1, -1, sizeof(::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest)},
+  { 987, -1, -1, sizeof(::ondewo::nlu::ListMatchedEntityTypesResponse)},
+  { 994, -1, -1, sizeof(::ondewo::nlu::ListUserIdsOfAllSessionsRequest)},
+  { 1003, -1, -1, sizeof(::ondewo::nlu::ListUserIdsResponse)},
+  { 1010, -1, -1, sizeof(::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest)},
+  { 1019, -1, -1, sizeof(::ondewo::nlu::ListIdentifiedUserIdsResponse)},
+  { 1026, -1, -1, sizeof(::ondewo::nlu::ListTagsOfAllSessionsRequest)},
+  { 1035, -1, -1, sizeof(::ondewo::nlu::ListTagsResponse)},
+  { 1042, -1, -1, sizeof(::ondewo::nlu::ListInputContextsOfAllSessionsRequest)},
+  { 1051, -1, -1, sizeof(::ondewo::nlu::ListInputContextsResponse)},
+  { 1058, -1, -1, sizeof(::ondewo::nlu::ListOutputContextsOfAllSessionsRequest)},
+  { 1067, -1, -1, sizeof(::ondewo::nlu::ListOutputContextsResponse)},
+  { 1074, -1, -1, sizeof(::ondewo::nlu::ListPlatformsOfAllSessionsRequest)},
+  { 1083, -1, -1, sizeof(::ondewo::nlu::ListPlatformsResponse)},
+  { 1090, -1, -1, sizeof(::ondewo::nlu::ListAccountIdsOfAllSessionsRequest)},
+  { 1099, -1, -1, sizeof(::ondewo::nlu::ListAccountIdsResponse)},
+  { 1106, -1, -1, sizeof(::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest)},
+  { 1114, -1, -1, sizeof(::ondewo::nlu::ListPropertyIdsResponse)},
+  { 1121, -1, -1, sizeof(::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest)},
+  { 1129, -1, -1, sizeof(::ondewo::nlu::ListDatastreamIdsResponse)},
+  { 1136, -1, -1, sizeof(::ondewo::nlu::ListOriginIdsOfAllSessionsRequest)},
+  { 1145, -1, -1, sizeof(::ondewo::nlu::ListOriginIdsResponse)},
+  { 1152, -1, -1, sizeof(::ondewo::nlu::AddSessionLabelsRequest)},
+  { 1160, -1, -1, sizeof(::ondewo::nlu::DeleteSessionLabelsRequest)},
+  { 1168, -1, -1, sizeof(::ondewo::nlu::AddSessionCommentRequest)},
+  { 1176, -1, -1, sizeof(::ondewo::nlu::DeleteSessionCommentsRequest)},
+  { 1184, -1, -1, sizeof(::ondewo::nlu::UpdateSessionCommentsRequest)},
+  { 1192, 1202, -1, sizeof(::ondewo::nlu::ListSessionCommentsRequest)},
+  { 1206, 1217, -1, sizeof(::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest)},
+  { 1222, -1, -1, sizeof(::ondewo::nlu::ListSessionCommentsResponse)},
+  { 1230, 1255, -1, sizeof(::ondewo::nlu::SessionFeedback)},
+  { 1274, -1, -1, sizeof(::ondewo::nlu::AddSessionFeedbackRequest)},
+  { 1282, -1, -1, sizeof(::ondewo::nlu::AddSessionStepFeedbackRequest)},
+  { 1291, -1, -1, sizeof(::ondewo::nlu::GetSessionFeedbackRequest)},
+  { 1299, -1, -1, sizeof(::ondewo::nlu::UpdateSessionFeedbackRequest)},
+  { 1307, -1, -1, sizeof(::ondewo::nlu::DeleteSessionFeedbackRequest)},
+  { 1314, -1, -1, sizeof(::ondewo::nlu::ListSessionFeedbackRequest)},
+  { 1323, -1, -1, sizeof(::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest)},
+  { 1335, -1, -1, sizeof(::ondewo::nlu::ListSessionFeedbackResponse)},
+  { 1344, 1362, -1, sizeof(::ondewo::nlu::FeedbackFilter)},
+  { 1374, -1, -1, sizeof(::ondewo::nlu::FeedbackBreakdownBucket)},
+  { 1384, -1, -1, sizeof(::ondewo::nlu::FeedbackStatistics)},
+  { 1406, -1, -1, sizeof(::ondewo::nlu::GetFeedbackStatisticsRequest)},
+  { 1417, -1, -1, sizeof(::ondewo::nlu::GetFeedbackStatisticsResponse)},
+  { 1424, -1, -1, sizeof(::ondewo::nlu::FeedbackTimeSeriesBucket)},
+  { 1435, -1, -1, sizeof(::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest)},
+  { 1451, -1, -1, sizeof(::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse)},
+  { 1458, -1, -1, sizeof(::ondewo::nlu::ListSessionReviewsRequest)},
+  { 1467, -1, -1, sizeof(::ondewo::nlu::ListSessionReviewsResponse)},
+  { 1475, -1, -1, sizeof(::ondewo::nlu::GetSessionReviewRequest)},
+  { 1484, -1, -1, sizeof(::ondewo::nlu::GetLatestSessionReviewRequest)},
+  { 1493, -1, -1, sizeof(::ondewo::nlu::FileResource)},
+  { 1504, -1, -1, sizeof(::ondewo::nlu::DocumentFileResource)},
+  { 1517, -1, -1, sizeof(::ondewo::nlu::ImageFileResource)},
+  { 1530, -1, -1, sizeof(::ondewo::nlu::AudioFileResource)},
+  { 1548, -1, -1, sizeof(::ondewo::nlu::VideoFileResource)},
+  { 1564, -1, -1, sizeof(::ondewo::nlu::GetAudioFilesRequest)},
+  { 1576, -1, -1, sizeof(::ondewo::nlu::GetAudioFilesResponse)},
+  { 1585, -1, -1, sizeof(::ondewo::nlu::AddAudioFilesRequest)},
+  { 1595, -1, -1, sizeof(::ondewo::nlu::AddAudioFilesResponse)},
+  { 1603, -1, -1, sizeof(::ondewo::nlu::DeleteAudioFilesRequest)},
+  { 1611, -1, -1, sizeof(::ondewo::nlu::DeleteAudioFilesResponse)},
+  { 1619, -1, -1, sizeof(::ondewo::nlu::ListAudioFilesRequest)},
+  { 1631, -1, -1, sizeof(::ondewo::nlu::ListAudioFilesResponse)},
+  { 1640, -1, -1, sizeof(::ondewo::nlu::GetAudioFileOfSessionRequest)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -4122,6 +4187,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::nlu::_LlmModelUsage_default_instance_._instance,
   &::ondewo::nlu::_LlmProviderUsage_default_instance_._instance,
   &::ondewo::nlu::_LlmCcaiServiceUsage_default_instance_._instance,
+  &::ondewo::nlu::_LlmBaseUrlUsage_default_instance_._instance,
   &::ondewo::nlu::_LlmAgentUsage_default_instance_._instance,
   &::ondewo::nlu::_LlmToolUsage_default_instance_._instance,
   &::ondewo::nlu::_LlmErrorStat_default_instance_._instance,
@@ -4137,6 +4203,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::nlu::_LlmToolCallFinishedEvent_default_instance_._instance,
   &::ondewo::nlu::_LlmThinkingDeltaEvent_default_instance_._instance,
   &::ondewo::nlu::_LlmTokenUsageUpdateEvent_default_instance_._instance,
+  &::ondewo::nlu::_LlmAgentNodeEvent_default_instance_._instance,
   &::ondewo::nlu::_ReferencedChunk_default_instance_._instance,
   &::ondewo::nlu::_QueryResult_default_instance_._instance,
   &::ondewo::nlu::_StreamingDetectIntentRequest_default_instance_._instance,
@@ -4400,809 +4467,830 @@ const char descriptor_table_protodef_ondewo_2fnlu_2fsession_2eproto[] PROTOBUF_S
   "ServiceProvider\022\031\n\021ccai_service_name\030\002 \001"
   "(\t\022\022\n\ncall_count\030\003 \001(\003\0222\n\017llm_token_usag"
   "e\030\004 \001(\0132\031.ondewo.nlu.LlmTokenUsage\022\020\n\010ba"
-  "se_url\030\005 \001(\t\022\023\n\013model_names\030\006 \003(\t\"\253\001\n\rLl"
-  "mAgentUsage\022\022\n\nagent_name\030\001 \001(\t\022\022\n\nagent"
-  "_role\030\002 \001(\t\022\021\n\tteam_name\030\003 \001(\t\022\022\n\ncall_c"
-  "ount\030\004 \001(\003\0222\n\017llm_token_usage\030\005 \001(\0132\031.on"
-  "dewo.nlu.LlmTokenUsage\022\027\n\017tool_call_coun"
-  "t\030\006 \001(\003\"\250\002\n\014LlmToolUsage\022\021\n\ttool_name\030\001 "
-  "\001(\t\022\022\n\ncall_count\030\002 \001(\003\022\023\n\013error_count\030\003"
-  " \001(\003\022\022\n\nerror_rate\030\004 \001(\001\022\036\n\026duration_sec"
-  "onds_total\030\005 \001(\001\022\035\n\025mean_duration_second"
-  "s\030\006 \001(\001\0222\n\017llm_token_usage\030\007 \001(\0132\031.ondew"
-  "o.nlu.LlmTokenUsage\022*\n\targuments\030\010 \001(\0132\027"
-  ".google.protobuf.Struct\022\023\n\013llm_call_id\030\t"
-  " \001(\t\022\024\n\014tool_call_id\030\n \001(\t\"X\n\014LlmErrorSt"
-  "at\022\023\n\013error_class\030\001 \001(\t\022\r\n\005count\030\002 \001(\003\022\014"
-  "\n\004rate\030\003 \001(\001\022\026\n\016sample_message\030\004 \001(\t\"\260\001\n"
-  "\rLlmErrorStats\022\031\n\021total_error_count\030\001 \001("
-  "\003\022\032\n\022overall_error_rate\030\002 \001(\001\0221\n\017errors_"
-  "by_class\030\003 \003(\0132\030.ondewo.nlu.LlmErrorStat"
-  "\022\031\n\021retry_count_total\030\004 \001(\003\022\032\n\022max_fallb"
-  "ack_depth\030\005 \001(\005\"I\n\023LlmFinishReasonStat\022\025"
-  "\n\rfinish_reason\030\001 \001(\t\022\r\n\005count\030\002 \001(\003\022\014\n\004"
-  "rate\030\003 \001(\001\"\240\001\n\026LlmReasoningEffortStat\0225\n"
-  "\020reasoning_effort\030\001 \001(\0162\033.ondewo.nlu.Rea"
-  "soningEffort\022\r\n\005count\030\002 \001(\003\022\014\n\004rate\030\003 \001("
-  "\001\0222\n\017llm_token_usage\030\004 \001(\0132\031.ondewo.nlu."
-  "LlmTokenUsage\"\273\007\n\022LlmTelemetryReport\0222\n\017"
-  "llm_token_usage\030\001 \001(\0132\031.ondewo.nlu.LlmTo"
-  "kenUsage\022\035\n\025tool_call_count_total\030\002 \001(\005\022"
-  "\026\n\016llm_call_count\030\003 \001(\005\0221\n\017llm_telemetri"
-  "es\030\004 \003(\0132\030.ondewo.nlu.LlmTelemetry\022\036\n\026du"
-  "ration_seconds_total\030\005 \001(\001\022.\n\013models_use"
-  "d\030\006 \003(\0132\031.ondewo.nlu.LlmModelUsage\0224\n\016pr"
-  "oviders_used\030\007 \003(\0132\034.ondewo.nlu.LlmProvi"
-  "derUsage\022;\n\022ccai_services_used\030\010 \003(\0132\037.o"
-  "ndewo.nlu.LlmCcaiServiceUsage\022.\n\013agents_"
-  "used\030\t \003(\0132\031.ondewo.nlu.LlmAgentUsage\022,\n"
-  "\ntools_used\030\n \003(\0132\030.ondewo.nlu.LlmToolUs"
-  "age\0222\n\rlatency_stats\030\013 \001(\0132\033.ondewo.nlu."
-  "LlmLatencyStats\022.\n\013cache_stats\030\014 \001(\0132\031.o"
-  "ndewo.nlu.LlmCacheStats\022.\n\013error_stats\030\r"
-  " \001(\0132\031.ondewo.nlu.LlmErrorStats\022C\n\032finis"
-  "h_reason_distribution\030\016 \003(\0132\037.ondewo.nlu"
-  ".LlmFinishReasonStat\022I\n\035reasoning_effort"
-  "_distribution\030\017 \003(\0132\".ondewo.nlu.LlmReas"
-  "oningEffortStat\022\035\n\025thinking_tokens_total"
-  "\030\020 \001(\003\022\'\n\037thinking_duration_seconds_tota"
-  "l\030\021 \001(\001\022\036\n\026tool_call_tokens_total\030\022 \001(\003\022"
-  "(\n tool_call_duration_seconds_total\030\023 \001("
-  "\001\0220\n\014safety_stats\030\024 \001(\0132\032.ondewo.nlu.Llm"
-  "SafetyStats\"F\n\025LlmSafetyCategoryStat\022\020\n\010"
-  "category\030\001 \001(\t\022\r\n\005count\030\002 \001(\003\022\014\n\004rate\030\003 "
-  "\001(\001\"\230\001\n\016LlmSafetyStats\022\026\n\016total_assessed"
-  "\030\001 \001(\003\022\025\n\rflagged_count\030\002 \001(\003\022\034\n\024overall"
-  "_safety_score\030\003 \001(\001\0229\n\016category_stats\030\004 "
-  "\003(\0132!.ondewo.nlu.LlmSafetyCategoryStat\"\224"
-  "\001\n\023LlmCallStartedEvent\022\023\n\013llm_call_id\030\001 "
-  "\001(\t\022\020\n\010provider\030\002 \001(\t\022\022\n\nmodel_name\030\003 \001("
-  "\t\022\022\n\nagent_name\030\004 \001(\t\022.\n\nstart_time\030\005 \001("
-  "\0132\032.google.protobuf.Timestamp\"\244\001\n\024LlmCal"
-  "lFinishedEvent\022\023\n\013llm_call_id\030\001 \001(\t\022,\n\010e"
-  "nd_time\030\002 \001(\0132\032.google.protobuf.Timestam"
-  "p\022\025\n\rduration_in_s\030\003 \001(\001\0222\n\017llm_token_us"
-  "age\030\004 \001(\0132\031.ondewo.nlu.LlmTokenUsage\"\263\001\n"
-  "\027LlmToolCallStartedEvent\022\024\n\014tool_call_id"
-  "\030\001 \001(\t\022\021\n\ttool_name\030\002 \001(\t\022*\n\targuments\030\003"
-  " \001(\0132\027.google.protobuf.Struct\022.\n\nstart_t"
-  "ime\030\004 \001(\0132\032.google.protobuf.Timestamp\022\023\n"
-  "\013llm_call_id\030\005 \001(\t\"\376\001\n\030LlmToolCallFinish"
-  "edEvent\022\024\n\014tool_call_id\030\001 \001(\t\022,\n\010end_tim"
-  "e\030\002 \001(\0132\032.google.protobuf.Timestamp\022\025\n\rd"
-  "uration_in_s\030\003 \001(\001\0222\n\017llm_token_usage\030\004 "
-  "\001(\0132\031.ondewo.nlu.LlmTokenUsage\022\'\n\006result"
-  "\030\005 \001(\0132\027.google.protobuf.Struct\022\025\n\rerror"
-  "_message\030\006 \001(\t\022\023\n\013llm_call_id\030\007 \001(\t\"o\n\025L"
-  "lmThinkingDeltaEvent\022\023\n\013llm_call_id\030\001 \001("
-  "\t\022\022\n\ntext_delta\030\002 \001(\t\022-\n\ttimestamp\030\003 \001(\013"
-  "2\032.google.protobuf.Timestamp\"c\n\030LlmToken"
-  "UsageUpdateEvent\022\023\n\013llm_call_id\030\001 \001(\t\0222\n"
-  "\017llm_token_usage\030\002 \001(\0132\031.ondewo.nlu.LlmT"
-  "okenUsage\"\316\001\n\017ReferencedChunk\022\027\n\017referen"
-  "ce_index\030\001 \001(\005\022\022\n\ndataset_id\030\002 \001(\t\022\023\n\013do"
-  "cument_id\030\003 \001(\t\022\020\n\010chunk_id\030\004 \001(\t\022\025\n\rdoc"
-  "ument_name\030\005 \001(\t\022\017\n\007content\030\006 \001(\t\022\022\n\nsim"
-  "ilarity\030\007 \001(\002\022\024\n\014document_url\030\010 \001(\t\022\025\n\rd"
-  "eep_link_url\030\t \001(\t\"\315\005\n\013QueryResult\022\022\n\nqu"
-  "ery_text\030\001 \001(\t\022%\n\035speech_recognition_con"
-  "fidence\030\002 \001(\002\022\016\n\006action\030\003 \001(\t\022+\n\nparamet"
-  "ers\030\004 \001(\0132\027.google.protobuf.Struct\022#\n\033al"
-  "l_required_params_present\030\005 \001(\010\022\030\n\020fulfi"
-  "llment_text\030\006 \001(\t\0228\n\024fulfillment_message"
-  "s\030\007 \003(\0132\032.ondewo.nlu.Intent.Message\022\026\n\016w"
-  "ebhook_source\030\010 \001(\t\0220\n\017webhook_payload\030\t"
-  " \001(\0132\027.google.protobuf.Struct\022,\n\017output_"
-  "contexts\030\n \003(\0132\023.ondewo.nlu.Context\022\"\n\006i"
-  "ntent\030\013 \001(\0132\022.ondewo.nlu.Intent\022#\n\033inten"
-  "t_detection_confidence\030\014 \001(\002\022\033\n\023query_te"
-  "xt_original\030\r \001(\t\0220\n\017diagnostic_info\030\016 \001"
-  "(\0132\027.google.protobuf.Struct\022\025\n\rlanguage_"
-  "code\030\017 \001(\t\0220\n\016file_resources\030\020 \003(\0132\030.ond"
-  "ewo.nlu.FileResource\022<\n\024llm_telemetry_re"
-  "port\030\021 \001(\0132\036.ondewo.nlu.LlmTelemetryRepo"
-  "rt\0226\n\021referenced_chunks\030\022 \003(\0132\033.ondewo.n"
-  "lu.ReferencedChunk\"\276\001\n\034StreamingDetectIn"
-  "tentRequest\022\017\n\007session\030\001 \001(\t\0221\n\014query_pa"
-  "rams\030\002 \001(\0132\033.ondewo.nlu.QueryParameters\022"
-  "+\n\013query_input\030\003 \001(\0132\026.ondewo.nlu.QueryI"
-  "nput\022\030\n\020single_utterance\030\004 \001(\010\022\023\n\013input_"
-  "audio\030\006 \001(\014\"\371\004\n\035StreamingDetectIntentRes"
-  "ponse\022\023\n\013response_id\030\001 \001(\t\022B\n\022recognitio"
-  "n_result\030\002 \001(\0132&.ondewo.nlu.StreamingRec"
-  "ognitionResult\022-\n\014query_result\030\003 \001(\0132\027.o"
-  "ndewo.nlu.QueryResult\022*\n\016webhook_status\030"
-  "\004 \001(\0132\022.google.rpc.Status\022;\n\020llm_call_st"
-  "arted\030\005 \001(\0132\037.ondewo.nlu.LlmCallStartedE"
-  "ventH\000\022=\n\021llm_call_finished\030\006 \001(\0132 .onde"
-  "wo.nlu.LlmCallFinishedEventH\000\022D\n\025llm_too"
-  "l_call_started\030\007 \001(\0132#.ondewo.nlu.LlmToo"
-  "lCallStartedEventH\000\022F\n\026llm_tool_call_fin"
-  "ished\030\010 \001(\0132$.ondewo.nlu.LlmToolCallFini"
-  "shedEventH\000\022\?\n\022llm_thinking_delta\030\t \001(\0132"
-  "!.ondewo.nlu.LlmThinkingDeltaEventH\000\022F\n\026"
-  "llm_token_usage_update\030\n \001(\0132$.ondewo.nl"
-  "u.LlmTokenUsageUpdateEventH\000B\021\n\017telemetr"
-  "y_event\"\372\001\n\032StreamingRecognitionResult\022H"
-  "\n\014message_type\030\001 \001(\01622.ondewo.nlu.Stream"
-  "ingRecognitionResult.MessageType\022\022\n\ntran"
-  "script\030\002 \001(\t\022\020\n\010is_final\030\003 \001(\010\022\022\n\nconfid"
-  "ence\030\004 \001(\002\"X\n\013MessageType\022\034\n\030MESSAGE_TYP"
-  "E_UNSPECIFIED\020\000\022\016\n\nTRANSCRIPT\020\001\022\033\n\027END_O"
-  "F_SINGLE_UTTERANCE\020\002\"\215\001\n\020InputAudioConfi"
-  "g\0221\n\016audio_encoding\030\001 \001(\0162\031.ondewo.nlu.A"
-  "udioEncoding\022\031\n\021sample_rate_hertz\030\002 \001(\005\022"
-  "\025\n\rlanguage_code\030\003 \001(\t\022\024\n\014phrase_hints\030\004"
-  " \003(\t\"0\n\tTextInput\022\014\n\004text\030\001 \001(\t\022\025\n\rlangu"
-  "age_code\030\002 \001(\t\"^\n\nEventInput\022\014\n\004name\030\001 \001"
-  "(\t\022+\n\nparameters\030\002 \001(\0132\027.google.protobuf"
-  ".Struct\022\025\n\rlanguage_code\030\003 \001(\t\"\276\002\n\007Sessi"
-  "on\022\014\n\004name\030\001 \001(\t\022.\n\rsession_steps\030\002 \003(\0132"
-  "\027.ondewo.nlu.SessionStep\022-\n\014session_info"
-  "\030\003 \001(\0132\027.ondewo.nlu.SessionInfo\022.\n\ncreat"
-  "ed_at\030\004 \001(\0132\032.google.protobuf.Timestamp\022"
-  "/\n\013modified_at\030\005 \001(\0132\032.google.protobuf.T"
-  "imestamp\022\022\n\ncreated_by\030\006 \001(\t\022\023\n\013modified"
-  "_by\030\007 \001(\t\"<\n\004View\022\024\n\020VIEW_UNSPECIFIED\020\000\022"
-  "\r\n\tVIEW_FULL\020\001\022\017\n\013VIEW_SPARSE\020\002\"\370\003\n\013Sess"
-  "ionStep\022\014\n\004name\030\001 \001(\t\022>\n\025detect_intent_r"
-  "equest\030\002 \001(\0132\037.ondewo.nlu.DetectIntentRe"
-  "quest\022@\n\026detect_intent_response\030\003 \001(\0132 ."
-  "ondewo.nlu.DetectIntentResponse\022%\n\010conte"
-  "xts\030\004 \003(\0132\023.ondewo.nlu.Context\022-\n\ttimest"
-  "amp\030\005 \001(\0132\032.google.protobuf.Timestamp\022.\n"
-  "\ncreated_at\030\006 \001(\0132\032.google.protobuf.Time"
-  "stamp\022/\n\013modified_at\030\007 \001(\0132\032.google.prot"
-  "obuf.Timestamp\022\022\n\ncreated_by\030\010 \001(\t\022\023\n\013mo"
-  "dified_by\030\t \001(\t\022;\n\024audio_file_resources\030"
-  "\n \003(\0132\035.ondewo.nlu.AudioFileResource\022<\n\024"
-  "llm_telemetry_report\030\013 \001(\0132\036.ondewo.nlu."
-  "LlmTelemetryReport\"U\n\025GetSessionStepRequ"
-  "est\022\014\n\004name\030\001 \001(\t\022.\n\nfield_mask\030\002 \001(\0132\032."
-  "google.protobuf.FieldMask\"\252\001\n\030UpdateSess"
-  "ionStepRequest\022-\n\014session_step\030\001 \001(\0132\027.o"
-  "ndewo.nlu.SessionStep\022/\n\013update_mask\030\002 \001"
-  "(\0132\032.google.protobuf.FieldMask\022.\n\nfield_"
-  "mask\030\003 \001(\0132\032.google.protobuf.FieldMask\"("
-  "\n\030DeleteSessionStepRequest\022\014\n\004name\030\001 \001(\t"
-  "\"\215\001\n\030CreateSessionStepRequest\022\022\n\nsession"
-  "_id\030\001 \001(\t\022-\n\014session_step\030\002 \001(\0132\027.ondewo"
-  ".nlu.SessionStep\022.\n\nfield_mask\030\003 \001(\0132\032.g"
-  "oogle.protobuf.FieldMask\"\314\001\n\023ListSession"
-  "sRequest\022\016\n\006parent\030\001 \001(\t\022.\n\014session_view"
-  "\030\002 \001(\0162\030.ondewo.nlu.Session.View\022\022\n\npage"
-  "_token\030\004 \001(\t\0221\n\016session_filter\030\005 \001(\0132\031.o"
-  "ndewo.nlu.SessionFilter\022.\n\nfield_mask\030\006 "
-  "\001(\0132\032.google.protobuf.FieldMask\"s\n\rConte"
-  "xtFilter\022\024\n\014context_name\030\001 \001(\t\022\013\n\003key\030\002 "
-  "\001(\t\022\r\n\005value\030\003 \001(\t\0220\n\010operator\030\004 \001(\0162\036.o"
-  "ndewo.nlu.ComparisonOperator\"\325\r\n\rSession"
-  "Filter\022\026\n\016language_codes\030\001 \003(\t\022+\n\017matche"
-  "d_intents\030\002 \003(\0132\022.ondewo.nlu.Intent\0224\n\024m"
-  "atched_entity_types\030\003 \003(\0132\026.ondewo.nlu.E"
-  "ntityType\022\"\n\032min_intents_confidence_min\030"
-  "\004 \001(\002\022\"\n\032min_intents_confidence_max\030\005 \001("
-  "\002\022\'\n\037min_entity_types_confidence_min\030\006 \001"
-  "(\002\022\'\n\037min_entity_types_confidence_max\030\007 "
-  "\001(\002\022\020\n\010earliest\030\010 \001(\001\022\016\n\006latest\030\t \001(\001\022\030\n"
-  "\020min_number_turns\030\n \001(\005\022\030\n\020max_number_tu"
-  "rns\030\013 \001(\005\022\016\n\006labels\030\014 \003(\t\022\020\n\010user_ids\030\r "
-  "\003(\t\022\023\n\013intent_tags\030\016 \003(\t\022\023\n\013session_ids\030"
-  "\017 \003(\t\022+\n\016input_contexts\030\020 \003(\0132\023.ondewo.n"
-  "lu.Context\022,\n\017output_contexts\030\021 \003(\0132\023.on"
-  "dewo.nlu.Context\022\031\n\021duration_in_s_min\030\022 "
-  "\001(\002\022\031\n\021duration_in_s_max\030\023 \001(\002\022\031\n\021durati"
-  "on_in_m_min\030\024 \001(\002\022\031\n\021duration_in_m_max\030\025"
-  " \001(\002\022!\n\031duration_in_m_rounded_min\030\026 \001(\002\022"
-  "!\n\031duration_in_m_rounded_max\030\027 \001(\002\022)\n!du"
-  "ration_interval_15s_rounded_min\030\030 \001(\002\022)\n"
-  "!duration_interval_15s_rounded_max\030\031 \001(\002"
-  "\022)\n!duration_interval_30s_rounded_min\030\032 "
-  "\001(\002\022)\n!duration_interval_30s_rounded_max"
-  "\030\033 \001(\002\022)\n!duration_interval_45s_rounded_"
-  "min\030\034 \001(\002\022)\n!duration_interval_45s_round"
-  "ed_max\030\035 \001(\002\022&\n\036started_time_slot_per_ho"
-  "ur_min\030\036 \001(\t\022&\n\036started_time_slot_per_ho"
-  "ur_max\030\037 \001(\t\022.\n&started_time_slot_per_qu"
-  "arter_hour_min\030  \001(\t\022.\n&started_time_slo"
-  "t_per_quarter_hour_max\030! \001(\t\022+\n#started_"
-  "time_slot_per_half_hour_min\030\" \001(\t\022+\n#sta"
-  "rted_time_slot_per_half_hour_max\030# \001(\t\022+"
-  "\n#started_time_slot_per_day_phase_min\030$ "
-  "\001(\t\022+\n#started_time_slot_per_day_phase_m"
-  "ax\030% \001(\t\022(\n started_time_slot_per_minute"
-  "_min\030& \001(\t\022(\n started_time_slot_per_minu"
-  "te_max\030\' \001(\t\022!\n\031duration_in_s_rounded_mi"
-  "n\030( \001(\002\022!\n\031duration_in_s_rounded_max\030) \001"
-  "(\002\0226\n\tplatforms\030* \003(\0162#.ondewo.nlu.Inten"
-  "t.Message.Platform\022\023\n\013account_ids\030+ \003(\t\022"
-  "\024\n\014property_ids\030, \003(\t\022\026\n\016datastream_ids\030"
-  "- \003(\t\022\022\n\norigin_ids\030. \003(\t\022\033\n\023identified_"
-  "user_ids\030/ \003(\t\022)\n!duration_interval_60s_"
-  "rounded_min\0300 \001(\002\022)\n!duration_interval_6"
-  "0s_rounded_max\0301 \001(\002\"\243\t\n\013SessionInfo\022\026\n\016"
-  "language_codes\030\001 \003(\t\022+\n\017matched_intents\030"
-  "\002 \003(\0132\022.ondewo.nlu.Intent\0224\n\024matched_ent"
-  "ity_types\030\003 \003(\0132\026.ondewo.nlu.EntityType\022"
-  "\036\n\026min_intents_confidence\030\004 \001(\002\022#\n\033min_e"
-  "ntity_types_confidence\030\005 \001(\002\022\020\n\010earliest"
-  "\030\006 \001(\001\022\016\n\006latest\030\007 \001(\001\022\024\n\014number_turns\030\010"
-  " \001(\005\022\016\n\006labels\030\t \003(\t\022\020\n\010user_ids\030\n \003(\t\022\023"
-  "\n\013intent_tags\030\013 \003(\t\022A\n\023input_context_ste"
-  "ps\030\014 \003(\0132$.ondewo.nlu.SessionInfo.Contex"
-  "tSteps\022B\n\024output_context_steps\030\r \003(\0132$.o"
-  "ndewo.nlu.SessionInfo.ContextSteps\022\025\n\rdu"
-  "ration_in_s\030\016 \001(\002\022\025\n\rduration_in_m\030\017 \001(\002"
-  "\022\035\n\025duration_in_m_rounded\030\020 \001(\002\022%\n\035durat"
-  "ion_interval_15s_rounded\030\021 \001(\002\022%\n\035durati"
-  "on_interval_30s_rounded\030\022 \001(\002\022%\n\035duratio"
-  "n_interval_45s_rounded\030\023 \001(\002\022\"\n\032started_"
-  "time_slot_per_hour\030\024 \001(\t\022*\n\"started_time"
-  "_slot_per_quarter_hour\030\025 \001(\t\022\'\n\037started_"
-  "time_slot_per_half_hour\030\026 \001(\t\022\'\n\037started"
-  "_time_slot_per_day_phase\030\027 \001(\t\022$\n\034starte"
-  "d_time_slot_per_minute\030\030 \001(\t\022\035\n\025duration"
-  "_in_s_rounded\030\031 \001(\002\0226\n\tplatforms\030\032 \003(\0162#"
-  ".ondewo.nlu.Intent.Message.Platform\022\023\n\013a"
-  "ccount_ids\030\033 \003(\t\022\024\n\014property_ids\030\034 \003(\t\022\026"
-  "\n\016datastream_ids\030\035 \003(\t\022\022\n\norigin_ids\030\036 \003"
-  "(\t\022\033\n\023identified_user_ids\030\037 \003(\t\022%\n\035durat"
-  "ion_interval_60s_rounded\030  \001(\002\022+\n\016parent"
-  "_comment\030! \003(\0132\023.ondewo.nlu.Comment\0325\n\014C"
-  "ontextSteps\022%\n\010contexts\030\001 \003(\0132\023.ondewo.n"
-  "lu.Context\"V\n\024ListSessionsResponse\022%\n\010se"
-  "ssions\030\001 \003(\0132\023.ondewo.nlu.Session\022\027\n\017nex"
-  "t_page_token\030\002 \001(\t\"\207\001\n\021GetSessionRequest"
-  "\022\022\n\nsession_id\030\001 \001(\t\022.\n\014session_view\030\002 \001"
-  "(\0162\030.ondewo.nlu.Session.View\022.\n\nfield_ma"
-  "sk\030\006 \001(\0132\032.google.protobuf.FieldMask\"s\n\024"
-  "CreateSessionRequest\022\016\n\006parent\030\001 \001(\t\022\024\n\014"
-  "session_uuid\030\002 \001(\t\022\016\n\006labels\030\003 \003(\t\022%\n\010co"
-  "ntexts\030\004 \003(\0132\023.ondewo.nlu.Context\"*\n\024Del"
-  "eteSessionRequest\022\022\n\nsession_id\030\001 \001(\t\"\272\001"
-  "\n\032CreateSessionReviewRequest\022\022\n\nsession_"
-  "id\030\001 \001(\t\022\030\n\020parent_review_id\030\002 \001(\t\0221\n\016se"
-  "ssion_review\030\003 \001(\0132\031.ondewo.nlu.SessionR"
-  "eview\022;\n\023session_review_view\030\004 \001(\0162\036.ond"
-  "ewo.nlu.SessionReview.View\"\242\002\n\rSessionRe"
-  "view\022\014\n\004name\030\001 \001(\t\022;\n\024session_review_ste"
-  "ps\030\002 \003(\0132\035.ondewo.nlu.SessionReviewStep\022"
-  ".\n\ncreated_at\030\003 \001(\0132\032.google.protobuf.Ti"
-  "mestamp\022/\n\013modified_at\030\004 \001(\0132\032.google.pr"
-  "otobuf.Timestamp\022\022\n\ncreated_by\030\005 \001(\t\022\023\n\013"
-  "modified_by\030\006 \001(\t\"<\n\004View\022\024\n\020VIEW_UNSPEC"
-  "IFIED\020\000\022\r\n\tVIEW_FULL\020\001\022\017\n\013VIEW_SPARSE\020\002\""
-  "\312\004\n\021SessionReviewStep\022\014\n\004name\030\001 \001(\t\022=\n\022a"
-  "nnotated_usersays\030\002 \001(\0132!.ondewo.nlu.Int"
-  "ent.TrainingPhrase\022\025\n\rlanguage_code\030\003 \001("
-  "\t\0224\n\020detected_intents\030\004 \003(\0132\032.ondewo.nlu"
-  ".DetectedIntent\022%\n\010contexts\030\005 \003(\0132\023.onde"
-  "wo.nlu.Context\022)\n\014contexts_out\030\006 \003(\0132\023.o"
-  "ndewo.nlu.Context\022\033\n\023query_text_original"
-  "\030\007 \001(\t\0226\n\tplatforms\030\010 \003(\0162#.ondewo.nlu.I"
-  "ntent.Message.Platform\022-\n\ttimestamp\030\t \001("
-  "\0132\032.google.protobuf.Timestamp\022.\n\ncreated"
-  "_at\030\n \001(\0132\032.google.protobuf.Timestamp\022/\n"
-  "\013modified_at\030\013 \001(\0132\032.google.protobuf.Tim"
-  "estamp\022\022\n\ncreated_by\030\014 \001(\t\022\023\n\013modified_b"
-  "y\030\r \001(\t\022;\n\024audio_file_resources\030\016 \003(\0132\035."
-  "ondewo.nlu.AudioFileResource\"\260\001\n\016Detecte"
-  "dIntent\022\"\n\006intent\030\001 \001(\0132\022.ondewo.nlu.Int"
-  "ent\022\r\n\005score\030\002 \001(\002\022\021\n\talgorithm\030\003 \001(\t\0228\n"
-  "\024fulfillment_messages\030\004 \003(\0132\032.ondewo.nlu"
-  ".Intent.Message\022\036\n\026required_param_missin"
-  "g\030\005 \001(\010\".\n\030ListSessionLabelsRequest\022\022\n\ns"
-  "ession_id\030\001 \001(\t\"\232\001\n%ListSessionLabelsOfA"
-  "llSessionsRequest\022\016\n\006parent\030\001 \001(\t\0221\n\016ses"
-  "sion_filter\030\002 \001(\0132\031.ondewo.nlu.SessionFi"
-  "lter\022.\n\nfield_mask\030\003 \001(\0132\032.google.protob"
-  "uf.FieldMask\"+\n\031ListSessionLabelsRespons"
-  "e\022\016\n\006labels\030\001 \003(\t\"\232\001\n%ListLanguageCodesO"
-  "fAllSessionsRequest\022\016\n\006parent\030\001 \001(\t\0221\n\016s"
-  "ession_filter\030\002 \001(\0132\031.ondewo.nlu.Session"
-  "Filter\022.\n\nfield_mask\030\003 \001(\0132\032.google.prot"
-  "obuf.FieldMask\"3\n\031ListLanguageCodesRespo"
-  "nse\022\026\n\016language_codes\030\001 \003(\t\"\233\001\n&ListMatc"
-  "hedIntentsOfAllSessionsRequest\022\016\n\006parent"
-  "\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\0132\031.ondewo."
-  "nlu.SessionFilter\022.\n\nfield_mask\030\003 \001(\0132\032."
-  "google.protobuf.FieldMask\"5\n\032ListMatched"
-  "IntentsResponse\022\027\n\017matched_intents\030\001 \003(\t"
-  "\"\237\001\n*ListMatchedEntityTypesOfAllSessions"
-  "Request\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filte"
-  "r\030\002 \001(\0132\031.ondewo.nlu.SessionFilter\022.\n\nfi"
+  "se_url\030\005 \001(\t\022\023\n\013model_names\030\006 \003(\t\"\200\001\n\017Ll"
+  "mBaseUrlUsage\022\020\n\010base_url\030\001 \001(\t\022\022\n\ncall_"
+  "count\030\002 \001(\003\0222\n\017llm_token_usage\030\003 \001(\0132\031.o"
+  "ndewo.nlu.LlmTokenUsage\022\023\n\013model_names\030\004"
+  " \003(\t\"\253\001\n\rLlmAgentUsage\022\022\n\nagent_name\030\001 \001"
+  "(\t\022\022\n\nagent_role\030\002 \001(\t\022\021\n\tteam_name\030\003 \001("
+  "\t\022\022\n\ncall_count\030\004 \001(\003\0222\n\017llm_token_usage"
+  "\030\005 \001(\0132\031.ondewo.nlu.LlmTokenUsage\022\027\n\017too"
+  "l_call_count\030\006 \001(\003\"\250\002\n\014LlmToolUsage\022\021\n\tt"
+  "ool_name\030\001 \001(\t\022\022\n\ncall_count\030\002 \001(\003\022\023\n\013er"
+  "ror_count\030\003 \001(\003\022\022\n\nerror_rate\030\004 \001(\001\022\036\n\026d"
+  "uration_seconds_total\030\005 \001(\001\022\035\n\025mean_dura"
+  "tion_seconds\030\006 \001(\001\0222\n\017llm_token_usage\030\007 "
+  "\001(\0132\031.ondewo.nlu.LlmTokenUsage\022*\n\targume"
+  "nts\030\010 \001(\0132\027.google.protobuf.Struct\022\023\n\013ll"
+  "m_call_id\030\t \001(\t\022\024\n\014tool_call_id\030\n \001(\t\"X\n"
+  "\014LlmErrorStat\022\023\n\013error_class\030\001 \001(\t\022\r\n\005co"
+  "unt\030\002 \001(\003\022\014\n\004rate\030\003 \001(\001\022\026\n\016sample_messag"
+  "e\030\004 \001(\t\"\260\001\n\rLlmErrorStats\022\031\n\021total_error"
+  "_count\030\001 \001(\003\022\032\n\022overall_error_rate\030\002 \001(\001"
+  "\0221\n\017errors_by_class\030\003 \003(\0132\030.ondewo.nlu.L"
+  "lmErrorStat\022\031\n\021retry_count_total\030\004 \001(\003\022\032"
+  "\n\022max_fallback_depth\030\005 \001(\005\"I\n\023LlmFinishR"
+  "easonStat\022\025\n\rfinish_reason\030\001 \001(\t\022\r\n\005coun"
+  "t\030\002 \001(\003\022\014\n\004rate\030\003 \001(\001\"\240\001\n\026LlmReasoningEf"
+  "fortStat\0225\n\020reasoning_effort\030\001 \001(\0162\033.ond"
+  "ewo.nlu.ReasoningEffort\022\r\n\005count\030\002 \001(\003\022\014"
+  "\n\004rate\030\003 \001(\001\0222\n\017llm_token_usage\030\004 \001(\0132\031."
+  "ondewo.nlu.LlmTokenUsage\"\360\007\n\022LlmTelemetr"
+  "yReport\0222\n\017llm_token_usage\030\001 \001(\0132\031.ondew"
+  "o.nlu.LlmTokenUsage\022\035\n\025tool_call_count_t"
+  "otal\030\002 \001(\005\022\026\n\016llm_call_count\030\003 \001(\005\0221\n\017ll"
+  "m_telemetries\030\004 \003(\0132\030.ondewo.nlu.LlmTele"
+  "metry\022\036\n\026duration_seconds_total\030\005 \001(\001\022.\n"
+  "\013models_used\030\006 \003(\0132\031.ondewo.nlu.LlmModel"
+  "Usage\0224\n\016providers_used\030\007 \003(\0132\034.ondewo.n"
+  "lu.LlmProviderUsage\022;\n\022ccai_services_use"
+  "d\030\010 \003(\0132\037.ondewo.nlu.LlmCcaiServiceUsage"
+  "\022.\n\013agents_used\030\t \003(\0132\031.ondewo.nlu.LlmAg"
+  "entUsage\022,\n\ntools_used\030\n \003(\0132\030.ondewo.nl"
+  "u.LlmToolUsage\0222\n\rlatency_stats\030\013 \001(\0132\033."
+  "ondewo.nlu.LlmLatencyStats\022.\n\013cache_stat"
+  "s\030\014 \001(\0132\031.ondewo.nlu.LlmCacheStats\022.\n\013er"
+  "ror_stats\030\r \001(\0132\031.ondewo.nlu.LlmErrorSta"
+  "ts\022C\n\032finish_reason_distribution\030\016 \003(\0132\037"
+  ".ondewo.nlu.LlmFinishReasonStat\022I\n\035reaso"
+  "ning_effort_distribution\030\017 \003(\0132\".ondewo."
+  "nlu.LlmReasoningEffortStat\022\035\n\025thinking_t"
+  "okens_total\030\020 \001(\003\022\'\n\037thinking_duration_s"
+  "econds_total\030\021 \001(\001\022\036\n\026tool_call_tokens_t"
+  "otal\030\022 \001(\003\022(\n tool_call_duration_seconds"
+  "_total\030\023 \001(\001\0220\n\014safety_stats\030\024 \001(\0132\032.ond"
+  "ewo.nlu.LlmSafetyStats\0223\n\016base_urls_used"
+  "\030\025 \003(\0132\033.ondewo.nlu.LlmBaseUrlUsage\"F\n\025L"
+  "lmSafetyCategoryStat\022\020\n\010category\030\001 \001(\t\022\r"
+  "\n\005count\030\002 \001(\003\022\014\n\004rate\030\003 \001(\001\"\230\001\n\016LlmSafet"
+  "yStats\022\026\n\016total_assessed\030\001 \001(\003\022\025\n\rflagge"
+  "d_count\030\002 \001(\003\022\034\n\024overall_safety_score\030\003 "
+  "\001(\001\0229\n\016category_stats\030\004 \003(\0132!.ondewo.nlu"
+  ".LlmSafetyCategoryStat\"\224\001\n\023LlmCallStarte"
+  "dEvent\022\023\n\013llm_call_id\030\001 \001(\t\022\020\n\010provider\030"
+  "\002 \001(\t\022\022\n\nmodel_name\030\003 \001(\t\022\022\n\nagent_name\030"
+  "\004 \001(\t\022.\n\nstart_time\030\005 \001(\0132\032.google.proto"
+  "buf.Timestamp\"\244\001\n\024LlmCallFinishedEvent\022\023"
+  "\n\013llm_call_id\030\001 \001(\t\022,\n\010end_time\030\002 \001(\0132\032."
+  "google.protobuf.Timestamp\022\025\n\rduration_in"
+  "_s\030\003 \001(\001\0222\n\017llm_token_usage\030\004 \001(\0132\031.onde"
+  "wo.nlu.LlmTokenUsage\"\263\001\n\027LlmToolCallStar"
+  "tedEvent\022\024\n\014tool_call_id\030\001 \001(\t\022\021\n\ttool_n"
+  "ame\030\002 \001(\t\022*\n\targuments\030\003 \001(\0132\027.google.pr"
+  "otobuf.Struct\022.\n\nstart_time\030\004 \001(\0132\032.goog"
+  "le.protobuf.Timestamp\022\023\n\013llm_call_id\030\005 \001"
+  "(\t\"\376\001\n\030LlmToolCallFinishedEvent\022\024\n\014tool_"
+  "call_id\030\001 \001(\t\022,\n\010end_time\030\002 \001(\0132\032.google"
+  ".protobuf.Timestamp\022\025\n\rduration_in_s\030\003 \001"
+  "(\001\0222\n\017llm_token_usage\030\004 \001(\0132\031.ondewo.nlu"
+  ".LlmTokenUsage\022\'\n\006result\030\005 \001(\0132\027.google."
+  "protobuf.Struct\022\025\n\rerror_message\030\006 \001(\t\022\023"
+  "\n\013llm_call_id\030\007 \001(\t\"o\n\025LlmThinkingDeltaE"
+  "vent\022\023\n\013llm_call_id\030\001 \001(\t\022\022\n\ntext_delta\030"
+  "\002 \001(\t\022-\n\ttimestamp\030\003 \001(\0132\032.google.protob"
+  "uf.Timestamp\"c\n\030LlmTokenUsageUpdateEvent"
+  "\022\023\n\013llm_call_id\030\001 \001(\t\0222\n\017llm_token_usage"
+  "\030\002 \001(\0132\031.ondewo.nlu.LlmTokenUsage\"\212\003\n\021Ll"
+  "mAgentNodeEvent\022(\n llm_agent_node_event_"
+  "node_run_id\030\001 \001(\t\022/\n\'llm_agent_node_even"
+  "t_parent_node_run_id\030\002 \001(\t\022.\n&llm_agent_"
+  "node_event_node_display_name\030\003 \001(\t\022&\n\036ll"
+  "m_agent_node_event_node_path\030\004 \003(\t\022;\n\024ll"
+  "m_agent_node_phase\030\005 \001(\0162\035.ondewo.nlu.Ll"
+  "mAgentNodePhase\022-\n\ttimestamp\030\006 \001(\0132\032.goo"
+  "gle.protobuf.Timestamp\022*\n\"llm_agent_node"
+  "_event_duration_in_s\030\007 \001(\002\022*\n\"llm_agent_"
+  "node_event_error_message\030\010 \001(\t\"\316\001\n\017Refer"
+  "encedChunk\022\027\n\017reference_index\030\001 \001(\005\022\022\n\nd"
+  "ataset_id\030\002 \001(\t\022\023\n\013document_id\030\003 \001(\t\022\020\n\010"
+  "chunk_id\030\004 \001(\t\022\025\n\rdocument_name\030\005 \001(\t\022\017\n"
+  "\007content\030\006 \001(\t\022\022\n\nsimilarity\030\007 \001(\002\022\024\n\014do"
+  "cument_url\030\010 \001(\t\022\025\n\rdeep_link_url\030\t \001(\t\""
+  "\315\005\n\013QueryResult\022\022\n\nquery_text\030\001 \001(\t\022%\n\035s"
+  "peech_recognition_confidence\030\002 \001(\002\022\016\n\006ac"
+  "tion\030\003 \001(\t\022+\n\nparameters\030\004 \001(\0132\027.google."
+  "protobuf.Struct\022#\n\033all_required_params_p"
+  "resent\030\005 \001(\010\022\030\n\020fulfillment_text\030\006 \001(\t\0228"
+  "\n\024fulfillment_messages\030\007 \003(\0132\032.ondewo.nl"
+  "u.Intent.Message\022\026\n\016webhook_source\030\010 \001(\t"
+  "\0220\n\017webhook_payload\030\t \001(\0132\027.google.proto"
+  "buf.Struct\022,\n\017output_contexts\030\n \003(\0132\023.on"
+  "dewo.nlu.Context\022\"\n\006intent\030\013 \001(\0132\022.ondew"
+  "o.nlu.Intent\022#\n\033intent_detection_confide"
+  "nce\030\014 \001(\002\022\033\n\023query_text_original\030\r \001(\t\0220"
+  "\n\017diagnostic_info\030\016 \001(\0132\027.google.protobu"
+  "f.Struct\022\025\n\rlanguage_code\030\017 \001(\t\0220\n\016file_"
+  "resources\030\020 \003(\0132\030.ondewo.nlu.FileResourc"
+  "e\022<\n\024llm_telemetry_report\030\021 \001(\0132\036.ondewo"
+  ".nlu.LlmTelemetryReport\0226\n\021referenced_ch"
+  "unks\030\022 \003(\0132\033.ondewo.nlu.ReferencedChunk\""
+  "\276\001\n\034StreamingDetectIntentRequest\022\017\n\007sess"
+  "ion\030\001 \001(\t\0221\n\014query_params\030\002 \001(\0132\033.ondewo"
+  ".nlu.QueryParameters\022+\n\013query_input\030\003 \001("
+  "\0132\026.ondewo.nlu.QueryInput\022\030\n\020single_utte"
+  "rance\030\004 \001(\010\022\023\n\013input_audio\030\006 \001(\014\"\270\005\n\035Str"
+  "eamingDetectIntentResponse\022\023\n\013response_i"
+  "d\030\001 \001(\t\022B\n\022recognition_result\030\002 \001(\0132&.on"
+  "dewo.nlu.StreamingRecognitionResult\022-\n\014q"
+  "uery_result\030\003 \001(\0132\027.ondewo.nlu.QueryResu"
+  "lt\022*\n\016webhook_status\030\004 \001(\0132\022.google.rpc."
+  "Status\022;\n\020llm_call_started\030\005 \001(\0132\037.ondew"
+  "o.nlu.LlmCallStartedEventH\000\022=\n\021llm_call_"
+  "finished\030\006 \001(\0132 .ondewo.nlu.LlmCallFinis"
+  "hedEventH\000\022D\n\025llm_tool_call_started\030\007 \001("
+  "\0132#.ondewo.nlu.LlmToolCallStartedEventH\000"
+  "\022F\n\026llm_tool_call_finished\030\010 \001(\0132$.ondew"
+  "o.nlu.LlmToolCallFinishedEventH\000\022\?\n\022llm_"
+  "thinking_delta\030\t \001(\0132!.ondewo.nlu.LlmThi"
+  "nkingDeltaEventH\000\022F\n\026llm_token_usage_upd"
+  "ate\030\n \001(\0132$.ondewo.nlu.LlmTokenUsageUpda"
+  "teEventH\000\022=\n\024llm_agent_node_event\030\013 \001(\0132"
+  "\035.ondewo.nlu.LlmAgentNodeEventH\000B\021\n\017tele"
+  "metry_event\"\372\001\n\032StreamingRecognitionResu"
+  "lt\022H\n\014message_type\030\001 \001(\01622.ondewo.nlu.St"
+  "reamingRecognitionResult.MessageType\022\022\n\n"
+  "transcript\030\002 \001(\t\022\020\n\010is_final\030\003 \001(\010\022\022\n\nco"
+  "nfidence\030\004 \001(\002\"X\n\013MessageType\022\034\n\030MESSAGE"
+  "_TYPE_UNSPECIFIED\020\000\022\016\n\nTRANSCRIPT\020\001\022\033\n\027E"
+  "ND_OF_SINGLE_UTTERANCE\020\002\"\215\001\n\020InputAudioC"
+  "onfig\0221\n\016audio_encoding\030\001 \001(\0162\031.ondewo.n"
+  "lu.AudioEncoding\022\031\n\021sample_rate_hertz\030\002 "
+  "\001(\005\022\025\n\rlanguage_code\030\003 \001(\t\022\024\n\014phrase_hin"
+  "ts\030\004 \003(\t\"0\n\tTextInput\022\014\n\004text\030\001 \001(\t\022\025\n\rl"
+  "anguage_code\030\002 \001(\t\"^\n\nEventInput\022\014\n\004name"
+  "\030\001 \001(\t\022+\n\nparameters\030\002 \001(\0132\027.google.prot"
+  "obuf.Struct\022\025\n\rlanguage_code\030\003 \001(\t\"\276\002\n\007S"
+  "ession\022\014\n\004name\030\001 \001(\t\022.\n\rsession_steps\030\002 "
+  "\003(\0132\027.ondewo.nlu.SessionStep\022-\n\014session_"
+  "info\030\003 \001(\0132\027.ondewo.nlu.SessionInfo\022.\n\nc"
+  "reated_at\030\004 \001(\0132\032.google.protobuf.Timest"
+  "amp\022/\n\013modified_at\030\005 \001(\0132\032.google.protob"
+  "uf.Timestamp\022\022\n\ncreated_by\030\006 \001(\t\022\023\n\013modi"
+  "fied_by\030\007 \001(\t\"<\n\004View\022\024\n\020VIEW_UNSPECIFIE"
+  "D\020\000\022\r\n\tVIEW_FULL\020\001\022\017\n\013VIEW_SPARSE\020\002\"\370\003\n\013"
+  "SessionStep\022\014\n\004name\030\001 \001(\t\022>\n\025detect_inte"
+  "nt_request\030\002 \001(\0132\037.ondewo.nlu.DetectInte"
+  "ntRequest\022@\n\026detect_intent_response\030\003 \001("
+  "\0132 .ondewo.nlu.DetectIntentResponse\022%\n\010c"
+  "ontexts\030\004 \003(\0132\023.ondewo.nlu.Context\022-\n\tti"
+  "mestamp\030\005 \001(\0132\032.google.protobuf.Timestam"
+  "p\022.\n\ncreated_at\030\006 \001(\0132\032.google.protobuf."
+  "Timestamp\022/\n\013modified_at\030\007 \001(\0132\032.google."
+  "protobuf.Timestamp\022\022\n\ncreated_by\030\010 \001(\t\022\023"
+  "\n\013modified_by\030\t \001(\t\022;\n\024audio_file_resour"
+  "ces\030\n \003(\0132\035.ondewo.nlu.AudioFileResource"
+  "\022<\n\024llm_telemetry_report\030\013 \001(\0132\036.ondewo."
+  "nlu.LlmTelemetryReport\"U\n\025GetSessionStep"
+  "Request\022\014\n\004name\030\001 \001(\t\022.\n\nfield_mask\030\002 \001("
+  "\0132\032.google.protobuf.FieldMask\"\252\001\n\030Update"
+  "SessionStepRequest\022-\n\014session_step\030\001 \001(\013"
+  "2\027.ondewo.nlu.SessionStep\022/\n\013update_mask"
+  "\030\002 \001(\0132\032.google.protobuf.FieldMask\022.\n\nfi"
   "eld_mask\030\003 \001(\0132\032.google.protobuf.FieldMa"
-  "sk\">\n\036ListMatchedEntityTypesResponse\022\034\n\024"
-  "matched_entity_types\030\001 \003(\t\"\224\001\n\037ListUserI"
-  "dsOfAllSessionsRequest\022\016\n\006parent\030\001 \001(\t\0221"
-  "\n\016session_filter\030\002 \001(\0132\031.ondewo.nlu.Sess"
-  "ionFilter\022.\n\nfield_mask\030\003 \001(\0132\032.google.p"
-  "rotobuf.FieldMask\"\'\n\023ListUserIdsResponse"
-  "\022\020\n\010user_ids\030\001 \003(\t\"\236\001\n)ListIdentifiedUse"
-  "rIdsOfAllSessionsRequest\022\016\n\006parent\030\001 \001(\t"
-  "\0221\n\016session_filter\030\002 \001(\0132\031.ondewo.nlu.Se"
-  "ssionFilter\022.\n\nfield_mask\030\003 \001(\0132\032.google"
-  ".protobuf.FieldMask\"<\n\035ListIdentifiedUse"
-  "rIdsResponse\022\033\n\023identified_user_ids\030\001 \003("
-  "\t\"\221\001\n\034ListTagsOfAllSessionsRequest\022\016\n\006pa"
+  "sk\"(\n\030DeleteSessionStepRequest\022\014\n\004name\030\001"
+  " \001(\t\"\215\001\n\030CreateSessionStepRequest\022\022\n\nses"
+  "sion_id\030\001 \001(\t\022-\n\014session_step\030\002 \001(\0132\027.on"
+  "dewo.nlu.SessionStep\022.\n\nfield_mask\030\003 \001(\013"
+  "2\032.google.protobuf.FieldMask\"\314\001\n\023ListSes"
+  "sionsRequest\022\016\n\006parent\030\001 \001(\t\022.\n\014session_"
+  "view\030\002 \001(\0162\030.ondewo.nlu.Session.View\022\022\n\n"
+  "page_token\030\004 \001(\t\0221\n\016session_filter\030\005 \001(\013"
+  "2\031.ondewo.nlu.SessionFilter\022.\n\nfield_mas"
+  "k\030\006 \001(\0132\032.google.protobuf.FieldMask\"s\n\rC"
+  "ontextFilter\022\024\n\014context_name\030\001 \001(\t\022\013\n\003ke"
+  "y\030\002 \001(\t\022\r\n\005value\030\003 \001(\t\0220\n\010operator\030\004 \001(\016"
+  "2\036.ondewo.nlu.ComparisonOperator\"\325\r\n\rSes"
+  "sionFilter\022\026\n\016language_codes\030\001 \003(\t\022+\n\017ma"
+  "tched_intents\030\002 \003(\0132\022.ondewo.nlu.Intent\022"
+  "4\n\024matched_entity_types\030\003 \003(\0132\026.ondewo.n"
+  "lu.EntityType\022\"\n\032min_intents_confidence_"
+  "min\030\004 \001(\002\022\"\n\032min_intents_confidence_max\030"
+  "\005 \001(\002\022\'\n\037min_entity_types_confidence_min"
+  "\030\006 \001(\002\022\'\n\037min_entity_types_confidence_ma"
+  "x\030\007 \001(\002\022\020\n\010earliest\030\010 \001(\001\022\016\n\006latest\030\t \001("
+  "\001\022\030\n\020min_number_turns\030\n \001(\005\022\030\n\020max_numbe"
+  "r_turns\030\013 \001(\005\022\016\n\006labels\030\014 \003(\t\022\020\n\010user_id"
+  "s\030\r \003(\t\022\023\n\013intent_tags\030\016 \003(\t\022\023\n\013session_"
+  "ids\030\017 \003(\t\022+\n\016input_contexts\030\020 \003(\0132\023.onde"
+  "wo.nlu.Context\022,\n\017output_contexts\030\021 \003(\0132"
+  "\023.ondewo.nlu.Context\022\031\n\021duration_in_s_mi"
+  "n\030\022 \001(\002\022\031\n\021duration_in_s_max\030\023 \001(\002\022\031\n\021du"
+  "ration_in_m_min\030\024 \001(\002\022\031\n\021duration_in_m_m"
+  "ax\030\025 \001(\002\022!\n\031duration_in_m_rounded_min\030\026 "
+  "\001(\002\022!\n\031duration_in_m_rounded_max\030\027 \001(\002\022)"
+  "\n!duration_interval_15s_rounded_min\030\030 \001("
+  "\002\022)\n!duration_interval_15s_rounded_max\030\031"
+  " \001(\002\022)\n!duration_interval_30s_rounded_mi"
+  "n\030\032 \001(\002\022)\n!duration_interval_30s_rounded"
+  "_max\030\033 \001(\002\022)\n!duration_interval_45s_roun"
+  "ded_min\030\034 \001(\002\022)\n!duration_interval_45s_r"
+  "ounded_max\030\035 \001(\002\022&\n\036started_time_slot_pe"
+  "r_hour_min\030\036 \001(\t\022&\n\036started_time_slot_pe"
+  "r_hour_max\030\037 \001(\t\022.\n&started_time_slot_pe"
+  "r_quarter_hour_min\030  \001(\t\022.\n&started_time"
+  "_slot_per_quarter_hour_max\030! \001(\t\022+\n#star"
+  "ted_time_slot_per_half_hour_min\030\" \001(\t\022+\n"
+  "#started_time_slot_per_half_hour_max\030# \001"
+  "(\t\022+\n#started_time_slot_per_day_phase_mi"
+  "n\030$ \001(\t\022+\n#started_time_slot_per_day_pha"
+  "se_max\030% \001(\t\022(\n started_time_slot_per_mi"
+  "nute_min\030& \001(\t\022(\n started_time_slot_per_"
+  "minute_max\030\' \001(\t\022!\n\031duration_in_s_rounde"
+  "d_min\030( \001(\002\022!\n\031duration_in_s_rounded_max"
+  "\030) \001(\002\0226\n\tplatforms\030* \003(\0162#.ondewo.nlu.I"
+  "ntent.Message.Platform\022\023\n\013account_ids\030+ "
+  "\003(\t\022\024\n\014property_ids\030, \003(\t\022\026\n\016datastream_"
+  "ids\030- \003(\t\022\022\n\norigin_ids\030. \003(\t\022\033\n\023identif"
+  "ied_user_ids\030/ \003(\t\022)\n!duration_interval_"
+  "60s_rounded_min\0300 \001(\002\022)\n!duration_interv"
+  "al_60s_rounded_max\0301 \001(\002\"\243\t\n\013SessionInfo"
+  "\022\026\n\016language_codes\030\001 \003(\t\022+\n\017matched_inte"
+  "nts\030\002 \003(\0132\022.ondewo.nlu.Intent\0224\n\024matched"
+  "_entity_types\030\003 \003(\0132\026.ondewo.nlu.EntityT"
+  "ype\022\036\n\026min_intents_confidence\030\004 \001(\002\022#\n\033m"
+  "in_entity_types_confidence\030\005 \001(\002\022\020\n\010earl"
+  "iest\030\006 \001(\001\022\016\n\006latest\030\007 \001(\001\022\024\n\014number_tur"
+  "ns\030\010 \001(\005\022\016\n\006labels\030\t \003(\t\022\020\n\010user_ids\030\n \003"
+  "(\t\022\023\n\013intent_tags\030\013 \003(\t\022A\n\023input_context"
+  "_steps\030\014 \003(\0132$.ondewo.nlu.SessionInfo.Co"
+  "ntextSteps\022B\n\024output_context_steps\030\r \003(\013"
+  "2$.ondewo.nlu.SessionInfo.ContextSteps\022\025"
+  "\n\rduration_in_s\030\016 \001(\002\022\025\n\rduration_in_m\030\017"
+  " \001(\002\022\035\n\025duration_in_m_rounded\030\020 \001(\002\022%\n\035d"
+  "uration_interval_15s_rounded\030\021 \001(\002\022%\n\035du"
+  "ration_interval_30s_rounded\030\022 \001(\002\022%\n\035dur"
+  "ation_interval_45s_rounded\030\023 \001(\002\022\"\n\032star"
+  "ted_time_slot_per_hour\030\024 \001(\t\022*\n\"started_"
+  "time_slot_per_quarter_hour\030\025 \001(\t\022\'\n\037star"
+  "ted_time_slot_per_half_hour\030\026 \001(\t\022\'\n\037sta"
+  "rted_time_slot_per_day_phase\030\027 \001(\t\022$\n\034st"
+  "arted_time_slot_per_minute\030\030 \001(\t\022\035\n\025dura"
+  "tion_in_s_rounded\030\031 \001(\002\0226\n\tplatforms\030\032 \003"
+  "(\0162#.ondewo.nlu.Intent.Message.Platform\022"
+  "\023\n\013account_ids\030\033 \003(\t\022\024\n\014property_ids\030\034 \003"
+  "(\t\022\026\n\016datastream_ids\030\035 \003(\t\022\022\n\norigin_ids"
+  "\030\036 \003(\t\022\033\n\023identified_user_ids\030\037 \003(\t\022%\n\035d"
+  "uration_interval_60s_rounded\030  \001(\002\022+\n\016pa"
+  "rent_comment\030! \003(\0132\023.ondewo.nlu.Comment\032"
+  "5\n\014ContextSteps\022%\n\010contexts\030\001 \003(\0132\023.onde"
+  "wo.nlu.Context\"V\n\024ListSessionsResponse\022%"
+  "\n\010sessions\030\001 \003(\0132\023.ondewo.nlu.Session\022\027\n"
+  "\017next_page_token\030\002 \001(\t\"\207\001\n\021GetSessionReq"
+  "uest\022\022\n\nsession_id\030\001 \001(\t\022.\n\014session_view"
+  "\030\002 \001(\0162\030.ondewo.nlu.Session.View\022.\n\nfiel"
+  "d_mask\030\006 \001(\0132\032.google.protobuf.FieldMask"
+  "\"s\n\024CreateSessionRequest\022\016\n\006parent\030\001 \001(\t"
+  "\022\024\n\014session_uuid\030\002 \001(\t\022\016\n\006labels\030\003 \003(\t\022%"
+  "\n\010contexts\030\004 \003(\0132\023.ondewo.nlu.Context\"*\n"
+  "\024DeleteSessionRequest\022\022\n\nsession_id\030\001 \001("
+  "\t\"\272\001\n\032CreateSessionReviewRequest\022\022\n\nsess"
+  "ion_id\030\001 \001(\t\022\030\n\020parent_review_id\030\002 \001(\t\0221"
+  "\n\016session_review\030\003 \001(\0132\031.ondewo.nlu.Sess"
+  "ionReview\022;\n\023session_review_view\030\004 \001(\0162\036"
+  ".ondewo.nlu.SessionReview.View\"\242\002\n\rSessi"
+  "onReview\022\014\n\004name\030\001 \001(\t\022;\n\024session_review"
+  "_steps\030\002 \003(\0132\035.ondewo.nlu.SessionReviewS"
+  "tep\022.\n\ncreated_at\030\003 \001(\0132\032.google.protobu"
+  "f.Timestamp\022/\n\013modified_at\030\004 \001(\0132\032.googl"
+  "e.protobuf.Timestamp\022\022\n\ncreated_by\030\005 \001(\t"
+  "\022\023\n\013modified_by\030\006 \001(\t\"<\n\004View\022\024\n\020VIEW_UN"
+  "SPECIFIED\020\000\022\r\n\tVIEW_FULL\020\001\022\017\n\013VIEW_SPARS"
+  "E\020\002\"\312\004\n\021SessionReviewStep\022\014\n\004name\030\001 \001(\t\022"
+  "=\n\022annotated_usersays\030\002 \001(\0132!.ondewo.nlu"
+  ".Intent.TrainingPhrase\022\025\n\rlanguage_code\030"
+  "\003 \001(\t\0224\n\020detected_intents\030\004 \003(\0132\032.ondewo"
+  ".nlu.DetectedIntent\022%\n\010contexts\030\005 \003(\0132\023."
+  "ondewo.nlu.Context\022)\n\014contexts_out\030\006 \003(\013"
+  "2\023.ondewo.nlu.Context\022\033\n\023query_text_orig"
+  "inal\030\007 \001(\t\0226\n\tplatforms\030\010 \003(\0162#.ondewo.n"
+  "lu.Intent.Message.Platform\022-\n\ttimestamp\030"
+  "\t \001(\0132\032.google.protobuf.Timestamp\022.\n\ncre"
+  "ated_at\030\n \001(\0132\032.google.protobuf.Timestam"
+  "p\022/\n\013modified_at\030\013 \001(\0132\032.google.protobuf"
+  ".Timestamp\022\022\n\ncreated_by\030\014 \001(\t\022\023\n\013modifi"
+  "ed_by\030\r \001(\t\022;\n\024audio_file_resources\030\016 \003("
+  "\0132\035.ondewo.nlu.AudioFileResource\"\260\001\n\016Det"
+  "ectedIntent\022\"\n\006intent\030\001 \001(\0132\022.ondewo.nlu"
+  ".Intent\022\r\n\005score\030\002 \001(\002\022\021\n\talgorithm\030\003 \001("
+  "\t\0228\n\024fulfillment_messages\030\004 \003(\0132\032.ondewo"
+  ".nlu.Intent.Message\022\036\n\026required_param_mi"
+  "ssing\030\005 \001(\010\".\n\030ListSessionLabelsRequest\022"
+  "\022\n\nsession_id\030\001 \001(\t\"\232\001\n%ListSessionLabel"
+  "sOfAllSessionsRequest\022\016\n\006parent\030\001 \001(\t\0221\n"
+  "\016session_filter\030\002 \001(\0132\031.ondewo.nlu.Sessi"
+  "onFilter\022.\n\nfield_mask\030\003 \001(\0132\032.google.pr"
+  "otobuf.FieldMask\"+\n\031ListSessionLabelsRes"
+  "ponse\022\016\n\006labels\030\001 \003(\t\"\232\001\n%ListLanguageCo"
+  "desOfAllSessionsRequest\022\016\n\006parent\030\001 \001(\t\022"
+  "1\n\016session_filter\030\002 \001(\0132\031.ondewo.nlu.Ses"
+  "sionFilter\022.\n\nfield_mask\030\003 \001(\0132\032.google."
+  "protobuf.FieldMask\"3\n\031ListLanguageCodesR"
+  "esponse\022\026\n\016language_codes\030\001 \003(\t\"\233\001\n&List"
+  "MatchedIntentsOfAllSessionsRequest\022\016\n\006pa"
   "rent\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\0132\031.ond"
   "ewo.nlu.SessionFilter\022.\n\nfield_mask\030\003 \001("
-  "\0132\032.google.protobuf.FieldMask\" \n\020ListTag"
-  "sResponse\022\014\n\004tags\030\001 \003(\t\"\232\001\n%ListInputCon"
-  "textsOfAllSessionsRequest\022\016\n\006parent\030\001 \001("
-  "\t\0221\n\016session_filter\030\002 \001(\0132\031.ondewo.nlu.S"
-  "essionFilter\022.\n\nfield_mask\030\003 \001(\0132\032.googl"
-  "e.protobuf.FieldMask\"3\n\031ListInputContext"
-  "sResponse\022\026\n\016input_contexts\030\001 \003(\t\"\233\001\n&Li"
-  "stOutputContextsOfAllSessionsRequest\022\016\n\006"
-  "parent\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\0132\031.o"
-  "ndewo.nlu.SessionFilter\022.\n\nfield_mask\030\003 "
-  "\001(\0132\032.google.protobuf.FieldMask\"5\n\032ListO"
-  "utputContextsResponse\022\027\n\017output_contexts"
-  "\030\001 \003(\t\"\226\001\n!ListPlatformsOfAllSessionsReq"
-  "uest\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002"
-  " \001(\0132\031.ondewo.nlu.SessionFilter\022.\n\nfield"
-  "_mask\030\003 \001(\0132\032.google.protobuf.FieldMask\""
-  "*\n\025ListPlatformsResponse\022\021\n\tplatforms\030\001 "
-  "\003(\t\"\227\001\n\"ListAccountIdsOfAllSessionsReque"
-  "st\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002 \001"
-  "(\0132\031.ondewo.nlu.SessionFilter\022.\n\nfield_m"
-  "ask\030\003 \001(\0132\032.google.protobuf.FieldMask\"-\n"
-  "\026ListAccountIdsResponse\022\023\n\013account_ids\030\001"
-  " \003(\t\"h\n#ListPropertyIdsOfAllSessionsRequ"
-  "est\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002 "
-  "\001(\0132\031.ondewo.nlu.SessionFilter\"/\n\027ListPr"
-  "opertyIdsResponse\022\024\n\014property_ids\030\001 \003(\t\""
-  "j\n%ListDatastreamIdsOfAllSessionsRequest"
-  "\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\013"
-  "2\031.ondewo.nlu.SessionFilter\"3\n\031ListDatas"
-  "treamIdsResponse\022\026\n\016datastream_ids\030\001 \003(\t"
-  "\"\226\001\n!ListOriginIdsOfAllSessionsRequest\022\016"
+  "\0132\032.google.protobuf.FieldMask\"5\n\032ListMat"
+  "chedIntentsResponse\022\027\n\017matched_intents\030\001"
+  " \003(\t\"\237\001\n*ListMatchedEntityTypesOfAllSess"
+  "ionsRequest\022\016\n\006parent\030\001 \001(\t\0221\n\016session_f"
+  "ilter\030\002 \001(\0132\031.ondewo.nlu.SessionFilter\022."
+  "\n\nfield_mask\030\003 \001(\0132\032.google.protobuf.Fie"
+  "ldMask\">\n\036ListMatchedEntityTypesResponse"
+  "\022\034\n\024matched_entity_types\030\001 \003(\t\"\224\001\n\037ListU"
+  "serIdsOfAllSessionsRequest\022\016\n\006parent\030\001 \001"
+  "(\t\0221\n\016session_filter\030\002 \001(\0132\031.ondewo.nlu."
+  "SessionFilter\022.\n\nfield_mask\030\003 \001(\0132\032.goog"
+  "le.protobuf.FieldMask\"\'\n\023ListUserIdsResp"
+  "onse\022\020\n\010user_ids\030\001 \003(\t\"\236\001\n)ListIdentifie"
+  "dUserIdsOfAllSessionsRequest\022\016\n\006parent\030\001"
+  " \001(\t\0221\n\016session_filter\030\002 \001(\0132\031.ondewo.nl"
+  "u.SessionFilter\022.\n\nfield_mask\030\003 \001(\0132\032.go"
+  "ogle.protobuf.FieldMask\"<\n\035ListIdentifie"
+  "dUserIdsResponse\022\033\n\023identified_user_ids\030"
+  "\001 \003(\t\"\221\001\n\034ListTagsOfAllSessionsRequest\022\016"
   "\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\0132\031"
   ".ondewo.nlu.SessionFilter\022.\n\nfield_mask\030"
-  "\003 \001(\0132\032.google.protobuf.FieldMask\"+\n\025Lis"
-  "tOriginIdsResponse\022\022\n\norigin_ids\030\001 \003(\t\"="
-  "\n\027AddSessionLabelsRequest\022\022\n\nsession_id\030"
-  "\001 \001(\t\022\016\n\006labels\030\002 \003(\t\"@\n\032DeleteSessionLa"
-  "belsRequest\022\022\n\nsession_id\030\001 \001(\t\022\016\n\006label"
-  "s\030\002 \003(\t\"T\n\030AddSessionCommentRequest\022\022\n\ns"
-  "ession_id\030\001 \001(\t\022$\n\007comment\030\002 \001(\0132\023.ondew"
-  "o.nlu.Comment\"I\n\034DeleteSessionCommentsRe"
-  "quest\022\022\n\nsession_id\030\001 \001(\t\022\025\n\rcomment_nam"
-  "es\030\002 \003(\t\"X\n\034UpdateSessionCommentsRequest"
-  "\022\022\n\nsession_id\030\001 \001(\t\022$\n\007comment\030\002 \001(\0132\023."
-  "ondewo.nlu.Comment\"\236\001\n\032ListSessionCommen"
-  "tsRequest\022\022\n\nsession_id\030\001 \001(\t\022\022\n\npage_to"
-  "ken\030\002 \001(\t\022.\n\nfield_mask\030\003 \001(\0132\032.google.p"
-  "rotobuf.FieldMask\022\030\n\013is_resolved\030\004 \001(\010H\000"
-  "\210\001\001B\016\n\014_is_resolved\"\332\001\n\'ListSessionComme"
-  "ntsOfAllSessionsRequest\022\016\n\006parent\030\001 \001(\t\022"
+  "\003 \001(\0132\032.google.protobuf.FieldMask\" \n\020Lis"
+  "tTagsResponse\022\014\n\004tags\030\001 \003(\t\"\232\001\n%ListInpu"
+  "tContextsOfAllSessionsRequest\022\016\n\006parent\030"
+  "\001 \001(\t\0221\n\016session_filter\030\002 \001(\0132\031.ondewo.n"
+  "lu.SessionFilter\022.\n\nfield_mask\030\003 \001(\0132\032.g"
+  "oogle.protobuf.FieldMask\"3\n\031ListInputCon"
+  "textsResponse\022\026\n\016input_contexts\030\001 \003(\t\"\233\001"
+  "\n&ListOutputContextsOfAllSessionsRequest"
+  "\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\013"
+  "2\031.ondewo.nlu.SessionFilter\022.\n\nfield_mas"
+  "k\030\003 \001(\0132\032.google.protobuf.FieldMask\"5\n\032L"
+  "istOutputContextsResponse\022\027\n\017output_cont"
+  "exts\030\001 \003(\t\"\226\001\n!ListPlatformsOfAllSession"
+  "sRequest\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filt"
+  "er\030\002 \001(\0132\031.ondewo.nlu.SessionFilter\022.\n\nf"
+  "ield_mask\030\003 \001(\0132\032.google.protobuf.FieldM"
+  "ask\"*\n\025ListPlatformsResponse\022\021\n\tplatform"
+  "s\030\001 \003(\t\"\227\001\n\"ListAccountIdsOfAllSessionsR"
+  "equest\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter"
+  "\030\002 \001(\0132\031.ondewo.nlu.SessionFilter\022.\n\nfie"
+  "ld_mask\030\003 \001(\0132\032.google.protobuf.FieldMas"
+  "k\"-\n\026ListAccountIdsResponse\022\023\n\013account_i"
+  "ds\030\001 \003(\t\"h\n#ListPropertyIdsOfAllSessions"
+  "Request\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filte"
+  "r\030\002 \001(\0132\031.ondewo.nlu.SessionFilter\"/\n\027Li"
+  "stPropertyIdsResponse\022\024\n\014property_ids\030\001 "
+  "\003(\t\"j\n%ListDatastreamIdsOfAllSessionsReq"
+  "uest\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002"
+  " \001(\0132\031.ondewo.nlu.SessionFilter\"3\n\031ListD"
+  "atastreamIdsResponse\022\026\n\016datastream_ids\030\001"
+  " \003(\t\"\226\001\n!ListOriginIdsOfAllSessionsReque"
+  "st\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002 \001"
+  "(\0132\031.ondewo.nlu.SessionFilter\022.\n\nfield_m"
+  "ask\030\003 \001(\0132\032.google.protobuf.FieldMask\"+\n"
+  "\025ListOriginIdsResponse\022\022\n\norigin_ids\030\001 \003"
+  "(\t\"=\n\027AddSessionLabelsRequest\022\022\n\nsession"
+  "_id\030\001 \001(\t\022\016\n\006labels\030\002 \003(\t\"@\n\032DeleteSessi"
+  "onLabelsRequest\022\022\n\nsession_id\030\001 \001(\t\022\016\n\006l"
+  "abels\030\002 \003(\t\"T\n\030AddSessionCommentRequest\022"
+  "\022\n\nsession_id\030\001 \001(\t\022$\n\007comment\030\002 \001(\0132\023.o"
+  "ndewo.nlu.Comment\"I\n\034DeleteSessionCommen"
+  "tsRequest\022\022\n\nsession_id\030\001 \001(\t\022\025\n\rcomment"
+  "_names\030\002 \003(\t\"X\n\034UpdateSessionCommentsReq"
+  "uest\022\022\n\nsession_id\030\001 \001(\t\022$\n\007comment\030\002 \001("
+  "\0132\023.ondewo.nlu.Comment\"\236\001\n\032ListSessionCo"
+  "mmentsRequest\022\022\n\nsession_id\030\001 \001(\t\022\022\n\npag"
+  "e_token\030\002 \001(\t\022.\n\nfield_mask\030\003 \001(\0132\032.goog"
+  "le.protobuf.FieldMask\022\030\n\013is_resolved\030\004 \001"
+  "(\010H\000\210\001\001B\016\n\014_is_resolved\"\332\001\n\'ListSessionC"
+  "ommentsOfAllSessionsRequest\022\016\n\006parent\030\001 "
+  "\001(\t\0221\n\016session_filter\030\002 \001(\0132\031.ondewo.nlu"
+  ".SessionFilter\022\022\n\npage_token\030\003 \001(\t\022.\n\nfi"
+  "eld_mask\030\004 \001(\0132\032.google.protobuf.FieldMa"
+  "sk\022\030\n\013is_resolved\030\005 \001(\010H\000\210\001\001B\016\n\014_is_reso"
+  "lved\"W\n\033ListSessionCommentsResponse\022$\n\007c"
+  "omment\030\001 \003(\0132\023.ondewo.nlu.Comment\022\022\n\npag"
+  "e_token\030\002 \001(\t\"\300\004\n\017SessionFeedback\022\014\n\004nam"
+  "e\030\001 \001(\t\022\022\n\nsession_id\030\002 \001(\t\022\027\n\017session_s"
+  "tep_id\030\003 \001(\t\022\023\n\013response_id\030\004 \001(\t\022%\n\035ses"
+  "sion_step_llm_telemetry_id\030\005 \001(\t\022*\n\006rati"
+  "ng\030\006 \001(\0162\032.ondewo.nlu.FeedbackRating\022\031\n\021"
+  "categorical_value\030\007 \001(\t\022\022\n\005score\030\010 \001(\002H\000"
+  "\210\001\001\022\017\n\007comment\030\t \001(\t\022\021\n\tcriterion\030\n \001(\t\022"
+  "3\n\013author_type\030\013 \001(\0162\036.ondewo.nlu.Feedba"
+  "ckAuthorType\022\031\n\021annotator_user_id\030\014 \001(\t\022"
+  "\021\n\torigin_id\030\r \001(\t\022\032\n\022identified_user_id"
+  "\030\016 \001(\t\022$\n\003raw\030\017 \001(\0132\027.google.protobuf.St"
+  "ruct\022.\n\ncreated_at\030\020 \001(\0132\032.google.protob"
+  "uf.Timestamp\022/\n\013modified_at\030\021 \001(\0132\032.goog"
+  "le.protobuf.Timestamp\022\022\n\ncreated_by\030\022 \001("
+  "\t\022\023\n\013modified_by\030\023 \001(\tB\010\n\006_score\"^\n\031AddS"
+  "essionFeedbackRequest\022\022\n\nsession_id\030\001 \001("
+  "\t\022-\n\010feedback\030\002 \001(\0132\033.ondewo.nlu.Session"
+  "Feedback\"{\n\035AddSessionStepFeedbackReques"
+  "t\022\022\n\nsession_id\030\001 \001(\t\022\027\n\017session_step_id"
+  "\030\002 \001(\t\022-\n\010feedback\030\003 \001(\0132\033.ondewo.nlu.Se"
+  "ssionFeedback\"Y\n\031GetSessionFeedbackReque"
+  "st\022\014\n\004name\030\001 \001(\t\022.\n\nfield_mask\030\002 \001(\0132\032.g"
+  "oogle.protobuf.FieldMask\"~\n\034UpdateSessio"
+  "nFeedbackRequest\022-\n\010feedback\030\001 \001(\0132\033.ond"
+  "ewo.nlu.SessionFeedback\022/\n\013update_mask\030\002"
+  " \001(\0132\032.google.protobuf.FieldMask\",\n\034Dele"
+  "teSessionFeedbackRequest\022\014\n\004name\030\001 \001(\t\"t"
+  "\n\032ListSessionFeedbackRequest\022\022\n\nsession_"
+  "id\030\001 \001(\t\022\022\n\npage_token\030\002 \001(\t\022.\n\nfield_ma"
+  "sk\030\003 \001(\0132\032.google.protobuf.FieldMask\"\367\001\n"
+  "\'ListSessionFeedbackOfAllSessionsRequest"
+  "\022\016\n\006parent\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\013"
+  "2\031.ondewo.nlu.SessionFilter\022\022\n\npage_toke"
+  "n\030\003 \001(\t\022.\n\nfield_mask\030\004 \001(\0132\032.google.pro"
+  "tobuf.FieldMask\0223\n\017feedback_filter\030\005 \001(\013"
+  "2\032.ondewo.nlu.FeedbackFilter\022\020\n\010order_by"
+  "\030\006 \001(\t\"z\n\033ListSessionFeedbackResponse\022-\n"
+  "\010feedback\030\001 \003(\0132\033.ondewo.nlu.SessionFeed"
+  "back\022\027\n\017next_page_token\030\002 \001(\t\022\023\n\013total_c"
+  "ount\030\003 \001(\005\"\307\003\n\016FeedbackFilter\022+\n\007ratings"
+  "\030\001 \003(\0162\032.ondewo.nlu.FeedbackRating\0224\n\014au"
+  "thor_types\030\002 \003(\0162\036.ondewo.nlu.FeedbackAu"
+  "thorType\022\030\n\013has_comment\030\003 \001(\010H\000\210\001\001\022,\n\010ea"
+  "rliest\030\004 \001(\0132\032.google.protobuf.Timestamp"
+  "\022*\n\006latest\030\005 \001(\0132\032.google.protobuf.Times"
+  "tamp\022\020\n\010criteria\030\006 \003(\t\022\026\n\016language_codes"
+  "\030\007 \003(\t\022\032\n\022annotator_user_ids\030\010 \003(\t\022\022\n\nor"
+  "igin_ids\030\t \003(\t\022\026\n\tscore_min\030\n \001(\002H\001\210\001\001\022\026"
+  "\n\tscore_max\030\013 \001(\002H\002\210\001\001\022(\n\005scope\030\014 \001(\0162\031."
+  "ondewo.nlu.FeedbackScopeB\016\n\014_has_comment"
+  "B\014\n\n_score_minB\014\n\n_score_max\"i\n\027Feedback"
+  "BreakdownBucket\022\013\n\003key\030\001 \001(\t\022\027\n\017thumbs_u"
+  "p_count\030\002 \001(\005\022\031\n\021thumbs_down_count\030\003 \001(\005"
+  "\022\r\n\005total\030\004 \001(\005\"\344\004\n\022FeedbackStatistics\022\026"
+  "\n\016total_feedback\030\001 \001(\005\022\027\n\017thumbs_up_coun"
+  "t\030\002 \001(\005\022\031\n\021thumbs_down_count\030\003 \001(\005\022\033\n\023se"
+  "ssion_level_count\030\004 \001(\005\022 \n\030session_step_"
+  "level_count\030\005 \001(\005\022\025\n\rcomment_count\030\006 \001(\005"
+  "\022\034\n\024session_review_count\030\007 \001(\005\022\035\n\025sessio"
+  "n_comment_count\030\010 \001(\005\0228\n\013by_language\030\t \003"
+  "(\0132#.ondewo.nlu.FeedbackBreakdownBucket\022"
+  "6\n\tby_intent\030\n \003(\0132#.ondewo.nlu.Feedback"
+  "BreakdownBucket\022;\n\016by_author_type\030\013 \003(\0132"
+  "#.ondewo.nlu.FeedbackBreakdownBucket\022 \n\030"
+  "unspecified_rating_count\030\014 \001(\005\022\024\n\014scored"
+  "_count\030\r \001(\005\022\025\n\raverage_score\030\016 \001(\002\0226\n\tb"
+  "y_origin\030\017 \003(\0132#.ondewo.nlu.FeedbackBrea"
+  "kdownBucket\0229\n\014by_criterion\030\020 \003(\0132#.onde"
+  "wo.nlu.FeedbackBreakdownBucket\"\361\001\n\034GetFe"
+  "edbackStatisticsRequest\022\016\n\006parent\030\001 \001(\t\022"
   "1\n\016session_filter\030\002 \001(\0132\031.ondewo.nlu.Ses"
-  "sionFilter\022\022\n\npage_token\030\003 \001(\t\022.\n\nfield_"
-  "mask\030\004 \001(\0132\032.google.protobuf.FieldMask\022\030"
-  "\n\013is_resolved\030\005 \001(\010H\000\210\001\001B\016\n\014_is_resolved"
-  "\"W\n\033ListSessionCommentsResponse\022$\n\007comme"
-  "nt\030\001 \003(\0132\023.ondewo.nlu.Comment\022\022\n\npage_to"
-  "ken\030\002 \001(\t\"\300\004\n\017SessionFeedback\022\014\n\004name\030\001 "
-  "\001(\t\022\022\n\nsession_id\030\002 \001(\t\022\027\n\017session_step_"
-  "id\030\003 \001(\t\022\023\n\013response_id\030\004 \001(\t\022%\n\035session"
-  "_step_llm_telemetry_id\030\005 \001(\t\022*\n\006rating\030\006"
-  " \001(\0162\032.ondewo.nlu.FeedbackRating\022\031\n\021cate"
-  "gorical_value\030\007 \001(\t\022\022\n\005score\030\010 \001(\002H\000\210\001\001\022"
-  "\017\n\007comment\030\t \001(\t\022\021\n\tcriterion\030\n \001(\t\0223\n\013a"
-  "uthor_type\030\013 \001(\0162\036.ondewo.nlu.FeedbackAu"
-  "thorType\022\031\n\021annotator_user_id\030\014 \001(\t\022\021\n\to"
-  "rigin_id\030\r \001(\t\022\032\n\022identified_user_id\030\016 \001"
-  "(\t\022$\n\003raw\030\017 \001(\0132\027.google.protobuf.Struct"
-  "\022.\n\ncreated_at\030\020 \001(\0132\032.google.protobuf.T"
-  "imestamp\022/\n\013modified_at\030\021 \001(\0132\032.google.p"
-  "rotobuf.Timestamp\022\022\n\ncreated_by\030\022 \001(\t\022\023\n"
-  "\013modified_by\030\023 \001(\tB\010\n\006_score\"^\n\031AddSessi"
-  "onFeedbackRequest\022\022\n\nsession_id\030\001 \001(\t\022-\n"
-  "\010feedback\030\002 \001(\0132\033.ondewo.nlu.SessionFeed"
-  "back\"{\n\035AddSessionStepFeedbackRequest\022\022\n"
-  "\nsession_id\030\001 \001(\t\022\027\n\017session_step_id\030\002 \001"
-  "(\t\022-\n\010feedback\030\003 \001(\0132\033.ondewo.nlu.Sessio"
-  "nFeedback\"Y\n\031GetSessionFeedbackRequest\022\014"
-  "\n\004name\030\001 \001(\t\022.\n\nfield_mask\030\002 \001(\0132\032.googl"
-  "e.protobuf.FieldMask\"~\n\034UpdateSessionFee"
-  "dbackRequest\022-\n\010feedback\030\001 \001(\0132\033.ondewo."
-  "nlu.SessionFeedback\022/\n\013update_mask\030\002 \001(\013"
-  "2\032.google.protobuf.FieldMask\",\n\034DeleteSe"
-  "ssionFeedbackRequest\022\014\n\004name\030\001 \001(\t\"t\n\032Li"
-  "stSessionFeedbackRequest\022\022\n\nsession_id\030\001"
-  " \001(\t\022\022\n\npage_token\030\002 \001(\t\022.\n\nfield_mask\030\003"
-  " \001(\0132\032.google.protobuf.FieldMask\"\367\001\n\'Lis"
-  "tSessionFeedbackOfAllSessionsRequest\022\016\n\006"
+  "sionFilter\022)\n!include_review_and_comment"
+  "_rollup\030\003 \001(\010\022.\n\nfield_mask\030\004 \001(\0132\032.goog"
+  "le.protobuf.FieldMask\0223\n\017feedback_filter"
+  "\030\005 \001(\0132\032.ondewo.nlu.FeedbackFilter\"S\n\035Ge"
+  "tFeedbackStatisticsResponse\0222\n\nstatistic"
+  "s\030\001 \001(\0132\036.ondewo.nlu.FeedbackStatistics\""
+  "\277\001\n\030FeedbackTimeSeriesBucket\0220\n\014bucket_s"
+  "tart\030\001 \001(\0132\032.google.protobuf.Timestamp\022\027"
+  "\n\017thumbs_up_count\030\002 \001(\005\022\031\n\021thumbs_down_c"
+  "ount\030\003 \001(\005\022\r\n\005total\030\004 \001(\005\022.\n\nbucket_end\030"
+  "\005 \001(\0132\032.google.protobuf.Timestamp\"\244\003\n&Ge"
+  "tFeedbackStatisticsTimeSeriesRequest\022\016\n\006"
   "parent\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\0132\031.o"
-  "ndewo.nlu.SessionFilter\022\022\n\npage_token\030\003 "
-  "\001(\t\022.\n\nfield_mask\030\004 \001(\0132\032.google.protobu"
-  "f.FieldMask\0223\n\017feedback_filter\030\005 \001(\0132\032.o"
-  "ndewo.nlu.FeedbackFilter\022\020\n\010order_by\030\006 \001"
-  "(\t\"z\n\033ListSessionFeedbackResponse\022-\n\010fee"
-  "dback\030\001 \003(\0132\033.ondewo.nlu.SessionFeedback"
-  "\022\027\n\017next_page_token\030\002 \001(\t\022\023\n\013total_count"
-  "\030\003 \001(\005\"\307\003\n\016FeedbackFilter\022+\n\007ratings\030\001 \003"
-  "(\0162\032.ondewo.nlu.FeedbackRating\0224\n\014author"
-  "_types\030\002 \003(\0162\036.ondewo.nlu.FeedbackAuthor"
-  "Type\022\030\n\013has_comment\030\003 \001(\010H\000\210\001\001\022,\n\010earlie"
-  "st\030\004 \001(\0132\032.google.protobuf.Timestamp\022*\n\006"
-  "latest\030\005 \001(\0132\032.google.protobuf.Timestamp"
-  "\022\020\n\010criteria\030\006 \003(\t\022\026\n\016language_codes\030\007 \003"
-  "(\t\022\032\n\022annotator_user_ids\030\010 \003(\t\022\022\n\norigin"
-  "_ids\030\t \003(\t\022\026\n\tscore_min\030\n \001(\002H\001\210\001\001\022\026\n\tsc"
-  "ore_max\030\013 \001(\002H\002\210\001\001\022(\n\005scope\030\014 \001(\0162\031.onde"
-  "wo.nlu.FeedbackScopeB\016\n\014_has_commentB\014\n\n"
-  "_score_minB\014\n\n_score_max\"i\n\027FeedbackBrea"
-  "kdownBucket\022\013\n\003key\030\001 \001(\t\022\027\n\017thumbs_up_co"
-  "unt\030\002 \001(\005\022\031\n\021thumbs_down_count\030\003 \001(\005\022\r\n\005"
-  "total\030\004 \001(\005\"\344\004\n\022FeedbackStatistics\022\026\n\016to"
-  "tal_feedback\030\001 \001(\005\022\027\n\017thumbs_up_count\030\002 "
-  "\001(\005\022\031\n\021thumbs_down_count\030\003 \001(\005\022\033\n\023sessio"
-  "n_level_count\030\004 \001(\005\022 \n\030session_step_leve"
-  "l_count\030\005 \001(\005\022\025\n\rcomment_count\030\006 \001(\005\022\034\n\024"
-  "session_review_count\030\007 \001(\005\022\035\n\025session_co"
-  "mment_count\030\010 \001(\005\0228\n\013by_language\030\t \003(\0132#"
-  ".ondewo.nlu.FeedbackBreakdownBucket\0226\n\tb"
-  "y_intent\030\n \003(\0132#.ondewo.nlu.FeedbackBrea"
-  "kdownBucket\022;\n\016by_author_type\030\013 \003(\0132#.on"
-  "dewo.nlu.FeedbackBreakdownBucket\022 \n\030unsp"
-  "ecified_rating_count\030\014 \001(\005\022\024\n\014scored_cou"
-  "nt\030\r \001(\005\022\025\n\raverage_score\030\016 \001(\002\0226\n\tby_or"
-  "igin\030\017 \003(\0132#.ondewo.nlu.FeedbackBreakdow"
-  "nBucket\0229\n\014by_criterion\030\020 \003(\0132#.ondewo.n"
-  "lu.FeedbackBreakdownBucket\"\361\001\n\034GetFeedba"
-  "ckStatisticsRequest\022\016\n\006parent\030\001 \001(\t\0221\n\016s"
-  "ession_filter\030\002 \001(\0132\031.ondewo.nlu.Session"
-  "Filter\022)\n!include_review_and_comment_rol"
-  "lup\030\003 \001(\010\022.\n\nfield_mask\030\004 \001(\0132\032.google.p"
-  "rotobuf.FieldMask\0223\n\017feedback_filter\030\005 \001"
-  "(\0132\032.ondewo.nlu.FeedbackFilter\"S\n\035GetFee"
-  "dbackStatisticsResponse\0222\n\nstatistics\030\001 "
-  "\001(\0132\036.ondewo.nlu.FeedbackStatistics\"\277\001\n\030"
-  "FeedbackTimeSeriesBucket\0220\n\014bucket_start"
-  "\030\001 \001(\0132\032.google.protobuf.Timestamp\022\027\n\017th"
-  "umbs_up_count\030\002 \001(\005\022\031\n\021thumbs_down_count"
-  "\030\003 \001(\005\022\r\n\005total\030\004 \001(\005\022.\n\nbucket_end\030\005 \001("
-  "\0132\032.google.protobuf.Timestamp\"\244\003\n&GetFee"
-  "dbackStatisticsTimeSeriesRequest\022\016\n\006pare"
-  "nt\030\001 \001(\t\0221\n\016session_filter\030\002 \001(\0132\031.ondew"
-  "o.nlu.SessionFilter\022\034\n\024bucket_width_seco"
-  "nds\030\003 \001(\005\022\023\n\013max_buckets\030\004 \001(\005\022.\n\nfield_"
-  "mask\030\005 \001(\0132\032.google.protobuf.FieldMask\0223"
-  "\n\017feedback_filter\030\006 \001(\0132\032.ondewo.nlu.Fee"
-  "dbackFilter\0228\n\013granularity\030\007 \001(\0162#.ondew"
-  "o.nlu.FeedbackTimeGranularity\022\021\n\ttime_zo"
-  "ne\030\010 \001(\t\022)\n\005start\030\t \001(\0132\032.google.protobu"
-  "f.Timestamp\022\'\n\003end\030\n \001(\0132\032.google.protob"
-  "uf.Timestamp\"`\n\'GetFeedbackStatisticsTim"
-  "eSeriesResponse\0225\n\007buckets\030\001 \003(\0132$.ondew"
-  "o.nlu.FeedbackTimeSeriesBucket\"\200\001\n\031ListS"
-  "essionReviewsRequest\022\022\n\nsession_id\030\001 \001(\t"
-  "\022;\n\023session_review_view\030\002 \001(\0162\036.ondewo.n"
-  "lu.SessionReview.View\022\022\n\npage_token\030\004 \001("
-  "\t\"i\n\032ListSessionReviewsResponse\0222\n\017sessi"
-  "on_reviews\030\001 \003(\0132\031.ondewo.nlu.SessionRev"
-  "iew\022\027\n\017next_page_token\030\002 \001(\t\"\241\001\n\027GetSess"
-  "ionReviewRequest\022\031\n\021session_review_id\030\001 "
-  "\001(\t\022;\n\023session_review_view\030\002 \001(\0162\036.ondew"
-  "o.nlu.SessionReview.View\022.\n\nfield_mask\030\003"
-  " \001(\0132\032.google.protobuf.FieldMask\"\240\001\n\035Get"
-  "LatestSessionReviewRequest\022\022\n\nsession_id"
-  "\030\001 \001(\t\022;\n\023session_review_view\030\002 \001(\0162\036.on"
-  "dewo.nlu.SessionReview.View\022.\n\nfield_mas"
-  "k\030\003 \001(\0132\032.google.protobuf.FieldMask\"\235\002\n\014"
-  "FileResource\022B\n\026document_file_resource\030\001"
-  " \001(\0132 .ondewo.nlu.DocumentFileResourceH\000"
-  "\022<\n\023audio_file_resource\030\002 \001(\0132\035.ondewo.n"
-  "lu.AudioFileResourceH\000\022<\n\023image_file_res"
-  "ource\030\003 \001(\0132\035.ondewo.nlu.ImageFileResour"
-  "ceH\000\022<\n\023video_file_resource\030\004 \001(\0132\035.onde"
-  "wo.nlu.VideoFileResourceH\000B\017\n\rfile_resou"
-  "rce\"\323\001\n\024DocumentFileResource\022\014\n\004name\030\001 \001"
-  "(\t\022\024\n\014display_name\030\002 \001(\t\022\r\n\005bytes\030\003 \001(\014\022"
-  ".\n\ncreated_at\030\004 \001(\0132\032.google.protobuf.Ti"
-  "mestamp\022/\n\013modified_at\030\005 \001(\0132\032.google.pr"
-  "otobuf.Timestamp\022\022\n\ncreated_by\030\006 \001(\t\022\023\n\013"
-  "modified_by\030\007 \001(\t\"\320\001\n\021ImageFileResource\022"
-  "\014\n\004name\030\001 \001(\t\022\024\n\014display_name\030\002 \001(\t\022\r\n\005b"
-  "ytes\030\003 \001(\014\022.\n\ncreated_at\030\004 \001(\0132\032.google."
-  "protobuf.Timestamp\022/\n\013modified_at\030\005 \001(\0132"
-  "\032.google.protobuf.Timestamp\022\022\n\ncreated_b"
-  "y\030\006 \001(\t\022\023\n\013modified_by\030\007 \001(\t\"\211\003\n\021AudioFi"
-  "leResource\022\014\n\004name\030\001 \001(\t\022\r\n\005bytes\030\002 \001(\014\022"
-  "\020\n\010language\030\003 \001(\t\022\025\n\rduration_in_s\030\004 \001(\002"
-  "\022\023\n\013sample_rate\030\005 \001(\005\022C\n\030audio_file_reso"
-  "urce_type\030\006 \001(\0162!.ondewo.nlu.AudioFileRe"
-  "sourceType\0224\n\016transcriptions\030\007 \003(\0132\034.ond"
-  "ewo.nlu.S2tTranscription\022.\n\ncreated_at\030\010"
-  " \001(\0132\032.google.protobuf.Timestamp\022/\n\013modi"
-  "fied_at\030\t \001(\0132\032.google.protobuf.Timestam"
-  "p\022\022\n\ncreated_by\030\n \001(\t\022\023\n\013modified_by\030\013 \001"
-  "(\t\022\024\n\014display_name\030\014 \001(\t\"\217\002\n\021VideoFileRe"
-  "source\022\014\n\004name\030\001 \001(\t\022\024\n\014display_name\030\002 \001"
-  "(\t\022\r\n\005bytes\030\003 \001(\014\022\025\n\rduration_in_s\030\004 \001(\002"
-  "\022\022\n\nresolution\030\005 \001(\t\022\022\n\nframe_rate\030\006 \001(\002"
-  "\022.\n\ncreated_at\030\007 \001(\0132\032.google.protobuf.T"
-  "imestamp\022/\n\013modified_at\030\010 \001(\0132\032.google.p"
-  "rotobuf.Timestamp\022\022\n\ncreated_by\030\t \001(\t\022\023\n"
-  "\013modified_by\030\n \001(\t\"\331\001\n\024GetAudioFilesRequ"
-  "est\022\016\n\006parent\030\001 \001(\t\022\r\n\005names\030\002 \003(\t\022/\n\rre"
-  "source_view\030\003 \001(\0162\030.ondewo.nlu.ResourceV"
-  "iew\022\022\n\npage_token\030\004 \001(\t\022-\n\014sorting_mode\030"
-  "\005 \001(\0162\027.ondewo.nlu.SortingMode\022.\n\nfield_"
-  "mask\030\006 \001(\0132\032.google.protobuf.FieldMask\"{"
-  "\n\025GetAudioFilesResponse\0222\n\013audio_files\030\001"
-  " \003(\0132\035.ondewo.nlu.AudioFileResource\022\025\n\re"
-  "rror_message\030\002 \001(\t\022\027\n\017next_page_token\030\003 "
-  "\001(\t\"\220\001\n\024AddAudioFilesRequest\022\016\n\006parent\030\001"
-  " \001(\t\022\022\n\nsession_id\030\002 \001(\t\022;\n\024audio_file_r"
-  "esources\030\003 \003(\0132\035.ondewo.nlu.AudioFileRes"
-  "ource\022\027\n\017session_step_id\030\004 \001(\t\"k\n\025AddAud"
-  "ioFilesResponse\022;\n\024audio_file_resources\030"
-  "\001 \003(\0132\035.ondewo.nlu.AudioFileResource\022\025\n\r"
-  "error_message\030\002 \001(\t\"8\n\027DeleteAudioFilesR"
-  "equest\022\016\n\006parent\030\001 \001(\t\022\r\n\005names\030\002 \003(\t\"@\n"
-  "\030DeleteAudioFilesResponse\022\r\n\005names\030\001 \003(\t"
-  "\022\025\n\rerror_message\030\002 \001(\t\"\337\001\n\025ListAudioFil"
-  "esRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\nsession_id\030"
-  "\002 \001(\t\022/\n\rresource_view\030\003 \001(\0162\030.ondewo.nl"
-  "u.ResourceView\022\022\n\npage_token\030\004 \001(\t\022-\n\014so"
-  "rting_mode\030\005 \001(\0162\027.ondewo.nlu.SortingMod"
-  "e\022.\n\nfield_mask\030\006 \001(\0132\032.google.protobuf."
-  "FieldMask\"|\n\026ListAudioFilesResponse\0222\n\013a"
-  "udio_files\030\001 \003(\0132\035.ondewo.nlu.AudioFileR"
-  "esource\022\027\n\017next_page_token\030\002 \001(\t\022\025\n\rerro"
-  "r_message\030\003 \001(\t\"\243\001\n\034GetAudioFileOfSessio"
-  "nRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\nsession_id\030\002"
-  " \001(\t\022/\n\rresource_view\030\003 \001(\0162\030.ondewo.nlu"
-  ".ResourceView\022.\n\nfield_mask\030\004 \001(\0132\032.goog"
-  "le.protobuf.FieldMask*q\n\021TranscriptionTy"
-  "pe\022\"\n\036TRANSCRIPTION_TYPE_UNSPECIFIED\020\000\022\032"
-  "\n\026TRANSCRIPTION_TYPE_S2T\020\001\022\034\n\030TRANSCRIPT"
-  "ION_TYPE_HUMAN\020\002*\243\001\n\017ReasoningEffort\022 \n\034"
-  "REASONING_EFFORT_UNSPECIFIED\020\000\022\034\n\030REASON"
-  "ING_EFFORT_MINIMAL\020\001\022\030\n\024REASONING_EFFORT"
-  "_LOW\020\002\022\033\n\027REASONING_EFFORT_MEDIUM\020\003\022\031\n\025R"
-  "EASONING_EFFORT_HIGH\020\004*w\n\021LlmSafetyLocat"
-  "ion\022#\n\037LLM_SAFETY_LOCATION_UNSPECIFIED\020\000"
-  "\022\035\n\031LLM_SAFETY_LOCATION_INPUT\020\001\022\036\n\032LLM_S"
-  "AFETY_LOCATION_OUTPUT\020\002*\373\001\n\rAudioEncodin"
-  "g\022\036\n\032AUDIO_ENCODING_UNSPECIFIED\020\000\022\034\n\030AUD"
-  "IO_ENCODING_LINEAR_16\020\001\022\027\n\023AUDIO_ENCODIN"
-  "G_FLAC\020\002\022\030\n\024AUDIO_ENCODING_MULAW\020\003\022\026\n\022AU"
-  "DIO_ENCODING_AMR\020\004\022\031\n\025AUDIO_ENCODING_AMR"
-  "_WB\020\005\022\033\n\027AUDIO_ENCODING_OGG_OPUS\020\006\022)\n%AU"
-  "DIO_ENCODING_SPEEX_WITH_HEADER_BYTE\020\007*\203\001"
-  "\n\022ComparisonOperator\022\t\n\005EQUAL\020\000\022\013\n\007GREAT"
-  "ER\020\001\022\024\n\020GREATER_OR_EQUAL\020\002\022\021\n\rLESS_OR_EQ"
-  "UAL\020\003\022\014\n\010CONTAINS\020\004\022\017\n\013STARTS_WITH\020\005\022\r\n\t"
-  "ENDS_WITH\020\006*q\n\016FeedbackRating\022\037\n\033FEEDBAC"
-  "K_RATING_UNSPECIFIED\020\000\022\035\n\031FEEDBACK_RATIN"
-  "G_THUMBS_UP\020\001\022\037\n\033FEEDBACK_RATING_THUMBS_"
-  "DOWN\020\002*\271\001\n\022FeedbackAuthorType\022$\n FEEDBAC"
-  "K_AUTHOR_TYPE_UNSPECIFIED\020\000\022\'\n#FEEDBACK_"
-  "AUTHOR_TYPE_HUMAN_REVIEWER\020\001\022\'\n#FEEDBACK"
-  "_AUTHOR_TYPE_TECHNICAL_USER\020\002\022+\n\'FEEDBAC"
-  "K_AUTHOR_TYPE_END_USER_ANONYMOUS\020\003*p\n\rFe"
-  "edbackScope\022\036\n\032FEEDBACK_SCOPE_UNSPECIFIE"
-  "D\020\000\022 \n\034FEEDBACK_SCOPE_SESSION_LEVEL\020\001\022\035\n"
-  "\031FEEDBACK_SCOPE_STEP_LEVEL\020\002*\370\001\n\027Feedbac"
-  "kTimeGranularity\022)\n%FEEDBACK_TIME_GRANUL"
-  "ARITY_UNSPECIFIED\020\000\022\"\n\036FEEDBACK_TIME_GRA"
-  "NULARITY_HOUR\020\001\022!\n\035FEEDBACK_TIME_GRANULA"
-  "RITY_DAY\020\002\022\"\n\036FEEDBACK_TIME_GRANULARITY_"
-  "WEEK\020\003\022#\n\037FEEDBACK_TIME_GRANULARITY_MONT"
-  "H\020\004\022\"\n\036FEEDBACK_TIME_GRANULARITY_YEAR\020\005*"
-  "{\n\014ResourceView\022\035\n\031RESOURCE_VIEW_UNSPECI"
-  "FIED\020\000\022\026\n\022RESOURCE_VIEW_FULL\020\001\022\031\n\025RESOUR"
-  "CE_VIEW_PARTIAL\020\002\022\031\n\025RESOURCE_VIEW_MINIM"
-  "UM\020\003*\257\001\n\025AudioFileResourceType\022(\n$AUDIO_"
-  "FILE_RESOURCE_TYPE_UNSPECIFIED\020\000\022 \n\034AUDI"
-  "O_FILE_RESOURCE_TYPE_T2S\020\001\022 \n\034AUDIO_FILE"
-  "_RESOURCE_TYPE_S2T\020\002\022(\n$AUDIO_FILE_RESOU"
-  "RCE_TYPE_S2T_AND_T2S\020\0032\313=\n\010Sessions\022\224\001\n\014"
-  "DetectIntent\022\037.ondewo.nlu.DetectIntentRe"
-  "quest\032 .ondewo.nlu.DetectIntentResponse\""
-  "A\202\323\344\223\002;\"6/v2/{session=projects/*/agent/s"
-  "essions/*}:detectIntent:\001*\022p\n\025StreamingD"
-  "etectIntent\022(.ondewo.nlu.StreamingDetect"
-  "IntentRequest\032).ondewo.nlu.StreamingDete"
-  "ctIntentResponse(\0010\001\022\201\001\n\014ListSessions\022\037."
-  "ondewo.nlu.ListSessionsRequest\032 .ondewo."
-  "nlu.ListSessionsResponse\".\202\323\344\223\002(\022&/v2/{p"
-  "arent=projects/*/agent}/sessions\022v\n\nGetS"
-  "ession\022\035.ondewo.nlu.GetSessionRequest\032\023."
-  "ondewo.nlu.Session\"4\202\323\344\223\002.\022,/v2/{session"
-  "_id=projects/*/agent/sessions/*}\022y\n\rCrea"
-  "teSession\022 .ondewo.nlu.CreateSessionRequ"
-  "est\032\023.ondewo.nlu.Session\"1\202\323\344\223\002+\"&/v2/{p"
-  "arent=projects/*/agent}/sessions:\001*\022T\n\021C"
-  "reateSessionStep\022$.ondewo.nlu.CreateSess"
-  "ionStepRequest\032\027.ondewo.nlu.SessionStep\""
-  "\000\022\224\001\n\016GetSessionStep\022!.ondewo.nlu.GetSes"
-  "sionStepRequest\032\027.ondewo.nlu.SessionStep"
-  "\"F\202\323\344\223\002@\";/v2/{session_id=projects/*/age"
-  "nt/sessions/*}:getSessionStep:\001*\022\235\001\n\021Upd"
-  "ateSessionStep\022$.ondewo.nlu.UpdateSessio"
-  "nStepRequest\032\027.ondewo.nlu.SessionStep\"I\202"
-  "\323\344\223\002C\">/v2/{session_id=projects/*/agent/"
-  "sessions/*}:updateSessionStep:\001*\022\234\001\n\021Del"
-  "eteSessionStep\022$.ondewo.nlu.DeleteSessio"
-  "nStepRequest\032\026.google.protobuf.Empty\"I\202\323"
-  "\344\223\002C\">/v2/{session_id=projects/*/agent/s"
-  "essions/*}:deleteSessionStep:\001*\022\177\n\rDelet"
-  "eSession\022 .ondewo.nlu.DeleteSessionReque"
-  "st\032\026.google.protobuf.Empty\"4\202\323\344\223\002.*,/v2/"
+  "ndewo.nlu.SessionFilter\022\034\n\024bucket_width_"
+  "seconds\030\003 \001(\005\022\023\n\013max_buckets\030\004 \001(\005\022.\n\nfi"
+  "eld_mask\030\005 \001(\0132\032.google.protobuf.FieldMa"
+  "sk\0223\n\017feedback_filter\030\006 \001(\0132\032.ondewo.nlu"
+  ".FeedbackFilter\0228\n\013granularity\030\007 \001(\0162#.o"
+  "ndewo.nlu.FeedbackTimeGranularity\022\021\n\ttim"
+  "e_zone\030\010 \001(\t\022)\n\005start\030\t \001(\0132\032.google.pro"
+  "tobuf.Timestamp\022\'\n\003end\030\n \001(\0132\032.google.pr"
+  "otobuf.Timestamp\"`\n\'GetFeedbackStatistic"
+  "sTimeSeriesResponse\0225\n\007buckets\030\001 \003(\0132$.o"
+  "ndewo.nlu.FeedbackTimeSeriesBucket\"\200\001\n\031L"
+  "istSessionReviewsRequest\022\022\n\nsession_id\030\001"
+  " \001(\t\022;\n\023session_review_view\030\002 \001(\0162\036.onde"
+  "wo.nlu.SessionReview.View\022\022\n\npage_token\030"
+  "\004 \001(\t\"i\n\032ListSessionReviewsResponse\0222\n\017s"
+  "ession_reviews\030\001 \003(\0132\031.ondewo.nlu.Sessio"
+  "nReview\022\027\n\017next_page_token\030\002 \001(\t\"\241\001\n\027Get"
+  "SessionReviewRequest\022\031\n\021session_review_i"
+  "d\030\001 \001(\t\022;\n\023session_review_view\030\002 \001(\0162\036.o"
+  "ndewo.nlu.SessionReview.View\022.\n\nfield_ma"
+  "sk\030\003 \001(\0132\032.google.protobuf.FieldMask\"\240\001\n"
+  "\035GetLatestSessionReviewRequest\022\022\n\nsessio"
+  "n_id\030\001 \001(\t\022;\n\023session_review_view\030\002 \001(\0162"
+  "\036.ondewo.nlu.SessionReview.View\022.\n\nfield"
+  "_mask\030\003 \001(\0132\032.google.protobuf.FieldMask\""
+  "\235\002\n\014FileResource\022B\n\026document_file_resour"
+  "ce\030\001 \001(\0132 .ondewo.nlu.DocumentFileResour"
+  "ceH\000\022<\n\023audio_file_resource\030\002 \001(\0132\035.onde"
+  "wo.nlu.AudioFileResourceH\000\022<\n\023image_file"
+  "_resource\030\003 \001(\0132\035.ondewo.nlu.ImageFileRe"
+  "sourceH\000\022<\n\023video_file_resource\030\004 \001(\0132\035."
+  "ondewo.nlu.VideoFileResourceH\000B\017\n\rfile_r"
+  "esource\"\323\001\n\024DocumentFileResource\022\014\n\004name"
+  "\030\001 \001(\t\022\024\n\014display_name\030\002 \001(\t\022\r\n\005bytes\030\003 "
+  "\001(\014\022.\n\ncreated_at\030\004 \001(\0132\032.google.protobu"
+  "f.Timestamp\022/\n\013modified_at\030\005 \001(\0132\032.googl"
+  "e.protobuf.Timestamp\022\022\n\ncreated_by\030\006 \001(\t"
+  "\022\023\n\013modified_by\030\007 \001(\t\"\320\001\n\021ImageFileResou"
+  "rce\022\014\n\004name\030\001 \001(\t\022\024\n\014display_name\030\002 \001(\t\022"
+  "\r\n\005bytes\030\003 \001(\014\022.\n\ncreated_at\030\004 \001(\0132\032.goo"
+  "gle.protobuf.Timestamp\022/\n\013modified_at\030\005 "
+  "\001(\0132\032.google.protobuf.Timestamp\022\022\n\ncreat"
+  "ed_by\030\006 \001(\t\022\023\n\013modified_by\030\007 \001(\t\"\211\003\n\021Aud"
+  "ioFileResource\022\014\n\004name\030\001 \001(\t\022\r\n\005bytes\030\002 "
+  "\001(\014\022\020\n\010language\030\003 \001(\t\022\025\n\rduration_in_s\030\004"
+  " \001(\002\022\023\n\013sample_rate\030\005 \001(\005\022C\n\030audio_file_"
+  "resource_type\030\006 \001(\0162!.ondewo.nlu.AudioFi"
+  "leResourceType\0224\n\016transcriptions\030\007 \003(\0132\034"
+  ".ondewo.nlu.S2tTranscription\022.\n\ncreated_"
+  "at\030\010 \001(\0132\032.google.protobuf.Timestamp\022/\n\013"
+  "modified_at\030\t \001(\0132\032.google.protobuf.Time"
+  "stamp\022\022\n\ncreated_by\030\n \001(\t\022\023\n\013modified_by"
+  "\030\013 \001(\t\022\024\n\014display_name\030\014 \001(\t\"\217\002\n\021VideoFi"
+  "leResource\022\014\n\004name\030\001 \001(\t\022\024\n\014display_name"
+  "\030\002 \001(\t\022\r\n\005bytes\030\003 \001(\014\022\025\n\rduration_in_s\030\004"
+  " \001(\002\022\022\n\nresolution\030\005 \001(\t\022\022\n\nframe_rate\030\006"
+  " \001(\002\022.\n\ncreated_at\030\007 \001(\0132\032.google.protob"
+  "uf.Timestamp\022/\n\013modified_at\030\010 \001(\0132\032.goog"
+  "le.protobuf.Timestamp\022\022\n\ncreated_by\030\t \001("
+  "\t\022\023\n\013modified_by\030\n \001(\t\"\331\001\n\024GetAudioFiles"
+  "Request\022\016\n\006parent\030\001 \001(\t\022\r\n\005names\030\002 \003(\t\022/"
+  "\n\rresource_view\030\003 \001(\0162\030.ondewo.nlu.Resou"
+  "rceView\022\022\n\npage_token\030\004 \001(\t\022-\n\014sorting_m"
+  "ode\030\005 \001(\0162\027.ondewo.nlu.SortingMode\022.\n\nfi"
+  "eld_mask\030\006 \001(\0132\032.google.protobuf.FieldMa"
+  "sk\"{\n\025GetAudioFilesResponse\0222\n\013audio_fil"
+  "es\030\001 \003(\0132\035.ondewo.nlu.AudioFileResource\022"
+  "\025\n\rerror_message\030\002 \001(\t\022\027\n\017next_page_toke"
+  "n\030\003 \001(\t\"\220\001\n\024AddAudioFilesRequest\022\016\n\006pare"
+  "nt\030\001 \001(\t\022\022\n\nsession_id\030\002 \001(\t\022;\n\024audio_fi"
+  "le_resources\030\003 \003(\0132\035.ondewo.nlu.AudioFil"
+  "eResource\022\027\n\017session_step_id\030\004 \001(\t\"k\n\025Ad"
+  "dAudioFilesResponse\022;\n\024audio_file_resour"
+  "ces\030\001 \003(\0132\035.ondewo.nlu.AudioFileResource"
+  "\022\025\n\rerror_message\030\002 \001(\t\"8\n\027DeleteAudioFi"
+  "lesRequest\022\016\n\006parent\030\001 \001(\t\022\r\n\005names\030\002 \003("
+  "\t\"@\n\030DeleteAudioFilesResponse\022\r\n\005names\030\001"
+  " \003(\t\022\025\n\rerror_message\030\002 \001(\t\"\337\001\n\025ListAudi"
+  "oFilesRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\nsession"
+  "_id\030\002 \001(\t\022/\n\rresource_view\030\003 \001(\0162\030.ondew"
+  "o.nlu.ResourceView\022\022\n\npage_token\030\004 \001(\t\022-"
+  "\n\014sorting_mode\030\005 \001(\0162\027.ondewo.nlu.Sortin"
+  "gMode\022.\n\nfield_mask\030\006 \001(\0132\032.google.proto"
+  "buf.FieldMask\"|\n\026ListAudioFilesResponse\022"
+  "2\n\013audio_files\030\001 \003(\0132\035.ondewo.nlu.AudioF"
+  "ileResource\022\027\n\017next_page_token\030\002 \001(\t\022\025\n\r"
+  "error_message\030\003 \001(\t\"\243\001\n\034GetAudioFileOfSe"
+  "ssionRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\nsession_"
+  "id\030\002 \001(\t\022/\n\rresource_view\030\003 \001(\0162\030.ondewo"
+  ".nlu.ResourceView\022.\n\nfield_mask\030\004 \001(\0132\032."
+  "google.protobuf.FieldMask*q\n\021Transcripti"
+  "onType\022\"\n\036TRANSCRIPTION_TYPE_UNSPECIFIED"
+  "\020\000\022\032\n\026TRANSCRIPTION_TYPE_S2T\020\001\022\034\n\030TRANSC"
+  "RIPTION_TYPE_HUMAN\020\002*\243\001\n\017ReasoningEffort"
+  "\022 \n\034REASONING_EFFORT_UNSPECIFIED\020\000\022\034\n\030RE"
+  "ASONING_EFFORT_MINIMAL\020\001\022\030\n\024REASONING_EF"
+  "FORT_LOW\020\002\022\033\n\027REASONING_EFFORT_MEDIUM\020\003\022"
+  "\031\n\025REASONING_EFFORT_HIGH\020\004*w\n\021LlmSafetyL"
+  "ocation\022#\n\037LLM_SAFETY_LOCATION_UNSPECIFI"
+  "ED\020\000\022\035\n\031LLM_SAFETY_LOCATION_INPUT\020\001\022\036\n\032L"
+  "LM_SAFETY_LOCATION_OUTPUT\020\002*\240\001\n\021LlmAgent"
+  "NodePhase\022$\n LLM_AGENT_NODE_PHASE_UNSPEC"
+  "IFIED\020\000\022 \n\034LLM_AGENT_NODE_PHASE_STARTED\020"
+  "\001\022\"\n\036LLM_AGENT_NODE_PHASE_COMPLETED\020\002\022\037\n"
+  "\033LLM_AGENT_NODE_PHASE_FAILED\020\003*\373\001\n\rAudio"
+  "Encoding\022\036\n\032AUDIO_ENCODING_UNSPECIFIED\020\000"
+  "\022\034\n\030AUDIO_ENCODING_LINEAR_16\020\001\022\027\n\023AUDIO_"
+  "ENCODING_FLAC\020\002\022\030\n\024AUDIO_ENCODING_MULAW\020"
+  "\003\022\026\n\022AUDIO_ENCODING_AMR\020\004\022\031\n\025AUDIO_ENCOD"
+  "ING_AMR_WB\020\005\022\033\n\027AUDIO_ENCODING_OGG_OPUS\020"
+  "\006\022)\n%AUDIO_ENCODING_SPEEX_WITH_HEADER_BY"
+  "TE\020\007*\203\001\n\022ComparisonOperator\022\t\n\005EQUAL\020\000\022\013"
+  "\n\007GREATER\020\001\022\024\n\020GREATER_OR_EQUAL\020\002\022\021\n\rLES"
+  "S_OR_EQUAL\020\003\022\014\n\010CONTAINS\020\004\022\017\n\013STARTS_WIT"
+  "H\020\005\022\r\n\tENDS_WITH\020\006*q\n\016FeedbackRating\022\037\n\033"
+  "FEEDBACK_RATING_UNSPECIFIED\020\000\022\035\n\031FEEDBAC"
+  "K_RATING_THUMBS_UP\020\001\022\037\n\033FEEDBACK_RATING_"
+  "THUMBS_DOWN\020\002*\271\001\n\022FeedbackAuthorType\022$\n "
+  "FEEDBACK_AUTHOR_TYPE_UNSPECIFIED\020\000\022\'\n#FE"
+  "EDBACK_AUTHOR_TYPE_HUMAN_REVIEWER\020\001\022\'\n#F"
+  "EEDBACK_AUTHOR_TYPE_TECHNICAL_USER\020\002\022+\n\'"
+  "FEEDBACK_AUTHOR_TYPE_END_USER_ANONYMOUS\020"
+  "\003*p\n\rFeedbackScope\022\036\n\032FEEDBACK_SCOPE_UNS"
+  "PECIFIED\020\000\022 \n\034FEEDBACK_SCOPE_SESSION_LEV"
+  "EL\020\001\022\035\n\031FEEDBACK_SCOPE_STEP_LEVEL\020\002*\370\001\n\027"
+  "FeedbackTimeGranularity\022)\n%FEEDBACK_TIME"
+  "_GRANULARITY_UNSPECIFIED\020\000\022\"\n\036FEEDBACK_T"
+  "IME_GRANULARITY_HOUR\020\001\022!\n\035FEEDBACK_TIME_"
+  "GRANULARITY_DAY\020\002\022\"\n\036FEEDBACK_TIME_GRANU"
+  "LARITY_WEEK\020\003\022#\n\037FEEDBACK_TIME_GRANULARI"
+  "TY_MONTH\020\004\022\"\n\036FEEDBACK_TIME_GRANULARITY_"
+  "YEAR\020\005*{\n\014ResourceView\022\035\n\031RESOURCE_VIEW_"
+  "UNSPECIFIED\020\000\022\026\n\022RESOURCE_VIEW_FULL\020\001\022\031\n"
+  "\025RESOURCE_VIEW_PARTIAL\020\002\022\031\n\025RESOURCE_VIE"
+  "W_MINIMUM\020\003*\257\001\n\025AudioFileResourceType\022(\n"
+  "$AUDIO_FILE_RESOURCE_TYPE_UNSPECIFIED\020\000\022"
+  " \n\034AUDIO_FILE_RESOURCE_TYPE_T2S\020\001\022 \n\034AUD"
+  "IO_FILE_RESOURCE_TYPE_S2T\020\002\022(\n$AUDIO_FIL"
+  "E_RESOURCE_TYPE_S2T_AND_T2S\020\0032\313=\n\010Sessio"
+  "ns\022\224\001\n\014DetectIntent\022\037.ondewo.nlu.DetectI"
+  "ntentRequest\032 .ondewo.nlu.DetectIntentRe"
+  "sponse\"A\202\323\344\223\002;\"6/v2/{session=projects/*/"
+  "agent/sessions/*}:detectIntent:\001*\022p\n\025Str"
+  "eamingDetectIntent\022(.ondewo.nlu.Streamin"
+  "gDetectIntentRequest\032).ondewo.nlu.Stream"
+  "ingDetectIntentResponse(\0010\001\022\201\001\n\014ListSess"
+  "ions\022\037.ondewo.nlu.ListSessionsRequest\032 ."
+  "ondewo.nlu.ListSessionsResponse\".\202\323\344\223\002(\022"
+  "&/v2/{parent=projects/*/agent}/sessions\022"
+  "v\n\nGetSession\022\035.ondewo.nlu.GetSessionReq"
+  "uest\032\023.ondewo.nlu.Session\"4\202\323\344\223\002.\022,/v2/{"
+  "session_id=projects/*/agent/sessions/*}\022"
+  "y\n\rCreateSession\022 .ondewo.nlu.CreateSess"
+  "ionRequest\032\023.ondewo.nlu.Session\"1\202\323\344\223\002+\""
+  "&/v2/{parent=projects/*/agent}/sessions:"
+  "\001*\022T\n\021CreateSessionStep\022$.ondewo.nlu.Cre"
+  "ateSessionStepRequest\032\027.ondewo.nlu.Sessi"
+  "onStep\"\000\022\224\001\n\016GetSessionStep\022!.ondewo.nlu"
+  ".GetSessionStepRequest\032\027.ondewo.nlu.Sess"
+  "ionStep\"F\202\323\344\223\002@\";/v2/{session_id=project"
+  "s/*/agent/sessions/*}:getSessionStep:\001*\022"
+  "\235\001\n\021UpdateSessionStep\022$.ondewo.nlu.Updat"
+  "eSessionStepRequest\032\027.ondewo.nlu.Session"
+  "Step\"I\202\323\344\223\002C\">/v2/{session_id=projects/*"
+  "/agent/sessions/*}:updateSessionStep:\001*\022"
+  "\234\001\n\021DeleteSessionStep\022$.ondewo.nlu.Delet"
+  "eSessionStepRequest\032\026.google.protobuf.Em"
+  "pty\"I\202\323\344\223\002C\">/v2/{session_id=projects/*/"
+  "agent/sessions/*}:deleteSessionStep:\001*\022\177"
+  "\n\rDeleteSession\022 .ondewo.nlu.DeleteSessi"
+  "onRequest\032\026.google.protobuf.Empty\"4\202\323\344\223\002"
+  ".*,/v2/{session_id=projects/*/agent/sess"
+  "ions/*}\022\235\001\n\021ListSessionLabels\022$.ondewo.n"
+  "lu.ListSessionLabelsRequest\032%.ondewo.nlu"
+  ".ListSessionLabelsResponse\";\202\323\344\223\0025\0223/v2/"
   "{session_id=projects/*/agent/sessions/*}"
-  "\022\235\001\n\021ListSessionLabels\022$.ondewo.nlu.List"
-  "SessionLabelsRequest\032%.ondewo.nlu.ListSe"
-  "ssionLabelsResponse\";\202\323\344\223\0025\0223/v2/{sessio"
-  "n_id=projects/*/agent/sessions/*}/labels"
-  "\022\261\001\n\036ListSessionLabelsOfAllSessions\0221.on"
-  "dewo.nlu.ListSessionLabelsOfAllSessionsR"
-  "equest\032%.ondewo.nlu.ListSessionLabelsRes"
-  "ponse\"5\202\323\344\223\002/\022-/v2/{parent=projects/*/ag"
-  "ent}/sessions/labels\022\271\001\n\036ListLanguageCod"
-  "esOfAllSessions\0221.ondewo.nlu.ListLanguag"
-  "eCodesOfAllSessionsRequest\032%.ondewo.nlu."
-  "ListLanguageCodesResponse\"=\202\323\344\223\0027\0225/v2/{"
-  "parent=projects/*/agent}/sessions/langua"
-  "ge_codes\022\275\001\n\037ListMatchedIntentsOfAllSess"
-  "ions\0222.ondewo.nlu.ListMatchedIntentsOfAl"
-  "lSessionsRequest\032&.ondewo.nlu.ListMatche"
-  "dIntentsResponse\">\202\323\344\223\0028\0226/v2/{parent=pr"
-  "ojects/*/agent}/sessions/matched_intents"
-  "\022\316\001\n#ListMatchedEntityTypesOfAllSessions"
-  "\0226.ondewo.nlu.ListMatchedEntityTypesOfAl"
-  "lSessionsRequest\032*.ondewo.nlu.ListMatche"
-  "dEntityTypesResponse\"C\202\323\344\223\002=\022;/v2/{paren"
-  "t=projects/*/agent}/sessions/matched_ent"
-  "ity_types\022\241\001\n\030ListUserIdsOfAllSessions\022+"
-  ".ondewo.nlu.ListUserIdsOfAllSessionsRequ"
-  "est\032\037.ondewo.nlu.ListUserIdsResponse\"7\202\323"
-  "\344\223\0021\022//v2/{parent=projects/*/agent}/sess"
-  "ions/user_ids\022\312\001\n\"ListIdentifiedUserIdsO"
-  "fAllSessions\0225.ondewo.nlu.ListIdentified"
-  "UserIdsOfAllSessionsRequest\032).ondewo.nlu"
-  ".ListIdentifiedUserIdsResponse\"B\202\323\344\223\002<\022:"
-  "/v2/{parent=projects/*/agent}/sessions/i"
-  "dentified_user_ids\022\224\001\n\025ListTagsOfAllSess"
-  "ions\022(.ondewo.nlu.ListTagsOfAllSessionsR"
-  "equest\032\034.ondewo.nlu.ListTagsResponse\"3\202\323"
-  "\344\223\002-\022+/v2/{parent=projects/*/agent}/sess"
-  "ions/tags\022\271\001\n\036ListInputContextsOfAllSess"
-  "ions\0221.ondewo.nlu.ListInputContextsOfAll"
-  "SessionsRequest\032%.ondewo.nlu.ListInputCo"
-  "ntextsResponse\"=\202\323\344\223\0027\0225/v2/{parent=proj"
-  "ects/*/agent}/sessions/input_contexts\022\275\001"
-  "\n\037ListOutputContextsOfAllSessions\0222.onde"
-  "wo.nlu.ListOutputContextsOfAllSessionsRe"
-  "quest\032&.ondewo.nlu.ListOutputContextsRes"
-  "ponse\">\202\323\344\223\0028\0226/v2/{parent=projects/*/ag"
-  "ent}/sessions/output_contexts\022\250\001\n\032ListPl"
-  "atformsOfAllSessions\022-.ondewo.nlu.ListPl"
-  "atformsOfAllSessionsRequest\032!.ondewo.nlu"
-  ".ListPlatformsResponse\"8\202\323\344\223\0022\0220/v2/{par"
-  "ent=projects/*/agent}/sessions/platforms"
-  "\022\255\001\n\033ListAccountIdsOfAllSessions\022..ondew"
-  "o.nlu.ListAccountIdsOfAllSessionsRequest"
-  "\032\".ondewo.nlu.ListAccountIdsResponse\":\202\323"
-  "\344\223\0024\0222/v2/{parent=projects/*/agent}/sess"
-  "ions/account_ids\022\261\001\n\034ListPropertyIdsOfAl"
-  "lSessions\022/.ondewo.nlu.ListPropertyIdsOf"
-  "AllSessionsRequest\032#.ondewo.nlu.ListProp"
-  "ertyIdsResponse\";\202\323\344\223\0025\0223/v2/{parent=pro"
-  "jects/*/agent}/sessions/property_ids\022\271\001\n"
-  "\036ListDatastreamIdsOfAllSessions\0221.ondewo"
-  ".nlu.ListDatastreamIdsOfAllSessionsReque"
-  "st\032%.ondewo.nlu.ListDatastreamIdsRespons"
-  "e\"=\202\323\344\223\0027\0225/v2/{parent=projects/*/agent}"
-  "/sessions/datastream_ids\022\251\001\n\032ListOriginI"
-  "dsOfAllSessions\022-.ondewo.nlu.ListOriginI"
-  "dsOfAllSessionsRequest\032!.ondewo.nlu.List"
-  "OriginIdsResponse\"9\202\323\344\223\0023\0221/v2/{parent=p"
-  "rojects/*/agent}/sessions/origin_ids\022\220\001\n"
-  "\020AddSessionLabels\022#.ondewo.nlu.AddSessio"
-  "nLabelsRequest\032\023.ondewo.nlu.Session\"B\202\323\344"
-  "\223\002<\"7/v2/{session_id=projects/*/agent/se"
-  "ssions/*}/labels:add:\001*\022\231\001\n\023DeleteSessio"
-  "nLabels\022&.ondewo.nlu.DeleteSessionLabels"
-  "Request\032\023.ondewo.nlu.Session\"E\202\323\344\223\002\?\":/v"
+  "/labels\022\261\001\n\036ListSessionLabelsOfAllSessio"
+  "ns\0221.ondewo.nlu.ListSessionLabelsOfAllSe"
+  "ssionsRequest\032%.ondewo.nlu.ListSessionLa"
+  "belsResponse\"5\202\323\344\223\002/\022-/v2/{parent=projec"
+  "ts/*/agent}/sessions/labels\022\271\001\n\036ListLang"
+  "uageCodesOfAllSessions\0221.ondewo.nlu.List"
+  "LanguageCodesOfAllSessionsRequest\032%.onde"
+  "wo.nlu.ListLanguageCodesResponse\"=\202\323\344\223\0027"
+  "\0225/v2/{parent=projects/*/agent}/sessions"
+  "/language_codes\022\275\001\n\037ListMatchedIntentsOf"
+  "AllSessions\0222.ondewo.nlu.ListMatchedInte"
+  "ntsOfAllSessionsRequest\032&.ondewo.nlu.Lis"
+  "tMatchedIntentsResponse\">\202\323\344\223\0028\0226/v2/{pa"
+  "rent=projects/*/agent}/sessions/matched_"
+  "intents\022\316\001\n#ListMatchedEntityTypesOfAllS"
+  "essions\0226.ondewo.nlu.ListMatchedEntityTy"
+  "pesOfAllSessionsRequest\032*.ondewo.nlu.Lis"
+  "tMatchedEntityTypesResponse\"C\202\323\344\223\002=\022;/v2"
+  "/{parent=projects/*/agent}/sessions/matc"
+  "hed_entity_types\022\241\001\n\030ListUserIdsOfAllSes"
+  "sions\022+.ondewo.nlu.ListUserIdsOfAllSessi"
+  "onsRequest\032\037.ondewo.nlu.ListUserIdsRespo"
+  "nse\"7\202\323\344\223\0021\022//v2/{parent=projects/*/agen"
+  "t}/sessions/user_ids\022\312\001\n\"ListIdentifiedU"
+  "serIdsOfAllSessions\0225.ondewo.nlu.ListIde"
+  "ntifiedUserIdsOfAllSessionsRequest\032).ond"
+  "ewo.nlu.ListIdentifiedUserIdsResponse\"B\202"
+  "\323\344\223\002<\022:/v2/{parent=projects/*/agent}/ses"
+  "sions/identified_user_ids\022\224\001\n\025ListTagsOf"
+  "AllSessions\022(.ondewo.nlu.ListTagsOfAllSe"
+  "ssionsRequest\032\034.ondewo.nlu.ListTagsRespo"
+  "nse\"3\202\323\344\223\002-\022+/v2/{parent=projects/*/agen"
+  "t}/sessions/tags\022\271\001\n\036ListInputContextsOf"
+  "AllSessions\0221.ondewo.nlu.ListInputContex"
+  "tsOfAllSessionsRequest\032%.ondewo.nlu.List"
+  "InputContextsResponse\"=\202\323\344\223\0027\0225/v2/{pare"
+  "nt=projects/*/agent}/sessions/input_cont"
+  "exts\022\275\001\n\037ListOutputContextsOfAllSessions"
+  "\0222.ondewo.nlu.ListOutputContextsOfAllSes"
+  "sionsRequest\032&.ondewo.nlu.ListOutputCont"
+  "extsResponse\">\202\323\344\223\0028\0226/v2/{parent=projec"
+  "ts/*/agent}/sessions/output_contexts\022\250\001\n"
+  "\032ListPlatformsOfAllSessions\022-.ondewo.nlu"
+  ".ListPlatformsOfAllSessionsRequest\032!.ond"
+  "ewo.nlu.ListPlatformsResponse\"8\202\323\344\223\0022\0220/"
+  "v2/{parent=projects/*/agent}/sessions/pl"
+  "atforms\022\255\001\n\033ListAccountIdsOfAllSessions\022"
+  "..ondewo.nlu.ListAccountIdsOfAllSessions"
+  "Request\032\".ondewo.nlu.ListAccountIdsRespo"
+  "nse\":\202\323\344\223\0024\0222/v2/{parent=projects/*/agen"
+  "t}/sessions/account_ids\022\261\001\n\034ListProperty"
+  "IdsOfAllSessions\022/.ondewo.nlu.ListProper"
+  "tyIdsOfAllSessionsRequest\032#.ondewo.nlu.L"
+  "istPropertyIdsResponse\";\202\323\344\223\0025\0223/v2/{par"
+  "ent=projects/*/agent}/sessions/property_"
+  "ids\022\271\001\n\036ListDatastreamIdsOfAllSessions\0221"
+  ".ondewo.nlu.ListDatastreamIdsOfAllSessio"
+  "nsRequest\032%.ondewo.nlu.ListDatastreamIds"
+  "Response\"=\202\323\344\223\0027\0225/v2/{parent=projects/*"
+  "/agent}/sessions/datastream_ids\022\251\001\n\032List"
+  "OriginIdsOfAllSessions\022-.ondewo.nlu.List"
+  "OriginIdsOfAllSessionsRequest\032!.ondewo.n"
+  "lu.ListOriginIdsResponse\"9\202\323\344\223\0023\0221/v2/{p"
+  "arent=projects/*/agent}/sessions/origin_"
+  "ids\022\220\001\n\020AddSessionLabels\022#.ondewo.nlu.Ad"
+  "dSessionLabelsRequest\032\023.ondewo.nlu.Sessi"
+  "on\"B\202\323\344\223\002<\"7/v2/{session_id=projects/*/a"
+  "gent/sessions/*}/labels:add:\001*\022\231\001\n\023Delet"
+  "eSessionLabels\022&.ondewo.nlu.DeleteSessio"
+  "nLabelsRequest\032\023.ondewo.nlu.Session\"E\202\323\344"
+  "\223\002\?\":/v2/{session_id=projects/*/agent/se"
+  "ssions/*}/labels:delete:\001*\022\224\001\n\021AddSessio"
+  "nComment\022$.ondewo.nlu.AddSessionCommentR"
+  "equest\032\023.ondewo.nlu.Comment\"D\202\323\344\223\002>\"9/v2"
+  "/{session_id=projects/*/agent/sessions/*"
+  "}/comments:add:\001*\022\237\001\n\025DeleteSessionComme"
+  "nts\022(.ondewo.nlu.DeleteSessionCommentsRe"
+  "quest\032\023.ondewo.nlu.Session\"G\202\323\344\223\002A\"</v2/"
+  "{session_id=projects/*/agent/sessions/*}"
+  "/comments:delete:\001*\022\237\001\n\025UpdateSessionCom"
+  "ments\022(.ondewo.nlu.UpdateSessionComments"
+  "Request\032\023.ondewo.nlu.Session\"G\202\323\344\223\002A\"</v"
   "2/{session_id=projects/*/agent/sessions/"
-  "*}/labels:delete:\001*\022\224\001\n\021AddSessionCommen"
-  "t\022$.ondewo.nlu.AddSessionCommentRequest\032"
-  "\023.ondewo.nlu.Comment\"D\202\323\344\223\002>\"9/v2/{sessi"
-  "on_id=projects/*/agent/sessions/*}/comme"
-  "nts:add:\001*\022\237\001\n\025DeleteSessionComments\022(.o"
-  "ndewo.nlu.DeleteSessionCommentsRequest\032\023"
-  ".ondewo.nlu.Session\"G\202\323\344\223\002A\"</v2/{sessio"
-  "n_id=projects/*/agent/sessions/*}/commen"
-  "ts:delete:\001*\022\237\001\n\025UpdateSessionComments\022("
-  ".ondewo.nlu.UpdateSessionCommentsRequest"
-  "\032\023.ondewo.nlu.Session\"G\202\323\344\223\002A\"</v2/{sess"
-  "ion_id=projects/*/agent/sessions/*}/comm"
-  "ents:update:\001*\022\245\001\n\023ListSessionComments\022&"
-  ".ondewo.nlu.ListSessionCommentsRequest\032\'"
-  ".ondewo.nlu.ListSessionCommentsResponse\""
-  "=\202\323\344\223\0027\0225/v2/{session_id=projects/*/agen"
-  "t/sessions/*}/comments\022\271\001\n ListSessionCo"
-  "mmentsOfAllSessions\0223.ondewo.nlu.ListSes"
-  "sionCommentsOfAllSessionsRequest\032\'.ondew"
-  "o.nlu.ListSessionCommentsResponse\"7\202\323\344\223\002"
-  "1\022//v2/{parent=projects/*/agent}/session"
-  "s/comments\022\236\001\n\022AddSessionFeedback\022%.onde"
-  "wo.nlu.AddSessionFeedbackRequest\032\033.ondew"
-  "o.nlu.SessionFeedback\"D\202\323\344\223\002>\"9/v2/{sess"
-  "ion_id=projects/*/agent/sessions/*}/feed"
-  "back:add:\001*\022\263\001\n\026AddSessionStepFeedback\022)"
-  ".ondewo.nlu.AddSessionStepFeedbackReques"
-  "t\032\033.ondewo.nlu.SessionFeedback\"Q\202\323\344\223\002K\"F"
-  "/v2/{session_id=projects/*/agent/session"
-  "s/*}/sessionSteps/feedback:add:\001*\022\223\001\n\022Ge"
-  "tSessionFeedback\022%.ondewo.nlu.GetSession"
-  "FeedbackRequest\032\033.ondewo.nlu.SessionFeed"
-  "back\"9\202\323\344\223\0023\0221/v2/{name=projects/*/agent"
-  "/sessions/*/feedback/*}\022\254\001\n\025UpdateSessio"
-  "nFeedback\022(.ondewo.nlu.UpdateSessionFeed"
-  "backRequest\032\033.ondewo.nlu.SessionFeedback"
-  "\"L\202\323\344\223\002F\"A/v2/{feedback.name=projects/*/"
-  "agent/sessions/*/feedback/*}:update:\001*\022\236"
-  "\001\n\025DeleteSessionFeedback\022(.ondewo.nlu.De"
-  "leteSessionFeedbackRequest\032\026.google.prot"
-  "obuf.Empty\"C\202\323\344\223\002=\"8/v2/{name=projects/*"
-  "/agent/sessions/*/feedback/*}:delete:\001*\022"
-  "\245\001\n\023ListSessionFeedback\022&.ondewo.nlu.Lis"
-  "tSessionFeedbackRequest\032\'.ondewo.nlu.Lis"
-  "tSessionFeedbackResponse\"=\202\323\344\223\0027\0225/v2/{s"
-  "ession_id=projects/*/agent/sessions/*}/f"
-  "eedback\022\271\001\n ListSessionFeedbackOfAllSess"
-  "ions\0223.ondewo.nlu.ListSessionFeedbackOfA"
-  "llSessionsRequest\032\'.ondewo.nlu.ListSessi"
-  "onFeedbackResponse\"7\202\323\344\223\0021\022//v2/{parent="
-  "projects/*/agent}/sessions/feedback\022\246\001\n\025"
-  "GetFeedbackStatistics\022(.ondewo.nlu.GetFe"
-  "edbackStatisticsRequest\032).ondewo.nlu.Get"
-  "FeedbackStatisticsResponse\"8\202\323\344\223\0022\0220/v2/"
-  "{parent=projects/*/agent}/feedbackStatis"
-  "tics\022\317\001\n\037GetFeedbackStatisticsTimeSeries"
-  "\0222.ondewo.nlu.GetFeedbackStatisticsTimeS"
-  "eriesRequest\0323.ondewo.nlu.GetFeedbackSta"
-  "tisticsTimeSeriesResponse\"C\202\323\344\223\002=\022;/v2/{"
-  "parent=projects/*/agent}/feedbackStatist"
-  "ics:timeSeries\022\241\001\n\022ListSessionReviews\022%."
-  "ondewo.nlu.ListSessionReviewsRequest\032&.o"
-  "ndewo.nlu.ListSessionReviewsResponse\"<\202\323"
-  "\344\223\0026\0224/v2/{session_id=projects/*/agent/s"
-  "essions/*}/reviews\022\231\001\n\020GetSessionReview\022"
-  "#.ondewo.nlu.GetSessionReviewRequest\032\031.o"
-  "ndewo.nlu.SessionReview\"E\202\323\344\223\002\?\022=/v2/{se"
-  "ssion_review_id=projects/*/agent/session"
-  "s/*/reviews/*}\022\263\001\n\026GetLatestSessionRevie"
-  "w\022).ondewo.nlu.GetLatestSessionReviewReq"
-  "uest\032\031.ondewo.nlu.SessionReview\"S\202\323\344\223\002M\022"
-  "K/v2/{session_id=projects/*/agent/sessio"
-  "ns/*}/reviews:getLatestSessionReview\022\245\001\n"
-  "\023CreateSessionReview\022&.ondewo.nlu.Create"
-  "SessionReviewRequest\032\031.ondewo.nlu.Sessio"
-  "nReview\"K\202\323\344\223\002E\"@/v2/{session_id=project"
-  "s/*/agent/sessions/*}:createSessionRevie"
-  "w:\001*\022V\n\rGetAudioFiles\022 .ondewo.nlu.GetAu"
-  "dioFilesRequest\032!.ondewo.nlu.GetAudioFil"
-  "esResponse\"\000\022V\n\rAddAudioFiles\022 .ondewo.n"
-  "lu.AddAudioFilesRequest\032!.ondewo.nlu.Add"
-  "AudioFilesResponse\"\000\022_\n\020DeleteAudioFiles"
-  "\022#.ondewo.nlu.DeleteAudioFilesRequest\032$."
-  "ondewo.nlu.DeleteAudioFilesResponse\"\000\022b\n"
-  "\025GetAudioFileOfSession\022(.ondewo.nlu.GetA"
-  "udioFileOfSessionRequest\032\035.ondewo.nlu.Au"
-  "dioFileResource\"\000\022Y\n\016ListAudioFiles\022!.on"
-  "dewo.nlu.ListAudioFilesRequest\032\".ondewo."
-  "nlu.ListAudioFilesResponse\"\000B\233\001\n\036com.goo"
-  "gle.cloud.dialogflow.v2B\014SessionProtoP\001Z"
-  "Dgoogle.golang.org/genproto/googleapis/c"
-  "loud/dialogflow/v2;dialogflow\370\001\001\242\002\002DF\252\002\032"
-  "Google.Cloud.Dialogflow.V2b\006proto3"
+  "*}/comments:update:\001*\022\245\001\n\023ListSessionCom"
+  "ments\022&.ondewo.nlu.ListSessionCommentsRe"
+  "quest\032\'.ondewo.nlu.ListSessionCommentsRe"
+  "sponse\"=\202\323\344\223\0027\0225/v2/{session_id=projects"
+  "/*/agent/sessions/*}/comments\022\271\001\n ListSe"
+  "ssionCommentsOfAllSessions\0223.ondewo.nlu."
+  "ListSessionCommentsOfAllSessionsRequest\032"
+  "\'.ondewo.nlu.ListSessionCommentsResponse"
+  "\"7\202\323\344\223\0021\022//v2/{parent=projects/*/agent}/"
+  "sessions/comments\022\236\001\n\022AddSessionFeedback"
+  "\022%.ondewo.nlu.AddSessionFeedbackRequest\032"
+  "\033.ondewo.nlu.SessionFeedback\"D\202\323\344\223\002>\"9/v"
+  "2/{session_id=projects/*/agent/sessions/"
+  "*}/feedback:add:\001*\022\263\001\n\026AddSessionStepFee"
+  "dback\022).ondewo.nlu.AddSessionStepFeedbac"
+  "kRequest\032\033.ondewo.nlu.SessionFeedback\"Q\202"
+  "\323\344\223\002K\"F/v2/{session_id=projects/*/agent/"
+  "sessions/*}/sessionSteps/feedback:add:\001*"
+  "\022\223\001\n\022GetSessionFeedback\022%.ondewo.nlu.Get"
+  "SessionFeedbackRequest\032\033.ondewo.nlu.Sess"
+  "ionFeedback\"9\202\323\344\223\0023\0221/v2/{name=projects/"
+  "*/agent/sessions/*/feedback/*}\022\254\001\n\025Updat"
+  "eSessionFeedback\022(.ondewo.nlu.UpdateSess"
+  "ionFeedbackRequest\032\033.ondewo.nlu.SessionF"
+  "eedback\"L\202\323\344\223\002F\"A/v2/{feedback.name=proj"
+  "ects/*/agent/sessions/*/feedback/*}:upda"
+  "te:\001*\022\236\001\n\025DeleteSessionFeedback\022(.ondewo"
+  ".nlu.DeleteSessionFeedbackRequest\032\026.goog"
+  "le.protobuf.Empty\"C\202\323\344\223\002=\"8/v2/{name=pro"
+  "jects/*/agent/sessions/*/feedback/*}:del"
+  "ete:\001*\022\245\001\n\023ListSessionFeedback\022&.ondewo."
+  "nlu.ListSessionFeedbackRequest\032\'.ondewo."
+  "nlu.ListSessionFeedbackResponse\"=\202\323\344\223\0027\022"
+  "5/v2/{session_id=projects/*/agent/sessio"
+  "ns/*}/feedback\022\271\001\n ListSessionFeedbackOf"
+  "AllSessions\0223.ondewo.nlu.ListSessionFeed"
+  "backOfAllSessionsRequest\032\'.ondewo.nlu.Li"
+  "stSessionFeedbackResponse\"7\202\323\344\223\0021\022//v2/{"
+  "parent=projects/*/agent}/sessions/feedba"
+  "ck\022\246\001\n\025GetFeedbackStatistics\022(.ondewo.nl"
+  "u.GetFeedbackStatisticsRequest\032).ondewo."
+  "nlu.GetFeedbackStatisticsResponse\"8\202\323\344\223\002"
+  "2\0220/v2/{parent=projects/*/agent}/feedbac"
+  "kStatistics\022\317\001\n\037GetFeedbackStatisticsTim"
+  "eSeries\0222.ondewo.nlu.GetFeedbackStatisti"
+  "csTimeSeriesRequest\0323.ondewo.nlu.GetFeed"
+  "backStatisticsTimeSeriesResponse\"C\202\323\344\223\002="
+  "\022;/v2/{parent=projects/*/agent}/feedback"
+  "Statistics:timeSeries\022\241\001\n\022ListSessionRev"
+  "iews\022%.ondewo.nlu.ListSessionReviewsRequ"
+  "est\032&.ondewo.nlu.ListSessionReviewsRespo"
+  "nse\"<\202\323\344\223\0026\0224/v2/{session_id=projects/*/"
+  "agent/sessions/*}/reviews\022\231\001\n\020GetSession"
+  "Review\022#.ondewo.nlu.GetSessionReviewRequ"
+  "est\032\031.ondewo.nlu.SessionReview\"E\202\323\344\223\002\?\022="
+  "/v2/{session_review_id=projects/*/agent/"
+  "sessions/*/reviews/*}\022\263\001\n\026GetLatestSessi"
+  "onReview\022).ondewo.nlu.GetLatestSessionRe"
+  "viewRequest\032\031.ondewo.nlu.SessionReview\"S"
+  "\202\323\344\223\002M\022K/v2/{session_id=projects/*/agent"
+  "/sessions/*}/reviews:getLatestSessionRev"
+  "iew\022\245\001\n\023CreateSessionReview\022&.ondewo.nlu"
+  ".CreateSessionReviewRequest\032\031.ondewo.nlu"
+  ".SessionReview\"K\202\323\344\223\002E\"@/v2/{session_id="
+  "projects/*/agent/sessions/*}:createSessi"
+  "onReview:\001*\022V\n\rGetAudioFiles\022 .ondewo.nl"
+  "u.GetAudioFilesRequest\032!.ondewo.nlu.GetA"
+  "udioFilesResponse\"\000\022V\n\rAddAudioFiles\022 .o"
+  "ndewo.nlu.AddAudioFilesRequest\032!.ondewo."
+  "nlu.AddAudioFilesResponse\"\000\022_\n\020DeleteAud"
+  "ioFiles\022#.ondewo.nlu.DeleteAudioFilesReq"
+  "uest\032$.ondewo.nlu.DeleteAudioFilesRespon"
+  "se\"\000\022b\n\025GetAudioFileOfSession\022(.ondewo.n"
+  "lu.GetAudioFileOfSessionRequest\032\035.ondewo"
+  ".nlu.AudioFileResource\"\000\022Y\n\016ListAudioFil"
+  "es\022!.ondewo.nlu.ListAudioFilesRequest\032\"."
+  "ondewo.nlu.ListAudioFilesResponse\"\000B\233\001\n\036"
+  "com.google.cloud.dialogflow.v2B\014SessionP"
+  "rotoP\001ZDgoogle.golang.org/genproto/googl"
+  "eapis/cloud/dialogflow/v2;dialogflow\370\001\001\242"
+  "\002\002DF\252\002\032Google.Cloud.Dialogflow.V2b\006proto"
+  "3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2fsession_2eproto_deps[13] = {
   &::descriptor_table_google_2fapi_2fannotations_2eproto,
@@ -5221,9 +5309,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2fsess
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fnlu_2fsession_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fnlu_2fsession_2eproto = {
-    false, false, 38554, descriptor_table_protodef_ondewo_2fnlu_2fsession_2eproto,
+    false, false, 39361, descriptor_table_protodef_ondewo_2fnlu_2fsession_2eproto,
     "ondewo/nlu/session.proto",
-    &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once, descriptor_table_ondewo_2fnlu_2fsession_2eproto_deps, 13, 132,
+    &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once, descriptor_table_ondewo_2fnlu_2fsession_2eproto_deps, 13, 134,
     schemas, file_default_instances, TableStruct_ondewo_2fnlu_2fsession_2eproto::offsets,
     file_level_metadata_ondewo_2fnlu_2fsession_2eproto, file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto,
     file_level_service_descriptors_ondewo_2fnlu_2fsession_2eproto,
@@ -5352,9 +5440,25 @@ bool LlmSafetyLocation_IsValid(int value) {
   }
 }
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AudioEncoding_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LlmAgentNodePhase_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
   return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[6];
+}
+bool LlmAgentNodePhase_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AudioEncoding_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
+  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[7];
 }
 bool AudioEncoding_IsValid(int value) {
   switch (value) {
@@ -5374,7 +5478,7 @@ bool AudioEncoding_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ComparisonOperator_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
-  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[7];
+  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[8];
 }
 bool ComparisonOperator_IsValid(int value) {
   switch (value) {
@@ -5393,7 +5497,7 @@ bool ComparisonOperator_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* FeedbackRating_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
-  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[8];
+  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[9];
 }
 bool FeedbackRating_IsValid(int value) {
   switch (value) {
@@ -5408,7 +5512,7 @@ bool FeedbackRating_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* FeedbackAuthorType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
-  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[9];
+  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[10];
 }
 bool FeedbackAuthorType_IsValid(int value) {
   switch (value) {
@@ -5424,7 +5528,7 @@ bool FeedbackAuthorType_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* FeedbackScope_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
-  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[10];
+  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[11];
 }
 bool FeedbackScope_IsValid(int value) {
   switch (value) {
@@ -5439,7 +5543,7 @@ bool FeedbackScope_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* FeedbackTimeGranularity_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
-  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[11];
+  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[12];
 }
 bool FeedbackTimeGranularity_IsValid(int value) {
   switch (value) {
@@ -5457,7 +5561,7 @@ bool FeedbackTimeGranularity_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ResourceView_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
-  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[12];
+  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[13];
 }
 bool ResourceView_IsValid(int value) {
   switch (value) {
@@ -5473,7 +5577,7 @@ bool ResourceView_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AudioFileResourceType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fnlu_2fsession_2eproto);
-  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[13];
+  return file_level_enum_descriptors_ondewo_2fnlu_2fsession_2eproto[14];
 }
 bool AudioFileResourceType_IsValid(int value) {
   switch (value) {
@@ -15465,6 +15569,321 @@ void LlmCcaiServiceUsage::InternalSwap(LlmCcaiServiceUsage* other) {
 
 // ===================================================================
 
+class LlmBaseUrlUsage::_Internal {
+ public:
+  static const ::ondewo::nlu::LlmTokenUsage& llm_token_usage(const LlmBaseUrlUsage* msg);
+};
+
+const ::ondewo::nlu::LlmTokenUsage&
+LlmBaseUrlUsage::_Internal::llm_token_usage(const LlmBaseUrlUsage* msg) {
+  return *msg->_impl_.llm_token_usage_;
+}
+LlmBaseUrlUsage::LlmBaseUrlUsage(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.nlu.LlmBaseUrlUsage)
+}
+LlmBaseUrlUsage::LlmBaseUrlUsage(const LlmBaseUrlUsage& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  LlmBaseUrlUsage* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.model_names_){from._impl_.model_names_}
+    , decltype(_impl_.base_url_){}
+    , decltype(_impl_.llm_token_usage_){nullptr}
+    , decltype(_impl_.call_count_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.base_url_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.base_url_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_base_url().empty()) {
+    _this->_impl_.base_url_.Set(from._internal_base_url(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_llm_token_usage()) {
+    _this->_impl_.llm_token_usage_ = new ::ondewo::nlu::LlmTokenUsage(*from._impl_.llm_token_usage_);
+  }
+  _this->_impl_.call_count_ = from._impl_.call_count_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.nlu.LlmBaseUrlUsage)
+}
+
+inline void LlmBaseUrlUsage::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.model_names_){arena}
+    , decltype(_impl_.base_url_){}
+    , decltype(_impl_.llm_token_usage_){nullptr}
+    , decltype(_impl_.call_count_){int64_t{0}}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.base_url_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.base_url_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+LlmBaseUrlUsage::~LlmBaseUrlUsage() {
+  // @@protoc_insertion_point(destructor:ondewo.nlu.LlmBaseUrlUsage)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void LlmBaseUrlUsage::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.model_names_.~RepeatedPtrField();
+  _impl_.base_url_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.llm_token_usage_;
+}
+
+void LlmBaseUrlUsage::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void LlmBaseUrlUsage::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.nlu.LlmBaseUrlUsage)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.model_names_.Clear();
+  _impl_.base_url_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.llm_token_usage_ != nullptr) {
+    delete _impl_.llm_token_usage_;
+  }
+  _impl_.llm_token_usage_ = nullptr;
+  _impl_.call_count_ = int64_t{0};
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* LlmBaseUrlUsage::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string base_url = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_base_url();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.LlmBaseUrlUsage.base_url"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 call_count = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.call_count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.nlu.LlmTokenUsage llm_token_usage = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_llm_token_usage(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string model_names = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_model_names();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.LlmBaseUrlUsage.model_names"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* LlmBaseUrlUsage::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.nlu.LlmBaseUrlUsage)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string base_url = 1;
+  if (!this->_internal_base_url().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_base_url().data(), static_cast<int>(this->_internal_base_url().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.LlmBaseUrlUsage.base_url");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_base_url(), target);
+  }
+
+  // int64 call_count = 2;
+  if (this->_internal_call_count() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_call_count(), target);
+  }
+
+  // .ondewo.nlu.LlmTokenUsage llm_token_usage = 3;
+  if (this->_internal_has_llm_token_usage()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::llm_token_usage(this),
+        _Internal::llm_token_usage(this).GetCachedSize(), target, stream);
+  }
+
+  // repeated string model_names = 4;
+  for (int i = 0, n = this->_internal_model_names_size(); i < n; i++) {
+    const auto& s = this->_internal_model_names(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.LlmBaseUrlUsage.model_names");
+    target = stream->WriteString(4, s, target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.nlu.LlmBaseUrlUsage)
+  return target;
+}
+
+size_t LlmBaseUrlUsage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.nlu.LlmBaseUrlUsage)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string model_names = 4;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.model_names_.size());
+  for (int i = 0, n = _impl_.model_names_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.model_names_.Get(i));
+  }
+
+  // string base_url = 1;
+  if (!this->_internal_base_url().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_base_url());
+  }
+
+  // .ondewo.nlu.LlmTokenUsage llm_token_usage = 3;
+  if (this->_internal_has_llm_token_usage()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.llm_token_usage_);
+  }
+
+  // int64 call_count = 2;
+  if (this->_internal_call_count() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_call_count());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData LlmBaseUrlUsage::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    LlmBaseUrlUsage::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*LlmBaseUrlUsage::GetClassData() const { return &_class_data_; }
+
+
+void LlmBaseUrlUsage::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<LlmBaseUrlUsage*>(&to_msg);
+  auto& from = static_cast<const LlmBaseUrlUsage&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.nlu.LlmBaseUrlUsage)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.model_names_.MergeFrom(from._impl_.model_names_);
+  if (!from._internal_base_url().empty()) {
+    _this->_internal_set_base_url(from._internal_base_url());
+  }
+  if (from._internal_has_llm_token_usage()) {
+    _this->_internal_mutable_llm_token_usage()->::ondewo::nlu::LlmTokenUsage::MergeFrom(
+        from._internal_llm_token_usage());
+  }
+  if (from._internal_call_count() != 0) {
+    _this->_internal_set_call_count(from._internal_call_count());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void LlmBaseUrlUsage::CopyFrom(const LlmBaseUrlUsage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.nlu.LlmBaseUrlUsage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LlmBaseUrlUsage::IsInitialized() const {
+  return true;
+}
+
+void LlmBaseUrlUsage::InternalSwap(LlmBaseUrlUsage* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.model_names_.InternalSwap(&other->_impl_.model_names_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.base_url_, lhs_arena,
+      &other->_impl_.base_url_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(LlmBaseUrlUsage, _impl_.call_count_)
+      + sizeof(LlmBaseUrlUsage::_impl_.call_count_)
+      - PROTOBUF_FIELD_OFFSET(LlmBaseUrlUsage, _impl_.llm_token_usage_)>(
+          reinterpret_cast<char*>(&_impl_.llm_token_usage_),
+          reinterpret_cast<char*>(&other->_impl_.llm_token_usage_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata LlmBaseUrlUsage::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[18]);
+}
+
+// ===================================================================
+
 class LlmAgentUsage::_Internal {
  public:
   static const ::ondewo::nlu::LlmTokenUsage& llm_token_usage(const LlmAgentUsage* msg);
@@ -15864,7 +16283,7 @@ void LlmAgentUsage::InternalSwap(LlmAgentUsage* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmAgentUsage::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[18]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[19]);
 }
 
 // ===================================================================
@@ -16423,7 +16842,7 @@ void LlmToolUsage::InternalSwap(LlmToolUsage* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmToolUsage::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[19]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[20]);
 }
 
 // ===================================================================
@@ -16748,7 +17167,7 @@ void LlmErrorStat::InternalSwap(LlmErrorStat* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmErrorStat::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[20]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[21]);
 }
 
 // ===================================================================
@@ -17053,7 +17472,7 @@ void LlmErrorStats::InternalSwap(LlmErrorStats* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmErrorStats::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[21]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[22]);
 }
 
 // ===================================================================
@@ -17328,7 +17747,7 @@ void LlmFinishReasonStat::InternalSwap(LlmFinishReasonStat* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmFinishReasonStat::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[22]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[23]);
 }
 
 // ===================================================================
@@ -17619,7 +18038,7 @@ void LlmReasoningEffortStat::InternalSwap(LlmReasoningEffortStat* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmReasoningEffortStat::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[23]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[24]);
 }
 
 // ===================================================================
@@ -17671,6 +18090,7 @@ LlmTelemetryReport::LlmTelemetryReport(const LlmTelemetryReport& from)
     , decltype(_impl_.tools_used_){from._impl_.tools_used_}
     , decltype(_impl_.finish_reason_distribution_){from._impl_.finish_reason_distribution_}
     , decltype(_impl_.reasoning_effort_distribution_){from._impl_.reasoning_effort_distribution_}
+    , decltype(_impl_.base_urls_used_){from._impl_.base_urls_used_}
     , decltype(_impl_.llm_token_usage_){nullptr}
     , decltype(_impl_.latency_stats_){nullptr}
     , decltype(_impl_.cache_stats_){nullptr}
@@ -17720,6 +18140,7 @@ inline void LlmTelemetryReport::SharedCtor(
     , decltype(_impl_.tools_used_){arena}
     , decltype(_impl_.finish_reason_distribution_){arena}
     , decltype(_impl_.reasoning_effort_distribution_){arena}
+    , decltype(_impl_.base_urls_used_){arena}
     , decltype(_impl_.llm_token_usage_){nullptr}
     , decltype(_impl_.latency_stats_){nullptr}
     , decltype(_impl_.cache_stats_){nullptr}
@@ -17755,6 +18176,7 @@ inline void LlmTelemetryReport::SharedDtor() {
   _impl_.tools_used_.~RepeatedPtrField();
   _impl_.finish_reason_distribution_.~RepeatedPtrField();
   _impl_.reasoning_effort_distribution_.~RepeatedPtrField();
+  _impl_.base_urls_used_.~RepeatedPtrField();
   if (this != internal_default_instance()) delete _impl_.llm_token_usage_;
   if (this != internal_default_instance()) delete _impl_.latency_stats_;
   if (this != internal_default_instance()) delete _impl_.cache_stats_;
@@ -17780,6 +18202,7 @@ void LlmTelemetryReport::Clear() {
   _impl_.tools_used_.Clear();
   _impl_.finish_reason_distribution_.Clear();
   _impl_.reasoning_effort_distribution_.Clear();
+  _impl_.base_urls_used_.Clear();
   if (GetArenaForAllocation() == nullptr && _impl_.llm_token_usage_ != nullptr) {
     delete _impl_.llm_token_usage_;
   }
@@ -18012,6 +18435,19 @@ const char* LlmTelemetryReport::_InternalParse(const char* ptr, ::_pbi::ParseCon
         } else
           goto handle_unusual;
         continue;
+      // repeated .ondewo.nlu.LlmBaseUrlUsage base_urls_used = 21;
+      case 21:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 170)) {
+          ptr -= 2;
+          do {
+            ptr += 2;
+            ptr = ctx->ParseMessage(_internal_add_base_urls_used(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<170>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -18194,6 +18630,14 @@ uint8_t* LlmTelemetryReport::_InternalSerialize(
         _Internal::safety_stats(this).GetCachedSize(), target, stream);
   }
 
+  // repeated .ondewo.nlu.LlmBaseUrlUsage base_urls_used = 21;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_base_urls_used_size()); i < n; i++) {
+    const auto& repfield = this->_internal_base_urls_used(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(21, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -18262,6 +18706,13 @@ size_t LlmTelemetryReport::ByteSizeLong() const {
   // repeated .ondewo.nlu.LlmReasoningEffortStat reasoning_effort_distribution = 15;
   total_size += 1UL * this->_internal_reasoning_effort_distribution_size();
   for (const auto& msg : this->_impl_.reasoning_effort_distribution_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .ondewo.nlu.LlmBaseUrlUsage base_urls_used = 21;
+  total_size += 2UL * this->_internal_base_urls_used_size();
+  for (const auto& msg : this->_impl_.base_urls_used_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
@@ -18378,6 +18829,7 @@ void LlmTelemetryReport::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
   _this->_impl_.tools_used_.MergeFrom(from._impl_.tools_used_);
   _this->_impl_.finish_reason_distribution_.MergeFrom(from._impl_.finish_reason_distribution_);
   _this->_impl_.reasoning_effort_distribution_.MergeFrom(from._impl_.reasoning_effort_distribution_);
+  _this->_impl_.base_urls_used_.MergeFrom(from._impl_.base_urls_used_);
   if (from._internal_has_llm_token_usage()) {
     _this->_internal_mutable_llm_token_usage()->::ondewo::nlu::LlmTokenUsage::MergeFrom(
         from._internal_llm_token_usage());
@@ -18456,6 +18908,7 @@ void LlmTelemetryReport::InternalSwap(LlmTelemetryReport* other) {
   _impl_.tools_used_.InternalSwap(&other->_impl_.tools_used_);
   _impl_.finish_reason_distribution_.InternalSwap(&other->_impl_.finish_reason_distribution_);
   _impl_.reasoning_effort_distribution_.InternalSwap(&other->_impl_.reasoning_effort_distribution_);
+  _impl_.base_urls_used_.InternalSwap(&other->_impl_.base_urls_used_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(LlmTelemetryReport, _impl_.tool_call_duration_seconds_total_)
       + sizeof(LlmTelemetryReport::_impl_.tool_call_duration_seconds_total_)
@@ -18467,7 +18920,7 @@ void LlmTelemetryReport::InternalSwap(LlmTelemetryReport* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmTelemetryReport::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[24]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[25]);
 }
 
 // ===================================================================
@@ -18742,7 +19195,7 @@ void LlmSafetyCategoryStat::InternalSwap(LlmSafetyCategoryStat* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmSafetyCategoryStat::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[25]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[26]);
 }
 
 // ===================================================================
@@ -19023,7 +19476,7 @@ void LlmSafetyStats::InternalSwap(LlmSafetyStats* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmSafetyStats::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[26]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[27]);
 }
 
 // ===================================================================
@@ -19424,7 +19877,7 @@ void LlmCallStartedEvent::InternalSwap(LlmCallStartedEvent* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmCallStartedEvent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[27]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[28]);
 }
 
 // ===================================================================
@@ -19759,7 +20212,7 @@ void LlmCallFinishedEvent::InternalSwap(LlmCallFinishedEvent* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmCallFinishedEvent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[28]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[29]);
 }
 
 // ===================================================================
@@ -20162,7 +20615,7 @@ void LlmToolCallStartedEvent::InternalSwap(LlmToolCallStartedEvent* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmToolCallStartedEvent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[29]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[30]);
 }
 
 // ===================================================================
@@ -20644,7 +21097,7 @@ void LlmToolCallFinishedEvent::InternalSwap(LlmToolCallFinishedEvent* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmToolCallFinishedEvent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[30]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[31]);
 }
 
 // ===================================================================
@@ -20945,7 +21398,7 @@ void LlmThinkingDeltaEvent::InternalSwap(LlmThinkingDeltaEvent* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmThinkingDeltaEvent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[31]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[32]);
 }
 
 // ===================================================================
@@ -21190,7 +21643,521 @@ void LlmTokenUsageUpdateEvent::InternalSwap(LlmTokenUsageUpdateEvent* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmTokenUsageUpdateEvent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[32]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[33]);
+}
+
+// ===================================================================
+
+class LlmAgentNodeEvent::_Internal {
+ public:
+  static const ::PROTOBUF_NAMESPACE_ID::Timestamp& timestamp(const LlmAgentNodeEvent* msg);
+};
+
+const ::PROTOBUF_NAMESPACE_ID::Timestamp&
+LlmAgentNodeEvent::_Internal::timestamp(const LlmAgentNodeEvent* msg) {
+  return *msg->_impl_.timestamp_;
+}
+void LlmAgentNodeEvent::clear_timestamp() {
+  if (GetArenaForAllocation() == nullptr && _impl_.timestamp_ != nullptr) {
+    delete _impl_.timestamp_;
+  }
+  _impl_.timestamp_ = nullptr;
+}
+LlmAgentNodeEvent::LlmAgentNodeEvent(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.nlu.LlmAgentNodeEvent)
+}
+LlmAgentNodeEvent::LlmAgentNodeEvent(const LlmAgentNodeEvent& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  LlmAgentNodeEvent* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.llm_agent_node_event_node_path_){from._impl_.llm_agent_node_event_node_path_}
+    , decltype(_impl_.llm_agent_node_event_node_run_id_){}
+    , decltype(_impl_.llm_agent_node_event_parent_node_run_id_){}
+    , decltype(_impl_.llm_agent_node_event_node_display_name_){}
+    , decltype(_impl_.llm_agent_node_event_error_message_){}
+    , decltype(_impl_.timestamp_){nullptr}
+    , decltype(_impl_.llm_agent_node_phase_){}
+    , decltype(_impl_.llm_agent_node_event_duration_in_s_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.llm_agent_node_event_node_run_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_agent_node_event_node_run_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_llm_agent_node_event_node_run_id().empty()) {
+    _this->_impl_.llm_agent_node_event_node_run_id_.Set(from._internal_llm_agent_node_event_node_run_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.llm_agent_node_event_parent_node_run_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_agent_node_event_parent_node_run_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_llm_agent_node_event_parent_node_run_id().empty()) {
+    _this->_impl_.llm_agent_node_event_parent_node_run_id_.Set(from._internal_llm_agent_node_event_parent_node_run_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.llm_agent_node_event_node_display_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_agent_node_event_node_display_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_llm_agent_node_event_node_display_name().empty()) {
+    _this->_impl_.llm_agent_node_event_node_display_name_.Set(from._internal_llm_agent_node_event_node_display_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.llm_agent_node_event_error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_agent_node_event_error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_llm_agent_node_event_error_message().empty()) {
+    _this->_impl_.llm_agent_node_event_error_message_.Set(from._internal_llm_agent_node_event_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_timestamp()) {
+    _this->_impl_.timestamp_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.timestamp_);
+  }
+  ::memcpy(&_impl_.llm_agent_node_phase_, &from._impl_.llm_agent_node_phase_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.llm_agent_node_event_duration_in_s_) -
+    reinterpret_cast<char*>(&_impl_.llm_agent_node_phase_)) + sizeof(_impl_.llm_agent_node_event_duration_in_s_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.nlu.LlmAgentNodeEvent)
+}
+
+inline void LlmAgentNodeEvent::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.llm_agent_node_event_node_path_){arena}
+    , decltype(_impl_.llm_agent_node_event_node_run_id_){}
+    , decltype(_impl_.llm_agent_node_event_parent_node_run_id_){}
+    , decltype(_impl_.llm_agent_node_event_node_display_name_){}
+    , decltype(_impl_.llm_agent_node_event_error_message_){}
+    , decltype(_impl_.timestamp_){nullptr}
+    , decltype(_impl_.llm_agent_node_phase_){0}
+    , decltype(_impl_.llm_agent_node_event_duration_in_s_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.llm_agent_node_event_node_run_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_agent_node_event_node_run_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.llm_agent_node_event_parent_node_run_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_agent_node_event_parent_node_run_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.llm_agent_node_event_node_display_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_agent_node_event_node_display_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.llm_agent_node_event_error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_agent_node_event_error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+LlmAgentNodeEvent::~LlmAgentNodeEvent() {
+  // @@protoc_insertion_point(destructor:ondewo.nlu.LlmAgentNodeEvent)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void LlmAgentNodeEvent::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.llm_agent_node_event_node_path_.~RepeatedPtrField();
+  _impl_.llm_agent_node_event_node_run_id_.Destroy();
+  _impl_.llm_agent_node_event_parent_node_run_id_.Destroy();
+  _impl_.llm_agent_node_event_node_display_name_.Destroy();
+  _impl_.llm_agent_node_event_error_message_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.timestamp_;
+}
+
+void LlmAgentNodeEvent::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void LlmAgentNodeEvent::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.nlu.LlmAgentNodeEvent)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.llm_agent_node_event_node_path_.Clear();
+  _impl_.llm_agent_node_event_node_run_id_.ClearToEmpty();
+  _impl_.llm_agent_node_event_parent_node_run_id_.ClearToEmpty();
+  _impl_.llm_agent_node_event_node_display_name_.ClearToEmpty();
+  _impl_.llm_agent_node_event_error_message_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.timestamp_ != nullptr) {
+    delete _impl_.timestamp_;
+  }
+  _impl_.timestamp_ = nullptr;
+  ::memset(&_impl_.llm_agent_node_phase_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.llm_agent_node_event_duration_in_s_) -
+      reinterpret_cast<char*>(&_impl_.llm_agent_node_phase_)) + sizeof(_impl_.llm_agent_node_event_duration_in_s_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* LlmAgentNodeEvent::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string llm_agent_node_event_node_run_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_llm_agent_node_event_node_run_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_run_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string llm_agent_node_event_parent_node_run_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_llm_agent_node_event_parent_node_run_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_parent_node_run_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string llm_agent_node_event_node_display_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_llm_agent_node_event_node_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string llm_agent_node_event_node_path = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_llm_agent_node_event_node_path();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.nlu.LlmAgentNodePhase llm_agent_node_phase = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_llm_agent_node_phase(static_cast<::ondewo::nlu::LlmAgentNodePhase>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.Timestamp timestamp = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr = ctx->ParseMessage(_internal_mutable_timestamp(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // float llm_agent_node_event_duration_in_s = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 61)) {
+          _impl_.llm_agent_node_event_duration_in_s_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // string llm_agent_node_event_error_message = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          auto str = _internal_mutable_llm_agent_node_event_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* LlmAgentNodeEvent::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.nlu.LlmAgentNodeEvent)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string llm_agent_node_event_node_run_id = 1;
+  if (!this->_internal_llm_agent_node_event_node_run_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_llm_agent_node_event_node_run_id().data(), static_cast<int>(this->_internal_llm_agent_node_event_node_run_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_run_id");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_llm_agent_node_event_node_run_id(), target);
+  }
+
+  // string llm_agent_node_event_parent_node_run_id = 2;
+  if (!this->_internal_llm_agent_node_event_parent_node_run_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_llm_agent_node_event_parent_node_run_id().data(), static_cast<int>(this->_internal_llm_agent_node_event_parent_node_run_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_parent_node_run_id");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_llm_agent_node_event_parent_node_run_id(), target);
+  }
+
+  // string llm_agent_node_event_node_display_name = 3;
+  if (!this->_internal_llm_agent_node_event_node_display_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_llm_agent_node_event_node_display_name().data(), static_cast<int>(this->_internal_llm_agent_node_event_node_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_display_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_llm_agent_node_event_node_display_name(), target);
+  }
+
+  // repeated string llm_agent_node_event_node_path = 4;
+  for (int i = 0, n = this->_internal_llm_agent_node_event_node_path_size(); i < n; i++) {
+    const auto& s = this->_internal_llm_agent_node_event_node_path(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_node_path");
+    target = stream->WriteString(4, s, target);
+  }
+
+  // .ondewo.nlu.LlmAgentNodePhase llm_agent_node_phase = 5;
+  if (this->_internal_llm_agent_node_phase() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      5, this->_internal_llm_agent_node_phase(), target);
+  }
+
+  // .google.protobuf.Timestamp timestamp = 6;
+  if (this->_internal_has_timestamp()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(6, _Internal::timestamp(this),
+        _Internal::timestamp(this).GetCachedSize(), target, stream);
+  }
+
+  // float llm_agent_node_event_duration_in_s = 7;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_llm_agent_node_event_duration_in_s = this->_internal_llm_agent_node_event_duration_in_s();
+  uint32_t raw_llm_agent_node_event_duration_in_s;
+  memcpy(&raw_llm_agent_node_event_duration_in_s, &tmp_llm_agent_node_event_duration_in_s, sizeof(tmp_llm_agent_node_event_duration_in_s));
+  if (raw_llm_agent_node_event_duration_in_s != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(7, this->_internal_llm_agent_node_event_duration_in_s(), target);
+  }
+
+  // string llm_agent_node_event_error_message = 8;
+  if (!this->_internal_llm_agent_node_event_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_llm_agent_node_event_error_message().data(), static_cast<int>(this->_internal_llm_agent_node_event_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.LlmAgentNodeEvent.llm_agent_node_event_error_message");
+    target = stream->WriteStringMaybeAliased(
+        8, this->_internal_llm_agent_node_event_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.nlu.LlmAgentNodeEvent)
+  return target;
+}
+
+size_t LlmAgentNodeEvent::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.nlu.LlmAgentNodeEvent)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string llm_agent_node_event_node_path = 4;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.llm_agent_node_event_node_path_.size());
+  for (int i = 0, n = _impl_.llm_agent_node_event_node_path_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.llm_agent_node_event_node_path_.Get(i));
+  }
+
+  // string llm_agent_node_event_node_run_id = 1;
+  if (!this->_internal_llm_agent_node_event_node_run_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_llm_agent_node_event_node_run_id());
+  }
+
+  // string llm_agent_node_event_parent_node_run_id = 2;
+  if (!this->_internal_llm_agent_node_event_parent_node_run_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_llm_agent_node_event_parent_node_run_id());
+  }
+
+  // string llm_agent_node_event_node_display_name = 3;
+  if (!this->_internal_llm_agent_node_event_node_display_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_llm_agent_node_event_node_display_name());
+  }
+
+  // string llm_agent_node_event_error_message = 8;
+  if (!this->_internal_llm_agent_node_event_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_llm_agent_node_event_error_message());
+  }
+
+  // .google.protobuf.Timestamp timestamp = 6;
+  if (this->_internal_has_timestamp()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.timestamp_);
+  }
+
+  // .ondewo.nlu.LlmAgentNodePhase llm_agent_node_phase = 5;
+  if (this->_internal_llm_agent_node_phase() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_llm_agent_node_phase());
+  }
+
+  // float llm_agent_node_event_duration_in_s = 7;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_llm_agent_node_event_duration_in_s = this->_internal_llm_agent_node_event_duration_in_s();
+  uint32_t raw_llm_agent_node_event_duration_in_s;
+  memcpy(&raw_llm_agent_node_event_duration_in_s, &tmp_llm_agent_node_event_duration_in_s, sizeof(tmp_llm_agent_node_event_duration_in_s));
+  if (raw_llm_agent_node_event_duration_in_s != 0) {
+    total_size += 1 + 4;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData LlmAgentNodeEvent::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    LlmAgentNodeEvent::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*LlmAgentNodeEvent::GetClassData() const { return &_class_data_; }
+
+
+void LlmAgentNodeEvent::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<LlmAgentNodeEvent*>(&to_msg);
+  auto& from = static_cast<const LlmAgentNodeEvent&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.nlu.LlmAgentNodeEvent)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.llm_agent_node_event_node_path_.MergeFrom(from._impl_.llm_agent_node_event_node_path_);
+  if (!from._internal_llm_agent_node_event_node_run_id().empty()) {
+    _this->_internal_set_llm_agent_node_event_node_run_id(from._internal_llm_agent_node_event_node_run_id());
+  }
+  if (!from._internal_llm_agent_node_event_parent_node_run_id().empty()) {
+    _this->_internal_set_llm_agent_node_event_parent_node_run_id(from._internal_llm_agent_node_event_parent_node_run_id());
+  }
+  if (!from._internal_llm_agent_node_event_node_display_name().empty()) {
+    _this->_internal_set_llm_agent_node_event_node_display_name(from._internal_llm_agent_node_event_node_display_name());
+  }
+  if (!from._internal_llm_agent_node_event_error_message().empty()) {
+    _this->_internal_set_llm_agent_node_event_error_message(from._internal_llm_agent_node_event_error_message());
+  }
+  if (from._internal_has_timestamp()) {
+    _this->_internal_mutable_timestamp()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
+        from._internal_timestamp());
+  }
+  if (from._internal_llm_agent_node_phase() != 0) {
+    _this->_internal_set_llm_agent_node_phase(from._internal_llm_agent_node_phase());
+  }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_llm_agent_node_event_duration_in_s = from._internal_llm_agent_node_event_duration_in_s();
+  uint32_t raw_llm_agent_node_event_duration_in_s;
+  memcpy(&raw_llm_agent_node_event_duration_in_s, &tmp_llm_agent_node_event_duration_in_s, sizeof(tmp_llm_agent_node_event_duration_in_s));
+  if (raw_llm_agent_node_event_duration_in_s != 0) {
+    _this->_internal_set_llm_agent_node_event_duration_in_s(from._internal_llm_agent_node_event_duration_in_s());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void LlmAgentNodeEvent::CopyFrom(const LlmAgentNodeEvent& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.nlu.LlmAgentNodeEvent)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool LlmAgentNodeEvent::IsInitialized() const {
+  return true;
+}
+
+void LlmAgentNodeEvent::InternalSwap(LlmAgentNodeEvent* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.llm_agent_node_event_node_path_.InternalSwap(&other->_impl_.llm_agent_node_event_node_path_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.llm_agent_node_event_node_run_id_, lhs_arena,
+      &other->_impl_.llm_agent_node_event_node_run_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.llm_agent_node_event_parent_node_run_id_, lhs_arena,
+      &other->_impl_.llm_agent_node_event_parent_node_run_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.llm_agent_node_event_node_display_name_, lhs_arena,
+      &other->_impl_.llm_agent_node_event_node_display_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.llm_agent_node_event_error_message_, lhs_arena,
+      &other->_impl_.llm_agent_node_event_error_message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(LlmAgentNodeEvent, _impl_.llm_agent_node_event_duration_in_s_)
+      + sizeof(LlmAgentNodeEvent::_impl_.llm_agent_node_event_duration_in_s_)
+      - PROTOBUF_FIELD_OFFSET(LlmAgentNodeEvent, _impl_.timestamp_)>(
+          reinterpret_cast<char*>(&_impl_.timestamp_),
+          reinterpret_cast<char*>(&other->_impl_.timestamp_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata LlmAgentNodeEvent::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[34]);
 }
 
 // ===================================================================
@@ -21765,7 +22732,7 @@ void ReferencedChunk::InternalSwap(ReferencedChunk* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ReferencedChunk::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[33]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[35]);
 }
 
 // ===================================================================
@@ -22697,7 +23664,7 @@ void QueryResult::InternalSwap(QueryResult* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata QueryResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[34]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[36]);
 }
 
 // ===================================================================
@@ -23059,7 +24026,7 @@ void StreamingDetectIntentRequest::InternalSwap(StreamingDetectIntentRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamingDetectIntentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[35]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[37]);
 }
 
 // ===================================================================
@@ -23075,6 +24042,7 @@ class StreamingDetectIntentResponse::_Internal {
   static const ::ondewo::nlu::LlmToolCallFinishedEvent& llm_tool_call_finished(const StreamingDetectIntentResponse* msg);
   static const ::ondewo::nlu::LlmThinkingDeltaEvent& llm_thinking_delta(const StreamingDetectIntentResponse* msg);
   static const ::ondewo::nlu::LlmTokenUsageUpdateEvent& llm_token_usage_update(const StreamingDetectIntentResponse* msg);
+  static const ::ondewo::nlu::LlmAgentNodeEvent& llm_agent_node_event(const StreamingDetectIntentResponse* msg);
 };
 
 const ::ondewo::nlu::StreamingRecognitionResult&
@@ -23112,6 +24080,10 @@ StreamingDetectIntentResponse::_Internal::llm_thinking_delta(const StreamingDete
 const ::ondewo::nlu::LlmTokenUsageUpdateEvent&
 StreamingDetectIntentResponse::_Internal::llm_token_usage_update(const StreamingDetectIntentResponse* msg) {
   return *msg->_impl_.telemetry_event_.llm_token_usage_update_;
+}
+const ::ondewo::nlu::LlmAgentNodeEvent&
+StreamingDetectIntentResponse::_Internal::llm_agent_node_event(const StreamingDetectIntentResponse* msg) {
+  return *msg->_impl_.telemetry_event_.llm_agent_node_event_;
 }
 void StreamingDetectIntentResponse::clear_webhook_status() {
   if (GetArenaForAllocation() == nullptr && _impl_.webhook_status_ != nullptr) {
@@ -23209,6 +24181,21 @@ void StreamingDetectIntentResponse::set_allocated_llm_token_usage_update(::ondew
   }
   // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.StreamingDetectIntentResponse.llm_token_usage_update)
 }
+void StreamingDetectIntentResponse::set_allocated_llm_agent_node_event(::ondewo::nlu::LlmAgentNodeEvent* llm_agent_node_event) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_telemetry_event();
+  if (llm_agent_node_event) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(llm_agent_node_event);
+    if (message_arena != submessage_arena) {
+      llm_agent_node_event = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, llm_agent_node_event, submessage_arena);
+    }
+    set_has_llm_agent_node_event();
+    _impl_.telemetry_event_.llm_agent_node_event_ = llm_agent_node_event;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.StreamingDetectIntentResponse.llm_agent_node_event)
+}
 StreamingDetectIntentResponse::StreamingDetectIntentResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -23275,6 +24262,11 @@ StreamingDetectIntentResponse::StreamingDetectIntentResponse(const StreamingDete
     case kLlmTokenUsageUpdate: {
       _this->_internal_mutable_llm_token_usage_update()->::ondewo::nlu::LlmTokenUsageUpdateEvent::MergeFrom(
           from._internal_llm_token_usage_update());
+      break;
+    }
+    case kLlmAgentNodeEvent: {
+      _this->_internal_mutable_llm_agent_node_event()->::ondewo::nlu::LlmAgentNodeEvent::MergeFrom(
+          from._internal_llm_agent_node_event());
       break;
     }
     case TELEMETRY_EVENT_NOT_SET: {
@@ -23364,6 +24356,12 @@ void StreamingDetectIntentResponse::clear_telemetry_event() {
     case kLlmTokenUsageUpdate: {
       if (GetArenaForAllocation() == nullptr) {
         delete _impl_.telemetry_event_.llm_token_usage_update_;
+      }
+      break;
+    }
+    case kLlmAgentNodeEvent: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.telemetry_event_.llm_agent_node_event_;
       }
       break;
     }
@@ -23486,6 +24484,14 @@ const char* StreamingDetectIntentResponse::_InternalParse(const char* ptr, ::_pb
         } else
           goto handle_unusual;
         continue;
+      // .ondewo.nlu.LlmAgentNodeEvent llm_agent_node_event = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          ptr = ctx->ParseMessage(_internal_mutable_llm_agent_node_event(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -23588,6 +24594,13 @@ uint8_t* StreamingDetectIntentResponse::_InternalSerialize(
         _Internal::llm_token_usage_update(this).GetCachedSize(), target, stream);
   }
 
+  // .ondewo.nlu.LlmAgentNodeEvent llm_agent_node_event = 11;
+  if (_internal_has_llm_agent_node_event()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(11, _Internal::llm_agent_node_event(this),
+        _Internal::llm_agent_node_event(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -23675,6 +24688,13 @@ size_t StreamingDetectIntentResponse::ByteSizeLong() const {
           *_impl_.telemetry_event_.llm_token_usage_update_);
       break;
     }
+    // .ondewo.nlu.LlmAgentNodeEvent llm_agent_node_event = 11;
+    case kLlmAgentNodeEvent: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.telemetry_event_.llm_agent_node_event_);
+      break;
+    }
     case TELEMETRY_EVENT_NOT_SET: {
       break;
     }
@@ -23743,6 +24763,11 @@ void StreamingDetectIntentResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& 
           from._internal_llm_token_usage_update());
       break;
     }
+    case kLlmAgentNodeEvent: {
+      _this->_internal_mutable_llm_agent_node_event()->::ondewo::nlu::LlmAgentNodeEvent::MergeFrom(
+          from._internal_llm_agent_node_event());
+      break;
+    }
     case TELEMETRY_EVENT_NOT_SET: {
       break;
     }
@@ -23783,7 +24808,7 @@ void StreamingDetectIntentResponse::InternalSwap(StreamingDetectIntentResponse* 
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamingDetectIntentResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[36]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[38]);
 }
 
 // ===================================================================
@@ -24085,7 +25110,7 @@ void StreamingRecognitionResult::InternalSwap(StreamingRecognitionResult* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamingRecognitionResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[37]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[39]);
 }
 
 // ===================================================================
@@ -24390,7 +25415,7 @@ void InputAudioConfig::InternalSwap(InputAudioConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata InputAudioConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[38]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[40]);
 }
 
 // ===================================================================
@@ -24643,7 +25668,7 @@ void TextInput::InternalSwap(TextInput* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TextInput::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[39]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[41]);
 }
 
 // ===================================================================
@@ -24944,7 +25969,7 @@ void EventInput::InternalSwap(EventInput* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata EventInput::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[40]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[42]);
 }
 
 // ===================================================================
@@ -25422,7 +26447,7 @@ void Session::InternalSwap(Session* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Session::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[41]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[43]);
 }
 
 // ===================================================================
@@ -26066,7 +27091,7 @@ void SessionStep::InternalSwap(SessionStep* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SessionStep::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[42]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[44]);
 }
 
 // ===================================================================
@@ -26317,7 +27342,7 @@ void GetSessionStepRequest::InternalSwap(GetSessionStepRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetSessionStepRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[43]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[45]);
 }
 
 // ===================================================================
@@ -26609,7 +27634,7 @@ void UpdateSessionStepRequest::InternalSwap(UpdateSessionStepRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateSessionStepRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[44]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[46]);
 }
 
 // ===================================================================
@@ -26812,7 +27837,7 @@ void DeleteSessionStepRequest::InternalSwap(DeleteSessionStepRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteSessionStepRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[45]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[47]);
 }
 
 // ===================================================================
@@ -27109,7 +28134,7 @@ void CreateSessionStepRequest::InternalSwap(CreateSessionStepRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateSessionStepRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[46]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[48]);
 }
 
 // ===================================================================
@@ -27485,7 +28510,7 @@ void ListSessionsRequest::InternalSwap(ListSessionsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[47]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[49]);
 }
 
 // ===================================================================
@@ -27818,7 +28843,7 @@ void ContextFilter::InternalSwap(ContextFilter* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ContextFilter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[48]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[50]);
 }
 
 // ===================================================================
@@ -29907,7 +30932,7 @@ void SessionFilter::InternalSwap(SessionFilter* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SessionFilter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[49]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[51]);
 }
 
 // ===================================================================
@@ -30095,7 +31120,7 @@ void SessionInfo_ContextSteps::InternalSwap(SessionInfo_ContextSteps* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SessionInfo_ContextSteps::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[50]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[52]);
 }
 
 // ===================================================================
@@ -31542,7 +32567,7 @@ void SessionInfo::InternalSwap(SessionInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SessionInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[51]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[53]);
 }
 
 // ===================================================================
@@ -31779,7 +32804,7 @@ void ListSessionsResponse::InternalSwap(ListSessionsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[52]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[54]);
 }
 
 // ===================================================================
@@ -32064,7 +33089,7 @@ void GetSessionRequest::InternalSwap(GetSessionRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetSessionRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[53]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[55]);
 }
 
 // ===================================================================
@@ -32393,7 +33418,7 @@ void CreateSessionRequest::InternalSwap(CreateSessionRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateSessionRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[54]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[56]);
 }
 
 // ===================================================================
@@ -32596,7 +33621,7 @@ void DeleteSessionRequest::InternalSwap(DeleteSessionRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteSessionRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[55]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[57]);
 }
 
 // ===================================================================
@@ -32925,7 +33950,7 @@ void CreateSessionReviewRequest::InternalSwap(CreateSessionReviewRequest* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateSessionReviewRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[56]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[58]);
 }
 
 // ===================================================================
@@ -33362,7 +34387,7 @@ void SessionReview::InternalSwap(SessionReview* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SessionReview::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[57]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[59]);
 }
 
 // ===================================================================
@@ -34147,7 +35172,7 @@ void SessionReviewStep::InternalSwap(SessionReviewStep* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SessionReviewStep::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[58]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[60]);
 }
 
 // ===================================================================
@@ -34506,7 +35531,7 @@ void DetectedIntent::InternalSwap(DetectedIntent* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DetectedIntent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[59]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[61]);
 }
 
 // ===================================================================
@@ -34709,7 +35734,7 @@ void ListSessionLabelsRequest::InternalSwap(ListSessionLabelsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionLabelsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[60]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[62]);
 }
 
 // ===================================================================
@@ -35006,7 +36031,7 @@ void ListSessionLabelsOfAllSessionsRequest::InternalSwap(ListSessionLabelsOfAllS
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionLabelsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[61]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[63]);
 }
 
 // ===================================================================
@@ -35196,7 +36221,7 @@ void ListSessionLabelsResponse::InternalSwap(ListSessionLabelsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionLabelsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[62]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[64]);
 }
 
 // ===================================================================
@@ -35493,7 +36518,7 @@ void ListLanguageCodesOfAllSessionsRequest::InternalSwap(ListLanguageCodesOfAllS
 ::PROTOBUF_NAMESPACE_ID::Metadata ListLanguageCodesOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[63]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[65]);
 }
 
 // ===================================================================
@@ -35683,7 +36708,7 @@ void ListLanguageCodesResponse::InternalSwap(ListLanguageCodesResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListLanguageCodesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[64]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[66]);
 }
 
 // ===================================================================
@@ -35980,7 +37005,7 @@ void ListMatchedIntentsOfAllSessionsRequest::InternalSwap(ListMatchedIntentsOfAl
 ::PROTOBUF_NAMESPACE_ID::Metadata ListMatchedIntentsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[65]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[67]);
 }
 
 // ===================================================================
@@ -36170,7 +37195,7 @@ void ListMatchedIntentsResponse::InternalSwap(ListMatchedIntentsResponse* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata ListMatchedIntentsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[66]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[68]);
 }
 
 // ===================================================================
@@ -36467,7 +37492,7 @@ void ListMatchedEntityTypesOfAllSessionsRequest::InternalSwap(ListMatchedEntityT
 ::PROTOBUF_NAMESPACE_ID::Metadata ListMatchedEntityTypesOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[67]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[69]);
 }
 
 // ===================================================================
@@ -36657,7 +37682,7 @@ void ListMatchedEntityTypesResponse::InternalSwap(ListMatchedEntityTypesResponse
 ::PROTOBUF_NAMESPACE_ID::Metadata ListMatchedEntityTypesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[68]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[70]);
 }
 
 // ===================================================================
@@ -36954,7 +37979,7 @@ void ListUserIdsOfAllSessionsRequest::InternalSwap(ListUserIdsOfAllSessionsReque
 ::PROTOBUF_NAMESPACE_ID::Metadata ListUserIdsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[69]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[71]);
 }
 
 // ===================================================================
@@ -37144,7 +38169,7 @@ void ListUserIdsResponse::InternalSwap(ListUserIdsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListUserIdsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[70]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[72]);
 }
 
 // ===================================================================
@@ -37441,7 +38466,7 @@ void ListIdentifiedUserIdsOfAllSessionsRequest::InternalSwap(ListIdentifiedUserI
 ::PROTOBUF_NAMESPACE_ID::Metadata ListIdentifiedUserIdsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[71]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[73]);
 }
 
 // ===================================================================
@@ -37631,7 +38656,7 @@ void ListIdentifiedUserIdsResponse::InternalSwap(ListIdentifiedUserIdsResponse* 
 ::PROTOBUF_NAMESPACE_ID::Metadata ListIdentifiedUserIdsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[72]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[74]);
 }
 
 // ===================================================================
@@ -37928,7 +38953,7 @@ void ListTagsOfAllSessionsRequest::InternalSwap(ListTagsOfAllSessionsRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata ListTagsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[73]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[75]);
 }
 
 // ===================================================================
@@ -38118,7 +39143,7 @@ void ListTagsResponse::InternalSwap(ListTagsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListTagsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[74]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[76]);
 }
 
 // ===================================================================
@@ -38415,7 +39440,7 @@ void ListInputContextsOfAllSessionsRequest::InternalSwap(ListInputContextsOfAllS
 ::PROTOBUF_NAMESPACE_ID::Metadata ListInputContextsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[75]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[77]);
 }
 
 // ===================================================================
@@ -38605,7 +39630,7 @@ void ListInputContextsResponse::InternalSwap(ListInputContextsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListInputContextsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[76]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[78]);
 }
 
 // ===================================================================
@@ -38902,7 +39927,7 @@ void ListOutputContextsOfAllSessionsRequest::InternalSwap(ListOutputContextsOfAl
 ::PROTOBUF_NAMESPACE_ID::Metadata ListOutputContextsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[77]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[79]);
 }
 
 // ===================================================================
@@ -39092,7 +40117,7 @@ void ListOutputContextsResponse::InternalSwap(ListOutputContextsResponse* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata ListOutputContextsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[78]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[80]);
 }
 
 // ===================================================================
@@ -39389,7 +40414,7 @@ void ListPlatformsOfAllSessionsRequest::InternalSwap(ListPlatformsOfAllSessionsR
 ::PROTOBUF_NAMESPACE_ID::Metadata ListPlatformsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[79]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[81]);
 }
 
 // ===================================================================
@@ -39579,7 +40604,7 @@ void ListPlatformsResponse::InternalSwap(ListPlatformsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListPlatformsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[80]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[82]);
 }
 
 // ===================================================================
@@ -39876,7 +40901,7 @@ void ListAccountIdsOfAllSessionsRequest::InternalSwap(ListAccountIdsOfAllSession
 ::PROTOBUF_NAMESPACE_ID::Metadata ListAccountIdsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[81]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[83]);
 }
 
 // ===================================================================
@@ -40066,7 +41091,7 @@ void ListAccountIdsResponse::InternalSwap(ListAccountIdsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListAccountIdsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[82]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[84]);
 }
 
 // ===================================================================
@@ -40311,7 +41336,7 @@ void ListPropertyIdsOfAllSessionsRequest::InternalSwap(ListPropertyIdsOfAllSessi
 ::PROTOBUF_NAMESPACE_ID::Metadata ListPropertyIdsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[83]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[85]);
 }
 
 // ===================================================================
@@ -40501,7 +41526,7 @@ void ListPropertyIdsResponse::InternalSwap(ListPropertyIdsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListPropertyIdsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[84]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[86]);
 }
 
 // ===================================================================
@@ -40746,7 +41771,7 @@ void ListDatastreamIdsOfAllSessionsRequest::InternalSwap(ListDatastreamIdsOfAllS
 ::PROTOBUF_NAMESPACE_ID::Metadata ListDatastreamIdsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[85]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[87]);
 }
 
 // ===================================================================
@@ -40936,7 +41961,7 @@ void ListDatastreamIdsResponse::InternalSwap(ListDatastreamIdsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListDatastreamIdsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[86]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[88]);
 }
 
 // ===================================================================
@@ -41233,7 +42258,7 @@ void ListOriginIdsOfAllSessionsRequest::InternalSwap(ListOriginIdsOfAllSessionsR
 ::PROTOBUF_NAMESPACE_ID::Metadata ListOriginIdsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[87]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[89]);
 }
 
 // ===================================================================
@@ -41423,7 +42448,7 @@ void ListOriginIdsResponse::InternalSwap(ListOriginIdsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListOriginIdsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[88]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[90]);
 }
 
 // ===================================================================
@@ -41665,7 +42690,7 @@ void AddSessionLabelsRequest::InternalSwap(AddSessionLabelsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AddSessionLabelsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[89]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[91]);
 }
 
 // ===================================================================
@@ -41907,7 +42932,7 @@ void DeleteSessionLabelsRequest::InternalSwap(DeleteSessionLabelsRequest* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteSessionLabelsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[90]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[92]);
 }
 
 // ===================================================================
@@ -42158,7 +43183,7 @@ void AddSessionCommentRequest::InternalSwap(AddSessionCommentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AddSessionCommentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[91]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[93]);
 }
 
 // ===================================================================
@@ -42400,7 +43425,7 @@ void DeleteSessionCommentsRequest::InternalSwap(DeleteSessionCommentsRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteSessionCommentsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[92]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[94]);
 }
 
 // ===================================================================
@@ -42651,7 +43676,7 @@ void UpdateSessionCommentsRequest::InternalSwap(UpdateSessionCommentsRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateSessionCommentsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[93]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[95]);
 }
 
 // ===================================================================
@@ -42995,7 +44020,7 @@ void ListSessionCommentsRequest::InternalSwap(ListSessionCommentsRequest* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionCommentsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[94]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[96]);
 }
 
 // ===================================================================
@@ -43380,7 +44405,7 @@ void ListSessionCommentsOfAllSessionsRequest::InternalSwap(ListSessionCommentsOf
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionCommentsOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[95]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[97]);
 }
 
 // ===================================================================
@@ -43620,7 +44645,7 @@ void ListSessionCommentsResponse::InternalSwap(ListSessionCommentsResponse* othe
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionCommentsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[96]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[98]);
 }
 
 // ===================================================================
@@ -44666,7 +45691,7 @@ void SessionFeedback::InternalSwap(SessionFeedback* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SessionFeedback::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[97]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[99]);
 }
 
 // ===================================================================
@@ -44911,7 +45936,7 @@ void AddSessionFeedbackRequest::InternalSwap(AddSessionFeedbackRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AddSessionFeedbackRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[98]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[100]);
 }
 
 // ===================================================================
@@ -45206,7 +46231,7 @@ void AddSessionStepFeedbackRequest::InternalSwap(AddSessionStepFeedbackRequest* 
 ::PROTOBUF_NAMESPACE_ID::Metadata AddSessionStepFeedbackRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[99]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[101]);
 }
 
 // ===================================================================
@@ -45457,7 +46482,7 @@ void GetSessionFeedbackRequest::InternalSwap(GetSessionFeedbackRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetSessionFeedbackRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[100]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[102]);
 }
 
 // ===================================================================
@@ -45702,7 +46727,7 @@ void UpdateSessionFeedbackRequest::InternalSwap(UpdateSessionFeedbackRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateSessionFeedbackRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[101]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[103]);
 }
 
 // ===================================================================
@@ -45905,7 +46930,7 @@ void DeleteSessionFeedbackRequest::InternalSwap(DeleteSessionFeedbackRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteSessionFeedbackRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[102]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[104]);
 }
 
 // ===================================================================
@@ -46206,7 +47231,7 @@ void ListSessionFeedbackRequest::InternalSwap(ListSessionFeedbackRequest* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionFeedbackRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[103]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[105]);
 }
 
 // ===================================================================
@@ -46644,7 +47669,7 @@ void ListSessionFeedbackOfAllSessionsRequest::InternalSwap(ListSessionFeedbackOf
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionFeedbackOfAllSessionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[104]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[106]);
 }
 
 // ===================================================================
@@ -46908,7 +47933,7 @@ void ListSessionFeedbackResponse::InternalSwap(ListSessionFeedbackResponse* othe
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionFeedbackResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[105]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[107]);
 }
 
 // ===================================================================
@@ -47542,7 +48567,7 @@ void FeedbackFilter::InternalSwap(FeedbackFilter* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FeedbackFilter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[106]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[108]);
 }
 
 // ===================================================================
@@ -47829,7 +48854,7 @@ void FeedbackBreakdownBucket::InternalSwap(FeedbackBreakdownBucket* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FeedbackBreakdownBucket::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[107]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[109]);
 }
 
 // ===================================================================
@@ -48438,7 +49463,7 @@ void FeedbackStatistics::InternalSwap(FeedbackStatistics* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FeedbackStatistics::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[108]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[110]);
 }
 
 // ===================================================================
@@ -48802,7 +49827,7 @@ void GetFeedbackStatisticsRequest::InternalSwap(GetFeedbackStatisticsRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata GetFeedbackStatisticsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[109]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[111]);
 }
 
 // ===================================================================
@@ -48995,7 +50020,7 @@ void GetFeedbackStatisticsResponse::InternalSwap(GetFeedbackStatisticsResponse* 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetFeedbackStatisticsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[110]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[112]);
 }
 
 // ===================================================================
@@ -49324,7 +50349,7 @@ void FeedbackTimeSeriesBucket::InternalSwap(FeedbackTimeSeriesBucket* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FeedbackTimeSeriesBucket::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[111]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[113]);
 }
 
 // ===================================================================
@@ -49887,7 +50912,7 @@ void GetFeedbackStatisticsTimeSeriesRequest::InternalSwap(GetFeedbackStatisticsT
 ::PROTOBUF_NAMESPACE_ID::Metadata GetFeedbackStatisticsTimeSeriesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[112]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[114]);
 }
 
 // ===================================================================
@@ -50072,7 +51097,7 @@ void GetFeedbackStatisticsTimeSeriesResponse::InternalSwap(GetFeedbackStatistics
 ::PROTOBUF_NAMESPACE_ID::Metadata GetFeedbackStatisticsTimeSeriesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[113]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[115]);
 }
 
 // ===================================================================
@@ -50355,7 +51380,7 @@ void ListSessionReviewsRequest::InternalSwap(ListSessionReviewsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionReviewsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[114]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[116]);
 }
 
 // ===================================================================
@@ -50592,7 +51617,7 @@ void ListSessionReviewsResponse::InternalSwap(ListSessionReviewsResponse* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSessionReviewsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[115]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[117]);
 }
 
 // ===================================================================
@@ -50877,7 +51902,7 @@ void GetSessionReviewRequest::InternalSwap(GetSessionReviewRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetSessionReviewRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[116]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[118]);
 }
 
 // ===================================================================
@@ -51162,7 +52187,7 @@ void GetLatestSessionReviewRequest::InternalSwap(GetLatestSessionReviewRequest* 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetLatestSessionReviewRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[117]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[119]);
 }
 
 // ===================================================================
@@ -51583,7 +52608,7 @@ void FileResource::InternalSwap(FileResource* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FileResource::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[118]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[120]);
 }
 
 // ===================================================================
@@ -52081,7 +53106,7 @@ void DocumentFileResource::InternalSwap(DocumentFileResource* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DocumentFileResource::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[119]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[121]);
 }
 
 // ===================================================================
@@ -52579,7 +53604,7 @@ void ImageFileResource::InternalSwap(ImageFileResource* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ImageFileResource::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[120]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[122]);
 }
 
 // ===================================================================
@@ -53254,7 +54279,7 @@ void AudioFileResource::InternalSwap(AudioFileResource* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AudioFileResource::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[121]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[123]);
 }
 
 // ===================================================================
@@ -53880,7 +54905,7 @@ void VideoFileResource::InternalSwap(VideoFileResource* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata VideoFileResource::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[122]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[124]);
 }
 
 // ===================================================================
@@ -54285,7 +55310,7 @@ void GetAudioFilesRequest::InternalSwap(GetAudioFilesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetAudioFilesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[123]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[125]);
 }
 
 // ===================================================================
@@ -54572,7 +55597,7 @@ void GetAudioFilesResponse::InternalSwap(GetAudioFilesResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetAudioFilesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[124]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[126]);
 }
 
 // ===================================================================
@@ -54909,7 +55934,7 @@ void AddAudioFilesRequest::InternalSwap(AddAudioFilesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AddAudioFilesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[125]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[127]);
 }
 
 // ===================================================================
@@ -55146,7 +56171,7 @@ void AddAudioFilesResponse::InternalSwap(AddAudioFilesResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AddAudioFilesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[126]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[128]);
 }
 
 // ===================================================================
@@ -55388,7 +56413,7 @@ void DeleteAudioFilesRequest::InternalSwap(DeleteAudioFilesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteAudioFilesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[127]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[129]);
 }
 
 // ===================================================================
@@ -55630,7 +56655,7 @@ void DeleteAudioFilesResponse::InternalSwap(DeleteAudioFilesResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteAudioFilesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[128]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[130]);
 }
 
 // ===================================================================
@@ -56046,7 +57071,7 @@ void ListAudioFilesRequest::InternalSwap(ListAudioFilesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListAudioFilesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[129]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[131]);
 }
 
 // ===================================================================
@@ -56333,7 +57358,7 @@ void ListAudioFilesResponse::InternalSwap(ListAudioFilesResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListAudioFilesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[130]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[132]);
 }
 
 // ===================================================================
@@ -56668,7 +57693,7 @@ void GetAudioFileOfSessionRequest::InternalSwap(GetAudioFileOfSessionRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata GetAudioFileOfSessionRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fsession_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fsession_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[131]);
+      file_level_metadata_ondewo_2fnlu_2fsession_2eproto[133]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -56747,6 +57772,10 @@ template<> PROTOBUF_NOINLINE ::ondewo::nlu::LlmCcaiServiceUsage*
 Arena::CreateMaybeMessage< ::ondewo::nlu::LlmCcaiServiceUsage >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::nlu::LlmCcaiServiceUsage >(arena);
 }
+template<> PROTOBUF_NOINLINE ::ondewo::nlu::LlmBaseUrlUsage*
+Arena::CreateMaybeMessage< ::ondewo::nlu::LlmBaseUrlUsage >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::nlu::LlmBaseUrlUsage >(arena);
+}
 template<> PROTOBUF_NOINLINE ::ondewo::nlu::LlmAgentUsage*
 Arena::CreateMaybeMessage< ::ondewo::nlu::LlmAgentUsage >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::nlu::LlmAgentUsage >(arena);
@@ -56806,6 +57835,10 @@ Arena::CreateMaybeMessage< ::ondewo::nlu::LlmThinkingDeltaEvent >(Arena* arena) 
 template<> PROTOBUF_NOINLINE ::ondewo::nlu::LlmTokenUsageUpdateEvent*
 Arena::CreateMaybeMessage< ::ondewo::nlu::LlmTokenUsageUpdateEvent >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::nlu::LlmTokenUsageUpdateEvent >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::nlu::LlmAgentNodeEvent*
+Arena::CreateMaybeMessage< ::ondewo::nlu::LlmAgentNodeEvent >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::nlu::LlmAgentNodeEvent >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::nlu::ReferencedChunk*
 Arena::CreateMaybeMessage< ::ondewo::nlu::ReferencedChunk >(Arena* arena) {
