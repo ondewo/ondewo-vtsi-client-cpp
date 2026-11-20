@@ -235,9 +235,36 @@ extern TranscriptionAlternativeDefaultTypeInternal _TranscriptionAlternative_def
 class TranscriptionReturnOptions;
 struct TranscriptionReturnOptionsDefaultTypeInternal;
 extern TranscriptionReturnOptionsDefaultTypeInternal _TranscriptionReturnOptions_default_instance_;
+class TurnDetectionChatLlmOptions;
+struct TurnDetectionChatLlmOptionsDefaultTypeInternal;
+extern TurnDetectionChatLlmOptionsDefaultTypeInternal _TurnDetectionChatLlmOptions_default_instance_;
+class TurnDetectionContextTurn;
+struct TurnDetectionContextTurnDefaultTypeInternal;
+extern TurnDetectionContextTurnDefaultTypeInternal _TurnDetectionContextTurn_default_instance_;
+class TurnDetectionConversationContext;
+struct TurnDetectionConversationContextDefaultTypeInternal;
+extern TurnDetectionConversationContextDefaultTypeInternal _TurnDetectionConversationContext_default_instance_;
+class TurnDetectionEndOfUtteranceLlmOptions;
+struct TurnDetectionEndOfUtteranceLlmOptionsDefaultTypeInternal;
+extern TurnDetectionEndOfUtteranceLlmOptionsDefaultTypeInternal _TurnDetectionEndOfUtteranceLlmOptions_default_instance_;
+class TurnDetectionHoldBand;
+struct TurnDetectionHoldBandDefaultTypeInternal;
+extern TurnDetectionHoldBandDefaultTypeInternal _TurnDetectionHoldBand_default_instance_;
+class TurnDetectionHoldBands;
+struct TurnDetectionHoldBandsDefaultTypeInternal;
+extern TurnDetectionHoldBandsDefaultTypeInternal _TurnDetectionHoldBands_default_instance_;
+class TurnDetectionOndewoDeFusionOptions;
+struct TurnDetectionOndewoDeFusionOptionsDefaultTypeInternal;
+extern TurnDetectionOndewoDeFusionOptionsDefaultTypeInternal _TurnDetectionOndewoDeFusionOptions_default_instance_;
+class TurnDetectionOndewoDeOptions;
+struct TurnDetectionOndewoDeOptionsDefaultTypeInternal;
+extern TurnDetectionOndewoDeOptionsDefaultTypeInternal _TurnDetectionOndewoDeOptions_default_instance_;
 class TurnDetectionOptions;
 struct TurnDetectionOptionsDefaultTypeInternal;
 extern TurnDetectionOptionsDefaultTypeInternal _TurnDetectionOptions_default_instance_;
+class TurnDetectionPipecatSmartTurnOptions;
+struct TurnDetectionPipecatSmartTurnOptionsDefaultTypeInternal;
+extern TurnDetectionPipecatSmartTurnOptionsDefaultTypeInternal _TurnDetectionPipecatSmartTurnOptions_default_instance_;
 class UtteranceDetectionOptions;
 struct UtteranceDetectionOptionsDefaultTypeInternal;
 extern UtteranceDetectionOptionsDefaultTypeInternal _UtteranceDetectionOptions_default_instance_;
@@ -329,7 +356,16 @@ template<> ::ondewo::s2t::TranscribeStreamResponse* Arena::CreateMaybeMessage<::
 template<> ::ondewo::s2t::Transcription* Arena::CreateMaybeMessage<::ondewo::s2t::Transcription>(Arena*);
 template<> ::ondewo::s2t::TranscriptionAlternative* Arena::CreateMaybeMessage<::ondewo::s2t::TranscriptionAlternative>(Arena*);
 template<> ::ondewo::s2t::TranscriptionReturnOptions* Arena::CreateMaybeMessage<::ondewo::s2t::TranscriptionReturnOptions>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionChatLlmOptions* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionChatLlmOptions>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionContextTurn* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionContextTurn>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionConversationContext* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionConversationContext>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionHoldBand* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionHoldBand>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionHoldBands* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionHoldBands>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionOndewoDeFusionOptions>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionOndewoDeOptions* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionOndewoDeOptions>(Arena*);
 template<> ::ondewo::s2t::TurnDetectionOptions* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionOptions>(Arena*);
+template<> ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* Arena::CreateMaybeMessage<::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions>(Arena*);
 template<> ::ondewo::s2t::UtteranceDetectionOptions* Arena::CreateMaybeMessage<::ondewo::s2t::UtteranceDetectionOptions>(Arena*);
 template<> ::ondewo::s2t::VoiceActivityDetection* Arena::CreateMaybeMessage<::ondewo::s2t::VoiceActivityDetection>(Arena*);
 template<> ::ondewo::s2t::Wav2Vec* Arena::CreateMaybeMessage<::ondewo::s2t::Wav2Vec>(Arena*);
@@ -343,6 +379,32 @@ PROTOBUF_NAMESPACE_CLOSE
 namespace ondewo {
 namespace s2t {
 
+enum TurnDetectionContextTurn_Role : int {
+  TurnDetectionContextTurn_Role_ROLE_UNSPECIFIED = 0,
+  TurnDetectionContextTurn_Role_ROLE_USER = 1,
+  TurnDetectionContextTurn_Role_ROLE_ASSISTANT = 2,
+  TurnDetectionContextTurn_Role_TurnDetectionContextTurn_Role_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  TurnDetectionContextTurn_Role_TurnDetectionContextTurn_Role_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool TurnDetectionContextTurn_Role_IsValid(int value);
+constexpr TurnDetectionContextTurn_Role TurnDetectionContextTurn_Role_Role_MIN = TurnDetectionContextTurn_Role_ROLE_UNSPECIFIED;
+constexpr TurnDetectionContextTurn_Role TurnDetectionContextTurn_Role_Role_MAX = TurnDetectionContextTurn_Role_ROLE_ASSISTANT;
+constexpr int TurnDetectionContextTurn_Role_Role_ARRAYSIZE = TurnDetectionContextTurn_Role_Role_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TurnDetectionContextTurn_Role_descriptor();
+template<typename T>
+inline const std::string& TurnDetectionContextTurn_Role_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, TurnDetectionContextTurn_Role>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function TurnDetectionContextTurn_Role_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    TurnDetectionContextTurn_Role_descriptor(), enum_t_value);
+}
+inline bool TurnDetectionContextTurn_Role_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, TurnDetectionContextTurn_Role* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<TurnDetectionContextTurn_Role>(
+    TurnDetectionContextTurn_Role_descriptor(), name, value);
+}
 enum Decoding : int {
   DEFAULT = 0,
   GREEDY = 1,
@@ -2115,6 +2177,7 @@ class TranscriptionReturnOptions final :
     kReturnAlternativeWordsNrFieldNumber = 7,
     kReturnAlternativeWordsFieldNumber = 6,
     kReturnWordTimingFieldNumber = 8,
+    kReturnEndOfSpeechCandidateFieldNumber = 9,
   };
   // bool return_start_of_speech = 1;
   void clear_return_start_of_speech();
@@ -2188,6 +2251,15 @@ class TranscriptionReturnOptions final :
   void _internal_set_return_word_timing(bool value);
   public:
 
+  // bool return_end_of_speech_candidate = 9;
+  void clear_return_end_of_speech_candidate();
+  bool return_end_of_speech_candidate() const;
+  void set_return_end_of_speech_candidate(bool value);
+  private:
+  bool _internal_return_end_of_speech_candidate() const;
+  void _internal_set_return_end_of_speech_candidate(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.s2t.TranscriptionReturnOptions)
  private:
   class _Internal;
@@ -2204,6 +2276,7 @@ class TranscriptionReturnOptions final :
     int32_t return_alternative_words_nr_;
     bool return_alternative_words_;
     bool return_word_timing_;
+    bool return_end_of_speech_candidate_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2343,6 +2416,8 @@ class UtteranceDetectionOptions final :
 
   enum : int {
     kNextChunkTimeoutFieldNumber = 2,
+    kTranscribeNotFinalPeriodSecondsFieldNumber = 5,
+    kMinAudioChunkSizeFieldNumber = 4,
     kTranscribeNotFinalFieldNumber = 1,
     kTurnDetectionFieldNumber = 3,
   };
@@ -2353,6 +2428,32 @@ class UtteranceDetectionOptions final :
   private:
   float _internal_next_chunk_timeout() const;
   void _internal_set_next_chunk_timeout(float value);
+  public:
+
+  // optional float transcribe_not_final_period_seconds = 5;
+  bool has_transcribe_not_final_period_seconds() const;
+  private:
+  bool _internal_has_transcribe_not_final_period_seconds() const;
+  public:
+  void clear_transcribe_not_final_period_seconds();
+  float transcribe_not_final_period_seconds() const;
+  void set_transcribe_not_final_period_seconds(float value);
+  private:
+  float _internal_transcribe_not_final_period_seconds() const;
+  void _internal_set_transcribe_not_final_period_seconds(float value);
+  public:
+
+  // optional int64 min_audio_chunk_size = 4;
+  bool has_min_audio_chunk_size() const;
+  private:
+  bool _internal_has_min_audio_chunk_size() const;
+  public:
+  void clear_min_audio_chunk_size();
+  int64_t min_audio_chunk_size() const;
+  void set_min_audio_chunk_size(int64_t value);
+  private:
+  int64_t _internal_min_audio_chunk_size() const;
+  void _internal_set_min_audio_chunk_size(int64_t value);
   public:
 
   // bool transcribe_not_final = 1;
@@ -2406,7 +2507,11 @@ class UtteranceDetectionOptions final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     float next_chunk_timeout_;
+    float transcribe_not_final_period_seconds_;
+    int64_t min_audio_chunk_size_;
     union OneofTranscribeNotFinalUnion {
       constexpr OneofTranscribeNotFinalUnion() : _constinit_{} {}
         ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
@@ -2417,7 +2522,6 @@ class UtteranceDetectionOptions final :
         ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
       ::ondewo::s2t::TurnDetectionOptions* turn_detection_;
     } oneof_turn_detection_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     uint32_t _oneof_case_[2];
 
   };
@@ -3702,6 +3806,7 @@ class TranscribeStreamResponse final :
     kFinalFieldNumber = 3,
     kReturnAudioFieldNumber = 4,
     kUtteranceStartFieldNumber = 6,
+    kEndOfSpeechCandidateFieldNumber = 9,
     kConfigFieldNumber = 8,
   };
   // repeated .ondewo.s2t.Transcription transcriptions = 1;
@@ -3786,6 +3891,15 @@ class TranscribeStreamResponse final :
   void _internal_set_utterance_start(bool value);
   public:
 
+  // bool end_of_speech_candidate = 9;
+  void clear_end_of_speech_candidate();
+  bool end_of_speech_candidate() const;
+  void set_end_of_speech_candidate(bool value);
+  private:
+  bool _internal_end_of_speech_candidate() const;
+  void _internal_set_end_of_speech_candidate(bool value);
+  public:
+
   // .ondewo.s2t.TranscribeRequestConfig config = 8;
   bool has_config() const;
   private:
@@ -3825,6 +3939,7 @@ class TranscribeStreamResponse final :
     bool final_;
     bool return_audio_;
     bool utterance_start_;
+    bool end_of_speech_candidate_;
     union OneofConfigUnion {
       constexpr OneofConfigUnion() : _constinit_{} {}
         ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
@@ -9337,6 +9452,7 @@ class StreamingSpeechRecognition final :
     kTranscribeNotFinalFieldNumber = 1,
     kNextChunkTimeoutFieldNumber = 5,
     kMinAudioChunkSizeFieldNumber = 4,
+    kTranscribeNotFinalPeriodSecondsFieldNumber = 7,
   };
   // string decoding_method = 2;
   void clear_decoding_method();
@@ -9379,7 +9495,11 @@ class StreamingSpeechRecognition final :
   void _internal_set_sampling_rate(int64_t value);
   public:
 
-  // bool transcribe_not_final = 1;
+  // optional bool transcribe_not_final = 1;
+  bool has_transcribe_not_final() const;
+  private:
+  bool _internal_has_transcribe_not_final() const;
+  public:
   void clear_transcribe_not_final();
   bool transcribe_not_final() const;
   void set_transcribe_not_final(bool value);
@@ -9406,6 +9526,19 @@ class StreamingSpeechRecognition final :
   void _internal_set_min_audio_chunk_size(int64_t value);
   public:
 
+  // optional float transcribe_not_final_period_seconds = 7;
+  bool has_transcribe_not_final_period_seconds() const;
+  private:
+  bool _internal_has_transcribe_not_final_period_seconds() const;
+  public:
+  void clear_transcribe_not_final_period_seconds();
+  float transcribe_not_final_period_seconds() const;
+  void set_transcribe_not_final_period_seconds(float value);
+  private:
+  float _internal_transcribe_not_final_period_seconds() const;
+  void _internal_set_transcribe_not_final_period_seconds(float value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.s2t.StreamingSpeechRecognition)
  private:
   class _Internal;
@@ -9414,13 +9547,15 @@ class StreamingSpeechRecognition final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr decoding_method_;
     ::ondewo::s2t::TurnDetectionOptions* turn_detection_;
     int64_t sampling_rate_;
     bool transcribe_not_final_;
     float next_chunk_timeout_;
     int64_t min_audio_chunk_size_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    float transcribe_not_final_period_seconds_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
@@ -9470,6 +9605,15 @@ class TurnDetectionOptions final :
   static const TurnDetectionOptions& default_instance() {
     return *internal_default_instance();
   }
+  enum OneofTurnDetectorCase {
+    kTurnDetectionChatLlmOptions = 8,
+    kTurnDetectionEndOfUtteranceLlmOptions = 9,
+    kTurnDetectionOndewoDeOptions = 10,
+    kTurnDetectionOndewoDeFusionOptions = 11,
+    kTurnDetectionPipecatSmartTurnOptions = 12,
+    ONEOF_TURN_DETECTOR_NOT_SET = 0,
+  };
+
   static inline const TurnDetectionOptions* internal_default_instance() {
     return reinterpret_cast<const TurnDetectionOptions*>(
                &_TurnDetectionOptions_default_instance_);
@@ -9551,62 +9695,87 @@ class TurnDetectionOptions final :
     kTurnDetectionSystemPromptFieldNumber = 3,
     kTurnDetectionUserPromptFieldNumber = 4,
     kTurnDetectionLlmOpenaiOptionsFieldNumber = 5,
+    kTurnDetectionConversationContextFieldNumber = 7,
     kActiveFieldNumber = 1,
     kFullUtteranceDeploymentFieldNumber = 2,
+    kIncompleteMaxSilenceSecondsFieldNumber = 6,
+    kTurnDetectionChatLlmOptionsFieldNumber = 8,
+    kTurnDetectionEndOfUtteranceLlmOptionsFieldNumber = 9,
+    kTurnDetectionOndewoDeOptionsFieldNumber = 10,
+    kTurnDetectionOndewoDeFusionOptionsFieldNumber = 11,
+    kTurnDetectionPipecatSmartTurnOptionsFieldNumber = 12,
   };
-  // optional string turn_detection_system_prompt = 3;
-  bool has_turn_detection_system_prompt() const;
+  // optional string turn_detection_system_prompt = 3 [deprecated = true];
+  PROTOBUF_DEPRECATED bool has_turn_detection_system_prompt() const;
   private:
   bool _internal_has_turn_detection_system_prompt() const;
   public:
-  void clear_turn_detection_system_prompt();
-  const std::string& turn_detection_system_prompt() const;
+  PROTOBUF_DEPRECATED void clear_turn_detection_system_prompt();
+  PROTOBUF_DEPRECATED const std::string& turn_detection_system_prompt() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_turn_detection_system_prompt(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_turn_detection_system_prompt();
-  PROTOBUF_NODISCARD std::string* release_turn_detection_system_prompt();
-  void set_allocated_turn_detection_system_prompt(std::string* turn_detection_system_prompt);
+  PROTOBUF_DEPRECATED void set_turn_detection_system_prompt(ArgT0&& arg0, ArgT... args);
+  PROTOBUF_DEPRECATED std::string* mutable_turn_detection_system_prompt();
+  PROTOBUF_NODISCARD PROTOBUF_DEPRECATED std::string* release_turn_detection_system_prompt();
+  PROTOBUF_DEPRECATED void set_allocated_turn_detection_system_prompt(std::string* turn_detection_system_prompt);
   private:
   const std::string& _internal_turn_detection_system_prompt() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_turn_detection_system_prompt(const std::string& value);
   std::string* _internal_mutable_turn_detection_system_prompt();
   public:
 
-  // optional string turn_detection_user_prompt = 4;
-  bool has_turn_detection_user_prompt() const;
+  // optional string turn_detection_user_prompt = 4 [deprecated = true];
+  PROTOBUF_DEPRECATED bool has_turn_detection_user_prompt() const;
   private:
   bool _internal_has_turn_detection_user_prompt() const;
   public:
-  void clear_turn_detection_user_prompt();
-  const std::string& turn_detection_user_prompt() const;
+  PROTOBUF_DEPRECATED void clear_turn_detection_user_prompt();
+  PROTOBUF_DEPRECATED const std::string& turn_detection_user_prompt() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_turn_detection_user_prompt(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_turn_detection_user_prompt();
-  PROTOBUF_NODISCARD std::string* release_turn_detection_user_prompt();
-  void set_allocated_turn_detection_user_prompt(std::string* turn_detection_user_prompt);
+  PROTOBUF_DEPRECATED void set_turn_detection_user_prompt(ArgT0&& arg0, ArgT... args);
+  PROTOBUF_DEPRECATED std::string* mutable_turn_detection_user_prompt();
+  PROTOBUF_NODISCARD PROTOBUF_DEPRECATED std::string* release_turn_detection_user_prompt();
+  PROTOBUF_DEPRECATED void set_allocated_turn_detection_user_prompt(std::string* turn_detection_user_prompt);
   private:
   const std::string& _internal_turn_detection_user_prompt() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_turn_detection_user_prompt(const std::string& value);
   std::string* _internal_mutable_turn_detection_user_prompt();
   public:
 
-  // optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5;
-  bool has_turn_detection_llm_openai_options() const;
+  // optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5 [deprecated = true];
+  PROTOBUF_DEPRECATED bool has_turn_detection_llm_openai_options() const;
   private:
   bool _internal_has_turn_detection_llm_openai_options() const;
   public:
-  void clear_turn_detection_llm_openai_options();
-  const ::ondewo::s2t::OpenaiLlmOptions& turn_detection_llm_openai_options() const;
-  PROTOBUF_NODISCARD ::ondewo::s2t::OpenaiLlmOptions* release_turn_detection_llm_openai_options();
-  ::ondewo::s2t::OpenaiLlmOptions* mutable_turn_detection_llm_openai_options();
-  void set_allocated_turn_detection_llm_openai_options(::ondewo::s2t::OpenaiLlmOptions* turn_detection_llm_openai_options);
+  PROTOBUF_DEPRECATED void clear_turn_detection_llm_openai_options();
+  PROTOBUF_DEPRECATED const ::ondewo::s2t::OpenaiLlmOptions& turn_detection_llm_openai_options() const;
+  PROTOBUF_NODISCARD PROTOBUF_DEPRECATED ::ondewo::s2t::OpenaiLlmOptions* release_turn_detection_llm_openai_options();
+  PROTOBUF_DEPRECATED ::ondewo::s2t::OpenaiLlmOptions* mutable_turn_detection_llm_openai_options();
+  PROTOBUF_DEPRECATED void set_allocated_turn_detection_llm_openai_options(::ondewo::s2t::OpenaiLlmOptions* turn_detection_llm_openai_options);
   private:
   const ::ondewo::s2t::OpenaiLlmOptions& _internal_turn_detection_llm_openai_options() const;
   ::ondewo::s2t::OpenaiLlmOptions* _internal_mutable_turn_detection_llm_openai_options();
   public:
-  void unsafe_arena_set_allocated_turn_detection_llm_openai_options(
+  PROTOBUF_DEPRECATED void unsafe_arena_set_allocated_turn_detection_llm_openai_options(
       ::ondewo::s2t::OpenaiLlmOptions* turn_detection_llm_openai_options);
-  ::ondewo::s2t::OpenaiLlmOptions* unsafe_arena_release_turn_detection_llm_openai_options();
+  PROTOBUF_DEPRECATED ::ondewo::s2t::OpenaiLlmOptions* unsafe_arena_release_turn_detection_llm_openai_options();
+
+  // optional .ondewo.s2t.TurnDetectionConversationContext turn_detection_conversation_context = 7;
+  bool has_turn_detection_conversation_context() const;
+  private:
+  bool _internal_has_turn_detection_conversation_context() const;
+  public:
+  void clear_turn_detection_conversation_context();
+  const ::ondewo::s2t::TurnDetectionConversationContext& turn_detection_conversation_context() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::TurnDetectionConversationContext* release_turn_detection_conversation_context();
+  ::ondewo::s2t::TurnDetectionConversationContext* mutable_turn_detection_conversation_context();
+  void set_allocated_turn_detection_conversation_context(::ondewo::s2t::TurnDetectionConversationContext* turn_detection_conversation_context);
+  private:
+  const ::ondewo::s2t::TurnDetectionConversationContext& _internal_turn_detection_conversation_context() const;
+  ::ondewo::s2t::TurnDetectionConversationContext* _internal_mutable_turn_detection_conversation_context();
+  public:
+  void unsafe_arena_set_allocated_turn_detection_conversation_context(
+      ::ondewo::s2t::TurnDetectionConversationContext* turn_detection_conversation_context);
+  ::ondewo::s2t::TurnDetectionConversationContext* unsafe_arena_release_turn_detection_conversation_context();
 
   // optional bool active = 1;
   bool has_active() const;
@@ -9634,9 +9803,122 @@ class TurnDetectionOptions final :
   void _internal_set_full_utterance_deployment(bool value);
   public:
 
+  // optional float incomplete_max_silence_seconds = 6;
+  bool has_incomplete_max_silence_seconds() const;
+  private:
+  bool _internal_has_incomplete_max_silence_seconds() const;
+  public:
+  void clear_incomplete_max_silence_seconds();
+  float incomplete_max_silence_seconds() const;
+  void set_incomplete_max_silence_seconds(float value);
+  private:
+  float _internal_incomplete_max_silence_seconds() const;
+  void _internal_set_incomplete_max_silence_seconds(float value);
+  public:
+
+  // .ondewo.s2t.TurnDetectionChatLlmOptions turn_detection_chat_llm_options = 8;
+  bool has_turn_detection_chat_llm_options() const;
+  private:
+  bool _internal_has_turn_detection_chat_llm_options() const;
+  public:
+  void clear_turn_detection_chat_llm_options();
+  const ::ondewo::s2t::TurnDetectionChatLlmOptions& turn_detection_chat_llm_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::TurnDetectionChatLlmOptions* release_turn_detection_chat_llm_options();
+  ::ondewo::s2t::TurnDetectionChatLlmOptions* mutable_turn_detection_chat_llm_options();
+  void set_allocated_turn_detection_chat_llm_options(::ondewo::s2t::TurnDetectionChatLlmOptions* turn_detection_chat_llm_options);
+  private:
+  const ::ondewo::s2t::TurnDetectionChatLlmOptions& _internal_turn_detection_chat_llm_options() const;
+  ::ondewo::s2t::TurnDetectionChatLlmOptions* _internal_mutable_turn_detection_chat_llm_options();
+  public:
+  void unsafe_arena_set_allocated_turn_detection_chat_llm_options(
+      ::ondewo::s2t::TurnDetectionChatLlmOptions* turn_detection_chat_llm_options);
+  ::ondewo::s2t::TurnDetectionChatLlmOptions* unsafe_arena_release_turn_detection_chat_llm_options();
+
+  // .ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions turn_detection_end_of_utterance_llm_options = 9;
+  bool has_turn_detection_end_of_utterance_llm_options() const;
+  private:
+  bool _internal_has_turn_detection_end_of_utterance_llm_options() const;
+  public:
+  void clear_turn_detection_end_of_utterance_llm_options();
+  const ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions& turn_detection_end_of_utterance_llm_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* release_turn_detection_end_of_utterance_llm_options();
+  ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* mutable_turn_detection_end_of_utterance_llm_options();
+  void set_allocated_turn_detection_end_of_utterance_llm_options(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* turn_detection_end_of_utterance_llm_options);
+  private:
+  const ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions& _internal_turn_detection_end_of_utterance_llm_options() const;
+  ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* _internal_mutable_turn_detection_end_of_utterance_llm_options();
+  public:
+  void unsafe_arena_set_allocated_turn_detection_end_of_utterance_llm_options(
+      ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* turn_detection_end_of_utterance_llm_options);
+  ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* unsafe_arena_release_turn_detection_end_of_utterance_llm_options();
+
+  // .ondewo.s2t.TurnDetectionOndewoDeOptions turn_detection_ondewo_de_options = 10;
+  bool has_turn_detection_ondewo_de_options() const;
+  private:
+  bool _internal_has_turn_detection_ondewo_de_options() const;
+  public:
+  void clear_turn_detection_ondewo_de_options();
+  const ::ondewo::s2t::TurnDetectionOndewoDeOptions& turn_detection_ondewo_de_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::TurnDetectionOndewoDeOptions* release_turn_detection_ondewo_de_options();
+  ::ondewo::s2t::TurnDetectionOndewoDeOptions* mutable_turn_detection_ondewo_de_options();
+  void set_allocated_turn_detection_ondewo_de_options(::ondewo::s2t::TurnDetectionOndewoDeOptions* turn_detection_ondewo_de_options);
+  private:
+  const ::ondewo::s2t::TurnDetectionOndewoDeOptions& _internal_turn_detection_ondewo_de_options() const;
+  ::ondewo::s2t::TurnDetectionOndewoDeOptions* _internal_mutable_turn_detection_ondewo_de_options();
+  public:
+  void unsafe_arena_set_allocated_turn_detection_ondewo_de_options(
+      ::ondewo::s2t::TurnDetectionOndewoDeOptions* turn_detection_ondewo_de_options);
+  ::ondewo::s2t::TurnDetectionOndewoDeOptions* unsafe_arena_release_turn_detection_ondewo_de_options();
+
+  // .ondewo.s2t.TurnDetectionOndewoDeFusionOptions turn_detection_ondewo_de_fusion_options = 11;
+  bool has_turn_detection_ondewo_de_fusion_options() const;
+  private:
+  bool _internal_has_turn_detection_ondewo_de_fusion_options() const;
+  public:
+  void clear_turn_detection_ondewo_de_fusion_options();
+  const ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions& turn_detection_ondewo_de_fusion_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* release_turn_detection_ondewo_de_fusion_options();
+  ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* mutable_turn_detection_ondewo_de_fusion_options();
+  void set_allocated_turn_detection_ondewo_de_fusion_options(::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* turn_detection_ondewo_de_fusion_options);
+  private:
+  const ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions& _internal_turn_detection_ondewo_de_fusion_options() const;
+  ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* _internal_mutable_turn_detection_ondewo_de_fusion_options();
+  public:
+  void unsafe_arena_set_allocated_turn_detection_ondewo_de_fusion_options(
+      ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* turn_detection_ondewo_de_fusion_options);
+  ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* unsafe_arena_release_turn_detection_ondewo_de_fusion_options();
+
+  // .ondewo.s2t.TurnDetectionPipecatSmartTurnOptions turn_detection_pipecat_smart_turn_options = 12;
+  bool has_turn_detection_pipecat_smart_turn_options() const;
+  private:
+  bool _internal_has_turn_detection_pipecat_smart_turn_options() const;
+  public:
+  void clear_turn_detection_pipecat_smart_turn_options();
+  const ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions& turn_detection_pipecat_smart_turn_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* release_turn_detection_pipecat_smart_turn_options();
+  ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* mutable_turn_detection_pipecat_smart_turn_options();
+  void set_allocated_turn_detection_pipecat_smart_turn_options(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* turn_detection_pipecat_smart_turn_options);
+  private:
+  const ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions& _internal_turn_detection_pipecat_smart_turn_options() const;
+  ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* _internal_mutable_turn_detection_pipecat_smart_turn_options();
+  public:
+  void unsafe_arena_set_allocated_turn_detection_pipecat_smart_turn_options(
+      ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* turn_detection_pipecat_smart_turn_options);
+  ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* unsafe_arena_release_turn_detection_pipecat_smart_turn_options();
+
+  void clear_oneof_turn_detector();
+  OneofTurnDetectorCase oneof_turn_detector_case() const;
   // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionOptions)
  private:
   class _Internal;
+  void set_has_turn_detection_chat_llm_options();
+  void set_has_turn_detection_end_of_utterance_llm_options();
+  void set_has_turn_detection_ondewo_de_options();
+  void set_has_turn_detection_ondewo_de_fusion_options();
+  void set_has_turn_detection_pipecat_smart_turn_options();
+
+  inline bool has_oneof_turn_detector() const;
+  inline void clear_has_oneof_turn_detector();
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
@@ -9647,8 +9929,1695 @@ class TurnDetectionOptions final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr turn_detection_system_prompt_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr turn_detection_user_prompt_;
     ::ondewo::s2t::OpenaiLlmOptions* turn_detection_llm_openai_options_;
+    ::ondewo::s2t::TurnDetectionConversationContext* turn_detection_conversation_context_;
     bool active_;
     bool full_utterance_deployment_;
+    float incomplete_max_silence_seconds_;
+    union OneofTurnDetectorUnion {
+      constexpr OneofTurnDetectorUnion() : _constinit_{} {}
+        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
+      ::ondewo::s2t::TurnDetectionChatLlmOptions* turn_detection_chat_llm_options_;
+      ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* turn_detection_end_of_utterance_llm_options_;
+      ::ondewo::s2t::TurnDetectionOndewoDeOptions* turn_detection_ondewo_de_options_;
+      ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* turn_detection_ondewo_de_fusion_options_;
+      ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* turn_detection_pipecat_smart_turn_options_;
+    } oneof_turn_detector_;
+    uint32_t _oneof_case_[1];
+
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionChatLlmOptions final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionChatLlmOptions) */ {
+ public:
+  inline TurnDetectionChatLlmOptions() : TurnDetectionChatLlmOptions(nullptr) {}
+  ~TurnDetectionChatLlmOptions() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionChatLlmOptions(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionChatLlmOptions(const TurnDetectionChatLlmOptions& from);
+  TurnDetectionChatLlmOptions(TurnDetectionChatLlmOptions&& from) noexcept
+    : TurnDetectionChatLlmOptions() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionChatLlmOptions& operator=(const TurnDetectionChatLlmOptions& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionChatLlmOptions& operator=(TurnDetectionChatLlmOptions&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionChatLlmOptions& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionChatLlmOptions* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionChatLlmOptions*>(
+               &_TurnDetectionChatLlmOptions_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    44;
+
+  friend void swap(TurnDetectionChatLlmOptions& a, TurnDetectionChatLlmOptions& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionChatLlmOptions* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionChatLlmOptions* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionChatLlmOptions* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionChatLlmOptions>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionChatLlmOptions& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionChatLlmOptions& from) {
+    TurnDetectionChatLlmOptions::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionChatLlmOptions* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionChatLlmOptions";
+  }
+  protected:
+  explicit TurnDetectionChatLlmOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSystemPromptFieldNumber = 2,
+    kUserPromptFieldNumber = 3,
+    kOpenaiLlmOptionsFieldNumber = 1,
+  };
+  // optional string system_prompt = 2;
+  bool has_system_prompt() const;
+  private:
+  bool _internal_has_system_prompt() const;
+  public:
+  void clear_system_prompt();
+  const std::string& system_prompt() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_system_prompt(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_system_prompt();
+  PROTOBUF_NODISCARD std::string* release_system_prompt();
+  void set_allocated_system_prompt(std::string* system_prompt);
+  private:
+  const std::string& _internal_system_prompt() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_system_prompt(const std::string& value);
+  std::string* _internal_mutable_system_prompt();
+  public:
+
+  // optional string user_prompt = 3;
+  bool has_user_prompt() const;
+  private:
+  bool _internal_has_user_prompt() const;
+  public:
+  void clear_user_prompt();
+  const std::string& user_prompt() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_user_prompt(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_prompt();
+  PROTOBUF_NODISCARD std::string* release_user_prompt();
+  void set_allocated_user_prompt(std::string* user_prompt);
+  private:
+  const std::string& _internal_user_prompt() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_prompt(const std::string& value);
+  std::string* _internal_mutable_user_prompt();
+  public:
+
+  // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+  bool has_openai_llm_options() const;
+  private:
+  bool _internal_has_openai_llm_options() const;
+  public:
+  void clear_openai_llm_options();
+  const ::ondewo::s2t::OpenaiLlmOptions& openai_llm_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::OpenaiLlmOptions* release_openai_llm_options();
+  ::ondewo::s2t::OpenaiLlmOptions* mutable_openai_llm_options();
+  void set_allocated_openai_llm_options(::ondewo::s2t::OpenaiLlmOptions* openai_llm_options);
+  private:
+  const ::ondewo::s2t::OpenaiLlmOptions& _internal_openai_llm_options() const;
+  ::ondewo::s2t::OpenaiLlmOptions* _internal_mutable_openai_llm_options();
+  public:
+  void unsafe_arena_set_allocated_openai_llm_options(
+      ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options);
+  ::ondewo::s2t::OpenaiLlmOptions* unsafe_arena_release_openai_llm_options();
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionChatLlmOptions)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr system_prompt_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_prompt_;
+    ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionEndOfUtteranceLlmOptions final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions) */ {
+ public:
+  inline TurnDetectionEndOfUtteranceLlmOptions() : TurnDetectionEndOfUtteranceLlmOptions(nullptr) {}
+  ~TurnDetectionEndOfUtteranceLlmOptions() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionEndOfUtteranceLlmOptions(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionEndOfUtteranceLlmOptions(const TurnDetectionEndOfUtteranceLlmOptions& from);
+  TurnDetectionEndOfUtteranceLlmOptions(TurnDetectionEndOfUtteranceLlmOptions&& from) noexcept
+    : TurnDetectionEndOfUtteranceLlmOptions() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionEndOfUtteranceLlmOptions& operator=(const TurnDetectionEndOfUtteranceLlmOptions& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionEndOfUtteranceLlmOptions& operator=(TurnDetectionEndOfUtteranceLlmOptions&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionEndOfUtteranceLlmOptions& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionEndOfUtteranceLlmOptions* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionEndOfUtteranceLlmOptions*>(
+               &_TurnDetectionEndOfUtteranceLlmOptions_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    45;
+
+  friend void swap(TurnDetectionEndOfUtteranceLlmOptions& a, TurnDetectionEndOfUtteranceLlmOptions& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionEndOfUtteranceLlmOptions* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionEndOfUtteranceLlmOptions* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionEndOfUtteranceLlmOptions* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionEndOfUtteranceLlmOptions>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionEndOfUtteranceLlmOptions& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionEndOfUtteranceLlmOptions& from) {
+    TurnDetectionEndOfUtteranceLlmOptions::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionEndOfUtteranceLlmOptions* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions";
+  }
+  protected:
+  explicit TurnDetectionEndOfUtteranceLlmOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kOpenaiLlmOptionsFieldNumber = 1,
+    kTurnDetectionHoldBandsFieldNumber = 3,
+    kEndOfTurnProbabilityThresholdFieldNumber = 2,
+    kUncertainMinWordsFieldNumber = 4,
+    kExactProbabilityFieldNumber = 5,
+  };
+  // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+  bool has_openai_llm_options() const;
+  private:
+  bool _internal_has_openai_llm_options() const;
+  public:
+  void clear_openai_llm_options();
+  const ::ondewo::s2t::OpenaiLlmOptions& openai_llm_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::OpenaiLlmOptions* release_openai_llm_options();
+  ::ondewo::s2t::OpenaiLlmOptions* mutable_openai_llm_options();
+  void set_allocated_openai_llm_options(::ondewo::s2t::OpenaiLlmOptions* openai_llm_options);
+  private:
+  const ::ondewo::s2t::OpenaiLlmOptions& _internal_openai_llm_options() const;
+  ::ondewo::s2t::OpenaiLlmOptions* _internal_mutable_openai_llm_options();
+  public:
+  void unsafe_arena_set_allocated_openai_llm_options(
+      ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options);
+  ::ondewo::s2t::OpenaiLlmOptions* unsafe_arena_release_openai_llm_options();
+
+  // optional .ondewo.s2t.TurnDetectionHoldBands turn_detection_hold_bands = 3;
+  bool has_turn_detection_hold_bands() const;
+  private:
+  bool _internal_has_turn_detection_hold_bands() const;
+  public:
+  void clear_turn_detection_hold_bands();
+  const ::ondewo::s2t::TurnDetectionHoldBands& turn_detection_hold_bands() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::TurnDetectionHoldBands* release_turn_detection_hold_bands();
+  ::ondewo::s2t::TurnDetectionHoldBands* mutable_turn_detection_hold_bands();
+  void set_allocated_turn_detection_hold_bands(::ondewo::s2t::TurnDetectionHoldBands* turn_detection_hold_bands);
+  private:
+  const ::ondewo::s2t::TurnDetectionHoldBands& _internal_turn_detection_hold_bands() const;
+  ::ondewo::s2t::TurnDetectionHoldBands* _internal_mutable_turn_detection_hold_bands();
+  public:
+  void unsafe_arena_set_allocated_turn_detection_hold_bands(
+      ::ondewo::s2t::TurnDetectionHoldBands* turn_detection_hold_bands);
+  ::ondewo::s2t::TurnDetectionHoldBands* unsafe_arena_release_turn_detection_hold_bands();
+
+  // optional float end_of_turn_probability_threshold = 2;
+  bool has_end_of_turn_probability_threshold() const;
+  private:
+  bool _internal_has_end_of_turn_probability_threshold() const;
+  public:
+  void clear_end_of_turn_probability_threshold();
+  float end_of_turn_probability_threshold() const;
+  void set_end_of_turn_probability_threshold(float value);
+  private:
+  float _internal_end_of_turn_probability_threshold() const;
+  void _internal_set_end_of_turn_probability_threshold(float value);
+  public:
+
+  // optional uint32 uncertain_min_words = 4;
+  bool has_uncertain_min_words() const;
+  private:
+  bool _internal_has_uncertain_min_words() const;
+  public:
+  void clear_uncertain_min_words();
+  uint32_t uncertain_min_words() const;
+  void set_uncertain_min_words(uint32_t value);
+  private:
+  uint32_t _internal_uncertain_min_words() const;
+  void _internal_set_uncertain_min_words(uint32_t value);
+  public:
+
+  // optional bool exact_probability = 5;
+  bool has_exact_probability() const;
+  private:
+  bool _internal_has_exact_probability() const;
+  public:
+  void clear_exact_probability();
+  bool exact_probability() const;
+  void set_exact_probability(bool value);
+  private:
+  bool _internal_exact_probability() const;
+  void _internal_set_exact_probability(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options_;
+    ::ondewo::s2t::TurnDetectionHoldBands* turn_detection_hold_bands_;
+    float end_of_turn_probability_threshold_;
+    uint32_t uncertain_min_words_;
+    bool exact_probability_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionOndewoDeOptions final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionOndewoDeOptions) */ {
+ public:
+  inline TurnDetectionOndewoDeOptions() : TurnDetectionOndewoDeOptions(nullptr) {}
+  ~TurnDetectionOndewoDeOptions() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionOndewoDeOptions(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionOndewoDeOptions(const TurnDetectionOndewoDeOptions& from);
+  TurnDetectionOndewoDeOptions(TurnDetectionOndewoDeOptions&& from) noexcept
+    : TurnDetectionOndewoDeOptions() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionOndewoDeOptions& operator=(const TurnDetectionOndewoDeOptions& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionOndewoDeOptions& operator=(TurnDetectionOndewoDeOptions&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionOndewoDeOptions& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionOndewoDeOptions* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionOndewoDeOptions*>(
+               &_TurnDetectionOndewoDeOptions_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    46;
+
+  friend void swap(TurnDetectionOndewoDeOptions& a, TurnDetectionOndewoDeOptions& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionOndewoDeOptions* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionOndewoDeOptions* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionOndewoDeOptions* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionOndewoDeOptions>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionOndewoDeOptions& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionOndewoDeOptions& from) {
+    TurnDetectionOndewoDeOptions::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionOndewoDeOptions* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionOndewoDeOptions";
+  }
+  protected:
+  explicit TurnDetectionOndewoDeOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kOpenaiLlmOptionsFieldNumber = 1,
+    kEndOfTurnProbabilityThresholdFieldNumber = 2,
+  };
+  // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+  bool has_openai_llm_options() const;
+  private:
+  bool _internal_has_openai_llm_options() const;
+  public:
+  void clear_openai_llm_options();
+  const ::ondewo::s2t::OpenaiLlmOptions& openai_llm_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::OpenaiLlmOptions* release_openai_llm_options();
+  ::ondewo::s2t::OpenaiLlmOptions* mutable_openai_llm_options();
+  void set_allocated_openai_llm_options(::ondewo::s2t::OpenaiLlmOptions* openai_llm_options);
+  private:
+  const ::ondewo::s2t::OpenaiLlmOptions& _internal_openai_llm_options() const;
+  ::ondewo::s2t::OpenaiLlmOptions* _internal_mutable_openai_llm_options();
+  public:
+  void unsafe_arena_set_allocated_openai_llm_options(
+      ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options);
+  ::ondewo::s2t::OpenaiLlmOptions* unsafe_arena_release_openai_llm_options();
+
+  // optional float end_of_turn_probability_threshold = 2;
+  bool has_end_of_turn_probability_threshold() const;
+  private:
+  bool _internal_has_end_of_turn_probability_threshold() const;
+  public:
+  void clear_end_of_turn_probability_threshold();
+  float end_of_turn_probability_threshold() const;
+  void set_end_of_turn_probability_threshold(float value);
+  private:
+  float _internal_end_of_turn_probability_threshold() const;
+  void _internal_set_end_of_turn_probability_threshold(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionOndewoDeOptions)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options_;
+    float end_of_turn_probability_threshold_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionOndewoDeFusionOptions final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionOndewoDeFusionOptions) */ {
+ public:
+  inline TurnDetectionOndewoDeFusionOptions() : TurnDetectionOndewoDeFusionOptions(nullptr) {}
+  ~TurnDetectionOndewoDeFusionOptions() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionOndewoDeFusionOptions(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionOndewoDeFusionOptions(const TurnDetectionOndewoDeFusionOptions& from);
+  TurnDetectionOndewoDeFusionOptions(TurnDetectionOndewoDeFusionOptions&& from) noexcept
+    : TurnDetectionOndewoDeFusionOptions() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionOndewoDeFusionOptions& operator=(const TurnDetectionOndewoDeFusionOptions& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionOndewoDeFusionOptions& operator=(TurnDetectionOndewoDeFusionOptions&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionOndewoDeFusionOptions& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionOndewoDeFusionOptions* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionOndewoDeFusionOptions*>(
+               &_TurnDetectionOndewoDeFusionOptions_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    47;
+
+  friend void swap(TurnDetectionOndewoDeFusionOptions& a, TurnDetectionOndewoDeFusionOptions& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionOndewoDeFusionOptions* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionOndewoDeFusionOptions* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionOndewoDeFusionOptions* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionOndewoDeFusionOptions>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionOndewoDeFusionOptions& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionOndewoDeFusionOptions& from) {
+    TurnDetectionOndewoDeFusionOptions::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionOndewoDeFusionOptions* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionOndewoDeFusionOptions";
+  }
+  protected:
+  explicit TurnDetectionOndewoDeFusionOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kOpenaiLlmOptionsFieldNumber = 1,
+    kEndOfTurnProbabilityThresholdFieldNumber = 2,
+  };
+  // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+  bool has_openai_llm_options() const;
+  private:
+  bool _internal_has_openai_llm_options() const;
+  public:
+  void clear_openai_llm_options();
+  const ::ondewo::s2t::OpenaiLlmOptions& openai_llm_options() const;
+  PROTOBUF_NODISCARD ::ondewo::s2t::OpenaiLlmOptions* release_openai_llm_options();
+  ::ondewo::s2t::OpenaiLlmOptions* mutable_openai_llm_options();
+  void set_allocated_openai_llm_options(::ondewo::s2t::OpenaiLlmOptions* openai_llm_options);
+  private:
+  const ::ondewo::s2t::OpenaiLlmOptions& _internal_openai_llm_options() const;
+  ::ondewo::s2t::OpenaiLlmOptions* _internal_mutable_openai_llm_options();
+  public:
+  void unsafe_arena_set_allocated_openai_llm_options(
+      ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options);
+  ::ondewo::s2t::OpenaiLlmOptions* unsafe_arena_release_openai_llm_options();
+
+  // optional float end_of_turn_probability_threshold = 2;
+  bool has_end_of_turn_probability_threshold() const;
+  private:
+  bool _internal_has_end_of_turn_probability_threshold() const;
+  public:
+  void clear_end_of_turn_probability_threshold();
+  float end_of_turn_probability_threshold() const;
+  void set_end_of_turn_probability_threshold(float value);
+  private:
+  float _internal_end_of_turn_probability_threshold() const;
+  void _internal_set_end_of_turn_probability_threshold(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options_;
+    float end_of_turn_probability_threshold_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionPipecatSmartTurnOptions final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions) */ {
+ public:
+  inline TurnDetectionPipecatSmartTurnOptions() : TurnDetectionPipecatSmartTurnOptions(nullptr) {}
+  ~TurnDetectionPipecatSmartTurnOptions() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionPipecatSmartTurnOptions(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionPipecatSmartTurnOptions(const TurnDetectionPipecatSmartTurnOptions& from);
+  TurnDetectionPipecatSmartTurnOptions(TurnDetectionPipecatSmartTurnOptions&& from) noexcept
+    : TurnDetectionPipecatSmartTurnOptions() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionPipecatSmartTurnOptions& operator=(const TurnDetectionPipecatSmartTurnOptions& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionPipecatSmartTurnOptions& operator=(TurnDetectionPipecatSmartTurnOptions&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionPipecatSmartTurnOptions& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionPipecatSmartTurnOptions* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionPipecatSmartTurnOptions*>(
+               &_TurnDetectionPipecatSmartTurnOptions_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    48;
+
+  friend void swap(TurnDetectionPipecatSmartTurnOptions& a, TurnDetectionPipecatSmartTurnOptions& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionPipecatSmartTurnOptions* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionPipecatSmartTurnOptions* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionPipecatSmartTurnOptions* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionPipecatSmartTurnOptions>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionPipecatSmartTurnOptions& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionPipecatSmartTurnOptions& from) {
+    TurnDetectionPipecatSmartTurnOptions::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionPipecatSmartTurnOptions* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionPipecatSmartTurnOptions";
+  }
+  protected:
+  explicit TurnDetectionPipecatSmartTurnOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kModelNameFieldNumber = 1,
+    kTritonServerHostFieldNumber = 2,
+    kTritonServerPortFieldNumber = 3,
+    kMaxAudioSecondsFieldNumber = 4,
+    kTimeoutSecondsFieldNumber = 5,
+    kEndOfTurnProbabilityThresholdFieldNumber = 6,
+  };
+  // optional string model_name = 1;
+  bool has_model_name() const;
+  private:
+  bool _internal_has_model_name() const;
+  public:
+  void clear_model_name();
+  const std::string& model_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_model_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_model_name();
+  PROTOBUF_NODISCARD std::string* release_model_name();
+  void set_allocated_model_name(std::string* model_name);
+  private:
+  const std::string& _internal_model_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_model_name(const std::string& value);
+  std::string* _internal_mutable_model_name();
+  public:
+
+  // optional string triton_server_host = 2;
+  bool has_triton_server_host() const;
+  private:
+  bool _internal_has_triton_server_host() const;
+  public:
+  void clear_triton_server_host();
+  const std::string& triton_server_host() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_triton_server_host(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_triton_server_host();
+  PROTOBUF_NODISCARD std::string* release_triton_server_host();
+  void set_allocated_triton_server_host(std::string* triton_server_host);
+  private:
+  const std::string& _internal_triton_server_host() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_triton_server_host(const std::string& value);
+  std::string* _internal_mutable_triton_server_host();
+  public:
+
+  // optional int64 triton_server_port = 3;
+  bool has_triton_server_port() const;
+  private:
+  bool _internal_has_triton_server_port() const;
+  public:
+  void clear_triton_server_port();
+  int64_t triton_server_port() const;
+  void set_triton_server_port(int64_t value);
+  private:
+  int64_t _internal_triton_server_port() const;
+  void _internal_set_triton_server_port(int64_t value);
+  public:
+
+  // optional float max_audio_seconds = 4;
+  bool has_max_audio_seconds() const;
+  private:
+  bool _internal_has_max_audio_seconds() const;
+  public:
+  void clear_max_audio_seconds();
+  float max_audio_seconds() const;
+  void set_max_audio_seconds(float value);
+  private:
+  float _internal_max_audio_seconds() const;
+  void _internal_set_max_audio_seconds(float value);
+  public:
+
+  // optional float timeout_seconds = 5;
+  bool has_timeout_seconds() const;
+  private:
+  bool _internal_has_timeout_seconds() const;
+  public:
+  void clear_timeout_seconds();
+  float timeout_seconds() const;
+  void set_timeout_seconds(float value);
+  private:
+  float _internal_timeout_seconds() const;
+  void _internal_set_timeout_seconds(float value);
+  public:
+
+  // optional float end_of_turn_probability_threshold = 6;
+  bool has_end_of_turn_probability_threshold() const;
+  private:
+  bool _internal_has_end_of_turn_probability_threshold() const;
+  public:
+  void clear_end_of_turn_probability_threshold();
+  float end_of_turn_probability_threshold() const;
+  void set_end_of_turn_probability_threshold(float value);
+  private:
+  float _internal_end_of_turn_probability_threshold() const;
+  void _internal_set_end_of_turn_probability_threshold(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr model_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr triton_server_host_;
+    int64_t triton_server_port_;
+    float max_audio_seconds_;
+    float timeout_seconds_;
+    float end_of_turn_probability_threshold_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionConversationContext final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionConversationContext) */ {
+ public:
+  inline TurnDetectionConversationContext() : TurnDetectionConversationContext(nullptr) {}
+  ~TurnDetectionConversationContext() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionConversationContext(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionConversationContext(const TurnDetectionConversationContext& from);
+  TurnDetectionConversationContext(TurnDetectionConversationContext&& from) noexcept
+    : TurnDetectionConversationContext() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionConversationContext& operator=(const TurnDetectionConversationContext& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionConversationContext& operator=(TurnDetectionConversationContext&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionConversationContext& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionConversationContext* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionConversationContext*>(
+               &_TurnDetectionConversationContext_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    49;
+
+  friend void swap(TurnDetectionConversationContext& a, TurnDetectionConversationContext& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionConversationContext* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionConversationContext* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionConversationContext* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionConversationContext>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionConversationContext& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionConversationContext& from) {
+    TurnDetectionConversationContext::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionConversationContext* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionConversationContext";
+  }
+  protected:
+  explicit TurnDetectionConversationContext(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTurnDetectionContextTurnsFieldNumber = 1,
+  };
+  // repeated .ondewo.s2t.TurnDetectionContextTurn turn_detection_context_turns = 1;
+  int turn_detection_context_turns_size() const;
+  private:
+  int _internal_turn_detection_context_turns_size() const;
+  public:
+  void clear_turn_detection_context_turns();
+  ::ondewo::s2t::TurnDetectionContextTurn* mutable_turn_detection_context_turns(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionContextTurn >*
+      mutable_turn_detection_context_turns();
+  private:
+  const ::ondewo::s2t::TurnDetectionContextTurn& _internal_turn_detection_context_turns(int index) const;
+  ::ondewo::s2t::TurnDetectionContextTurn* _internal_add_turn_detection_context_turns();
+  public:
+  const ::ondewo::s2t::TurnDetectionContextTurn& turn_detection_context_turns(int index) const;
+  ::ondewo::s2t::TurnDetectionContextTurn* add_turn_detection_context_turns();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionContextTurn >&
+      turn_detection_context_turns() const;
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionConversationContext)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionContextTurn > turn_detection_context_turns_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionContextTurn final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionContextTurn) */ {
+ public:
+  inline TurnDetectionContextTurn() : TurnDetectionContextTurn(nullptr) {}
+  ~TurnDetectionContextTurn() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionContextTurn(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionContextTurn(const TurnDetectionContextTurn& from);
+  TurnDetectionContextTurn(TurnDetectionContextTurn&& from) noexcept
+    : TurnDetectionContextTurn() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionContextTurn& operator=(const TurnDetectionContextTurn& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionContextTurn& operator=(TurnDetectionContextTurn&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionContextTurn& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionContextTurn* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionContextTurn*>(
+               &_TurnDetectionContextTurn_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    50;
+
+  friend void swap(TurnDetectionContextTurn& a, TurnDetectionContextTurn& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionContextTurn* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionContextTurn* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionContextTurn* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionContextTurn>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionContextTurn& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionContextTurn& from) {
+    TurnDetectionContextTurn::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionContextTurn* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionContextTurn";
+  }
+  protected:
+  explicit TurnDetectionContextTurn(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef TurnDetectionContextTurn_Role Role;
+  static constexpr Role ROLE_UNSPECIFIED =
+    TurnDetectionContextTurn_Role_ROLE_UNSPECIFIED;
+  static constexpr Role ROLE_USER =
+    TurnDetectionContextTurn_Role_ROLE_USER;
+  static constexpr Role ROLE_ASSISTANT =
+    TurnDetectionContextTurn_Role_ROLE_ASSISTANT;
+  static inline bool Role_IsValid(int value) {
+    return TurnDetectionContextTurn_Role_IsValid(value);
+  }
+  static constexpr Role Role_MIN =
+    TurnDetectionContextTurn_Role_Role_MIN;
+  static constexpr Role Role_MAX =
+    TurnDetectionContextTurn_Role_Role_MAX;
+  static constexpr int Role_ARRAYSIZE =
+    TurnDetectionContextTurn_Role_Role_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  Role_descriptor() {
+    return TurnDetectionContextTurn_Role_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& Role_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, Role>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function Role_Name.");
+    return TurnDetectionContextTurn_Role_Name(enum_t_value);
+  }
+  static inline bool Role_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      Role* value) {
+    return TurnDetectionContextTurn_Role_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTextFieldNumber = 2,
+    kRoleFieldNumber = 1,
+  };
+  // string text = 2;
+  void clear_text();
+  const std::string& text() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_text(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_text();
+  PROTOBUF_NODISCARD std::string* release_text();
+  void set_allocated_text(std::string* text);
+  private:
+  const std::string& _internal_text() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_text(const std::string& value);
+  std::string* _internal_mutable_text();
+  public:
+
+  // .ondewo.s2t.TurnDetectionContextTurn.Role role = 1;
+  void clear_role();
+  ::ondewo::s2t::TurnDetectionContextTurn_Role role() const;
+  void set_role(::ondewo::s2t::TurnDetectionContextTurn_Role value);
+  private:
+  ::ondewo::s2t::TurnDetectionContextTurn_Role _internal_role() const;
+  void _internal_set_role(::ondewo::s2t::TurnDetectionContextTurn_Role value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionContextTurn)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr text_;
+    int role_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionHoldBands final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionHoldBands) */ {
+ public:
+  inline TurnDetectionHoldBands() : TurnDetectionHoldBands(nullptr) {}
+  ~TurnDetectionHoldBands() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionHoldBands(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionHoldBands(const TurnDetectionHoldBands& from);
+  TurnDetectionHoldBands(TurnDetectionHoldBands&& from) noexcept
+    : TurnDetectionHoldBands() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionHoldBands& operator=(const TurnDetectionHoldBands& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionHoldBands& operator=(TurnDetectionHoldBands&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionHoldBands& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionHoldBands* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionHoldBands*>(
+               &_TurnDetectionHoldBands_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    51;
+
+  friend void swap(TurnDetectionHoldBands& a, TurnDetectionHoldBands& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionHoldBands* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionHoldBands* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionHoldBands* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionHoldBands>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionHoldBands& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionHoldBands& from) {
+    TurnDetectionHoldBands::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionHoldBands* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionHoldBands";
+  }
+  protected:
+  explicit TurnDetectionHoldBands(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTurnDetectionHoldBandsFieldNumber = 1,
+  };
+  // repeated .ondewo.s2t.TurnDetectionHoldBand turn_detection_hold_bands = 1;
+  int turn_detection_hold_bands_size() const;
+  private:
+  int _internal_turn_detection_hold_bands_size() const;
+  public:
+  void clear_turn_detection_hold_bands();
+  ::ondewo::s2t::TurnDetectionHoldBand* mutable_turn_detection_hold_bands(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionHoldBand >*
+      mutable_turn_detection_hold_bands();
+  private:
+  const ::ondewo::s2t::TurnDetectionHoldBand& _internal_turn_detection_hold_bands(int index) const;
+  ::ondewo::s2t::TurnDetectionHoldBand* _internal_add_turn_detection_hold_bands();
+  public:
+  const ::ondewo::s2t::TurnDetectionHoldBand& turn_detection_hold_bands(int index) const;
+  ::ondewo::s2t::TurnDetectionHoldBand* add_turn_detection_hold_bands();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionHoldBand >&
+      turn_detection_hold_bands() const;
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionHoldBands)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionHoldBand > turn_detection_hold_bands_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TurnDetectionHoldBand final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.s2t.TurnDetectionHoldBand) */ {
+ public:
+  inline TurnDetectionHoldBand() : TurnDetectionHoldBand(nullptr) {}
+  ~TurnDetectionHoldBand() override;
+  explicit PROTOBUF_CONSTEXPR TurnDetectionHoldBand(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TurnDetectionHoldBand(const TurnDetectionHoldBand& from);
+  TurnDetectionHoldBand(TurnDetectionHoldBand&& from) noexcept
+    : TurnDetectionHoldBand() {
+    *this = ::std::move(from);
+  }
+
+  inline TurnDetectionHoldBand& operator=(const TurnDetectionHoldBand& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TurnDetectionHoldBand& operator=(TurnDetectionHoldBand&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TurnDetectionHoldBand& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TurnDetectionHoldBand* internal_default_instance() {
+    return reinterpret_cast<const TurnDetectionHoldBand*>(
+               &_TurnDetectionHoldBand_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    52;
+
+  friend void swap(TurnDetectionHoldBand& a, TurnDetectionHoldBand& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TurnDetectionHoldBand* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TurnDetectionHoldBand* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TurnDetectionHoldBand* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TurnDetectionHoldBand>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TurnDetectionHoldBand& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TurnDetectionHoldBand& from) {
+    TurnDetectionHoldBand::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TurnDetectionHoldBand* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.s2t.TurnDetectionHoldBand";
+  }
+  protected:
+  explicit TurnDetectionHoldBand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUpperProbabilityFieldNumber = 1,
+    kMaxSilenceSecondsFieldNumber = 2,
+  };
+  // float upper_probability = 1;
+  void clear_upper_probability();
+  float upper_probability() const;
+  void set_upper_probability(float value);
+  private:
+  float _internal_upper_probability() const;
+  void _internal_set_upper_probability(float value);
+  public:
+
+  // float max_silence_seconds = 2;
+  void clear_max_silence_seconds();
+  float max_silence_seconds() const;
+  void set_max_silence_seconds(float value);
+  private:
+  float _internal_max_silence_seconds() const;
+  void _internal_set_max_silence_seconds(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.s2t.TurnDetectionHoldBand)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    float upper_probability_;
+    float max_silence_seconds_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto;
@@ -9757,7 +11726,7 @@ class OpenaiLlmOptions final :
                &_OpenaiLlmOptions_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    55;
 
   friend void swap(OpenaiLlmOptions& a, OpenaiLlmOptions& b) {
     a.Swap(&b);
@@ -10501,7 +12470,7 @@ class VoiceActivityDetection final :
                &_VoiceActivityDetection_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    56;
 
   friend void swap(VoiceActivityDetection& a, VoiceActivityDetection& b) {
     a.Swap(&b);
@@ -10747,7 +12716,7 @@ class Pyannote final :
                &_Pyannote_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    57;
 
   friend void swap(Pyannote& a, Pyannote& b) {
     a.Swap(&b);
@@ -10960,7 +12929,7 @@ class Silero final :
                &_Silero_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    58;
 
   friend void swap(Silero& a, Silero& b) {
     a.Swap(&b);
@@ -11212,7 +13181,7 @@ class WespeakerTsd final :
                &_WespeakerTsd_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    59;
 
   friend void swap(WespeakerTsd& a, WespeakerTsd& b) {
     a.Swap(&b);
@@ -11445,7 +13414,7 @@ class PostProcessing final :
                &_PostProcessing_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    60;
 
   friend void swap(PostProcessing& a, PostProcessing& b) {
     a.Swap(&b);
@@ -11628,7 +13597,7 @@ class PostProcessors final :
                &_PostProcessors_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    61;
 
   friend void swap(PostProcessors& a, PostProcessors& b) {
     a.Swap(&b);
@@ -11825,7 +13794,7 @@ class SymSpell final :
                &_SymSpell_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    62;
 
   friend void swap(SymSpell& a, SymSpell& b) {
     a.Swap(&b);
@@ -12000,7 +13969,7 @@ class S2tNormalization final :
                &_S2tNormalization_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    63;
 
   friend void swap(S2tNormalization& a, S2tNormalization& b) {
     a.Swap(&b);
@@ -12179,7 +14148,7 @@ class S2tLlmPostProcessing final :
                &_S2tLlmPostProcessing_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    64;
 
   friend void swap(S2tLlmPostProcessing& a, S2tLlmPostProcessing& b) {
     a.Swap(&b);
@@ -12557,7 +14526,7 @@ class S2tLlmPostProcessingTranslationOptions final :
                &_S2tLlmPostProcessingTranslationOptions_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    65;
 
   friend void swap(S2tLlmPostProcessingTranslationOptions& a, S2tLlmPostProcessingTranslationOptions& b) {
     a.Swap(&b);
@@ -12750,7 +14719,7 @@ class S2tLlmPostProcessingInverseNormalizationOptions final :
                &_S2tLlmPostProcessingInverseNormalizationOptions_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    57;
+    66;
 
   friend void swap(S2tLlmPostProcessingInverseNormalizationOptions& a, S2tLlmPostProcessingInverseNormalizationOptions& b) {
     a.Swap(&b);
@@ -13023,7 +14992,7 @@ class S2tLlmPostProcessingNormalizationOptions final :
                &_S2tLlmPostProcessingNormalizationOptions_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    58;
+    67;
 
   friend void swap(S2tLlmPostProcessingNormalizationOptions& a, S2tLlmPostProcessingNormalizationOptions& b) {
     a.Swap(&b);
@@ -13296,7 +15265,7 @@ class S2tLlmPostProcessingSummarizationOptions final :
                &_S2tLlmPostProcessingSummarizationOptions_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    59;
+    68;
 
   friend void swap(S2tLlmPostProcessingSummarizationOptions& a, S2tLlmPostProcessingSummarizationOptions& b) {
     a.Swap(&b);
@@ -13499,7 +15468,7 @@ class S2tLlmPostProcessingSubTaskOptions final :
                &_S2tLlmPostProcessingSubTaskOptions_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    60;
+    69;
 
   friend void swap(S2tLlmPostProcessingSubTaskOptions& a, S2tLlmPostProcessingSubTaskOptions& b) {
     a.Swap(&b);
@@ -13672,7 +15641,7 @@ class Logging final :
                &_Logging_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    61;
+    70;
 
   friend void swap(Logging& a, Logging& b) {
     a.Swap(&b);
@@ -13841,7 +15810,7 @@ class ListS2tLanguageModelsRequest final :
                &_ListS2tLanguageModelsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    62;
+    71;
 
   friend void swap(ListS2tLanguageModelsRequest& a, ListS2tLanguageModelsRequest& b) {
     a.Swap(&b);
@@ -14004,7 +15973,7 @@ class LanguageModelPipelineId final :
                &_LanguageModelPipelineId_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    63;
+    72;
 
   friend void swap(LanguageModelPipelineId& a, LanguageModelPipelineId& b) {
     a.Swap(&b);
@@ -14183,7 +16152,7 @@ class ListS2tLanguageModelsResponse final :
                &_ListS2tLanguageModelsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    64;
+    73;
 
   friend void swap(ListS2tLanguageModelsResponse& a, ListS2tLanguageModelsResponse& b) {
     a.Swap(&b);
@@ -14340,7 +16309,7 @@ class CreateUserLanguageModelRequest final :
                &_CreateUserLanguageModelRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    65;
+    74;
 
   friend void swap(CreateUserLanguageModelRequest& a, CreateUserLanguageModelRequest& b) {
     a.Swap(&b);
@@ -14493,7 +16462,7 @@ class DeleteUserLanguageModelRequest final :
                &_DeleteUserLanguageModelRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    75;
 
   friend void swap(DeleteUserLanguageModelRequest& a, DeleteUserLanguageModelRequest& b) {
     a.Swap(&b);
@@ -14646,7 +16615,7 @@ class AddDataToUserLanguageModelRequest final :
                &_AddDataToUserLanguageModelRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    67;
+    76;
 
   friend void swap(AddDataToUserLanguageModelRequest& a, AddDataToUserLanguageModelRequest& b) {
     a.Swap(&b);
@@ -14815,7 +16784,7 @@ class TrainUserLanguageModelRequest final :
                &_TrainUserLanguageModelRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    68;
+    77;
 
   friend void swap(TrainUserLanguageModelRequest& a, TrainUserLanguageModelRequest& b) {
     a.Swap(&b);
@@ -14979,7 +16948,7 @@ class ListS2tNormalizationPipelinesRequest final :
                &_ListS2tNormalizationPipelinesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    69;
+    78;
 
   friend void swap(ListS2tNormalizationPipelinesRequest& a, ListS2tNormalizationPipelinesRequest& b) {
     a.Swap(&b);
@@ -15132,7 +17101,7 @@ class ListS2tNormalizationPipelinesResponse final :
                &_ListS2tNormalizationPipelinesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    70;
+    79;
 
   friend void swap(ListS2tNormalizationPipelinesResponse& a, ListS2tNormalizationPipelinesResponse& b) {
     a.Swap(&b);
@@ -17169,6 +19138,26 @@ inline void TranscriptionReturnOptions::set_return_word_timing(bool value) {
   // @@protoc_insertion_point(field_set:ondewo.s2t.TranscriptionReturnOptions.return_word_timing)
 }
 
+// bool return_end_of_speech_candidate = 9;
+inline void TranscriptionReturnOptions::clear_return_end_of_speech_candidate() {
+  _impl_.return_end_of_speech_candidate_ = false;
+}
+inline bool TranscriptionReturnOptions::_internal_return_end_of_speech_candidate() const {
+  return _impl_.return_end_of_speech_candidate_;
+}
+inline bool TranscriptionReturnOptions::return_end_of_speech_candidate() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TranscriptionReturnOptions.return_end_of_speech_candidate)
+  return _internal_return_end_of_speech_candidate();
+}
+inline void TranscriptionReturnOptions::_internal_set_return_end_of_speech_candidate(bool value) {
+  
+  _impl_.return_end_of_speech_candidate_ = value;
+}
+inline void TranscriptionReturnOptions::set_return_end_of_speech_candidate(bool value) {
+  _internal_set_return_end_of_speech_candidate(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TranscriptionReturnOptions.return_end_of_speech_candidate)
+}
+
 // -------------------------------------------------------------------
 
 // UtteranceDetectionOptions
@@ -17303,6 +19292,62 @@ inline ::ondewo::s2t::TurnDetectionOptions* UtteranceDetectionOptions::mutable_t
   ::ondewo::s2t::TurnDetectionOptions* _msg = _internal_mutable_turn_detection();
   // @@protoc_insertion_point(field_mutable:ondewo.s2t.UtteranceDetectionOptions.turn_detection)
   return _msg;
+}
+
+// optional int64 min_audio_chunk_size = 4;
+inline bool UtteranceDetectionOptions::_internal_has_min_audio_chunk_size() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool UtteranceDetectionOptions::has_min_audio_chunk_size() const {
+  return _internal_has_min_audio_chunk_size();
+}
+inline void UtteranceDetectionOptions::clear_min_audio_chunk_size() {
+  _impl_.min_audio_chunk_size_ = int64_t{0};
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline int64_t UtteranceDetectionOptions::_internal_min_audio_chunk_size() const {
+  return _impl_.min_audio_chunk_size_;
+}
+inline int64_t UtteranceDetectionOptions::min_audio_chunk_size() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.UtteranceDetectionOptions.min_audio_chunk_size)
+  return _internal_min_audio_chunk_size();
+}
+inline void UtteranceDetectionOptions::_internal_set_min_audio_chunk_size(int64_t value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.min_audio_chunk_size_ = value;
+}
+inline void UtteranceDetectionOptions::set_min_audio_chunk_size(int64_t value) {
+  _internal_set_min_audio_chunk_size(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.UtteranceDetectionOptions.min_audio_chunk_size)
+}
+
+// optional float transcribe_not_final_period_seconds = 5;
+inline bool UtteranceDetectionOptions::_internal_has_transcribe_not_final_period_seconds() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool UtteranceDetectionOptions::has_transcribe_not_final_period_seconds() const {
+  return _internal_has_transcribe_not_final_period_seconds();
+}
+inline void UtteranceDetectionOptions::clear_transcribe_not_final_period_seconds() {
+  _impl_.transcribe_not_final_period_seconds_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline float UtteranceDetectionOptions::_internal_transcribe_not_final_period_seconds() const {
+  return _impl_.transcribe_not_final_period_seconds_;
+}
+inline float UtteranceDetectionOptions::transcribe_not_final_period_seconds() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.UtteranceDetectionOptions.transcribe_not_final_period_seconds)
+  return _internal_transcribe_not_final_period_seconds();
+}
+inline void UtteranceDetectionOptions::_internal_set_transcribe_not_final_period_seconds(float value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.transcribe_not_final_period_seconds_ = value;
+}
+inline void UtteranceDetectionOptions::set_transcribe_not_final_period_seconds(float value) {
+  _internal_set_transcribe_not_final_period_seconds(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.UtteranceDetectionOptions.transcribe_not_final_period_seconds)
 }
 
 inline bool UtteranceDetectionOptions::has_oneof_transcribe_not_final() const {
@@ -18379,6 +20424,26 @@ inline void TranscribeStreamResponse::set_allocated_audio_uuid(std::string* audi
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TranscribeStreamResponse.audio_uuid)
+}
+
+// bool end_of_speech_candidate = 9;
+inline void TranscribeStreamResponse::clear_end_of_speech_candidate() {
+  _impl_.end_of_speech_candidate_ = false;
+}
+inline bool TranscribeStreamResponse::_internal_end_of_speech_candidate() const {
+  return _impl_.end_of_speech_candidate_;
+}
+inline bool TranscribeStreamResponse::end_of_speech_candidate() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TranscribeStreamResponse.end_of_speech_candidate)
+  return _internal_end_of_speech_candidate();
+}
+inline void TranscribeStreamResponse::_internal_set_end_of_speech_candidate(bool value) {
+  
+  _impl_.end_of_speech_candidate_ = value;
+}
+inline void TranscribeStreamResponse::set_end_of_speech_candidate(bool value) {
+  _internal_set_end_of_speech_candidate(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TranscribeStreamResponse.end_of_speech_candidate)
 }
 
 // .ondewo.s2t.TranscribeRequestConfig config = 8;
@@ -23791,9 +25856,17 @@ inline void StreamingServer::set_allocated_streaming_speech_recognition(::ondewo
 
 // StreamingSpeechRecognition
 
-// bool transcribe_not_final = 1;
+// optional bool transcribe_not_final = 1;
+inline bool StreamingSpeechRecognition::_internal_has_transcribe_not_final() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool StreamingSpeechRecognition::has_transcribe_not_final() const {
+  return _internal_has_transcribe_not_final();
+}
 inline void StreamingSpeechRecognition::clear_transcribe_not_final() {
   _impl_.transcribe_not_final_ = false;
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline bool StreamingSpeechRecognition::_internal_transcribe_not_final() const {
   return _impl_.transcribe_not_final_;
@@ -23803,7 +25876,7 @@ inline bool StreamingSpeechRecognition::transcribe_not_final() const {
   return _internal_transcribe_not_final();
 }
 inline void StreamingSpeechRecognition::_internal_set_transcribe_not_final(bool value) {
-  
+  _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.transcribe_not_final_ = value;
 }
 inline void StreamingSpeechRecognition::set_transcribe_not_final(bool value) {
@@ -24011,13 +26084,41 @@ inline void StreamingSpeechRecognition::set_allocated_turn_detection(::ondewo::s
   // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.StreamingSpeechRecognition.turn_detection)
 }
 
+// optional float transcribe_not_final_period_seconds = 7;
+inline bool StreamingSpeechRecognition::_internal_has_transcribe_not_final_period_seconds() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool StreamingSpeechRecognition::has_transcribe_not_final_period_seconds() const {
+  return _internal_has_transcribe_not_final_period_seconds();
+}
+inline void StreamingSpeechRecognition::clear_transcribe_not_final_period_seconds() {
+  _impl_.transcribe_not_final_period_seconds_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline float StreamingSpeechRecognition::_internal_transcribe_not_final_period_seconds() const {
+  return _impl_.transcribe_not_final_period_seconds_;
+}
+inline float StreamingSpeechRecognition::transcribe_not_final_period_seconds() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.StreamingSpeechRecognition.transcribe_not_final_period_seconds)
+  return _internal_transcribe_not_final_period_seconds();
+}
+inline void StreamingSpeechRecognition::_internal_set_transcribe_not_final_period_seconds(float value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.transcribe_not_final_period_seconds_ = value;
+}
+inline void StreamingSpeechRecognition::set_transcribe_not_final_period_seconds(float value) {
+  _internal_set_transcribe_not_final_period_seconds(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.StreamingSpeechRecognition.transcribe_not_final_period_seconds)
+}
+
 // -------------------------------------------------------------------
 
 // TurnDetectionOptions
 
 // optional bool active = 1;
 inline bool TurnDetectionOptions::_internal_has_active() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
   return value;
 }
 inline bool TurnDetectionOptions::has_active() const {
@@ -24025,7 +26126,7 @@ inline bool TurnDetectionOptions::has_active() const {
 }
 inline void TurnDetectionOptions::clear_active() {
   _impl_.active_ = false;
-  _impl_._has_bits_[0] &= ~0x00000008u;
+  _impl_._has_bits_[0] &= ~0x00000010u;
 }
 inline bool TurnDetectionOptions::_internal_active() const {
   return _impl_.active_;
@@ -24035,7 +26136,7 @@ inline bool TurnDetectionOptions::active() const {
   return _internal_active();
 }
 inline void TurnDetectionOptions::_internal_set_active(bool value) {
-  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_._has_bits_[0] |= 0x00000010u;
   _impl_.active_ = value;
 }
 inline void TurnDetectionOptions::set_active(bool value) {
@@ -24045,7 +26146,7 @@ inline void TurnDetectionOptions::set_active(bool value) {
 
 // optional bool full_utterance_deployment = 2;
 inline bool TurnDetectionOptions::_internal_has_full_utterance_deployment() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000020u) != 0;
   return value;
 }
 inline bool TurnDetectionOptions::has_full_utterance_deployment() const {
@@ -24053,7 +26154,7 @@ inline bool TurnDetectionOptions::has_full_utterance_deployment() const {
 }
 inline void TurnDetectionOptions::clear_full_utterance_deployment() {
   _impl_.full_utterance_deployment_ = false;
-  _impl_._has_bits_[0] &= ~0x00000010u;
+  _impl_._has_bits_[0] &= ~0x00000020u;
 }
 inline bool TurnDetectionOptions::_internal_full_utterance_deployment() const {
   return _impl_.full_utterance_deployment_;
@@ -24063,7 +26164,7 @@ inline bool TurnDetectionOptions::full_utterance_deployment() const {
   return _internal_full_utterance_deployment();
 }
 inline void TurnDetectionOptions::_internal_set_full_utterance_deployment(bool value) {
-  _impl_._has_bits_[0] |= 0x00000010u;
+  _impl_._has_bits_[0] |= 0x00000020u;
   _impl_.full_utterance_deployment_ = value;
 }
 inline void TurnDetectionOptions::set_full_utterance_deployment(bool value) {
@@ -24071,7 +26172,7 @@ inline void TurnDetectionOptions::set_full_utterance_deployment(bool value) {
   // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionOptions.full_utterance_deployment)
 }
 
-// optional string turn_detection_system_prompt = 3;
+// optional string turn_detection_system_prompt = 3 [deprecated = true];
 inline bool TurnDetectionOptions::_internal_has_turn_detection_system_prompt() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -24139,7 +26240,7 @@ inline void TurnDetectionOptions::set_allocated_turn_detection_system_prompt(std
   // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_system_prompt)
 }
 
-// optional string turn_detection_user_prompt = 4;
+// optional string turn_detection_user_prompt = 4 [deprecated = true];
 inline bool TurnDetectionOptions::_internal_has_turn_detection_user_prompt() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
@@ -24207,7 +26308,7 @@ inline void TurnDetectionOptions::set_allocated_turn_detection_user_prompt(std::
   // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_user_prompt)
 }
 
-// optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5;
+// optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5 [deprecated = true];
 inline bool TurnDetectionOptions::_internal_has_turn_detection_llm_openai_options() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.turn_detection_llm_openai_options_ != nullptr);
@@ -24295,6 +26396,1703 @@ inline void TurnDetectionOptions::set_allocated_turn_detection_llm_openai_option
   }
   _impl_.turn_detection_llm_openai_options_ = turn_detection_llm_openai_options;
   // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_llm_openai_options)
+}
+
+// optional float incomplete_max_silence_seconds = 6;
+inline bool TurnDetectionOptions::_internal_has_incomplete_max_silence_seconds() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
+  return value;
+}
+inline bool TurnDetectionOptions::has_incomplete_max_silence_seconds() const {
+  return _internal_has_incomplete_max_silence_seconds();
+}
+inline void TurnDetectionOptions::clear_incomplete_max_silence_seconds() {
+  _impl_.incomplete_max_silence_seconds_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000040u;
+}
+inline float TurnDetectionOptions::_internal_incomplete_max_silence_seconds() const {
+  return _impl_.incomplete_max_silence_seconds_;
+}
+inline float TurnDetectionOptions::incomplete_max_silence_seconds() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOptions.incomplete_max_silence_seconds)
+  return _internal_incomplete_max_silence_seconds();
+}
+inline void TurnDetectionOptions::_internal_set_incomplete_max_silence_seconds(float value) {
+  _impl_._has_bits_[0] |= 0x00000040u;
+  _impl_.incomplete_max_silence_seconds_ = value;
+}
+inline void TurnDetectionOptions::set_incomplete_max_silence_seconds(float value) {
+  _internal_set_incomplete_max_silence_seconds(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionOptions.incomplete_max_silence_seconds)
+}
+
+// optional .ondewo.s2t.TurnDetectionConversationContext turn_detection_conversation_context = 7;
+inline bool TurnDetectionOptions::_internal_has_turn_detection_conversation_context() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.turn_detection_conversation_context_ != nullptr);
+  return value;
+}
+inline bool TurnDetectionOptions::has_turn_detection_conversation_context() const {
+  return _internal_has_turn_detection_conversation_context();
+}
+inline void TurnDetectionOptions::clear_turn_detection_conversation_context() {
+  if (_impl_.turn_detection_conversation_context_ != nullptr) _impl_.turn_detection_conversation_context_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline const ::ondewo::s2t::TurnDetectionConversationContext& TurnDetectionOptions::_internal_turn_detection_conversation_context() const {
+  const ::ondewo::s2t::TurnDetectionConversationContext* p = _impl_.turn_detection_conversation_context_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::s2t::TurnDetectionConversationContext&>(
+      ::ondewo::s2t::_TurnDetectionConversationContext_default_instance_);
+}
+inline const ::ondewo::s2t::TurnDetectionConversationContext& TurnDetectionOptions::turn_detection_conversation_context() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOptions.turn_detection_conversation_context)
+  return _internal_turn_detection_conversation_context();
+}
+inline void TurnDetectionOptions::unsafe_arena_set_allocated_turn_detection_conversation_context(
+    ::ondewo::s2t::TurnDetectionConversationContext* turn_detection_conversation_context) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.turn_detection_conversation_context_);
+  }
+  _impl_.turn_detection_conversation_context_ = turn_detection_conversation_context;
+  if (turn_detection_conversation_context) {
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_conversation_context)
+}
+inline ::ondewo::s2t::TurnDetectionConversationContext* TurnDetectionOptions::release_turn_detection_conversation_context() {
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  ::ondewo::s2t::TurnDetectionConversationContext* temp = _impl_.turn_detection_conversation_context_;
+  _impl_.turn_detection_conversation_context_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::s2t::TurnDetectionConversationContext* TurnDetectionOptions::unsafe_arena_release_turn_detection_conversation_context() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionOptions.turn_detection_conversation_context)
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  ::ondewo::s2t::TurnDetectionConversationContext* temp = _impl_.turn_detection_conversation_context_;
+  _impl_.turn_detection_conversation_context_ = nullptr;
+  return temp;
+}
+inline ::ondewo::s2t::TurnDetectionConversationContext* TurnDetectionOptions::_internal_mutable_turn_detection_conversation_context() {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  if (_impl_.turn_detection_conversation_context_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::s2t::TurnDetectionConversationContext>(GetArenaForAllocation());
+    _impl_.turn_detection_conversation_context_ = p;
+  }
+  return _impl_.turn_detection_conversation_context_;
+}
+inline ::ondewo::s2t::TurnDetectionConversationContext* TurnDetectionOptions::mutable_turn_detection_conversation_context() {
+  ::ondewo::s2t::TurnDetectionConversationContext* _msg = _internal_mutable_turn_detection_conversation_context();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionOptions.turn_detection_conversation_context)
+  return _msg;
+}
+inline void TurnDetectionOptions::set_allocated_turn_detection_conversation_context(::ondewo::s2t::TurnDetectionConversationContext* turn_detection_conversation_context) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.turn_detection_conversation_context_;
+  }
+  if (turn_detection_conversation_context) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(turn_detection_conversation_context);
+    if (message_arena != submessage_arena) {
+      turn_detection_conversation_context = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, turn_detection_conversation_context, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+  _impl_.turn_detection_conversation_context_ = turn_detection_conversation_context;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_conversation_context)
+}
+
+// .ondewo.s2t.TurnDetectionChatLlmOptions turn_detection_chat_llm_options = 8;
+inline bool TurnDetectionOptions::_internal_has_turn_detection_chat_llm_options() const {
+  return oneof_turn_detector_case() == kTurnDetectionChatLlmOptions;
+}
+inline bool TurnDetectionOptions::has_turn_detection_chat_llm_options() const {
+  return _internal_has_turn_detection_chat_llm_options();
+}
+inline void TurnDetectionOptions::set_has_turn_detection_chat_llm_options() {
+  _impl_._oneof_case_[0] = kTurnDetectionChatLlmOptions;
+}
+inline void TurnDetectionOptions::clear_turn_detection_chat_llm_options() {
+  if (_internal_has_turn_detection_chat_llm_options()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_;
+    }
+    clear_has_oneof_turn_detector();
+  }
+}
+inline ::ondewo::s2t::TurnDetectionChatLlmOptions* TurnDetectionOptions::release_turn_detection_chat_llm_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionOptions.turn_detection_chat_llm_options)
+  if (_internal_has_turn_detection_chat_llm_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionChatLlmOptions* temp = _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::ondewo::s2t::TurnDetectionChatLlmOptions& TurnDetectionOptions::_internal_turn_detection_chat_llm_options() const {
+  return _internal_has_turn_detection_chat_llm_options()
+      ? *_impl_.oneof_turn_detector_.turn_detection_chat_llm_options_
+      : reinterpret_cast< ::ondewo::s2t::TurnDetectionChatLlmOptions&>(::ondewo::s2t::_TurnDetectionChatLlmOptions_default_instance_);
+}
+inline const ::ondewo::s2t::TurnDetectionChatLlmOptions& TurnDetectionOptions::turn_detection_chat_llm_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOptions.turn_detection_chat_llm_options)
+  return _internal_turn_detection_chat_llm_options();
+}
+inline ::ondewo::s2t::TurnDetectionChatLlmOptions* TurnDetectionOptions::unsafe_arena_release_turn_detection_chat_llm_options() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ondewo.s2t.TurnDetectionOptions.turn_detection_chat_llm_options)
+  if (_internal_has_turn_detection_chat_llm_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionChatLlmOptions* temp = _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_;
+    _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void TurnDetectionOptions::unsafe_arena_set_allocated_turn_detection_chat_llm_options(::ondewo::s2t::TurnDetectionChatLlmOptions* turn_detection_chat_llm_options) {
+  clear_oneof_turn_detector();
+  if (turn_detection_chat_llm_options) {
+    set_has_turn_detection_chat_llm_options();
+    _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_ = turn_detection_chat_llm_options;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_chat_llm_options)
+}
+inline ::ondewo::s2t::TurnDetectionChatLlmOptions* TurnDetectionOptions::_internal_mutable_turn_detection_chat_llm_options() {
+  if (!_internal_has_turn_detection_chat_llm_options()) {
+    clear_oneof_turn_detector();
+    set_has_turn_detection_chat_llm_options();
+    _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_ = CreateMaybeMessage< ::ondewo::s2t::TurnDetectionChatLlmOptions >(GetArenaForAllocation());
+  }
+  return _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_;
+}
+inline ::ondewo::s2t::TurnDetectionChatLlmOptions* TurnDetectionOptions::mutable_turn_detection_chat_llm_options() {
+  ::ondewo::s2t::TurnDetectionChatLlmOptions* _msg = _internal_mutable_turn_detection_chat_llm_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionOptions.turn_detection_chat_llm_options)
+  return _msg;
+}
+
+// .ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions turn_detection_end_of_utterance_llm_options = 9;
+inline bool TurnDetectionOptions::_internal_has_turn_detection_end_of_utterance_llm_options() const {
+  return oneof_turn_detector_case() == kTurnDetectionEndOfUtteranceLlmOptions;
+}
+inline bool TurnDetectionOptions::has_turn_detection_end_of_utterance_llm_options() const {
+  return _internal_has_turn_detection_end_of_utterance_llm_options();
+}
+inline void TurnDetectionOptions::set_has_turn_detection_end_of_utterance_llm_options() {
+  _impl_._oneof_case_[0] = kTurnDetectionEndOfUtteranceLlmOptions;
+}
+inline void TurnDetectionOptions::clear_turn_detection_end_of_utterance_llm_options() {
+  if (_internal_has_turn_detection_end_of_utterance_llm_options()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_;
+    }
+    clear_has_oneof_turn_detector();
+  }
+}
+inline ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* TurnDetectionOptions::release_turn_detection_end_of_utterance_llm_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionOptions.turn_detection_end_of_utterance_llm_options)
+  if (_internal_has_turn_detection_end_of_utterance_llm_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* temp = _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions& TurnDetectionOptions::_internal_turn_detection_end_of_utterance_llm_options() const {
+  return _internal_has_turn_detection_end_of_utterance_llm_options()
+      ? *_impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_
+      : reinterpret_cast< ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions&>(::ondewo::s2t::_TurnDetectionEndOfUtteranceLlmOptions_default_instance_);
+}
+inline const ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions& TurnDetectionOptions::turn_detection_end_of_utterance_llm_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOptions.turn_detection_end_of_utterance_llm_options)
+  return _internal_turn_detection_end_of_utterance_llm_options();
+}
+inline ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* TurnDetectionOptions::unsafe_arena_release_turn_detection_end_of_utterance_llm_options() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ondewo.s2t.TurnDetectionOptions.turn_detection_end_of_utterance_llm_options)
+  if (_internal_has_turn_detection_end_of_utterance_llm_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* temp = _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_;
+    _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void TurnDetectionOptions::unsafe_arena_set_allocated_turn_detection_end_of_utterance_llm_options(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* turn_detection_end_of_utterance_llm_options) {
+  clear_oneof_turn_detector();
+  if (turn_detection_end_of_utterance_llm_options) {
+    set_has_turn_detection_end_of_utterance_llm_options();
+    _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_ = turn_detection_end_of_utterance_llm_options;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_end_of_utterance_llm_options)
+}
+inline ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* TurnDetectionOptions::_internal_mutable_turn_detection_end_of_utterance_llm_options() {
+  if (!_internal_has_turn_detection_end_of_utterance_llm_options()) {
+    clear_oneof_turn_detector();
+    set_has_turn_detection_end_of_utterance_llm_options();
+    _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_ = CreateMaybeMessage< ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions >(GetArenaForAllocation());
+  }
+  return _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_;
+}
+inline ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* TurnDetectionOptions::mutable_turn_detection_end_of_utterance_llm_options() {
+  ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* _msg = _internal_mutable_turn_detection_end_of_utterance_llm_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionOptions.turn_detection_end_of_utterance_llm_options)
+  return _msg;
+}
+
+// .ondewo.s2t.TurnDetectionOndewoDeOptions turn_detection_ondewo_de_options = 10;
+inline bool TurnDetectionOptions::_internal_has_turn_detection_ondewo_de_options() const {
+  return oneof_turn_detector_case() == kTurnDetectionOndewoDeOptions;
+}
+inline bool TurnDetectionOptions::has_turn_detection_ondewo_de_options() const {
+  return _internal_has_turn_detection_ondewo_de_options();
+}
+inline void TurnDetectionOptions::set_has_turn_detection_ondewo_de_options() {
+  _impl_._oneof_case_[0] = kTurnDetectionOndewoDeOptions;
+}
+inline void TurnDetectionOptions::clear_turn_detection_ondewo_de_options() {
+  if (_internal_has_turn_detection_ondewo_de_options()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_;
+    }
+    clear_has_oneof_turn_detector();
+  }
+}
+inline ::ondewo::s2t::TurnDetectionOndewoDeOptions* TurnDetectionOptions::release_turn_detection_ondewo_de_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_options)
+  if (_internal_has_turn_detection_ondewo_de_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionOndewoDeOptions* temp = _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::ondewo::s2t::TurnDetectionOndewoDeOptions& TurnDetectionOptions::_internal_turn_detection_ondewo_de_options() const {
+  return _internal_has_turn_detection_ondewo_de_options()
+      ? *_impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_
+      : reinterpret_cast< ::ondewo::s2t::TurnDetectionOndewoDeOptions&>(::ondewo::s2t::_TurnDetectionOndewoDeOptions_default_instance_);
+}
+inline const ::ondewo::s2t::TurnDetectionOndewoDeOptions& TurnDetectionOptions::turn_detection_ondewo_de_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_options)
+  return _internal_turn_detection_ondewo_de_options();
+}
+inline ::ondewo::s2t::TurnDetectionOndewoDeOptions* TurnDetectionOptions::unsafe_arena_release_turn_detection_ondewo_de_options() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_options)
+  if (_internal_has_turn_detection_ondewo_de_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionOndewoDeOptions* temp = _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_;
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void TurnDetectionOptions::unsafe_arena_set_allocated_turn_detection_ondewo_de_options(::ondewo::s2t::TurnDetectionOndewoDeOptions* turn_detection_ondewo_de_options) {
+  clear_oneof_turn_detector();
+  if (turn_detection_ondewo_de_options) {
+    set_has_turn_detection_ondewo_de_options();
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_ = turn_detection_ondewo_de_options;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_options)
+}
+inline ::ondewo::s2t::TurnDetectionOndewoDeOptions* TurnDetectionOptions::_internal_mutable_turn_detection_ondewo_de_options() {
+  if (!_internal_has_turn_detection_ondewo_de_options()) {
+    clear_oneof_turn_detector();
+    set_has_turn_detection_ondewo_de_options();
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_ = CreateMaybeMessage< ::ondewo::s2t::TurnDetectionOndewoDeOptions >(GetArenaForAllocation());
+  }
+  return _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_;
+}
+inline ::ondewo::s2t::TurnDetectionOndewoDeOptions* TurnDetectionOptions::mutable_turn_detection_ondewo_de_options() {
+  ::ondewo::s2t::TurnDetectionOndewoDeOptions* _msg = _internal_mutable_turn_detection_ondewo_de_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_options)
+  return _msg;
+}
+
+// .ondewo.s2t.TurnDetectionOndewoDeFusionOptions turn_detection_ondewo_de_fusion_options = 11;
+inline bool TurnDetectionOptions::_internal_has_turn_detection_ondewo_de_fusion_options() const {
+  return oneof_turn_detector_case() == kTurnDetectionOndewoDeFusionOptions;
+}
+inline bool TurnDetectionOptions::has_turn_detection_ondewo_de_fusion_options() const {
+  return _internal_has_turn_detection_ondewo_de_fusion_options();
+}
+inline void TurnDetectionOptions::set_has_turn_detection_ondewo_de_fusion_options() {
+  _impl_._oneof_case_[0] = kTurnDetectionOndewoDeFusionOptions;
+}
+inline void TurnDetectionOptions::clear_turn_detection_ondewo_de_fusion_options() {
+  if (_internal_has_turn_detection_ondewo_de_fusion_options()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_;
+    }
+    clear_has_oneof_turn_detector();
+  }
+}
+inline ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* TurnDetectionOptions::release_turn_detection_ondewo_de_fusion_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_fusion_options)
+  if (_internal_has_turn_detection_ondewo_de_fusion_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* temp = _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions& TurnDetectionOptions::_internal_turn_detection_ondewo_de_fusion_options() const {
+  return _internal_has_turn_detection_ondewo_de_fusion_options()
+      ? *_impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_
+      : reinterpret_cast< ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions&>(::ondewo::s2t::_TurnDetectionOndewoDeFusionOptions_default_instance_);
+}
+inline const ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions& TurnDetectionOptions::turn_detection_ondewo_de_fusion_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_fusion_options)
+  return _internal_turn_detection_ondewo_de_fusion_options();
+}
+inline ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* TurnDetectionOptions::unsafe_arena_release_turn_detection_ondewo_de_fusion_options() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_fusion_options)
+  if (_internal_has_turn_detection_ondewo_de_fusion_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* temp = _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_;
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void TurnDetectionOptions::unsafe_arena_set_allocated_turn_detection_ondewo_de_fusion_options(::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* turn_detection_ondewo_de_fusion_options) {
+  clear_oneof_turn_detector();
+  if (turn_detection_ondewo_de_fusion_options) {
+    set_has_turn_detection_ondewo_de_fusion_options();
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_ = turn_detection_ondewo_de_fusion_options;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_fusion_options)
+}
+inline ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* TurnDetectionOptions::_internal_mutable_turn_detection_ondewo_de_fusion_options() {
+  if (!_internal_has_turn_detection_ondewo_de_fusion_options()) {
+    clear_oneof_turn_detector();
+    set_has_turn_detection_ondewo_de_fusion_options();
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_ = CreateMaybeMessage< ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions >(GetArenaForAllocation());
+  }
+  return _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_;
+}
+inline ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* TurnDetectionOptions::mutable_turn_detection_ondewo_de_fusion_options() {
+  ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* _msg = _internal_mutable_turn_detection_ondewo_de_fusion_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_fusion_options)
+  return _msg;
+}
+
+// .ondewo.s2t.TurnDetectionPipecatSmartTurnOptions turn_detection_pipecat_smart_turn_options = 12;
+inline bool TurnDetectionOptions::_internal_has_turn_detection_pipecat_smart_turn_options() const {
+  return oneof_turn_detector_case() == kTurnDetectionPipecatSmartTurnOptions;
+}
+inline bool TurnDetectionOptions::has_turn_detection_pipecat_smart_turn_options() const {
+  return _internal_has_turn_detection_pipecat_smart_turn_options();
+}
+inline void TurnDetectionOptions::set_has_turn_detection_pipecat_smart_turn_options() {
+  _impl_._oneof_case_[0] = kTurnDetectionPipecatSmartTurnOptions;
+}
+inline void TurnDetectionOptions::clear_turn_detection_pipecat_smart_turn_options() {
+  if (_internal_has_turn_detection_pipecat_smart_turn_options()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_;
+    }
+    clear_has_oneof_turn_detector();
+  }
+}
+inline ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* TurnDetectionOptions::release_turn_detection_pipecat_smart_turn_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionOptions.turn_detection_pipecat_smart_turn_options)
+  if (_internal_has_turn_detection_pipecat_smart_turn_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* temp = _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions& TurnDetectionOptions::_internal_turn_detection_pipecat_smart_turn_options() const {
+  return _internal_has_turn_detection_pipecat_smart_turn_options()
+      ? *_impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_
+      : reinterpret_cast< ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions&>(::ondewo::s2t::_TurnDetectionPipecatSmartTurnOptions_default_instance_);
+}
+inline const ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions& TurnDetectionOptions::turn_detection_pipecat_smart_turn_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOptions.turn_detection_pipecat_smart_turn_options)
+  return _internal_turn_detection_pipecat_smart_turn_options();
+}
+inline ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* TurnDetectionOptions::unsafe_arena_release_turn_detection_pipecat_smart_turn_options() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ondewo.s2t.TurnDetectionOptions.turn_detection_pipecat_smart_turn_options)
+  if (_internal_has_turn_detection_pipecat_smart_turn_options()) {
+    clear_has_oneof_turn_detector();
+    ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* temp = _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_;
+    _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void TurnDetectionOptions::unsafe_arena_set_allocated_turn_detection_pipecat_smart_turn_options(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* turn_detection_pipecat_smart_turn_options) {
+  clear_oneof_turn_detector();
+  if (turn_detection_pipecat_smart_turn_options) {
+    set_has_turn_detection_pipecat_smart_turn_options();
+    _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_ = turn_detection_pipecat_smart_turn_options;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_pipecat_smart_turn_options)
+}
+inline ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* TurnDetectionOptions::_internal_mutable_turn_detection_pipecat_smart_turn_options() {
+  if (!_internal_has_turn_detection_pipecat_smart_turn_options()) {
+    clear_oneof_turn_detector();
+    set_has_turn_detection_pipecat_smart_turn_options();
+    _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_ = CreateMaybeMessage< ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions >(GetArenaForAllocation());
+  }
+  return _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_;
+}
+inline ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* TurnDetectionOptions::mutable_turn_detection_pipecat_smart_turn_options() {
+  ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* _msg = _internal_mutable_turn_detection_pipecat_smart_turn_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionOptions.turn_detection_pipecat_smart_turn_options)
+  return _msg;
+}
+
+inline bool TurnDetectionOptions::has_oneof_turn_detector() const {
+  return oneof_turn_detector_case() != ONEOF_TURN_DETECTOR_NOT_SET;
+}
+inline void TurnDetectionOptions::clear_has_oneof_turn_detector() {
+  _impl_._oneof_case_[0] = ONEOF_TURN_DETECTOR_NOT_SET;
+}
+inline TurnDetectionOptions::OneofTurnDetectorCase TurnDetectionOptions::oneof_turn_detector_case() const {
+  return TurnDetectionOptions::OneofTurnDetectorCase(_impl_._oneof_case_[0]);
+}
+// -------------------------------------------------------------------
+
+// TurnDetectionChatLlmOptions
+
+// optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+inline bool TurnDetectionChatLlmOptions::_internal_has_openai_llm_options() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.openai_llm_options_ != nullptr);
+  return value;
+}
+inline bool TurnDetectionChatLlmOptions::has_openai_llm_options() const {
+  return _internal_has_openai_llm_options();
+}
+inline void TurnDetectionChatLlmOptions::clear_openai_llm_options() {
+  if (_impl_.openai_llm_options_ != nullptr) _impl_.openai_llm_options_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline const ::ondewo::s2t::OpenaiLlmOptions& TurnDetectionChatLlmOptions::_internal_openai_llm_options() const {
+  const ::ondewo::s2t::OpenaiLlmOptions* p = _impl_.openai_llm_options_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::s2t::OpenaiLlmOptions&>(
+      ::ondewo::s2t::_OpenaiLlmOptions_default_instance_);
+}
+inline const ::ondewo::s2t::OpenaiLlmOptions& TurnDetectionChatLlmOptions::openai_llm_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionChatLlmOptions.openai_llm_options)
+  return _internal_openai_llm_options();
+}
+inline void TurnDetectionChatLlmOptions::unsafe_arena_set_allocated_openai_llm_options(
+    ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.openai_llm_options_);
+  }
+  _impl_.openai_llm_options_ = openai_llm_options;
+  if (openai_llm_options) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionChatLlmOptions.openai_llm_options)
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionChatLlmOptions::release_openai_llm_options() {
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ondewo::s2t::OpenaiLlmOptions* temp = _impl_.openai_llm_options_;
+  _impl_.openai_llm_options_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionChatLlmOptions::unsafe_arena_release_openai_llm_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionChatLlmOptions.openai_llm_options)
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ondewo::s2t::OpenaiLlmOptions* temp = _impl_.openai_llm_options_;
+  _impl_.openai_llm_options_ = nullptr;
+  return temp;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionChatLlmOptions::_internal_mutable_openai_llm_options() {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  if (_impl_.openai_llm_options_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::s2t::OpenaiLlmOptions>(GetArenaForAllocation());
+    _impl_.openai_llm_options_ = p;
+  }
+  return _impl_.openai_llm_options_;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionChatLlmOptions::mutable_openai_llm_options() {
+  ::ondewo::s2t::OpenaiLlmOptions* _msg = _internal_mutable_openai_llm_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionChatLlmOptions.openai_llm_options)
+  return _msg;
+}
+inline void TurnDetectionChatLlmOptions::set_allocated_openai_llm_options(::ondewo::s2t::OpenaiLlmOptions* openai_llm_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.openai_llm_options_;
+  }
+  if (openai_llm_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(openai_llm_options);
+    if (message_arena != submessage_arena) {
+      openai_llm_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, openai_llm_options, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  _impl_.openai_llm_options_ = openai_llm_options;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionChatLlmOptions.openai_llm_options)
+}
+
+// optional string system_prompt = 2;
+inline bool TurnDetectionChatLlmOptions::_internal_has_system_prompt() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool TurnDetectionChatLlmOptions::has_system_prompt() const {
+  return _internal_has_system_prompt();
+}
+inline void TurnDetectionChatLlmOptions::clear_system_prompt() {
+  _impl_.system_prompt_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& TurnDetectionChatLlmOptions::system_prompt() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionChatLlmOptions.system_prompt)
+  return _internal_system_prompt();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void TurnDetectionChatLlmOptions::set_system_prompt(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.system_prompt_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionChatLlmOptions.system_prompt)
+}
+inline std::string* TurnDetectionChatLlmOptions::mutable_system_prompt() {
+  std::string* _s = _internal_mutable_system_prompt();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionChatLlmOptions.system_prompt)
+  return _s;
+}
+inline const std::string& TurnDetectionChatLlmOptions::_internal_system_prompt() const {
+  return _impl_.system_prompt_.Get();
+}
+inline void TurnDetectionChatLlmOptions::_internal_set_system_prompt(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.system_prompt_.Set(value, GetArenaForAllocation());
+}
+inline std::string* TurnDetectionChatLlmOptions::_internal_mutable_system_prompt() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.system_prompt_.Mutable(GetArenaForAllocation());
+}
+inline std::string* TurnDetectionChatLlmOptions::release_system_prompt() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionChatLlmOptions.system_prompt)
+  if (!_internal_has_system_prompt()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.system_prompt_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.system_prompt_.IsDefault()) {
+    _impl_.system_prompt_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void TurnDetectionChatLlmOptions::set_allocated_system_prompt(std::string* system_prompt) {
+  if (system_prompt != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.system_prompt_.SetAllocated(system_prompt, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.system_prompt_.IsDefault()) {
+    _impl_.system_prompt_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionChatLlmOptions.system_prompt)
+}
+
+// optional string user_prompt = 3;
+inline bool TurnDetectionChatLlmOptions::_internal_has_user_prompt() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool TurnDetectionChatLlmOptions::has_user_prompt() const {
+  return _internal_has_user_prompt();
+}
+inline void TurnDetectionChatLlmOptions::clear_user_prompt() {
+  _impl_.user_prompt_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& TurnDetectionChatLlmOptions::user_prompt() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionChatLlmOptions.user_prompt)
+  return _internal_user_prompt();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void TurnDetectionChatLlmOptions::set_user_prompt(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000002u;
+ _impl_.user_prompt_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionChatLlmOptions.user_prompt)
+}
+inline std::string* TurnDetectionChatLlmOptions::mutable_user_prompt() {
+  std::string* _s = _internal_mutable_user_prompt();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionChatLlmOptions.user_prompt)
+  return _s;
+}
+inline const std::string& TurnDetectionChatLlmOptions::_internal_user_prompt() const {
+  return _impl_.user_prompt_.Get();
+}
+inline void TurnDetectionChatLlmOptions::_internal_set_user_prompt(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.user_prompt_.Set(value, GetArenaForAllocation());
+}
+inline std::string* TurnDetectionChatLlmOptions::_internal_mutable_user_prompt() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.user_prompt_.Mutable(GetArenaForAllocation());
+}
+inline std::string* TurnDetectionChatLlmOptions::release_user_prompt() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionChatLlmOptions.user_prompt)
+  if (!_internal_has_user_prompt()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* p = _impl_.user_prompt_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_prompt_.IsDefault()) {
+    _impl_.user_prompt_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void TurnDetectionChatLlmOptions::set_allocated_user_prompt(std::string* user_prompt) {
+  if (user_prompt != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.user_prompt_.SetAllocated(user_prompt, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_prompt_.IsDefault()) {
+    _impl_.user_prompt_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionChatLlmOptions.user_prompt)
+}
+
+// -------------------------------------------------------------------
+
+// TurnDetectionEndOfUtteranceLlmOptions
+
+// optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+inline bool TurnDetectionEndOfUtteranceLlmOptions::_internal_has_openai_llm_options() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.openai_llm_options_ != nullptr);
+  return value;
+}
+inline bool TurnDetectionEndOfUtteranceLlmOptions::has_openai_llm_options() const {
+  return _internal_has_openai_llm_options();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::clear_openai_llm_options() {
+  if (_impl_.openai_llm_options_ != nullptr) _impl_.openai_llm_options_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ondewo::s2t::OpenaiLlmOptions& TurnDetectionEndOfUtteranceLlmOptions::_internal_openai_llm_options() const {
+  const ::ondewo::s2t::OpenaiLlmOptions* p = _impl_.openai_llm_options_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::s2t::OpenaiLlmOptions&>(
+      ::ondewo::s2t::_OpenaiLlmOptions_default_instance_);
+}
+inline const ::ondewo::s2t::OpenaiLlmOptions& TurnDetectionEndOfUtteranceLlmOptions::openai_llm_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.openai_llm_options)
+  return _internal_openai_llm_options();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::unsafe_arena_set_allocated_openai_llm_options(
+    ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.openai_llm_options_);
+  }
+  _impl_.openai_llm_options_ = openai_llm_options;
+  if (openai_llm_options) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.openai_llm_options)
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionEndOfUtteranceLlmOptions::release_openai_llm_options() {
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ondewo::s2t::OpenaiLlmOptions* temp = _impl_.openai_llm_options_;
+  _impl_.openai_llm_options_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionEndOfUtteranceLlmOptions::unsafe_arena_release_openai_llm_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.openai_llm_options)
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ondewo::s2t::OpenaiLlmOptions* temp = _impl_.openai_llm_options_;
+  _impl_.openai_llm_options_ = nullptr;
+  return temp;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionEndOfUtteranceLlmOptions::_internal_mutable_openai_llm_options() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.openai_llm_options_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::s2t::OpenaiLlmOptions>(GetArenaForAllocation());
+    _impl_.openai_llm_options_ = p;
+  }
+  return _impl_.openai_llm_options_;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionEndOfUtteranceLlmOptions::mutable_openai_llm_options() {
+  ::ondewo::s2t::OpenaiLlmOptions* _msg = _internal_mutable_openai_llm_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.openai_llm_options)
+  return _msg;
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::set_allocated_openai_llm_options(::ondewo::s2t::OpenaiLlmOptions* openai_llm_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.openai_llm_options_;
+  }
+  if (openai_llm_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(openai_llm_options);
+    if (message_arena != submessage_arena) {
+      openai_llm_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, openai_llm_options, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.openai_llm_options_ = openai_llm_options;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.openai_llm_options)
+}
+
+// optional float end_of_turn_probability_threshold = 2;
+inline bool TurnDetectionEndOfUtteranceLlmOptions::_internal_has_end_of_turn_probability_threshold() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool TurnDetectionEndOfUtteranceLlmOptions::has_end_of_turn_probability_threshold() const {
+  return _internal_has_end_of_turn_probability_threshold();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::clear_end_of_turn_probability_threshold() {
+  _impl_.end_of_turn_probability_threshold_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline float TurnDetectionEndOfUtteranceLlmOptions::_internal_end_of_turn_probability_threshold() const {
+  return _impl_.end_of_turn_probability_threshold_;
+}
+inline float TurnDetectionEndOfUtteranceLlmOptions::end_of_turn_probability_threshold() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.end_of_turn_probability_threshold)
+  return _internal_end_of_turn_probability_threshold();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::_internal_set_end_of_turn_probability_threshold(float value) {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_.end_of_turn_probability_threshold_ = value;
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::set_end_of_turn_probability_threshold(float value) {
+  _internal_set_end_of_turn_probability_threshold(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.end_of_turn_probability_threshold)
+}
+
+// optional .ondewo.s2t.TurnDetectionHoldBands turn_detection_hold_bands = 3;
+inline bool TurnDetectionEndOfUtteranceLlmOptions::_internal_has_turn_detection_hold_bands() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.turn_detection_hold_bands_ != nullptr);
+  return value;
+}
+inline bool TurnDetectionEndOfUtteranceLlmOptions::has_turn_detection_hold_bands() const {
+  return _internal_has_turn_detection_hold_bands();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::clear_turn_detection_hold_bands() {
+  if (_impl_.turn_detection_hold_bands_ != nullptr) _impl_.turn_detection_hold_bands_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ondewo::s2t::TurnDetectionHoldBands& TurnDetectionEndOfUtteranceLlmOptions::_internal_turn_detection_hold_bands() const {
+  const ::ondewo::s2t::TurnDetectionHoldBands* p = _impl_.turn_detection_hold_bands_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::s2t::TurnDetectionHoldBands&>(
+      ::ondewo::s2t::_TurnDetectionHoldBands_default_instance_);
+}
+inline const ::ondewo::s2t::TurnDetectionHoldBands& TurnDetectionEndOfUtteranceLlmOptions::turn_detection_hold_bands() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.turn_detection_hold_bands)
+  return _internal_turn_detection_hold_bands();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::unsafe_arena_set_allocated_turn_detection_hold_bands(
+    ::ondewo::s2t::TurnDetectionHoldBands* turn_detection_hold_bands) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.turn_detection_hold_bands_);
+  }
+  _impl_.turn_detection_hold_bands_ = turn_detection_hold_bands;
+  if (turn_detection_hold_bands) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.turn_detection_hold_bands)
+}
+inline ::ondewo::s2t::TurnDetectionHoldBands* TurnDetectionEndOfUtteranceLlmOptions::release_turn_detection_hold_bands() {
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ondewo::s2t::TurnDetectionHoldBands* temp = _impl_.turn_detection_hold_bands_;
+  _impl_.turn_detection_hold_bands_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::s2t::TurnDetectionHoldBands* TurnDetectionEndOfUtteranceLlmOptions::unsafe_arena_release_turn_detection_hold_bands() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.turn_detection_hold_bands)
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ondewo::s2t::TurnDetectionHoldBands* temp = _impl_.turn_detection_hold_bands_;
+  _impl_.turn_detection_hold_bands_ = nullptr;
+  return temp;
+}
+inline ::ondewo::s2t::TurnDetectionHoldBands* TurnDetectionEndOfUtteranceLlmOptions::_internal_mutable_turn_detection_hold_bands() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  if (_impl_.turn_detection_hold_bands_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::s2t::TurnDetectionHoldBands>(GetArenaForAllocation());
+    _impl_.turn_detection_hold_bands_ = p;
+  }
+  return _impl_.turn_detection_hold_bands_;
+}
+inline ::ondewo::s2t::TurnDetectionHoldBands* TurnDetectionEndOfUtteranceLlmOptions::mutable_turn_detection_hold_bands() {
+  ::ondewo::s2t::TurnDetectionHoldBands* _msg = _internal_mutable_turn_detection_hold_bands();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.turn_detection_hold_bands)
+  return _msg;
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::set_allocated_turn_detection_hold_bands(::ondewo::s2t::TurnDetectionHoldBands* turn_detection_hold_bands) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.turn_detection_hold_bands_;
+  }
+  if (turn_detection_hold_bands) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(turn_detection_hold_bands);
+    if (message_arena != submessage_arena) {
+      turn_detection_hold_bands = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, turn_detection_hold_bands, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.turn_detection_hold_bands_ = turn_detection_hold_bands;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.turn_detection_hold_bands)
+}
+
+// optional uint32 uncertain_min_words = 4;
+inline bool TurnDetectionEndOfUtteranceLlmOptions::_internal_has_uncertain_min_words() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool TurnDetectionEndOfUtteranceLlmOptions::has_uncertain_min_words() const {
+  return _internal_has_uncertain_min_words();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::clear_uncertain_min_words() {
+  _impl_.uncertain_min_words_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline uint32_t TurnDetectionEndOfUtteranceLlmOptions::_internal_uncertain_min_words() const {
+  return _impl_.uncertain_min_words_;
+}
+inline uint32_t TurnDetectionEndOfUtteranceLlmOptions::uncertain_min_words() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.uncertain_min_words)
+  return _internal_uncertain_min_words();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::_internal_set_uncertain_min_words(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_.uncertain_min_words_ = value;
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::set_uncertain_min_words(uint32_t value) {
+  _internal_set_uncertain_min_words(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.uncertain_min_words)
+}
+
+// optional bool exact_probability = 5;
+inline bool TurnDetectionEndOfUtteranceLlmOptions::_internal_has_exact_probability() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  return value;
+}
+inline bool TurnDetectionEndOfUtteranceLlmOptions::has_exact_probability() const {
+  return _internal_has_exact_probability();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::clear_exact_probability() {
+  _impl_.exact_probability_ = false;
+  _impl_._has_bits_[0] &= ~0x00000010u;
+}
+inline bool TurnDetectionEndOfUtteranceLlmOptions::_internal_exact_probability() const {
+  return _impl_.exact_probability_;
+}
+inline bool TurnDetectionEndOfUtteranceLlmOptions::exact_probability() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.exact_probability)
+  return _internal_exact_probability();
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::_internal_set_exact_probability(bool value) {
+  _impl_._has_bits_[0] |= 0x00000010u;
+  _impl_.exact_probability_ = value;
+}
+inline void TurnDetectionEndOfUtteranceLlmOptions::set_exact_probability(bool value) {
+  _internal_set_exact_probability(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions.exact_probability)
+}
+
+// -------------------------------------------------------------------
+
+// TurnDetectionOndewoDeOptions
+
+// optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+inline bool TurnDetectionOndewoDeOptions::_internal_has_openai_llm_options() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.openai_llm_options_ != nullptr);
+  return value;
+}
+inline bool TurnDetectionOndewoDeOptions::has_openai_llm_options() const {
+  return _internal_has_openai_llm_options();
+}
+inline void TurnDetectionOndewoDeOptions::clear_openai_llm_options() {
+  if (_impl_.openai_llm_options_ != nullptr) _impl_.openai_llm_options_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ondewo::s2t::OpenaiLlmOptions& TurnDetectionOndewoDeOptions::_internal_openai_llm_options() const {
+  const ::ondewo::s2t::OpenaiLlmOptions* p = _impl_.openai_llm_options_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::s2t::OpenaiLlmOptions&>(
+      ::ondewo::s2t::_OpenaiLlmOptions_default_instance_);
+}
+inline const ::ondewo::s2t::OpenaiLlmOptions& TurnDetectionOndewoDeOptions::openai_llm_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOndewoDeOptions.openai_llm_options)
+  return _internal_openai_llm_options();
+}
+inline void TurnDetectionOndewoDeOptions::unsafe_arena_set_allocated_openai_llm_options(
+    ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.openai_llm_options_);
+  }
+  _impl_.openai_llm_options_ = openai_llm_options;
+  if (openai_llm_options) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionOndewoDeOptions.openai_llm_options)
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionOndewoDeOptions::release_openai_llm_options() {
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ondewo::s2t::OpenaiLlmOptions* temp = _impl_.openai_llm_options_;
+  _impl_.openai_llm_options_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionOndewoDeOptions::unsafe_arena_release_openai_llm_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionOndewoDeOptions.openai_llm_options)
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ondewo::s2t::OpenaiLlmOptions* temp = _impl_.openai_llm_options_;
+  _impl_.openai_llm_options_ = nullptr;
+  return temp;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionOndewoDeOptions::_internal_mutable_openai_llm_options() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.openai_llm_options_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::s2t::OpenaiLlmOptions>(GetArenaForAllocation());
+    _impl_.openai_llm_options_ = p;
+  }
+  return _impl_.openai_llm_options_;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionOndewoDeOptions::mutable_openai_llm_options() {
+  ::ondewo::s2t::OpenaiLlmOptions* _msg = _internal_mutable_openai_llm_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionOndewoDeOptions.openai_llm_options)
+  return _msg;
+}
+inline void TurnDetectionOndewoDeOptions::set_allocated_openai_llm_options(::ondewo::s2t::OpenaiLlmOptions* openai_llm_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.openai_llm_options_;
+  }
+  if (openai_llm_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(openai_llm_options);
+    if (message_arena != submessage_arena) {
+      openai_llm_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, openai_llm_options, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.openai_llm_options_ = openai_llm_options;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOndewoDeOptions.openai_llm_options)
+}
+
+// optional float end_of_turn_probability_threshold = 2;
+inline bool TurnDetectionOndewoDeOptions::_internal_has_end_of_turn_probability_threshold() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool TurnDetectionOndewoDeOptions::has_end_of_turn_probability_threshold() const {
+  return _internal_has_end_of_turn_probability_threshold();
+}
+inline void TurnDetectionOndewoDeOptions::clear_end_of_turn_probability_threshold() {
+  _impl_.end_of_turn_probability_threshold_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline float TurnDetectionOndewoDeOptions::_internal_end_of_turn_probability_threshold() const {
+  return _impl_.end_of_turn_probability_threshold_;
+}
+inline float TurnDetectionOndewoDeOptions::end_of_turn_probability_threshold() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOndewoDeOptions.end_of_turn_probability_threshold)
+  return _internal_end_of_turn_probability_threshold();
+}
+inline void TurnDetectionOndewoDeOptions::_internal_set_end_of_turn_probability_threshold(float value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.end_of_turn_probability_threshold_ = value;
+}
+inline void TurnDetectionOndewoDeOptions::set_end_of_turn_probability_threshold(float value) {
+  _internal_set_end_of_turn_probability_threshold(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionOndewoDeOptions.end_of_turn_probability_threshold)
+}
+
+// -------------------------------------------------------------------
+
+// TurnDetectionOndewoDeFusionOptions
+
+// optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+inline bool TurnDetectionOndewoDeFusionOptions::_internal_has_openai_llm_options() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.openai_llm_options_ != nullptr);
+  return value;
+}
+inline bool TurnDetectionOndewoDeFusionOptions::has_openai_llm_options() const {
+  return _internal_has_openai_llm_options();
+}
+inline void TurnDetectionOndewoDeFusionOptions::clear_openai_llm_options() {
+  if (_impl_.openai_llm_options_ != nullptr) _impl_.openai_llm_options_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ondewo::s2t::OpenaiLlmOptions& TurnDetectionOndewoDeFusionOptions::_internal_openai_llm_options() const {
+  const ::ondewo::s2t::OpenaiLlmOptions* p = _impl_.openai_llm_options_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::s2t::OpenaiLlmOptions&>(
+      ::ondewo::s2t::_OpenaiLlmOptions_default_instance_);
+}
+inline const ::ondewo::s2t::OpenaiLlmOptions& TurnDetectionOndewoDeFusionOptions::openai_llm_options() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOndewoDeFusionOptions.openai_llm_options)
+  return _internal_openai_llm_options();
+}
+inline void TurnDetectionOndewoDeFusionOptions::unsafe_arena_set_allocated_openai_llm_options(
+    ::ondewo::s2t::OpenaiLlmOptions* openai_llm_options) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.openai_llm_options_);
+  }
+  _impl_.openai_llm_options_ = openai_llm_options;
+  if (openai_llm_options) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.s2t.TurnDetectionOndewoDeFusionOptions.openai_llm_options)
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionOndewoDeFusionOptions::release_openai_llm_options() {
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ondewo::s2t::OpenaiLlmOptions* temp = _impl_.openai_llm_options_;
+  _impl_.openai_llm_options_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionOndewoDeFusionOptions::unsafe_arena_release_openai_llm_options() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionOndewoDeFusionOptions.openai_llm_options)
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ondewo::s2t::OpenaiLlmOptions* temp = _impl_.openai_llm_options_;
+  _impl_.openai_llm_options_ = nullptr;
+  return temp;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionOndewoDeFusionOptions::_internal_mutable_openai_llm_options() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.openai_llm_options_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::s2t::OpenaiLlmOptions>(GetArenaForAllocation());
+    _impl_.openai_llm_options_ = p;
+  }
+  return _impl_.openai_llm_options_;
+}
+inline ::ondewo::s2t::OpenaiLlmOptions* TurnDetectionOndewoDeFusionOptions::mutable_openai_llm_options() {
+  ::ondewo::s2t::OpenaiLlmOptions* _msg = _internal_mutable_openai_llm_options();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionOndewoDeFusionOptions.openai_llm_options)
+  return _msg;
+}
+inline void TurnDetectionOndewoDeFusionOptions::set_allocated_openai_llm_options(::ondewo::s2t::OpenaiLlmOptions* openai_llm_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.openai_llm_options_;
+  }
+  if (openai_llm_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(openai_llm_options);
+    if (message_arena != submessage_arena) {
+      openai_llm_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, openai_llm_options, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.openai_llm_options_ = openai_llm_options;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOndewoDeFusionOptions.openai_llm_options)
+}
+
+// optional float end_of_turn_probability_threshold = 2;
+inline bool TurnDetectionOndewoDeFusionOptions::_internal_has_end_of_turn_probability_threshold() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool TurnDetectionOndewoDeFusionOptions::has_end_of_turn_probability_threshold() const {
+  return _internal_has_end_of_turn_probability_threshold();
+}
+inline void TurnDetectionOndewoDeFusionOptions::clear_end_of_turn_probability_threshold() {
+  _impl_.end_of_turn_probability_threshold_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline float TurnDetectionOndewoDeFusionOptions::_internal_end_of_turn_probability_threshold() const {
+  return _impl_.end_of_turn_probability_threshold_;
+}
+inline float TurnDetectionOndewoDeFusionOptions::end_of_turn_probability_threshold() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionOndewoDeFusionOptions.end_of_turn_probability_threshold)
+  return _internal_end_of_turn_probability_threshold();
+}
+inline void TurnDetectionOndewoDeFusionOptions::_internal_set_end_of_turn_probability_threshold(float value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.end_of_turn_probability_threshold_ = value;
+}
+inline void TurnDetectionOndewoDeFusionOptions::set_end_of_turn_probability_threshold(float value) {
+  _internal_set_end_of_turn_probability_threshold(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionOndewoDeFusionOptions.end_of_turn_probability_threshold)
+}
+
+// -------------------------------------------------------------------
+
+// TurnDetectionPipecatSmartTurnOptions
+
+// optional string model_name = 1;
+inline bool TurnDetectionPipecatSmartTurnOptions::_internal_has_model_name() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool TurnDetectionPipecatSmartTurnOptions::has_model_name() const {
+  return _internal_has_model_name();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::clear_model_name() {
+  _impl_.model_name_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& TurnDetectionPipecatSmartTurnOptions::model_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.model_name)
+  return _internal_model_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void TurnDetectionPipecatSmartTurnOptions::set_model_name(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.model_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.model_name)
+}
+inline std::string* TurnDetectionPipecatSmartTurnOptions::mutable_model_name() {
+  std::string* _s = _internal_mutable_model_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.model_name)
+  return _s;
+}
+inline const std::string& TurnDetectionPipecatSmartTurnOptions::_internal_model_name() const {
+  return _impl_.model_name_.Get();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::_internal_set_model_name(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.model_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* TurnDetectionPipecatSmartTurnOptions::_internal_mutable_model_name() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.model_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* TurnDetectionPipecatSmartTurnOptions::release_model_name() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.model_name)
+  if (!_internal_has_model_name()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.model_name_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.model_name_.IsDefault()) {
+    _impl_.model_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void TurnDetectionPipecatSmartTurnOptions::set_allocated_model_name(std::string* model_name) {
+  if (model_name != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.model_name_.SetAllocated(model_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.model_name_.IsDefault()) {
+    _impl_.model_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.model_name)
+}
+
+// optional string triton_server_host = 2;
+inline bool TurnDetectionPipecatSmartTurnOptions::_internal_has_triton_server_host() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool TurnDetectionPipecatSmartTurnOptions::has_triton_server_host() const {
+  return _internal_has_triton_server_host();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::clear_triton_server_host() {
+  _impl_.triton_server_host_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& TurnDetectionPipecatSmartTurnOptions::triton_server_host() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_host)
+  return _internal_triton_server_host();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void TurnDetectionPipecatSmartTurnOptions::set_triton_server_host(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000002u;
+ _impl_.triton_server_host_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_host)
+}
+inline std::string* TurnDetectionPipecatSmartTurnOptions::mutable_triton_server_host() {
+  std::string* _s = _internal_mutable_triton_server_host();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_host)
+  return _s;
+}
+inline const std::string& TurnDetectionPipecatSmartTurnOptions::_internal_triton_server_host() const {
+  return _impl_.triton_server_host_.Get();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::_internal_set_triton_server_host(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.triton_server_host_.Set(value, GetArenaForAllocation());
+}
+inline std::string* TurnDetectionPipecatSmartTurnOptions::_internal_mutable_triton_server_host() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.triton_server_host_.Mutable(GetArenaForAllocation());
+}
+inline std::string* TurnDetectionPipecatSmartTurnOptions::release_triton_server_host() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_host)
+  if (!_internal_has_triton_server_host()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* p = _impl_.triton_server_host_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.triton_server_host_.IsDefault()) {
+    _impl_.triton_server_host_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void TurnDetectionPipecatSmartTurnOptions::set_allocated_triton_server_host(std::string* triton_server_host) {
+  if (triton_server_host != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.triton_server_host_.SetAllocated(triton_server_host, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.triton_server_host_.IsDefault()) {
+    _impl_.triton_server_host_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_host)
+}
+
+// optional int64 triton_server_port = 3;
+inline bool TurnDetectionPipecatSmartTurnOptions::_internal_has_triton_server_port() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool TurnDetectionPipecatSmartTurnOptions::has_triton_server_port() const {
+  return _internal_has_triton_server_port();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::clear_triton_server_port() {
+  _impl_.triton_server_port_ = int64_t{0};
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline int64_t TurnDetectionPipecatSmartTurnOptions::_internal_triton_server_port() const {
+  return _impl_.triton_server_port_;
+}
+inline int64_t TurnDetectionPipecatSmartTurnOptions::triton_server_port() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_port)
+  return _internal_triton_server_port();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::_internal_set_triton_server_port(int64_t value) {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_.triton_server_port_ = value;
+}
+inline void TurnDetectionPipecatSmartTurnOptions::set_triton_server_port(int64_t value) {
+  _internal_set_triton_server_port(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_port)
+}
+
+// optional float max_audio_seconds = 4;
+inline bool TurnDetectionPipecatSmartTurnOptions::_internal_has_max_audio_seconds() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool TurnDetectionPipecatSmartTurnOptions::has_max_audio_seconds() const {
+  return _internal_has_max_audio_seconds();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::clear_max_audio_seconds() {
+  _impl_.max_audio_seconds_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline float TurnDetectionPipecatSmartTurnOptions::_internal_max_audio_seconds() const {
+  return _impl_.max_audio_seconds_;
+}
+inline float TurnDetectionPipecatSmartTurnOptions::max_audio_seconds() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.max_audio_seconds)
+  return _internal_max_audio_seconds();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::_internal_set_max_audio_seconds(float value) {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_.max_audio_seconds_ = value;
+}
+inline void TurnDetectionPipecatSmartTurnOptions::set_max_audio_seconds(float value) {
+  _internal_set_max_audio_seconds(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.max_audio_seconds)
+}
+
+// optional float timeout_seconds = 5;
+inline bool TurnDetectionPipecatSmartTurnOptions::_internal_has_timeout_seconds() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  return value;
+}
+inline bool TurnDetectionPipecatSmartTurnOptions::has_timeout_seconds() const {
+  return _internal_has_timeout_seconds();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::clear_timeout_seconds() {
+  _impl_.timeout_seconds_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000010u;
+}
+inline float TurnDetectionPipecatSmartTurnOptions::_internal_timeout_seconds() const {
+  return _impl_.timeout_seconds_;
+}
+inline float TurnDetectionPipecatSmartTurnOptions::timeout_seconds() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.timeout_seconds)
+  return _internal_timeout_seconds();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::_internal_set_timeout_seconds(float value) {
+  _impl_._has_bits_[0] |= 0x00000010u;
+  _impl_.timeout_seconds_ = value;
+}
+inline void TurnDetectionPipecatSmartTurnOptions::set_timeout_seconds(float value) {
+  _internal_set_timeout_seconds(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.timeout_seconds)
+}
+
+// optional float end_of_turn_probability_threshold = 6;
+inline bool TurnDetectionPipecatSmartTurnOptions::_internal_has_end_of_turn_probability_threshold() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000020u) != 0;
+  return value;
+}
+inline bool TurnDetectionPipecatSmartTurnOptions::has_end_of_turn_probability_threshold() const {
+  return _internal_has_end_of_turn_probability_threshold();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::clear_end_of_turn_probability_threshold() {
+  _impl_.end_of_turn_probability_threshold_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000020u;
+}
+inline float TurnDetectionPipecatSmartTurnOptions::_internal_end_of_turn_probability_threshold() const {
+  return _impl_.end_of_turn_probability_threshold_;
+}
+inline float TurnDetectionPipecatSmartTurnOptions::end_of_turn_probability_threshold() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.end_of_turn_probability_threshold)
+  return _internal_end_of_turn_probability_threshold();
+}
+inline void TurnDetectionPipecatSmartTurnOptions::_internal_set_end_of_turn_probability_threshold(float value) {
+  _impl_._has_bits_[0] |= 0x00000020u;
+  _impl_.end_of_turn_probability_threshold_ = value;
+}
+inline void TurnDetectionPipecatSmartTurnOptions::set_end_of_turn_probability_threshold(float value) {
+  _internal_set_end_of_turn_probability_threshold(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.end_of_turn_probability_threshold)
+}
+
+// -------------------------------------------------------------------
+
+// TurnDetectionConversationContext
+
+// repeated .ondewo.s2t.TurnDetectionContextTurn turn_detection_context_turns = 1;
+inline int TurnDetectionConversationContext::_internal_turn_detection_context_turns_size() const {
+  return _impl_.turn_detection_context_turns_.size();
+}
+inline int TurnDetectionConversationContext::turn_detection_context_turns_size() const {
+  return _internal_turn_detection_context_turns_size();
+}
+inline void TurnDetectionConversationContext::clear_turn_detection_context_turns() {
+  _impl_.turn_detection_context_turns_.Clear();
+}
+inline ::ondewo::s2t::TurnDetectionContextTurn* TurnDetectionConversationContext::mutable_turn_detection_context_turns(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionConversationContext.turn_detection_context_turns)
+  return _impl_.turn_detection_context_turns_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionContextTurn >*
+TurnDetectionConversationContext::mutable_turn_detection_context_turns() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.s2t.TurnDetectionConversationContext.turn_detection_context_turns)
+  return &_impl_.turn_detection_context_turns_;
+}
+inline const ::ondewo::s2t::TurnDetectionContextTurn& TurnDetectionConversationContext::_internal_turn_detection_context_turns(int index) const {
+  return _impl_.turn_detection_context_turns_.Get(index);
+}
+inline const ::ondewo::s2t::TurnDetectionContextTurn& TurnDetectionConversationContext::turn_detection_context_turns(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionConversationContext.turn_detection_context_turns)
+  return _internal_turn_detection_context_turns(index);
+}
+inline ::ondewo::s2t::TurnDetectionContextTurn* TurnDetectionConversationContext::_internal_add_turn_detection_context_turns() {
+  return _impl_.turn_detection_context_turns_.Add();
+}
+inline ::ondewo::s2t::TurnDetectionContextTurn* TurnDetectionConversationContext::add_turn_detection_context_turns() {
+  ::ondewo::s2t::TurnDetectionContextTurn* _add = _internal_add_turn_detection_context_turns();
+  // @@protoc_insertion_point(field_add:ondewo.s2t.TurnDetectionConversationContext.turn_detection_context_turns)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionContextTurn >&
+TurnDetectionConversationContext::turn_detection_context_turns() const {
+  // @@protoc_insertion_point(field_list:ondewo.s2t.TurnDetectionConversationContext.turn_detection_context_turns)
+  return _impl_.turn_detection_context_turns_;
+}
+
+// -------------------------------------------------------------------
+
+// TurnDetectionContextTurn
+
+// .ondewo.s2t.TurnDetectionContextTurn.Role role = 1;
+inline void TurnDetectionContextTurn::clear_role() {
+  _impl_.role_ = 0;
+}
+inline ::ondewo::s2t::TurnDetectionContextTurn_Role TurnDetectionContextTurn::_internal_role() const {
+  return static_cast< ::ondewo::s2t::TurnDetectionContextTurn_Role >(_impl_.role_);
+}
+inline ::ondewo::s2t::TurnDetectionContextTurn_Role TurnDetectionContextTurn::role() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionContextTurn.role)
+  return _internal_role();
+}
+inline void TurnDetectionContextTurn::_internal_set_role(::ondewo::s2t::TurnDetectionContextTurn_Role value) {
+  
+  _impl_.role_ = value;
+}
+inline void TurnDetectionContextTurn::set_role(::ondewo::s2t::TurnDetectionContextTurn_Role value) {
+  _internal_set_role(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionContextTurn.role)
+}
+
+// string text = 2;
+inline void TurnDetectionContextTurn::clear_text() {
+  _impl_.text_.ClearToEmpty();
+}
+inline const std::string& TurnDetectionContextTurn::text() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionContextTurn.text)
+  return _internal_text();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void TurnDetectionContextTurn::set_text(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.text_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionContextTurn.text)
+}
+inline std::string* TurnDetectionContextTurn::mutable_text() {
+  std::string* _s = _internal_mutable_text();
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionContextTurn.text)
+  return _s;
+}
+inline const std::string& TurnDetectionContextTurn::_internal_text() const {
+  return _impl_.text_.Get();
+}
+inline void TurnDetectionContextTurn::_internal_set_text(const std::string& value) {
+  
+  _impl_.text_.Set(value, GetArenaForAllocation());
+}
+inline std::string* TurnDetectionContextTurn::_internal_mutable_text() {
+  
+  return _impl_.text_.Mutable(GetArenaForAllocation());
+}
+inline std::string* TurnDetectionContextTurn::release_text() {
+  // @@protoc_insertion_point(field_release:ondewo.s2t.TurnDetectionContextTurn.text)
+  return _impl_.text_.Release();
+}
+inline void TurnDetectionContextTurn::set_allocated_text(std::string* text) {
+  if (text != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.text_.SetAllocated(text, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.text_.IsDefault()) {
+    _impl_.text_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionContextTurn.text)
+}
+
+// -------------------------------------------------------------------
+
+// TurnDetectionHoldBands
+
+// repeated .ondewo.s2t.TurnDetectionHoldBand turn_detection_hold_bands = 1;
+inline int TurnDetectionHoldBands::_internal_turn_detection_hold_bands_size() const {
+  return _impl_.turn_detection_hold_bands_.size();
+}
+inline int TurnDetectionHoldBands::turn_detection_hold_bands_size() const {
+  return _internal_turn_detection_hold_bands_size();
+}
+inline void TurnDetectionHoldBands::clear_turn_detection_hold_bands() {
+  _impl_.turn_detection_hold_bands_.Clear();
+}
+inline ::ondewo::s2t::TurnDetectionHoldBand* TurnDetectionHoldBands::mutable_turn_detection_hold_bands(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.s2t.TurnDetectionHoldBands.turn_detection_hold_bands)
+  return _impl_.turn_detection_hold_bands_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionHoldBand >*
+TurnDetectionHoldBands::mutable_turn_detection_hold_bands() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.s2t.TurnDetectionHoldBands.turn_detection_hold_bands)
+  return &_impl_.turn_detection_hold_bands_;
+}
+inline const ::ondewo::s2t::TurnDetectionHoldBand& TurnDetectionHoldBands::_internal_turn_detection_hold_bands(int index) const {
+  return _impl_.turn_detection_hold_bands_.Get(index);
+}
+inline const ::ondewo::s2t::TurnDetectionHoldBand& TurnDetectionHoldBands::turn_detection_hold_bands(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionHoldBands.turn_detection_hold_bands)
+  return _internal_turn_detection_hold_bands(index);
+}
+inline ::ondewo::s2t::TurnDetectionHoldBand* TurnDetectionHoldBands::_internal_add_turn_detection_hold_bands() {
+  return _impl_.turn_detection_hold_bands_.Add();
+}
+inline ::ondewo::s2t::TurnDetectionHoldBand* TurnDetectionHoldBands::add_turn_detection_hold_bands() {
+  ::ondewo::s2t::TurnDetectionHoldBand* _add = _internal_add_turn_detection_hold_bands();
+  // @@protoc_insertion_point(field_add:ondewo.s2t.TurnDetectionHoldBands.turn_detection_hold_bands)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::s2t::TurnDetectionHoldBand >&
+TurnDetectionHoldBands::turn_detection_hold_bands() const {
+  // @@protoc_insertion_point(field_list:ondewo.s2t.TurnDetectionHoldBands.turn_detection_hold_bands)
+  return _impl_.turn_detection_hold_bands_;
+}
+
+// -------------------------------------------------------------------
+
+// TurnDetectionHoldBand
+
+// float upper_probability = 1;
+inline void TurnDetectionHoldBand::clear_upper_probability() {
+  _impl_.upper_probability_ = 0;
+}
+inline float TurnDetectionHoldBand::_internal_upper_probability() const {
+  return _impl_.upper_probability_;
+}
+inline float TurnDetectionHoldBand::upper_probability() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionHoldBand.upper_probability)
+  return _internal_upper_probability();
+}
+inline void TurnDetectionHoldBand::_internal_set_upper_probability(float value) {
+  
+  _impl_.upper_probability_ = value;
+}
+inline void TurnDetectionHoldBand::set_upper_probability(float value) {
+  _internal_set_upper_probability(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionHoldBand.upper_probability)
+}
+
+// float max_silence_seconds = 2;
+inline void TurnDetectionHoldBand::clear_max_silence_seconds() {
+  _impl_.max_silence_seconds_ = 0;
+}
+inline float TurnDetectionHoldBand::_internal_max_silence_seconds() const {
+  return _impl_.max_silence_seconds_;
+}
+inline float TurnDetectionHoldBand::max_silence_seconds() const {
+  // @@protoc_insertion_point(field_get:ondewo.s2t.TurnDetectionHoldBand.max_silence_seconds)
+  return _internal_max_silence_seconds();
+}
+inline void TurnDetectionHoldBand::_internal_set_max_silence_seconds(float value) {
+  
+  _impl_.max_silence_seconds_ = value;
+}
+inline void TurnDetectionHoldBand::set_max_silence_seconds(float value) {
+  _internal_set_max_silence_seconds(value);
+  // @@protoc_insertion_point(field_set:ondewo.s2t.TurnDetectionHoldBand.max_silence_seconds)
 }
 
 // -------------------------------------------------------------------
@@ -31179,6 +34977,24 @@ ListS2tNormalizationPipelinesResponse::mutable_s2t_normalization_pipelines() {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -31187,6 +35003,11 @@ ListS2tNormalizationPipelinesResponse::mutable_s2t_normalization_pipelines() {
 
 PROTOBUF_NAMESPACE_OPEN
 
+template <> struct is_proto_enum< ::ondewo::s2t::TurnDetectionContextTurn_Role> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::s2t::TurnDetectionContextTurn_Role>() {
+  return ::ondewo::s2t::TurnDetectionContextTurn_Role_descriptor();
+}
 template <> struct is_proto_enum< ::ondewo::s2t::Decoding> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::s2t::Decoding>() {

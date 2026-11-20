@@ -232,6 +232,12 @@ extern RetryScheduledCallerRequestDefaultTypeInternal _RetryScheduledCallerReque
 class ScheduledCaller;
 struct ScheduledCallerDefaultTypeInternal;
 extern ScheduledCallerDefaultTypeInternal _ScheduledCaller_default_instance_;
+class SendCallDtmfRequest;
+struct SendCallDtmfRequestDefaultTypeInternal;
+extern SendCallDtmfRequestDefaultTypeInternal _SendCallDtmfRequest_default_instance_;
+class SendCallDtmfResponse;
+struct SendCallDtmfResponseDefaultTypeInternal;
+extern SendCallDtmfResponseDefaultTypeInternal _SendCallDtmfResponse_default_instance_;
 class ServiceStatus;
 struct ServiceStatusDefaultTypeInternal;
 extern ServiceStatusDefaultTypeInternal _ServiceStatus_default_instance_;
@@ -458,6 +464,8 @@ template<> ::ondewo::vtsi::RemoveCallParticipantRequest* Arena::CreateMaybeMessa
 template<> ::ondewo::vtsi::RemoveCallParticipantResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::RemoveCallParticipantResponse>(Arena*);
 template<> ::ondewo::vtsi::RetryScheduledCallerRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::RetryScheduledCallerRequest>(Arena*);
 template<> ::ondewo::vtsi::ScheduledCaller* Arena::CreateMaybeMessage<::ondewo::vtsi::ScheduledCaller>(Arena*);
+template<> ::ondewo::vtsi::SendCallDtmfRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::SendCallDtmfRequest>(Arena*);
+template<> ::ondewo::vtsi::SendCallDtmfResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::SendCallDtmfResponse>(Arena*);
 template<> ::ondewo::vtsi::ServiceStatus* Arena::CreateMaybeMessage<::ondewo::vtsi::ServiceStatus>(Arena*);
 template<> ::ondewo::vtsi::SetCallMediaControlRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::SetCallMediaControlRequest>(Arena*);
 template<> ::ondewo::vtsi::SetCallMediaControlResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::SetCallMediaControlResponse>(Arena*);
@@ -607,12 +615,16 @@ enum TransferOutcome : int {
   TRANSFER_OUTCOME_CALL_ENDED = 6,
   TRANSFER_OUTCOME_CALL_SCOPE_MISMATCH = 7,
   TRANSFER_OUTCOME_SIP_UNREACHABLE = 8,
+  TRANSFER_OUTCOME_DECLINED = 9,
+  TRANSFER_OUTCOME_NO_DECISION = 10,
+  TRANSFER_OUTCOME_TARGET_UNAVAILABLE = 11,
+  TRANSFER_OUTCOME_INTRO_UNAVAILABLE = 12,
   TransferOutcome_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   TransferOutcome_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool TransferOutcome_IsValid(int value);
 constexpr TransferOutcome TransferOutcome_MIN = TRANSFER_OUTCOME_UNSPECIFIED;
-constexpr TransferOutcome TransferOutcome_MAX = TRANSFER_OUTCOME_SIP_UNREACHABLE;
+constexpr TransferOutcome TransferOutcome_MAX = TRANSFER_OUTCOME_INTRO_UNAVAILABLE;
 constexpr int TransferOutcome_ARRAYSIZE = TransferOutcome_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TransferOutcome_descriptor();
@@ -13999,6 +14011,7 @@ class TransferCallRequest final :
     kTransferIdFieldNumber = 3,
     kRequestIdFieldNumber = 8,
     kTargetFieldNumber = 4,
+    kWarmTransferConfigFieldNumber = 9,
     kModeFieldNumber = 5,
     kRingTimeoutSFieldNumber = 7,
   };
@@ -14093,6 +14106,24 @@ class TransferCallRequest final :
       ::ondewo::vtsi::CallTarget* target);
   ::ondewo::vtsi::CallTarget* unsafe_arena_release_target();
 
+  // .ondewo.vtsi.WarmTransferConfig warm_transfer_config = 9;
+  bool has_warm_transfer_config() const;
+  private:
+  bool _internal_has_warm_transfer_config() const;
+  public:
+  void clear_warm_transfer_config();
+  const ::ondewo::vtsi::WarmTransferConfig& warm_transfer_config() const;
+  PROTOBUF_NODISCARD ::ondewo::vtsi::WarmTransferConfig* release_warm_transfer_config();
+  ::ondewo::vtsi::WarmTransferConfig* mutable_warm_transfer_config();
+  void set_allocated_warm_transfer_config(::ondewo::vtsi::WarmTransferConfig* warm_transfer_config);
+  private:
+  const ::ondewo::vtsi::WarmTransferConfig& _internal_warm_transfer_config() const;
+  ::ondewo::vtsi::WarmTransferConfig* _internal_mutable_warm_transfer_config();
+  public:
+  void unsafe_arena_set_allocated_warm_transfer_config(
+      ::ondewo::vtsi::WarmTransferConfig* warm_transfer_config);
+  ::ondewo::vtsi::WarmTransferConfig* unsafe_arena_release_warm_transfer_config();
+
   // .ondewo.vtsi.TransferMode mode = 5;
   void clear_mode();
   ::ondewo::vtsi::TransferMode mode() const;
@@ -14129,6 +14160,7 @@ class TransferCallRequest final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr transfer_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::ondewo::vtsi::CallTarget* target_;
+    ::ondewo::vtsi::WarmTransferConfig* warm_transfer_config_;
     int mode_;
     int32_t ring_timeout_s_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -14186,6 +14218,7 @@ class CallTarget final :
     kSoftphoneAccountName = 2,
     kListenerName = 3,
     kListenerQueue = 4,
+    kIvrMenuName = 5,
     TARGET_NOT_SET = 0,
   };
 
@@ -14271,6 +14304,7 @@ class CallTarget final :
     kSoftphoneAccountNameFieldNumber = 2,
     kListenerNameFieldNumber = 3,
     kListenerQueueFieldNumber = 4,
+    kIvrMenuNameFieldNumber = 5,
   };
   // string phone_number = 1;
   bool has_phone_number() const;
@@ -14344,6 +14378,24 @@ class CallTarget final :
       ::ondewo::vtsi::ListenerQueueTarget* listener_queue);
   ::ondewo::vtsi::ListenerQueueTarget* unsafe_arena_release_listener_queue();
 
+  // string ivr_menu_name = 5;
+  bool has_ivr_menu_name() const;
+  private:
+  bool _internal_has_ivr_menu_name() const;
+  public:
+  void clear_ivr_menu_name();
+  const std::string& ivr_menu_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ivr_menu_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ivr_menu_name();
+  PROTOBUF_NODISCARD std::string* release_ivr_menu_name();
+  void set_allocated_ivr_menu_name(std::string* ivr_menu_name);
+  private:
+  const std::string& _internal_ivr_menu_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ivr_menu_name(const std::string& value);
+  std::string* _internal_mutable_ivr_menu_name();
+  public:
+
   void clear_target();
   TargetCase target_case() const;
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.CallTarget)
@@ -14353,6 +14405,7 @@ class CallTarget final :
   void set_has_softphone_account_name();
   void set_has_listener_name();
   void set_has_listener_queue();
+  void set_has_ivr_menu_name();
 
   inline bool has_target() const;
   inline void clear_has_target();
@@ -14368,6 +14421,7 @@ class CallTarget final :
       ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr softphone_account_name_;
       ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr listener_name_;
       ::ondewo::vtsi::ListenerQueueTarget* listener_queue_;
+      ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ivr_menu_name_;
     } target_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     uint32_t _oneof_case_[1];
@@ -14875,6 +14929,8 @@ class CallTransferRecord final :
     kResolvedTargetFieldNumber = 2,
     kTargetFieldNumber = 1,
     kTimeFieldNumber = 6,
+    kWarmIntroFieldNumber = 7,
+    kEffectiveWarmTransferConfigFieldNumber = 8,
     kModeFieldNumber = 3,
     kOutcomeFieldNumber = 4,
     kSipResponseCodeFieldNumber = 5,
@@ -14929,6 +14985,42 @@ class CallTransferRecord final :
       ::PROTOBUF_NAMESPACE_ID::Timestamp* time);
   ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_time();
 
+  // .ondewo.vtsi.WarmIntroRecord warm_intro = 7;
+  bool has_warm_intro() const;
+  private:
+  bool _internal_has_warm_intro() const;
+  public:
+  void clear_warm_intro();
+  const ::ondewo::vtsi::WarmIntroRecord& warm_intro() const;
+  PROTOBUF_NODISCARD ::ondewo::vtsi::WarmIntroRecord* release_warm_intro();
+  ::ondewo::vtsi::WarmIntroRecord* mutable_warm_intro();
+  void set_allocated_warm_intro(::ondewo::vtsi::WarmIntroRecord* warm_intro);
+  private:
+  const ::ondewo::vtsi::WarmIntroRecord& _internal_warm_intro() const;
+  ::ondewo::vtsi::WarmIntroRecord* _internal_mutable_warm_intro();
+  public:
+  void unsafe_arena_set_allocated_warm_intro(
+      ::ondewo::vtsi::WarmIntroRecord* warm_intro);
+  ::ondewo::vtsi::WarmIntroRecord* unsafe_arena_release_warm_intro();
+
+  // .ondewo.vtsi.WarmTransferConfig effective_warm_transfer_config = 8;
+  bool has_effective_warm_transfer_config() const;
+  private:
+  bool _internal_has_effective_warm_transfer_config() const;
+  public:
+  void clear_effective_warm_transfer_config();
+  const ::ondewo::vtsi::WarmTransferConfig& effective_warm_transfer_config() const;
+  PROTOBUF_NODISCARD ::ondewo::vtsi::WarmTransferConfig* release_effective_warm_transfer_config();
+  ::ondewo::vtsi::WarmTransferConfig* mutable_effective_warm_transfer_config();
+  void set_allocated_effective_warm_transfer_config(::ondewo::vtsi::WarmTransferConfig* effective_warm_transfer_config);
+  private:
+  const ::ondewo::vtsi::WarmTransferConfig& _internal_effective_warm_transfer_config() const;
+  ::ondewo::vtsi::WarmTransferConfig* _internal_mutable_effective_warm_transfer_config();
+  public:
+  void unsafe_arena_set_allocated_effective_warm_transfer_config(
+      ::ondewo::vtsi::WarmTransferConfig* effective_warm_transfer_config);
+  ::ondewo::vtsi::WarmTransferConfig* unsafe_arena_release_effective_warm_transfer_config();
+
   // .ondewo.vtsi.TransferMode mode = 3;
   void clear_mode();
   ::ondewo::vtsi::TransferMode mode() const;
@@ -14967,6 +15059,8 @@ class CallTransferRecord final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr resolved_target_;
     ::ondewo::vtsi::CallTarget* target_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* time_;
+    ::ondewo::vtsi::WarmIntroRecord* warm_intro_;
+    ::ondewo::vtsi::WarmTransferConfig* effective_warm_transfer_config_;
     int mode_;
     int outcome_;
     int32_t sip_response_code_;
@@ -15918,6 +16012,371 @@ class InviteToCallResponse final :
 };
 // -------------------------------------------------------------------
 
+class SendCallDtmfRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.SendCallDtmfRequest) */ {
+ public:
+  inline SendCallDtmfRequest() : SendCallDtmfRequest(nullptr) {}
+  ~SendCallDtmfRequest() override;
+  explicit PROTOBUF_CONSTEXPR SendCallDtmfRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SendCallDtmfRequest(const SendCallDtmfRequest& from);
+  SendCallDtmfRequest(SendCallDtmfRequest&& from) noexcept
+    : SendCallDtmfRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline SendCallDtmfRequest& operator=(const SendCallDtmfRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SendCallDtmfRequest& operator=(SendCallDtmfRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SendCallDtmfRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SendCallDtmfRequest* internal_default_instance() {
+    return reinterpret_cast<const SendCallDtmfRequest*>(
+               &_SendCallDtmfRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    74;
+
+  friend void swap(SendCallDtmfRequest& a, SendCallDtmfRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SendCallDtmfRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SendCallDtmfRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SendCallDtmfRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SendCallDtmfRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SendCallDtmfRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SendCallDtmfRequest& from) {
+    SendCallDtmfRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SendCallDtmfRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.SendCallDtmfRequest";
+  }
+  protected:
+  explicit SendCallDtmfRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kVtsiProjectNameFieldNumber = 1,
+    kCallNameFieldNumber = 2,
+    kDigitsFieldNumber = 3,
+  };
+  // string vtsi_project_name = 1;
+  void clear_vtsi_project_name();
+  const std::string& vtsi_project_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_vtsi_project_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_vtsi_project_name();
+  PROTOBUF_NODISCARD std::string* release_vtsi_project_name();
+  void set_allocated_vtsi_project_name(std::string* vtsi_project_name);
+  private:
+  const std::string& _internal_vtsi_project_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_vtsi_project_name(const std::string& value);
+  std::string* _internal_mutable_vtsi_project_name();
+  public:
+
+  // string call_name = 2;
+  void clear_call_name();
+  const std::string& call_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_call_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_call_name();
+  PROTOBUF_NODISCARD std::string* release_call_name();
+  void set_allocated_call_name(std::string* call_name);
+  private:
+  const std::string& _internal_call_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_call_name(const std::string& value);
+  std::string* _internal_mutable_call_name();
+  public:
+
+  // string digits = 3;
+  void clear_digits();
+  const std::string& digits() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_digits(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_digits();
+  PROTOBUF_NODISCARD std::string* release_digits();
+  void set_allocated_digits(std::string* digits);
+  private:
+  const std::string& _internal_digits() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_digits(const std::string& value);
+  std::string* _internal_mutable_digits();
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.SendCallDtmfRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr call_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr digits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fcalls_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SendCallDtmfResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.SendCallDtmfResponse) */ {
+ public:
+  inline SendCallDtmfResponse() : SendCallDtmfResponse(nullptr) {}
+  ~SendCallDtmfResponse() override;
+  explicit PROTOBUF_CONSTEXPR SendCallDtmfResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SendCallDtmfResponse(const SendCallDtmfResponse& from);
+  SendCallDtmfResponse(SendCallDtmfResponse&& from) noexcept
+    : SendCallDtmfResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline SendCallDtmfResponse& operator=(const SendCallDtmfResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SendCallDtmfResponse& operator=(SendCallDtmfResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SendCallDtmfResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SendCallDtmfResponse* internal_default_instance() {
+    return reinterpret_cast<const SendCallDtmfResponse*>(
+               &_SendCallDtmfResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    75;
+
+  friend void swap(SendCallDtmfResponse& a, SendCallDtmfResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SendCallDtmfResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SendCallDtmfResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SendCallDtmfResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SendCallDtmfResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SendCallDtmfResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SendCallDtmfResponse& from) {
+    SendCallDtmfResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SendCallDtmfResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.SendCallDtmfResponse";
+  }
+  protected:
+  explicit SendCallDtmfResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kVtsiProjectNameFieldNumber = 1,
+    kCallNameFieldNumber = 2,
+    kQueuedKeysFieldNumber = 3,
+  };
+  // string vtsi_project_name = 1;
+  void clear_vtsi_project_name();
+  const std::string& vtsi_project_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_vtsi_project_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_vtsi_project_name();
+  PROTOBUF_NODISCARD std::string* release_vtsi_project_name();
+  void set_allocated_vtsi_project_name(std::string* vtsi_project_name);
+  private:
+  const std::string& _internal_vtsi_project_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_vtsi_project_name(const std::string& value);
+  std::string* _internal_mutable_vtsi_project_name();
+  public:
+
+  // string call_name = 2;
+  void clear_call_name();
+  const std::string& call_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_call_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_call_name();
+  PROTOBUF_NODISCARD std::string* release_call_name();
+  void set_allocated_call_name(std::string* call_name);
+  private:
+  const std::string& _internal_call_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_call_name(const std::string& value);
+  std::string* _internal_mutable_call_name();
+  public:
+
+  // int32 queued_keys = 3;
+  void clear_queued_keys();
+  int32_t queued_keys() const;
+  void set_queued_keys(int32_t value);
+  private:
+  int32_t _internal_queued_keys() const;
+  void _internal_set_queued_keys(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.SendCallDtmfResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr vtsi_project_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr call_name_;
+    int32_t queued_keys_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fcalls_2eproto;
+};
+// -------------------------------------------------------------------
+
 class RemoveCallParticipantRequest final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.RemoveCallParticipantRequest) */ {
  public:
@@ -15966,7 +16425,7 @@ class RemoveCallParticipantRequest final :
                &_RemoveCallParticipantRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    74;
+    76;
 
   friend void swap(RemoveCallParticipantRequest& a, RemoveCallParticipantRequest& b) {
     a.Swap(&b);
@@ -16151,7 +16610,7 @@ class RemoveCallParticipantResponse final :
                &_RemoveCallParticipantResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    77;
 
   friend void swap(RemoveCallParticipantResponse& a, RemoveCallParticipantResponse& b) {
     a.Swap(&b);
@@ -16356,7 +16815,7 @@ class SetCallMediaControlRequest final :
                &_SetCallMediaControlRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    78;
 
   friend void swap(SetCallMediaControlRequest& a, SetCallMediaControlRequest& b) {
     a.Swap(&b);
@@ -16547,7 +17006,7 @@ class SetCallMediaControlResponse final :
                &_SetCallMediaControlResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    79;
 
   friend void swap(SetCallMediaControlResponse& a, SetCallMediaControlResponse& b) {
     a.Swap(&b);
@@ -16763,7 +17222,7 @@ class StreamCallAudioConfig final :
                &_StreamCallAudioConfig_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    80;
 
   friend void swap(StreamCallAudioConfig& a, StreamCallAudioConfig& b) {
     a.Swap(&b);
@@ -16976,7 +17435,7 @@ class CallAudioFrame final :
                &_CallAudioFrame_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    81;
 
   friend void swap(CallAudioFrame& a, CallAudioFrame& b) {
     a.Swap(&b);
@@ -17147,7 +17606,7 @@ class StreamCallAudioRequest final :
                &_StreamCallAudioRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    80;
+    82;
 
   friend void swap(StreamCallAudioRequest& a, StreamCallAudioRequest& b) {
     a.Swap(&b);
@@ -17353,7 +17812,7 @@ class CallAudioStarted final :
                &_CallAudioStarted_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    81;
+    83;
 
   friend void swap(CallAudioStarted& a, CallAudioStarted& b) {
     a.Swap(&b);
@@ -17539,7 +17998,7 @@ class CallAudioStats final :
                &_CallAudioStats_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    82;
+    84;
 
   friend void swap(CallAudioStats& a, CallAudioStats& b) {
     a.Swap(&b);
@@ -17731,7 +18190,7 @@ class CallAudioEnded final :
                &_CallAudioEnded_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    83;
+    85;
 
   friend void swap(CallAudioEnded& a, CallAudioEnded& b) {
     a.Swap(&b);
@@ -17903,7 +18362,7 @@ class StreamCallAudioResponse final :
                &_StreamCallAudioResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    84;
+    86;
 
   friend void swap(StreamCallAudioResponse& a, StreamCallAudioResponse& b) {
     a.Swap(&b);
@@ -18135,7 +18594,7 @@ class ListenCallAudioRequest final :
                &_ListenCallAudioRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    85;
+    87;
 
   friend void swap(ListenCallAudioRequest& a, ListenCallAudioRequest& b) {
     a.Swap(&b);
@@ -18292,7 +18751,7 @@ class TransferCallsRequest final :
                &_TransferCallsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    86;
+    88;
 
   friend void swap(TransferCallsRequest& a, TransferCallsRequest& b) {
     a.Swap(&b);
@@ -18465,7 +18924,7 @@ class TransferCallsResponse final :
                &_TransferCallsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    87;
+    89;
 
   friend void swap(TransferCallsResponse& a, TransferCallsResponse& b) {
     a.Swap(&b);
@@ -18654,7 +19113,7 @@ class GetCallRequest final :
                &_GetCallRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    88;
+    90;
 
   friend void swap(GetCallRequest& a, GetCallRequest& b) {
     a.Swap(&b);
@@ -18887,7 +19346,7 @@ class Call final :
                &_Call_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    90;
+    92;
 
   friend void swap(Call& a, Call& b) {
     a.Swap(&b);
@@ -18974,6 +19433,9 @@ class Call final :
     kRedialReasonFieldNumber = 20,
     kAnsweringMachineDetectionEndDescriptionFieldNumber = 21,
     kSipCallIdFieldNumber = 25,
+    kIvrMenuDisplayNameFieldNumber = 27,
+    kIvrPathFieldNumber = 28,
+    kIvrMenuNameFieldNumber = 29,
     kStartTimeFieldNumber = 6,
     kEndTimeFieldNumber = 7,
     kSipStatusFieldNumber = 9,
@@ -19161,6 +19623,48 @@ class Call final :
   const std::string& _internal_sip_call_id() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_sip_call_id(const std::string& value);
   std::string* _internal_mutable_sip_call_id();
+  public:
+
+  // string ivr_menu_display_name = 27;
+  void clear_ivr_menu_display_name();
+  const std::string& ivr_menu_display_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ivr_menu_display_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ivr_menu_display_name();
+  PROTOBUF_NODISCARD std::string* release_ivr_menu_display_name();
+  void set_allocated_ivr_menu_display_name(std::string* ivr_menu_display_name);
+  private:
+  const std::string& _internal_ivr_menu_display_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ivr_menu_display_name(const std::string& value);
+  std::string* _internal_mutable_ivr_menu_display_name();
+  public:
+
+  // string ivr_path = 28;
+  void clear_ivr_path();
+  const std::string& ivr_path() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ivr_path(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ivr_path();
+  PROTOBUF_NODISCARD std::string* release_ivr_path();
+  void set_allocated_ivr_path(std::string* ivr_path);
+  private:
+  const std::string& _internal_ivr_path() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ivr_path(const std::string& value);
+  std::string* _internal_mutable_ivr_path();
+  public:
+
+  // string ivr_menu_name = 29;
+  void clear_ivr_menu_name();
+  const std::string& ivr_menu_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ivr_menu_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ivr_menu_name();
+  PROTOBUF_NODISCARD std::string* release_ivr_menu_name();
+  void set_allocated_ivr_menu_name(std::string* ivr_menu_name);
+  private:
+  const std::string& _internal_ivr_menu_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ivr_menu_name(const std::string& value);
+  std::string* _internal_mutable_ivr_menu_name();
   public:
 
   // .google.protobuf.Timestamp start_time = 6;
@@ -19411,6 +19915,9 @@ class Call final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr redial_reason_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr answering_machine_detection_end_description_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sip_call_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ivr_menu_display_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ivr_path_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ivr_menu_name_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* end_time_;
     ::ondewo::sip::SipStatus* sip_status_;
@@ -19514,7 +20021,7 @@ class CallFilter final :
                &_CallFilter_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    92;
+    94;
 
   friend void swap(CallFilter& a, CallFilter& b) {
     a.Swap(&b);
@@ -20195,7 +20702,7 @@ class CallSorting final :
                &_CallSorting_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    93;
+    95;
 
   friend void swap(CallSorting& a, CallSorting& b) {
     a.Swap(&b);
@@ -20384,7 +20891,7 @@ class ListCallsRequest final :
                &_ListCallsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    94;
+    96;
 
   friend void swap(ListCallsRequest& a, ListCallsRequest& b) {
     a.Swap(&b);
@@ -20644,7 +21151,7 @@ class ListCallsResponse final :
                &_ListCallsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    95;
+    97;
 
   friend void swap(ListCallsResponse& a, ListCallsResponse& b) {
     a.Swap(&b);
@@ -20828,7 +21335,7 @@ class UpdateCallRequest final :
                &_UpdateCallRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    96;
+    98;
 
   friend void swap(UpdateCallRequest& a, UpdateCallRequest& b) {
     a.Swap(&b);
@@ -21025,7 +21532,7 @@ class UpdateCallResponse final :
                &_UpdateCallResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    97;
+    99;
 
   friend void swap(UpdateCallResponse& a, UpdateCallResponse& b) {
     a.Swap(&b);
@@ -21214,7 +21721,7 @@ class UpdateCallsRequest final :
                &_UpdateCallsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    98;
+    100;
 
   friend void swap(UpdateCallsRequest& a, UpdateCallsRequest& b) {
     a.Swap(&b);
@@ -21407,7 +21914,7 @@ class UpdateCallsResponse final :
                &_UpdateCallsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    99;
+    101;
 
   friend void swap(UpdateCallsResponse& a, UpdateCallsResponse& b) {
     a.Swap(&b);
@@ -21596,7 +22103,7 @@ class GetCallStatisticsRequest final :
                &_GetCallStatisticsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    100;
+    102;
 
   friend void swap(GetCallStatisticsRequest& a, GetCallStatisticsRequest& b) {
     a.Swap(&b);
@@ -21769,7 +22276,7 @@ class SipStatusTypeCount final :
                &_SipStatusTypeCount_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    101;
+    103;
 
   friend void swap(SipStatusTypeCount& a, SipStatusTypeCount& b) {
     a.Swap(&b);
@@ -21928,7 +22435,7 @@ class CallTypeCount final :
                &_CallTypeCount_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    102;
+    104;
 
   friend void swap(CallTypeCount& a, CallTypeCount& b) {
     a.Swap(&b);
@@ -22087,7 +22594,7 @@ class AmdVerdictCount final :
                &_AmdVerdictCount_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    103;
+    105;
 
   friend void swap(AmdVerdictCount& a, AmdVerdictCount& b) {
     a.Swap(&b);
@@ -22246,7 +22753,7 @@ class TransferOutcomeCount final :
                &_TransferOutcomeCount_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    104;
+    106;
 
   friend void swap(TransferOutcomeCount& a, TransferOutcomeCount& b) {
     a.Swap(&b);
@@ -22405,7 +22912,7 @@ class CallStatistics final :
                &_CallStatistics_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    105;
+    107;
 
   friend void swap(CallStatistics& a, CallStatistics& b) {
     a.Swap(&b);
@@ -22704,7 +23211,7 @@ class AllServicesStatuses final :
                &_AllServicesStatuses_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    106;
+    108;
 
   friend void swap(AllServicesStatuses& a, AllServicesStatuses& b) {
     a.Swap(&b);
@@ -22941,7 +23448,7 @@ class ServiceStatus final :
                &_ServiceStatus_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    107;
+    109;
 
   friend void swap(ServiceStatus& a, ServiceStatus& b) {
     a.Swap(&b);
@@ -23105,7 +23612,7 @@ class CallResourceStatus final :
                &_CallResourceStatus_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    108;
+    110;
 
   friend void swap(CallResourceStatus& a, CallResourceStatus& b) {
     a.Swap(&b);
@@ -23442,7 +23949,7 @@ class StreamCallerStatusRequest final :
                &_StreamCallerStatusRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    109;
+    111;
 
   friend void swap(StreamCallerStatusRequest& a, StreamCallerStatusRequest& b) {
     a.Swap(&b);
@@ -23632,7 +24139,7 @@ class StreamListenerStatusRequest final :
                &_StreamListenerStatusRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    110;
+    112;
 
   friend void swap(StreamListenerStatusRequest& a, StreamListenerStatusRequest& b) {
     a.Swap(&b);
@@ -23822,7 +24329,7 @@ class StreamScheduledCallerStatusRequest final :
                &_StreamScheduledCallerStatusRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    111;
+    113;
 
   friend void swap(StreamScheduledCallerStatusRequest& a, StreamScheduledCallerStatusRequest& b) {
     a.Swap(&b);
@@ -24037,7 +24544,7 @@ class StreamCallResourceStatusResponse final :
                &_StreamCallResourceStatusResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    112;
+    114;
 
   friend void swap(StreamCallResourceStatusResponse& a, StreamCallResourceStatusResponse& b) {
     a.Swap(&b);
@@ -38375,6 +38882,91 @@ inline void TransferCallRequest::set_allocated_request_id(std::string* request_i
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.TransferCallRequest.request_id)
 }
 
+// .ondewo.vtsi.WarmTransferConfig warm_transfer_config = 9;
+inline bool TransferCallRequest::_internal_has_warm_transfer_config() const {
+  return this != internal_default_instance() && _impl_.warm_transfer_config_ != nullptr;
+}
+inline bool TransferCallRequest::has_warm_transfer_config() const {
+  return _internal_has_warm_transfer_config();
+}
+inline const ::ondewo::vtsi::WarmTransferConfig& TransferCallRequest::_internal_warm_transfer_config() const {
+  const ::ondewo::vtsi::WarmTransferConfig* p = _impl_.warm_transfer_config_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::vtsi::WarmTransferConfig&>(
+      ::ondewo::vtsi::_WarmTransferConfig_default_instance_);
+}
+inline const ::ondewo::vtsi::WarmTransferConfig& TransferCallRequest::warm_transfer_config() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.TransferCallRequest.warm_transfer_config)
+  return _internal_warm_transfer_config();
+}
+inline void TransferCallRequest::unsafe_arena_set_allocated_warm_transfer_config(
+    ::ondewo::vtsi::WarmTransferConfig* warm_transfer_config) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.warm_transfer_config_);
+  }
+  _impl_.warm_transfer_config_ = warm_transfer_config;
+  if (warm_transfer_config) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.TransferCallRequest.warm_transfer_config)
+}
+inline ::ondewo::vtsi::WarmTransferConfig* TransferCallRequest::release_warm_transfer_config() {
+  
+  ::ondewo::vtsi::WarmTransferConfig* temp = _impl_.warm_transfer_config_;
+  _impl_.warm_transfer_config_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* TransferCallRequest::unsafe_arena_release_warm_transfer_config() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.TransferCallRequest.warm_transfer_config)
+  
+  ::ondewo::vtsi::WarmTransferConfig* temp = _impl_.warm_transfer_config_;
+  _impl_.warm_transfer_config_ = nullptr;
+  return temp;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* TransferCallRequest::_internal_mutable_warm_transfer_config() {
+  
+  if (_impl_.warm_transfer_config_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::vtsi::WarmTransferConfig>(GetArenaForAllocation());
+    _impl_.warm_transfer_config_ = p;
+  }
+  return _impl_.warm_transfer_config_;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* TransferCallRequest::mutable_warm_transfer_config() {
+  ::ondewo::vtsi::WarmTransferConfig* _msg = _internal_mutable_warm_transfer_config();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.TransferCallRequest.warm_transfer_config)
+  return _msg;
+}
+inline void TransferCallRequest::set_allocated_warm_transfer_config(::ondewo::vtsi::WarmTransferConfig* warm_transfer_config) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.warm_transfer_config_);
+  }
+  if (warm_transfer_config) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(warm_transfer_config));
+    if (message_arena != submessage_arena) {
+      warm_transfer_config = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, warm_transfer_config, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.warm_transfer_config_ = warm_transfer_config;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.TransferCallRequest.warm_transfer_config)
+}
+
 // -------------------------------------------------------------------
 
 // CallTarget
@@ -38682,6 +39274,83 @@ inline ::ondewo::vtsi::ListenerQueueTarget* CallTarget::mutable_listener_queue()
   ::ondewo::vtsi::ListenerQueueTarget* _msg = _internal_mutable_listener_queue();
   // @@protoc_insertion_point(field_mutable:ondewo.vtsi.CallTarget.listener_queue)
   return _msg;
+}
+
+// string ivr_menu_name = 5;
+inline bool CallTarget::_internal_has_ivr_menu_name() const {
+  return target_case() == kIvrMenuName;
+}
+inline bool CallTarget::has_ivr_menu_name() const {
+  return _internal_has_ivr_menu_name();
+}
+inline void CallTarget::set_has_ivr_menu_name() {
+  _impl_._oneof_case_[0] = kIvrMenuName;
+}
+inline void CallTarget::clear_ivr_menu_name() {
+  if (_internal_has_ivr_menu_name()) {
+    _impl_.target_.ivr_menu_name_.Destroy();
+    clear_has_target();
+  }
+}
+inline const std::string& CallTarget::ivr_menu_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CallTarget.ivr_menu_name)
+  return _internal_ivr_menu_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline void CallTarget::set_ivr_menu_name(ArgT0&& arg0, ArgT... args) {
+  if (!_internal_has_ivr_menu_name()) {
+    clear_target();
+    set_has_ivr_menu_name();
+    _impl_.target_.ivr_menu_name_.InitDefault();
+  }
+  _impl_.target_.ivr_menu_name_.Set( static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.CallTarget.ivr_menu_name)
+}
+inline std::string* CallTarget::mutable_ivr_menu_name() {
+  std::string* _s = _internal_mutable_ivr_menu_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.CallTarget.ivr_menu_name)
+  return _s;
+}
+inline const std::string& CallTarget::_internal_ivr_menu_name() const {
+  if (_internal_has_ivr_menu_name()) {
+    return _impl_.target_.ivr_menu_name_.Get();
+  }
+  return ::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited();
+}
+inline void CallTarget::_internal_set_ivr_menu_name(const std::string& value) {
+  if (!_internal_has_ivr_menu_name()) {
+    clear_target();
+    set_has_ivr_menu_name();
+    _impl_.target_.ivr_menu_name_.InitDefault();
+  }
+  _impl_.target_.ivr_menu_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CallTarget::_internal_mutable_ivr_menu_name() {
+  if (!_internal_has_ivr_menu_name()) {
+    clear_target();
+    set_has_ivr_menu_name();
+    _impl_.target_.ivr_menu_name_.InitDefault();
+  }
+  return _impl_.target_.ivr_menu_name_.Mutable(      GetArenaForAllocation());
+}
+inline std::string* CallTarget::release_ivr_menu_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.CallTarget.ivr_menu_name)
+  if (_internal_has_ivr_menu_name()) {
+    clear_has_target();
+    return _impl_.target_.ivr_menu_name_.Release();
+  } else {
+    return nullptr;
+  }
+}
+inline void CallTarget::set_allocated_ivr_menu_name(std::string* ivr_menu_name) {
+  if (has_target()) {
+    clear_target();
+  }
+  if (ivr_menu_name != nullptr) {
+    set_has_ivr_menu_name();
+    _impl_.target_.ivr_menu_name_.InitAllocated(ivr_menu_name, GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CallTarget.ivr_menu_name)
 }
 
 inline bool CallTarget::has_target() const {
@@ -39328,6 +39997,176 @@ inline void CallTransferRecord::set_allocated_time(::PROTOBUF_NAMESPACE_ID::Time
   }
   _impl_.time_ = time;
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CallTransferRecord.time)
+}
+
+// .ondewo.vtsi.WarmIntroRecord warm_intro = 7;
+inline bool CallTransferRecord::_internal_has_warm_intro() const {
+  return this != internal_default_instance() && _impl_.warm_intro_ != nullptr;
+}
+inline bool CallTransferRecord::has_warm_intro() const {
+  return _internal_has_warm_intro();
+}
+inline const ::ondewo::vtsi::WarmIntroRecord& CallTransferRecord::_internal_warm_intro() const {
+  const ::ondewo::vtsi::WarmIntroRecord* p = _impl_.warm_intro_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::vtsi::WarmIntroRecord&>(
+      ::ondewo::vtsi::_WarmIntroRecord_default_instance_);
+}
+inline const ::ondewo::vtsi::WarmIntroRecord& CallTransferRecord::warm_intro() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CallTransferRecord.warm_intro)
+  return _internal_warm_intro();
+}
+inline void CallTransferRecord::unsafe_arena_set_allocated_warm_intro(
+    ::ondewo::vtsi::WarmIntroRecord* warm_intro) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.warm_intro_);
+  }
+  _impl_.warm_intro_ = warm_intro;
+  if (warm_intro) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.CallTransferRecord.warm_intro)
+}
+inline ::ondewo::vtsi::WarmIntroRecord* CallTransferRecord::release_warm_intro() {
+  
+  ::ondewo::vtsi::WarmIntroRecord* temp = _impl_.warm_intro_;
+  _impl_.warm_intro_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::vtsi::WarmIntroRecord* CallTransferRecord::unsafe_arena_release_warm_intro() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.CallTransferRecord.warm_intro)
+  
+  ::ondewo::vtsi::WarmIntroRecord* temp = _impl_.warm_intro_;
+  _impl_.warm_intro_ = nullptr;
+  return temp;
+}
+inline ::ondewo::vtsi::WarmIntroRecord* CallTransferRecord::_internal_mutable_warm_intro() {
+  
+  if (_impl_.warm_intro_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::vtsi::WarmIntroRecord>(GetArenaForAllocation());
+    _impl_.warm_intro_ = p;
+  }
+  return _impl_.warm_intro_;
+}
+inline ::ondewo::vtsi::WarmIntroRecord* CallTransferRecord::mutable_warm_intro() {
+  ::ondewo::vtsi::WarmIntroRecord* _msg = _internal_mutable_warm_intro();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.CallTransferRecord.warm_intro)
+  return _msg;
+}
+inline void CallTransferRecord::set_allocated_warm_intro(::ondewo::vtsi::WarmIntroRecord* warm_intro) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.warm_intro_);
+  }
+  if (warm_intro) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(warm_intro));
+    if (message_arena != submessage_arena) {
+      warm_intro = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, warm_intro, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.warm_intro_ = warm_intro;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CallTransferRecord.warm_intro)
+}
+
+// .ondewo.vtsi.WarmTransferConfig effective_warm_transfer_config = 8;
+inline bool CallTransferRecord::_internal_has_effective_warm_transfer_config() const {
+  return this != internal_default_instance() && _impl_.effective_warm_transfer_config_ != nullptr;
+}
+inline bool CallTransferRecord::has_effective_warm_transfer_config() const {
+  return _internal_has_effective_warm_transfer_config();
+}
+inline const ::ondewo::vtsi::WarmTransferConfig& CallTransferRecord::_internal_effective_warm_transfer_config() const {
+  const ::ondewo::vtsi::WarmTransferConfig* p = _impl_.effective_warm_transfer_config_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::vtsi::WarmTransferConfig&>(
+      ::ondewo::vtsi::_WarmTransferConfig_default_instance_);
+}
+inline const ::ondewo::vtsi::WarmTransferConfig& CallTransferRecord::effective_warm_transfer_config() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.CallTransferRecord.effective_warm_transfer_config)
+  return _internal_effective_warm_transfer_config();
+}
+inline void CallTransferRecord::unsafe_arena_set_allocated_effective_warm_transfer_config(
+    ::ondewo::vtsi::WarmTransferConfig* effective_warm_transfer_config) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.effective_warm_transfer_config_);
+  }
+  _impl_.effective_warm_transfer_config_ = effective_warm_transfer_config;
+  if (effective_warm_transfer_config) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.CallTransferRecord.effective_warm_transfer_config)
+}
+inline ::ondewo::vtsi::WarmTransferConfig* CallTransferRecord::release_effective_warm_transfer_config() {
+  
+  ::ondewo::vtsi::WarmTransferConfig* temp = _impl_.effective_warm_transfer_config_;
+  _impl_.effective_warm_transfer_config_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* CallTransferRecord::unsafe_arena_release_effective_warm_transfer_config() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.CallTransferRecord.effective_warm_transfer_config)
+  
+  ::ondewo::vtsi::WarmTransferConfig* temp = _impl_.effective_warm_transfer_config_;
+  _impl_.effective_warm_transfer_config_ = nullptr;
+  return temp;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* CallTransferRecord::_internal_mutable_effective_warm_transfer_config() {
+  
+  if (_impl_.effective_warm_transfer_config_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::vtsi::WarmTransferConfig>(GetArenaForAllocation());
+    _impl_.effective_warm_transfer_config_ = p;
+  }
+  return _impl_.effective_warm_transfer_config_;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* CallTransferRecord::mutable_effective_warm_transfer_config() {
+  ::ondewo::vtsi::WarmTransferConfig* _msg = _internal_mutable_effective_warm_transfer_config();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.CallTransferRecord.effective_warm_transfer_config)
+  return _msg;
+}
+inline void CallTransferRecord::set_allocated_effective_warm_transfer_config(::ondewo::vtsi::WarmTransferConfig* effective_warm_transfer_config) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.effective_warm_transfer_config_);
+  }
+  if (effective_warm_transfer_config) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(effective_warm_transfer_config));
+    if (message_arena != submessage_arena) {
+      effective_warm_transfer_config = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, effective_warm_transfer_config, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.effective_warm_transfer_config_ = effective_warm_transfer_config;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.CallTransferRecord.effective_warm_transfer_config)
 }
 
 // -------------------------------------------------------------------
@@ -40509,6 +41348,284 @@ inline void InviteToCallResponse::set_allocated_error_message(std::string* error
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.InviteToCallResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// SendCallDtmfRequest
+
+// string vtsi_project_name = 1;
+inline void SendCallDtmfRequest::clear_vtsi_project_name() {
+  _impl_.vtsi_project_name_.ClearToEmpty();
+}
+inline const std::string& SendCallDtmfRequest::vtsi_project_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SendCallDtmfRequest.vtsi_project_name)
+  return _internal_vtsi_project_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SendCallDtmfRequest::set_vtsi_project_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.vtsi_project_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SendCallDtmfRequest.vtsi_project_name)
+}
+inline std::string* SendCallDtmfRequest::mutable_vtsi_project_name() {
+  std::string* _s = _internal_mutable_vtsi_project_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SendCallDtmfRequest.vtsi_project_name)
+  return _s;
+}
+inline const std::string& SendCallDtmfRequest::_internal_vtsi_project_name() const {
+  return _impl_.vtsi_project_name_.Get();
+}
+inline void SendCallDtmfRequest::_internal_set_vtsi_project_name(const std::string& value) {
+  
+  _impl_.vtsi_project_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfRequest::_internal_mutable_vtsi_project_name() {
+  
+  return _impl_.vtsi_project_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfRequest::release_vtsi_project_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SendCallDtmfRequest.vtsi_project_name)
+  return _impl_.vtsi_project_name_.Release();
+}
+inline void SendCallDtmfRequest::set_allocated_vtsi_project_name(std::string* vtsi_project_name) {
+  if (vtsi_project_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.vtsi_project_name_.SetAllocated(vtsi_project_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.vtsi_project_name_.IsDefault()) {
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SendCallDtmfRequest.vtsi_project_name)
+}
+
+// string call_name = 2;
+inline void SendCallDtmfRequest::clear_call_name() {
+  _impl_.call_name_.ClearToEmpty();
+}
+inline const std::string& SendCallDtmfRequest::call_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SendCallDtmfRequest.call_name)
+  return _internal_call_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SendCallDtmfRequest::set_call_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.call_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SendCallDtmfRequest.call_name)
+}
+inline std::string* SendCallDtmfRequest::mutable_call_name() {
+  std::string* _s = _internal_mutable_call_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SendCallDtmfRequest.call_name)
+  return _s;
+}
+inline const std::string& SendCallDtmfRequest::_internal_call_name() const {
+  return _impl_.call_name_.Get();
+}
+inline void SendCallDtmfRequest::_internal_set_call_name(const std::string& value) {
+  
+  _impl_.call_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfRequest::_internal_mutable_call_name() {
+  
+  return _impl_.call_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfRequest::release_call_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SendCallDtmfRequest.call_name)
+  return _impl_.call_name_.Release();
+}
+inline void SendCallDtmfRequest::set_allocated_call_name(std::string* call_name) {
+  if (call_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.call_name_.SetAllocated(call_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.call_name_.IsDefault()) {
+    _impl_.call_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SendCallDtmfRequest.call_name)
+}
+
+// string digits = 3;
+inline void SendCallDtmfRequest::clear_digits() {
+  _impl_.digits_.ClearToEmpty();
+}
+inline const std::string& SendCallDtmfRequest::digits() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SendCallDtmfRequest.digits)
+  return _internal_digits();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SendCallDtmfRequest::set_digits(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.digits_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SendCallDtmfRequest.digits)
+}
+inline std::string* SendCallDtmfRequest::mutable_digits() {
+  std::string* _s = _internal_mutable_digits();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SendCallDtmfRequest.digits)
+  return _s;
+}
+inline const std::string& SendCallDtmfRequest::_internal_digits() const {
+  return _impl_.digits_.Get();
+}
+inline void SendCallDtmfRequest::_internal_set_digits(const std::string& value) {
+  
+  _impl_.digits_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfRequest::_internal_mutable_digits() {
+  
+  return _impl_.digits_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfRequest::release_digits() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SendCallDtmfRequest.digits)
+  return _impl_.digits_.Release();
+}
+inline void SendCallDtmfRequest::set_allocated_digits(std::string* digits) {
+  if (digits != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.digits_.SetAllocated(digits, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.digits_.IsDefault()) {
+    _impl_.digits_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SendCallDtmfRequest.digits)
+}
+
+// -------------------------------------------------------------------
+
+// SendCallDtmfResponse
+
+// string vtsi_project_name = 1;
+inline void SendCallDtmfResponse::clear_vtsi_project_name() {
+  _impl_.vtsi_project_name_.ClearToEmpty();
+}
+inline const std::string& SendCallDtmfResponse::vtsi_project_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SendCallDtmfResponse.vtsi_project_name)
+  return _internal_vtsi_project_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SendCallDtmfResponse::set_vtsi_project_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.vtsi_project_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SendCallDtmfResponse.vtsi_project_name)
+}
+inline std::string* SendCallDtmfResponse::mutable_vtsi_project_name() {
+  std::string* _s = _internal_mutable_vtsi_project_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SendCallDtmfResponse.vtsi_project_name)
+  return _s;
+}
+inline const std::string& SendCallDtmfResponse::_internal_vtsi_project_name() const {
+  return _impl_.vtsi_project_name_.Get();
+}
+inline void SendCallDtmfResponse::_internal_set_vtsi_project_name(const std::string& value) {
+  
+  _impl_.vtsi_project_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfResponse::_internal_mutable_vtsi_project_name() {
+  
+  return _impl_.vtsi_project_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfResponse::release_vtsi_project_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SendCallDtmfResponse.vtsi_project_name)
+  return _impl_.vtsi_project_name_.Release();
+}
+inline void SendCallDtmfResponse::set_allocated_vtsi_project_name(std::string* vtsi_project_name) {
+  if (vtsi_project_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.vtsi_project_name_.SetAllocated(vtsi_project_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.vtsi_project_name_.IsDefault()) {
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SendCallDtmfResponse.vtsi_project_name)
+}
+
+// string call_name = 2;
+inline void SendCallDtmfResponse::clear_call_name() {
+  _impl_.call_name_.ClearToEmpty();
+}
+inline const std::string& SendCallDtmfResponse::call_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SendCallDtmfResponse.call_name)
+  return _internal_call_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SendCallDtmfResponse::set_call_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.call_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SendCallDtmfResponse.call_name)
+}
+inline std::string* SendCallDtmfResponse::mutable_call_name() {
+  std::string* _s = _internal_mutable_call_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SendCallDtmfResponse.call_name)
+  return _s;
+}
+inline const std::string& SendCallDtmfResponse::_internal_call_name() const {
+  return _impl_.call_name_.Get();
+}
+inline void SendCallDtmfResponse::_internal_set_call_name(const std::string& value) {
+  
+  _impl_.call_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfResponse::_internal_mutable_call_name() {
+  
+  return _impl_.call_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SendCallDtmfResponse::release_call_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SendCallDtmfResponse.call_name)
+  return _impl_.call_name_.Release();
+}
+inline void SendCallDtmfResponse::set_allocated_call_name(std::string* call_name) {
+  if (call_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.call_name_.SetAllocated(call_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.call_name_.IsDefault()) {
+    _impl_.call_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SendCallDtmfResponse.call_name)
+}
+
+// int32 queued_keys = 3;
+inline void SendCallDtmfResponse::clear_queued_keys() {
+  _impl_.queued_keys_ = 0;
+}
+inline int32_t SendCallDtmfResponse::_internal_queued_keys() const {
+  return _impl_.queued_keys_;
+}
+inline int32_t SendCallDtmfResponse::queued_keys() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SendCallDtmfResponse.queued_keys)
+  return _internal_queued_keys();
+}
+inline void SendCallDtmfResponse::_internal_set_queued_keys(int32_t value) {
+  
+  _impl_.queued_keys_ = value;
+}
+inline void SendCallDtmfResponse::set_queued_keys(int32_t value) {
+  _internal_set_queued_keys(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SendCallDtmfResponse.queued_keys)
 }
 
 // -------------------------------------------------------------------
@@ -44374,6 +45491,156 @@ inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >*
 Call::mutable_labels() {
   // @@protoc_insertion_point(field_mutable_map:ondewo.vtsi.Call.labels)
   return _internal_mutable_labels();
+}
+
+// string ivr_menu_display_name = 27;
+inline void Call::clear_ivr_menu_display_name() {
+  _impl_.ivr_menu_display_name_.ClearToEmpty();
+}
+inline const std::string& Call::ivr_menu_display_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.Call.ivr_menu_display_name)
+  return _internal_ivr_menu_display_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Call::set_ivr_menu_display_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ivr_menu_display_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.Call.ivr_menu_display_name)
+}
+inline std::string* Call::mutable_ivr_menu_display_name() {
+  std::string* _s = _internal_mutable_ivr_menu_display_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.Call.ivr_menu_display_name)
+  return _s;
+}
+inline const std::string& Call::_internal_ivr_menu_display_name() const {
+  return _impl_.ivr_menu_display_name_.Get();
+}
+inline void Call::_internal_set_ivr_menu_display_name(const std::string& value) {
+  
+  _impl_.ivr_menu_display_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Call::_internal_mutable_ivr_menu_display_name() {
+  
+  return _impl_.ivr_menu_display_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Call::release_ivr_menu_display_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.Call.ivr_menu_display_name)
+  return _impl_.ivr_menu_display_name_.Release();
+}
+inline void Call::set_allocated_ivr_menu_display_name(std::string* ivr_menu_display_name) {
+  if (ivr_menu_display_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ivr_menu_display_name_.SetAllocated(ivr_menu_display_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ivr_menu_display_name_.IsDefault()) {
+    _impl_.ivr_menu_display_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.Call.ivr_menu_display_name)
+}
+
+// string ivr_path = 28;
+inline void Call::clear_ivr_path() {
+  _impl_.ivr_path_.ClearToEmpty();
+}
+inline const std::string& Call::ivr_path() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.Call.ivr_path)
+  return _internal_ivr_path();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Call::set_ivr_path(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ivr_path_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.Call.ivr_path)
+}
+inline std::string* Call::mutable_ivr_path() {
+  std::string* _s = _internal_mutable_ivr_path();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.Call.ivr_path)
+  return _s;
+}
+inline const std::string& Call::_internal_ivr_path() const {
+  return _impl_.ivr_path_.Get();
+}
+inline void Call::_internal_set_ivr_path(const std::string& value) {
+  
+  _impl_.ivr_path_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Call::_internal_mutable_ivr_path() {
+  
+  return _impl_.ivr_path_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Call::release_ivr_path() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.Call.ivr_path)
+  return _impl_.ivr_path_.Release();
+}
+inline void Call::set_allocated_ivr_path(std::string* ivr_path) {
+  if (ivr_path != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ivr_path_.SetAllocated(ivr_path, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ivr_path_.IsDefault()) {
+    _impl_.ivr_path_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.Call.ivr_path)
+}
+
+// string ivr_menu_name = 29;
+inline void Call::clear_ivr_menu_name() {
+  _impl_.ivr_menu_name_.ClearToEmpty();
+}
+inline const std::string& Call::ivr_menu_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.Call.ivr_menu_name)
+  return _internal_ivr_menu_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Call::set_ivr_menu_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ivr_menu_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.Call.ivr_menu_name)
+}
+inline std::string* Call::mutable_ivr_menu_name() {
+  std::string* _s = _internal_mutable_ivr_menu_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.Call.ivr_menu_name)
+  return _s;
+}
+inline const std::string& Call::_internal_ivr_menu_name() const {
+  return _impl_.ivr_menu_name_.Get();
+}
+inline void Call::_internal_set_ivr_menu_name(const std::string& value) {
+  
+  _impl_.ivr_menu_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Call::_internal_mutable_ivr_menu_name() {
+  
+  return _impl_.ivr_menu_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Call::release_ivr_menu_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.Call.ivr_menu_name)
+  return _impl_.ivr_menu_name_.Release();
+}
+inline void Call::set_allocated_ivr_menu_name(std::string* ivr_menu_name) {
+  if (ivr_menu_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ivr_menu_name_.SetAllocated(ivr_menu_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ivr_menu_name_.IsDefault()) {
+    _impl_.ivr_menu_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.Call.ivr_menu_name)
 }
 
 // -------------------------------------------------------------------
@@ -49728,6 +50995,10 @@ inline void StreamCallResourceStatusResponse::set_allocated_end_reason(std::stri
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

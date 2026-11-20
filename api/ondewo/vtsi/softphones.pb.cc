@@ -49,6 +49,7 @@ PROTOBUF_CONSTEXPR SoftphoneAccount::SoftphoneAccount(
   , /*decltype(_impl_.created_by_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.modified_by_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.locked_reason_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.description_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.current_certificate_expire_time_)*/nullptr
   , /*decltype(_impl_.sip_password_set_at_)*/nullptr
   , /*decltype(_impl_.created_at_)*/nullptr
@@ -519,6 +520,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto::offsets[] PROTOBU
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SoftphoneAccount, _impl_.locked_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SoftphoneAccount, _impl_.locked_at_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SoftphoneAccount, _impl_.locked_reason_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SoftphoneAccount, _impl_.description_),
   ~0u,
   ~0u,
   ~0u,
@@ -526,6 +528,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto::offsets[] PROTOBU
   ~0u,
   ~0u,
   0,
+  ~0u,
   ~0u,
   ~0u,
   ~0u,
@@ -823,32 +826,32 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto::offsets[] PROTOBU
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 8, -1, sizeof(::ondewo::vtsi::SoftphoneAccount_LabelsEntry_DoNotUse)},
-  { 10, 37, -1, sizeof(::ondewo::vtsi::SoftphoneAccount)},
-  { 58, -1, -1, sizeof(::ondewo::vtsi::SoftphoneCertificate)},
-  { 81, -1, -1, sizeof(::ondewo::vtsi::SoftphoneCredentials)},
-  { 91, -1, -1, sizeof(::ondewo::vtsi::SoftphoneProvisioning)},
-  { 117, 125, -1, sizeof(::ondewo::vtsi::SoftphoneAccountFilter_LabelsEntry_DoNotUse)},
-  { 127, 141, -1, sizeof(::ondewo::vtsi::SoftphoneAccountFilter)},
-  { 149, -1, -1, sizeof(::ondewo::vtsi::SoftphoneCertificateFilter)},
-  { 158, 166, -1, sizeof(::ondewo::vtsi::SoftphoneAccountSorting)},
-  { 168, -1, -1, sizeof(::ondewo::vtsi::CreateSoftphoneAccountRequest)},
-  { 177, -1, -1, sizeof(::ondewo::vtsi::CreateSoftphoneAccountResponse)},
-  { 185, -1, -1, sizeof(::ondewo::vtsi::GetSoftphoneAccountRequest)},
-  { 193, -1, -1, sizeof(::ondewo::vtsi::UpdateSoftphoneAccountRequest)},
-  { 201, -1, -1, sizeof(::ondewo::vtsi::DeleteSoftphoneAccountRequest)},
-  { 208, -1, -1, sizeof(::ondewo::vtsi::DeleteSoftphoneAccountResponse)},
-  { 216, 228, -1, sizeof(::ondewo::vtsi::ListSoftphoneAccountsRequest)},
-  { 234, -1, -1, sizeof(::ondewo::vtsi::ListSoftphoneAccountsResponse)},
-  { 242, -1, -1, sizeof(::ondewo::vtsi::RotateSoftphoneCredentialsRequest)},
-  { 251, -1, -1, sizeof(::ondewo::vtsi::RotateSoftphoneCredentialsResponse)},
-  { 259, 272, -1, sizeof(::ondewo::vtsi::ListSoftphoneCertificatesRequest)},
-  { 278, -1, -1, sizeof(::ondewo::vtsi::ListSoftphoneCertificatesResponse)},
-  { 286, -1, -1, sizeof(::ondewo::vtsi::GetSoftphoneCertificateRequest)},
-  { 294, -1, -1, sizeof(::ondewo::vtsi::RevokeSoftphoneCertificateRequest)},
-  { 302, -1, -1, sizeof(::ondewo::vtsi::GetSoftphoneProvisioningRequest)},
-  { 309, -1, -1, sizeof(::ondewo::vtsi::GetSoftphoneRegistrationRequest)},
-  { 317, -1, -1, sizeof(::ondewo::vtsi::SoftphoneRegistration)},
-  { 326, -1, -1, sizeof(::ondewo::vtsi::SoftphoneContact)},
+  { 10, 38, -1, sizeof(::ondewo::vtsi::SoftphoneAccount)},
+  { 60, -1, -1, sizeof(::ondewo::vtsi::SoftphoneCertificate)},
+  { 83, -1, -1, sizeof(::ondewo::vtsi::SoftphoneCredentials)},
+  { 93, -1, -1, sizeof(::ondewo::vtsi::SoftphoneProvisioning)},
+  { 119, 127, -1, sizeof(::ondewo::vtsi::SoftphoneAccountFilter_LabelsEntry_DoNotUse)},
+  { 129, 143, -1, sizeof(::ondewo::vtsi::SoftphoneAccountFilter)},
+  { 151, -1, -1, sizeof(::ondewo::vtsi::SoftphoneCertificateFilter)},
+  { 160, 168, -1, sizeof(::ondewo::vtsi::SoftphoneAccountSorting)},
+  { 170, -1, -1, sizeof(::ondewo::vtsi::CreateSoftphoneAccountRequest)},
+  { 179, -1, -1, sizeof(::ondewo::vtsi::CreateSoftphoneAccountResponse)},
+  { 187, -1, -1, sizeof(::ondewo::vtsi::GetSoftphoneAccountRequest)},
+  { 195, -1, -1, sizeof(::ondewo::vtsi::UpdateSoftphoneAccountRequest)},
+  { 203, -1, -1, sizeof(::ondewo::vtsi::DeleteSoftphoneAccountRequest)},
+  { 210, -1, -1, sizeof(::ondewo::vtsi::DeleteSoftphoneAccountResponse)},
+  { 218, 230, -1, sizeof(::ondewo::vtsi::ListSoftphoneAccountsRequest)},
+  { 236, -1, -1, sizeof(::ondewo::vtsi::ListSoftphoneAccountsResponse)},
+  { 244, -1, -1, sizeof(::ondewo::vtsi::RotateSoftphoneCredentialsRequest)},
+  { 253, -1, -1, sizeof(::ondewo::vtsi::RotateSoftphoneCredentialsResponse)},
+  { 261, 274, -1, sizeof(::ondewo::vtsi::ListSoftphoneCertificatesRequest)},
+  { 280, -1, -1, sizeof(::ondewo::vtsi::ListSoftphoneCertificatesResponse)},
+  { 288, -1, -1, sizeof(::ondewo::vtsi::GetSoftphoneCertificateRequest)},
+  { 296, -1, -1, sizeof(::ondewo::vtsi::RevokeSoftphoneCertificateRequest)},
+  { 304, -1, -1, sizeof(::ondewo::vtsi::GetSoftphoneProvisioningRequest)},
+  { 311, -1, -1, sizeof(::ondewo::vtsi::GetSoftphoneRegistrationRequest)},
+  { 319, -1, -1, sizeof(::ondewo::vtsi::SoftphoneRegistration)},
+  { 328, -1, -1, sizeof(::ondewo::vtsi::SoftphoneContact)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -885,7 +888,7 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fsoftphones_2eproto[] PROTOB
   "\n\034ondewo/vtsi/softphones.proto\022\013ondewo.v"
   "tsi\032 google/protobuf/field_mask.proto\032\037g"
   "oogle/protobuf/timestamp.proto\032\032ondewo/v"
-  "tsi/projects.proto\"\272\006\n\020SoftphoneAccount\022"
+  "tsi/projects.proto\"\317\006\n\020SoftphoneAccount\022"
   "\014\n\004name\030\001 \001(\t\022\034\n\024softphone_account_id\030\002 "
   "\001(\t\022\031\n\021vtsi_project_name\030\003 \001(\t\022\024\n\014displa"
   "y_name\030\004 \001(\t\022\024\n\014sip_username\030\005 \001(\t\022C\n\022tr"
@@ -904,183 +907,184 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fsoftphones_2eproto[] PROTOB
   "fied_by\030\021 \001(\t\022/\n\013modified_at\030\022 \001(\0132\032.goo"
   "gle.protobuf.Timestamp\022\016\n\006locked\030\023 \001(\010\022-"
   "\n\tlocked_at\030\024 \001(\0132\032.google.protobuf.Time"
-  "stamp\022\025\n\rlocked_reason\030\025 \001(\t\032-\n\013LabelsEn"
-  "try\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\n\n\010_"
-  "enabled\"\332\004\n\024SoftphoneCertificate\022\014\n\004name"
-  "\030\001 \001(\t\022\036\n\026softphone_account_name\030\002 \001(\t\0227"
-  "\n\006status\030\003 \001(\0162\'.ondewo.vtsi.SoftphoneCe"
-  "rtificateStatus\022\027\n\017certificate_pem\030\004 \001(\t"
-  "\022!\n\031issuer_ca_certificate_pem\030\005 \001(\t\022\032\n\022s"
-  "ha256_fingerprint\030\006 \001(\t\022\025\n\rserial_number"
-  "\030\007 \001(\t\022\017\n\007subject\030\010 \001(\t\022.\n\nnot_before\030\t "
-  "\001(\0132\032.google.protobuf.Timestamp\022-\n\tnot_a"
-  "fter\030\n \001(\0132\032.google.protobuf.Timestamp\022\022"
-  "\n\ncreated_by\030\013 \001(\t\022.\n\ncreated_at\030\014 \001(\0132\032"
-  ".google.protobuf.Timestamp\0221\n\rsuperseded"
-  "_at\030\r \001(\0132\032.google.protobuf.Timestamp\022&\n"
-  "\036superseded_by_certificate_name\030\016 \001(\t\022.\n"
-  "\nrevoked_at\030\017 \001(\0132\032.google.protobuf.Time"
-  "stamp\022\022\n\nrevoked_by\030\020 \001(\t\022\031\n\021revocation_"
-  "reason\030\021 \001(\t\"\224\001\n\024SoftphoneCredentials\022\024\n"
-  "\014sip_password\030\001 \001(\t\022\025\n\rpkcs12_bundle\030\002 \001"
-  "(\014\022\027\n\017pkcs12_password\030\003 \001(\t\0226\n\013certifica"
-  "te\030\004 \001(\0132!.ondewo.vtsi.SoftphoneCertific"
-  "ate\"\255\005\n\025SoftphoneProvisioning\022\036\n\026softpho"
-  "ne_account_name\030\001 \001(\t\022C\n\022transport_secur"
-  "ity\030\002 \001(\0162\'.ondewo.vtsi.SoftphoneTranspo"
-  "rtSecurity\022\022\n\nsip_domain\030\003 \001(\t\022\023\n\013sip_ad"
-  "dress\030\004 \001(\t\022\027\n\017sip_server_host\030\005 \001(\t\022\027\n\017"
-  "sip_server_port\030\006 \001(\005\022\025\n\rsip_transport\030\007"
-  " \001(\t\022\026\n\016outbound_proxy\030\010 \001(\t\022\020\n\010username"
-  "\030\t \001(\t\022\025\n\rauth_username\030\n \001(\t\022\r\n\005realm\030\013"
-  " \001(\t\0221\n\tsrtp_mode\030\014 \001(\0162\036.ondewo.vtsi.So"
-  "ftphoneSrtpMode\022\016\n\006codecs\030\r \003(\t\022!\n\031serve"
-  "r_ca_certificate_pem\030\016 \001(\t\022-\n%server_cer"
-  "tificate_sha256_fingerprint\030\017 \001(\t\022\037\n\027cli"
-  "ent_certificate_name\030\020 \001(\t\022-\n%client_cer"
-  "tificate_sha256_fingerprint\030\021 \001(\t\022B\n\036cli"
-  "ent_certificate_expire_time\030\022 \001(\0132\032.goog"
-  "le.protobuf.Timestamp\022\033\n\023zoiper_instruct"
-  "ions\030\023 \001(\t\022\'\n\037client_certificate_support"
-  "_note\030\024 \001(\t\"\316\003\n\026SoftphoneAccountFilter\022E"
-  "\n\024transport_securities\030\001 \003(\0162\'.ondewo.vt"
-  "si.SoftphoneTransportSecurity\022\024\n\007enabled"
-  "\030\002 \001(\010H\000\210\001\001\022\?\n\006labels\030\003 \003(\0132/.ondewo.vts"
-  "i.SoftphoneAccountFilter.LabelsEntry\022\035\n\025"
-  "display_name_contains\030\004 \001(\t\022\035\n\025sip_usern"
-  "ame_contains\030\005 \001(\t\022>\n\032certificate_expire"
-  "s_before\030\006 \001(\0132\032.google.protobuf.Timesta"
-  "mp\022=\n\031certificate_expires_after\030\007 \001(\0132\032."
-  "google.protobuf.Timestamp\022\023\n\006locked\030\010 \001("
-  "\010H\001\210\001\001\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005va"
-  "lue\030\002 \001(\t:\0028\001B\n\n\010_enabledB\t\n\007_locked\"\276\001\n"
-  "\032SoftphoneCertificateFilter\0229\n\010statuses\030"
-  "\001 \003(\0162\'.ondewo.vtsi.SoftphoneCertificate"
-  "Status\0222\n\016expires_before\030\002 \001(\0132\032.google."
-  "protobuf.Timestamp\0221\n\rexpires_after\030\003 \001("
-  "\0132\032.google.protobuf.Timestamp\"\202\004\n\027Softph"
-  "oneAccountSorting\022]\n\rsorting_field\030\001 \001(\016"
-  "2A.ondewo.vtsi.SoftphoneAccountSorting.S"
-  "oftphoneAccountSortingFieldH\000\210\001\001\022>\n\014sort"
-  "ing_mode\030\002 \001(\0162#.ondewo.vtsi.VtsiProject"
-  "SortingModeH\001\210\001\001\"\244\002\n\034SoftphoneAccountSor"
-  "tingField\022 \n\034NO_SOFTPHONE_ACCOUNT_SORTIN"
-  "G\020\000\022*\n&SORT_SOFTPHONE_ACCOUNT_BY_DISPLAY"
-  "_NAME\020\001\022*\n&SORT_SOFTPHONE_ACCOUNT_BY_SIP"
-  "_USERNAME\020\002\022+\n\'SORT_SOFTPHONE_ACCOUNT_BY"
-  "_CREATION_DATE\020\003\022+\n\'SORT_SOFTPHONE_ACCOU"
-  "NT_BY_LAST_MODIFIED\020\004\0220\n,SORT_SOFTPHONE_"
-  "ACCOUNT_BY_CERTIFICATE_EXPIRY\020\005B\020\n\016_sort"
-  "ing_fieldB\017\n\r_sorting_mode\"\215\001\n\035CreateSof"
-  "tphoneAccountRequest\022\031\n\021vtsi_project_nam"
-  "e\030\001 \001(\t\0228\n\021softphone_account\030\002 \001(\0132\035.ond"
-  "ewo.vtsi.SoftphoneAccount\022\027\n\017idempotency"
-  "_key\030\003 \001(\t\"\222\001\n\036CreateSoftphoneAccountRes"
-  "ponse\0228\n\021softphone_account\030\001 \001(\0132\035.ondew"
-  "o.vtsi.SoftphoneAccount\0226\n\013credentials\030\002"
-  " \001(\0132!.ondewo.vtsi.SoftphoneCredentials\""
-  "Z\n\032GetSoftphoneAccountRequest\022\014\n\004name\030\001 "
-  "\001(\t\022.\n\nfield_mask\030\002 \001(\0132\032.google.protobu"
-  "f.FieldMask\"\212\001\n\035UpdateSoftphoneAccountRe"
-  "quest\0228\n\021softphone_account\030\001 \001(\0132\035.ondew"
-  "o.vtsi.SoftphoneAccount\022/\n\013update_mask\030\002"
-  " \001(\0132\032.google.protobuf.FieldMask\"-\n\035Dele"
-  "teSoftphoneAccountRequest\022\014\n\004name\030\001 \001(\t\""
-  "Q\n\036DeleteSoftphoneAccountResponse\022\014\n\004nam"
-  "e\030\001 \001(\t\022!\n\031revoked_certificate_count\030\002 \001"
-  "(\005\"\242\002\n\034ListSoftphoneAccountsRequest\022\031\n\021v"
-  "tsi_project_name\030\001 \001(\t\0223\n\006filter\030\002 \001(\0132#"
-  ".ondewo.vtsi.SoftphoneAccountFilter\022.\n\nf"
-  "ield_mask\030\003 \001(\0132\032.google.protobuf.FieldM"
-  "ask\022\021\n\tpage_size\030\004 \001(\005\022\027\n\npage_token\030\005 \001"
-  "(\tH\000\210\001\001\022G\n\031softphone_account_sorting\030\006 \001"
-  "(\0132$.ondewo.vtsi.SoftphoneAccountSorting"
-  "B\r\n\013_page_token\"s\n\035ListSoftphoneAccounts"
-  "Response\0229\n\022softphone_accounts\030\001 \003(\0132\035.o"
-  "ndewo.vtsi.SoftphoneAccount\022\027\n\017next_page"
-  "_token\030\002 \001(\t\"j\n!RotateSoftphoneCredentia"
-  "lsRequest\022\014\n\004name\030\001 \001(\t\022\033\n\023rotate_sip_pa"
-  "ssword\030\002 \001(\010\022\032\n\022rotate_certificate\030\003 \001(\010"
-  "\"\226\001\n\"RotateSoftphoneCredentialsResponse\022"
-  "8\n\021softphone_account\030\001 \001(\0132\035.ondewo.vtsi"
-  ".SoftphoneAccount\0226\n\013credentials\030\002 \001(\0132!"
-  ".ondewo.vtsi.SoftphoneCredentials\"\216\002\n Li"
-  "stSoftphoneCertificatesRequest\022\033\n\021vtsi_p"
-  "roject_name\030\001 \001(\tH\000\022 \n\026softphone_account"
-  "_name\030\002 \001(\tH\000\0227\n\006filter\030\003 \001(\0132\'.ondewo.v"
-  "tsi.SoftphoneCertificateFilter\022.\n\nfield_"
-  "mask\030\004 \001(\0132\032.google.protobuf.FieldMask\022\021"
-  "\n\tpage_size\030\005 \001(\005\022\027\n\npage_token\030\006 \001(\tH\001\210"
-  "\001\001B\007\n\005scopeB\r\n\013_page_token\"\177\n!ListSoftph"
-  "oneCertificatesResponse\022A\n\026softphone_cer"
-  "tificates\030\001 \003(\0132!.ondewo.vtsi.SoftphoneC"
-  "ertificate\022\027\n\017next_page_token\030\002 \001(\t\"^\n\036G"
-  "etSoftphoneCertificateRequest\022\014\n\004name\030\001 "
-  "\001(\t\022.\n\nfield_mask\030\002 \001(\0132\032.google.protobu"
-  "f.FieldMask\"A\n!RevokeSoftphoneCertificat"
-  "eRequest\022\014\n\004name\030\001 \001(\t\022\016\n\006reason\030\002 \001(\t\"/"
-  "\n\037GetSoftphoneProvisioningRequest\022\014\n\004nam"
-  "e\030\001 \001(\t\"_\n\037GetSoftphoneRegistrationReque"
-  "st\022\014\n\004name\030\001 \001(\t\022.\n\nfield_mask\030\002 \001(\0132\032.g"
-  "oogle.protobuf.FieldMask\"\231\001\n\025SoftphoneRe"
-  "gistration\022\036\n\026softphone_account_name\030\001 \001"
-  "(\t\022/\n\010contacts\030\002 \003(\0132\035.ondewo.vtsi.Softp"
-  "honeContact\022/\n\013observed_at\030\003 \001(\0132\032.googl"
-  "e.protobuf.Timestamp\"\310\001\n\020SoftphoneContac"
-  "t\022\013\n\003uri\030\001 \001(\t\022\022\n\nuser_agent\030\002 \001(\t\022\026\n\016so"
-  "urce_address\030\003 \001(\t\022/\n\013expire_time\030\004 \001(\0132"
-  "\032.google.protobuf.Timestamp\022\025\n\rround_tri"
-  "p_ms\030\005 \001(\001\0223\n\006status\030\006 \001(\0162#.ondewo.vtsi"
-  ".SoftphoneContactStatus*\261\001\n\032SoftphoneTra"
-  "nsportSecurity\022,\n(SOFTPHONE_TRANSPORT_SE"
-  "CURITY_UNSPECIFIED\020\000\0223\n/SOFTPHONE_TRANSP"
-  "ORT_SECURITY_CLIENT_CERTIFICATE\020\001\0220\n,SOF"
-  "TPHONE_TRANSPORT_SECURITY_SERVER_TLS_ONL"
-  "Y\020\002*\312\001\n\032SoftphoneCertificateStatus\022,\n(SO"
-  "FTPHONE_CERTIFICATE_STATUS_UNSPECIFIED\020\000"
-  "\022\'\n#SOFTPHONE_CERTIFICATE_STATUS_ACTIVE\020"
-  "\001\022+\n\'SOFTPHONE_CERTIFICATE_STATUS_SUPERS"
-  "EDED\020\002\022(\n$SOFTPHONE_CERTIFICATE_STATUS_R"
-  "EVOKED\020\003*\346\001\n\026SoftphoneContactStatus\022(\n$S"
-  "OFTPHONE_CONTACT_STATUS_UNSPECIFIED\020\000\022&\n"
-  "\"SOFTPHONE_CONTACT_STATUS_AVAILABLE\020\001\022(\n"
-  "$SOFTPHONE_CONTACT_STATUS_UNAVAILABLE\020\002\022"
-  "*\n&SOFTPHONE_CONTACT_STATUS_NOT_QUALIFIE"
-  "D\020\003\022$\n SOFTPHONE_CONTACT_STATUS_UNKNOWN\020"
-  "\004*`\n\021SoftphoneSrtpMode\022#\n\037SOFTPHONE_SRTP"
-  "_MODE_UNSPECIFIED\020\000\022&\n\"SOFTPHONE_SRTP_MO"
-  "DE_SDES_MANDATORY\020\0012\331\t\n\nSoftphones\022q\n\026Cr"
-  "eateSoftphoneAccount\022*.ondewo.vtsi.Creat"
-  "eSoftphoneAccountRequest\032+.ondewo.vtsi.C"
-  "reateSoftphoneAccountResponse\022]\n\023GetSoft"
-  "phoneAccount\022\'.ondewo.vtsi.GetSoftphoneA"
-  "ccountRequest\032\035.ondewo.vtsi.SoftphoneAcc"
-  "ount\022c\n\026UpdateSoftphoneAccount\022*.ondewo."
-  "vtsi.UpdateSoftphoneAccountRequest\032\035.ond"
-  "ewo.vtsi.SoftphoneAccount\022q\n\026DeleteSoftp"
-  "honeAccount\022*.ondewo.vtsi.DeleteSoftphon"
-  "eAccountRequest\032+.ondewo.vtsi.DeleteSoft"
-  "phoneAccountResponse\022n\n\025ListSoftphoneAcc"
-  "ounts\022).ondewo.vtsi.ListSoftphoneAccount"
-  "sRequest\032*.ondewo.vtsi.ListSoftphoneAcco"
-  "untsResponse\022}\n\032RotateSoftphoneCredentia"
-  "ls\022..ondewo.vtsi.RotateSoftphoneCredenti"
-  "alsRequest\032/.ondewo.vtsi.RotateSoftphone"
-  "CredentialsResponse\022z\n\031ListSoftphoneCert"
-  "ificates\022-.ondewo.vtsi.ListSoftphoneCert"
-  "ificatesRequest\032..ondewo.vtsi.ListSoftph"
-  "oneCertificatesResponse\022i\n\027GetSoftphoneC"
-  "ertificate\022+.ondewo.vtsi.GetSoftphoneCer"
-  "tificateRequest\032!.ondewo.vtsi.SoftphoneC"
-  "ertificate\022o\n\032RevokeSoftphoneCertificate"
-  "\022..ondewo.vtsi.RevokeSoftphoneCertificat"
-  "eRequest\032!.ondewo.vtsi.SoftphoneCertific"
-  "ate\022l\n\030GetSoftphoneProvisioning\022,.ondewo"
-  ".vtsi.GetSoftphoneProvisioningRequest\032\"."
-  "ondewo.vtsi.SoftphoneProvisioning\022l\n\030Get"
-  "SoftphoneRegistration\022,.ondewo.vtsi.GetS"
-  "oftphoneRegistrationRequest\032\".ondewo.vts"
-  "i.SoftphoneRegistrationb\006proto3"
+  "stamp\022\025\n\rlocked_reason\030\025 \001(\t\022\023\n\013descript"
+  "ion\030\026 \001(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n"
+  "\005value\030\002 \001(\t:\0028\001B\n\n\010_enabled\"\332\004\n\024Softpho"
+  "neCertificate\022\014\n\004name\030\001 \001(\t\022\036\n\026softphone"
+  "_account_name\030\002 \001(\t\0227\n\006status\030\003 \001(\0162\'.on"
+  "dewo.vtsi.SoftphoneCertificateStatus\022\027\n\017"
+  "certificate_pem\030\004 \001(\t\022!\n\031issuer_ca_certi"
+  "ficate_pem\030\005 \001(\t\022\032\n\022sha256_fingerprint\030\006"
+  " \001(\t\022\025\n\rserial_number\030\007 \001(\t\022\017\n\007subject\030\010"
+  " \001(\t\022.\n\nnot_before\030\t \001(\0132\032.google.protob"
+  "uf.Timestamp\022-\n\tnot_after\030\n \001(\0132\032.google"
+  ".protobuf.Timestamp\022\022\n\ncreated_by\030\013 \001(\t\022"
+  ".\n\ncreated_at\030\014 \001(\0132\032.google.protobuf.Ti"
+  "mestamp\0221\n\rsuperseded_at\030\r \001(\0132\032.google."
+  "protobuf.Timestamp\022&\n\036superseded_by_cert"
+  "ificate_name\030\016 \001(\t\022.\n\nrevoked_at\030\017 \001(\0132\032"
+  ".google.protobuf.Timestamp\022\022\n\nrevoked_by"
+  "\030\020 \001(\t\022\031\n\021revocation_reason\030\021 \001(\t\"\224\001\n\024So"
+  "ftphoneCredentials\022\024\n\014sip_password\030\001 \001(\t"
+  "\022\025\n\rpkcs12_bundle\030\002 \001(\014\022\027\n\017pkcs12_passwo"
+  "rd\030\003 \001(\t\0226\n\013certificate\030\004 \001(\0132!.ondewo.v"
+  "tsi.SoftphoneCertificate\"\255\005\n\025SoftphonePr"
+  "ovisioning\022\036\n\026softphone_account_name\030\001 \001"
+  "(\t\022C\n\022transport_security\030\002 \001(\0162\'.ondewo."
+  "vtsi.SoftphoneTransportSecurity\022\022\n\nsip_d"
+  "omain\030\003 \001(\t\022\023\n\013sip_address\030\004 \001(\t\022\027\n\017sip_"
+  "server_host\030\005 \001(\t\022\027\n\017sip_server_port\030\006 \001"
+  "(\005\022\025\n\rsip_transport\030\007 \001(\t\022\026\n\016outbound_pr"
+  "oxy\030\010 \001(\t\022\020\n\010username\030\t \001(\t\022\025\n\rauth_user"
+  "name\030\n \001(\t\022\r\n\005realm\030\013 \001(\t\0221\n\tsrtp_mode\030\014"
+  " \001(\0162\036.ondewo.vtsi.SoftphoneSrtpMode\022\016\n\006"
+  "codecs\030\r \003(\t\022!\n\031server_ca_certificate_pe"
+  "m\030\016 \001(\t\022-\n%server_certificate_sha256_fin"
+  "gerprint\030\017 \001(\t\022\037\n\027client_certificate_nam"
+  "e\030\020 \001(\t\022-\n%client_certificate_sha256_fin"
+  "gerprint\030\021 \001(\t\022B\n\036client_certificate_exp"
+  "ire_time\030\022 \001(\0132\032.google.protobuf.Timesta"
+  "mp\022\033\n\023zoiper_instructions\030\023 \001(\t\022\'\n\037clien"
+  "t_certificate_support_note\030\024 \001(\t\"\316\003\n\026Sof"
+  "tphoneAccountFilter\022E\n\024transport_securit"
+  "ies\030\001 \003(\0162\'.ondewo.vtsi.SoftphoneTranspo"
+  "rtSecurity\022\024\n\007enabled\030\002 \001(\010H\000\210\001\001\022\?\n\006labe"
+  "ls\030\003 \003(\0132/.ondewo.vtsi.SoftphoneAccountF"
+  "ilter.LabelsEntry\022\035\n\025display_name_contai"
+  "ns\030\004 \001(\t\022\035\n\025sip_username_contains\030\005 \001(\t\022"
+  ">\n\032certificate_expires_before\030\006 \001(\0132\032.go"
+  "ogle.protobuf.Timestamp\022=\n\031certificate_e"
+  "xpires_after\030\007 \001(\0132\032.google.protobuf.Tim"
+  "estamp\022\023\n\006locked\030\010 \001(\010H\001\210\001\001\032-\n\013LabelsEnt"
+  "ry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\n\n\010_e"
+  "nabledB\t\n\007_locked\"\276\001\n\032SoftphoneCertifica"
+  "teFilter\0229\n\010statuses\030\001 \003(\0162\'.ondewo.vtsi"
+  ".SoftphoneCertificateStatus\0222\n\016expires_b"
+  "efore\030\002 \001(\0132\032.google.protobuf.Timestamp\022"
+  "1\n\rexpires_after\030\003 \001(\0132\032.google.protobuf"
+  ".Timestamp\"\202\004\n\027SoftphoneAccountSorting\022]"
+  "\n\rsorting_field\030\001 \001(\0162A.ondewo.vtsi.Soft"
+  "phoneAccountSorting.SoftphoneAccountSort"
+  "ingFieldH\000\210\001\001\022>\n\014sorting_mode\030\002 \001(\0162#.on"
+  "dewo.vtsi.VtsiProjectSortingModeH\001\210\001\001\"\244\002"
+  "\n\034SoftphoneAccountSortingField\022 \n\034NO_SOF"
+  "TPHONE_ACCOUNT_SORTING\020\000\022*\n&SORT_SOFTPHO"
+  "NE_ACCOUNT_BY_DISPLAY_NAME\020\001\022*\n&SORT_SOF"
+  "TPHONE_ACCOUNT_BY_SIP_USERNAME\020\002\022+\n\'SORT"
+  "_SOFTPHONE_ACCOUNT_BY_CREATION_DATE\020\003\022+\n"
+  "\'SORT_SOFTPHONE_ACCOUNT_BY_LAST_MODIFIED"
+  "\020\004\0220\n,SORT_SOFTPHONE_ACCOUNT_BY_CERTIFIC"
+  "ATE_EXPIRY\020\005B\020\n\016_sorting_fieldB\017\n\r_sorti"
+  "ng_mode\"\215\001\n\035CreateSoftphoneAccountReques"
+  "t\022\031\n\021vtsi_project_name\030\001 \001(\t\0228\n\021softphon"
+  "e_account\030\002 \001(\0132\035.ondewo.vtsi.SoftphoneA"
+  "ccount\022\027\n\017idempotency_key\030\003 \001(\t\"\222\001\n\036Crea"
+  "teSoftphoneAccountResponse\0228\n\021softphone_"
+  "account\030\001 \001(\0132\035.ondewo.vtsi.SoftphoneAcc"
+  "ount\0226\n\013credentials\030\002 \001(\0132!.ondewo.vtsi."
+  "SoftphoneCredentials\"Z\n\032GetSoftphoneAcco"
+  "untRequest\022\014\n\004name\030\001 \001(\t\022.\n\nfield_mask\030\002"
+  " \001(\0132\032.google.protobuf.FieldMask\"\212\001\n\035Upd"
+  "ateSoftphoneAccountRequest\0228\n\021softphone_"
+  "account\030\001 \001(\0132\035.ondewo.vtsi.SoftphoneAcc"
+  "ount\022/\n\013update_mask\030\002 \001(\0132\032.google.proto"
+  "buf.FieldMask\"-\n\035DeleteSoftphoneAccountR"
+  "equest\022\014\n\004name\030\001 \001(\t\"Q\n\036DeleteSoftphoneA"
+  "ccountResponse\022\014\n\004name\030\001 \001(\t\022!\n\031revoked_"
+  "certificate_count\030\002 \001(\005\"\242\002\n\034ListSoftphon"
+  "eAccountsRequest\022\031\n\021vtsi_project_name\030\001 "
+  "\001(\t\0223\n\006filter\030\002 \001(\0132#.ondewo.vtsi.Softph"
+  "oneAccountFilter\022.\n\nfield_mask\030\003 \001(\0132\032.g"
+  "oogle.protobuf.FieldMask\022\021\n\tpage_size\030\004 "
+  "\001(\005\022\027\n\npage_token\030\005 \001(\tH\000\210\001\001\022G\n\031softphon"
+  "e_account_sorting\030\006 \001(\0132$.ondewo.vtsi.So"
+  "ftphoneAccountSortingB\r\n\013_page_token\"s\n\035"
+  "ListSoftphoneAccountsResponse\0229\n\022softpho"
+  "ne_accounts\030\001 \003(\0132\035.ondewo.vtsi.Softphon"
+  "eAccount\022\027\n\017next_page_token\030\002 \001(\t\"j\n!Rot"
+  "ateSoftphoneCredentialsRequest\022\014\n\004name\030\001"
+  " \001(\t\022\033\n\023rotate_sip_password\030\002 \001(\010\022\032\n\022rot"
+  "ate_certificate\030\003 \001(\010\"\226\001\n\"RotateSoftphon"
+  "eCredentialsResponse\0228\n\021softphone_accoun"
+  "t\030\001 \001(\0132\035.ondewo.vtsi.SoftphoneAccount\0226"
+  "\n\013credentials\030\002 \001(\0132!.ondewo.vtsi.Softph"
+  "oneCredentials\"\216\002\n ListSoftphoneCertific"
+  "atesRequest\022\033\n\021vtsi_project_name\030\001 \001(\tH\000"
+  "\022 \n\026softphone_account_name\030\002 \001(\tH\000\0227\n\006fi"
+  "lter\030\003 \001(\0132\'.ondewo.vtsi.SoftphoneCertif"
+  "icateFilter\022.\n\nfield_mask\030\004 \001(\0132\032.google"
+  ".protobuf.FieldMask\022\021\n\tpage_size\030\005 \001(\005\022\027"
+  "\n\npage_token\030\006 \001(\tH\001\210\001\001B\007\n\005scopeB\r\n\013_pag"
+  "e_token\"\177\n!ListSoftphoneCertificatesResp"
+  "onse\022A\n\026softphone_certificates\030\001 \003(\0132!.o"
+  "ndewo.vtsi.SoftphoneCertificate\022\027\n\017next_"
+  "page_token\030\002 \001(\t\"^\n\036GetSoftphoneCertific"
+  "ateRequest\022\014\n\004name\030\001 \001(\t\022.\n\nfield_mask\030\002"
+  " \001(\0132\032.google.protobuf.FieldMask\"A\n!Revo"
+  "keSoftphoneCertificateRequest\022\014\n\004name\030\001 "
+  "\001(\t\022\016\n\006reason\030\002 \001(\t\"/\n\037GetSoftphoneProvi"
+  "sioningRequest\022\014\n\004name\030\001 \001(\t\"_\n\037GetSoftp"
+  "honeRegistrationRequest\022\014\n\004name\030\001 \001(\t\022.\n"
+  "\nfield_mask\030\002 \001(\0132\032.google.protobuf.Fiel"
+  "dMask\"\231\001\n\025SoftphoneRegistration\022\036\n\026softp"
+  "hone_account_name\030\001 \001(\t\022/\n\010contacts\030\002 \003("
+  "\0132\035.ondewo.vtsi.SoftphoneContact\022/\n\013obse"
+  "rved_at\030\003 \001(\0132\032.google.protobuf.Timestam"
+  "p\"\310\001\n\020SoftphoneContact\022\013\n\003uri\030\001 \001(\t\022\022\n\nu"
+  "ser_agent\030\002 \001(\t\022\026\n\016source_address\030\003 \001(\t\022"
+  "/\n\013expire_time\030\004 \001(\0132\032.google.protobuf.T"
+  "imestamp\022\025\n\rround_trip_ms\030\005 \001(\001\0223\n\006statu"
+  "s\030\006 \001(\0162#.ondewo.vtsi.SoftphoneContactSt"
+  "atus*\261\001\n\032SoftphoneTransportSecurity\022,\n(S"
+  "OFTPHONE_TRANSPORT_SECURITY_UNSPECIFIED\020"
+  "\000\0223\n/SOFTPHONE_TRANSPORT_SECURITY_CLIENT"
+  "_CERTIFICATE\020\001\0220\n,SOFTPHONE_TRANSPORT_SE"
+  "CURITY_SERVER_TLS_ONLY\020\002*\312\001\n\032SoftphoneCe"
+  "rtificateStatus\022,\n(SOFTPHONE_CERTIFICATE"
+  "_STATUS_UNSPECIFIED\020\000\022\'\n#SOFTPHONE_CERTI"
+  "FICATE_STATUS_ACTIVE\020\001\022+\n\'SOFTPHONE_CERT"
+  "IFICATE_STATUS_SUPERSEDED\020\002\022(\n$SOFTPHONE"
+  "_CERTIFICATE_STATUS_REVOKED\020\003*\346\001\n\026Softph"
+  "oneContactStatus\022(\n$SOFTPHONE_CONTACT_ST"
+  "ATUS_UNSPECIFIED\020\000\022&\n\"SOFTPHONE_CONTACT_"
+  "STATUS_AVAILABLE\020\001\022(\n$SOFTPHONE_CONTACT_"
+  "STATUS_UNAVAILABLE\020\002\022*\n&SOFTPHONE_CONTAC"
+  "T_STATUS_NOT_QUALIFIED\020\003\022$\n SOFTPHONE_CO"
+  "NTACT_STATUS_UNKNOWN\020\004*`\n\021SoftphoneSrtpM"
+  "ode\022#\n\037SOFTPHONE_SRTP_MODE_UNSPECIFIED\020\000"
+  "\022&\n\"SOFTPHONE_SRTP_MODE_SDES_MANDATORY\020\001"
+  "2\331\t\n\nSoftphones\022q\n\026CreateSoftphoneAccoun"
+  "t\022*.ondewo.vtsi.CreateSoftphoneAccountRe"
+  "quest\032+.ondewo.vtsi.CreateSoftphoneAccou"
+  "ntResponse\022]\n\023GetSoftphoneAccount\022\'.onde"
+  "wo.vtsi.GetSoftphoneAccountRequest\032\035.ond"
+  "ewo.vtsi.SoftphoneAccount\022c\n\026UpdateSoftp"
+  "honeAccount\022*.ondewo.vtsi.UpdateSoftphon"
+  "eAccountRequest\032\035.ondewo.vtsi.SoftphoneA"
+  "ccount\022q\n\026DeleteSoftphoneAccount\022*.ondew"
+  "o.vtsi.DeleteSoftphoneAccountRequest\032+.o"
+  "ndewo.vtsi.DeleteSoftphoneAccountRespons"
+  "e\022n\n\025ListSoftphoneAccounts\022).ondewo.vtsi"
+  ".ListSoftphoneAccountsRequest\032*.ondewo.v"
+  "tsi.ListSoftphoneAccountsResponse\022}\n\032Rot"
+  "ateSoftphoneCredentials\022..ondewo.vtsi.Ro"
+  "tateSoftphoneCredentialsRequest\032/.ondewo"
+  ".vtsi.RotateSoftphoneCredentialsResponse"
+  "\022z\n\031ListSoftphoneCertificates\022-.ondewo.v"
+  "tsi.ListSoftphoneCertificatesRequest\032..o"
+  "ndewo.vtsi.ListSoftphoneCertificatesResp"
+  "onse\022i\n\027GetSoftphoneCertificate\022+.ondewo"
+  ".vtsi.GetSoftphoneCertificateRequest\032!.o"
+  "ndewo.vtsi.SoftphoneCertificate\022o\n\032Revok"
+  "eSoftphoneCertificate\022..ondewo.vtsi.Revo"
+  "keSoftphoneCertificateRequest\032!.ondewo.v"
+  "tsi.SoftphoneCertificate\022l\n\030GetSoftphone"
+  "Provisioning\022,.ondewo.vtsi.GetSoftphoneP"
+  "rovisioningRequest\032\".ondewo.vtsi.Softpho"
+  "neProvisioning\022l\n\030GetSoftphoneRegistrati"
+  "on\022,.ondewo.vtsi.GetSoftphoneRegistratio"
+  "nRequest\032\".ondewo.vtsi.SoftphoneRegistra"
+  "tionb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fsoftphones_2eproto_deps[3] = {
   &::descriptor_table_google_2fprotobuf_2ffield_5fmask_2eproto,
@@ -1089,7 +1093,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fsof
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fvtsi_2fsoftphones_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fvtsi_2fsoftphones_2eproto = {
-    false, false, 7951, descriptor_table_protodef_ondewo_2fvtsi_2fsoftphones_2eproto,
+    false, false, 7972, descriptor_table_protodef_ondewo_2fvtsi_2fsoftphones_2eproto,
     "ondewo/vtsi/softphones.proto",
     &descriptor_table_ondewo_2fvtsi_2fsoftphones_2eproto_once, descriptor_table_ondewo_2fvtsi_2fsoftphones_2eproto_deps, 3, 27,
     schemas, file_default_instances, TableStruct_ondewo_2fvtsi_2fsoftphones_2eproto::offsets,
@@ -1302,6 +1306,7 @@ SoftphoneAccount::SoftphoneAccount(const SoftphoneAccount& from)
     , decltype(_impl_.created_by_){}
     , decltype(_impl_.modified_by_){}
     , decltype(_impl_.locked_reason_){}
+    , decltype(_impl_.description_){}
     , decltype(_impl_.current_certificate_expire_time_){nullptr}
     , decltype(_impl_.sip_password_set_at_){nullptr}
     , decltype(_impl_.created_at_){nullptr}
@@ -1394,6 +1399,14 @@ SoftphoneAccount::SoftphoneAccount(const SoftphoneAccount& from)
     _this->_impl_.locked_reason_.Set(from._internal_locked_reason(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.description_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.description_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_description().empty()) {
+    _this->_impl_.description_.Set(from._internal_description(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_current_certificate_expire_time()) {
     _this->_impl_.current_certificate_expire_time_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.current_certificate_expire_time_);
   }
@@ -1434,6 +1447,7 @@ inline void SoftphoneAccount::SharedCtor(
     , decltype(_impl_.created_by_){}
     , decltype(_impl_.modified_by_){}
     , decltype(_impl_.locked_reason_){}
+    , decltype(_impl_.description_){}
     , decltype(_impl_.current_certificate_expire_time_){nullptr}
     , decltype(_impl_.sip_password_set_at_){nullptr}
     , decltype(_impl_.created_at_){nullptr}
@@ -1484,6 +1498,10 @@ inline void SoftphoneAccount::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.locked_reason_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.description_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.description_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 SoftphoneAccount::~SoftphoneAccount() {
@@ -1511,6 +1529,7 @@ inline void SoftphoneAccount::SharedDtor() {
   _impl_.created_by_.Destroy();
   _impl_.modified_by_.Destroy();
   _impl_.locked_reason_.Destroy();
+  _impl_.description_.Destroy();
   if (this != internal_default_instance()) delete _impl_.current_certificate_expire_time_;
   if (this != internal_default_instance()) delete _impl_.sip_password_set_at_;
   if (this != internal_default_instance()) delete _impl_.created_at_;
@@ -1544,6 +1563,7 @@ void SoftphoneAccount::Clear() {
   _impl_.created_by_.ClearToEmpty();
   _impl_.modified_by_.ClearToEmpty();
   _impl_.locked_reason_.ClearToEmpty();
+  _impl_.description_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.current_certificate_expire_time_ != nullptr) {
     delete _impl_.current_certificate_expire_time_;
   }
@@ -1782,6 +1802,16 @@ const char* SoftphoneAccount::_InternalParse(const char* ptr, ::_pbi::ParseConte
         } else
           goto handle_unusual;
         continue;
+      // string description = 22;
+      case 22:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 178)) {
+          auto str = _internal_mutable_description();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.SoftphoneAccount.description"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -2012,6 +2042,16 @@ uint8_t* SoftphoneAccount::_InternalSerialize(
         21, this->_internal_locked_reason(), target);
   }
 
+  // string description = 22;
+  if (!this->_internal_description().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_description().data(), static_cast<int>(this->_internal_description().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.SoftphoneAccount.description");
+    target = stream->WriteStringMaybeAliased(
+        22, this->_internal_description(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2113,6 +2153,13 @@ size_t SoftphoneAccount::ByteSizeLong() const {
     total_size += 2 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_locked_reason());
+  }
+
+  // string description = 22;
+  if (!this->_internal_description().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_description());
   }
 
   // .google.protobuf.Timestamp current_certificate_expire_time = 13;
@@ -2222,6 +2269,9 @@ void SoftphoneAccount::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   if (!from._internal_locked_reason().empty()) {
     _this->_internal_set_locked_reason(from._internal_locked_reason());
   }
+  if (!from._internal_description().empty()) {
+    _this->_internal_set_description(from._internal_description());
+  }
   if (from._internal_has_current_certificate_expire_time()) {
     _this->_internal_mutable_current_certificate_expire_time()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_current_certificate_expire_time());
@@ -2315,6 +2365,10 @@ void SoftphoneAccount::InternalSwap(SoftphoneAccount* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.locked_reason_, lhs_arena,
       &other->_impl_.locked_reason_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.description_, lhs_arena,
+      &other->_impl_.description_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(SoftphoneAccount, _impl_.locked_)

@@ -101,6 +101,15 @@ class Sip final {
     // party in it, the invited participant included. The refusal is RETURNED as <code>TRANSFER_CALL_FAILED</code> with
     // <code>exception_name=ParticipantsPresent</code> and <code>description = reason=participants-present</code>; nothing
     // is sent and the call is kept.</p>
+    // <p>Transfer delegation (see <code>SipTransferDelegation</code>): in a container started with
+    // <code>SIP_TRANSFER_DELEGATION_ACTIVE=True</code> a transfer that the in-container speech-to-speech pipeline asks for
+    // on a connected call is not sent. It is parked in <code>SipStatus.delegated_transfer</code> and RETURNED as
+    // <code>TRANSFER_CALL_FAILED</code> with <code>exception_name=TransferDelegated</code> and
+    // <code>description = reason=delegated-to-vtsi</code>; the call is kept. A client (ONDEWO VTSI) then claims it with
+    // <code>delegation</code> and <code>delegated_request_id</code>. A second transfer of the pipeline while one is
+    // parked is refused with <code>exception_name=TransferInProgress</code>. Without that environment variable, and
+    // for every request with <code>delegation = SIP_TRANSFER_DELEGATION_UNSPECIFIED</code> from any other peer, the
+    // transfer is sent as before.</p>
     virtual ::grpc::Status SipTransferCall(::grpc::ClientContext* context, const ::ondewo::sip::SipTransferCallRequest& request, ::ondewo::sip::SipStatus* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>> AsyncSipTransferCall(::grpc::ClientContext* context, const ::ondewo::sip::SipTransferCallRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>>(AsyncSipTransferCallRaw(context, request, cq));
@@ -191,6 +200,10 @@ class Sip final {
     // <code>NoOngoingCall</code>, <code>AmdInProgress</code>, <code>CsiMediaControlFailed</code>) and never assigned to
     // the shared status. When the pipeline refuses or fails, a requested pause is rolled back and a requested mute is
     // kept (the safe direction); the returned fields carry the actual level.</p>
+    // <p>A request may carry a <code>warm_transfer_outcome</code> notice (participant owner only, refused otherwise with
+    // <code>exception_name=InvalidWarmTransferOutcomeNotice</code>). The notice is handed to the speech-to-speech
+    // pipeline whether or not the level changed, and the answer of the pipeline is returned in
+    // <code>SipStatus.warm_transfer_outcome_notice_status</code>.</p>
     virtual ::grpc::Status SipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest& request, ::ondewo::sip::SipStatus* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>> AsyncSipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>>(AsyncSipSetCallMediaControlRaw(context, request, cq));
@@ -221,6 +234,23 @@ class Sip final {
       return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>>(PrepareAsyncSipStreamCallAudioRaw(context, cq));
     }
     // Not idempotent (no idempotency_level): a stream takes a slot and, in TALK, takes over the call.
+    // <p>Send DTMF keys into the ongoing connected call, as RFC 4733 telephone-events (e.g. to navigate an IVR the bot
+    // called, or for an operator).</p>
+    // <p>Metadata as for <code>SipSetCallMediaControl</code>: <code>x-ondewo-expected-call-id</code> must equal
+    // <code>SipStatus.call_id</code> of the ongoing call; a peer outside the container presents
+    // <code>x-ondewo-sip-call-control-token</code> when the container has one.</p>
+    // <p>Returns the live status. Refusals are RETURNED in <code>exception_name</code> / <code>description</code>
+    // (<code>CallScopeMismatch</code>, <code>CallControlUnauthenticated</code>, <code>NoOngoingCall</code>,
+    // <code>AmdInProgress</code>, <code>InvalidDtmf</code>) and never assigned to the shared status. The keys are never
+    // logged in clear.</p>
+    virtual ::grpc::Status SipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::ondewo::sip::SipStatus* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>> AsyncSipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>>(AsyncSipSendDtmfRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>> PrepareAsyncSipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>>(PrepareAsyncSipSendDtmfRaw(context, request, cq));
+    }
+    // Not idempotent (no idempotency_level): a retried attempt sends the keys again.
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -253,6 +283,15 @@ class Sip final {
       // party in it, the invited participant included. The refusal is RETURNED as <code>TRANSFER_CALL_FAILED</code> with
       // <code>exception_name=ParticipantsPresent</code> and <code>description = reason=participants-present</code>; nothing
       // is sent and the call is kept.</p>
+      // <p>Transfer delegation (see <code>SipTransferDelegation</code>): in a container started with
+      // <code>SIP_TRANSFER_DELEGATION_ACTIVE=True</code> a transfer that the in-container speech-to-speech pipeline asks for
+      // on a connected call is not sent. It is parked in <code>SipStatus.delegated_transfer</code> and RETURNED as
+      // <code>TRANSFER_CALL_FAILED</code> with <code>exception_name=TransferDelegated</code> and
+      // <code>description = reason=delegated-to-vtsi</code>; the call is kept. A client (ONDEWO VTSI) then claims it with
+      // <code>delegation</code> and <code>delegated_request_id</code>. A second transfer of the pipeline while one is
+      // parked is refused with <code>exception_name=TransferInProgress</code>. Without that environment variable, and
+      // for every request with <code>delegation = SIP_TRANSFER_DELEGATION_UNSPECIFIED</code> from any other peer, the
+      // transfer is sent as before.</p>
       virtual void SipTransferCall(::grpc::ClientContext* context, const ::ondewo::sip::SipTransferCallRequest* request, ::ondewo::sip::SipStatus* response, std::function<void(::grpc::Status)>) = 0;
       virtual void SipTransferCall(::grpc::ClientContext* context, const ::ondewo::sip::SipTransferCallRequest* request, ::ondewo::sip::SipStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // Not idempotent (no idempotency_level): a repeat sends another REFER.
@@ -303,6 +342,10 @@ class Sip final {
       // <code>NoOngoingCall</code>, <code>AmdInProgress</code>, <code>CsiMediaControlFailed</code>) and never assigned to
       // the shared status. When the pipeline refuses or fails, a requested pause is rolled back and a requested mute is
       // kept (the safe direction); the returned fields carry the actual level.</p>
+      // <p>A request may carry a <code>warm_transfer_outcome</code> notice (participant owner only, refused otherwise with
+      // <code>exception_name=InvalidWarmTransferOutcomeNotice</code>). The notice is handed to the speech-to-speech
+      // pipeline whether or not the level changed, and the answer of the pipeline is returned in
+      // <code>SipStatus.warm_transfer_outcome_notice_status</code>.</p>
       virtual void SipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest* request, ::ondewo::sip::SipStatus* response, std::function<void(::grpc::Status)>) = 0;
       virtual void SipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest* request, ::ondewo::sip::SipStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // Deliberately unmarked although a repeat leaves the level unchanged: a retried attempt can land after a newer
@@ -320,6 +363,18 @@ class Sip final {
       // message and then OK.</p>
       virtual void SipStreamCallAudio(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::ondewo::sip::SipCallAudioRequest,::ondewo::sip::SipCallAudioResponse>* reactor) = 0;
       // Not idempotent (no idempotency_level): a stream takes a slot and, in TALK, takes over the call.
+      // <p>Send DTMF keys into the ongoing connected call, as RFC 4733 telephone-events (e.g. to navigate an IVR the bot
+      // called, or for an operator).</p>
+      // <p>Metadata as for <code>SipSetCallMediaControl</code>: <code>x-ondewo-expected-call-id</code> must equal
+      // <code>SipStatus.call_id</code> of the ongoing call; a peer outside the container presents
+      // <code>x-ondewo-sip-call-control-token</code> when the container has one.</p>
+      // <p>Returns the live status. Refusals are RETURNED in <code>exception_name</code> / <code>description</code>
+      // (<code>CallScopeMismatch</code>, <code>CallControlUnauthenticated</code>, <code>NoOngoingCall</code>,
+      // <code>AmdInProgress</code>, <code>InvalidDtmf</code>) and never assigned to the shared status. The keys are never
+      // logged in clear.</p>
+      virtual void SipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest* request, ::ondewo::sip::SipStatus* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest* request, ::ondewo::sip::SipStatus* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // Not idempotent (no idempotency_level): a retried attempt sends the keys again.
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -354,6 +409,8 @@ class Sip final {
     virtual ::grpc::ClientReaderWriterInterface< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* SipStreamCallAudioRaw(::grpc::ClientContext* context) = 0;
     virtual ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* AsyncSipStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* PrepareAsyncSipStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>* AsyncSipSendDtmfRaw(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::sip::SipStatus>* PrepareAsyncSipSendDtmfRaw(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -458,6 +515,13 @@ class Sip final {
     std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>> PrepareAsyncSipStreamCallAudio(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>>(PrepareAsyncSipStreamCallAudioRaw(context, cq));
     }
+    ::grpc::Status SipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::ondewo::sip::SipStatus* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>> AsyncSipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>>(AsyncSipSendDtmfRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>> PrepareAsyncSipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>>(PrepareAsyncSipSendDtmfRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -488,6 +552,8 @@ class Sip final {
       void SipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest* request, ::ondewo::sip::SipStatus* response, std::function<void(::grpc::Status)>) override;
       void SipSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest* request, ::ondewo::sip::SipStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
       void SipStreamCallAudio(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::ondewo::sip::SipCallAudioRequest,::ondewo::sip::SipCallAudioResponse>* reactor) override;
+      void SipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest* request, ::ondewo::sip::SipStatus* response, std::function<void(::grpc::Status)>) override;
+      void SipSendDtmf(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest* request, ::ondewo::sip::SipStatus* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -528,6 +594,8 @@ class Sip final {
     ::grpc::ClientReaderWriter< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* SipStreamCallAudioRaw(::grpc::ClientContext* context) override;
     ::grpc::ClientAsyncReaderWriter< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* AsyncSipStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) override;
     ::grpc::ClientAsyncReaderWriter< ::ondewo::sip::SipCallAudioRequest, ::ondewo::sip::SipCallAudioResponse>* PrepareAsyncSipStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>* AsyncSipSendDtmfRaw(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::sip::SipStatus>* PrepareAsyncSipSendDtmfRaw(::grpc::ClientContext* context, const ::ondewo::sip::SipSendDtmfRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_SipStartSession_;
     const ::grpc::internal::RpcMethod rpcmethod_SipEndSession_;
     const ::grpc::internal::RpcMethod rpcmethod_SipStartCall_;
@@ -542,6 +610,7 @@ class Sip final {
     const ::grpc::internal::RpcMethod rpcmethod_SipReportAnsweringMachineDetected_;
     const ::grpc::internal::RpcMethod rpcmethod_SipSetCallMediaControl_;
     const ::grpc::internal::RpcMethod rpcmethod_SipStreamCallAudio_;
+    const ::grpc::internal::RpcMethod rpcmethod_SipSendDtmf_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -574,6 +643,15 @@ class Sip final {
     // party in it, the invited participant included. The refusal is RETURNED as <code>TRANSFER_CALL_FAILED</code> with
     // <code>exception_name=ParticipantsPresent</code> and <code>description = reason=participants-present</code>; nothing
     // is sent and the call is kept.</p>
+    // <p>Transfer delegation (see <code>SipTransferDelegation</code>): in a container started with
+    // <code>SIP_TRANSFER_DELEGATION_ACTIVE=True</code> a transfer that the in-container speech-to-speech pipeline asks for
+    // on a connected call is not sent. It is parked in <code>SipStatus.delegated_transfer</code> and RETURNED as
+    // <code>TRANSFER_CALL_FAILED</code> with <code>exception_name=TransferDelegated</code> and
+    // <code>description = reason=delegated-to-vtsi</code>; the call is kept. A client (ONDEWO VTSI) then claims it with
+    // <code>delegation</code> and <code>delegated_request_id</code>. A second transfer of the pipeline while one is
+    // parked is refused with <code>exception_name=TransferInProgress</code>. Without that environment variable, and
+    // for every request with <code>delegation = SIP_TRANSFER_DELEGATION_UNSPECIFIED</code> from any other peer, the
+    // transfer is sent as before.</p>
     virtual ::grpc::Status SipTransferCall(::grpc::ServerContext* context, const ::ondewo::sip::SipTransferCallRequest* request, ::ondewo::sip::SipStatus* response);
     // Not idempotent (no idempotency_level): a repeat sends another REFER.
     // <p>Registers s SIP account at a SIP server</p>
@@ -616,6 +694,10 @@ class Sip final {
     // <code>NoOngoingCall</code>, <code>AmdInProgress</code>, <code>CsiMediaControlFailed</code>) and never assigned to
     // the shared status. When the pipeline refuses or fails, a requested pause is rolled back and a requested mute is
     // kept (the safe direction); the returned fields carry the actual level.</p>
+    // <p>A request may carry a <code>warm_transfer_outcome</code> notice (participant owner only, refused otherwise with
+    // <code>exception_name=InvalidWarmTransferOutcomeNotice</code>). The notice is handed to the speech-to-speech
+    // pipeline whether or not the level changed, and the answer of the pipeline is returned in
+    // <code>SipStatus.warm_transfer_outcome_notice_status</code>.</p>
     virtual ::grpc::Status SipSetCallMediaControl(::grpc::ServerContext* context, const ::ondewo::sip::SipSetCallMediaControlRequest* request, ::ondewo::sip::SipStatus* response);
     // Deliberately unmarked although a repeat leaves the level unchanged: a retried attempt can land after a newer
     // request of the same owner and restore a stale mute or pause.
@@ -632,6 +714,17 @@ class Sip final {
     // message and then OK.</p>
     virtual ::grpc::Status SipStreamCallAudio(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::ondewo::sip::SipCallAudioResponse, ::ondewo::sip::SipCallAudioRequest>* stream);
     // Not idempotent (no idempotency_level): a stream takes a slot and, in TALK, takes over the call.
+    // <p>Send DTMF keys into the ongoing connected call, as RFC 4733 telephone-events (e.g. to navigate an IVR the bot
+    // called, or for an operator).</p>
+    // <p>Metadata as for <code>SipSetCallMediaControl</code>: <code>x-ondewo-expected-call-id</code> must equal
+    // <code>SipStatus.call_id</code> of the ongoing call; a peer outside the container presents
+    // <code>x-ondewo-sip-call-control-token</code> when the container has one.</p>
+    // <p>Returns the live status. Refusals are RETURNED in <code>exception_name</code> / <code>description</code>
+    // (<code>CallScopeMismatch</code>, <code>CallControlUnauthenticated</code>, <code>NoOngoingCall</code>,
+    // <code>AmdInProgress</code>, <code>InvalidDtmf</code>) and never assigned to the shared status. The keys are never
+    // logged in clear.</p>
+    virtual ::grpc::Status SipSendDtmf(::grpc::ServerContext* context, const ::ondewo::sip::SipSendDtmfRequest* request, ::ondewo::sip::SipStatus* response);
+    // Not idempotent (no idempotency_level): a retried attempt sends the keys again.
   };
   template <class BaseClass>
   class WithAsyncMethod_SipStartSession : public BaseClass {
@@ -913,7 +1006,27 @@ class Sip final {
       ::grpc::Service::RequestAsyncBidiStreaming(13, context, stream, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_SipStartSession<WithAsyncMethod_SipEndSession<WithAsyncMethod_SipStartCall<WithAsyncMethod_SipEndCall<WithAsyncMethod_SipTransferCall<WithAsyncMethod_SipRegisterAccount<WithAsyncMethod_SipGetSipStatus<WithAsyncMethod_SipGetSipStatusHistory<WithAsyncMethod_SipPlayWavFiles<WithAsyncMethod_SipMute<WithAsyncMethod_SipUnMute<WithAsyncMethod_SipReportAnsweringMachineDetected<WithAsyncMethod_SipSetCallMediaControl<WithAsyncMethod_SipStreamCallAudio<Service > > > > > > > > > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_SipSendDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SipSendDtmf() {
+      ::grpc::Service::MarkMethodAsync(14);
+    }
+    ~WithAsyncMethod_SipSendDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SipSendDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::sip::SipSendDtmfRequest* /*request*/, ::ondewo::sip::SipStatus* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSipSendDtmf(::grpc::ServerContext* context, ::ondewo::sip::SipSendDtmfRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::sip::SipStatus>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_SipStartSession<WithAsyncMethod_SipEndSession<WithAsyncMethod_SipStartCall<WithAsyncMethod_SipEndCall<WithAsyncMethod_SipTransferCall<WithAsyncMethod_SipRegisterAccount<WithAsyncMethod_SipGetSipStatus<WithAsyncMethod_SipGetSipStatusHistory<WithAsyncMethod_SipPlayWavFiles<WithAsyncMethod_SipMute<WithAsyncMethod_SipUnMute<WithAsyncMethod_SipReportAnsweringMachineDetected<WithAsyncMethod_SipSetCallMediaControl<WithAsyncMethod_SipStreamCallAudio<WithAsyncMethod_SipSendDtmf<Service > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_SipStartSession : public BaseClass {
    private:
@@ -1288,7 +1401,34 @@ class Sip final {
       ::grpc::CallbackServerContext* /*context*/)
       { return nullptr; }
   };
-  typedef WithCallbackMethod_SipStartSession<WithCallbackMethod_SipEndSession<WithCallbackMethod_SipStartCall<WithCallbackMethod_SipEndCall<WithCallbackMethod_SipTransferCall<WithCallbackMethod_SipRegisterAccount<WithCallbackMethod_SipGetSipStatus<WithCallbackMethod_SipGetSipStatusHistory<WithCallbackMethod_SipPlayWavFiles<WithCallbackMethod_SipMute<WithCallbackMethod_SipUnMute<WithCallbackMethod_SipReportAnsweringMachineDetected<WithCallbackMethod_SipSetCallMediaControl<WithCallbackMethod_SipStreamCallAudio<Service > > > > > > > > > > > > > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_SipSendDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_SipSendDtmf() {
+      ::grpc::Service::MarkMethodCallback(14,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::sip::SipSendDtmfRequest, ::ondewo::sip::SipStatus>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::sip::SipSendDtmfRequest* request, ::ondewo::sip::SipStatus* response) { return this->SipSendDtmf(context, request, response); }));}
+    void SetMessageAllocatorFor_SipSendDtmf(
+        ::grpc::MessageAllocator< ::ondewo::sip::SipSendDtmfRequest, ::ondewo::sip::SipStatus>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::sip::SipSendDtmfRequest, ::ondewo::sip::SipStatus>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_SipSendDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SipSendDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::sip::SipSendDtmfRequest* /*request*/, ::ondewo::sip::SipStatus* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SipSendDtmf(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::sip::SipSendDtmfRequest* /*request*/, ::ondewo::sip::SipStatus* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_SipStartSession<WithCallbackMethod_SipEndSession<WithCallbackMethod_SipStartCall<WithCallbackMethod_SipEndCall<WithCallbackMethod_SipTransferCall<WithCallbackMethod_SipRegisterAccount<WithCallbackMethod_SipGetSipStatus<WithCallbackMethod_SipGetSipStatusHistory<WithCallbackMethod_SipPlayWavFiles<WithCallbackMethod_SipMute<WithCallbackMethod_SipUnMute<WithCallbackMethod_SipReportAnsweringMachineDetected<WithCallbackMethod_SipSetCallMediaControl<WithCallbackMethod_SipStreamCallAudio<WithCallbackMethod_SipSendDtmf<Service > > > > > > > > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_SipStartSession : public BaseClass {
@@ -1524,6 +1664,23 @@ class Sip final {
     }
     // disable synchronous version of this method
     ::grpc::Status SipStreamCallAudio(::grpc::ServerContext* /*context*/, ::grpc::ServerReaderWriter< ::ondewo::sip::SipCallAudioResponse, ::ondewo::sip::SipCallAudioRequest>* /*stream*/)  override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_SipSendDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SipSendDtmf() {
+      ::grpc::Service::MarkMethodGeneric(14);
+    }
+    ~WithGenericMethod_SipSendDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SipSendDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::sip::SipSendDtmfRequest* /*request*/, ::ondewo::sip::SipStatus* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1806,6 +1963,26 @@ class Sip final {
     }
     void RequestSipStreamCallAudio(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncBidiStreaming(13, context, stream, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_SipSendDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SipSendDtmf() {
+      ::grpc::Service::MarkMethodRaw(14);
+    }
+    ~WithRawMethod_SipSendDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SipSendDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::sip::SipSendDtmfRequest* /*request*/, ::ondewo::sip::SipStatus* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSipSendDtmf(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2116,6 +2293,28 @@ class Sip final {
     virtual ::grpc::ServerBidiReactor< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* SipStreamCallAudio(
       ::grpc::CallbackServerContext* /*context*/)
       { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_SipSendDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_SipSendDtmf() {
+      ::grpc::Service::MarkMethodRawCallback(14,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SipSendDtmf(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_SipSendDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SipSendDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::sip::SipSendDtmfRequest* /*request*/, ::ondewo::sip::SipStatus* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SipSendDtmf(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_SipStartSession : public BaseClass {
@@ -2468,9 +2667,36 @@ class Sip final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedSipSetCallMediaControl(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::sip::SipSetCallMediaControlRequest,::ondewo::sip::SipStatus>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_SipStartSession<WithStreamedUnaryMethod_SipEndSession<WithStreamedUnaryMethod_SipStartCall<WithStreamedUnaryMethod_SipEndCall<WithStreamedUnaryMethod_SipTransferCall<WithStreamedUnaryMethod_SipRegisterAccount<WithStreamedUnaryMethod_SipGetSipStatus<WithStreamedUnaryMethod_SipGetSipStatusHistory<WithStreamedUnaryMethod_SipPlayWavFiles<WithStreamedUnaryMethod_SipMute<WithStreamedUnaryMethod_SipUnMute<WithStreamedUnaryMethod_SipReportAnsweringMachineDetected<WithStreamedUnaryMethod_SipSetCallMediaControl<Service > > > > > > > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SipSendDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SipSendDtmf() {
+      ::grpc::Service::MarkMethodStreamed(14,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::sip::SipSendDtmfRequest, ::ondewo::sip::SipStatus>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::sip::SipSendDtmfRequest, ::ondewo::sip::SipStatus>* streamer) {
+                       return this->StreamedSipSendDtmf(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SipSendDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SipSendDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::sip::SipSendDtmfRequest* /*request*/, ::ondewo::sip::SipStatus* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSipSendDtmf(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::sip::SipSendDtmfRequest,::ondewo::sip::SipStatus>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_SipStartSession<WithStreamedUnaryMethod_SipEndSession<WithStreamedUnaryMethod_SipStartCall<WithStreamedUnaryMethod_SipEndCall<WithStreamedUnaryMethod_SipTransferCall<WithStreamedUnaryMethod_SipRegisterAccount<WithStreamedUnaryMethod_SipGetSipStatus<WithStreamedUnaryMethod_SipGetSipStatusHistory<WithStreamedUnaryMethod_SipPlayWavFiles<WithStreamedUnaryMethod_SipMute<WithStreamedUnaryMethod_SipUnMute<WithStreamedUnaryMethod_SipReportAnsweringMachineDetected<WithStreamedUnaryMethod_SipSetCallMediaControl<WithStreamedUnaryMethod_SipSendDtmf<Service > > > > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_SipStartSession<WithStreamedUnaryMethod_SipEndSession<WithStreamedUnaryMethod_SipStartCall<WithStreamedUnaryMethod_SipEndCall<WithStreamedUnaryMethod_SipTransferCall<WithStreamedUnaryMethod_SipRegisterAccount<WithStreamedUnaryMethod_SipGetSipStatus<WithStreamedUnaryMethod_SipGetSipStatusHistory<WithStreamedUnaryMethod_SipPlayWavFiles<WithStreamedUnaryMethod_SipMute<WithStreamedUnaryMethod_SipUnMute<WithStreamedUnaryMethod_SipReportAnsweringMachineDetected<WithStreamedUnaryMethod_SipSetCallMediaControl<Service > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_SipStartSession<WithStreamedUnaryMethod_SipEndSession<WithStreamedUnaryMethod_SipStartCall<WithStreamedUnaryMethod_SipEndCall<WithStreamedUnaryMethod_SipTransferCall<WithStreamedUnaryMethod_SipRegisterAccount<WithStreamedUnaryMethod_SipGetSipStatus<WithStreamedUnaryMethod_SipGetSipStatusHistory<WithStreamedUnaryMethod_SipPlayWavFiles<WithStreamedUnaryMethod_SipMute<WithStreamedUnaryMethod_SipUnMute<WithStreamedUnaryMethod_SipReportAnsweringMachineDetected<WithStreamedUnaryMethod_SipSetCallMediaControl<WithStreamedUnaryMethod_SipSendDtmf<Service > > > > > > > > > > > > > > StreamedService;
 };
 // <p>SIP LifeCycle is explained at <a href="https://thanhloi2603.wordpress.com/2017/06/10/sip-lifecycle-overview/">here</a></p>
 

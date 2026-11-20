@@ -76,6 +76,12 @@ extern SipCallAudioStartedDefaultTypeInternal _SipCallAudioStarted_default_insta
 class SipCallAudioStats;
 struct SipCallAudioStatsDefaultTypeInternal;
 extern SipCallAudioStatsDefaultTypeInternal _SipCallAudioStats_default_instance_;
+class SipDelegatedTransfer;
+struct SipDelegatedTransferDefaultTypeInternal;
+extern SipDelegatedTransferDefaultTypeInternal _SipDelegatedTransfer_default_instance_;
+class SipDelegatedTransfer_HeadersEntry_DoNotUse;
+struct SipDelegatedTransfer_HeadersEntry_DoNotUseDefaultTypeInternal;
+extern SipDelegatedTransfer_HeadersEntry_DoNotUseDefaultTypeInternal _SipDelegatedTransfer_HeadersEntry_DoNotUse_default_instance_;
 class SipEndCallRequest;
 struct SipEndCallRequestDefaultTypeInternal;
 extern SipEndCallRequestDefaultTypeInternal _SipEndCallRequest_default_instance_;
@@ -88,6 +94,9 @@ extern SipRegisterAccountRequestDefaultTypeInternal _SipRegisterAccountRequest_d
 class SipReportAnsweringMachineDetectedRequest;
 struct SipReportAnsweringMachineDetectedRequestDefaultTypeInternal;
 extern SipReportAnsweringMachineDetectedRequestDefaultTypeInternal _SipReportAnsweringMachineDetectedRequest_default_instance_;
+class SipSendDtmfRequest;
+struct SipSendDtmfRequestDefaultTypeInternal;
+extern SipSendDtmfRequestDefaultTypeInternal _SipSendDtmfRequest_default_instance_;
 class SipSetCallMediaControlRequest;
 struct SipSetCallMediaControlRequestDefaultTypeInternal;
 extern SipSetCallMediaControlRequestDefaultTypeInternal _SipSetCallMediaControlRequest_default_instance_;
@@ -115,6 +124,9 @@ extern SipTransferCallRequestDefaultTypeInternal _SipTransferCallRequest_default
 class SipTransferCallRequest_HeadersEntry_DoNotUse;
 struct SipTransferCallRequest_HeadersEntry_DoNotUseDefaultTypeInternal;
 extern SipTransferCallRequest_HeadersEntry_DoNotUseDefaultTypeInternal _SipTransferCallRequest_HeadersEntry_DoNotUse_default_instance_;
+class SipWarmTransferOutcomeNotice;
+struct SipWarmTransferOutcomeNoticeDefaultTypeInternal;
+extern SipWarmTransferOutcomeNoticeDefaultTypeInternal _SipWarmTransferOutcomeNotice_default_instance_;
 }  // namespace sip
 }  // namespace ondewo
 PROTOBUF_NAMESPACE_OPEN
@@ -126,10 +138,13 @@ template<> ::ondewo::sip::SipCallAudioRequest* Arena::CreateMaybeMessage<::ondew
 template<> ::ondewo::sip::SipCallAudioResponse* Arena::CreateMaybeMessage<::ondewo::sip::SipCallAudioResponse>(Arena*);
 template<> ::ondewo::sip::SipCallAudioStarted* Arena::CreateMaybeMessage<::ondewo::sip::SipCallAudioStarted>(Arena*);
 template<> ::ondewo::sip::SipCallAudioStats* Arena::CreateMaybeMessage<::ondewo::sip::SipCallAudioStats>(Arena*);
+template<> ::ondewo::sip::SipDelegatedTransfer* Arena::CreateMaybeMessage<::ondewo::sip::SipDelegatedTransfer>(Arena*);
+template<> ::ondewo::sip::SipDelegatedTransfer_HeadersEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::sip::SipDelegatedTransfer_HeadersEntry_DoNotUse>(Arena*);
 template<> ::ondewo::sip::SipEndCallRequest* Arena::CreateMaybeMessage<::ondewo::sip::SipEndCallRequest>(Arena*);
 template<> ::ondewo::sip::SipPlayWavFilesRequest* Arena::CreateMaybeMessage<::ondewo::sip::SipPlayWavFilesRequest>(Arena*);
 template<> ::ondewo::sip::SipRegisterAccountRequest* Arena::CreateMaybeMessage<::ondewo::sip::SipRegisterAccountRequest>(Arena*);
 template<> ::ondewo::sip::SipReportAnsweringMachineDetectedRequest* Arena::CreateMaybeMessage<::ondewo::sip::SipReportAnsweringMachineDetectedRequest>(Arena*);
+template<> ::ondewo::sip::SipSendDtmfRequest* Arena::CreateMaybeMessage<::ondewo::sip::SipSendDtmfRequest>(Arena*);
 template<> ::ondewo::sip::SipSetCallMediaControlRequest* Arena::CreateMaybeMessage<::ondewo::sip::SipSetCallMediaControlRequest>(Arena*);
 template<> ::ondewo::sip::SipStartCallRequest* Arena::CreateMaybeMessage<::ondewo::sip::SipStartCallRequest>(Arena*);
 template<> ::ondewo::sip::SipStartCallRequest_HeadersEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::sip::SipStartCallRequest_HeadersEntry_DoNotUse>(Arena*);
@@ -139,6 +154,7 @@ template<> ::ondewo::sip::SipStatusHistoryResponse* Arena::CreateMaybeMessage<::
 template<> ::ondewo::sip::SipStatus_HeadersEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::sip::SipStatus_HeadersEntry_DoNotUse>(Arena*);
 template<> ::ondewo::sip::SipTransferCallRequest* Arena::CreateMaybeMessage<::ondewo::sip::SipTransferCallRequest>(Arena*);
 template<> ::ondewo::sip::SipTransferCallRequest_HeadersEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::sip::SipTransferCallRequest_HeadersEntry_DoNotUse>(Arena*);
+template<> ::ondewo::sip::SipWarmTransferOutcomeNotice* Arena::CreateMaybeMessage<::ondewo::sip::SipWarmTransferOutcomeNotice>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace ondewo {
 namespace sip {
@@ -308,6 +324,33 @@ inline bool SipStatus_StatusType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SipStatus_StatusType>(
     SipStatus_StatusType_descriptor(), name, value);
 }
+enum SipTransferDelegation : int {
+  SIP_TRANSFER_DELEGATION_UNSPECIFIED = 0,
+  SIP_TRANSFER_DELEGATION_CLAIM = 1,
+  SIP_TRANSFER_DELEGATION_EXECUTE = 2,
+  SIP_TRANSFER_DELEGATION_DISCARD = 3,
+  SipTransferDelegation_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  SipTransferDelegation_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool SipTransferDelegation_IsValid(int value);
+constexpr SipTransferDelegation SipTransferDelegation_MIN = SIP_TRANSFER_DELEGATION_UNSPECIFIED;
+constexpr SipTransferDelegation SipTransferDelegation_MAX = SIP_TRANSFER_DELEGATION_DISCARD;
+constexpr int SipTransferDelegation_ARRAYSIZE = SipTransferDelegation_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipTransferDelegation_descriptor();
+template<typename T>
+inline const std::string& SipTransferDelegation_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SipTransferDelegation>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SipTransferDelegation_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SipTransferDelegation_descriptor(), enum_t_value);
+}
+inline bool SipTransferDelegation_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, SipTransferDelegation* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SipTransferDelegation>(
+    SipTransferDelegation_descriptor(), name, value);
+}
 enum MediaControlSetting : int {
   MEDIA_CONTROL_SETTING_UNCHANGED = 0,
   MEDIA_CONTROL_SETTING_ON = 1,
@@ -359,6 +402,62 @@ inline bool MediaControlOwner_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, MediaControlOwner* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<MediaControlOwner>(
     MediaControlOwner_descriptor(), name, value);
+}
+enum SipWarmTransferOutcome : int {
+  SIP_WARM_TRANSFER_OUTCOME_UNSPECIFIED = 0,
+  SIP_WARM_TRANSFER_OUTCOME_DECLINED = 1,
+  SIP_WARM_TRANSFER_OUTCOME_UNREACHABLE = 2,
+  SIP_WARM_TRANSFER_OUTCOME_DELEGATION_EXPIRED = 3,
+  SipWarmTransferOutcome_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  SipWarmTransferOutcome_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool SipWarmTransferOutcome_IsValid(int value);
+constexpr SipWarmTransferOutcome SipWarmTransferOutcome_MIN = SIP_WARM_TRANSFER_OUTCOME_UNSPECIFIED;
+constexpr SipWarmTransferOutcome SipWarmTransferOutcome_MAX = SIP_WARM_TRANSFER_OUTCOME_DELEGATION_EXPIRED;
+constexpr int SipWarmTransferOutcome_ARRAYSIZE = SipWarmTransferOutcome_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipWarmTransferOutcome_descriptor();
+template<typename T>
+inline const std::string& SipWarmTransferOutcome_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SipWarmTransferOutcome>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SipWarmTransferOutcome_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SipWarmTransferOutcome_descriptor(), enum_t_value);
+}
+inline bool SipWarmTransferOutcome_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, SipWarmTransferOutcome* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SipWarmTransferOutcome>(
+    SipWarmTransferOutcome_descriptor(), name, value);
+}
+enum SipWarmTransferOutcomeNoticeStatus : int {
+  SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_UNSPECIFIED = 0,
+  SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_QUEUED = 1,
+  SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_DUPLICATE = 2,
+  SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_DISABLED = 3,
+  SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_INVALID = 4,
+  SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_PENDING = 5,
+  SipWarmTransferOutcomeNoticeStatus_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  SipWarmTransferOutcomeNoticeStatus_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool SipWarmTransferOutcomeNoticeStatus_IsValid(int value);
+constexpr SipWarmTransferOutcomeNoticeStatus SipWarmTransferOutcomeNoticeStatus_MIN = SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_UNSPECIFIED;
+constexpr SipWarmTransferOutcomeNoticeStatus SipWarmTransferOutcomeNoticeStatus_MAX = SIP_WARM_TRANSFER_OUTCOME_NOTICE_STATUS_PENDING;
+constexpr int SipWarmTransferOutcomeNoticeStatus_ARRAYSIZE = SipWarmTransferOutcomeNoticeStatus_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SipWarmTransferOutcomeNoticeStatus_descriptor();
+template<typename T>
+inline const std::string& SipWarmTransferOutcomeNoticeStatus_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SipWarmTransferOutcomeNoticeStatus>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SipWarmTransferOutcomeNoticeStatus_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SipWarmTransferOutcomeNoticeStatus_descriptor(), enum_t_value);
+}
+inline bool SipWarmTransferOutcomeNoticeStatus_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, SipWarmTransferOutcomeNoticeStatus* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SipWarmTransferOutcomeNoticeStatus>(
+    SipWarmTransferOutcomeNoticeStatus_descriptor(), name, value);
 }
 enum SipCallAudioMode : int {
   SIP_CALL_AUDIO_MODE_UNSPECIFIED = 0,
@@ -1888,7 +1987,9 @@ class SipTransferCallRequest final :
   enum : int {
     kHeadersFieldNumber = 2,
     kTransferIdFieldNumber = 1,
+    kDelegatedRequestIdFieldNumber = 5,
     kOutcomeTimeoutMsFieldNumber = 3,
+    kDelegationFieldNumber = 4,
   };
   // map<string, string> headers = 2;
   int headers_size() const;
@@ -1921,6 +2022,20 @@ class SipTransferCallRequest final :
   std::string* _internal_mutable_transfer_id();
   public:
 
+  // string delegated_request_id = 5;
+  void clear_delegated_request_id();
+  const std::string& delegated_request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_delegated_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_delegated_request_id();
+  PROTOBUF_NODISCARD std::string* release_delegated_request_id();
+  void set_allocated_delegated_request_id(std::string* delegated_request_id);
+  private:
+  const std::string& _internal_delegated_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_delegated_request_id(const std::string& value);
+  std::string* _internal_mutable_delegated_request_id();
+  public:
+
   // uint32 outcome_timeout_ms = 3;
   void clear_outcome_timeout_ms();
   uint32_t outcome_timeout_ms() const;
@@ -1928,6 +2043,15 @@ class SipTransferCallRequest final :
   private:
   uint32_t _internal_outcome_timeout_ms() const;
   void _internal_set_outcome_timeout_ms(uint32_t value);
+  public:
+
+  // .ondewo.sip.SipTransferDelegation delegation = 4;
+  void clear_delegation();
+  ::ondewo::sip::SipTransferDelegation delegation() const;
+  void set_delegation(::ondewo::sip::SipTransferDelegation value);
+  private:
+  ::ondewo::sip::SipTransferDelegation _internal_delegation() const;
+  void _internal_set_delegation(::ondewo::sip::SipTransferDelegation value);
   public:
 
   // @@protoc_insertion_point(class_scope:ondewo.sip.SipTransferCallRequest)
@@ -1944,7 +2068,263 @@ class SipTransferCallRequest final :
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING> headers_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr transfer_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr delegated_request_id_;
     uint32_t outcome_timeout_ms_;
+    int delegation_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fsip_2fsip_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SipDelegatedTransfer_HeadersEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<SipDelegatedTransfer_HeadersEntry_DoNotUse, 
+    std::string, std::string,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<SipDelegatedTransfer_HeadersEntry_DoNotUse, 
+    std::string, std::string,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING> SuperType;
+  SipDelegatedTransfer_HeadersEntry_DoNotUse();
+  explicit PROTOBUF_CONSTEXPR SipDelegatedTransfer_HeadersEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit SipDelegatedTransfer_HeadersEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const SipDelegatedTransfer_HeadersEntry_DoNotUse& other);
+  static const SipDelegatedTransfer_HeadersEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const SipDelegatedTransfer_HeadersEntry_DoNotUse*>(&_SipDelegatedTransfer_HeadersEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(std::string* s) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(s->data(), static_cast<int>(s->size()), ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE, "ondewo.sip.SipDelegatedTransfer.HeadersEntry.key");
+ }
+  static bool ValidateValue(std::string* s) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(s->data(), static_cast<int>(s->size()), ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE, "ondewo.sip.SipDelegatedTransfer.HeadersEntry.value");
+ }
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  friend struct ::TableStruct_ondewo_2fsip_2fsip_2eproto;
+};
+
+// -------------------------------------------------------------------
+
+class SipDelegatedTransfer final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.sip.SipDelegatedTransfer) */ {
+ public:
+  inline SipDelegatedTransfer() : SipDelegatedTransfer(nullptr) {}
+  ~SipDelegatedTransfer() override;
+  explicit PROTOBUF_CONSTEXPR SipDelegatedTransfer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SipDelegatedTransfer(const SipDelegatedTransfer& from);
+  SipDelegatedTransfer(SipDelegatedTransfer&& from) noexcept
+    : SipDelegatedTransfer() {
+    *this = ::std::move(from);
+  }
+
+  inline SipDelegatedTransfer& operator=(const SipDelegatedTransfer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SipDelegatedTransfer& operator=(SipDelegatedTransfer&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SipDelegatedTransfer& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SipDelegatedTransfer* internal_default_instance() {
+    return reinterpret_cast<const SipDelegatedTransfer*>(
+               &_SipDelegatedTransfer_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(SipDelegatedTransfer& a, SipDelegatedTransfer& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SipDelegatedTransfer* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SipDelegatedTransfer* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SipDelegatedTransfer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SipDelegatedTransfer>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SipDelegatedTransfer& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SipDelegatedTransfer& from) {
+    SipDelegatedTransfer::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SipDelegatedTransfer* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.sip.SipDelegatedTransfer";
+  }
+  protected:
+  explicit SipDelegatedTransfer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kHeadersFieldNumber = 5,
+    kRequestIdFieldNumber = 1,
+    kTransferIdFieldNumber = 4,
+    kRequestedAtFieldNumber = 2,
+    kTargetIsPhoneNumberFieldNumber = 3,
+  };
+  // map<string, string> headers = 5;
+  int headers_size() const;
+  private:
+  int _internal_headers_size() const;
+  public:
+  void clear_headers();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >&
+      _internal_headers() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >*
+      _internal_mutable_headers();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >&
+      headers() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >*
+      mutable_headers();
+
+  // string request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_NODISCARD std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // string transfer_id = 4;
+  void clear_transfer_id();
+  const std::string& transfer_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_transfer_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_transfer_id();
+  PROTOBUF_NODISCARD std::string* release_transfer_id();
+  void set_allocated_transfer_id(std::string* transfer_id);
+  private:
+  const std::string& _internal_transfer_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_transfer_id(const std::string& value);
+  std::string* _internal_mutable_transfer_id();
+  public:
+
+  // .google.protobuf.Timestamp requested_at = 2;
+  bool has_requested_at() const;
+  private:
+  bool _internal_has_requested_at() const;
+  public:
+  void clear_requested_at();
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& requested_at() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::Timestamp* release_requested_at();
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* mutable_requested_at();
+  void set_allocated_requested_at(::PROTOBUF_NAMESPACE_ID::Timestamp* requested_at);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp& _internal_requested_at() const;
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _internal_mutable_requested_at();
+  public:
+  void unsafe_arena_set_allocated_requested_at(
+      ::PROTOBUF_NAMESPACE_ID::Timestamp* requested_at);
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_requested_at();
+
+  // bool target_is_phone_number = 3;
+  void clear_target_is_phone_number();
+  bool target_is_phone_number() const;
+  void set_target_is_phone_number(bool value);
+  private:
+  bool _internal_target_is_phone_number() const;
+  void _internal_set_target_is_phone_number(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.sip.SipDelegatedTransfer)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+        SipDelegatedTransfer_HeadersEntry_DoNotUse,
+        std::string, std::string,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING> headers_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr transfer_id_;
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* requested_at_;
+    bool target_is_phone_number_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2028,7 +2408,7 @@ class SipStatus final :
                &_SipStatus_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    12;
 
   friend void swap(SipStatus& a, SipStatus& b) {
     a.Swap(&b);
@@ -2177,6 +2557,7 @@ class SipStatus final :
 
   enum : int {
     kHeadersFieldNumber = 6,
+    kCapabilitiesFieldNumber = 18,
     kAccountNameFieldNumber = 1,
     kCalleeIdFieldNumber = 4,
     kTransferCallIdFieldNumber = 5,
@@ -2187,11 +2568,13 @@ class SipStatus final :
     kCallIdFieldNumber = 12,
     kTimestampFieldNumber = 2,
     kAmdResultFieldNumber = 11,
+    kDelegatedTransferFieldNumber = 17,
     kStatusTypeFieldNumber = 3,
     kBotMutedFieldNumber = 13,
     kListeningPausedFieldNumber = 14,
     kCallAudioStreamsFieldNumber = 15,
     kSipResponseCodeFieldNumber = 16,
+    kWarmTransferOutcomeNoticeStatusFieldNumber = 19,
   };
   // map<string, string> headers = 6;
   int headers_size() const;
@@ -2209,6 +2592,30 @@ class SipStatus final :
       headers() const;
   ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >*
       mutable_headers();
+
+  // repeated string capabilities = 18;
+  int capabilities_size() const;
+  private:
+  int _internal_capabilities_size() const;
+  public:
+  void clear_capabilities();
+  const std::string& capabilities(int index) const;
+  std::string* mutable_capabilities(int index);
+  void set_capabilities(int index, const std::string& value);
+  void set_capabilities(int index, std::string&& value);
+  void set_capabilities(int index, const char* value);
+  void set_capabilities(int index, const char* value, size_t size);
+  std::string* add_capabilities();
+  void add_capabilities(const std::string& value);
+  void add_capabilities(std::string&& value);
+  void add_capabilities(const char* value);
+  void add_capabilities(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& capabilities() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_capabilities();
+  private:
+  const std::string& _internal_capabilities(int index) const;
+  std::string* _internal_add_capabilities();
+  public:
 
   // string account_name = 1;
   void clear_account_name();
@@ -2358,6 +2765,24 @@ class SipStatus final :
       ::ondewo::sip::AnsweringMachineDetectionResult* amd_result);
   ::ondewo::sip::AnsweringMachineDetectionResult* unsafe_arena_release_amd_result();
 
+  // .ondewo.sip.SipDelegatedTransfer delegated_transfer = 17;
+  bool has_delegated_transfer() const;
+  private:
+  bool _internal_has_delegated_transfer() const;
+  public:
+  void clear_delegated_transfer();
+  const ::ondewo::sip::SipDelegatedTransfer& delegated_transfer() const;
+  PROTOBUF_NODISCARD ::ondewo::sip::SipDelegatedTransfer* release_delegated_transfer();
+  ::ondewo::sip::SipDelegatedTransfer* mutable_delegated_transfer();
+  void set_allocated_delegated_transfer(::ondewo::sip::SipDelegatedTransfer* delegated_transfer);
+  private:
+  const ::ondewo::sip::SipDelegatedTransfer& _internal_delegated_transfer() const;
+  ::ondewo::sip::SipDelegatedTransfer* _internal_mutable_delegated_transfer();
+  public:
+  void unsafe_arena_set_allocated_delegated_transfer(
+      ::ondewo::sip::SipDelegatedTransfer* delegated_transfer);
+  ::ondewo::sip::SipDelegatedTransfer* unsafe_arena_release_delegated_transfer();
+
   // .ondewo.sip.SipStatus.StatusType status_type = 3;
   void clear_status_type();
   ::ondewo::sip::SipStatus_StatusType status_type() const;
@@ -2403,6 +2828,15 @@ class SipStatus final :
   void _internal_set_sip_response_code(int32_t value);
   public:
 
+  // .ondewo.sip.SipWarmTransferOutcomeNoticeStatus warm_transfer_outcome_notice_status = 19;
+  void clear_warm_transfer_outcome_notice_status();
+  ::ondewo::sip::SipWarmTransferOutcomeNoticeStatus warm_transfer_outcome_notice_status() const;
+  void set_warm_transfer_outcome_notice_status(::ondewo::sip::SipWarmTransferOutcomeNoticeStatus value);
+  private:
+  ::ondewo::sip::SipWarmTransferOutcomeNoticeStatus _internal_warm_transfer_outcome_notice_status() const;
+  void _internal_set_warm_transfer_outcome_notice_status(::ondewo::sip::SipWarmTransferOutcomeNoticeStatus value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.sip.SipStatus)
  private:
   class _Internal;
@@ -2416,6 +2850,7 @@ class SipStatus final :
         std::string, std::string,
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING> headers_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> capabilities_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr account_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr callee_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr transfer_call_id_;
@@ -2426,11 +2861,13 @@ class SipStatus final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr call_id_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* timestamp_;
     ::ondewo::sip::AnsweringMachineDetectionResult* amd_result_;
+    ::ondewo::sip::SipDelegatedTransfer* delegated_transfer_;
     int status_type_;
     bool bot_muted_;
     bool listening_paused_;
     int32_t call_audio_streams_;
     int32_t sip_response_code_;
+    int warm_transfer_outcome_notice_status_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2486,7 +2923,7 @@ class SipStatusHistoryResponse final :
                &_SipStatusHistoryResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    13;
 
   friend void swap(SipStatusHistoryResponse& a, SipStatusHistoryResponse& b) {
     a.Swap(&b);
@@ -2643,7 +3080,7 @@ class SipSetCallMediaControlRequest final :
                &_SipSetCallMediaControlRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    14;
 
   friend void swap(SipSetCallMediaControlRequest& a, SipSetCallMediaControlRequest& b) {
     a.Swap(&b);
@@ -2716,11 +3153,30 @@ class SipSetCallMediaControlRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kWarmTransferOutcomeFieldNumber = 5,
     kBotVoiceFieldNumber = 1,
     kBotListeningFieldNumber = 2,
     kOwnerFieldNumber = 3,
     kParticipantsPresentFieldNumber = 4,
   };
+  // .ondewo.sip.SipWarmTransferOutcomeNotice warm_transfer_outcome = 5;
+  bool has_warm_transfer_outcome() const;
+  private:
+  bool _internal_has_warm_transfer_outcome() const;
+  public:
+  void clear_warm_transfer_outcome();
+  const ::ondewo::sip::SipWarmTransferOutcomeNotice& warm_transfer_outcome() const;
+  PROTOBUF_NODISCARD ::ondewo::sip::SipWarmTransferOutcomeNotice* release_warm_transfer_outcome();
+  ::ondewo::sip::SipWarmTransferOutcomeNotice* mutable_warm_transfer_outcome();
+  void set_allocated_warm_transfer_outcome(::ondewo::sip::SipWarmTransferOutcomeNotice* warm_transfer_outcome);
+  private:
+  const ::ondewo::sip::SipWarmTransferOutcomeNotice& _internal_warm_transfer_outcome() const;
+  ::ondewo::sip::SipWarmTransferOutcomeNotice* _internal_mutable_warm_transfer_outcome();
+  public:
+  void unsafe_arena_set_allocated_warm_transfer_outcome(
+      ::ondewo::sip::SipWarmTransferOutcomeNotice* warm_transfer_outcome);
+  ::ondewo::sip::SipWarmTransferOutcomeNotice* unsafe_arena_release_warm_transfer_outcome();
+
   // .ondewo.sip.MediaControlSetting bot_voice = 1;
   void clear_bot_voice();
   ::ondewo::sip::MediaControlSetting bot_voice() const;
@@ -2765,10 +3221,392 @@ class SipSetCallMediaControlRequest final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::ondewo::sip::SipWarmTransferOutcomeNotice* warm_transfer_outcome_;
     int bot_voice_;
     int bot_listening_;
     int owner_;
     bool participants_present_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fsip_2fsip_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SipWarmTransferOutcomeNotice final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.sip.SipWarmTransferOutcomeNotice) */ {
+ public:
+  inline SipWarmTransferOutcomeNotice() : SipWarmTransferOutcomeNotice(nullptr) {}
+  ~SipWarmTransferOutcomeNotice() override;
+  explicit PROTOBUF_CONSTEXPR SipWarmTransferOutcomeNotice(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SipWarmTransferOutcomeNotice(const SipWarmTransferOutcomeNotice& from);
+  SipWarmTransferOutcomeNotice(SipWarmTransferOutcomeNotice&& from) noexcept
+    : SipWarmTransferOutcomeNotice() {
+    *this = ::std::move(from);
+  }
+
+  inline SipWarmTransferOutcomeNotice& operator=(const SipWarmTransferOutcomeNotice& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SipWarmTransferOutcomeNotice& operator=(SipWarmTransferOutcomeNotice&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SipWarmTransferOutcomeNotice& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SipWarmTransferOutcomeNotice* internal_default_instance() {
+    return reinterpret_cast<const SipWarmTransferOutcomeNotice*>(
+               &_SipWarmTransferOutcomeNotice_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    15;
+
+  friend void swap(SipWarmTransferOutcomeNotice& a, SipWarmTransferOutcomeNotice& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SipWarmTransferOutcomeNotice* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SipWarmTransferOutcomeNotice* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SipWarmTransferOutcomeNotice* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SipWarmTransferOutcomeNotice>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SipWarmTransferOutcomeNotice& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SipWarmTransferOutcomeNotice& from) {
+    SipWarmTransferOutcomeNotice::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SipWarmTransferOutcomeNotice* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.sip.SipWarmTransferOutcomeNotice";
+  }
+  protected:
+  explicit SipWarmTransferOutcomeNotice(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kIntroSessionFieldNumber = 3,
+    kCalleeDisplayNameFieldNumber = 4,
+    kCauseFieldNumber = 5,
+    kFallbackTextFieldNumber = 6,
+    kOutcomeFieldNumber = 2,
+  };
+  // string request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_NODISCARD std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // string intro_session = 3;
+  void clear_intro_session();
+  const std::string& intro_session() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_intro_session(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_intro_session();
+  PROTOBUF_NODISCARD std::string* release_intro_session();
+  void set_allocated_intro_session(std::string* intro_session);
+  private:
+  const std::string& _internal_intro_session() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_intro_session(const std::string& value);
+  std::string* _internal_mutable_intro_session();
+  public:
+
+  // string callee_display_name = 4;
+  void clear_callee_display_name();
+  const std::string& callee_display_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_callee_display_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_callee_display_name();
+  PROTOBUF_NODISCARD std::string* release_callee_display_name();
+  void set_allocated_callee_display_name(std::string* callee_display_name);
+  private:
+  const std::string& _internal_callee_display_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_callee_display_name(const std::string& value);
+  std::string* _internal_mutable_callee_display_name();
+  public:
+
+  // string cause = 5;
+  void clear_cause();
+  const std::string& cause() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_cause(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_cause();
+  PROTOBUF_NODISCARD std::string* release_cause();
+  void set_allocated_cause(std::string* cause);
+  private:
+  const std::string& _internal_cause() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_cause(const std::string& value);
+  std::string* _internal_mutable_cause();
+  public:
+
+  // string fallback_text = 6;
+  void clear_fallback_text();
+  const std::string& fallback_text() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_fallback_text(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_fallback_text();
+  PROTOBUF_NODISCARD std::string* release_fallback_text();
+  void set_allocated_fallback_text(std::string* fallback_text);
+  private:
+  const std::string& _internal_fallback_text() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_fallback_text(const std::string& value);
+  std::string* _internal_mutable_fallback_text();
+  public:
+
+  // .ondewo.sip.SipWarmTransferOutcome outcome = 2;
+  void clear_outcome();
+  ::ondewo::sip::SipWarmTransferOutcome outcome() const;
+  void set_outcome(::ondewo::sip::SipWarmTransferOutcome value);
+  private:
+  ::ondewo::sip::SipWarmTransferOutcome _internal_outcome() const;
+  void _internal_set_outcome(::ondewo::sip::SipWarmTransferOutcome value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.sip.SipWarmTransferOutcomeNotice)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr intro_session_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr callee_display_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr cause_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr fallback_text_;
+    int outcome_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fsip_2fsip_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SipSendDtmfRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.sip.SipSendDtmfRequest) */ {
+ public:
+  inline SipSendDtmfRequest() : SipSendDtmfRequest(nullptr) {}
+  ~SipSendDtmfRequest() override;
+  explicit PROTOBUF_CONSTEXPR SipSendDtmfRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SipSendDtmfRequest(const SipSendDtmfRequest& from);
+  SipSendDtmfRequest(SipSendDtmfRequest&& from) noexcept
+    : SipSendDtmfRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline SipSendDtmfRequest& operator=(const SipSendDtmfRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SipSendDtmfRequest& operator=(SipSendDtmfRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SipSendDtmfRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SipSendDtmfRequest* internal_default_instance() {
+    return reinterpret_cast<const SipSendDtmfRequest*>(
+               &_SipSendDtmfRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    16;
+
+  friend void swap(SipSendDtmfRequest& a, SipSendDtmfRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SipSendDtmfRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SipSendDtmfRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SipSendDtmfRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SipSendDtmfRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SipSendDtmfRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SipSendDtmfRequest& from) {
+    SipSendDtmfRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SipSendDtmfRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.sip.SipSendDtmfRequest";
+  }
+  protected:
+  explicit SipSendDtmfRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDigitsFieldNumber = 1,
+  };
+  // string digits = 1;
+  void clear_digits();
+  const std::string& digits() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_digits(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_digits();
+  PROTOBUF_NODISCARD std::string* release_digits();
+  void set_allocated_digits(std::string* digits);
+  private:
+  const std::string& _internal_digits() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_digits(const std::string& value);
+  std::string* _internal_mutable_digits();
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.sip.SipSendDtmfRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr digits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2824,7 +3662,7 @@ class SipCallAudioConfig final :
                &_SipCallAudioConfig_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    17;
 
   friend void swap(SipCallAudioConfig& a, SipCallAudioConfig& b) {
     a.Swap(&b);
@@ -3032,7 +3870,7 @@ class SipCallAudioFrame final :
                &_SipCallAudioFrame_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    18;
 
   friend void swap(SipCallAudioFrame& a, SipCallAudioFrame& b) {
     a.Swap(&b);
@@ -3203,7 +4041,7 @@ class SipCallAudioRequest final :
                &_SipCallAudioRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    19;
 
   friend void swap(SipCallAudioRequest& a, SipCallAudioRequest& b) {
     a.Swap(&b);
@@ -3409,7 +4247,7 @@ class SipCallAudioStarted final :
                &_SipCallAudioStarted_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    20;
 
   friend void swap(SipCallAudioStarted& a, SipCallAudioStarted& b) {
     a.Swap(&b);
@@ -3595,7 +4433,7 @@ class SipCallAudioStats final :
                &_SipCallAudioStats_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    21;
 
   friend void swap(SipCallAudioStats& a, SipCallAudioStats& b) {
     a.Swap(&b);
@@ -3787,7 +4625,7 @@ class SipCallAudioEnded final :
                &_SipCallAudioEnded_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    22;
 
   friend void swap(SipCallAudioEnded& a, SipCallAudioEnded& b) {
     a.Swap(&b);
@@ -3959,7 +4797,7 @@ class SipCallAudioResponse final :
                &_SipCallAudioResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    23;
 
   friend void swap(SipCallAudioResponse& a, SipCallAudioResponse& b) {
     a.Swap(&b);
@@ -4191,7 +5029,7 @@ class SipPlayWavFilesRequest final :
                &_SipPlayWavFilesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    24;
 
   friend void swap(SipPlayWavFilesRequest& a, SipPlayWavFilesRequest& b) {
     a.Swap(&b);
@@ -5286,6 +6124,316 @@ inline void SipTransferCallRequest::set_outcome_timeout_ms(uint32_t value) {
   // @@protoc_insertion_point(field_set:ondewo.sip.SipTransferCallRequest.outcome_timeout_ms)
 }
 
+// .ondewo.sip.SipTransferDelegation delegation = 4;
+inline void SipTransferCallRequest::clear_delegation() {
+  _impl_.delegation_ = 0;
+}
+inline ::ondewo::sip::SipTransferDelegation SipTransferCallRequest::_internal_delegation() const {
+  return static_cast< ::ondewo::sip::SipTransferDelegation >(_impl_.delegation_);
+}
+inline ::ondewo::sip::SipTransferDelegation SipTransferCallRequest::delegation() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipTransferCallRequest.delegation)
+  return _internal_delegation();
+}
+inline void SipTransferCallRequest::_internal_set_delegation(::ondewo::sip::SipTransferDelegation value) {
+  
+  _impl_.delegation_ = value;
+}
+inline void SipTransferCallRequest::set_delegation(::ondewo::sip::SipTransferDelegation value) {
+  _internal_set_delegation(value);
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipTransferCallRequest.delegation)
+}
+
+// string delegated_request_id = 5;
+inline void SipTransferCallRequest::clear_delegated_request_id() {
+  _impl_.delegated_request_id_.ClearToEmpty();
+}
+inline const std::string& SipTransferCallRequest::delegated_request_id() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipTransferCallRequest.delegated_request_id)
+  return _internal_delegated_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipTransferCallRequest::set_delegated_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.delegated_request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipTransferCallRequest.delegated_request_id)
+}
+inline std::string* SipTransferCallRequest::mutable_delegated_request_id() {
+  std::string* _s = _internal_mutable_delegated_request_id();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipTransferCallRequest.delegated_request_id)
+  return _s;
+}
+inline const std::string& SipTransferCallRequest::_internal_delegated_request_id() const {
+  return _impl_.delegated_request_id_.Get();
+}
+inline void SipTransferCallRequest::_internal_set_delegated_request_id(const std::string& value) {
+  
+  _impl_.delegated_request_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipTransferCallRequest::_internal_mutable_delegated_request_id() {
+  
+  return _impl_.delegated_request_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipTransferCallRequest::release_delegated_request_id() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipTransferCallRequest.delegated_request_id)
+  return _impl_.delegated_request_id_.Release();
+}
+inline void SipTransferCallRequest::set_allocated_delegated_request_id(std::string* delegated_request_id) {
+  if (delegated_request_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.delegated_request_id_.SetAllocated(delegated_request_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.delegated_request_id_.IsDefault()) {
+    _impl_.delegated_request_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipTransferCallRequest.delegated_request_id)
+}
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// SipDelegatedTransfer
+
+// string request_id = 1;
+inline void SipDelegatedTransfer::clear_request_id() {
+  _impl_.request_id_.ClearToEmpty();
+}
+inline const std::string& SipDelegatedTransfer::request_id() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipDelegatedTransfer.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipDelegatedTransfer::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipDelegatedTransfer.request_id)
+}
+inline std::string* SipDelegatedTransfer::mutable_request_id() {
+  std::string* _s = _internal_mutable_request_id();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipDelegatedTransfer.request_id)
+  return _s;
+}
+inline const std::string& SipDelegatedTransfer::_internal_request_id() const {
+  return _impl_.request_id_.Get();
+}
+inline void SipDelegatedTransfer::_internal_set_request_id(const std::string& value) {
+  
+  _impl_.request_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipDelegatedTransfer::_internal_mutable_request_id() {
+  
+  return _impl_.request_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipDelegatedTransfer::release_request_id() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipDelegatedTransfer.request_id)
+  return _impl_.request_id_.Release();
+}
+inline void SipDelegatedTransfer::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.request_id_.IsDefault()) {
+    _impl_.request_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipDelegatedTransfer.request_id)
+}
+
+// .google.protobuf.Timestamp requested_at = 2;
+inline bool SipDelegatedTransfer::_internal_has_requested_at() const {
+  return this != internal_default_instance() && _impl_.requested_at_ != nullptr;
+}
+inline bool SipDelegatedTransfer::has_requested_at() const {
+  return _internal_has_requested_at();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SipDelegatedTransfer::_internal_requested_at() const {
+  const ::PROTOBUF_NAMESPACE_ID::Timestamp* p = _impl_.requested_at_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Timestamp&>(
+      ::PROTOBUF_NAMESPACE_ID::_Timestamp_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Timestamp& SipDelegatedTransfer::requested_at() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipDelegatedTransfer.requested_at)
+  return _internal_requested_at();
+}
+inline void SipDelegatedTransfer::unsafe_arena_set_allocated_requested_at(
+    ::PROTOBUF_NAMESPACE_ID::Timestamp* requested_at) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.requested_at_);
+  }
+  _impl_.requested_at_ = requested_at;
+  if (requested_at) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.sip.SipDelegatedTransfer.requested_at)
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SipDelegatedTransfer::release_requested_at() {
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.requested_at_;
+  _impl_.requested_at_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SipDelegatedTransfer::unsafe_arena_release_requested_at() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipDelegatedTransfer.requested_at)
+  
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* temp = _impl_.requested_at_;
+  _impl_.requested_at_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SipDelegatedTransfer::_internal_mutable_requested_at() {
+  
+  if (_impl_.requested_at_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::Timestamp>(GetArenaForAllocation());
+    _impl_.requested_at_ = p;
+  }
+  return _impl_.requested_at_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::Timestamp* SipDelegatedTransfer::mutable_requested_at() {
+  ::PROTOBUF_NAMESPACE_ID::Timestamp* _msg = _internal_mutable_requested_at();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipDelegatedTransfer.requested_at)
+  return _msg;
+}
+inline void SipDelegatedTransfer::set_allocated_requested_at(::PROTOBUF_NAMESPACE_ID::Timestamp* requested_at) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.requested_at_);
+  }
+  if (requested_at) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(requested_at));
+    if (message_arena != submessage_arena) {
+      requested_at = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, requested_at, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.requested_at_ = requested_at;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipDelegatedTransfer.requested_at)
+}
+
+// bool target_is_phone_number = 3;
+inline void SipDelegatedTransfer::clear_target_is_phone_number() {
+  _impl_.target_is_phone_number_ = false;
+}
+inline bool SipDelegatedTransfer::_internal_target_is_phone_number() const {
+  return _impl_.target_is_phone_number_;
+}
+inline bool SipDelegatedTransfer::target_is_phone_number() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipDelegatedTransfer.target_is_phone_number)
+  return _internal_target_is_phone_number();
+}
+inline void SipDelegatedTransfer::_internal_set_target_is_phone_number(bool value) {
+  
+  _impl_.target_is_phone_number_ = value;
+}
+inline void SipDelegatedTransfer::set_target_is_phone_number(bool value) {
+  _internal_set_target_is_phone_number(value);
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipDelegatedTransfer.target_is_phone_number)
+}
+
+// string transfer_id = 4;
+inline void SipDelegatedTransfer::clear_transfer_id() {
+  _impl_.transfer_id_.ClearToEmpty();
+}
+inline const std::string& SipDelegatedTransfer::transfer_id() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipDelegatedTransfer.transfer_id)
+  return _internal_transfer_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipDelegatedTransfer::set_transfer_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.transfer_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipDelegatedTransfer.transfer_id)
+}
+inline std::string* SipDelegatedTransfer::mutable_transfer_id() {
+  std::string* _s = _internal_mutable_transfer_id();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipDelegatedTransfer.transfer_id)
+  return _s;
+}
+inline const std::string& SipDelegatedTransfer::_internal_transfer_id() const {
+  return _impl_.transfer_id_.Get();
+}
+inline void SipDelegatedTransfer::_internal_set_transfer_id(const std::string& value) {
+  
+  _impl_.transfer_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipDelegatedTransfer::_internal_mutable_transfer_id() {
+  
+  return _impl_.transfer_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipDelegatedTransfer::release_transfer_id() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipDelegatedTransfer.transfer_id)
+  return _impl_.transfer_id_.Release();
+}
+inline void SipDelegatedTransfer::set_allocated_transfer_id(std::string* transfer_id) {
+  if (transfer_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.transfer_id_.SetAllocated(transfer_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.transfer_id_.IsDefault()) {
+    _impl_.transfer_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipDelegatedTransfer.transfer_id)
+}
+
+// map<string, string> headers = 5;
+inline int SipDelegatedTransfer::_internal_headers_size() const {
+  return _impl_.headers_.size();
+}
+inline int SipDelegatedTransfer::headers_size() const {
+  return _internal_headers_size();
+}
+inline void SipDelegatedTransfer::clear_headers() {
+  _impl_.headers_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >&
+SipDelegatedTransfer::_internal_headers() const {
+  return _impl_.headers_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >&
+SipDelegatedTransfer::headers() const {
+  // @@protoc_insertion_point(field_map:ondewo.sip.SipDelegatedTransfer.headers)
+  return _internal_headers();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >*
+SipDelegatedTransfer::_internal_mutable_headers() {
+  return _impl_.headers_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, std::string >*
+SipDelegatedTransfer::mutable_headers() {
+  // @@protoc_insertion_point(field_mutable_map:ondewo.sip.SipDelegatedTransfer.headers)
+  return _internal_mutable_headers();
+}
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -5996,6 +7144,191 @@ inline void SipStatus::set_sip_response_code(int32_t value) {
   // @@protoc_insertion_point(field_set:ondewo.sip.SipStatus.sip_response_code)
 }
 
+// .ondewo.sip.SipDelegatedTransfer delegated_transfer = 17;
+inline bool SipStatus::_internal_has_delegated_transfer() const {
+  return this != internal_default_instance() && _impl_.delegated_transfer_ != nullptr;
+}
+inline bool SipStatus::has_delegated_transfer() const {
+  return _internal_has_delegated_transfer();
+}
+inline void SipStatus::clear_delegated_transfer() {
+  if (GetArenaForAllocation() == nullptr && _impl_.delegated_transfer_ != nullptr) {
+    delete _impl_.delegated_transfer_;
+  }
+  _impl_.delegated_transfer_ = nullptr;
+}
+inline const ::ondewo::sip::SipDelegatedTransfer& SipStatus::_internal_delegated_transfer() const {
+  const ::ondewo::sip::SipDelegatedTransfer* p = _impl_.delegated_transfer_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::sip::SipDelegatedTransfer&>(
+      ::ondewo::sip::_SipDelegatedTransfer_default_instance_);
+}
+inline const ::ondewo::sip::SipDelegatedTransfer& SipStatus::delegated_transfer() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipStatus.delegated_transfer)
+  return _internal_delegated_transfer();
+}
+inline void SipStatus::unsafe_arena_set_allocated_delegated_transfer(
+    ::ondewo::sip::SipDelegatedTransfer* delegated_transfer) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.delegated_transfer_);
+  }
+  _impl_.delegated_transfer_ = delegated_transfer;
+  if (delegated_transfer) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.sip.SipStatus.delegated_transfer)
+}
+inline ::ondewo::sip::SipDelegatedTransfer* SipStatus::release_delegated_transfer() {
+  
+  ::ondewo::sip::SipDelegatedTransfer* temp = _impl_.delegated_transfer_;
+  _impl_.delegated_transfer_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::sip::SipDelegatedTransfer* SipStatus::unsafe_arena_release_delegated_transfer() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipStatus.delegated_transfer)
+  
+  ::ondewo::sip::SipDelegatedTransfer* temp = _impl_.delegated_transfer_;
+  _impl_.delegated_transfer_ = nullptr;
+  return temp;
+}
+inline ::ondewo::sip::SipDelegatedTransfer* SipStatus::_internal_mutable_delegated_transfer() {
+  
+  if (_impl_.delegated_transfer_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::sip::SipDelegatedTransfer>(GetArenaForAllocation());
+    _impl_.delegated_transfer_ = p;
+  }
+  return _impl_.delegated_transfer_;
+}
+inline ::ondewo::sip::SipDelegatedTransfer* SipStatus::mutable_delegated_transfer() {
+  ::ondewo::sip::SipDelegatedTransfer* _msg = _internal_mutable_delegated_transfer();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipStatus.delegated_transfer)
+  return _msg;
+}
+inline void SipStatus::set_allocated_delegated_transfer(::ondewo::sip::SipDelegatedTransfer* delegated_transfer) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.delegated_transfer_;
+  }
+  if (delegated_transfer) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(delegated_transfer);
+    if (message_arena != submessage_arena) {
+      delegated_transfer = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, delegated_transfer, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.delegated_transfer_ = delegated_transfer;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipStatus.delegated_transfer)
+}
+
+// repeated string capabilities = 18;
+inline int SipStatus::_internal_capabilities_size() const {
+  return _impl_.capabilities_.size();
+}
+inline int SipStatus::capabilities_size() const {
+  return _internal_capabilities_size();
+}
+inline void SipStatus::clear_capabilities() {
+  _impl_.capabilities_.Clear();
+}
+inline std::string* SipStatus::add_capabilities() {
+  std::string* _s = _internal_add_capabilities();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.sip.SipStatus.capabilities)
+  return _s;
+}
+inline const std::string& SipStatus::_internal_capabilities(int index) const {
+  return _impl_.capabilities_.Get(index);
+}
+inline const std::string& SipStatus::capabilities(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipStatus.capabilities)
+  return _internal_capabilities(index);
+}
+inline std::string* SipStatus::mutable_capabilities(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipStatus.capabilities)
+  return _impl_.capabilities_.Mutable(index);
+}
+inline void SipStatus::set_capabilities(int index, const std::string& value) {
+  _impl_.capabilities_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipStatus.capabilities)
+}
+inline void SipStatus::set_capabilities(int index, std::string&& value) {
+  _impl_.capabilities_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipStatus.capabilities)
+}
+inline void SipStatus::set_capabilities(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.capabilities_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.sip.SipStatus.capabilities)
+}
+inline void SipStatus::set_capabilities(int index, const char* value, size_t size) {
+  _impl_.capabilities_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.sip.SipStatus.capabilities)
+}
+inline std::string* SipStatus::_internal_add_capabilities() {
+  return _impl_.capabilities_.Add();
+}
+inline void SipStatus::add_capabilities(const std::string& value) {
+  _impl_.capabilities_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.sip.SipStatus.capabilities)
+}
+inline void SipStatus::add_capabilities(std::string&& value) {
+  _impl_.capabilities_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.sip.SipStatus.capabilities)
+}
+inline void SipStatus::add_capabilities(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.capabilities_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.sip.SipStatus.capabilities)
+}
+inline void SipStatus::add_capabilities(const char* value, size_t size) {
+  _impl_.capabilities_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.sip.SipStatus.capabilities)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+SipStatus::capabilities() const {
+  // @@protoc_insertion_point(field_list:ondewo.sip.SipStatus.capabilities)
+  return _impl_.capabilities_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+SipStatus::mutable_capabilities() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.sip.SipStatus.capabilities)
+  return &_impl_.capabilities_;
+}
+
+// .ondewo.sip.SipWarmTransferOutcomeNoticeStatus warm_transfer_outcome_notice_status = 19;
+inline void SipStatus::clear_warm_transfer_outcome_notice_status() {
+  _impl_.warm_transfer_outcome_notice_status_ = 0;
+}
+inline ::ondewo::sip::SipWarmTransferOutcomeNoticeStatus SipStatus::_internal_warm_transfer_outcome_notice_status() const {
+  return static_cast< ::ondewo::sip::SipWarmTransferOutcomeNoticeStatus >(_impl_.warm_transfer_outcome_notice_status_);
+}
+inline ::ondewo::sip::SipWarmTransferOutcomeNoticeStatus SipStatus::warm_transfer_outcome_notice_status() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipStatus.warm_transfer_outcome_notice_status)
+  return _internal_warm_transfer_outcome_notice_status();
+}
+inline void SipStatus::_internal_set_warm_transfer_outcome_notice_status(::ondewo::sip::SipWarmTransferOutcomeNoticeStatus value) {
+  
+  _impl_.warm_transfer_outcome_notice_status_ = value;
+}
+inline void SipStatus::set_warm_transfer_outcome_notice_status(::ondewo::sip::SipWarmTransferOutcomeNoticeStatus value) {
+  _internal_set_warm_transfer_outcome_notice_status(value);
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipStatus.warm_transfer_outcome_notice_status)
+}
+
 // -------------------------------------------------------------------
 
 // SipStatusHistoryResponse
@@ -6122,6 +7455,424 @@ inline void SipSetCallMediaControlRequest::_internal_set_participants_present(bo
 inline void SipSetCallMediaControlRequest::set_participants_present(bool value) {
   _internal_set_participants_present(value);
   // @@protoc_insertion_point(field_set:ondewo.sip.SipSetCallMediaControlRequest.participants_present)
+}
+
+// .ondewo.sip.SipWarmTransferOutcomeNotice warm_transfer_outcome = 5;
+inline bool SipSetCallMediaControlRequest::_internal_has_warm_transfer_outcome() const {
+  return this != internal_default_instance() && _impl_.warm_transfer_outcome_ != nullptr;
+}
+inline bool SipSetCallMediaControlRequest::has_warm_transfer_outcome() const {
+  return _internal_has_warm_transfer_outcome();
+}
+inline void SipSetCallMediaControlRequest::clear_warm_transfer_outcome() {
+  if (GetArenaForAllocation() == nullptr && _impl_.warm_transfer_outcome_ != nullptr) {
+    delete _impl_.warm_transfer_outcome_;
+  }
+  _impl_.warm_transfer_outcome_ = nullptr;
+}
+inline const ::ondewo::sip::SipWarmTransferOutcomeNotice& SipSetCallMediaControlRequest::_internal_warm_transfer_outcome() const {
+  const ::ondewo::sip::SipWarmTransferOutcomeNotice* p = _impl_.warm_transfer_outcome_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::sip::SipWarmTransferOutcomeNotice&>(
+      ::ondewo::sip::_SipWarmTransferOutcomeNotice_default_instance_);
+}
+inline const ::ondewo::sip::SipWarmTransferOutcomeNotice& SipSetCallMediaControlRequest::warm_transfer_outcome() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipSetCallMediaControlRequest.warm_transfer_outcome)
+  return _internal_warm_transfer_outcome();
+}
+inline void SipSetCallMediaControlRequest::unsafe_arena_set_allocated_warm_transfer_outcome(
+    ::ondewo::sip::SipWarmTransferOutcomeNotice* warm_transfer_outcome) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.warm_transfer_outcome_);
+  }
+  _impl_.warm_transfer_outcome_ = warm_transfer_outcome;
+  if (warm_transfer_outcome) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.sip.SipSetCallMediaControlRequest.warm_transfer_outcome)
+}
+inline ::ondewo::sip::SipWarmTransferOutcomeNotice* SipSetCallMediaControlRequest::release_warm_transfer_outcome() {
+  
+  ::ondewo::sip::SipWarmTransferOutcomeNotice* temp = _impl_.warm_transfer_outcome_;
+  _impl_.warm_transfer_outcome_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::sip::SipWarmTransferOutcomeNotice* SipSetCallMediaControlRequest::unsafe_arena_release_warm_transfer_outcome() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipSetCallMediaControlRequest.warm_transfer_outcome)
+  
+  ::ondewo::sip::SipWarmTransferOutcomeNotice* temp = _impl_.warm_transfer_outcome_;
+  _impl_.warm_transfer_outcome_ = nullptr;
+  return temp;
+}
+inline ::ondewo::sip::SipWarmTransferOutcomeNotice* SipSetCallMediaControlRequest::_internal_mutable_warm_transfer_outcome() {
+  
+  if (_impl_.warm_transfer_outcome_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::sip::SipWarmTransferOutcomeNotice>(GetArenaForAllocation());
+    _impl_.warm_transfer_outcome_ = p;
+  }
+  return _impl_.warm_transfer_outcome_;
+}
+inline ::ondewo::sip::SipWarmTransferOutcomeNotice* SipSetCallMediaControlRequest::mutable_warm_transfer_outcome() {
+  ::ondewo::sip::SipWarmTransferOutcomeNotice* _msg = _internal_mutable_warm_transfer_outcome();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipSetCallMediaControlRequest.warm_transfer_outcome)
+  return _msg;
+}
+inline void SipSetCallMediaControlRequest::set_allocated_warm_transfer_outcome(::ondewo::sip::SipWarmTransferOutcomeNotice* warm_transfer_outcome) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.warm_transfer_outcome_;
+  }
+  if (warm_transfer_outcome) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(warm_transfer_outcome);
+    if (message_arena != submessage_arena) {
+      warm_transfer_outcome = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, warm_transfer_outcome, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.warm_transfer_outcome_ = warm_transfer_outcome;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipSetCallMediaControlRequest.warm_transfer_outcome)
+}
+
+// -------------------------------------------------------------------
+
+// SipWarmTransferOutcomeNotice
+
+// string request_id = 1;
+inline void SipWarmTransferOutcomeNotice::clear_request_id() {
+  _impl_.request_id_.ClearToEmpty();
+}
+inline const std::string& SipWarmTransferOutcomeNotice::request_id() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipWarmTransferOutcomeNotice.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipWarmTransferOutcomeNotice::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipWarmTransferOutcomeNotice.request_id)
+}
+inline std::string* SipWarmTransferOutcomeNotice::mutable_request_id() {
+  std::string* _s = _internal_mutable_request_id();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipWarmTransferOutcomeNotice.request_id)
+  return _s;
+}
+inline const std::string& SipWarmTransferOutcomeNotice::_internal_request_id() const {
+  return _impl_.request_id_.Get();
+}
+inline void SipWarmTransferOutcomeNotice::_internal_set_request_id(const std::string& value) {
+  
+  _impl_.request_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::_internal_mutable_request_id() {
+  
+  return _impl_.request_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::release_request_id() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipWarmTransferOutcomeNotice.request_id)
+  return _impl_.request_id_.Release();
+}
+inline void SipWarmTransferOutcomeNotice::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.request_id_.IsDefault()) {
+    _impl_.request_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipWarmTransferOutcomeNotice.request_id)
+}
+
+// .ondewo.sip.SipWarmTransferOutcome outcome = 2;
+inline void SipWarmTransferOutcomeNotice::clear_outcome() {
+  _impl_.outcome_ = 0;
+}
+inline ::ondewo::sip::SipWarmTransferOutcome SipWarmTransferOutcomeNotice::_internal_outcome() const {
+  return static_cast< ::ondewo::sip::SipWarmTransferOutcome >(_impl_.outcome_);
+}
+inline ::ondewo::sip::SipWarmTransferOutcome SipWarmTransferOutcomeNotice::outcome() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipWarmTransferOutcomeNotice.outcome)
+  return _internal_outcome();
+}
+inline void SipWarmTransferOutcomeNotice::_internal_set_outcome(::ondewo::sip::SipWarmTransferOutcome value) {
+  
+  _impl_.outcome_ = value;
+}
+inline void SipWarmTransferOutcomeNotice::set_outcome(::ondewo::sip::SipWarmTransferOutcome value) {
+  _internal_set_outcome(value);
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipWarmTransferOutcomeNotice.outcome)
+}
+
+// string intro_session = 3;
+inline void SipWarmTransferOutcomeNotice::clear_intro_session() {
+  _impl_.intro_session_.ClearToEmpty();
+}
+inline const std::string& SipWarmTransferOutcomeNotice::intro_session() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipWarmTransferOutcomeNotice.intro_session)
+  return _internal_intro_session();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipWarmTransferOutcomeNotice::set_intro_session(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.intro_session_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipWarmTransferOutcomeNotice.intro_session)
+}
+inline std::string* SipWarmTransferOutcomeNotice::mutable_intro_session() {
+  std::string* _s = _internal_mutable_intro_session();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipWarmTransferOutcomeNotice.intro_session)
+  return _s;
+}
+inline const std::string& SipWarmTransferOutcomeNotice::_internal_intro_session() const {
+  return _impl_.intro_session_.Get();
+}
+inline void SipWarmTransferOutcomeNotice::_internal_set_intro_session(const std::string& value) {
+  
+  _impl_.intro_session_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::_internal_mutable_intro_session() {
+  
+  return _impl_.intro_session_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::release_intro_session() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipWarmTransferOutcomeNotice.intro_session)
+  return _impl_.intro_session_.Release();
+}
+inline void SipWarmTransferOutcomeNotice::set_allocated_intro_session(std::string* intro_session) {
+  if (intro_session != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.intro_session_.SetAllocated(intro_session, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.intro_session_.IsDefault()) {
+    _impl_.intro_session_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipWarmTransferOutcomeNotice.intro_session)
+}
+
+// string callee_display_name = 4;
+inline void SipWarmTransferOutcomeNotice::clear_callee_display_name() {
+  _impl_.callee_display_name_.ClearToEmpty();
+}
+inline const std::string& SipWarmTransferOutcomeNotice::callee_display_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipWarmTransferOutcomeNotice.callee_display_name)
+  return _internal_callee_display_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipWarmTransferOutcomeNotice::set_callee_display_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.callee_display_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipWarmTransferOutcomeNotice.callee_display_name)
+}
+inline std::string* SipWarmTransferOutcomeNotice::mutable_callee_display_name() {
+  std::string* _s = _internal_mutable_callee_display_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipWarmTransferOutcomeNotice.callee_display_name)
+  return _s;
+}
+inline const std::string& SipWarmTransferOutcomeNotice::_internal_callee_display_name() const {
+  return _impl_.callee_display_name_.Get();
+}
+inline void SipWarmTransferOutcomeNotice::_internal_set_callee_display_name(const std::string& value) {
+  
+  _impl_.callee_display_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::_internal_mutable_callee_display_name() {
+  
+  return _impl_.callee_display_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::release_callee_display_name() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipWarmTransferOutcomeNotice.callee_display_name)
+  return _impl_.callee_display_name_.Release();
+}
+inline void SipWarmTransferOutcomeNotice::set_allocated_callee_display_name(std::string* callee_display_name) {
+  if (callee_display_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.callee_display_name_.SetAllocated(callee_display_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.callee_display_name_.IsDefault()) {
+    _impl_.callee_display_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipWarmTransferOutcomeNotice.callee_display_name)
+}
+
+// string cause = 5;
+inline void SipWarmTransferOutcomeNotice::clear_cause() {
+  _impl_.cause_.ClearToEmpty();
+}
+inline const std::string& SipWarmTransferOutcomeNotice::cause() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipWarmTransferOutcomeNotice.cause)
+  return _internal_cause();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipWarmTransferOutcomeNotice::set_cause(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.cause_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipWarmTransferOutcomeNotice.cause)
+}
+inline std::string* SipWarmTransferOutcomeNotice::mutable_cause() {
+  std::string* _s = _internal_mutable_cause();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipWarmTransferOutcomeNotice.cause)
+  return _s;
+}
+inline const std::string& SipWarmTransferOutcomeNotice::_internal_cause() const {
+  return _impl_.cause_.Get();
+}
+inline void SipWarmTransferOutcomeNotice::_internal_set_cause(const std::string& value) {
+  
+  _impl_.cause_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::_internal_mutable_cause() {
+  
+  return _impl_.cause_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::release_cause() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipWarmTransferOutcomeNotice.cause)
+  return _impl_.cause_.Release();
+}
+inline void SipWarmTransferOutcomeNotice::set_allocated_cause(std::string* cause) {
+  if (cause != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.cause_.SetAllocated(cause, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.cause_.IsDefault()) {
+    _impl_.cause_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipWarmTransferOutcomeNotice.cause)
+}
+
+// string fallback_text = 6;
+inline void SipWarmTransferOutcomeNotice::clear_fallback_text() {
+  _impl_.fallback_text_.ClearToEmpty();
+}
+inline const std::string& SipWarmTransferOutcomeNotice::fallback_text() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipWarmTransferOutcomeNotice.fallback_text)
+  return _internal_fallback_text();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipWarmTransferOutcomeNotice::set_fallback_text(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.fallback_text_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipWarmTransferOutcomeNotice.fallback_text)
+}
+inline std::string* SipWarmTransferOutcomeNotice::mutable_fallback_text() {
+  std::string* _s = _internal_mutable_fallback_text();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipWarmTransferOutcomeNotice.fallback_text)
+  return _s;
+}
+inline const std::string& SipWarmTransferOutcomeNotice::_internal_fallback_text() const {
+  return _impl_.fallback_text_.Get();
+}
+inline void SipWarmTransferOutcomeNotice::_internal_set_fallback_text(const std::string& value) {
+  
+  _impl_.fallback_text_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::_internal_mutable_fallback_text() {
+  
+  return _impl_.fallback_text_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipWarmTransferOutcomeNotice::release_fallback_text() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipWarmTransferOutcomeNotice.fallback_text)
+  return _impl_.fallback_text_.Release();
+}
+inline void SipWarmTransferOutcomeNotice::set_allocated_fallback_text(std::string* fallback_text) {
+  if (fallback_text != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.fallback_text_.SetAllocated(fallback_text, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.fallback_text_.IsDefault()) {
+    _impl_.fallback_text_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipWarmTransferOutcomeNotice.fallback_text)
+}
+
+// -------------------------------------------------------------------
+
+// SipSendDtmfRequest
+
+// string digits = 1;
+inline void SipSendDtmfRequest::clear_digits() {
+  _impl_.digits_.ClearToEmpty();
+}
+inline const std::string& SipSendDtmfRequest::digits() const {
+  // @@protoc_insertion_point(field_get:ondewo.sip.SipSendDtmfRequest.digits)
+  return _internal_digits();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SipSendDtmfRequest::set_digits(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.digits_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.sip.SipSendDtmfRequest.digits)
+}
+inline std::string* SipSendDtmfRequest::mutable_digits() {
+  std::string* _s = _internal_mutable_digits();
+  // @@protoc_insertion_point(field_mutable:ondewo.sip.SipSendDtmfRequest.digits)
+  return _s;
+}
+inline const std::string& SipSendDtmfRequest::_internal_digits() const {
+  return _impl_.digits_.Get();
+}
+inline void SipSendDtmfRequest::_internal_set_digits(const std::string& value) {
+  
+  _impl_.digits_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SipSendDtmfRequest::_internal_mutable_digits() {
+  
+  return _impl_.digits_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SipSendDtmfRequest::release_digits() {
+  // @@protoc_insertion_point(field_release:ondewo.sip.SipSendDtmfRequest.digits)
+  return _impl_.digits_.Release();
+}
+inline void SipSendDtmfRequest::set_allocated_digits(std::string* digits) {
+  if (digits != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.digits_.SetAllocated(digits, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.digits_.IsDefault()) {
+    _impl_.digits_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.sip.SipSendDtmfRequest.digits)
 }
 
 // -------------------------------------------------------------------
@@ -7274,6 +9025,14 @@ SipPlayWavFilesRequest::mutable_wav_files() {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -7307,6 +9066,11 @@ template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::sip::SipStatus_StatusType>() {
   return ::ondewo::sip::SipStatus_StatusType_descriptor();
 }
+template <> struct is_proto_enum< ::ondewo::sip::SipTransferDelegation> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::sip::SipTransferDelegation>() {
+  return ::ondewo::sip::SipTransferDelegation_descriptor();
+}
 template <> struct is_proto_enum< ::ondewo::sip::MediaControlSetting> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::sip::MediaControlSetting>() {
@@ -7316,6 +9080,16 @@ template <> struct is_proto_enum< ::ondewo::sip::MediaControlOwner> : ::std::tru
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::sip::MediaControlOwner>() {
   return ::ondewo::sip::MediaControlOwner_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::sip::SipWarmTransferOutcome> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::sip::SipWarmTransferOutcome>() {
+  return ::ondewo::sip::SipWarmTransferOutcome_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::sip::SipWarmTransferOutcomeNoticeStatus> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::sip::SipWarmTransferOutcomeNoticeStatus>() {
+  return ::ondewo::sip::SipWarmTransferOutcomeNoticeStatus_descriptor();
 }
 template <> struct is_proto_enum< ::ondewo::sip::SipCallAudioMode> : ::std::true_type {};
 template <>

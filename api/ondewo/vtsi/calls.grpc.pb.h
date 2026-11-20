@@ -587,13 +587,21 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>> PrepareAsyncStopAllCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopAllCallsRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::StopCallsResponse>>(PrepareAsyncStopAllCallsRaw(context, request, cq));
     }
-    // <p>Transfer a call to a phone number, a softphone account, another listener or the listener queue.</p>
+    // <p>Transfer a call to a phone number, a softphone account, another listener, the listener queue or a published
+    // IVR menu.</p>
     // <p>The target is either the typed <code>target</code> or the legacy raw <code>transfer_id</code>, never both. It is
     // resolved and validated before anything is sent; an invalid target is answered with
     // <code>TRANSFER_OUTCOME_TARGET_INVALID</code> and an <code>error_reason</code>, and the call is untouched.</p>
     // <p><code>TRANSFER_MODE_BLIND</code> (default) sends a SIP REFER and reports its outcome: a refused REFER keeps the
     // call with the bot. <code>TRANSFER_MODE_WARM</code> rings the target into the call first, and the bot leaves only
     // after the target joined (Asterisk 22 only).</p>
+    // <p>A WARM transfer whose effective <code>WarmTransferConfig</code> is enabled runs a WARM INTRO: once the human
+    // target answers, an ONDEWO bot asks whether a person is on the line, briefs them and asks whether they accept;
+    // only an accepting target is joined. It answers <code>TRANSFER_OUTCOME_PENDING</code>, and the final outcome
+    // (<code>TRANSFER_OUTCOME_ACCEPTED</code>, <code>_DECLINED</code>, <code>_NO_DECISION</code>,
+    // <code>_TARGET_UNAVAILABLE</code>, <code>_INTRO_UNAVAILABLE</code>, or a busy / unanswered target&apos;s
+    // usual outcome) arrives in <code>Call.last_transfer</code> and the events. See
+    // <code>TransferCallRequest.warm_transfer_config</code> for its refusals.</p>
     // <p>Telephony outcomes (busy, no answer, REFER rejected) are successful RPCs carrying an <code>outcome</code>.
     // Refusals before any side effect also return a gRPC status with <code>reason=&lt;token&gt;</code> in its details:
     // <code>INVALID_ARGUMENT</code> (both targets set, malformed target), <code>NOT_FOUND</code> (call or target not
@@ -820,6 +828,30 @@ class Calls final {
     }
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SetCallMediaControlResponse>> PrepareAsyncSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SetCallMediaControlResponse>>(PrepareAsyncSetCallMediaControlRaw(context, request, cq));
+    }
+    // <p>Press DTMF keys on a connected call, e.g. to navigate the IVR an outbound call reached or to enter a code on
+    // the caller&apos;s behalf. The keys go out as RFC 4733 telephone events from the bot&apos;s leg, one every
+    // 250 ms, in order; a later request for the same call follows the earlier one and never interleaves with it.
+    // No tone is played into the call audio, so the bot does not hear the keys. The response means the keys were
+    // queued: if the call ends meanwhile, the remaining keys are dropped. A peer that did not negotiate
+    // <code>telephone-event</code> receives no key.</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_DTMF_SENT</code>. The keys are never written to a log, an event or an audit
+    // record: only their number is.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> (<code>reason=invalid-digits</code>: <code>digits</code> empty, longer
+    // than 64 or outside <code>0-9 * # A-D</code>), <code>NOT_FOUND</code> (<code>reason=call-not-found</code>),
+    // <code>FAILED_PRECONDITION</code> (<code>call-not-connected</code>, <code>amd-in-progress</code>,
+    // <code>call-not-yet-identified</code>, <code>sip-image-too-old</code>, <code>no-audio-stream</code>),
+    // <code>ABORTED</code> (<code>call-control-busy</code>), <code>UNAVAILABLE</code> (<code>sip-unreachable</code>).</p>
+    // <p>Authorization: requires the role <code>PROJECT_DEVELOPER</code> or higher on the project, and the server&apos;s
+    // Keycloak auth mode <code>ENFORCE</code>; otherwise <code>PERMISSION_DENIED</code>, or
+    // <code>FAILED_PRECONDITION</code> with <code>reason=call-supervision-requires-auth</code> when auth is not enforced.
+    // Every action writes an audit record (who, call, when, number of keys). No announcement is played to the caller.</p>
+    virtual ::grpc::Status SendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::ondewo::vtsi::SendCallDtmfResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SendCallDtmfResponse>> AsyncSendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SendCallDtmfResponse>>(AsyncSendCallDtmfRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SendCallDtmfResponse>> PrepareAsyncSendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SendCallDtmfResponse>>(PrepareAsyncSendCallDtmfRaw(context, request, cq));
     }
     // <p>Live audio of a connected call, both ways. The first request MUST be <code>config</code> (within 2 seconds).
     // LISTEN receives the caller mixed with the bot. TALK sends the agent&apos;s audio to the caller and REQUIRES
@@ -1236,13 +1268,21 @@ class Calls final {
       // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
       virtual void StopAllCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopAllCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void StopAllCalls(::grpc::ClientContext* context, const ::ondewo::vtsi::StopAllCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      // <p>Transfer a call to a phone number, a softphone account, another listener or the listener queue.</p>
+      // <p>Transfer a call to a phone number, a softphone account, another listener, the listener queue or a published
+      // IVR menu.</p>
       // <p>The target is either the typed <code>target</code> or the legacy raw <code>transfer_id</code>, never both. It is
       // resolved and validated before anything is sent; an invalid target is answered with
       // <code>TRANSFER_OUTCOME_TARGET_INVALID</code> and an <code>error_reason</code>, and the call is untouched.</p>
       // <p><code>TRANSFER_MODE_BLIND</code> (default) sends a SIP REFER and reports its outcome: a refused REFER keeps the
       // call with the bot. <code>TRANSFER_MODE_WARM</code> rings the target into the call first, and the bot leaves only
       // after the target joined (Asterisk 22 only).</p>
+      // <p>A WARM transfer whose effective <code>WarmTransferConfig</code> is enabled runs a WARM INTRO: once the human
+      // target answers, an ONDEWO bot asks whether a person is on the line, briefs them and asks whether they accept;
+      // only an accepting target is joined. It answers <code>TRANSFER_OUTCOME_PENDING</code>, and the final outcome
+      // (<code>TRANSFER_OUTCOME_ACCEPTED</code>, <code>_DECLINED</code>, <code>_NO_DECISION</code>,
+      // <code>_TARGET_UNAVAILABLE</code>, <code>_INTRO_UNAVAILABLE</code>, or a busy / unanswered target&apos;s
+      // usual outcome) arrives in <code>Call.last_transfer</code> and the events. See
+      // <code>TransferCallRequest.warm_transfer_config</code> for its refusals.</p>
       // <p>Telephony outcomes (busy, no answer, REFER rejected) are successful RPCs carrying an <code>outcome</code>.
       // Refusals before any side effect also return a gRPC status with <code>reason=&lt;token&gt;</code> in its details:
       // <code>INVALID_ARGUMENT</code> (both targets set, malformed target), <code>NOT_FOUND</code> (call or target not
@@ -1396,6 +1436,25 @@ class Calls final {
       // Every action writes an audit record (who, call, when, mode, target). No announcement is played to the caller.</p>
       virtual void SetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void SetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // <p>Press DTMF keys on a connected call, e.g. to navigate the IVR an outbound call reached or to enter a code on
+      // the caller&apos;s behalf. The keys go out as RFC 4733 telephone events from the bot&apos;s leg, one every
+      // 250 ms, in order; a later request for the same call follows the earlier one and never interleaves with it.
+      // No tone is played into the call audio, so the bot does not hear the keys. The response means the keys were
+      // queued: if the call ends meanwhile, the remaining keys are dropped. A peer that did not negotiate
+      // <code>telephone-event</code> receives no key.</p>
+      // <p>Events: <code>VTSI_EVENT_CALL_DTMF_SENT</code>. The keys are never written to a log, an event or an audit
+      // record: only their number is.</p>
+      // <p>Errors: <code>INVALID_ARGUMENT</code> (<code>reason=invalid-digits</code>: <code>digits</code> empty, longer
+      // than 64 or outside <code>0-9 * # A-D</code>), <code>NOT_FOUND</code> (<code>reason=call-not-found</code>),
+      // <code>FAILED_PRECONDITION</code> (<code>call-not-connected</code>, <code>amd-in-progress</code>,
+      // <code>call-not-yet-identified</code>, <code>sip-image-too-old</code>, <code>no-audio-stream</code>),
+      // <code>ABORTED</code> (<code>call-control-busy</code>), <code>UNAVAILABLE</code> (<code>sip-unreachable</code>).</p>
+      // <p>Authorization: requires the role <code>PROJECT_DEVELOPER</code> or higher on the project, and the server&apos;s
+      // Keycloak auth mode <code>ENFORCE</code>; otherwise <code>PERMISSION_DENIED</code>, or
+      // <code>FAILED_PRECONDITION</code> with <code>reason=call-supervision-requires-auth</code> when auth is not enforced.
+      // Every action writes an audit record (who, call, when, number of keys). No announcement is played to the caller.</p>
+      virtual void SendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest* request, ::ondewo::vtsi::SendCallDtmfResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest* request, ::ondewo::vtsi::SendCallDtmfResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // <p>Live audio of a connected call, both ways. The first request MUST be <code>config</code> (within 2 seconds).
       // LISTEN receives the caller mixed with the bot. TALK sends the agent&apos;s audio to the caller and REQUIRES
       // <code>take_over</code>: the bot is muted and does not listen while the stream is connected, and resumes when it
@@ -1522,6 +1581,8 @@ class Calls final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::RemoveCallParticipantResponse>* PrepareAsyncRemoveCallParticipantRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SetCallMediaControlResponse>* AsyncSetCallMediaControlRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SetCallMediaControlResponse>* PrepareAsyncSetCallMediaControlRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SendCallDtmfResponse>* AsyncSendCallDtmfRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::vtsi::SendCallDtmfResponse>* PrepareAsyncSendCallDtmfRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientReaderWriterInterface< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* StreamCallAudioRaw(::grpc::ClientContext* context) = 0;
     virtual ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* AsyncStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* PrepareAsyncStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) = 0;
@@ -1860,6 +1921,13 @@ class Calls final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SetCallMediaControlResponse>> PrepareAsyncSetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SetCallMediaControlResponse>>(PrepareAsyncSetCallMediaControlRaw(context, request, cq));
     }
+    ::grpc::Status SendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::ondewo::vtsi::SendCallDtmfResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SendCallDtmfResponse>> AsyncSendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SendCallDtmfResponse>>(AsyncSendCallDtmfRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SendCallDtmfResponse>> PrepareAsyncSendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SendCallDtmfResponse>>(PrepareAsyncSendCallDtmfRaw(context, request, cq));
+    }
     std::unique_ptr< ::grpc::ClientReaderWriter< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>> StreamCallAudio(::grpc::ClientContext* context) {
       return std::unique_ptr< ::grpc::ClientReaderWriter< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>>(StreamCallAudioRaw(context));
     }
@@ -1970,6 +2038,8 @@ class Calls final {
       void RemoveCallParticipant(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest* request, ::ondewo::vtsi::RemoveCallParticipantResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void SetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response, std::function<void(::grpc::Status)>) override;
       void SetCallMediaControl(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void SendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest* request, ::ondewo::vtsi::SendCallDtmfResponse* response, std::function<void(::grpc::Status)>) override;
+      void SendCallDtmf(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest* request, ::ondewo::vtsi::SendCallDtmfResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void StreamCallAudio(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::ondewo::vtsi::StreamCallAudioRequest,::ondewo::vtsi::StreamCallAudioResponse>* reactor) override;
       void ListenCallAudio(::grpc::ClientContext* context, const ::ondewo::vtsi::ListenCallAudioRequest* request, ::grpc::ClientReadReactor< ::ondewo::vtsi::StreamCallAudioResponse>* reactor) override;
      private:
@@ -2078,6 +2148,8 @@ class Calls final {
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::RemoveCallParticipantResponse>* PrepareAsyncRemoveCallParticipantRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::RemoveCallParticipantRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SetCallMediaControlResponse>* AsyncSetCallMediaControlRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SetCallMediaControlResponse>* PrepareAsyncSetCallMediaControlRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SendCallDtmfResponse>* AsyncSendCallDtmfRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::vtsi::SendCallDtmfResponse>* PrepareAsyncSendCallDtmfRaw(::grpc::ClientContext* context, const ::ondewo::vtsi::SendCallDtmfRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientReaderWriter< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* StreamCallAudioRaw(::grpc::ClientContext* context) override;
     ::grpc::ClientAsyncReaderWriter< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* AsyncStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) override;
     ::grpc::ClientAsyncReaderWriter< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>* PrepareAsyncStreamCallAudioRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) override;
@@ -2130,6 +2202,7 @@ class Calls final {
     const ::grpc::internal::RpcMethod rpcmethod_InviteToCall_;
     const ::grpc::internal::RpcMethod rpcmethod_RemoveCallParticipant_;
     const ::grpc::internal::RpcMethod rpcmethod_SetCallMediaControl_;
+    const ::grpc::internal::RpcMethod rpcmethod_SendCallDtmf_;
     const ::grpc::internal::RpcMethod rpcmethod_StreamCallAudio_;
     const ::grpc::internal::RpcMethod rpcmethod_ListenCallAudio_;
   };
@@ -2476,13 +2549,21 @@ class Calls final {
     // authorization enforced <code>PERMISSION_DENIED</code>.</p>
     // <p>Authorization: <code>PROJECT_EXECUTOR</code> or higher on the project.</p>
     virtual ::grpc::Status StopAllCalls(::grpc::ServerContext* context, const ::ondewo::vtsi::StopAllCallsRequest* request, ::ondewo::vtsi::StopCallsResponse* response);
-    // <p>Transfer a call to a phone number, a softphone account, another listener or the listener queue.</p>
+    // <p>Transfer a call to a phone number, a softphone account, another listener, the listener queue or a published
+    // IVR menu.</p>
     // <p>The target is either the typed <code>target</code> or the legacy raw <code>transfer_id</code>, never both. It is
     // resolved and validated before anything is sent; an invalid target is answered with
     // <code>TRANSFER_OUTCOME_TARGET_INVALID</code> and an <code>error_reason</code>, and the call is untouched.</p>
     // <p><code>TRANSFER_MODE_BLIND</code> (default) sends a SIP REFER and reports its outcome: a refused REFER keeps the
     // call with the bot. <code>TRANSFER_MODE_WARM</code> rings the target into the call first, and the bot leaves only
     // after the target joined (Asterisk 22 only).</p>
+    // <p>A WARM transfer whose effective <code>WarmTransferConfig</code> is enabled runs a WARM INTRO: once the human
+    // target answers, an ONDEWO bot asks whether a person is on the line, briefs them and asks whether they accept;
+    // only an accepting target is joined. It answers <code>TRANSFER_OUTCOME_PENDING</code>, and the final outcome
+    // (<code>TRANSFER_OUTCOME_ACCEPTED</code>, <code>_DECLINED</code>, <code>_NO_DECISION</code>,
+    // <code>_TARGET_UNAVAILABLE</code>, <code>_INTRO_UNAVAILABLE</code>, or a busy / unanswered target&apos;s
+    // usual outcome) arrives in <code>Call.last_transfer</code> and the events. See
+    // <code>TransferCallRequest.warm_transfer_config</code> for its refusals.</p>
     // <p>Telephony outcomes (busy, no answer, REFER rejected) are successful RPCs carrying an <code>outcome</code>.
     // Refusals before any side effect also return a gRPC status with <code>reason=&lt;token&gt;</code> in its details:
     // <code>INVALID_ARGUMENT</code> (both targets set, malformed target), <code>NOT_FOUND</code> (call or target not
@@ -2626,6 +2707,24 @@ class Calls final {
     // <code>FAILED_PRECONDITION</code> with <code>reason=call-supervision-requires-auth</code> when auth is not enforced.
     // Every action writes an audit record (who, call, when, mode, target). No announcement is played to the caller.</p>
     virtual ::grpc::Status SetCallMediaControl(::grpc::ServerContext* context, const ::ondewo::vtsi::SetCallMediaControlRequest* request, ::ondewo::vtsi::SetCallMediaControlResponse* response);
+    // <p>Press DTMF keys on a connected call, e.g. to navigate the IVR an outbound call reached or to enter a code on
+    // the caller&apos;s behalf. The keys go out as RFC 4733 telephone events from the bot&apos;s leg, one every
+    // 250 ms, in order; a later request for the same call follows the earlier one and never interleaves with it.
+    // No tone is played into the call audio, so the bot does not hear the keys. The response means the keys were
+    // queued: if the call ends meanwhile, the remaining keys are dropped. A peer that did not negotiate
+    // <code>telephone-event</code> receives no key.</p>
+    // <p>Events: <code>VTSI_EVENT_CALL_DTMF_SENT</code>. The keys are never written to a log, an event or an audit
+    // record: only their number is.</p>
+    // <p>Errors: <code>INVALID_ARGUMENT</code> (<code>reason=invalid-digits</code>: <code>digits</code> empty, longer
+    // than 64 or outside <code>0-9 * # A-D</code>), <code>NOT_FOUND</code> (<code>reason=call-not-found</code>),
+    // <code>FAILED_PRECONDITION</code> (<code>call-not-connected</code>, <code>amd-in-progress</code>,
+    // <code>call-not-yet-identified</code>, <code>sip-image-too-old</code>, <code>no-audio-stream</code>),
+    // <code>ABORTED</code> (<code>call-control-busy</code>), <code>UNAVAILABLE</code> (<code>sip-unreachable</code>).</p>
+    // <p>Authorization: requires the role <code>PROJECT_DEVELOPER</code> or higher on the project, and the server&apos;s
+    // Keycloak auth mode <code>ENFORCE</code>; otherwise <code>PERMISSION_DENIED</code>, or
+    // <code>FAILED_PRECONDITION</code> with <code>reason=call-supervision-requires-auth</code> when auth is not enforced.
+    // Every action writes an audit record (who, call, when, number of keys). No announcement is played to the caller.</p>
+    virtual ::grpc::Status SendCallDtmf(::grpc::ServerContext* context, const ::ondewo::vtsi::SendCallDtmfRequest* request, ::ondewo::vtsi::SendCallDtmfResponse* response);
     // <p>Live audio of a connected call, both ways. The first request MUST be <code>config</code> (within 2 seconds).
     // LISTEN receives the caller mixed with the bot. TALK sends the agent&apos;s audio to the caller and REQUIRES
     // <code>take_over</code>: the bot is muted and does not listen while the stream is connected, and resumes when it
@@ -3574,12 +3673,32 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_SendCallDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SendCallDtmf() {
+      ::grpc::Service::MarkMethodAsync(46);
+    }
+    ~WithAsyncMethod_SendCallDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendCallDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::SendCallDtmfRequest* /*request*/, ::ondewo::vtsi::SendCallDtmfResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSendCallDtmf(::grpc::ServerContext* context, ::ondewo::vtsi::SendCallDtmfRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::vtsi::SendCallDtmfResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(46, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_StreamCallAudio : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodAsync(46);
+      ::grpc::Service::MarkMethodAsync(47);
     }
     ~WithAsyncMethod_StreamCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3590,7 +3709,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamCallAudio(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::ondewo::vtsi::StreamCallAudioResponse, ::ondewo::vtsi::StreamCallAudioRequest>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncBidiStreaming(46, context, stream, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncBidiStreaming(47, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -3599,7 +3718,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodAsync(47);
+      ::grpc::Service::MarkMethodAsync(48);
     }
     ~WithAsyncMethod_ListenCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3610,10 +3729,10 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListenCallAudio(::grpc::ServerContext* context, ::ondewo::vtsi::ListenCallAudioRequest* request, ::grpc::ServerAsyncWriter< ::ondewo::vtsi::StreamCallAudioResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(47, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(48, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_StartCaller<WithAsyncMethod_StartCallers<WithAsyncMethod_ListCallers<WithAsyncMethod_GetCaller<WithAsyncMethod_UpdateCaller<WithAsyncMethod_UpdateCallers<WithAsyncMethod_DeleteCaller<WithAsyncMethod_DeleteCallers<WithAsyncMethod_StopCaller<WithAsyncMethod_StopCallers<WithAsyncMethod_StartListener<WithAsyncMethod_StartListeners<WithAsyncMethod_StopListener<WithAsyncMethod_StopListeners<WithAsyncMethod_ListListeners<WithAsyncMethod_GetListener<WithAsyncMethod_UpdateListener<WithAsyncMethod_UpdateListeners<WithAsyncMethod_DeleteListener<WithAsyncMethod_DeleteListeners<WithAsyncMethod_StartScheduledCaller<WithAsyncMethod_StartScheduledCallers<WithAsyncMethod_AddCallersToCampaign<WithAsyncMethod_AddScheduledCallersToCampaign<WithAsyncMethod_GetScheduledCaller<WithAsyncMethod_ListScheduledCallers<WithAsyncMethod_UpdateScheduledCaller<WithAsyncMethod_CancelScheduledCaller<WithAsyncMethod_CancelScheduledCallers<WithAsyncMethod_RetryScheduledCaller<WithAsyncMethod_StopCall<WithAsyncMethod_StopCalls<WithAsyncMethod_StopAllCalls<WithAsyncMethod_TransferCall<WithAsyncMethod_TransferCalls<WithAsyncMethod_GetCall<WithAsyncMethod_ListCalls<WithAsyncMethod_GetCallStatistics<WithAsyncMethod_UpdateCall<WithAsyncMethod_UpdateCalls<WithAsyncMethod_StreamCallerStatus<WithAsyncMethod_StreamListenerStatus<WithAsyncMethod_StreamScheduledCallerStatus<WithAsyncMethod_InviteToCall<WithAsyncMethod_RemoveCallParticipant<WithAsyncMethod_SetCallMediaControl<WithAsyncMethod_StreamCallAudio<WithAsyncMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_StartCaller<WithAsyncMethod_StartCallers<WithAsyncMethod_ListCallers<WithAsyncMethod_GetCaller<WithAsyncMethod_UpdateCaller<WithAsyncMethod_UpdateCallers<WithAsyncMethod_DeleteCaller<WithAsyncMethod_DeleteCallers<WithAsyncMethod_StopCaller<WithAsyncMethod_StopCallers<WithAsyncMethod_StartListener<WithAsyncMethod_StartListeners<WithAsyncMethod_StopListener<WithAsyncMethod_StopListeners<WithAsyncMethod_ListListeners<WithAsyncMethod_GetListener<WithAsyncMethod_UpdateListener<WithAsyncMethod_UpdateListeners<WithAsyncMethod_DeleteListener<WithAsyncMethod_DeleteListeners<WithAsyncMethod_StartScheduledCaller<WithAsyncMethod_StartScheduledCallers<WithAsyncMethod_AddCallersToCampaign<WithAsyncMethod_AddScheduledCallersToCampaign<WithAsyncMethod_GetScheduledCaller<WithAsyncMethod_ListScheduledCallers<WithAsyncMethod_UpdateScheduledCaller<WithAsyncMethod_CancelScheduledCaller<WithAsyncMethod_CancelScheduledCallers<WithAsyncMethod_RetryScheduledCaller<WithAsyncMethod_StopCall<WithAsyncMethod_StopCalls<WithAsyncMethod_StopAllCalls<WithAsyncMethod_TransferCall<WithAsyncMethod_TransferCalls<WithAsyncMethod_GetCall<WithAsyncMethod_ListCalls<WithAsyncMethod_GetCallStatistics<WithAsyncMethod_UpdateCall<WithAsyncMethod_UpdateCalls<WithAsyncMethod_StreamCallerStatus<WithAsyncMethod_StreamListenerStatus<WithAsyncMethod_StreamScheduledCallerStatus<WithAsyncMethod_InviteToCall<WithAsyncMethod_RemoveCallParticipant<WithAsyncMethod_SetCallMediaControl<WithAsyncMethod_SendCallDtmf<WithAsyncMethod_StreamCallAudio<WithAsyncMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_StartCaller : public BaseClass {
    private:
@@ -4842,12 +4961,39 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::SetCallMediaControlRequest* /*request*/, ::ondewo::vtsi::SetCallMediaControlResponse* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithCallbackMethod_SendCallDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_SendCallDtmf() {
+      ::grpc::Service::MarkMethodCallback(46,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::SendCallDtmfRequest, ::ondewo::vtsi::SendCallDtmfResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::SendCallDtmfRequest* request, ::ondewo::vtsi::SendCallDtmfResponse* response) { return this->SendCallDtmf(context, request, response); }));}
+    void SetMessageAllocatorFor_SendCallDtmf(
+        ::grpc::MessageAllocator< ::ondewo::vtsi::SendCallDtmfRequest, ::ondewo::vtsi::SendCallDtmfResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(46);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::vtsi::SendCallDtmfRequest, ::ondewo::vtsi::SendCallDtmfResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_SendCallDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendCallDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::SendCallDtmfRequest* /*request*/, ::ondewo::vtsi::SendCallDtmfResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SendCallDtmf(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::SendCallDtmfRequest* /*request*/, ::ondewo::vtsi::SendCallDtmfResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithCallbackMethod_StreamCallAudio : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodCallback(46,
+      ::grpc::Service::MarkMethodCallback(47,
           new ::grpc::internal::CallbackBidiHandler< ::ondewo::vtsi::StreamCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>(
             [this](
                    ::grpc::CallbackServerContext* context) { return this->StreamCallAudio(context); }));
@@ -4870,7 +5016,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodCallback(47,
+      ::grpc::Service::MarkMethodCallback(48,
           new ::grpc::internal::CallbackServerStreamingHandler< ::ondewo::vtsi::ListenCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::vtsi::ListenCallAudioRequest* request) { return this->ListenCallAudio(context, request); }));
@@ -4886,7 +5032,7 @@ class Calls final {
     virtual ::grpc::ServerWriteReactor< ::ondewo::vtsi::StreamCallAudioResponse>* ListenCallAudio(
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::vtsi::ListenCallAudioRequest* /*request*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_StartCaller<WithCallbackMethod_StartCallers<WithCallbackMethod_ListCallers<WithCallbackMethod_GetCaller<WithCallbackMethod_UpdateCaller<WithCallbackMethod_UpdateCallers<WithCallbackMethod_DeleteCaller<WithCallbackMethod_DeleteCallers<WithCallbackMethod_StopCaller<WithCallbackMethod_StopCallers<WithCallbackMethod_StartListener<WithCallbackMethod_StartListeners<WithCallbackMethod_StopListener<WithCallbackMethod_StopListeners<WithCallbackMethod_ListListeners<WithCallbackMethod_GetListener<WithCallbackMethod_UpdateListener<WithCallbackMethod_UpdateListeners<WithCallbackMethod_DeleteListener<WithCallbackMethod_DeleteListeners<WithCallbackMethod_StartScheduledCaller<WithCallbackMethod_StartScheduledCallers<WithCallbackMethod_AddCallersToCampaign<WithCallbackMethod_AddScheduledCallersToCampaign<WithCallbackMethod_GetScheduledCaller<WithCallbackMethod_ListScheduledCallers<WithCallbackMethod_UpdateScheduledCaller<WithCallbackMethod_CancelScheduledCaller<WithCallbackMethod_CancelScheduledCallers<WithCallbackMethod_RetryScheduledCaller<WithCallbackMethod_StopCall<WithCallbackMethod_StopCalls<WithCallbackMethod_StopAllCalls<WithCallbackMethod_TransferCall<WithCallbackMethod_TransferCalls<WithCallbackMethod_GetCall<WithCallbackMethod_ListCalls<WithCallbackMethod_GetCallStatistics<WithCallbackMethod_UpdateCall<WithCallbackMethod_UpdateCalls<WithCallbackMethod_StreamCallerStatus<WithCallbackMethod_StreamListenerStatus<WithCallbackMethod_StreamScheduledCallerStatus<WithCallbackMethod_InviteToCall<WithCallbackMethod_RemoveCallParticipant<WithCallbackMethod_SetCallMediaControl<WithCallbackMethod_StreamCallAudio<WithCallbackMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > CallbackService;
+  typedef WithCallbackMethod_StartCaller<WithCallbackMethod_StartCallers<WithCallbackMethod_ListCallers<WithCallbackMethod_GetCaller<WithCallbackMethod_UpdateCaller<WithCallbackMethod_UpdateCallers<WithCallbackMethod_DeleteCaller<WithCallbackMethod_DeleteCallers<WithCallbackMethod_StopCaller<WithCallbackMethod_StopCallers<WithCallbackMethod_StartListener<WithCallbackMethod_StartListeners<WithCallbackMethod_StopListener<WithCallbackMethod_StopListeners<WithCallbackMethod_ListListeners<WithCallbackMethod_GetListener<WithCallbackMethod_UpdateListener<WithCallbackMethod_UpdateListeners<WithCallbackMethod_DeleteListener<WithCallbackMethod_DeleteListeners<WithCallbackMethod_StartScheduledCaller<WithCallbackMethod_StartScheduledCallers<WithCallbackMethod_AddCallersToCampaign<WithCallbackMethod_AddScheduledCallersToCampaign<WithCallbackMethod_GetScheduledCaller<WithCallbackMethod_ListScheduledCallers<WithCallbackMethod_UpdateScheduledCaller<WithCallbackMethod_CancelScheduledCaller<WithCallbackMethod_CancelScheduledCallers<WithCallbackMethod_RetryScheduledCaller<WithCallbackMethod_StopCall<WithCallbackMethod_StopCalls<WithCallbackMethod_StopAllCalls<WithCallbackMethod_TransferCall<WithCallbackMethod_TransferCalls<WithCallbackMethod_GetCall<WithCallbackMethod_ListCalls<WithCallbackMethod_GetCallStatistics<WithCallbackMethod_UpdateCall<WithCallbackMethod_UpdateCalls<WithCallbackMethod_StreamCallerStatus<WithCallbackMethod_StreamListenerStatus<WithCallbackMethod_StreamScheduledCallerStatus<WithCallbackMethod_InviteToCall<WithCallbackMethod_RemoveCallParticipant<WithCallbackMethod_SetCallMediaControl<WithCallbackMethod_SendCallDtmf<WithCallbackMethod_StreamCallAudio<WithCallbackMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_StartCaller : public BaseClass {
@@ -5671,12 +5817,29 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_SendCallDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SendCallDtmf() {
+      ::grpc::Service::MarkMethodGeneric(46);
+    }
+    ~WithGenericMethod_SendCallDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendCallDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::SendCallDtmfRequest* /*request*/, ::ondewo::vtsi::SendCallDtmfResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_StreamCallAudio : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodGeneric(46);
+      ::grpc::Service::MarkMethodGeneric(47);
     }
     ~WithGenericMethod_StreamCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5693,7 +5856,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodGeneric(47);
+      ::grpc::Service::MarkMethodGeneric(48);
     }
     ~WithGenericMethod_ListenCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6625,12 +6788,32 @@ class Calls final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_SendCallDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SendCallDtmf() {
+      ::grpc::Service::MarkMethodRaw(46);
+    }
+    ~WithRawMethod_SendCallDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendCallDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::SendCallDtmfRequest* /*request*/, ::ondewo::vtsi::SendCallDtmfResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSendCallDtmf(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(46, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_StreamCallAudio : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodRaw(46);
+      ::grpc::Service::MarkMethodRaw(47);
     }
     ~WithRawMethod_StreamCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6641,7 +6824,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestStreamCallAudio(::grpc::ServerContext* context, ::grpc::ServerAsyncReaderWriter< ::grpc::ByteBuffer, ::grpc::ByteBuffer>* stream, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncBidiStreaming(46, context, stream, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncBidiStreaming(47, context, stream, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -6650,7 +6833,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodRaw(47);
+      ::grpc::Service::MarkMethodRaw(48);
     }
     ~WithRawMethod_ListenCallAudio() override {
       BaseClassMustBeDerivedFromService(this);
@@ -6661,7 +6844,7 @@ class Calls final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListenCallAudio(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncServerStreaming(47, context, request, writer, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncServerStreaming(48, context, request, writer, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -7677,12 +7860,34 @@ class Calls final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_SendCallDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_SendCallDtmf() {
+      ::grpc::Service::MarkMethodRawCallback(46,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SendCallDtmf(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_SendCallDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SendCallDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::SendCallDtmfRequest* /*request*/, ::ondewo::vtsi::SendCallDtmfResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SendCallDtmf(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_StreamCallAudio : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_StreamCallAudio() {
-      ::grpc::Service::MarkMethodRawCallback(46,
+      ::grpc::Service::MarkMethodRawCallback(47,
           new ::grpc::internal::CallbackBidiHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context) { return this->StreamCallAudio(context); }));
@@ -7705,7 +7910,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodRawCallback(47,
+      ::grpc::Service::MarkMethodRawCallback(48,
           new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->ListenCallAudio(context, request); }));
@@ -8882,7 +9087,34 @@ class Calls final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedSetCallMediaControl(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::SetCallMediaControlRequest,::ondewo::vtsi::SetCallMediaControlResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_StartCaller<WithStreamedUnaryMethod_StartCallers<WithStreamedUnaryMethod_ListCallers<WithStreamedUnaryMethod_GetCaller<WithStreamedUnaryMethod_UpdateCaller<WithStreamedUnaryMethod_UpdateCallers<WithStreamedUnaryMethod_DeleteCaller<WithStreamedUnaryMethod_DeleteCallers<WithStreamedUnaryMethod_StopCaller<WithStreamedUnaryMethod_StopCallers<WithStreamedUnaryMethod_StartListener<WithStreamedUnaryMethod_StartListeners<WithStreamedUnaryMethod_StopListener<WithStreamedUnaryMethod_StopListeners<WithStreamedUnaryMethod_ListListeners<WithStreamedUnaryMethod_GetListener<WithStreamedUnaryMethod_UpdateListener<WithStreamedUnaryMethod_UpdateListeners<WithStreamedUnaryMethod_DeleteListener<WithStreamedUnaryMethod_DeleteListeners<WithStreamedUnaryMethod_StartScheduledCaller<WithStreamedUnaryMethod_StartScheduledCallers<WithStreamedUnaryMethod_AddCallersToCampaign<WithStreamedUnaryMethod_AddScheduledCallersToCampaign<WithStreamedUnaryMethod_GetScheduledCaller<WithStreamedUnaryMethod_ListScheduledCallers<WithStreamedUnaryMethod_UpdateScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCallers<WithStreamedUnaryMethod_RetryScheduledCaller<WithStreamedUnaryMethod_StopCall<WithStreamedUnaryMethod_StopCalls<WithStreamedUnaryMethod_StopAllCalls<WithStreamedUnaryMethod_TransferCall<WithStreamedUnaryMethod_TransferCalls<WithStreamedUnaryMethod_GetCall<WithStreamedUnaryMethod_ListCalls<WithStreamedUnaryMethod_GetCallStatistics<WithStreamedUnaryMethod_UpdateCall<WithStreamedUnaryMethod_UpdateCalls<WithStreamedUnaryMethod_InviteToCall<WithStreamedUnaryMethod_RemoveCallParticipant<WithStreamedUnaryMethod_SetCallMediaControl<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SendCallDtmf : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SendCallDtmf() {
+      ::grpc::Service::MarkMethodStreamed(46,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::vtsi::SendCallDtmfRequest, ::ondewo::vtsi::SendCallDtmfResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::vtsi::SendCallDtmfRequest, ::ondewo::vtsi::SendCallDtmfResponse>* streamer) {
+                       return this->StreamedSendCallDtmf(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SendCallDtmf() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SendCallDtmf(::grpc::ServerContext* /*context*/, const ::ondewo::vtsi::SendCallDtmfRequest* /*request*/, ::ondewo::vtsi::SendCallDtmfResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSendCallDtmf(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::vtsi::SendCallDtmfRequest,::ondewo::vtsi::SendCallDtmfResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_StartCaller<WithStreamedUnaryMethod_StartCallers<WithStreamedUnaryMethod_ListCallers<WithStreamedUnaryMethod_GetCaller<WithStreamedUnaryMethod_UpdateCaller<WithStreamedUnaryMethod_UpdateCallers<WithStreamedUnaryMethod_DeleteCaller<WithStreamedUnaryMethod_DeleteCallers<WithStreamedUnaryMethod_StopCaller<WithStreamedUnaryMethod_StopCallers<WithStreamedUnaryMethod_StartListener<WithStreamedUnaryMethod_StartListeners<WithStreamedUnaryMethod_StopListener<WithStreamedUnaryMethod_StopListeners<WithStreamedUnaryMethod_ListListeners<WithStreamedUnaryMethod_GetListener<WithStreamedUnaryMethod_UpdateListener<WithStreamedUnaryMethod_UpdateListeners<WithStreamedUnaryMethod_DeleteListener<WithStreamedUnaryMethod_DeleteListeners<WithStreamedUnaryMethod_StartScheduledCaller<WithStreamedUnaryMethod_StartScheduledCallers<WithStreamedUnaryMethod_AddCallersToCampaign<WithStreamedUnaryMethod_AddScheduledCallersToCampaign<WithStreamedUnaryMethod_GetScheduledCaller<WithStreamedUnaryMethod_ListScheduledCallers<WithStreamedUnaryMethod_UpdateScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCallers<WithStreamedUnaryMethod_RetryScheduledCaller<WithStreamedUnaryMethod_StopCall<WithStreamedUnaryMethod_StopCalls<WithStreamedUnaryMethod_StopAllCalls<WithStreamedUnaryMethod_TransferCall<WithStreamedUnaryMethod_TransferCalls<WithStreamedUnaryMethod_GetCall<WithStreamedUnaryMethod_ListCalls<WithStreamedUnaryMethod_GetCallStatistics<WithStreamedUnaryMethod_UpdateCall<WithStreamedUnaryMethod_UpdateCalls<WithStreamedUnaryMethod_InviteToCall<WithStreamedUnaryMethod_RemoveCallParticipant<WithStreamedUnaryMethod_SetCallMediaControl<WithStreamedUnaryMethod_SendCallDtmf<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
   template <class BaseClass>
   class WithSplitStreamingMethod_StreamCallerStatus : public BaseClass {
    private:
@@ -8970,7 +9202,7 @@ class Calls final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithSplitStreamingMethod_ListenCallAudio() {
-      ::grpc::Service::MarkMethodStreamed(47,
+      ::grpc::Service::MarkMethodStreamed(48,
         new ::grpc::internal::SplitServerStreamingHandler<
           ::ondewo::vtsi::ListenCallAudioRequest, ::ondewo::vtsi::StreamCallAudioResponse>(
             [this](::grpc::ServerContext* context,
@@ -8992,7 +9224,7 @@ class Calls final {
     virtual ::grpc::Status StreamedListenCallAudio(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::ondewo::vtsi::ListenCallAudioRequest,::ondewo::vtsi::StreamCallAudioResponse>* server_split_streamer) = 0;
   };
   typedef WithSplitStreamingMethod_StreamCallerStatus<WithSplitStreamingMethod_StreamListenerStatus<WithSplitStreamingMethod_StreamScheduledCallerStatus<WithSplitStreamingMethod_ListenCallAudio<Service > > > > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_StartCaller<WithStreamedUnaryMethod_StartCallers<WithStreamedUnaryMethod_ListCallers<WithStreamedUnaryMethod_GetCaller<WithStreamedUnaryMethod_UpdateCaller<WithStreamedUnaryMethod_UpdateCallers<WithStreamedUnaryMethod_DeleteCaller<WithStreamedUnaryMethod_DeleteCallers<WithStreamedUnaryMethod_StopCaller<WithStreamedUnaryMethod_StopCallers<WithStreamedUnaryMethod_StartListener<WithStreamedUnaryMethod_StartListeners<WithStreamedUnaryMethod_StopListener<WithStreamedUnaryMethod_StopListeners<WithStreamedUnaryMethod_ListListeners<WithStreamedUnaryMethod_GetListener<WithStreamedUnaryMethod_UpdateListener<WithStreamedUnaryMethod_UpdateListeners<WithStreamedUnaryMethod_DeleteListener<WithStreamedUnaryMethod_DeleteListeners<WithStreamedUnaryMethod_StartScheduledCaller<WithStreamedUnaryMethod_StartScheduledCallers<WithStreamedUnaryMethod_AddCallersToCampaign<WithStreamedUnaryMethod_AddScheduledCallersToCampaign<WithStreamedUnaryMethod_GetScheduledCaller<WithStreamedUnaryMethod_ListScheduledCallers<WithStreamedUnaryMethod_UpdateScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCallers<WithStreamedUnaryMethod_RetryScheduledCaller<WithStreamedUnaryMethod_StopCall<WithStreamedUnaryMethod_StopCalls<WithStreamedUnaryMethod_StopAllCalls<WithStreamedUnaryMethod_TransferCall<WithStreamedUnaryMethod_TransferCalls<WithStreamedUnaryMethod_GetCall<WithStreamedUnaryMethod_ListCalls<WithStreamedUnaryMethod_GetCallStatistics<WithStreamedUnaryMethod_UpdateCall<WithStreamedUnaryMethod_UpdateCalls<WithSplitStreamingMethod_StreamCallerStatus<WithSplitStreamingMethod_StreamListenerStatus<WithSplitStreamingMethod_StreamScheduledCallerStatus<WithStreamedUnaryMethod_InviteToCall<WithStreamedUnaryMethod_RemoveCallParticipant<WithStreamedUnaryMethod_SetCallMediaControl<WithSplitStreamingMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_StartCaller<WithStreamedUnaryMethod_StartCallers<WithStreamedUnaryMethod_ListCallers<WithStreamedUnaryMethod_GetCaller<WithStreamedUnaryMethod_UpdateCaller<WithStreamedUnaryMethod_UpdateCallers<WithStreamedUnaryMethod_DeleteCaller<WithStreamedUnaryMethod_DeleteCallers<WithStreamedUnaryMethod_StopCaller<WithStreamedUnaryMethod_StopCallers<WithStreamedUnaryMethod_StartListener<WithStreamedUnaryMethod_StartListeners<WithStreamedUnaryMethod_StopListener<WithStreamedUnaryMethod_StopListeners<WithStreamedUnaryMethod_ListListeners<WithStreamedUnaryMethod_GetListener<WithStreamedUnaryMethod_UpdateListener<WithStreamedUnaryMethod_UpdateListeners<WithStreamedUnaryMethod_DeleteListener<WithStreamedUnaryMethod_DeleteListeners<WithStreamedUnaryMethod_StartScheduledCaller<WithStreamedUnaryMethod_StartScheduledCallers<WithStreamedUnaryMethod_AddCallersToCampaign<WithStreamedUnaryMethod_AddScheduledCallersToCampaign<WithStreamedUnaryMethod_GetScheduledCaller<WithStreamedUnaryMethod_ListScheduledCallers<WithStreamedUnaryMethod_UpdateScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCaller<WithStreamedUnaryMethod_CancelScheduledCallers<WithStreamedUnaryMethod_RetryScheduledCaller<WithStreamedUnaryMethod_StopCall<WithStreamedUnaryMethod_StopCalls<WithStreamedUnaryMethod_StopAllCalls<WithStreamedUnaryMethod_TransferCall<WithStreamedUnaryMethod_TransferCalls<WithStreamedUnaryMethod_GetCall<WithStreamedUnaryMethod_ListCalls<WithStreamedUnaryMethod_GetCallStatistics<WithStreamedUnaryMethod_UpdateCall<WithStreamedUnaryMethod_UpdateCalls<WithSplitStreamingMethod_StreamCallerStatus<WithSplitStreamingMethod_StreamListenerStatus<WithSplitStreamingMethod_StreamScheduledCallerStatus<WithStreamedUnaryMethod_InviteToCall<WithStreamedUnaryMethod_RemoveCallParticipant<WithStreamedUnaryMethod_SetCallMediaControl<WithStreamedUnaryMethod_SendCallDtmf<WithSplitStreamingMethod_ListenCallAudio<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace vtsi

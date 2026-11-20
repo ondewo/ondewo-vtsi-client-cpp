@@ -142,6 +142,7 @@ PROTOBUF_CONSTEXPR TranscriptionReturnOptions::TranscriptionReturnOptions(
   , /*decltype(_impl_.return_alternative_words_nr_)*/0
   , /*decltype(_impl_.return_alternative_words_)*/false
   , /*decltype(_impl_.return_word_timing_)*/false
+  , /*decltype(_impl_.return_end_of_speech_candidate_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct TranscriptionReturnOptionsDefaultTypeInternal {
   PROTOBUF_CONSTEXPR TranscriptionReturnOptionsDefaultTypeInternal()
@@ -154,10 +155,13 @@ struct TranscriptionReturnOptionsDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TranscriptionReturnOptionsDefaultTypeInternal _TranscriptionReturnOptions_default_instance_;
 PROTOBUF_CONSTEXPR UtteranceDetectionOptions::UtteranceDetectionOptions(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.next_chunk_timeout_)*/0
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.next_chunk_timeout_)*/0
+  , /*decltype(_impl_.transcribe_not_final_period_seconds_)*/0
+  , /*decltype(_impl_.min_audio_chunk_size_)*/int64_t{0}
   , /*decltype(_impl_.oneof_transcribe_not_final_)*/{}
   , /*decltype(_impl_.oneof_turn_detection_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct UtteranceDetectionOptionsDefaultTypeInternal {
   PROTOBUF_CONSTEXPR UtteranceDetectionOptionsDefaultTypeInternal()
@@ -271,6 +275,7 @@ PROTOBUF_CONSTEXPR TranscribeStreamResponse::TranscribeStreamResponse(
   , /*decltype(_impl_.final_)*/false
   , /*decltype(_impl_.return_audio_)*/false
   , /*decltype(_impl_.utterance_start_)*/false
+  , /*decltype(_impl_.end_of_speech_candidate_)*/false
   , /*decltype(_impl_.oneof_config_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
@@ -712,13 +717,15 @@ struct StreamingServerDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StreamingServerDefaultTypeInternal _StreamingServer_default_instance_;
 PROTOBUF_CONSTEXPR StreamingSpeechRecognition::StreamingSpeechRecognition(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.decoding_method_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.decoding_method_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.turn_detection_)*/nullptr
   , /*decltype(_impl_.sampling_rate_)*/int64_t{0}
   , /*decltype(_impl_.transcribe_not_final_)*/false
   , /*decltype(_impl_.next_chunk_timeout_)*/0
   , /*decltype(_impl_.min_audio_chunk_size_)*/int64_t{0}
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.transcribe_not_final_period_seconds_)*/0} {}
 struct StreamingSpeechRecognitionDefaultTypeInternal {
   PROTOBUF_CONSTEXPR StreamingSpeechRecognitionDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -735,8 +742,12 @@ PROTOBUF_CONSTEXPR TurnDetectionOptions::TurnDetectionOptions(
   , /*decltype(_impl_.turn_detection_system_prompt_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.turn_detection_user_prompt_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.turn_detection_llm_openai_options_)*/nullptr
+  , /*decltype(_impl_.turn_detection_conversation_context_)*/nullptr
   , /*decltype(_impl_.active_)*/false
-  , /*decltype(_impl_.full_utterance_deployment_)*/false} {}
+  , /*decltype(_impl_.full_utterance_deployment_)*/false
+  , /*decltype(_impl_.incomplete_max_silence_seconds_)*/0
+  , /*decltype(_impl_.oneof_turn_detector_)*/{}
+  , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct TurnDetectionOptionsDefaultTypeInternal {
   PROTOBUF_CONSTEXPR TurnDetectionOptionsDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -746,6 +757,143 @@ struct TurnDetectionOptionsDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionOptionsDefaultTypeInternal _TurnDetectionOptions_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionChatLlmOptions::TurnDetectionChatLlmOptions(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.system_prompt_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.user_prompt_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.openai_llm_options_)*/nullptr} {}
+struct TurnDetectionChatLlmOptionsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionChatLlmOptionsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionChatLlmOptionsDefaultTypeInternal() {}
+  union {
+    TurnDetectionChatLlmOptions _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionChatLlmOptionsDefaultTypeInternal _TurnDetectionChatLlmOptions_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionEndOfUtteranceLlmOptions::TurnDetectionEndOfUtteranceLlmOptions(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.openai_llm_options_)*/nullptr
+  , /*decltype(_impl_.turn_detection_hold_bands_)*/nullptr
+  , /*decltype(_impl_.end_of_turn_probability_threshold_)*/0
+  , /*decltype(_impl_.uncertain_min_words_)*/0u
+  , /*decltype(_impl_.exact_probability_)*/false} {}
+struct TurnDetectionEndOfUtteranceLlmOptionsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionEndOfUtteranceLlmOptionsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionEndOfUtteranceLlmOptionsDefaultTypeInternal() {}
+  union {
+    TurnDetectionEndOfUtteranceLlmOptions _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionEndOfUtteranceLlmOptionsDefaultTypeInternal _TurnDetectionEndOfUtteranceLlmOptions_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionOndewoDeOptions::TurnDetectionOndewoDeOptions(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.openai_llm_options_)*/nullptr
+  , /*decltype(_impl_.end_of_turn_probability_threshold_)*/0} {}
+struct TurnDetectionOndewoDeOptionsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionOndewoDeOptionsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionOndewoDeOptionsDefaultTypeInternal() {}
+  union {
+    TurnDetectionOndewoDeOptions _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionOndewoDeOptionsDefaultTypeInternal _TurnDetectionOndewoDeOptions_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionOndewoDeFusionOptions::TurnDetectionOndewoDeFusionOptions(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.openai_llm_options_)*/nullptr
+  , /*decltype(_impl_.end_of_turn_probability_threshold_)*/0} {}
+struct TurnDetectionOndewoDeFusionOptionsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionOndewoDeFusionOptionsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionOndewoDeFusionOptionsDefaultTypeInternal() {}
+  union {
+    TurnDetectionOndewoDeFusionOptions _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionOndewoDeFusionOptionsDefaultTypeInternal _TurnDetectionOndewoDeFusionOptions_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionPipecatSmartTurnOptions::TurnDetectionPipecatSmartTurnOptions(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.model_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.triton_server_host_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.triton_server_port_)*/int64_t{0}
+  , /*decltype(_impl_.max_audio_seconds_)*/0
+  , /*decltype(_impl_.timeout_seconds_)*/0
+  , /*decltype(_impl_.end_of_turn_probability_threshold_)*/0} {}
+struct TurnDetectionPipecatSmartTurnOptionsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionPipecatSmartTurnOptionsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionPipecatSmartTurnOptionsDefaultTypeInternal() {}
+  union {
+    TurnDetectionPipecatSmartTurnOptions _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionPipecatSmartTurnOptionsDefaultTypeInternal _TurnDetectionPipecatSmartTurnOptions_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionConversationContext::TurnDetectionConversationContext(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.turn_detection_context_turns_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct TurnDetectionConversationContextDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionConversationContextDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionConversationContextDefaultTypeInternal() {}
+  union {
+    TurnDetectionConversationContext _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionConversationContextDefaultTypeInternal _TurnDetectionConversationContext_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionContextTurn::TurnDetectionContextTurn(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.text_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.role_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct TurnDetectionContextTurnDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionContextTurnDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionContextTurnDefaultTypeInternal() {}
+  union {
+    TurnDetectionContextTurn _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionContextTurnDefaultTypeInternal _TurnDetectionContextTurn_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionHoldBands::TurnDetectionHoldBands(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.turn_detection_hold_bands_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct TurnDetectionHoldBandsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionHoldBandsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionHoldBandsDefaultTypeInternal() {}
+  union {
+    TurnDetectionHoldBands _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionHoldBandsDefaultTypeInternal _TurnDetectionHoldBands_default_instance_;
+PROTOBUF_CONSTEXPR TurnDetectionHoldBand::TurnDetectionHoldBand(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.upper_probability_)*/0
+  , /*decltype(_impl_.max_silence_seconds_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct TurnDetectionHoldBandDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TurnDetectionHoldBandDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TurnDetectionHoldBandDefaultTypeInternal() {}
+  union {
+    TurnDetectionHoldBand _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TurnDetectionHoldBandDefaultTypeInternal _TurnDetectionHoldBand_default_instance_;
 PROTOBUF_CONSTEXPR OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse::OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse(
     ::_pbi::ConstantInitialized) {}
 struct OpenaiLlmOptions_DefaultHeadersEntry_DoNotUseDefaultTypeInternal {
@@ -1200,8 +1348,8 @@ struct ListS2tNormalizationPipelinesResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListS2tNormalizationPipelinesResponseDefaultTypeInternal _ListS2tNormalizationPipelinesResponse_default_instance_;
 }  // namespace s2t
 }  // namespace ondewo
-static ::_pb::Metadata file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[71];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[7];
+static ::_pb::Metadata file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[80];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[8];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto = nullptr;
 
 const uint32_t TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -1322,7 +1470,8 @@ const uint32_t TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto::offsets[] 
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscriptionReturnOptions, _impl_.return_alternative_words_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscriptionReturnOptions, _impl_.return_alternative_words_nr_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscriptionReturnOptions, _impl_.return_word_timing_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscriptionReturnOptions, _impl_.return_end_of_speech_candidate_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::UtteranceDetectionOptions, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::UtteranceDetectionOptions, _internal_metadata_),
   ~0u,  // no _extensions_
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::UtteranceDetectionOptions, _impl_._oneof_case_[0]),
@@ -1331,8 +1480,15 @@ const uint32_t TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto::offsets[] 
   ::_pbi::kInvalidFieldOffsetTag,
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::UtteranceDetectionOptions, _impl_.next_chunk_timeout_),
   ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::UtteranceDetectionOptions, _impl_.min_audio_chunk_size_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::UtteranceDetectionOptions, _impl_.transcribe_not_final_period_seconds_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::UtteranceDetectionOptions, _impl_.oneof_transcribe_not_final_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::UtteranceDetectionOptions, _impl_.oneof_turn_detection_),
+  ~0u,
+  ~0u,
+  ~0u,
+  1,
+  0,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::PostProcessingOptions, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1404,6 +1560,7 @@ const uint32_t TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto::offsets[] 
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscribeStreamResponse, _impl_.audio_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscribeStreamResponse, _impl_.utterance_start_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscribeStreamResponse, _impl_.audio_uuid_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscribeStreamResponse, _impl_.end_of_speech_candidate_),
   ::_pbi::kInvalidFieldOffsetTag,
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TranscribeStreamResponse, _impl_.oneof_config_),
   ~0u,  // no _has_bits_
@@ -1671,7 +1828,7 @@ const uint32_t TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto::offsets[] 
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingServer, _impl_.port_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingServer, _impl_.output_style_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingServer, _impl_.streaming_speech_recognition_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingSpeechRecognition, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingSpeechRecognition, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -1683,10 +1840,18 @@ const uint32_t TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto::offsets[] 
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingSpeechRecognition, _impl_.min_audio_chunk_size_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingSpeechRecognition, _impl_.next_chunk_timeout_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingSpeechRecognition, _impl_.turn_detection_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::StreamingSpeechRecognition, _impl_.transcribe_not_final_period_seconds_),
+  0,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  1,
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _internal_metadata_),
   ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_._oneof_case_[0]),
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_.active_),
@@ -1694,11 +1859,122 @@ const uint32_t TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto::offsets[] 
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_.turn_detection_system_prompt_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_.turn_detection_user_prompt_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_.turn_detection_llm_openai_options_),
-  3,
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_.incomplete_max_silence_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_.turn_detection_conversation_context_),
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  ::_pbi::kInvalidFieldOffsetTag,
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOptions, _impl_.oneof_turn_detector_),
   4,
+  5,
   0,
   1,
   2,
+  6,
+  3,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionChatLlmOptions, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionChatLlmOptions, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionChatLlmOptions, _impl_.openai_llm_options_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionChatLlmOptions, _impl_.system_prompt_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionChatLlmOptions, _impl_.user_prompt_),
+  2,
+  0,
+  1,
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions, _impl_.openai_llm_options_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions, _impl_.end_of_turn_probability_threshold_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions, _impl_.turn_detection_hold_bands_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions, _impl_.uncertain_min_words_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions, _impl_.exact_probability_),
+  0,
+  2,
+  1,
+  3,
+  4,
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOndewoDeOptions, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOndewoDeOptions, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOndewoDeOptions, _impl_.openai_llm_options_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOndewoDeOptions, _impl_.end_of_turn_probability_threshold_),
+  0,
+  1,
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOndewoDeFusionOptions, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOndewoDeFusionOptions, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOndewoDeFusionOptions, _impl_.openai_llm_options_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionOndewoDeFusionOptions, _impl_.end_of_turn_probability_threshold_),
+  0,
+  1,
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions, _impl_.model_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions, _impl_.triton_server_host_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions, _impl_.triton_server_port_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions, _impl_.max_audio_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions, _impl_.timeout_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions, _impl_.end_of_turn_probability_threshold_),
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionConversationContext, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionConversationContext, _impl_.turn_detection_context_turns_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionContextTurn, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionContextTurn, _impl_.role_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionContextTurn, _impl_.text_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionHoldBands, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionHoldBands, _impl_.turn_detection_hold_bands_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionHoldBand, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionHoldBand, _impl_.upper_probability_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::s2t::TurnDetectionHoldBand, _impl_.max_silence_seconds_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::s2t::OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2083,70 +2359,79 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 77, 88, -1, sizeof(::ondewo::s2t::S2tCloudProviderConfigGoogle)},
   { 93, 101, -1, sizeof(::ondewo::s2t::S2tCloudProviderConfigMicrosoft)},
   { 103, -1, -1, sizeof(::ondewo::s2t::TranscriptionReturnOptions)},
-  { 117, -1, -1, sizeof(::ondewo::s2t::UtteranceDetectionOptions)},
-  { 128, -1, -1, sizeof(::ondewo::s2t::PostProcessingOptions)},
-  { 138, -1, -1, sizeof(::ondewo::s2t::Transcription)},
-  { 148, -1, -1, sizeof(::ondewo::s2t::TranscriptionAlternative)},
-  { 157, -1, -1, sizeof(::ondewo::s2t::WordDetail)},
-  { 168, -1, -1, sizeof(::ondewo::s2t::WordAlternative)},
-  { 176, -1, -1, sizeof(::ondewo::s2t::TranscribeStreamRequest)},
-  { 186, -1, -1, sizeof(::ondewo::s2t::TranscribeStreamResponse)},
-  { 201, -1, -1, sizeof(::ondewo::s2t::TranscribeFileRequest)},
-  { 209, -1, -1, sizeof(::ondewo::s2t::TranscribeFileResponse)},
-  { 218, -1, -1, sizeof(::ondewo::s2t::S2tPipelineId)},
-  { 225, -1, -1, sizeof(::ondewo::s2t::ListS2tPipelinesRequest)},
-  { 235, -1, -1, sizeof(::ondewo::s2t::ListS2tPipelinesResponse)},
-  { 242, -1, -1, sizeof(::ondewo::s2t::ListS2tLanguagesRequest)},
-  { 250, -1, -1, sizeof(::ondewo::s2t::ListS2tLanguagesResponse)},
-  { 257, -1, -1, sizeof(::ondewo::s2t::ListS2tDomainsRequest)},
-  { 265, -1, -1, sizeof(::ondewo::s2t::ListS2tDomainsResponse)},
-  { 272, -1, -1, sizeof(::ondewo::s2t::S2tGetServiceInfoResponse)},
-  { 279, -1, -1, sizeof(::ondewo::s2t::Speech2TextConfig)},
-  { 293, -1, -1, sizeof(::ondewo::s2t::S2tDescription)},
-  { 303, -1, -1, sizeof(::ondewo::s2t::S2tInference)},
-  { 312, -1, -1, sizeof(::ondewo::s2t::AcousticModels)},
-  { 328, -1, -1, sizeof(::ondewo::s2t::S2tCloudServiceAmazon)},
-  { 340, -1, -1, sizeof(::ondewo::s2t::S2tCloudServiceDeepgram)},
-  { 353, -1, -1, sizeof(::ondewo::s2t::S2tCloudServiceGoogle)},
-  { 366, -1, -1, sizeof(::ondewo::s2t::S2tCloudServiceMicrosoft)},
-  { 375, -1, -1, sizeof(::ondewo::s2t::Whisper)},
-  { 385, -1, -1, sizeof(::ondewo::s2t::WhisperTriton)},
-  { 399, -1, -1, sizeof(::ondewo::s2t::Wav2Vec)},
-  { 407, -1, -1, sizeof(::ondewo::s2t::Wav2VecTriton)},
-  { 419, -1, -1, sizeof(::ondewo::s2t::Parakeet)},
-  { 430, -1, -1, sizeof(::ondewo::s2t::PtFiles)},
-  { 438, -1, -1, sizeof(::ondewo::s2t::CkptFile)},
-  { 445, -1, -1, sizeof(::ondewo::s2t::LanguageModels)},
-  { 456, -1, -1, sizeof(::ondewo::s2t::StreamingServer)},
-  { 466, -1, -1, sizeof(::ondewo::s2t::StreamingSpeechRecognition)},
-  { 478, 489, -1, sizeof(::ondewo::s2t::TurnDetectionOptions)},
-  { 494, 502, -1, sizeof(::ondewo::s2t::OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse)},
-  { 504, 512, -1, sizeof(::ondewo::s2t::OpenaiLlmOptions_LogitBiasEntry_DoNotUse)},
-  { 514, 554, -1, sizeof(::ondewo::s2t::OpenaiLlmOptions)},
-  { 588, -1, -1, sizeof(::ondewo::s2t::VoiceActivityDetection)},
-  { 601, -1, -1, sizeof(::ondewo::s2t::Pyannote)},
-  { 613, 627, -1, sizeof(::ondewo::s2t::Silero)},
-  { 635, 648, -1, sizeof(::ondewo::s2t::WespeakerTsd)},
-  { 655, -1, -1, sizeof(::ondewo::s2t::PostProcessing)},
-  { 663, -1, -1, sizeof(::ondewo::s2t::PostProcessors)},
-  { 672, -1, -1, sizeof(::ondewo::s2t::SymSpell)},
-  { 681, -1, -1, sizeof(::ondewo::s2t::S2tNormalization)},
-  { 689, 707, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessing)},
-  { 719, 728, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingTranslationOptions)},
-  { 731, 744, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingInverseNormalizationOptions)},
-  { 751, 764, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingNormalizationOptions)},
-  { 771, 781, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingSummarizationOptions)},
-  { 785, 793, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingSubTaskOptions)},
-  { 795, -1, -1, sizeof(::ondewo::s2t::Logging)},
-  { 803, -1, -1, sizeof(::ondewo::s2t::ListS2tLanguageModelsRequest)},
-  { 810, -1, -1, sizeof(::ondewo::s2t::LanguageModelPipelineId)},
-  { 818, -1, -1, sizeof(::ondewo::s2t::ListS2tLanguageModelsResponse)},
-  { 825, -1, -1, sizeof(::ondewo::s2t::CreateUserLanguageModelRequest)},
-  { 832, -1, -1, sizeof(::ondewo::s2t::DeleteUserLanguageModelRequest)},
-  { 839, -1, -1, sizeof(::ondewo::s2t::AddDataToUserLanguageModelRequest)},
-  { 847, -1, -1, sizeof(::ondewo::s2t::TrainUserLanguageModelRequest)},
-  { 855, -1, -1, sizeof(::ondewo::s2t::ListS2tNormalizationPipelinesRequest)},
-  { 862, -1, -1, sizeof(::ondewo::s2t::ListS2tNormalizationPipelinesResponse)},
+  { 118, 131, -1, sizeof(::ondewo::s2t::UtteranceDetectionOptions)},
+  { 136, -1, -1, sizeof(::ondewo::s2t::PostProcessingOptions)},
+  { 146, -1, -1, sizeof(::ondewo::s2t::Transcription)},
+  { 156, -1, -1, sizeof(::ondewo::s2t::TranscriptionAlternative)},
+  { 165, -1, -1, sizeof(::ondewo::s2t::WordDetail)},
+  { 176, -1, -1, sizeof(::ondewo::s2t::WordAlternative)},
+  { 184, -1, -1, sizeof(::ondewo::s2t::TranscribeStreamRequest)},
+  { 194, -1, -1, sizeof(::ondewo::s2t::TranscribeStreamResponse)},
+  { 210, -1, -1, sizeof(::ondewo::s2t::TranscribeFileRequest)},
+  { 218, -1, -1, sizeof(::ondewo::s2t::TranscribeFileResponse)},
+  { 227, -1, -1, sizeof(::ondewo::s2t::S2tPipelineId)},
+  { 234, -1, -1, sizeof(::ondewo::s2t::ListS2tPipelinesRequest)},
+  { 244, -1, -1, sizeof(::ondewo::s2t::ListS2tPipelinesResponse)},
+  { 251, -1, -1, sizeof(::ondewo::s2t::ListS2tLanguagesRequest)},
+  { 259, -1, -1, sizeof(::ondewo::s2t::ListS2tLanguagesResponse)},
+  { 266, -1, -1, sizeof(::ondewo::s2t::ListS2tDomainsRequest)},
+  { 274, -1, -1, sizeof(::ondewo::s2t::ListS2tDomainsResponse)},
+  { 281, -1, -1, sizeof(::ondewo::s2t::S2tGetServiceInfoResponse)},
+  { 288, -1, -1, sizeof(::ondewo::s2t::Speech2TextConfig)},
+  { 302, -1, -1, sizeof(::ondewo::s2t::S2tDescription)},
+  { 312, -1, -1, sizeof(::ondewo::s2t::S2tInference)},
+  { 321, -1, -1, sizeof(::ondewo::s2t::AcousticModels)},
+  { 337, -1, -1, sizeof(::ondewo::s2t::S2tCloudServiceAmazon)},
+  { 349, -1, -1, sizeof(::ondewo::s2t::S2tCloudServiceDeepgram)},
+  { 362, -1, -1, sizeof(::ondewo::s2t::S2tCloudServiceGoogle)},
+  { 375, -1, -1, sizeof(::ondewo::s2t::S2tCloudServiceMicrosoft)},
+  { 384, -1, -1, sizeof(::ondewo::s2t::Whisper)},
+  { 394, -1, -1, sizeof(::ondewo::s2t::WhisperTriton)},
+  { 408, -1, -1, sizeof(::ondewo::s2t::Wav2Vec)},
+  { 416, -1, -1, sizeof(::ondewo::s2t::Wav2VecTriton)},
+  { 428, -1, -1, sizeof(::ondewo::s2t::Parakeet)},
+  { 439, -1, -1, sizeof(::ondewo::s2t::PtFiles)},
+  { 447, -1, -1, sizeof(::ondewo::s2t::CkptFile)},
+  { 454, -1, -1, sizeof(::ondewo::s2t::LanguageModels)},
+  { 465, -1, -1, sizeof(::ondewo::s2t::StreamingServer)},
+  { 475, 488, -1, sizeof(::ondewo::s2t::StreamingSpeechRecognition)},
+  { 495, 514, -1, sizeof(::ondewo::s2t::TurnDetectionOptions)},
+  { 526, 535, -1, sizeof(::ondewo::s2t::TurnDetectionChatLlmOptions)},
+  { 538, 549, -1, sizeof(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions)},
+  { 554, 562, -1, sizeof(::ondewo::s2t::TurnDetectionOndewoDeOptions)},
+  { 564, 572, -1, sizeof(::ondewo::s2t::TurnDetectionOndewoDeFusionOptions)},
+  { 574, 586, -1, sizeof(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions)},
+  { 592, -1, -1, sizeof(::ondewo::s2t::TurnDetectionConversationContext)},
+  { 599, -1, -1, sizeof(::ondewo::s2t::TurnDetectionContextTurn)},
+  { 607, -1, -1, sizeof(::ondewo::s2t::TurnDetectionHoldBands)},
+  { 614, -1, -1, sizeof(::ondewo::s2t::TurnDetectionHoldBand)},
+  { 622, 630, -1, sizeof(::ondewo::s2t::OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse)},
+  { 632, 640, -1, sizeof(::ondewo::s2t::OpenaiLlmOptions_LogitBiasEntry_DoNotUse)},
+  { 642, 682, -1, sizeof(::ondewo::s2t::OpenaiLlmOptions)},
+  { 716, -1, -1, sizeof(::ondewo::s2t::VoiceActivityDetection)},
+  { 729, -1, -1, sizeof(::ondewo::s2t::Pyannote)},
+  { 741, 755, -1, sizeof(::ondewo::s2t::Silero)},
+  { 763, 776, -1, sizeof(::ondewo::s2t::WespeakerTsd)},
+  { 783, -1, -1, sizeof(::ondewo::s2t::PostProcessing)},
+  { 791, -1, -1, sizeof(::ondewo::s2t::PostProcessors)},
+  { 800, -1, -1, sizeof(::ondewo::s2t::SymSpell)},
+  { 809, -1, -1, sizeof(::ondewo::s2t::S2tNormalization)},
+  { 817, 835, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessing)},
+  { 847, 856, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingTranslationOptions)},
+  { 859, 872, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingInverseNormalizationOptions)},
+  { 879, 892, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingNormalizationOptions)},
+  { 899, 909, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingSummarizationOptions)},
+  { 913, 921, -1, sizeof(::ondewo::s2t::S2tLlmPostProcessingSubTaskOptions)},
+  { 923, -1, -1, sizeof(::ondewo::s2t::Logging)},
+  { 931, -1, -1, sizeof(::ondewo::s2t::ListS2tLanguageModelsRequest)},
+  { 938, -1, -1, sizeof(::ondewo::s2t::LanguageModelPipelineId)},
+  { 946, -1, -1, sizeof(::ondewo::s2t::ListS2tLanguageModelsResponse)},
+  { 953, -1, -1, sizeof(::ondewo::s2t::CreateUserLanguageModelRequest)},
+  { 960, -1, -1, sizeof(::ondewo::s2t::DeleteUserLanguageModelRequest)},
+  { 967, -1, -1, sizeof(::ondewo::s2t::AddDataToUserLanguageModelRequest)},
+  { 975, -1, -1, sizeof(::ondewo::s2t::TrainUserLanguageModelRequest)},
+  { 983, -1, -1, sizeof(::ondewo::s2t::ListS2tNormalizationPipelinesRequest)},
+  { 990, -1, -1, sizeof(::ondewo::s2t::ListS2tNormalizationPipelinesResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2194,6 +2479,15 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::s2t::_StreamingServer_default_instance_._instance,
   &::ondewo::s2t::_StreamingSpeechRecognition_default_instance_._instance,
   &::ondewo::s2t::_TurnDetectionOptions_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionChatLlmOptions_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionEndOfUtteranceLlmOptions_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionOndewoDeOptions_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionOndewoDeFusionOptions_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionPipecatSmartTurnOptions_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionConversationContext_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionContextTurn_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionHoldBands_default_instance_._instance,
+  &::ondewo::s2t::_TurnDetectionHoldBand_default_instance_._instance,
   &::ondewo::s2t::_OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse_default_instance_._instance,
   &::ondewo::s2t::_OpenaiLlmOptions_LogitBiasEntry_DoNotUse_default_instance_._instance,
   &::ondewo::s2t::_OpenaiLlmOptions_default_instance_._instance,
@@ -2286,296 +2580,354 @@ const char descriptor_table_protodef_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[]
   "n_api\030\001 \001(\010H\000\210\001\001\022\'\n\032use_detailed_output_"
   "format\030\002 \001(\010H\001\210\001\001B\035\n\033_use_fast_transcrip"
   "tion_apiB\035\n\033_use_detailed_output_format\""
-  "\257\002\n\032TranscriptionReturnOptions\022\036\n\026return"
+  "\327\002\n\032TranscriptionReturnOptions\022\036\n\026return"
   "_start_of_speech\030\001 \001(\010\022\024\n\014return_audio\030\002"
   " \001(\010\022\037\n\027return_confidence_score\030\003 \001(\010\022)\n"
   "!return_alternative_transcriptions\030\004 \001(\010"
   "\022,\n$return_alternative_transcriptions_nr"
   "\030\005 \001(\005\022 \n\030return_alternative_words\030\006 \001(\010"
   "\022#\n\033return_alternative_words_nr\030\007 \001(\005\022\032\n"
-  "\022return_word_timing\030\010 \001(\010\"\311\001\n\031UtteranceD"
+  "\022return_word_timing\030\010 \001(\010\022&\n\036return_end_"
+  "of_speech_candidate\030\t \001(\010\"\337\002\n\031UtteranceD"
   "etectionOptions\022\036\n\024transcribe_not_final\030"
   "\001 \001(\010H\000\022\032\n\022next_chunk_timeout\030\002 \001(\002\022:\n\016t"
   "urn_detection\030\003 \001(\0132 .ondewo.s2t.TurnDet"
-  "ectionOptionsH\001B\034\n\032oneof_transcribe_not_"
-  "finalB\026\n\024oneof_turn_detection\"\220\001\n\025PostPr"
-  "ocessingOptions\022\033\n\023spelling_correction\030\001"
-  " \001(\010\022\021\n\tnormalize\030\002 \001(\010\022*\n\006config\030\003 \001(\0132"
-  "\032.ondewo.s2t.PostProcessing\022\033\n\023llm_post_"
-  "processing\030\004 \001(\010\"\243\001\n\rTranscription\022\025\n\rtr"
-  "anscription\030\001 \001(\t\022\030\n\020confidence_score\030\002 "
-  "\001(\002\022%\n\005words\030\003 \003(\0132\026.ondewo.s2t.WordDeta"
-  "il\022:\n\014alternatives\030\004 \003(\0132$.ondewo.s2t.Tr"
-  "anscriptionAlternative\"i\n\030TranscriptionA"
-  "lternative\022\022\n\ntranscript\030\001 \001(\t\022\022\n\nconfid"
-  "ence\030\002 \001(\002\022%\n\005words\030\003 \003(\0132\026.ondewo.s2t.W"
-  "ordDetail\"\214\001\n\nWordDetail\022\022\n\nstart_time\030\001"
-  " \001(\002\022\020\n\010end_time\030\002 \001(\002\022\014\n\004word\030\003 \001(\t\022\022\n\n"
-  "confidence\030\004 \001(\002\0226\n\021word_alternatives\030\005 "
-  "\003(\0132\033.ondewo.s2t.WordAlternative\"3\n\017Word"
-  "Alternative\022\014\n\004word\030\001 \001(\t\022\022\n\nconfidence\030"
-  "\002 \001(\002\"\216\001\n\027TranscribeStreamRequest\022\023\n\013aud"
-  "io_chunk\030\001 \001(\014\022\025\n\rend_of_stream\030\002 \001(\010\0223\n"
-  "\006config\030\003 \001(\0132#.ondewo.s2t.TranscribeReq"
-  "uestConfig\022\022\n\nmute_audio\030\004 \001(\010\"\203\002\n\030Trans"
-  "cribeStreamResponse\0221\n\016transcriptions\030\001 "
-  "\003(\0132\031.ondewo.s2t.Transcription\022\014\n\004time\030\002"
-  " \001(\002\022\r\n\005final\030\003 \001(\010\022\024\n\014return_audio\030\004 \001("
-  "\010\022\r\n\005audio\030\005 \001(\014\022\027\n\017utterance_start\030\006 \001("
-  "\010\022\022\n\naudio_uuid\030\007 \001(\t\0225\n\006config\030\010 \001(\0132#."
-  "ondewo.s2t.TranscribeRequestConfigH\000B\016\n\014"
-  "oneof_config\"`\n\025TranscribeFileRequest\022\022\n"
-  "\naudio_file\030\001 \001(\014\0223\n\006config\030\002 \001(\0132#.onde"
-  "wo.s2t.TranscribeRequestConfig\"m\n\026Transc"
-  "ribeFileResponse\0221\n\016transcriptions\030\001 \003(\013"
-  "2\031.ondewo.s2t.Transcription\022\014\n\004time\030\002 \001("
-  "\002\022\022\n\naudio_uuid\030\003 \001(\t\"\033\n\rS2tPipelineId\022\n"
-  "\n\002id\030\001 \001(\t\"o\n\027ListS2tPipelinesRequest\022\021\n"
-  "\tlanguages\030\001 \003(\t\022\027\n\017pipeline_owners\030\002 \003("
-  "\t\022\017\n\007domains\030\003 \003(\t\022\027\n\017registered_only\030\004 "
-  "\001(\010\"S\n\030ListS2tPipelinesResponse\0227\n\020pipel"
-  "ine_configs\030\001 \003(\0132\035.ondewo.s2t.Speech2Te"
-  "xtConfig\"C\n\027ListS2tLanguagesRequest\022\017\n\007d"
-  "omains\030\001 \003(\t\022\027\n\017pipeline_owners\030\002 \003(\t\"-\n"
-  "\030ListS2tLanguagesResponse\022\021\n\tlanguages\030\001"
-  " \003(\t\"C\n\025ListS2tDomainsRequest\022\021\n\tlanguag"
-  "es\030\001 \003(\t\022\027\n\017pipeline_owners\030\002 \003(\t\")\n\026Lis"
-  "tS2tDomainsResponse\022\017\n\007domains\030\001 \003(\t\",\n\031"
-  "S2tGetServiceInfoResponse\022\017\n\007version\030\001 \001"
-  "(\t\"\345\002\n\021Speech2TextConfig\022\n\n\002id\030\001 \001(\t\022/\n\013"
-  "description\030\002 \001(\0132\032.ondewo.s2t.S2tDescri"
-  "ption\022\016\n\006active\030\003 \001(\010\022+\n\tinference\030\004 \001(\013"
-  "2\030.ondewo.s2t.S2tInference\0225\n\020streaming_"
-  "server\030\005 \001(\0132\033.ondewo.s2t.StreamingServe"
-  "r\022D\n\030voice_activity_detection\030\006 \001(\0132\".on"
-  "dewo.s2t.VoiceActivityDetection\0223\n\017post_"
-  "processing\030\007 \001(\0132\032.ondewo.s2t.PostProces"
-  "sing\022$\n\007logging\030\010 \001(\0132\023.ondewo.s2t.Loggi"
-  "ng\"\\\n\016S2tDescription\022\020\n\010language\030\001 \001(\t\022\026"
-  "\n\016pipeline_owner\030\002 \001(\t\022\016\n\006domain\030\003 \001(\t\022\020"
-  "\n\010comments\030\004 \001(\t\"\261\001\n\014S2tInference\0223\n\017aco"
-  "ustic_models\030\001 \001(\0132\032.ondewo.s2t.Acoustic"
-  "Models\0223\n\017language_models\030\002 \001(\0132\032.ondewo"
-  ".s2t.LanguageModels\0227\n\021inference_backend"
-  "\030\003 \001(\0162\034.ondewo.s2t.InferenceBackend\"\226\004\n"
-  "\016AcousticModels\022\014\n\004type\030\001 \001(\t\022$\n\007wav2vec"
-  "\030\002 \001(\0132\023.ondewo.s2t.Wav2Vec\0221\n\016wav2vec_t"
-  "riton\030\003 \001(\0132\031.ondewo.s2t.Wav2VecTriton\022$"
-  "\n\007whisper\030\004 \001(\0132\023.ondewo.s2t.Whisper\0221\n\016"
-  "whisper_triton\030\005 \001(\0132\031.ondewo.s2t.Whispe"
-  "rTriton\022C\n\030s2t_cloud_service_amazon\030\006 \001("
-  "\0132!.ondewo.s2t.S2tCloudServiceAmazon\022G\n\032"
-  "s2t_cloud_service_deepgram\030\007 \001(\0132#.ondew"
-  "o.s2t.S2tCloudServiceDeepgram\022C\n\030s2t_clo"
-  "ud_service_google\030\010 \001(\0132!.ondewo.s2t.S2t"
-  "CloudServiceGoogle\022I\n\033s2t_cloud_service_"
-  "microsoft\030\t \001(\0132$.ondewo.s2t.S2tCloudSer"
-  "viceMicrosoft\022&\n\010parakeet\030\n \001(\0132\024.ondewo"
-  ".s2t.Parakeet\"\315\001\n\025S2tCloudServiceAmazon\022"
-  "\020\n\010language\030\001 \001(\t\022\033\n\023streaming_available"
-  "\030\002 \001(\010\022,\n$enable_partial_results_stabili"
-  "zation\030\003 \001(\010\022!\n\031partial_results_stabilit"
-  "y\030\004 \001(\t\022\033\n\023language_model_name\030\005 \001(\t\022\027\n\017"
-  "vocabulary_name\030\006 \001(\t\"\243\001\n\027S2tCloudServic"
-  "eDeepgram\022\022\n\nmodel_name\030\001 \001(\t\022\020\n\010languag"
-  "e\030\002 \001(\t\022\021\n\tpunctuate\030\003 \001(\010\022\024\n\014smart_form"
-  "at\030\004 \001(\010\022\020\n\010numerals\030\005 \001(\010\022\024\n\014measuremen"
-  "ts\030\006 \001(\010\022\021\n\tdictation\030\007 \001(\010\"\341\001\n\025S2tCloud"
-  "ServiceGoogle\022\022\n\nmodel_name\030\001 \001(\t\022\020\n\010lan"
-  "guage\030\002 \001(\t\022$\n\034enable_automatic_punctuat"
-  "ion\030\003 \001(\010\022 \n\030enable_word_time_offsets\030\004 "
-  "\001(\010\022\036\n\026enable_word_confidence\030\005 \001(\010\022 \n\030t"
-  "ranscript_normalization\030\006 \001(\010\022\030\n\020max_alt"
-  "ernatives\030\007 \001(\005\"t\n\030S2tCloudServiceMicros"
-  "oft\022\020\n\010language\030\001 \001(\t\022\"\n\032use_fast_transc"
-  "ription_api\030\002 \001(\010\022\"\n\032use_detailed_output"
-  "_format\030\003 \001(\010\"N\n\007Whisper\022\022\n\nmodel_path\030\001"
-  " \001(\t\022\017\n\007use_gpu\030\002 \001(\010\022\020\n\010language\030\003 \001(\t\022"
-  "\014\n\004task\030\004 \001(\t\"\326\001\n\rWhisperTriton\022\026\n\016proce"
-  "ssor_path\030\001 \001(\t\022\031\n\021triton_model_name\030\002 \001"
-  "(\t\022\034\n\024triton_model_version\030\003 \001(\t\022\034\n\024chec"
-  "k_status_timeout\030\004 \001(\003\022\020\n\010language\030\005 \001(\t"
-  "\022\014\n\004task\030\006 \001(\t\022\032\n\022triton_server_host\030\007 \001"
-  "(\t\022\032\n\022triton_server_port\030\010 \001(\003\".\n\007Wav2Ve"
-  "c\022\022\n\nmodel_path\030\001 \001(\t\022\017\n\007use_gpu\030\002 \001(\010\"\266"
-  "\001\n\rWav2VecTriton\022\026\n\016processor_path\030\001 \001(\t"
-  "\022\031\n\021triton_model_name\030\002 \001(\t\022\034\n\024triton_mo"
-  "del_version\030\003 \001(\t\022\034\n\024check_status_timeou"
-  "t\030\004 \001(\003\022\032\n\022triton_server_host\030\005 \001(\t\022\032\n\022t"
-  "riton_server_port\030\006 \001(\003\"\231\001\n\010Parakeet\022\031\n\021"
-  "triton_model_name\030\001 \001(\t\022\034\n\024triton_model_"
-  "version\030\002 \001(\t\022\034\n\024check_status_timeout\030\003 "
-  "\001(\003\022\032\n\022triton_server_host\030\004 \001(\t\022\032\n\022trito"
-  "n_server_port\030\005 \001(\003\"%\n\007PtFiles\022\014\n\004path\030\001"
-  " \001(\t\022\014\n\004step\030\002 \001(\t\"\030\n\010CkptFile\022\014\n\004path\030\001"
-  " \001(\t\"\210\001\n\016LanguageModels\022\014\n\004path\030\001 \001(\t\022\021\n"
-  "\tbeam_size\030\002 \001(\003\022\022\n\ndefault_lm\030\003 \001(\t\022 \n\030"
-  "beam_search_scorer_alpha\030\004 \001(\002\022\037\n\027beam_s"
-  "earch_scorer_beta\030\005 \001(\002\"\221\001\n\017StreamingSer"
-  "ver\022\014\n\004host\030\001 \001(\t\022\014\n\004port\030\002 \001(\003\022\024\n\014outpu"
-  "t_style\030\003 \001(\t\022L\n\034streaming_speech_recogn"
-  "ition\030\004 \001(\0132&.ondewo.s2t.StreamingSpeech"
-  "Recognition\"\336\001\n\032StreamingSpeechRecogniti"
-  "on\022\034\n\024transcribe_not_final\030\001 \001(\010\022\027\n\017deco"
-  "ding_method\030\002 \001(\t\022\025\n\rsampling_rate\030\003 \001(\003"
-  "\022\034\n\024min_audio_chunk_size\030\004 \001(\003\022\032\n\022next_c"
-  "hunk_timeout\030\005 \001(\002\0228\n\016turn_detection\030\006 \001"
-  "(\0132 .ondewo.s2t.TurnDetectionOptions\"\204\003\n"
-  "\024TurnDetectionOptions\022\023\n\006active\030\001 \001(\010H\000\210"
-  "\001\001\022&\n\031full_utterance_deployment\030\002 \001(\010H\001\210"
-  "\001\001\022)\n\034turn_detection_system_prompt\030\003 \001(\t"
-  "H\002\210\001\001\022\'\n\032turn_detection_user_prompt\030\004 \001("
-  "\tH\003\210\001\001\022L\n!turn_detection_llm_openai_opti"
-  "ons\030\005 \001(\0132\034.ondewo.s2t.OpenaiLlmOptionsH"
-  "\004\210\001\001B\t\n\007_activeB\034\n\032_full_utterance_deplo"
-  "ymentB\037\n\035_turn_detection_system_promptB\035"
-  "\n\033_turn_detection_user_promptB$\n\"_turn_d"
-  "etection_llm_openai_options\"\336\r\n\020OpenaiLl"
-  "mOptions\022\024\n\007api_key\030\001 \001(\tH\000\210\001\001\022\031\n\014organi"
-  "zation\030\002 \001(\tH\001\210\001\001\022\024\n\007project\030\003 \001(\tH\002\210\001\001\022"
-  "\033\n\016webhook_secret\030\004 \001(\tH\003\210\001\001\022\025\n\010base_url"
-  "\030\005 \001(\tH\004\210\001\001\022\037\n\022websocket_base_url\030\006 \001(\tH"
-  "\005\210\001\001\022\024\n\007timeout\030\007 \001(\002H\006\210\001\001\022\030\n\013max_retrie"
-  "s\030\010 \001(\005H\007\210\001\001\022I\n\017default_headers\030\t \003(\01320."
-  "ondewo.s2t.OpenaiLlmOptions.DefaultHeade"
-  "rsEntry\0223\n\rdefault_query\030\n \001(\0132\027.google."
-  "protobuf.StructH\010\210\001\001\022\'\n\032strict_response_"
-  "validation\030\013 \001(\010H\t\210\001\001\022\r\n\005model\030\014 \001(\t\022\036\n\021"
-  "frequency_penalty\030\r \001(\002H\n\210\001\001\022\?\n\nlogit_bi"
-  "as\030\016 \003(\0132+.ondewo.s2t.OpenaiLlmOptions.L"
-  "ogitBiasEntry\022\025\n\010logprobs\030\017 \001(\010H\013\210\001\001\022\"\n\025"
-  "max_completion_tokens\030\020 \001(\005H\014\210\001\001\022\027\n\nmax_"
-  "tokens\030\021 \001(\005H\r\210\001\001\022.\n\010metadata\030\022 \001(\0132\027.go"
-  "ogle.protobuf.StructH\016\210\001\001\022\016\n\001n\030\023 \001(\005H\017\210\001"
-  "\001\022\035\n\020presence_penalty\030\024 \001(\002H\020\210\001\001\022\035\n\020prom"
-  "pt_cache_key\030\025 \001(\tH\021\210\001\001\022:\n\020reasoning_eff"
-  "ort\030\026 \001(\0162\033.ondewo.s2t.ReasoningEffortH\022"
-  "\210\001\001\022\021\n\004seed\030\027 \001(\003H\023\210\001\001\0222\n\014service_tier\030\030"
-  " \001(\0162\027.ondewo.s2t.ServiceTierH\024\210\001\001\022\014\n\004st"
-  "op\030\031 \003(\t\022\022\n\005store\030\032 \001(\010H\025\210\001\001\022\030\n\013temperat"
-  "ure\030\033 \001(\002H\026\210\001\001\022\031\n\014top_logprobs\030\034 \001(\005H\027\210\001"
-  "\001\022\022\n\005top_p\030\035 \001(\002H\030\210\001\001\022\021\n\004user\030\036 \001(\tH\031\210\001\001"
-  "\022-\n\tverbosity\030\037 \001(\0162\025.ondewo.s2t.Verbosi"
-  "tyH\032\210\001\001\0223\n\rextra_headers\030  \001(\0132\027.google."
-  "protobuf.StructH\033\210\001\001\0221\n\013extra_query\030! \001("
-  "\0132\027.google.protobuf.StructH\034\210\001\001\0220\n\nextra"
-  "_body\030\" \001(\0132\027.google.protobuf.StructH\035\210\001"
-  "\001\0325\n\023DefaultHeadersEntry\022\013\n\003key\030\001 \001(\t\022\r\n"
-  "\005value\030\002 \001(\t:\0028\001\0320\n\016LogitBiasEntry\022\013\n\003ke"
-  "y\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001B\n\n\010_api_keyB\017"
-  "\n\r_organizationB\n\n\010_projectB\021\n\017_webhook_"
-  "secretB\013\n\t_base_urlB\025\n\023_websocket_base_u"
-  "rlB\n\n\010_timeoutB\016\n\014_max_retriesB\020\n\016_defau"
-  "lt_queryB\035\n\033_strict_response_validationB"
-  "\024\n\022_frequency_penaltyB\013\n\t_logprobsB\030\n\026_m"
-  "ax_completion_tokensB\r\n\013_max_tokensB\013\n\t_"
-  "metadataB\004\n\002_nB\023\n\021_presence_penaltyB\023\n\021_"
-  "prompt_cache_keyB\023\n\021_reasoning_effortB\007\n"
-  "\005_seedB\017\n\r_service_tierB\010\n\006_storeB\016\n\014_te"
-  "mperatureB\017\n\r_top_logprobsB\010\n\006_top_pB\007\n\005"
-  "_userB\014\n\n_verbosityB\020\n\016_extra_headersB\016\n"
-  "\014_extra_queryB\r\n\013_extra_body\"\222\002\n\026VoiceAc"
-  "tivityDetection\022\016\n\006active\030\001 \001(\t\022\025\n\rsampl"
-  "ing_rate\030\002 \001(\003\022&\n\010pyannote\030\003 \001(\0132\024.ondew"
-  "o.s2t.Pyannote\022\"\n\006silero\030\004 \001(\0132\022.ondewo."
-  "s2t.Silero\022/\n\rwespeaker_tsd\030\005 \001(\0132\030.onde"
-  "wo.s2t.WespeakerTsd\022)\n\nvad_method\030\006 \001(\0162"
-  "\025.ondewo.s2t.VadMethod\022)\n\ntsd_method\030\007 \001"
-  "(\0162\025.ondewo.s2t.TsdMethod\"\241\001\n\010Pyannote\022\022"
-  "\n\nmodel_name\030\001 \001(\t\022\026\n\016min_audio_size\030\002 \001"
-  "(\003\022\030\n\020min_duration_off\030\003 \001(\002\022\027\n\017min_dura"
-  "tion_on\030\004 \001(\002\022\032\n\022triton_server_host\030\005 \001("
-  "\t\022\032\n\022triton_server_port\030\006 \001(\003\"\302\002\n\006Silero"
-  "\022\022\n\nmodel_name\030\001 \001(\t\022\026\n\016min_audio_size\030\002"
-  " \001(\003\022\026\n\tthreshold\030\003 \001(\002H\000\210\001\001\022#\n\026min_spee"
-  "ch_duration_ms\030\004 \001(\002H\001\210\001\001\022$\n\027min_silence"
-  "_duration_ms\030\005 \001(\002H\002\210\001\001\022\032\n\rspeech_pad_ms"
-  "\030\006 \001(\002H\003\210\001\001\022\032\n\022triton_server_host\030\007 \001(\t\022"
-  "\032\n\022triton_server_port\030\010 \001(\003B\014\n\n_threshol"
-  "dB\031\n\027_min_speech_duration_msB\032\n\030_min_sil"
-  "ence_duration_msB\020\n\016_speech_pad_ms\"\370\001\n\014W"
-  "espeakerTsd\022\016\n\006active\030\001 \001(\010\022\022\n\nmodel_nam"
-  "e\030\002 \001(\t\022\032\n\022triton_server_host\030\003 \001(\t\022\032\n\022t"
-  "riton_server_port\030\004 \001(\003\022!\n\024similarity_th"
-  "reshold\030\005 \001(\002H\000\210\001\001\022\035\n\020min_audio_length\030\006"
-  " \001(\002H\001\210\001\001\022\034\n\024reference_max_length\030\007 \001(\002B"
-  "\027\n\025_similarity_thresholdB\023\n\021_min_audio_l"
-  "ength\"W\n\016PostProcessing\022\020\n\010pipeline\030\001 \003("
-  "\t\0223\n\017post_processors\030\002 \001(\0132\032.ondewo.s2t."
-  "PostProcessors\"\255\001\n\016PostProcessors\022\'\n\tsym"
-  "_spell\030\001 \001(\0132\024.ondewo.s2t.SymSpell\0223\n\rno"
-  "rmalization\030\002 \001(\0132\034.ondewo.s2t.S2tNormal"
-  "ization\022=\n\023llm_post_processing\030\003 \001(\0132 .o"
-  "ndewo.s2t.S2tLlmPostProcessing\"Z\n\010SymSpe"
-  "ll\022\021\n\tdict_path\030\001 \001(\t\022$\n\034max_dictionary_"
-  "edit_distance\030\002 \001(\003\022\025\n\rprefix_length\030\003 \001"
-  "(\003\"6\n\020S2tNormalization\022\020\n\010language\030\001 \001(\t"
-  "\022\020\n\010pipeline\030\002 \003(\t\"\211\016\n\024S2tLlmPostProcess"
-  "ing\022Q\n&s2t_llm_post_processing_openai_op"
-  "tions\030\001 \001(\0132\034.ondewo.s2t.OpenaiLlmOption"
-  "sH\000\210\001\001\0222\n%s2t_llm_post_processing_system"
-  "_prompt\030\002 \001(\tH\001\210\001\001\0222\n%s2t_llm_post_proce"
-  "ssing_ending_prompt\030\003 \001(\tH\002\210\001\001\022c\n&s2t_ll"
-  "m_post_processing_casing_options\030\004 \001(\0132."
-  ".ondewo.s2t.S2tLlmPostProcessingSubTaskO"
-  "ptionsH\003\210\001\001\022h\n+s2t_llm_post_processing_p"
-  "unctuation_options\030\005 \001(\0132..ondewo.s2t.S2"
-  "tLlmPostProcessingSubTaskOptionsH\004\210\001\001\022p\n"
-  "3s2t_llm_post_processing_spelling_correc"
-  "tion_options\030\006 \001(\0132..ondewo.s2t.S2tLlmPo"
-  "stProcessingSubTaskOptionsH\005\210\001\001\022p\n3s2t_l"
-  "lm_post_processing_semantic_correction_o"
-  "ptions\030\007 \001(\0132..ondewo.s2t.S2tLlmPostProc"
-  "essingSubTaskOptionsH\006\210\001\001\022l\n+s2t_llm_pos"
-  "t_processing_translation_options\030\010 \001(\01322"
-  ".ondewo.s2t.S2tLlmPostProcessingTranslat"
-  "ionOptionsH\007\210\001\001\022\177\n5s2t_llm_post_processi"
-  "ng_inverse_normalization_options\030\t \001(\0132;"
-  ".ondewo.s2t.S2tLlmPostProcessingInverseN"
-  "ormalizationOptionsH\010\210\001\001\022p\n-s2t_llm_post"
-  "_processing_normalization_options\030\n \001(\0132"
-  "4.ondewo.s2t.S2tLlmPostProcessingNormali"
-  "zationOptionsH\t\210\001\001\022p\n-s2t_llm_post_proce"
-  "ssing_summarization_options\030\013 \001(\01324.onde"
-  "wo.s2t.S2tLlmPostProcessingSummarization"
-  "OptionsH\n\210\001\001\022h\n+s2t_llm_post_processing_"
-  "user_prompt_options\030\014 \001(\0132..ondewo.s2t.S"
-  "2tLlmPostProcessingSubTaskOptionsH\013\210\001\001B)"
-  "\n\'_s2t_llm_post_processing_openai_option"
-  "sB(\n&_s2t_llm_post_processing_system_pro"
-  "mptB(\n&_s2t_llm_post_processing_ending_p"
-  "romptB)\n\'_s2t_llm_post_processing_casing"
-  "_optionsB.\n,_s2t_llm_post_processing_pun"
-  "ctuation_optionsB6\n4_s2t_llm_post_proces"
-  "sing_spelling_correction_optionsB6\n4_s2t"
-  "_llm_post_processing_semantic_correction"
-  "_optionsB.\n,_s2t_llm_post_processing_tra"
-  "nslation_optionsB8\n6_s2t_llm_post_proces"
-  "sing_inverse_normalization_optionsB0\n._s"
-  "2t_llm_post_processing_normalization_opt"
-  "ionsB0\n._s2t_llm_post_processing_summari"
-  "zation_optionsB.\n,_s2t_llm_post_processi"
-  "ng_user_prompt_options\"\214\001\n&S2tLlmPostPro"
-  "cessingTranslationOptions\022\023\n\006active\030\001 \001("
-  "\010H\000\210\001\001\022\025\n\010language\030\002 \001(\tH\001\210\001\001\022\023\n\006prompt\030"
-  "\003 \001(\tH\002\210\001\001B\t\n\007_activeB\013\n\t_languageB\t\n\007_p"
-  "rompt\"\207\005\n/S2tLlmPostProcessingInverseNor"
-  "malizationOptions\022\023\n\006active\030\001 \001(\010H\000\210\001\001\022B"
-  "\n\005email\030\002 \001(\0132..ondewo.s2t.S2tLlmPostPro"
-  "cessingSubTaskOptionsH\001\210\001\001\022I\n\014phone_numb"
-  "er\030\003 \001(\0132..ondewo.s2t.S2tLlmPostProcessi"
-  "ngSubTaskOptionsH\002\210\001\001\022J\n\rdate_and_time\030\004"
-  " \001(\0132..ondewo.s2t.S2tLlmPostProcessingSu"
-  "bTaskOptionsH\003\210\001\001\022O\n\022credit_card_number\030"
-  "\005 \001(\0132..ondewo.s2t.S2tLlmPostProcessingS"
-  "ubTaskOptionsH\004\210\001\001\022S\n\026social_security_nu"
-  "mber\030\006 \001(\0132..ondewo.s2t.S2tLlmPostProces"
-  "singSubTaskOptionsH\005\210\001\001\022F\n\ttime_zone\030\007 \001"
-  "(\0132..ondewo.s2t.S2tLlmPostProcessingSubT"
-  "askOptionsH\006\210\001\001B\t\n\007_activeB\010\n\006_emailB\017\n\r"
-  "_phone_numberB\020\n\016_date_and_timeB\025\n\023_cred"
-  "it_card_numberB\031\n\027_social_security_numbe"
-  "rB\014\n\n_time_zone\"\200\005\n(S2tLlmPostProcessing"
+  "ectionOptionsH\001\022!\n\024min_audio_chunk_size\030"
+  "\004 \001(\003H\002\210\001\001\0220\n#transcribe_not_final_perio"
+  "d_seconds\030\005 \001(\002H\003\210\001\001B\034\n\032oneof_transcribe"
+  "_not_finalB\026\n\024oneof_turn_detectionB\027\n\025_m"
+  "in_audio_chunk_sizeB&\n$_transcribe_not_f"
+  "inal_period_seconds\"\220\001\n\025PostProcessingOp"
+  "tions\022\033\n\023spelling_correction\030\001 \001(\010\022\021\n\tno"
+  "rmalize\030\002 \001(\010\022*\n\006config\030\003 \001(\0132\032.ondewo.s"
+  "2t.PostProcessing\022\033\n\023llm_post_processing"
+  "\030\004 \001(\010\"\243\001\n\rTranscription\022\025\n\rtranscriptio"
+  "n\030\001 \001(\t\022\030\n\020confidence_score\030\002 \001(\002\022%\n\005wor"
+  "ds\030\003 \003(\0132\026.ondewo.s2t.WordDetail\022:\n\014alte"
+  "rnatives\030\004 \003(\0132$.ondewo.s2t.Transcriptio"
+  "nAlternative\"i\n\030TranscriptionAlternative"
+  "\022\022\n\ntranscript\030\001 \001(\t\022\022\n\nconfidence\030\002 \001(\002"
+  "\022%\n\005words\030\003 \003(\0132\026.ondewo.s2t.WordDetail\""
+  "\214\001\n\nWordDetail\022\022\n\nstart_time\030\001 \001(\002\022\020\n\010en"
+  "d_time\030\002 \001(\002\022\014\n\004word\030\003 \001(\t\022\022\n\nconfidence"
+  "\030\004 \001(\002\0226\n\021word_alternatives\030\005 \003(\0132\033.onde"
+  "wo.s2t.WordAlternative\"3\n\017WordAlternativ"
+  "e\022\014\n\004word\030\001 \001(\t\022\022\n\nconfidence\030\002 \001(\002\"\216\001\n\027"
+  "TranscribeStreamRequest\022\023\n\013audio_chunk\030\001"
+  " \001(\014\022\025\n\rend_of_stream\030\002 \001(\010\0223\n\006config\030\003 "
+  "\001(\0132#.ondewo.s2t.TranscribeRequestConfig"
+  "\022\022\n\nmute_audio\030\004 \001(\010\"\244\002\n\030TranscribeStrea"
+  "mResponse\0221\n\016transcriptions\030\001 \003(\0132\031.onde"
+  "wo.s2t.Transcription\022\014\n\004time\030\002 \001(\002\022\r\n\005fi"
+  "nal\030\003 \001(\010\022\024\n\014return_audio\030\004 \001(\010\022\r\n\005audio"
+  "\030\005 \001(\014\022\027\n\017utterance_start\030\006 \001(\010\022\022\n\naudio"
+  "_uuid\030\007 \001(\t\022\037\n\027end_of_speech_candidate\030\t"
+  " \001(\010\0225\n\006config\030\010 \001(\0132#.ondewo.s2t.Transc"
+  "ribeRequestConfigH\000B\016\n\014oneof_config\"`\n\025T"
+  "ranscribeFileRequest\022\022\n\naudio_file\030\001 \001(\014"
+  "\0223\n\006config\030\002 \001(\0132#.ondewo.s2t.Transcribe"
+  "RequestConfig\"m\n\026TranscribeFileResponse\022"
+  "1\n\016transcriptions\030\001 \003(\0132\031.ondewo.s2t.Tra"
+  "nscription\022\014\n\004time\030\002 \001(\002\022\022\n\naudio_uuid\030\003"
+  " \001(\t\"\033\n\rS2tPipelineId\022\n\n\002id\030\001 \001(\t\"o\n\027Lis"
+  "tS2tPipelinesRequest\022\021\n\tlanguages\030\001 \003(\t\022"
+  "\027\n\017pipeline_owners\030\002 \003(\t\022\017\n\007domains\030\003 \003("
+  "\t\022\027\n\017registered_only\030\004 \001(\010\"S\n\030ListS2tPip"
+  "elinesResponse\0227\n\020pipeline_configs\030\001 \003(\013"
+  "2\035.ondewo.s2t.Speech2TextConfig\"C\n\027ListS"
+  "2tLanguagesRequest\022\017\n\007domains\030\001 \003(\t\022\027\n\017p"
+  "ipeline_owners\030\002 \003(\t\"-\n\030ListS2tLanguages"
+  "Response\022\021\n\tlanguages\030\001 \003(\t\"C\n\025ListS2tDo"
+  "mainsRequest\022\021\n\tlanguages\030\001 \003(\t\022\027\n\017pipel"
+  "ine_owners\030\002 \003(\t\")\n\026ListS2tDomainsRespon"
+  "se\022\017\n\007domains\030\001 \003(\t\",\n\031S2tGetServiceInfo"
+  "Response\022\017\n\007version\030\001 \001(\t\"\345\002\n\021Speech2Tex"
+  "tConfig\022\n\n\002id\030\001 \001(\t\022/\n\013description\030\002 \001(\013"
+  "2\032.ondewo.s2t.S2tDescription\022\016\n\006active\030\003"
+  " \001(\010\022+\n\tinference\030\004 \001(\0132\030.ondewo.s2t.S2t"
+  "Inference\0225\n\020streaming_server\030\005 \001(\0132\033.on"
+  "dewo.s2t.StreamingServer\022D\n\030voice_activi"
+  "ty_detection\030\006 \001(\0132\".ondewo.s2t.VoiceAct"
+  "ivityDetection\0223\n\017post_processing\030\007 \001(\0132"
+  "\032.ondewo.s2t.PostProcessing\022$\n\007logging\030\010"
+  " \001(\0132\023.ondewo.s2t.Logging\"\\\n\016S2tDescript"
+  "ion\022\020\n\010language\030\001 \001(\t\022\026\n\016pipeline_owner\030"
+  "\002 \001(\t\022\016\n\006domain\030\003 \001(\t\022\020\n\010comments\030\004 \001(\t\""
+  "\261\001\n\014S2tInference\0223\n\017acoustic_models\030\001 \001("
+  "\0132\032.ondewo.s2t.AcousticModels\0223\n\017languag"
+  "e_models\030\002 \001(\0132\032.ondewo.s2t.LanguageMode"
+  "ls\0227\n\021inference_backend\030\003 \001(\0162\034.ondewo.s"
+  "2t.InferenceBackend\"\226\004\n\016AcousticModels\022\014"
+  "\n\004type\030\001 \001(\t\022$\n\007wav2vec\030\002 \001(\0132\023.ondewo.s"
+  "2t.Wav2Vec\0221\n\016wav2vec_triton\030\003 \001(\0132\031.ond"
+  "ewo.s2t.Wav2VecTriton\022$\n\007whisper\030\004 \001(\0132\023"
+  ".ondewo.s2t.Whisper\0221\n\016whisper_triton\030\005 "
+  "\001(\0132\031.ondewo.s2t.WhisperTriton\022C\n\030s2t_cl"
+  "oud_service_amazon\030\006 \001(\0132!.ondewo.s2t.S2"
+  "tCloudServiceAmazon\022G\n\032s2t_cloud_service"
+  "_deepgram\030\007 \001(\0132#.ondewo.s2t.S2tCloudSer"
+  "viceDeepgram\022C\n\030s2t_cloud_service_google"
+  "\030\010 \001(\0132!.ondewo.s2t.S2tCloudServiceGoogl"
+  "e\022I\n\033s2t_cloud_service_microsoft\030\t \001(\0132$"
+  ".ondewo.s2t.S2tCloudServiceMicrosoft\022&\n\010"
+  "parakeet\030\n \001(\0132\024.ondewo.s2t.Parakeet\"\315\001\n"
+  "\025S2tCloudServiceAmazon\022\020\n\010language\030\001 \001(\t"
+  "\022\033\n\023streaming_available\030\002 \001(\010\022,\n$enable_"
+  "partial_results_stabilization\030\003 \001(\010\022!\n\031p"
+  "artial_results_stability\030\004 \001(\t\022\033\n\023langua"
+  "ge_model_name\030\005 \001(\t\022\027\n\017vocabulary_name\030\006"
+  " \001(\t\"\243\001\n\027S2tCloudServiceDeepgram\022\022\n\nmode"
+  "l_name\030\001 \001(\t\022\020\n\010language\030\002 \001(\t\022\021\n\tpunctu"
+  "ate\030\003 \001(\010\022\024\n\014smart_format\030\004 \001(\010\022\020\n\010numer"
+  "als\030\005 \001(\010\022\024\n\014measurements\030\006 \001(\010\022\021\n\tdicta"
+  "tion\030\007 \001(\010\"\341\001\n\025S2tCloudServiceGoogle\022\022\n\n"
+  "model_name\030\001 \001(\t\022\020\n\010language\030\002 \001(\t\022$\n\034en"
+  "able_automatic_punctuation\030\003 \001(\010\022 \n\030enab"
+  "le_word_time_offsets\030\004 \001(\010\022\036\n\026enable_wor"
+  "d_confidence\030\005 \001(\010\022 \n\030transcript_normali"
+  "zation\030\006 \001(\010\022\030\n\020max_alternatives\030\007 \001(\005\"t"
+  "\n\030S2tCloudServiceMicrosoft\022\020\n\010language\030\001"
+  " \001(\t\022\"\n\032use_fast_transcription_api\030\002 \001(\010"
+  "\022\"\n\032use_detailed_output_format\030\003 \001(\010\"N\n\007"
+  "Whisper\022\022\n\nmodel_path\030\001 \001(\t\022\017\n\007use_gpu\030\002"
+  " \001(\010\022\020\n\010language\030\003 \001(\t\022\014\n\004task\030\004 \001(\t\"\326\001\n"
+  "\rWhisperTriton\022\026\n\016processor_path\030\001 \001(\t\022\031"
+  "\n\021triton_model_name\030\002 \001(\t\022\034\n\024triton_mode"
+  "l_version\030\003 \001(\t\022\034\n\024check_status_timeout\030"
+  "\004 \001(\003\022\020\n\010language\030\005 \001(\t\022\014\n\004task\030\006 \001(\t\022\032\n"
+  "\022triton_server_host\030\007 \001(\t\022\032\n\022triton_serv"
+  "er_port\030\010 \001(\003\".\n\007Wav2Vec\022\022\n\nmodel_path\030\001"
+  " \001(\t\022\017\n\007use_gpu\030\002 \001(\010\"\266\001\n\rWav2VecTriton\022"
+  "\026\n\016processor_path\030\001 \001(\t\022\031\n\021triton_model_"
+  "name\030\002 \001(\t\022\034\n\024triton_model_version\030\003 \001(\t"
+  "\022\034\n\024check_status_timeout\030\004 \001(\003\022\032\n\022triton"
+  "_server_host\030\005 \001(\t\022\032\n\022triton_server_port"
+  "\030\006 \001(\003\"\231\001\n\010Parakeet\022\031\n\021triton_model_name"
+  "\030\001 \001(\t\022\034\n\024triton_model_version\030\002 \001(\t\022\034\n\024"
+  "check_status_timeout\030\003 \001(\003\022\032\n\022triton_ser"
+  "ver_host\030\004 \001(\t\022\032\n\022triton_server_port\030\005 \001"
+  "(\003\"%\n\007PtFiles\022\014\n\004path\030\001 \001(\t\022\014\n\004step\030\002 \001("
+  "\t\"\030\n\010CkptFile\022\014\n\004path\030\001 \001(\t\"\210\001\n\016Language"
+  "Models\022\014\n\004path\030\001 \001(\t\022\021\n\tbeam_size\030\002 \001(\003\022"
+  "\022\n\ndefault_lm\030\003 \001(\t\022 \n\030beam_search_score"
+  "r_alpha\030\004 \001(\002\022\037\n\027beam_search_scorer_beta"
+  "\030\005 \001(\002\"\221\001\n\017StreamingServer\022\014\n\004host\030\001 \001(\t"
+  "\022\014\n\004port\030\002 \001(\003\022\024\n\014output_style\030\003 \001(\t\022L\n\034"
+  "streaming_speech_recognition\030\004 \001(\0132&.ond"
+  "ewo.s2t.StreamingSpeechRecognition\"\326\002\n\032S"
+  "treamingSpeechRecognition\022!\n\024transcribe_"
+  "not_final\030\001 \001(\010H\000\210\001\001\022\027\n\017decoding_method\030"
+  "\002 \001(\t\022\025\n\rsampling_rate\030\003 \001(\003\022\034\n\024min_audi"
+  "o_chunk_size\030\004 \001(\003\022\032\n\022next_chunk_timeout"
+  "\030\005 \001(\002\0228\n\016turn_detection\030\006 \001(\0132 .ondewo."
+  "s2t.TurnDetectionOptions\0220\n#transcribe_n"
+  "ot_final_period_seconds\030\007 \001(\002H\001\210\001\001B\027\n\025_t"
+  "ranscribe_not_finalB&\n$_transcribe_not_f"
+  "inal_period_seconds\"\335\010\n\024TurnDetectionOpt"
+  "ions\022\023\n\006active\030\001 \001(\010H\001\210\001\001\022&\n\031full_uttera"
+  "nce_deployment\030\002 \001(\010H\002\210\001\001\022-\n\034turn_detect"
+  "ion_system_prompt\030\003 \001(\tB\002\030\001H\003\210\001\001\022+\n\032turn"
+  "_detection_user_prompt\030\004 \001(\tB\002\030\001H\004\210\001\001\022P\n"
+  "!turn_detection_llm_openai_options\030\005 \001(\013"
+  "2\034.ondewo.s2t.OpenaiLlmOptionsB\002\030\001H\005\210\001\001\022"
+  "+\n\036incomplete_max_silence_seconds\030\006 \001(\002H"
+  "\006\210\001\001\022^\n#turn_detection_conversation_cont"
+  "ext\030\007 \001(\0132,.ondewo.s2t.TurnDetectionConv"
+  "ersationContextH\007\210\001\001\022R\n\037turn_detection_c"
+  "hat_llm_options\030\010 \001(\0132\'.ondewo.s2t.TurnD"
+  "etectionChatLlmOptionsH\000\022h\n+turn_detecti"
+  "on_end_of_utterance_llm_options\030\t \001(\01321."
+  "ondewo.s2t.TurnDetectionEndOfUtteranceLl"
+  "mOptionsH\000\022T\n turn_detection_ondewo_de_o"
+  "ptions\030\n \001(\0132(.ondewo.s2t.TurnDetectionO"
+  "ndewoDeOptionsH\000\022a\n\'turn_detection_ondew"
+  "o_de_fusion_options\030\013 \001(\0132..ondewo.s2t.T"
+  "urnDetectionOndewoDeFusionOptionsH\000\022e\n)t"
+  "urn_detection_pipecat_smart_turn_options"
+  "\030\014 \001(\01320.ondewo.s2t.TurnDetectionPipecat"
+  "SmartTurnOptionsH\000B\025\n\023oneof_turn_detecto"
+  "rB\t\n\007_activeB\034\n\032_full_utterance_deployme"
+  "ntB\037\n\035_turn_detection_system_promptB\035\n\033_"
+  "turn_detection_user_promptB$\n\"_turn_dete"
+  "ction_llm_openai_optionsB!\n\037_incomplete_"
+  "max_silence_secondsB&\n$_turn_detection_c"
+  "onversation_context\"\313\001\n\033TurnDetectionCha"
+  "tLlmOptions\022=\n\022openai_llm_options\030\001 \001(\0132"
+  "\034.ondewo.s2t.OpenaiLlmOptionsH\000\210\001\001\022\032\n\rsy"
+  "stem_prompt\030\002 \001(\tH\001\210\001\001\022\030\n\013user_prompt\030\003 "
+  "\001(\tH\002\210\001\001B\025\n\023_openai_llm_optionsB\020\n\016_syst"
+  "em_promptB\016\n\014_user_prompt\"\255\003\n%TurnDetect"
+  "ionEndOfUtteranceLlmOptions\022=\n\022openai_ll"
+  "m_options\030\001 \001(\0132\034.ondewo.s2t.OpenaiLlmOp"
+  "tionsH\000\210\001\001\022.\n!end_of_turn_probability_th"
+  "reshold\030\002 \001(\002H\001\210\001\001\022J\n\031turn_detection_hol"
+  "d_bands\030\003 \001(\0132\".ondewo.s2t.TurnDetection"
+  "HoldBandsH\002\210\001\001\022 \n\023uncertain_min_words\030\004 "
+  "\001(\rH\003\210\001\001\022\036\n\021exact_probability\030\005 \001(\010H\004\210\001\001"
+  "B\025\n\023_openai_llm_optionsB$\n\"_end_of_turn_"
+  "probability_thresholdB\034\n\032_turn_detection"
+  "_hold_bandsB\026\n\024_uncertain_min_wordsB\024\n\022_"
+  "exact_probability\"\312\001\n\034TurnDetectionOndew"
+  "oDeOptions\022=\n\022openai_llm_options\030\001 \001(\0132\034"
+  ".ondewo.s2t.OpenaiLlmOptionsH\000\210\001\001\022.\n!end"
+  "_of_turn_probability_threshold\030\002 \001(\002H\001\210\001"
+  "\001B\025\n\023_openai_llm_optionsB$\n\"_end_of_turn"
+  "_probability_threshold\"\320\001\n\"TurnDetection"
+  "OndewoDeFusionOptions\022=\n\022openai_llm_opti"
+  "ons\030\001 \001(\0132\034.ondewo.s2t.OpenaiLlmOptionsH"
+  "\000\210\001\001\022.\n!end_of_turn_probability_threshol"
+  "d\030\002 \001(\002H\001\210\001\001B\025\n\023_openai_llm_optionsB$\n\"_"
+  "end_of_turn_probability_threshold\"\374\002\n$Tu"
+  "rnDetectionPipecatSmartTurnOptions\022\027\n\nmo"
+  "del_name\030\001 \001(\tH\000\210\001\001\022\037\n\022triton_server_hos"
+  "t\030\002 \001(\tH\001\210\001\001\022\037\n\022triton_server_port\030\003 \001(\003"
+  "H\002\210\001\001\022\036\n\021max_audio_seconds\030\004 \001(\002H\003\210\001\001\022\034\n"
+  "\017timeout_seconds\030\005 \001(\002H\004\210\001\001\022.\n!end_of_tu"
+  "rn_probability_threshold\030\006 \001(\002H\005\210\001\001B\r\n\013_"
+  "model_nameB\025\n\023_triton_server_hostB\025\n\023_tr"
+  "iton_server_portB\024\n\022_max_audio_secondsB\022"
+  "\n\020_timeout_secondsB$\n\"_end_of_turn_proba"
+  "bility_threshold\"n\n TurnDetectionConvers"
+  "ationContext\022J\n\034turn_detection_context_t"
+  "urns\030\001 \003(\0132$.ondewo.s2t.TurnDetectionCon"
+  "textTurn\"\242\001\n\030TurnDetectionContextTurn\0227\n"
+  "\004role\030\001 \001(\0162).ondewo.s2t.TurnDetectionCo"
+  "ntextTurn.Role\022\014\n\004text\030\002 \001(\t\"\?\n\004Role\022\024\n\020"
+  "ROLE_UNSPECIFIED\020\000\022\r\n\tROLE_USER\020\001\022\022\n\016ROL"
+  "E_ASSISTANT\020\002\"^\n\026TurnDetectionHoldBands\022"
+  "D\n\031turn_detection_hold_bands\030\001 \003(\0132!.ond"
+  "ewo.s2t.TurnDetectionHoldBand\"O\n\025TurnDet"
+  "ectionHoldBand\022\031\n\021upper_probability\030\001 \001("
+  "\002\022\033\n\023max_silence_seconds\030\002 \001(\002\"\336\r\n\020Opena"
+  "iLlmOptions\022\024\n\007api_key\030\001 \001(\tH\000\210\001\001\022\031\n\014org"
+  "anization\030\002 \001(\tH\001\210\001\001\022\024\n\007project\030\003 \001(\tH\002\210"
+  "\001\001\022\033\n\016webhook_secret\030\004 \001(\tH\003\210\001\001\022\025\n\010base_"
+  "url\030\005 \001(\tH\004\210\001\001\022\037\n\022websocket_base_url\030\006 \001"
+  "(\tH\005\210\001\001\022\024\n\007timeout\030\007 \001(\002H\006\210\001\001\022\030\n\013max_ret"
+  "ries\030\010 \001(\005H\007\210\001\001\022I\n\017default_headers\030\t \003(\013"
+  "20.ondewo.s2t.OpenaiLlmOptions.DefaultHe"
+  "adersEntry\0223\n\rdefault_query\030\n \001(\0132\027.goog"
+  "le.protobuf.StructH\010\210\001\001\022\'\n\032strict_respon"
+  "se_validation\030\013 \001(\010H\t\210\001\001\022\r\n\005model\030\014 \001(\t\022"
+  "\036\n\021frequency_penalty\030\r \001(\002H\n\210\001\001\022\?\n\nlogit"
+  "_bias\030\016 \003(\0132+.ondewo.s2t.OpenaiLlmOption"
+  "s.LogitBiasEntry\022\025\n\010logprobs\030\017 \001(\010H\013\210\001\001\022"
+  "\"\n\025max_completion_tokens\030\020 \001(\005H\014\210\001\001\022\027\n\nm"
+  "ax_tokens\030\021 \001(\005H\r\210\001\001\022.\n\010metadata\030\022 \001(\0132\027"
+  ".google.protobuf.StructH\016\210\001\001\022\016\n\001n\030\023 \001(\005H"
+  "\017\210\001\001\022\035\n\020presence_penalty\030\024 \001(\002H\020\210\001\001\022\035\n\020p"
+  "rompt_cache_key\030\025 \001(\tH\021\210\001\001\022:\n\020reasoning_"
+  "effort\030\026 \001(\0162\033.ondewo.s2t.ReasoningEffor"
+  "tH\022\210\001\001\022\021\n\004seed\030\027 \001(\003H\023\210\001\001\0222\n\014service_tie"
+  "r\030\030 \001(\0162\027.ondewo.s2t.ServiceTierH\024\210\001\001\022\014\n"
+  "\004stop\030\031 \003(\t\022\022\n\005store\030\032 \001(\010H\025\210\001\001\022\030\n\013tempe"
+  "rature\030\033 \001(\002H\026\210\001\001\022\031\n\014top_logprobs\030\034 \001(\005H"
+  "\027\210\001\001\022\022\n\005top_p\030\035 \001(\002H\030\210\001\001\022\021\n\004user\030\036 \001(\tH\031"
+  "\210\001\001\022-\n\tverbosity\030\037 \001(\0162\025.ondewo.s2t.Verb"
+  "osityH\032\210\001\001\0223\n\rextra_headers\030  \001(\0132\027.goog"
+  "le.protobuf.StructH\033\210\001\001\0221\n\013extra_query\030!"
+  " \001(\0132\027.google.protobuf.StructH\034\210\001\001\0220\n\nex"
+  "tra_body\030\" \001(\0132\027.google.protobuf.StructH"
+  "\035\210\001\001\0325\n\023DefaultHeadersEntry\022\013\n\003key\030\001 \001(\t"
+  "\022\r\n\005value\030\002 \001(\t:\0028\001\0320\n\016LogitBiasEntry\022\013\n"
+  "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001B\n\n\010_api_ke"
+  "yB\017\n\r_organizationB\n\n\010_projectB\021\n\017_webho"
+  "ok_secretB\013\n\t_base_urlB\025\n\023_websocket_bas"
+  "e_urlB\n\n\010_timeoutB\016\n\014_max_retriesB\020\n\016_de"
+  "fault_queryB\035\n\033_strict_response_validati"
+  "onB\024\n\022_frequency_penaltyB\013\n\t_logprobsB\030\n"
+  "\026_max_completion_tokensB\r\n\013_max_tokensB\013"
+  "\n\t_metadataB\004\n\002_nB\023\n\021_presence_penaltyB\023"
+  "\n\021_prompt_cache_keyB\023\n\021_reasoning_effort"
+  "B\007\n\005_seedB\017\n\r_service_tierB\010\n\006_storeB\016\n\014"
+  "_temperatureB\017\n\r_top_logprobsB\010\n\006_top_pB"
+  "\007\n\005_userB\014\n\n_verbosityB\020\n\016_extra_headers"
+  "B\016\n\014_extra_queryB\r\n\013_extra_body\"\222\002\n\026Voic"
+  "eActivityDetection\022\016\n\006active\030\001 \001(\t\022\025\n\rsa"
+  "mpling_rate\030\002 \001(\003\022&\n\010pyannote\030\003 \001(\0132\024.on"
+  "dewo.s2t.Pyannote\022\"\n\006silero\030\004 \001(\0132\022.onde"
+  "wo.s2t.Silero\022/\n\rwespeaker_tsd\030\005 \001(\0132\030.o"
+  "ndewo.s2t.WespeakerTsd\022)\n\nvad_method\030\006 \001"
+  "(\0162\025.ondewo.s2t.VadMethod\022)\n\ntsd_method\030"
+  "\007 \001(\0162\025.ondewo.s2t.TsdMethod\"\241\001\n\010Pyannot"
+  "e\022\022\n\nmodel_name\030\001 \001(\t\022\026\n\016min_audio_size\030"
+  "\002 \001(\003\022\030\n\020min_duration_off\030\003 \001(\002\022\027\n\017min_d"
+  "uration_on\030\004 \001(\002\022\032\n\022triton_server_host\030\005"
+  " \001(\t\022\032\n\022triton_server_port\030\006 \001(\003\"\302\002\n\006Sil"
+  "ero\022\022\n\nmodel_name\030\001 \001(\t\022\026\n\016min_audio_siz"
+  "e\030\002 \001(\003\022\026\n\tthreshold\030\003 \001(\002H\000\210\001\001\022#\n\026min_s"
+  "peech_duration_ms\030\004 \001(\002H\001\210\001\001\022$\n\027min_sile"
+  "nce_duration_ms\030\005 \001(\002H\002\210\001\001\022\032\n\rspeech_pad"
+  "_ms\030\006 \001(\002H\003\210\001\001\022\032\n\022triton_server_host\030\007 \001"
+  "(\t\022\032\n\022triton_server_port\030\010 \001(\003B\014\n\n_thres"
+  "holdB\031\n\027_min_speech_duration_msB\032\n\030_min_"
+  "silence_duration_msB\020\n\016_speech_pad_ms\"\370\001"
+  "\n\014WespeakerTsd\022\016\n\006active\030\001 \001(\010\022\022\n\nmodel_"
+  "name\030\002 \001(\t\022\032\n\022triton_server_host\030\003 \001(\t\022\032"
+  "\n\022triton_server_port\030\004 \001(\003\022!\n\024similarity"
+  "_threshold\030\005 \001(\002H\000\210\001\001\022\035\n\020min_audio_lengt"
+  "h\030\006 \001(\002H\001\210\001\001\022\034\n\024reference_max_length\030\007 \001"
+  "(\002B\027\n\025_similarity_thresholdB\023\n\021_min_audi"
+  "o_length\"W\n\016PostProcessing\022\020\n\010pipeline\030\001"
+  " \003(\t\0223\n\017post_processors\030\002 \001(\0132\032.ondewo.s"
+  "2t.PostProcessors\"\255\001\n\016PostProcessors\022\'\n\t"
+  "sym_spell\030\001 \001(\0132\024.ondewo.s2t.SymSpell\0223\n"
+  "\rnormalization\030\002 \001(\0132\034.ondewo.s2t.S2tNor"
+  "malization\022=\n\023llm_post_processing\030\003 \001(\0132"
+  " .ondewo.s2t.S2tLlmPostProcessing\"Z\n\010Sym"
+  "Spell\022\021\n\tdict_path\030\001 \001(\t\022$\n\034max_dictiona"
+  "ry_edit_distance\030\002 \001(\003\022\025\n\rprefix_length\030"
+  "\003 \001(\003\"6\n\020S2tNormalization\022\020\n\010language\030\001 "
+  "\001(\t\022\020\n\010pipeline\030\002 \003(\t\"\211\016\n\024S2tLlmPostProc"
+  "essing\022Q\n&s2t_llm_post_processing_openai"
+  "_options\030\001 \001(\0132\034.ondewo.s2t.OpenaiLlmOpt"
+  "ionsH\000\210\001\001\0222\n%s2t_llm_post_processing_sys"
+  "tem_prompt\030\002 \001(\tH\001\210\001\001\0222\n%s2t_llm_post_pr"
+  "ocessing_ending_prompt\030\003 \001(\tH\002\210\001\001\022c\n&s2t"
+  "_llm_post_processing_casing_options\030\004 \001("
+  "\0132..ondewo.s2t.S2tLlmPostProcessingSubTa"
+  "skOptionsH\003\210\001\001\022h\n+s2t_llm_post_processin"
+  "g_punctuation_options\030\005 \001(\0132..ondewo.s2t"
+  ".S2tLlmPostProcessingSubTaskOptionsH\004\210\001\001"
+  "\022p\n3s2t_llm_post_processing_spelling_cor"
+  "rection_options\030\006 \001(\0132..ondewo.s2t.S2tLl"
+  "mPostProcessingSubTaskOptionsH\005\210\001\001\022p\n3s2"
+  "t_llm_post_processing_semantic_correctio"
+  "n_options\030\007 \001(\0132..ondewo.s2t.S2tLlmPostP"
+  "rocessingSubTaskOptionsH\006\210\001\001\022l\n+s2t_llm_"
+  "post_processing_translation_options\030\010 \001("
+  "\01322.ondewo.s2t.S2tLlmPostProcessingTrans"
+  "lationOptionsH\007\210\001\001\022\177\n5s2t_llm_post_proce"
+  "ssing_inverse_normalization_options\030\t \001("
+  "\0132;.ondewo.s2t.S2tLlmPostProcessingInver"
+  "seNormalizationOptionsH\010\210\001\001\022p\n-s2t_llm_p"
+  "ost_processing_normalization_options\030\n \001"
+  "(\01324.ondewo.s2t.S2tLlmPostProcessingNorm"
+  "alizationOptionsH\t\210\001\001\022p\n-s2t_llm_post_pr"
+  "ocessing_summarization_options\030\013 \001(\01324.o"
+  "ndewo.s2t.S2tLlmPostProcessingSummarizat"
+  "ionOptionsH\n\210\001\001\022h\n+s2t_llm_post_processi"
+  "ng_user_prompt_options\030\014 \001(\0132..ondewo.s2"
+  "t.S2tLlmPostProcessingSubTaskOptionsH\013\210\001"
+  "\001B)\n\'_s2t_llm_post_processing_openai_opt"
+  "ionsB(\n&_s2t_llm_post_processing_system_"
+  "promptB(\n&_s2t_llm_post_processing_endin"
+  "g_promptB)\n\'_s2t_llm_post_processing_cas"
+  "ing_optionsB.\n,_s2t_llm_post_processing_"
+  "punctuation_optionsB6\n4_s2t_llm_post_pro"
+  "cessing_spelling_correction_optionsB6\n4_"
+  "s2t_llm_post_processing_semantic_correct"
+  "ion_optionsB.\n,_s2t_llm_post_processing_"
+  "translation_optionsB8\n6_s2t_llm_post_pro"
+  "cessing_inverse_normalization_optionsB0\n"
+  "._s2t_llm_post_processing_normalization_"
+  "optionsB0\n._s2t_llm_post_processing_summ"
+  "arization_optionsB.\n,_s2t_llm_post_proce"
+  "ssing_user_prompt_options\"\214\001\n&S2tLlmPost"
+  "ProcessingTranslationOptions\022\023\n\006active\030\001"
+  " \001(\010H\000\210\001\001\022\025\n\010language\030\002 \001(\tH\001\210\001\001\022\023\n\006prom"
+  "pt\030\003 \001(\tH\002\210\001\001B\t\n\007_activeB\013\n\t_languageB\t\n"
+  "\007_prompt\"\207\005\n/S2tLlmPostProcessingInverse"
   "NormalizationOptions\022\023\n\006active\030\001 \001(\010H\000\210\001"
   "\001\022B\n\005email\030\002 \001(\0132..ondewo.s2t.S2tLlmPost"
   "ProcessingSubTaskOptionsH\001\210\001\001\022I\n\014phone_n"
@@ -2591,95 +2943,111 @@ const char descriptor_table_protodef_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[]
   "ubTaskOptionsH\006\210\001\001B\t\n\007_activeB\010\n\006_emailB"
   "\017\n\r_phone_numberB\020\n\016_date_and_timeB\025\n\023_c"
   "redit_card_numberB\031\n\027_social_security_nu"
-  "mberB\014\n\n_time_zone\"\266\001\n(S2tLlmPostProcess"
-  "ingSummarizationOptions\022\023\n\006active\030\001 \001(\010H"
-  "\000\210\001\001\022\023\n\006prompt\030\002 \001(\tH\001\210\001\001\022\026\n\tmin_chars\030\003"
-  " \001(\005H\002\210\001\001\022\026\n\tmax_chars\030\004 \001(\005H\003\210\001\001B\t\n\007_ac"
-  "tiveB\t\n\007_promptB\014\n\n_min_charsB\014\n\n_max_ch"
-  "ars\"d\n\"S2tLlmPostProcessingSubTaskOption"
-  "s\022\023\n\006active\030\001 \001(\010H\000\210\001\001\022\023\n\006prompt\030\002 \001(\tH\001"
-  "\210\001\001B\t\n\007_activeB\t\n\007_prompt\"%\n\007Logging\022\014\n\004"
-  "type\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\"+\n\034ListS2tLangu"
-  "ageModelsRequest\022\013\n\003ids\030\001 \003(\t\"C\n\027Languag"
-  "eModelPipelineId\022\023\n\013pipeline_id\030\001 \001(\t\022\023\n"
-  "\013model_names\030\002 \003(\t\"]\n\035ListS2tLanguageMod"
-  "elsResponse\022<\n\017lm_pipeline_ids\030\001 \003(\0132#.o"
-  "ndewo.s2t.LanguageModelPipelineId\"=\n\036Cre"
-  "ateUserLanguageModelRequest\022\033\n\023language_"
-  "model_name\030\001 \001(\t\"=\n\036DeleteUserLanguageMo"
-  "delRequest\022\033\n\023language_model_name\030\001 \001(\t\""
-  "U\n!AddDataToUserLanguageModelRequest\022\033\n\023"
-  "language_model_name\030\001 \001(\t\022\023\n\013zipped_data"
-  "\030\002 \001(\014\"K\n\035TrainUserLanguageModelRequest\022"
-  "\033\n\023language_model_name\030\001 \001(\t\022\r\n\005order\030\002 "
-  "\001(\003\"8\n$ListS2tNormalizationPipelinesRequ"
-  "est\022\020\n\010language\030\001 \001(\t\"L\n%ListS2tNormaliz"
-  "ationPipelinesResponse\022#\n\033s2t_normalizat"
-  "ion_pipelines\030\001 \003(\t*M\n\010Decoding\022\013\n\007DEFAU"
-  "LT\020\000\022\n\n\006GREEDY\020\001\022\027\n\023BEAM_SEARCH_WITH_LM\020"
-  "\002\022\017\n\013BEAM_SEARCH\020\003*\241\002\n\020InferenceBackend\022"
-  "\035\n\031INFERENCE_BACKEND_UNKNOWN\020\000\022\035\n\031INFERE"
-  "NCE_BACKEND_PYTORCH\020\001\022\032\n\026INFERENCE_BACKE"
-  "ND_FLAX\020\002\022*\n&INFERENCE_BACKEND_CLOUD_SER"
-  "VICE_AMAZON\020\003\022,\n(INFERENCE_BACKEND_CLOUD"
-  "_SERVICE_DEEPGRAM\020\004\022*\n&INFERENCE_BACKEND"
-  "_CLOUD_SERVICE_GOOGLE\020\005\022-\n)INFERENCE_BAC"
-  "KEND_CLOUD_SERVICE_MICROSOFT\020\006*\246\001\n\013Servi"
-  "ceTier\022\034\n\030SERVICE_TIER_UNSPECIFIED\020\000\022\025\n\021"
-  "SERVICE_TIER_AUTO\020\001\022\030\n\024SERVICE_TIER_DEFA"
-  "ULT\020\002\022\025\n\021SERVICE_TIER_FLEX\020\003\022\026\n\022SERVICE_"
-  "TIER_SCALE\020\004\022\031\n\025SERVICE_TIER_PRIORITY\020\005*"
-  "c\n\tVerbosity\022\031\n\025VERBOSITY_UNSPECIFIED\020\000\022"
-  "\021\n\rVERBOSITY_LOW\020\001\022\024\n\020VERBOSITY_MEDIUM\020\002"
-  "\022\022\n\016VERBOSITY_HIGH\020\003*\243\001\n\017ReasoningEffort"
-  "\022 \n\034REASONING_EFFORT_UNSPECIFIED\020\000\022\034\n\030RE"
-  "ASONING_EFFORT_MINIMAL\020\001\022\030\n\024REASONING_EF"
-  "FORT_LOW\020\002\022\033\n\027REASONING_EFFORT_MEDIUM\020\003\022"
-  "\031\n\025REASONING_EFFORT_HIGH\020\004*W\n\tVadMethod\022"
-  "\032\n\026VAD_METHOD_UNSPECIFIED\020\000\022\027\n\023VAD_METHO"
-  "D_PYANNOTE\020\001\022\025\n\021VAD_METHOD_SILERO\020\002*o\n\tT"
-  "sdMethod\022\032\n\026TSD_METHOD_UNSPECIFIED\020\000\022\023\n\017"
-  "TSD_METHOD_NONE\020\001\022\027\n\023TSD_METHOD_PYANNOTE"
-  "\020\002\022\030\n\024TSD_METHOD_WESPEAKER\020\0032\363\013\n\013Speech2"
-  "Text\022Y\n\016TranscribeFile\022!.ondewo.s2t.Tran"
-  "scribeFileRequest\032\".ondewo.s2t.Transcrib"
-  "eFileResponse\"\000\022c\n\020TranscribeStream\022#.on"
-  "dewo.s2t.TranscribeStreamRequest\032$.ondew"
-  "o.s2t.TranscribeStreamResponse\"\000(\0010\001\022L\n\016"
-  "GetS2tPipeline\022\031.ondewo.s2t.S2tPipelineI"
-  "d\032\035.ondewo.s2t.Speech2TextConfig\"\000\022O\n\021Cr"
-  "eateS2tPipeline\022\035.ondewo.s2t.Speech2Text"
-  "Config\032\031.ondewo.s2t.S2tPipelineId\"\000\022H\n\021D"
-  "eleteS2tPipeline\022\031.ondewo.s2t.S2tPipelin"
-  "eId\032\026.google.protobuf.Empty\"\000\022L\n\021UpdateS"
-  "2tPipeline\022\035.ondewo.s2t.Speech2TextConfi"
-  "g\032\026.google.protobuf.Empty\"\000\022_\n\020ListS2tPi"
-  "pelines\022#.ondewo.s2t.ListS2tPipelinesReq"
-  "uest\032$.ondewo.s2t.ListS2tPipelinesRespon"
-  "se\"\000\022_\n\020ListS2tLanguages\022#.ondewo.s2t.Li"
-  "stS2tLanguagesRequest\032$.ondewo.s2t.ListS"
-  "2tLanguagesResponse\"\000\022Y\n\016ListS2tDomains\022"
-  "!.ondewo.s2t.ListS2tDomainsRequest\032\".ond"
-  "ewo.s2t.ListS2tDomainsResponse\"\000\022Q\n\016GetS"
-  "erviceInfo\022\026.google.protobuf.Empty\032%.ond"
-  "ewo.s2t.S2tGetServiceInfoResponse\"\000\022n\n\025L"
-  "istS2tLanguageModels\022(.ondewo.s2t.ListS2"
-  "tLanguageModelsRequest\032).ondewo.s2t.List"
-  "S2tLanguageModelsResponse\"\000\022_\n\027CreateUse"
-  "rLanguageModel\022*.ondewo.s2t.CreateUserLa"
-  "nguageModelRequest\032\026.google.protobuf.Emp"
-  "ty\"\000\022_\n\027DeleteUserLanguageModel\022*.ondewo"
-  ".s2t.DeleteUserLanguageModelRequest\032\026.go"
-  "ogle.protobuf.Empty\"\000\022e\n\032AddDataToUserLa"
-  "nguageModel\022-.ondewo.s2t.AddDataToUserLa"
-  "nguageModelRequest\032\026.google.protobuf.Emp"
-  "ty\"\000\022]\n\026TrainUserLanguageModel\022).ondewo."
-  "s2t.TrainUserLanguageModelRequest\032\026.goog"
-  "le.protobuf.Empty\"\000\022\204\001\n\035ListS2tNormaliza"
-  "tionPipelines\0220.ondewo.s2t.ListS2tNormal"
-  "izationPipelinesRequest\0321.ondewo.s2t.Lis"
-  "tS2tNormalizationPipelinesResponseb\006prot"
-  "o3"
+  "mberB\014\n\n_time_zone\"\200\005\n(S2tLlmPostProcess"
+  "ingNormalizationOptions\022\023\n\006active\030\001 \001(\010H"
+  "\000\210\001\001\022B\n\005email\030\002 \001(\0132..ondewo.s2t.S2tLlmP"
+  "ostProcessingSubTaskOptionsH\001\210\001\001\022I\n\014phon"
+  "e_number\030\003 \001(\0132..ondewo.s2t.S2tLlmPostPr"
+  "ocessingSubTaskOptionsH\002\210\001\001\022J\n\rdate_and_"
+  "time\030\004 \001(\0132..ondewo.s2t.S2tLlmPostProces"
+  "singSubTaskOptionsH\003\210\001\001\022O\n\022credit_card_n"
+  "umber\030\005 \001(\0132..ondewo.s2t.S2tLlmPostProce"
+  "ssingSubTaskOptionsH\004\210\001\001\022S\n\026social_secur"
+  "ity_number\030\006 \001(\0132..ondewo.s2t.S2tLlmPost"
+  "ProcessingSubTaskOptionsH\005\210\001\001\022F\n\ttime_zo"
+  "ne\030\007 \001(\0132..ondewo.s2t.S2tLlmPostProcessi"
+  "ngSubTaskOptionsH\006\210\001\001B\t\n\007_activeB\010\n\006_ema"
+  "ilB\017\n\r_phone_numberB\020\n\016_date_and_timeB\025\n"
+  "\023_credit_card_numberB\031\n\027_social_security"
+  "_numberB\014\n\n_time_zone\"\266\001\n(S2tLlmPostProc"
+  "essingSummarizationOptions\022\023\n\006active\030\001 \001"
+  "(\010H\000\210\001\001\022\023\n\006prompt\030\002 \001(\tH\001\210\001\001\022\026\n\tmin_char"
+  "s\030\003 \001(\005H\002\210\001\001\022\026\n\tmax_chars\030\004 \001(\005H\003\210\001\001B\t\n\007"
+  "_activeB\t\n\007_promptB\014\n\n_min_charsB\014\n\n_max"
+  "_chars\"d\n\"S2tLlmPostProcessingSubTaskOpt"
+  "ions\022\023\n\006active\030\001 \001(\010H\000\210\001\001\022\023\n\006prompt\030\002 \001("
+  "\tH\001\210\001\001B\t\n\007_activeB\t\n\007_prompt\"%\n\007Logging\022"
+  "\014\n\004type\030\001 \001(\t\022\014\n\004path\030\002 \001(\t\"+\n\034ListS2tLa"
+  "nguageModelsRequest\022\013\n\003ids\030\001 \003(\t\"C\n\027Lang"
+  "uageModelPipelineId\022\023\n\013pipeline_id\030\001 \001(\t"
+  "\022\023\n\013model_names\030\002 \003(\t\"]\n\035ListS2tLanguage"
+  "ModelsResponse\022<\n\017lm_pipeline_ids\030\001 \003(\0132"
+  "#.ondewo.s2t.LanguageModelPipelineId\"=\n\036"
+  "CreateUserLanguageModelRequest\022\033\n\023langua"
+  "ge_model_name\030\001 \001(\t\"=\n\036DeleteUserLanguag"
+  "eModelRequest\022\033\n\023language_model_name\030\001 \001"
+  "(\t\"U\n!AddDataToUserLanguageModelRequest\022"
+  "\033\n\023language_model_name\030\001 \001(\t\022\023\n\013zipped_d"
+  "ata\030\002 \001(\014\"K\n\035TrainUserLanguageModelReque"
+  "st\022\033\n\023language_model_name\030\001 \001(\t\022\r\n\005order"
+  "\030\002 \001(\003\"8\n$ListS2tNormalizationPipelinesR"
+  "equest\022\020\n\010language\030\001 \001(\t\"L\n%ListS2tNorma"
+  "lizationPipelinesResponse\022#\n\033s2t_normali"
+  "zation_pipelines\030\001 \003(\t*M\n\010Decoding\022\013\n\007DE"
+  "FAULT\020\000\022\n\n\006GREEDY\020\001\022\027\n\023BEAM_SEARCH_WITH_"
+  "LM\020\002\022\017\n\013BEAM_SEARCH\020\003*\241\002\n\020InferenceBacke"
+  "nd\022\035\n\031INFERENCE_BACKEND_UNKNOWN\020\000\022\035\n\031INF"
+  "ERENCE_BACKEND_PYTORCH\020\001\022\032\n\026INFERENCE_BA"
+  "CKEND_FLAX\020\002\022*\n&INFERENCE_BACKEND_CLOUD_"
+  "SERVICE_AMAZON\020\003\022,\n(INFERENCE_BACKEND_CL"
+  "OUD_SERVICE_DEEPGRAM\020\004\022*\n&INFERENCE_BACK"
+  "END_CLOUD_SERVICE_GOOGLE\020\005\022-\n)INFERENCE_"
+  "BACKEND_CLOUD_SERVICE_MICROSOFT\020\006*\246\001\n\013Se"
+  "rviceTier\022\034\n\030SERVICE_TIER_UNSPECIFIED\020\000\022"
+  "\025\n\021SERVICE_TIER_AUTO\020\001\022\030\n\024SERVICE_TIER_D"
+  "EFAULT\020\002\022\025\n\021SERVICE_TIER_FLEX\020\003\022\026\n\022SERVI"
+  "CE_TIER_SCALE\020\004\022\031\n\025SERVICE_TIER_PRIORITY"
+  "\020\005*c\n\tVerbosity\022\031\n\025VERBOSITY_UNSPECIFIED"
+  "\020\000\022\021\n\rVERBOSITY_LOW\020\001\022\024\n\020VERBOSITY_MEDIU"
+  "M\020\002\022\022\n\016VERBOSITY_HIGH\020\003*\243\001\n\017ReasoningEff"
+  "ort\022 \n\034REASONING_EFFORT_UNSPECIFIED\020\000\022\034\n"
+  "\030REASONING_EFFORT_MINIMAL\020\001\022\030\n\024REASONING"
+  "_EFFORT_LOW\020\002\022\033\n\027REASONING_EFFORT_MEDIUM"
+  "\020\003\022\031\n\025REASONING_EFFORT_HIGH\020\004*W\n\tVadMeth"
+  "od\022\032\n\026VAD_METHOD_UNSPECIFIED\020\000\022\027\n\023VAD_ME"
+  "THOD_PYANNOTE\020\001\022\025\n\021VAD_METHOD_SILERO\020\002*o"
+  "\n\tTsdMethod\022\032\n\026TSD_METHOD_UNSPECIFIED\020\000\022"
+  "\023\n\017TSD_METHOD_NONE\020\001\022\027\n\023TSD_METHOD_PYANN"
+  "OTE\020\002\022\030\n\024TSD_METHOD_WESPEAKER\020\0032\363\013\n\013Spee"
+  "ch2Text\022Y\n\016TranscribeFile\022!.ondewo.s2t.T"
+  "ranscribeFileRequest\032\".ondewo.s2t.Transc"
+  "ribeFileResponse\"\000\022c\n\020TranscribeStream\022#"
+  ".ondewo.s2t.TranscribeStreamRequest\032$.on"
+  "dewo.s2t.TranscribeStreamResponse\"\000(\0010\001\022"
+  "L\n\016GetS2tPipeline\022\031.ondewo.s2t.S2tPipeli"
+  "neId\032\035.ondewo.s2t.Speech2TextConfig\"\000\022O\n"
+  "\021CreateS2tPipeline\022\035.ondewo.s2t.Speech2T"
+  "extConfig\032\031.ondewo.s2t.S2tPipelineId\"\000\022H"
+  "\n\021DeleteS2tPipeline\022\031.ondewo.s2t.S2tPipe"
+  "lineId\032\026.google.protobuf.Empty\"\000\022L\n\021Upda"
+  "teS2tPipeline\022\035.ondewo.s2t.Speech2TextCo"
+  "nfig\032\026.google.protobuf.Empty\"\000\022_\n\020ListS2"
+  "tPipelines\022#.ondewo.s2t.ListS2tPipelines"
+  "Request\032$.ondewo.s2t.ListS2tPipelinesRes"
+  "ponse\"\000\022_\n\020ListS2tLanguages\022#.ondewo.s2t"
+  ".ListS2tLanguagesRequest\032$.ondewo.s2t.Li"
+  "stS2tLanguagesResponse\"\000\022Y\n\016ListS2tDomai"
+  "ns\022!.ondewo.s2t.ListS2tDomainsRequest\032\"."
+  "ondewo.s2t.ListS2tDomainsResponse\"\000\022Q\n\016G"
+  "etServiceInfo\022\026.google.protobuf.Empty\032%."
+  "ondewo.s2t.S2tGetServiceInfoResponse\"\000\022n"
+  "\n\025ListS2tLanguageModels\022(.ondewo.s2t.Lis"
+  "tS2tLanguageModelsRequest\032).ondewo.s2t.L"
+  "istS2tLanguageModelsResponse\"\000\022_\n\027Create"
+  "UserLanguageModel\022*.ondewo.s2t.CreateUse"
+  "rLanguageModelRequest\032\026.google.protobuf."
+  "Empty\"\000\022_\n\027DeleteUserLanguageModel\022*.ond"
+  "ewo.s2t.DeleteUserLanguageModelRequest\032\026"
+  ".google.protobuf.Empty\"\000\022e\n\032AddDataToUse"
+  "rLanguageModel\022-.ondewo.s2t.AddDataToUse"
+  "rLanguageModelRequest\032\026.google.protobuf."
+  "Empty\"\000\022]\n\026TrainUserLanguageModel\022).onde"
+  "wo.s2t.TrainUserLanguageModelRequest\032\026.g"
+  "oogle.protobuf.Empty\"\000\022\204\001\n\035ListS2tNormal"
+  "izationPipelines\0220.ondewo.s2t.ListS2tNor"
+  "malizationPipelinesRequest\0321.ondewo.s2t."
+  "ListS2tNormalizationPipelinesResponseb\006p"
+  "roto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_deps[2] = {
   &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
@@ -2687,9 +3055,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fs2t_2fspee
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto = {
-    false, false, 18202, descriptor_table_protodef_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto,
+    false, false, 21165, descriptor_table_protodef_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto,
     "ondewo/s2t/speech-to-text.proto",
-    &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once, descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_deps, 2, 71,
+    &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once, descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_deps, 2, 80,
     schemas, file_default_instances, TableStruct_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto::offsets,
     file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto, file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto,
     file_level_service_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto,
@@ -2702,9 +3070,32 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_ondewo_2
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
 namespace ondewo {
 namespace s2t {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Decoding_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TurnDetectionContextTurn_Role_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
   return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[0];
+}
+bool TurnDetectionContextTurn_Role_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+constexpr TurnDetectionContextTurn_Role TurnDetectionContextTurn::ROLE_UNSPECIFIED;
+constexpr TurnDetectionContextTurn_Role TurnDetectionContextTurn::ROLE_USER;
+constexpr TurnDetectionContextTurn_Role TurnDetectionContextTurn::ROLE_ASSISTANT;
+constexpr TurnDetectionContextTurn_Role TurnDetectionContextTurn::Role_MIN;
+constexpr TurnDetectionContextTurn_Role TurnDetectionContextTurn::Role_MAX;
+constexpr int TurnDetectionContextTurn::Role_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || (_MSC_VER >= 1900 && _MSC_VER < 1912))
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Decoding_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
+  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[1];
 }
 bool Decoding_IsValid(int value) {
   switch (value) {
@@ -2720,7 +3111,7 @@ bool Decoding_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* InferenceBackend_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
-  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[1];
+  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[2];
 }
 bool InferenceBackend_IsValid(int value) {
   switch (value) {
@@ -2739,7 +3130,7 @@ bool InferenceBackend_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ServiceTier_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
-  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[2];
+  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[3];
 }
 bool ServiceTier_IsValid(int value) {
   switch (value) {
@@ -2757,7 +3148,7 @@ bool ServiceTier_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Verbosity_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
-  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[3];
+  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[4];
 }
 bool Verbosity_IsValid(int value) {
   switch (value) {
@@ -2773,7 +3164,7 @@ bool Verbosity_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ReasoningEffort_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
-  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[4];
+  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[5];
 }
 bool ReasoningEffort_IsValid(int value) {
   switch (value) {
@@ -2790,7 +3181,7 @@ bool ReasoningEffort_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* VadMethod_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
-  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[5];
+  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[6];
 }
 bool VadMethod_IsValid(int value) {
   switch (value) {
@@ -2805,7 +3196,7 @@ bool VadMethod_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TsdMethod_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto);
-  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[6];
+  return file_level_enum_descriptors_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[7];
 }
 bool TsdMethod_IsValid(int value) {
   switch (value) {
@@ -5337,12 +5728,13 @@ TranscriptionReturnOptions::TranscriptionReturnOptions(const TranscriptionReturn
     , decltype(_impl_.return_alternative_words_nr_){}
     , decltype(_impl_.return_alternative_words_){}
     , decltype(_impl_.return_word_timing_){}
+    , decltype(_impl_.return_end_of_speech_candidate_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.return_start_of_speech_, &from._impl_.return_start_of_speech_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.return_word_timing_) -
-    reinterpret_cast<char*>(&_impl_.return_start_of_speech_)) + sizeof(_impl_.return_word_timing_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.return_end_of_speech_candidate_) -
+    reinterpret_cast<char*>(&_impl_.return_start_of_speech_)) + sizeof(_impl_.return_end_of_speech_candidate_));
   // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TranscriptionReturnOptions)
 }
 
@@ -5359,6 +5751,7 @@ inline void TranscriptionReturnOptions::SharedCtor(
     , decltype(_impl_.return_alternative_words_nr_){0}
     , decltype(_impl_.return_alternative_words_){false}
     , decltype(_impl_.return_word_timing_){false}
+    , decltype(_impl_.return_end_of_speech_candidate_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -5387,8 +5780,8 @@ void TranscriptionReturnOptions::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.return_start_of_speech_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.return_word_timing_) -
-      reinterpret_cast<char*>(&_impl_.return_start_of_speech_)) + sizeof(_impl_.return_word_timing_));
+      reinterpret_cast<char*>(&_impl_.return_end_of_speech_candidate_) -
+      reinterpret_cast<char*>(&_impl_.return_start_of_speech_)) + sizeof(_impl_.return_end_of_speech_candidate_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -5458,6 +5851,14 @@ const char* TranscriptionReturnOptions::_InternalParse(const char* ptr, ::_pbi::
       case 8:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
           _impl_.return_word_timing_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool return_end_of_speech_candidate = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _impl_.return_end_of_speech_candidate_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -5539,6 +5940,12 @@ uint8_t* TranscriptionReturnOptions::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(8, this->_internal_return_word_timing(), target);
   }
 
+  // bool return_end_of_speech_candidate = 9;
+  if (this->_internal_return_end_of_speech_candidate() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(9, this->_internal_return_end_of_speech_candidate(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -5595,6 +6002,11 @@ size_t TranscriptionReturnOptions::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // bool return_end_of_speech_candidate = 9;
+  if (this->_internal_return_end_of_speech_candidate() != 0) {
+    total_size += 1 + 1;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -5637,6 +6049,9 @@ void TranscriptionReturnOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_
   if (from._internal_return_word_timing() != 0) {
     _this->_internal_set_return_word_timing(from._internal_return_word_timing());
   }
+  if (from._internal_return_end_of_speech_candidate() != 0) {
+    _this->_internal_set_return_end_of_speech_candidate(from._internal_return_end_of_speech_candidate());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -5655,8 +6070,8 @@ void TranscriptionReturnOptions::InternalSwap(TranscriptionReturnOptions* other)
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(TranscriptionReturnOptions, _impl_.return_word_timing_)
-      + sizeof(TranscriptionReturnOptions::_impl_.return_word_timing_)
+      PROTOBUF_FIELD_OFFSET(TranscriptionReturnOptions, _impl_.return_end_of_speech_candidate_)
+      + sizeof(TranscriptionReturnOptions::_impl_.return_end_of_speech_candidate_)
       - PROTOBUF_FIELD_OFFSET(TranscriptionReturnOptions, _impl_.return_start_of_speech_)>(
           reinterpret_cast<char*>(&_impl_.return_start_of_speech_),
           reinterpret_cast<char*>(&other->_impl_.return_start_of_speech_));
@@ -5672,7 +6087,14 @@ void TranscriptionReturnOptions::InternalSwap(TranscriptionReturnOptions* other)
 
 class UtteranceDetectionOptions::_Internal {
  public:
+  using HasBits = decltype(std::declval<UtteranceDetectionOptions>()._impl_._has_bits_);
   static const ::ondewo::s2t::TurnDetectionOptions& turn_detection(const UtteranceDetectionOptions* msg);
+  static void set_has_min_audio_chunk_size(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_transcribe_not_final_period_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::ondewo::s2t::TurnDetectionOptions&
@@ -5704,14 +6126,19 @@ UtteranceDetectionOptions::UtteranceDetectionOptions(const UtteranceDetectionOpt
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   UtteranceDetectionOptions* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.next_chunk_timeout_){}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.next_chunk_timeout_){}
+    , decltype(_impl_.transcribe_not_final_period_seconds_){}
+    , decltype(_impl_.min_audio_chunk_size_){}
     , decltype(_impl_.oneof_transcribe_not_final_){}
     , decltype(_impl_.oneof_turn_detection_){}
-    , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.next_chunk_timeout_ = from._impl_.next_chunk_timeout_;
+  ::memcpy(&_impl_.next_chunk_timeout_, &from._impl_.next_chunk_timeout_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.min_audio_chunk_size_) -
+    reinterpret_cast<char*>(&_impl_.next_chunk_timeout_)) + sizeof(_impl_.min_audio_chunk_size_));
   clear_has_oneof_transcribe_not_final();
   switch (from.oneof_transcribe_not_final_case()) {
     case kTranscribeNotFinal: {
@@ -5741,10 +6168,13 @@ inline void UtteranceDetectionOptions::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.next_chunk_timeout_){0}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.next_chunk_timeout_){0}
+    , decltype(_impl_.transcribe_not_final_period_seconds_){0}
+    , decltype(_impl_.min_audio_chunk_size_){int64_t{0}}
     , decltype(_impl_.oneof_transcribe_not_final_){}
     , decltype(_impl_.oneof_turn_detection_){}
-    , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
   clear_has_oneof_transcribe_not_final();
@@ -5812,13 +6242,21 @@ void UtteranceDetectionOptions::Clear() {
   (void) cached_has_bits;
 
   _impl_.next_chunk_timeout_ = 0;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    ::memset(&_impl_.transcribe_not_final_period_seconds_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.min_audio_chunk_size_) -
+        reinterpret_cast<char*>(&_impl_.transcribe_not_final_period_seconds_)) + sizeof(_impl_.min_audio_chunk_size_));
+  }
   clear_oneof_transcribe_not_final();
   clear_oneof_turn_detection();
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* UtteranceDetectionOptions::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -5847,6 +6285,24 @@ const char* UtteranceDetectionOptions::_InternalParse(const char* ptr, ::_pbi::P
         } else
           goto handle_unusual;
         continue;
+      // optional int64 min_audio_chunk_size = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _Internal::set_has_min_audio_chunk_size(&has_bits);
+          _impl_.min_audio_chunk_size_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float transcribe_not_final_period_seconds = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+          _Internal::set_has_transcribe_not_final_period_seconds(&has_bits);
+          _impl_.transcribe_not_final_period_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -5863,6 +6319,7 @@ const char* UtteranceDetectionOptions::_InternalParse(const char* ptr, ::_pbi::P
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -5899,6 +6356,18 @@ uint8_t* UtteranceDetectionOptions::_InternalSerialize(
         _Internal::turn_detection(this).GetCachedSize(), target, stream);
   }
 
+  // optional int64 min_audio_chunk_size = 4;
+  if (_internal_has_min_audio_chunk_size()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(4, this->_internal_min_audio_chunk_size(), target);
+  }
+
+  // optional float transcribe_not_final_period_seconds = 5;
+  if (_internal_has_transcribe_not_final_period_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_transcribe_not_final_period_seconds(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -5924,6 +6393,19 @@ size_t UtteranceDetectionOptions::ByteSizeLong() const {
     total_size += 1 + 4;
   }
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    // optional float transcribe_not_final_period_seconds = 5;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 + 4;
+    }
+
+    // optional int64 min_audio_chunk_size = 4;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_min_audio_chunk_size());
+    }
+
+  }
   switch (oneof_transcribe_not_final_case()) {
     // bool transcribe_not_final = 1;
     case kTranscribeNotFinal: {
@@ -5971,6 +6453,16 @@ void UtteranceDetectionOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_m
   if (raw_next_chunk_timeout != 0) {
     _this->_internal_set_next_chunk_timeout(from._internal_next_chunk_timeout());
   }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_impl_.transcribe_not_final_period_seconds_ = from._impl_.transcribe_not_final_period_seconds_;
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.min_audio_chunk_size_ = from._impl_.min_audio_chunk_size_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
   switch (from.oneof_transcribe_not_final_case()) {
     case kTranscribeNotFinal: {
       _this->_internal_set_transcribe_not_final(from._internal_transcribe_not_final());
@@ -6007,7 +6499,13 @@ bool UtteranceDetectionOptions::IsInitialized() const {
 void UtteranceDetectionOptions::InternalSwap(UtteranceDetectionOptions* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.next_chunk_timeout_, other->_impl_.next_chunk_timeout_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UtteranceDetectionOptions, _impl_.min_audio_chunk_size_)
+      + sizeof(UtteranceDetectionOptions::_impl_.min_audio_chunk_size_)
+      - PROTOBUF_FIELD_OFFSET(UtteranceDetectionOptions, _impl_.next_chunk_timeout_)>(
+          reinterpret_cast<char*>(&_impl_.next_chunk_timeout_),
+          reinterpret_cast<char*>(&other->_impl_.next_chunk_timeout_));
   swap(_impl_.oneof_transcribe_not_final_, other->_impl_.oneof_transcribe_not_final_);
   swap(_impl_.oneof_turn_detection_, other->_impl_.oneof_turn_detection_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
@@ -7823,6 +8321,7 @@ TranscribeStreamResponse::TranscribeStreamResponse(const TranscribeStreamRespons
     , decltype(_impl_.final_){}
     , decltype(_impl_.return_audio_){}
     , decltype(_impl_.utterance_start_){}
+    , decltype(_impl_.end_of_speech_candidate_){}
     , decltype(_impl_.oneof_config_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}};
@@ -7845,8 +8344,8 @@ TranscribeStreamResponse::TranscribeStreamResponse(const TranscribeStreamRespons
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.time_, &from._impl_.time_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.utterance_start_) -
-    reinterpret_cast<char*>(&_impl_.time_)) + sizeof(_impl_.utterance_start_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.end_of_speech_candidate_) -
+    reinterpret_cast<char*>(&_impl_.time_)) + sizeof(_impl_.end_of_speech_candidate_));
   clear_has_oneof_config();
   switch (from.oneof_config_case()) {
     case kConfig: {
@@ -7873,6 +8372,7 @@ inline void TranscribeStreamResponse::SharedCtor(
     , decltype(_impl_.final_){false}
     , decltype(_impl_.return_audio_){false}
     , decltype(_impl_.utterance_start_){false}
+    , decltype(_impl_.end_of_speech_candidate_){false}
     , decltype(_impl_.oneof_config_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , /*decltype(_impl_._oneof_case_)*/{}
@@ -7938,8 +8438,8 @@ void TranscribeStreamResponse::Clear() {
   _impl_.audio_.ClearToEmpty();
   _impl_.audio_uuid_.ClearToEmpty();
   ::memset(&_impl_.time_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.utterance_start_) -
-      reinterpret_cast<char*>(&_impl_.time_)) + sizeof(_impl_.utterance_start_));
+      reinterpret_cast<char*>(&_impl_.end_of_speech_candidate_) -
+      reinterpret_cast<char*>(&_impl_.time_)) + sizeof(_impl_.end_of_speech_candidate_));
   clear_oneof_config();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -8018,6 +8518,14 @@ const char* TranscribeStreamResponse::_InternalParse(const char* ptr, ::_pbi::Pa
       case 8:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
           ptr = ctx->ParseMessage(_internal_mutable_config(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool end_of_speech_candidate = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _impl_.end_of_speech_candidate_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -8110,6 +8618,12 @@ uint8_t* TranscribeStreamResponse::_InternalSerialize(
         _Internal::config(this).GetCachedSize(), target, stream);
   }
 
+  // bool end_of_speech_candidate = 9;
+  if (this->_internal_end_of_speech_candidate() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(9, this->_internal_end_of_speech_candidate(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -8171,6 +8685,11 @@ size_t TranscribeStreamResponse::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // bool end_of_speech_candidate = 9;
+  if (this->_internal_end_of_speech_candidate() != 0) {
+    total_size += 1 + 1;
+  }
+
   switch (oneof_config_case()) {
     // .ondewo.s2t.TranscribeRequestConfig config = 8;
     case kConfig: {
@@ -8224,6 +8743,9 @@ void TranscribeStreamResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   if (from._internal_utterance_start() != 0) {
     _this->_internal_set_utterance_start(from._internal_utterance_start());
   }
+  if (from._internal_end_of_speech_candidate() != 0) {
+    _this->_internal_set_end_of_speech_candidate(from._internal_end_of_speech_candidate());
+  }
   switch (from.oneof_config_case()) {
     case kConfig: {
       _this->_internal_mutable_config()->::ondewo::s2t::TranscribeRequestConfig::MergeFrom(
@@ -8263,8 +8785,8 @@ void TranscribeStreamResponse::InternalSwap(TranscribeStreamResponse* other) {
       &other->_impl_.audio_uuid_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(TranscribeStreamResponse, _impl_.utterance_start_)
-      + sizeof(TranscribeStreamResponse::_impl_.utterance_start_)
+      PROTOBUF_FIELD_OFFSET(TranscribeStreamResponse, _impl_.end_of_speech_candidate_)
+      + sizeof(TranscribeStreamResponse::_impl_.end_of_speech_candidate_)
       - PROTOBUF_FIELD_OFFSET(TranscribeStreamResponse, _impl_.time_)>(
           reinterpret_cast<char*>(&_impl_.time_),
           reinterpret_cast<char*>(&other->_impl_.time_));
@@ -16640,7 +17162,14 @@ void StreamingServer::InternalSwap(StreamingServer* other) {
 
 class StreamingSpeechRecognition::_Internal {
  public:
+  using HasBits = decltype(std::declval<StreamingSpeechRecognition>()._impl_._has_bits_);
+  static void set_has_transcribe_not_final(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
   static const ::ondewo::s2t::TurnDetectionOptions& turn_detection(const StreamingSpeechRecognition* msg);
+  static void set_has_transcribe_not_final_period_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
 };
 
 const ::ondewo::s2t::TurnDetectionOptions&
@@ -16657,13 +17186,15 @@ StreamingSpeechRecognition::StreamingSpeechRecognition(const StreamingSpeechReco
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   StreamingSpeechRecognition* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.decoding_method_){}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.decoding_method_){}
     , decltype(_impl_.turn_detection_){nullptr}
     , decltype(_impl_.sampling_rate_){}
     , decltype(_impl_.transcribe_not_final_){}
     , decltype(_impl_.next_chunk_timeout_){}
     , decltype(_impl_.min_audio_chunk_size_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.transcribe_not_final_period_seconds_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.decoding_method_.InitDefault();
@@ -16678,8 +17209,8 @@ StreamingSpeechRecognition::StreamingSpeechRecognition(const StreamingSpeechReco
     _this->_impl_.turn_detection_ = new ::ondewo::s2t::TurnDetectionOptions(*from._impl_.turn_detection_);
   }
   ::memcpy(&_impl_.sampling_rate_, &from._impl_.sampling_rate_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.min_audio_chunk_size_) -
-    reinterpret_cast<char*>(&_impl_.sampling_rate_)) + sizeof(_impl_.min_audio_chunk_size_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.transcribe_not_final_period_seconds_) -
+    reinterpret_cast<char*>(&_impl_.sampling_rate_)) + sizeof(_impl_.transcribe_not_final_period_seconds_));
   // @@protoc_insertion_point(copy_constructor:ondewo.s2t.StreamingSpeechRecognition)
 }
 
@@ -16688,13 +17219,15 @@ inline void StreamingSpeechRecognition::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.decoding_method_){}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.decoding_method_){}
     , decltype(_impl_.turn_detection_){nullptr}
     , decltype(_impl_.sampling_rate_){int64_t{0}}
     , decltype(_impl_.transcribe_not_final_){false}
     , decltype(_impl_.next_chunk_timeout_){0}
     , decltype(_impl_.min_audio_chunk_size_){int64_t{0}}
-    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.transcribe_not_final_period_seconds_){0}
   };
   _impl_.decoding_method_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -16732,21 +17265,27 @@ void StreamingSpeechRecognition::Clear() {
     delete _impl_.turn_detection_;
   }
   _impl_.turn_detection_ = nullptr;
-  ::memset(&_impl_.sampling_rate_, 0, static_cast<size_t>(
+  _impl_.sampling_rate_ = int64_t{0};
+  _impl_.transcribe_not_final_ = false;
+  ::memset(&_impl_.next_chunk_timeout_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.min_audio_chunk_size_) -
-      reinterpret_cast<char*>(&_impl_.sampling_rate_)) + sizeof(_impl_.min_audio_chunk_size_));
+      reinterpret_cast<char*>(&_impl_.next_chunk_timeout_)) + sizeof(_impl_.min_audio_chunk_size_));
+  _impl_.transcribe_not_final_period_seconds_ = 0;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* StreamingSpeechRecognition::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // bool transcribe_not_final = 1;
+      // optional bool transcribe_not_final = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _Internal::set_has_transcribe_not_final(&has_bits);
           _impl_.transcribe_not_final_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
@@ -16794,6 +17333,15 @@ const char* StreamingSpeechRecognition::_InternalParse(const char* ptr, ::_pbi::
         } else
           goto handle_unusual;
         continue;
+      // optional float transcribe_not_final_period_seconds = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 61)) {
+          _Internal::set_has_transcribe_not_final_period_seconds(&has_bits);
+          _impl_.transcribe_not_final_period_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -16810,6 +17358,7 @@ const char* StreamingSpeechRecognition::_InternalParse(const char* ptr, ::_pbi::
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -16823,8 +17372,8 @@ uint8_t* StreamingSpeechRecognition::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bool transcribe_not_final = 1;
-  if (this->_internal_transcribe_not_final() != 0) {
+  // optional bool transcribe_not_final = 1;
+  if (_internal_has_transcribe_not_final()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_transcribe_not_final(), target);
   }
@@ -16868,6 +17417,12 @@ uint8_t* StreamingSpeechRecognition::_InternalSerialize(
         _Internal::turn_detection(this).GetCachedSize(), target, stream);
   }
 
+  // optional float transcribe_not_final_period_seconds = 7;
+  if (_internal_has_transcribe_not_final_period_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(7, this->_internal_transcribe_not_final_period_seconds(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -16903,8 +17458,9 @@ size_t StreamingSpeechRecognition::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_sampling_rate());
   }
 
-  // bool transcribe_not_final = 1;
-  if (this->_internal_transcribe_not_final() != 0) {
+  // optional bool transcribe_not_final = 1;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
     total_size += 1 + 1;
   }
 
@@ -16920,6 +17476,11 @@ size_t StreamingSpeechRecognition::ByteSizeLong() const {
   // int64 min_audio_chunk_size = 4;
   if (this->_internal_min_audio_chunk_size() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_min_audio_chunk_size());
+  }
+
+  // optional float transcribe_not_final_period_seconds = 7;
+  if (cached_has_bits & 0x00000002u) {
+    total_size += 1 + 4;
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -16950,7 +17511,7 @@ void StreamingSpeechRecognition::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_
   if (from._internal_sampling_rate() != 0) {
     _this->_internal_set_sampling_rate(from._internal_sampling_rate());
   }
-  if (from._internal_transcribe_not_final() != 0) {
+  if (from._internal_has_transcribe_not_final()) {
     _this->_internal_set_transcribe_not_final(from._internal_transcribe_not_final());
   }
   static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
@@ -16962,6 +17523,9 @@ void StreamingSpeechRecognition::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_
   }
   if (from._internal_min_audio_chunk_size() != 0) {
     _this->_internal_set_min_audio_chunk_size(from._internal_min_audio_chunk_size());
+  }
+  if (from._internal_has_transcribe_not_final_period_seconds()) {
+    _this->_internal_set_transcribe_not_final_period_seconds(from._internal_transcribe_not_final_period_seconds());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -16982,13 +17546,14 @@ void StreamingSpeechRecognition::InternalSwap(StreamingSpeechRecognition* other)
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.decoding_method_, lhs_arena,
       &other->_impl_.decoding_method_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(StreamingSpeechRecognition, _impl_.min_audio_chunk_size_)
-      + sizeof(StreamingSpeechRecognition::_impl_.min_audio_chunk_size_)
+      PROTOBUF_FIELD_OFFSET(StreamingSpeechRecognition, _impl_.transcribe_not_final_period_seconds_)
+      + sizeof(StreamingSpeechRecognition::_impl_.transcribe_not_final_period_seconds_)
       - PROTOBUF_FIELD_OFFSET(StreamingSpeechRecognition, _impl_.turn_detection_)>(
           reinterpret_cast<char*>(&_impl_.turn_detection_),
           reinterpret_cast<char*>(&other->_impl_.turn_detection_));
@@ -17006,10 +17571,10 @@ class TurnDetectionOptions::_Internal {
  public:
   using HasBits = decltype(std::declval<TurnDetectionOptions>()._impl_._has_bits_);
   static void set_has_active(HasBits* has_bits) {
-    (*has_bits)[0] |= 8u;
+    (*has_bits)[0] |= 16u;
   }
   static void set_has_full_utterance_deployment(HasBits* has_bits) {
-    (*has_bits)[0] |= 16u;
+    (*has_bits)[0] |= 32u;
   }
   static void set_has_turn_detection_system_prompt(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
@@ -17021,11 +17586,122 @@ class TurnDetectionOptions::_Internal {
   static void set_has_turn_detection_llm_openai_options(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
+  static void set_has_incomplete_max_silence_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 64u;
+  }
+  static const ::ondewo::s2t::TurnDetectionConversationContext& turn_detection_conversation_context(const TurnDetectionOptions* msg);
+  static void set_has_turn_detection_conversation_context(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static const ::ondewo::s2t::TurnDetectionChatLlmOptions& turn_detection_chat_llm_options(const TurnDetectionOptions* msg);
+  static const ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions& turn_detection_end_of_utterance_llm_options(const TurnDetectionOptions* msg);
+  static const ::ondewo::s2t::TurnDetectionOndewoDeOptions& turn_detection_ondewo_de_options(const TurnDetectionOptions* msg);
+  static const ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions& turn_detection_ondewo_de_fusion_options(const TurnDetectionOptions* msg);
+  static const ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions& turn_detection_pipecat_smart_turn_options(const TurnDetectionOptions* msg);
 };
 
 const ::ondewo::s2t::OpenaiLlmOptions&
 TurnDetectionOptions::_Internal::turn_detection_llm_openai_options(const TurnDetectionOptions* msg) {
   return *msg->_impl_.turn_detection_llm_openai_options_;
+}
+const ::ondewo::s2t::TurnDetectionConversationContext&
+TurnDetectionOptions::_Internal::turn_detection_conversation_context(const TurnDetectionOptions* msg) {
+  return *msg->_impl_.turn_detection_conversation_context_;
+}
+const ::ondewo::s2t::TurnDetectionChatLlmOptions&
+TurnDetectionOptions::_Internal::turn_detection_chat_llm_options(const TurnDetectionOptions* msg) {
+  return *msg->_impl_.oneof_turn_detector_.turn_detection_chat_llm_options_;
+}
+const ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions&
+TurnDetectionOptions::_Internal::turn_detection_end_of_utterance_llm_options(const TurnDetectionOptions* msg) {
+  return *msg->_impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_;
+}
+const ::ondewo::s2t::TurnDetectionOndewoDeOptions&
+TurnDetectionOptions::_Internal::turn_detection_ondewo_de_options(const TurnDetectionOptions* msg) {
+  return *msg->_impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_;
+}
+const ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions&
+TurnDetectionOptions::_Internal::turn_detection_ondewo_de_fusion_options(const TurnDetectionOptions* msg) {
+  return *msg->_impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_;
+}
+const ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions&
+TurnDetectionOptions::_Internal::turn_detection_pipecat_smart_turn_options(const TurnDetectionOptions* msg) {
+  return *msg->_impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_;
+}
+void TurnDetectionOptions::set_allocated_turn_detection_chat_llm_options(::ondewo::s2t::TurnDetectionChatLlmOptions* turn_detection_chat_llm_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_oneof_turn_detector();
+  if (turn_detection_chat_llm_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(turn_detection_chat_llm_options);
+    if (message_arena != submessage_arena) {
+      turn_detection_chat_llm_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, turn_detection_chat_llm_options, submessage_arena);
+    }
+    set_has_turn_detection_chat_llm_options();
+    _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_ = turn_detection_chat_llm_options;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_chat_llm_options)
+}
+void TurnDetectionOptions::set_allocated_turn_detection_end_of_utterance_llm_options(::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions* turn_detection_end_of_utterance_llm_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_oneof_turn_detector();
+  if (turn_detection_end_of_utterance_llm_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(turn_detection_end_of_utterance_llm_options);
+    if (message_arena != submessage_arena) {
+      turn_detection_end_of_utterance_llm_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, turn_detection_end_of_utterance_llm_options, submessage_arena);
+    }
+    set_has_turn_detection_end_of_utterance_llm_options();
+    _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_ = turn_detection_end_of_utterance_llm_options;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_end_of_utterance_llm_options)
+}
+void TurnDetectionOptions::set_allocated_turn_detection_ondewo_de_options(::ondewo::s2t::TurnDetectionOndewoDeOptions* turn_detection_ondewo_de_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_oneof_turn_detector();
+  if (turn_detection_ondewo_de_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(turn_detection_ondewo_de_options);
+    if (message_arena != submessage_arena) {
+      turn_detection_ondewo_de_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, turn_detection_ondewo_de_options, submessage_arena);
+    }
+    set_has_turn_detection_ondewo_de_options();
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_ = turn_detection_ondewo_de_options;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_options)
+}
+void TurnDetectionOptions::set_allocated_turn_detection_ondewo_de_fusion_options(::ondewo::s2t::TurnDetectionOndewoDeFusionOptions* turn_detection_ondewo_de_fusion_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_oneof_turn_detector();
+  if (turn_detection_ondewo_de_fusion_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(turn_detection_ondewo_de_fusion_options);
+    if (message_arena != submessage_arena) {
+      turn_detection_ondewo_de_fusion_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, turn_detection_ondewo_de_fusion_options, submessage_arena);
+    }
+    set_has_turn_detection_ondewo_de_fusion_options();
+    _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_ = turn_detection_ondewo_de_fusion_options;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_ondewo_de_fusion_options)
+}
+void TurnDetectionOptions::set_allocated_turn_detection_pipecat_smart_turn_options(::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions* turn_detection_pipecat_smart_turn_options) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_oneof_turn_detector();
+  if (turn_detection_pipecat_smart_turn_options) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(turn_detection_pipecat_smart_turn_options);
+    if (message_arena != submessage_arena) {
+      turn_detection_pipecat_smart_turn_options = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, turn_detection_pipecat_smart_turn_options, submessage_arena);
+    }
+    set_has_turn_detection_pipecat_smart_turn_options();
+    _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_ = turn_detection_pipecat_smart_turn_options;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ondewo.s2t.TurnDetectionOptions.turn_detection_pipecat_smart_turn_options)
 }
 TurnDetectionOptions::TurnDetectionOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -17042,8 +17718,12 @@ TurnDetectionOptions::TurnDetectionOptions(const TurnDetectionOptions& from)
     , decltype(_impl_.turn_detection_system_prompt_){}
     , decltype(_impl_.turn_detection_user_prompt_){}
     , decltype(_impl_.turn_detection_llm_openai_options_){nullptr}
+    , decltype(_impl_.turn_detection_conversation_context_){nullptr}
     , decltype(_impl_.active_){}
-    , decltype(_impl_.full_utterance_deployment_){}};
+    , decltype(_impl_.full_utterance_deployment_){}
+    , decltype(_impl_.incomplete_max_silence_seconds_){}
+    , decltype(_impl_.oneof_turn_detector_){}
+    , /*decltype(_impl_._oneof_case_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.turn_detection_system_prompt_.InitDefault();
@@ -17065,9 +17745,43 @@ TurnDetectionOptions::TurnDetectionOptions(const TurnDetectionOptions& from)
   if (from._internal_has_turn_detection_llm_openai_options()) {
     _this->_impl_.turn_detection_llm_openai_options_ = new ::ondewo::s2t::OpenaiLlmOptions(*from._impl_.turn_detection_llm_openai_options_);
   }
+  if (from._internal_has_turn_detection_conversation_context()) {
+    _this->_impl_.turn_detection_conversation_context_ = new ::ondewo::s2t::TurnDetectionConversationContext(*from._impl_.turn_detection_conversation_context_);
+  }
   ::memcpy(&_impl_.active_, &from._impl_.active_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.full_utterance_deployment_) -
-    reinterpret_cast<char*>(&_impl_.active_)) + sizeof(_impl_.full_utterance_deployment_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.incomplete_max_silence_seconds_) -
+    reinterpret_cast<char*>(&_impl_.active_)) + sizeof(_impl_.incomplete_max_silence_seconds_));
+  clear_has_oneof_turn_detector();
+  switch (from.oneof_turn_detector_case()) {
+    case kTurnDetectionChatLlmOptions: {
+      _this->_internal_mutable_turn_detection_chat_llm_options()->::ondewo::s2t::TurnDetectionChatLlmOptions::MergeFrom(
+          from._internal_turn_detection_chat_llm_options());
+      break;
+    }
+    case kTurnDetectionEndOfUtteranceLlmOptions: {
+      _this->_internal_mutable_turn_detection_end_of_utterance_llm_options()->::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions::MergeFrom(
+          from._internal_turn_detection_end_of_utterance_llm_options());
+      break;
+    }
+    case kTurnDetectionOndewoDeOptions: {
+      _this->_internal_mutable_turn_detection_ondewo_de_options()->::ondewo::s2t::TurnDetectionOndewoDeOptions::MergeFrom(
+          from._internal_turn_detection_ondewo_de_options());
+      break;
+    }
+    case kTurnDetectionOndewoDeFusionOptions: {
+      _this->_internal_mutable_turn_detection_ondewo_de_fusion_options()->::ondewo::s2t::TurnDetectionOndewoDeFusionOptions::MergeFrom(
+          from._internal_turn_detection_ondewo_de_fusion_options());
+      break;
+    }
+    case kTurnDetectionPipecatSmartTurnOptions: {
+      _this->_internal_mutable_turn_detection_pipecat_smart_turn_options()->::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions::MergeFrom(
+          from._internal_turn_detection_pipecat_smart_turn_options());
+      break;
+    }
+    case ONEOF_TURN_DETECTOR_NOT_SET: {
+      break;
+    }
+  }
   // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionOptions)
 }
 
@@ -17081,8 +17795,12 @@ inline void TurnDetectionOptions::SharedCtor(
     , decltype(_impl_.turn_detection_system_prompt_){}
     , decltype(_impl_.turn_detection_user_prompt_){}
     , decltype(_impl_.turn_detection_llm_openai_options_){nullptr}
+    , decltype(_impl_.turn_detection_conversation_context_){nullptr}
     , decltype(_impl_.active_){false}
     , decltype(_impl_.full_utterance_deployment_){false}
+    , decltype(_impl_.incomplete_max_silence_seconds_){0}
+    , decltype(_impl_.oneof_turn_detector_){}
+    , /*decltype(_impl_._oneof_case_)*/{}
   };
   _impl_.turn_detection_system_prompt_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -17092,6 +17810,7 @@ inline void TurnDetectionOptions::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.turn_detection_user_prompt_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  clear_has_oneof_turn_detector();
 }
 
 TurnDetectionOptions::~TurnDetectionOptions() {
@@ -17108,11 +17827,56 @@ inline void TurnDetectionOptions::SharedDtor() {
   _impl_.turn_detection_system_prompt_.Destroy();
   _impl_.turn_detection_user_prompt_.Destroy();
   if (this != internal_default_instance()) delete _impl_.turn_detection_llm_openai_options_;
+  if (this != internal_default_instance()) delete _impl_.turn_detection_conversation_context_;
+  if (has_oneof_turn_detector()) {
+    clear_oneof_turn_detector();
+  }
 }
 
 void TurnDetectionOptions::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
+
+void TurnDetectionOptions::clear_oneof_turn_detector() {
+// @@protoc_insertion_point(one_of_clear_start:ondewo.s2t.TurnDetectionOptions)
+  switch (oneof_turn_detector_case()) {
+    case kTurnDetectionChatLlmOptions: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.oneof_turn_detector_.turn_detection_chat_llm_options_;
+      }
+      break;
+    }
+    case kTurnDetectionEndOfUtteranceLlmOptions: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_;
+      }
+      break;
+    }
+    case kTurnDetectionOndewoDeOptions: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_;
+      }
+      break;
+    }
+    case kTurnDetectionOndewoDeFusionOptions: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_;
+      }
+      break;
+    }
+    case kTurnDetectionPipecatSmartTurnOptions: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_;
+      }
+      break;
+    }
+    case ONEOF_TURN_DETECTOR_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = ONEOF_TURN_DETECTOR_NOT_SET;
+}
+
 
 void TurnDetectionOptions::Clear() {
 // @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionOptions)
@@ -17121,7 +17885,7 @@ void TurnDetectionOptions::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       _impl_.turn_detection_system_prompt_.ClearNonDefaultToEmpty();
     }
@@ -17132,10 +17896,17 @@ void TurnDetectionOptions::Clear() {
       GOOGLE_DCHECK(_impl_.turn_detection_llm_openai_options_ != nullptr);
       _impl_.turn_detection_llm_openai_options_->Clear();
     }
+    if (cached_has_bits & 0x00000008u) {
+      GOOGLE_DCHECK(_impl_.turn_detection_conversation_context_ != nullptr);
+      _impl_.turn_detection_conversation_context_->Clear();
+    }
   }
-  ::memset(&_impl_.active_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.full_utterance_deployment_) -
-      reinterpret_cast<char*>(&_impl_.active_)) + sizeof(_impl_.full_utterance_deployment_));
+  if (cached_has_bits & 0x00000070u) {
+    ::memset(&_impl_.active_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.incomplete_max_silence_seconds_) -
+        reinterpret_cast<char*>(&_impl_.active_)) + sizeof(_impl_.incomplete_max_silence_seconds_));
+  }
+  clear_oneof_turn_detector();
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -17165,7 +17936,7 @@ const char* TurnDetectionOptions::_InternalParse(const char* ptr, ::_pbi::ParseC
         } else
           goto handle_unusual;
         continue;
-      // optional string turn_detection_system_prompt = 3;
+      // optional string turn_detection_system_prompt = 3 [deprecated = true];
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           auto str = _internal_mutable_turn_detection_system_prompt();
@@ -17175,7 +17946,7 @@ const char* TurnDetectionOptions::_InternalParse(const char* ptr, ::_pbi::ParseC
         } else
           goto handle_unusual;
         continue;
-      // optional string turn_detection_user_prompt = 4;
+      // optional string turn_detection_user_prompt = 4 [deprecated = true];
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           auto str = _internal_mutable_turn_detection_user_prompt();
@@ -17185,10 +17956,67 @@ const char* TurnDetectionOptions::_InternalParse(const char* ptr, ::_pbi::ParseC
         } else
           goto handle_unusual;
         continue;
-      // optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5;
+      // optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5 [deprecated = true];
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           ptr = ctx->ParseMessage(_internal_mutable_turn_detection_llm_openai_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float incomplete_max_silence_seconds = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 53)) {
+          _Internal::set_has_incomplete_max_silence_seconds(&has_bits);
+          _impl_.incomplete_max_silence_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .ondewo.s2t.TurnDetectionConversationContext turn_detection_conversation_context = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_turn_detection_conversation_context(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.s2t.TurnDetectionChatLlmOptions turn_detection_chat_llm_options = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          ptr = ctx->ParseMessage(_internal_mutable_turn_detection_chat_llm_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions turn_detection_end_of_utterance_llm_options = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          ptr = ctx->ParseMessage(_internal_mutable_turn_detection_end_of_utterance_llm_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.s2t.TurnDetectionOndewoDeOptions turn_detection_ondewo_de_options = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
+          ptr = ctx->ParseMessage(_internal_mutable_turn_detection_ondewo_de_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.s2t.TurnDetectionOndewoDeFusionOptions turn_detection_ondewo_de_fusion_options = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          ptr = ctx->ParseMessage(_internal_mutable_turn_detection_ondewo_de_fusion_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.s2t.TurnDetectionPipecatSmartTurnOptions turn_detection_pipecat_smart_turn_options = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+          ptr = ctx->ParseMessage(_internal_mutable_turn_detection_pipecat_smart_turn_options(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -17235,7 +18063,7 @@ uint8_t* TurnDetectionOptions::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(2, this->_internal_full_utterance_deployment(), target);
   }
 
-  // optional string turn_detection_system_prompt = 3;
+  // optional string turn_detection_system_prompt = 3 [deprecated = true];
   if (_internal_has_turn_detection_system_prompt()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_turn_detection_system_prompt().data(), static_cast<int>(this->_internal_turn_detection_system_prompt().length()),
@@ -17245,7 +18073,7 @@ uint8_t* TurnDetectionOptions::_InternalSerialize(
         3, this->_internal_turn_detection_system_prompt(), target);
   }
 
-  // optional string turn_detection_user_prompt = 4;
+  // optional string turn_detection_user_prompt = 4 [deprecated = true];
   if (_internal_has_turn_detection_user_prompt()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_turn_detection_user_prompt().data(), static_cast<int>(this->_internal_turn_detection_user_prompt().length()),
@@ -17255,11 +18083,59 @@ uint8_t* TurnDetectionOptions::_InternalSerialize(
         4, this->_internal_turn_detection_user_prompt(), target);
   }
 
-  // optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5;
+  // optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5 [deprecated = true];
   if (_internal_has_turn_detection_llm_openai_options()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(5, _Internal::turn_detection_llm_openai_options(this),
         _Internal::turn_detection_llm_openai_options(this).GetCachedSize(), target, stream);
+  }
+
+  // optional float incomplete_max_silence_seconds = 6;
+  if (_internal_has_incomplete_max_silence_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(6, this->_internal_incomplete_max_silence_seconds(), target);
+  }
+
+  // optional .ondewo.s2t.TurnDetectionConversationContext turn_detection_conversation_context = 7;
+  if (_internal_has_turn_detection_conversation_context()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(7, _Internal::turn_detection_conversation_context(this),
+        _Internal::turn_detection_conversation_context(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.s2t.TurnDetectionChatLlmOptions turn_detection_chat_llm_options = 8;
+  if (_internal_has_turn_detection_chat_llm_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(8, _Internal::turn_detection_chat_llm_options(this),
+        _Internal::turn_detection_chat_llm_options(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions turn_detection_end_of_utterance_llm_options = 9;
+  if (_internal_has_turn_detection_end_of_utterance_llm_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(9, _Internal::turn_detection_end_of_utterance_llm_options(this),
+        _Internal::turn_detection_end_of_utterance_llm_options(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.s2t.TurnDetectionOndewoDeOptions turn_detection_ondewo_de_options = 10;
+  if (_internal_has_turn_detection_ondewo_de_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(10, _Internal::turn_detection_ondewo_de_options(this),
+        _Internal::turn_detection_ondewo_de_options(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.s2t.TurnDetectionOndewoDeFusionOptions turn_detection_ondewo_de_fusion_options = 11;
+  if (_internal_has_turn_detection_ondewo_de_fusion_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(11, _Internal::turn_detection_ondewo_de_fusion_options(this),
+        _Internal::turn_detection_ondewo_de_fusion_options(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.s2t.TurnDetectionPipecatSmartTurnOptions turn_detection_pipecat_smart_turn_options = 12;
+  if (_internal_has_turn_detection_pipecat_smart_turn_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(12, _Internal::turn_detection_pipecat_smart_turn_options(this),
+        _Internal::turn_detection_pipecat_smart_turn_options(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -17279,38 +18155,90 @@ size_t TurnDetectionOptions::ByteSizeLong() const {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
-    // optional string turn_detection_system_prompt = 3;
+  if (cached_has_bits & 0x0000007fu) {
+    // optional string turn_detection_system_prompt = 3 [deprecated = true];
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
           this->_internal_turn_detection_system_prompt());
     }
 
-    // optional string turn_detection_user_prompt = 4;
+    // optional string turn_detection_user_prompt = 4 [deprecated = true];
     if (cached_has_bits & 0x00000002u) {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
           this->_internal_turn_detection_user_prompt());
     }
 
-    // optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5;
+    // optional .ondewo.s2t.OpenaiLlmOptions turn_detection_llm_openai_options = 5 [deprecated = true];
     if (cached_has_bits & 0x00000004u) {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *_impl_.turn_detection_llm_openai_options_);
     }
 
-    // optional bool active = 1;
+    // optional .ondewo.s2t.TurnDetectionConversationContext turn_detection_conversation_context = 7;
     if (cached_has_bits & 0x00000008u) {
-      total_size += 1 + 1;
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.turn_detection_conversation_context_);
     }
 
-    // optional bool full_utterance_deployment = 2;
+    // optional bool active = 1;
     if (cached_has_bits & 0x00000010u) {
       total_size += 1 + 1;
     }
 
+    // optional bool full_utterance_deployment = 2;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += 1 + 1;
+    }
+
+    // optional float incomplete_max_silence_seconds = 6;
+    if (cached_has_bits & 0x00000040u) {
+      total_size += 1 + 4;
+    }
+
+  }
+  switch (oneof_turn_detector_case()) {
+    // .ondewo.s2t.TurnDetectionChatLlmOptions turn_detection_chat_llm_options = 8;
+    case kTurnDetectionChatLlmOptions: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.oneof_turn_detector_.turn_detection_chat_llm_options_);
+      break;
+    }
+    // .ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions turn_detection_end_of_utterance_llm_options = 9;
+    case kTurnDetectionEndOfUtteranceLlmOptions: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.oneof_turn_detector_.turn_detection_end_of_utterance_llm_options_);
+      break;
+    }
+    // .ondewo.s2t.TurnDetectionOndewoDeOptions turn_detection_ondewo_de_options = 10;
+    case kTurnDetectionOndewoDeOptions: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.oneof_turn_detector_.turn_detection_ondewo_de_options_);
+      break;
+    }
+    // .ondewo.s2t.TurnDetectionOndewoDeFusionOptions turn_detection_ondewo_de_fusion_options = 11;
+    case kTurnDetectionOndewoDeFusionOptions: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.oneof_turn_detector_.turn_detection_ondewo_de_fusion_options_);
+      break;
+    }
+    // .ondewo.s2t.TurnDetectionPipecatSmartTurnOptions turn_detection_pipecat_smart_turn_options = 12;
+    case kTurnDetectionPipecatSmartTurnOptions: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.oneof_turn_detector_.turn_detection_pipecat_smart_turn_options_);
+      break;
+    }
+    case ONEOF_TURN_DETECTOR_NOT_SET: {
+      break;
+    }
   }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
@@ -17331,7 +18259,7 @@ void TurnDetectionOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000001fu) {
+  if (cached_has_bits & 0x0000007fu) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_set_turn_detection_system_prompt(from._internal_turn_detection_system_prompt());
     }
@@ -17343,12 +18271,49 @@ void TurnDetectionOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
           from._internal_turn_detection_llm_openai_options());
     }
     if (cached_has_bits & 0x00000008u) {
-      _this->_impl_.active_ = from._impl_.active_;
+      _this->_internal_mutable_turn_detection_conversation_context()->::ondewo::s2t::TurnDetectionConversationContext::MergeFrom(
+          from._internal_turn_detection_conversation_context());
     }
     if (cached_has_bits & 0x00000010u) {
+      _this->_impl_.active_ = from._impl_.active_;
+    }
+    if (cached_has_bits & 0x00000020u) {
       _this->_impl_.full_utterance_deployment_ = from._impl_.full_utterance_deployment_;
     }
+    if (cached_has_bits & 0x00000040u) {
+      _this->_impl_.incomplete_max_silence_seconds_ = from._impl_.incomplete_max_silence_seconds_;
+    }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  switch (from.oneof_turn_detector_case()) {
+    case kTurnDetectionChatLlmOptions: {
+      _this->_internal_mutable_turn_detection_chat_llm_options()->::ondewo::s2t::TurnDetectionChatLlmOptions::MergeFrom(
+          from._internal_turn_detection_chat_llm_options());
+      break;
+    }
+    case kTurnDetectionEndOfUtteranceLlmOptions: {
+      _this->_internal_mutable_turn_detection_end_of_utterance_llm_options()->::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions::MergeFrom(
+          from._internal_turn_detection_end_of_utterance_llm_options());
+      break;
+    }
+    case kTurnDetectionOndewoDeOptions: {
+      _this->_internal_mutable_turn_detection_ondewo_de_options()->::ondewo::s2t::TurnDetectionOndewoDeOptions::MergeFrom(
+          from._internal_turn_detection_ondewo_de_options());
+      break;
+    }
+    case kTurnDetectionOndewoDeFusionOptions: {
+      _this->_internal_mutable_turn_detection_ondewo_de_fusion_options()->::ondewo::s2t::TurnDetectionOndewoDeFusionOptions::MergeFrom(
+          from._internal_turn_detection_ondewo_de_fusion_options());
+      break;
+    }
+    case kTurnDetectionPipecatSmartTurnOptions: {
+      _this->_internal_mutable_turn_detection_pipecat_smart_turn_options()->::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions::MergeFrom(
+          from._internal_turn_detection_pipecat_smart_turn_options());
+      break;
+    }
+    case ONEOF_TURN_DETECTOR_NOT_SET: {
+      break;
+    }
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -17379,17 +18344,2433 @@ void TurnDetectionOptions::InternalSwap(TurnDetectionOptions* other) {
       &other->_impl_.turn_detection_user_prompt_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(TurnDetectionOptions, _impl_.full_utterance_deployment_)
-      + sizeof(TurnDetectionOptions::_impl_.full_utterance_deployment_)
+      PROTOBUF_FIELD_OFFSET(TurnDetectionOptions, _impl_.incomplete_max_silence_seconds_)
+      + sizeof(TurnDetectionOptions::_impl_.incomplete_max_silence_seconds_)
       - PROTOBUF_FIELD_OFFSET(TurnDetectionOptions, _impl_.turn_detection_llm_openai_options_)>(
           reinterpret_cast<char*>(&_impl_.turn_detection_llm_openai_options_),
           reinterpret_cast<char*>(&other->_impl_.turn_detection_llm_openai_options_));
+  swap(_impl_.oneof_turn_detector_, other->_impl_.oneof_turn_detector_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionOptions::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
       file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[43]);
+}
+
+// ===================================================================
+
+class TurnDetectionChatLlmOptions::_Internal {
+ public:
+  using HasBits = decltype(std::declval<TurnDetectionChatLlmOptions>()._impl_._has_bits_);
+  static const ::ondewo::s2t::OpenaiLlmOptions& openai_llm_options(const TurnDetectionChatLlmOptions* msg);
+  static void set_has_openai_llm_options(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static void set_has_system_prompt(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_user_prompt(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+};
+
+const ::ondewo::s2t::OpenaiLlmOptions&
+TurnDetectionChatLlmOptions::_Internal::openai_llm_options(const TurnDetectionChatLlmOptions* msg) {
+  return *msg->_impl_.openai_llm_options_;
+}
+TurnDetectionChatLlmOptions::TurnDetectionChatLlmOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionChatLlmOptions)
+}
+TurnDetectionChatLlmOptions::TurnDetectionChatLlmOptions(const TurnDetectionChatLlmOptions& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionChatLlmOptions* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.system_prompt_){}
+    , decltype(_impl_.user_prompt_){}
+    , decltype(_impl_.openai_llm_options_){nullptr}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.system_prompt_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.system_prompt_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_system_prompt()) {
+    _this->_impl_.system_prompt_.Set(from._internal_system_prompt(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.user_prompt_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.user_prompt_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_user_prompt()) {
+    _this->_impl_.user_prompt_.Set(from._internal_user_prompt(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_openai_llm_options()) {
+    _this->_impl_.openai_llm_options_ = new ::ondewo::s2t::OpenaiLlmOptions(*from._impl_.openai_llm_options_);
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionChatLlmOptions)
+}
+
+inline void TurnDetectionChatLlmOptions::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.system_prompt_){}
+    , decltype(_impl_.user_prompt_){}
+    , decltype(_impl_.openai_llm_options_){nullptr}
+  };
+  _impl_.system_prompt_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.system_prompt_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.user_prompt_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.user_prompt_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+TurnDetectionChatLlmOptions::~TurnDetectionChatLlmOptions() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionChatLlmOptions)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionChatLlmOptions::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.system_prompt_.Destroy();
+  _impl_.user_prompt_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.openai_llm_options_;
+}
+
+void TurnDetectionChatLlmOptions::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionChatLlmOptions::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionChatLlmOptions)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    if (cached_has_bits & 0x00000001u) {
+      _impl_.system_prompt_.ClearNonDefaultToEmpty();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _impl_.user_prompt_.ClearNonDefaultToEmpty();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(_impl_.openai_llm_options_ != nullptr);
+      _impl_.openai_llm_options_->Clear();
+    }
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionChatLlmOptions::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_openai_llm_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string system_prompt = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_system_prompt();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.s2t.TurnDetectionChatLlmOptions.system_prompt"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string user_prompt = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_user_prompt();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.s2t.TurnDetectionChatLlmOptions.user_prompt"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionChatLlmOptions::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionChatLlmOptions)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+  if (_internal_has_openai_llm_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::openai_llm_options(this),
+        _Internal::openai_llm_options(this).GetCachedSize(), target, stream);
+  }
+
+  // optional string system_prompt = 2;
+  if (_internal_has_system_prompt()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_system_prompt().data(), static_cast<int>(this->_internal_system_prompt().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.s2t.TurnDetectionChatLlmOptions.system_prompt");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_system_prompt(), target);
+  }
+
+  // optional string user_prompt = 3;
+  if (_internal_has_user_prompt()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_user_prompt().data(), static_cast<int>(this->_internal_user_prompt().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.s2t.TurnDetectionChatLlmOptions.user_prompt");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_user_prompt(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionChatLlmOptions)
+  return target;
+}
+
+size_t TurnDetectionChatLlmOptions::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionChatLlmOptions)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    // optional string system_prompt = 2;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_system_prompt());
+    }
+
+    // optional string user_prompt = 3;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_user_prompt());
+    }
+
+    // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.openai_llm_options_);
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionChatLlmOptions::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionChatLlmOptions::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionChatLlmOptions::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionChatLlmOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionChatLlmOptions*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionChatLlmOptions&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionChatLlmOptions)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_set_system_prompt(from._internal_system_prompt());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_set_user_prompt(from._internal_user_prompt());
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_internal_mutable_openai_llm_options()->::ondewo::s2t::OpenaiLlmOptions::MergeFrom(
+          from._internal_openai_llm_options());
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionChatLlmOptions::CopyFrom(const TurnDetectionChatLlmOptions& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionChatLlmOptions)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionChatLlmOptions::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionChatLlmOptions::InternalSwap(TurnDetectionChatLlmOptions* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.system_prompt_, lhs_arena,
+      &other->_impl_.system_prompt_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.user_prompt_, lhs_arena,
+      &other->_impl_.user_prompt_, rhs_arena
+  );
+  swap(_impl_.openai_llm_options_, other->_impl_.openai_llm_options_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionChatLlmOptions::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[44]);
+}
+
+// ===================================================================
+
+class TurnDetectionEndOfUtteranceLlmOptions::_Internal {
+ public:
+  using HasBits = decltype(std::declval<TurnDetectionEndOfUtteranceLlmOptions>()._impl_._has_bits_);
+  static const ::ondewo::s2t::OpenaiLlmOptions& openai_llm_options(const TurnDetectionEndOfUtteranceLlmOptions* msg);
+  static void set_has_openai_llm_options(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_end_of_turn_probability_threshold(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static const ::ondewo::s2t::TurnDetectionHoldBands& turn_detection_hold_bands(const TurnDetectionEndOfUtteranceLlmOptions* msg);
+  static void set_has_turn_detection_hold_bands(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_uncertain_min_words(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static void set_has_exact_probability(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
+  }
+};
+
+const ::ondewo::s2t::OpenaiLlmOptions&
+TurnDetectionEndOfUtteranceLlmOptions::_Internal::openai_llm_options(const TurnDetectionEndOfUtteranceLlmOptions* msg) {
+  return *msg->_impl_.openai_llm_options_;
+}
+const ::ondewo::s2t::TurnDetectionHoldBands&
+TurnDetectionEndOfUtteranceLlmOptions::_Internal::turn_detection_hold_bands(const TurnDetectionEndOfUtteranceLlmOptions* msg) {
+  return *msg->_impl_.turn_detection_hold_bands_;
+}
+TurnDetectionEndOfUtteranceLlmOptions::TurnDetectionEndOfUtteranceLlmOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+}
+TurnDetectionEndOfUtteranceLlmOptions::TurnDetectionEndOfUtteranceLlmOptions(const TurnDetectionEndOfUtteranceLlmOptions& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionEndOfUtteranceLlmOptions* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.openai_llm_options_){nullptr}
+    , decltype(_impl_.turn_detection_hold_bands_){nullptr}
+    , decltype(_impl_.end_of_turn_probability_threshold_){}
+    , decltype(_impl_.uncertain_min_words_){}
+    , decltype(_impl_.exact_probability_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_openai_llm_options()) {
+    _this->_impl_.openai_llm_options_ = new ::ondewo::s2t::OpenaiLlmOptions(*from._impl_.openai_llm_options_);
+  }
+  if (from._internal_has_turn_detection_hold_bands()) {
+    _this->_impl_.turn_detection_hold_bands_ = new ::ondewo::s2t::TurnDetectionHoldBands(*from._impl_.turn_detection_hold_bands_);
+  }
+  ::memcpy(&_impl_.end_of_turn_probability_threshold_, &from._impl_.end_of_turn_probability_threshold_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.exact_probability_) -
+    reinterpret_cast<char*>(&_impl_.end_of_turn_probability_threshold_)) + sizeof(_impl_.exact_probability_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+}
+
+inline void TurnDetectionEndOfUtteranceLlmOptions::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.openai_llm_options_){nullptr}
+    , decltype(_impl_.turn_detection_hold_bands_){nullptr}
+    , decltype(_impl_.end_of_turn_probability_threshold_){0}
+    , decltype(_impl_.uncertain_min_words_){0u}
+    , decltype(_impl_.exact_probability_){false}
+  };
+}
+
+TurnDetectionEndOfUtteranceLlmOptions::~TurnDetectionEndOfUtteranceLlmOptions() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionEndOfUtteranceLlmOptions::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.openai_llm_options_;
+  if (this != internal_default_instance()) delete _impl_.turn_detection_hold_bands_;
+}
+
+void TurnDetectionEndOfUtteranceLlmOptions::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionEndOfUtteranceLlmOptions::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(_impl_.openai_llm_options_ != nullptr);
+      _impl_.openai_llm_options_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(_impl_.turn_detection_hold_bands_ != nullptr);
+      _impl_.turn_detection_hold_bands_->Clear();
+    }
+  }
+  if (cached_has_bits & 0x0000001cu) {
+    ::memset(&_impl_.end_of_turn_probability_threshold_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.exact_probability_) -
+        reinterpret_cast<char*>(&_impl_.end_of_turn_probability_threshold_)) + sizeof(_impl_.exact_probability_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionEndOfUtteranceLlmOptions::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_openai_llm_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float end_of_turn_probability_threshold = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _Internal::set_has_end_of_turn_probability_threshold(&has_bits);
+          _impl_.end_of_turn_probability_threshold_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .ondewo.s2t.TurnDetectionHoldBands turn_detection_hold_bands = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_turn_detection_hold_bands(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 uncertain_min_words = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _Internal::set_has_uncertain_min_words(&has_bits);
+          _impl_.uncertain_min_words_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool exact_probability = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _Internal::set_has_exact_probability(&has_bits);
+          _impl_.exact_probability_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionEndOfUtteranceLlmOptions::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+  if (_internal_has_openai_llm_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::openai_llm_options(this),
+        _Internal::openai_llm_options(this).GetCachedSize(), target, stream);
+  }
+
+  // optional float end_of_turn_probability_threshold = 2;
+  if (_internal_has_end_of_turn_probability_threshold()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_end_of_turn_probability_threshold(), target);
+  }
+
+  // optional .ondewo.s2t.TurnDetectionHoldBands turn_detection_hold_bands = 3;
+  if (_internal_has_turn_detection_hold_bands()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::turn_detection_hold_bands(this),
+        _Internal::turn_detection_hold_bands(this).GetCachedSize(), target, stream);
+  }
+
+  // optional uint32 uncertain_min_words = 4;
+  if (_internal_has_uncertain_min_words()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(4, this->_internal_uncertain_min_words(), target);
+  }
+
+  // optional bool exact_probability = 5;
+  if (_internal_has_exact_probability()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(5, this->_internal_exact_probability(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+  return target;
+}
+
+size_t TurnDetectionEndOfUtteranceLlmOptions::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x0000001fu) {
+    // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.openai_llm_options_);
+    }
+
+    // optional .ondewo.s2t.TurnDetectionHoldBands turn_detection_hold_bands = 3;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.turn_detection_hold_bands_);
+    }
+
+    // optional float end_of_turn_probability_threshold = 2;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 + 4;
+    }
+
+    // optional uint32 uncertain_min_words = 4;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_uncertain_min_words());
+    }
+
+    // optional bool exact_probability = 5;
+    if (cached_has_bits & 0x00000010u) {
+      total_size += 1 + 1;
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionEndOfUtteranceLlmOptions::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionEndOfUtteranceLlmOptions::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionEndOfUtteranceLlmOptions::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionEndOfUtteranceLlmOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionEndOfUtteranceLlmOptions*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionEndOfUtteranceLlmOptions&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x0000001fu) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_mutable_openai_llm_options()->::ondewo::s2t::OpenaiLlmOptions::MergeFrom(
+          from._internal_openai_llm_options());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_mutable_turn_detection_hold_bands()->::ondewo::s2t::TurnDetectionHoldBands::MergeFrom(
+          from._internal_turn_detection_hold_bands());
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.end_of_turn_probability_threshold_ = from._impl_.end_of_turn_probability_threshold_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      _this->_impl_.uncertain_min_words_ = from._impl_.uncertain_min_words_;
+    }
+    if (cached_has_bits & 0x00000010u) {
+      _this->_impl_.exact_probability_ = from._impl_.exact_probability_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionEndOfUtteranceLlmOptions::CopyFrom(const TurnDetectionEndOfUtteranceLlmOptions& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionEndOfUtteranceLlmOptions)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionEndOfUtteranceLlmOptions::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionEndOfUtteranceLlmOptions::InternalSwap(TurnDetectionEndOfUtteranceLlmOptions* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TurnDetectionEndOfUtteranceLlmOptions, _impl_.exact_probability_)
+      + sizeof(TurnDetectionEndOfUtteranceLlmOptions::_impl_.exact_probability_)
+      - PROTOBUF_FIELD_OFFSET(TurnDetectionEndOfUtteranceLlmOptions, _impl_.openai_llm_options_)>(
+          reinterpret_cast<char*>(&_impl_.openai_llm_options_),
+          reinterpret_cast<char*>(&other->_impl_.openai_llm_options_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionEndOfUtteranceLlmOptions::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[45]);
+}
+
+// ===================================================================
+
+class TurnDetectionOndewoDeOptions::_Internal {
+ public:
+  using HasBits = decltype(std::declval<TurnDetectionOndewoDeOptions>()._impl_._has_bits_);
+  static const ::ondewo::s2t::OpenaiLlmOptions& openai_llm_options(const TurnDetectionOndewoDeOptions* msg);
+  static void set_has_openai_llm_options(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_end_of_turn_probability_threshold(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+};
+
+const ::ondewo::s2t::OpenaiLlmOptions&
+TurnDetectionOndewoDeOptions::_Internal::openai_llm_options(const TurnDetectionOndewoDeOptions* msg) {
+  return *msg->_impl_.openai_llm_options_;
+}
+TurnDetectionOndewoDeOptions::TurnDetectionOndewoDeOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionOndewoDeOptions)
+}
+TurnDetectionOndewoDeOptions::TurnDetectionOndewoDeOptions(const TurnDetectionOndewoDeOptions& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionOndewoDeOptions* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.openai_llm_options_){nullptr}
+    , decltype(_impl_.end_of_turn_probability_threshold_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_openai_llm_options()) {
+    _this->_impl_.openai_llm_options_ = new ::ondewo::s2t::OpenaiLlmOptions(*from._impl_.openai_llm_options_);
+  }
+  _this->_impl_.end_of_turn_probability_threshold_ = from._impl_.end_of_turn_probability_threshold_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionOndewoDeOptions)
+}
+
+inline void TurnDetectionOndewoDeOptions::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.openai_llm_options_){nullptr}
+    , decltype(_impl_.end_of_turn_probability_threshold_){0}
+  };
+}
+
+TurnDetectionOndewoDeOptions::~TurnDetectionOndewoDeOptions() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionOndewoDeOptions)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionOndewoDeOptions::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.openai_llm_options_;
+}
+
+void TurnDetectionOndewoDeOptions::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionOndewoDeOptions::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionOndewoDeOptions)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(_impl_.openai_llm_options_ != nullptr);
+    _impl_.openai_llm_options_->Clear();
+  }
+  _impl_.end_of_turn_probability_threshold_ = 0;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionOndewoDeOptions::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_openai_llm_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float end_of_turn_probability_threshold = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _Internal::set_has_end_of_turn_probability_threshold(&has_bits);
+          _impl_.end_of_turn_probability_threshold_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionOndewoDeOptions::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionOndewoDeOptions)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+  if (_internal_has_openai_llm_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::openai_llm_options(this),
+        _Internal::openai_llm_options(this).GetCachedSize(), target, stream);
+  }
+
+  // optional float end_of_turn_probability_threshold = 2;
+  if (_internal_has_end_of_turn_probability_threshold()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_end_of_turn_probability_threshold(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionOndewoDeOptions)
+  return target;
+}
+
+size_t TurnDetectionOndewoDeOptions::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionOndewoDeOptions)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.openai_llm_options_);
+    }
+
+    // optional float end_of_turn_probability_threshold = 2;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 + 4;
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionOndewoDeOptions::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionOndewoDeOptions::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionOndewoDeOptions::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionOndewoDeOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionOndewoDeOptions*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionOndewoDeOptions&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionOndewoDeOptions)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_mutable_openai_llm_options()->::ondewo::s2t::OpenaiLlmOptions::MergeFrom(
+          from._internal_openai_llm_options());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.end_of_turn_probability_threshold_ = from._impl_.end_of_turn_probability_threshold_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionOndewoDeOptions::CopyFrom(const TurnDetectionOndewoDeOptions& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionOndewoDeOptions)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionOndewoDeOptions::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionOndewoDeOptions::InternalSwap(TurnDetectionOndewoDeOptions* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TurnDetectionOndewoDeOptions, _impl_.end_of_turn_probability_threshold_)
+      + sizeof(TurnDetectionOndewoDeOptions::_impl_.end_of_turn_probability_threshold_)
+      - PROTOBUF_FIELD_OFFSET(TurnDetectionOndewoDeOptions, _impl_.openai_llm_options_)>(
+          reinterpret_cast<char*>(&_impl_.openai_llm_options_),
+          reinterpret_cast<char*>(&other->_impl_.openai_llm_options_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionOndewoDeOptions::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[46]);
+}
+
+// ===================================================================
+
+class TurnDetectionOndewoDeFusionOptions::_Internal {
+ public:
+  using HasBits = decltype(std::declval<TurnDetectionOndewoDeFusionOptions>()._impl_._has_bits_);
+  static const ::ondewo::s2t::OpenaiLlmOptions& openai_llm_options(const TurnDetectionOndewoDeFusionOptions* msg);
+  static void set_has_openai_llm_options(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_end_of_turn_probability_threshold(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+};
+
+const ::ondewo::s2t::OpenaiLlmOptions&
+TurnDetectionOndewoDeFusionOptions::_Internal::openai_llm_options(const TurnDetectionOndewoDeFusionOptions* msg) {
+  return *msg->_impl_.openai_llm_options_;
+}
+TurnDetectionOndewoDeFusionOptions::TurnDetectionOndewoDeFusionOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+}
+TurnDetectionOndewoDeFusionOptions::TurnDetectionOndewoDeFusionOptions(const TurnDetectionOndewoDeFusionOptions& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionOndewoDeFusionOptions* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.openai_llm_options_){nullptr}
+    , decltype(_impl_.end_of_turn_probability_threshold_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_openai_llm_options()) {
+    _this->_impl_.openai_llm_options_ = new ::ondewo::s2t::OpenaiLlmOptions(*from._impl_.openai_llm_options_);
+  }
+  _this->_impl_.end_of_turn_probability_threshold_ = from._impl_.end_of_turn_probability_threshold_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+}
+
+inline void TurnDetectionOndewoDeFusionOptions::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.openai_llm_options_){nullptr}
+    , decltype(_impl_.end_of_turn_probability_threshold_){0}
+  };
+}
+
+TurnDetectionOndewoDeFusionOptions::~TurnDetectionOndewoDeFusionOptions() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionOndewoDeFusionOptions::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.openai_llm_options_;
+}
+
+void TurnDetectionOndewoDeFusionOptions::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionOndewoDeFusionOptions::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(_impl_.openai_llm_options_ != nullptr);
+    _impl_.openai_llm_options_->Clear();
+  }
+  _impl_.end_of_turn_probability_threshold_ = 0;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionOndewoDeFusionOptions::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_openai_llm_options(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float end_of_turn_probability_threshold = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _Internal::set_has_end_of_turn_probability_threshold(&has_bits);
+          _impl_.end_of_turn_probability_threshold_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionOndewoDeFusionOptions::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+  if (_internal_has_openai_llm_options()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::openai_llm_options(this),
+        _Internal::openai_llm_options(this).GetCachedSize(), target, stream);
+  }
+
+  // optional float end_of_turn_probability_threshold = 2;
+  if (_internal_has_end_of_turn_probability_threshold()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_end_of_turn_probability_threshold(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+  return target;
+}
+
+size_t TurnDetectionOndewoDeFusionOptions::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    // optional .ondewo.s2t.OpenaiLlmOptions openai_llm_options = 1;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.openai_llm_options_);
+    }
+
+    // optional float end_of_turn_probability_threshold = 2;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 + 4;
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionOndewoDeFusionOptions::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionOndewoDeFusionOptions::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionOndewoDeFusionOptions::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionOndewoDeFusionOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionOndewoDeFusionOptions*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionOndewoDeFusionOptions&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_mutable_openai_llm_options()->::ondewo::s2t::OpenaiLlmOptions::MergeFrom(
+          from._internal_openai_llm_options());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.end_of_turn_probability_threshold_ = from._impl_.end_of_turn_probability_threshold_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionOndewoDeFusionOptions::CopyFrom(const TurnDetectionOndewoDeFusionOptions& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionOndewoDeFusionOptions)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionOndewoDeFusionOptions::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionOndewoDeFusionOptions::InternalSwap(TurnDetectionOndewoDeFusionOptions* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TurnDetectionOndewoDeFusionOptions, _impl_.end_of_turn_probability_threshold_)
+      + sizeof(TurnDetectionOndewoDeFusionOptions::_impl_.end_of_turn_probability_threshold_)
+      - PROTOBUF_FIELD_OFFSET(TurnDetectionOndewoDeFusionOptions, _impl_.openai_llm_options_)>(
+          reinterpret_cast<char*>(&_impl_.openai_llm_options_),
+          reinterpret_cast<char*>(&other->_impl_.openai_llm_options_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionOndewoDeFusionOptions::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[47]);
+}
+
+// ===================================================================
+
+class TurnDetectionPipecatSmartTurnOptions::_Internal {
+ public:
+  using HasBits = decltype(std::declval<TurnDetectionPipecatSmartTurnOptions>()._impl_._has_bits_);
+  static void set_has_model_name(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_triton_server_host(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_triton_server_port(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static void set_has_max_audio_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static void set_has_timeout_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
+  }
+  static void set_has_end_of_turn_probability_threshold(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
+};
+
+TurnDetectionPipecatSmartTurnOptions::TurnDetectionPipecatSmartTurnOptions(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+}
+TurnDetectionPipecatSmartTurnOptions::TurnDetectionPipecatSmartTurnOptions(const TurnDetectionPipecatSmartTurnOptions& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionPipecatSmartTurnOptions* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.model_name_){}
+    , decltype(_impl_.triton_server_host_){}
+    , decltype(_impl_.triton_server_port_){}
+    , decltype(_impl_.max_audio_seconds_){}
+    , decltype(_impl_.timeout_seconds_){}
+    , decltype(_impl_.end_of_turn_probability_threshold_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.model_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.model_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_model_name()) {
+    _this->_impl_.model_name_.Set(from._internal_model_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.triton_server_host_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.triton_server_host_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_triton_server_host()) {
+    _this->_impl_.triton_server_host_.Set(from._internal_triton_server_host(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.triton_server_port_, &from._impl_.triton_server_port_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.end_of_turn_probability_threshold_) -
+    reinterpret_cast<char*>(&_impl_.triton_server_port_)) + sizeof(_impl_.end_of_turn_probability_threshold_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+}
+
+inline void TurnDetectionPipecatSmartTurnOptions::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.model_name_){}
+    , decltype(_impl_.triton_server_host_){}
+    , decltype(_impl_.triton_server_port_){int64_t{0}}
+    , decltype(_impl_.max_audio_seconds_){0}
+    , decltype(_impl_.timeout_seconds_){0}
+    , decltype(_impl_.end_of_turn_probability_threshold_){0}
+  };
+  _impl_.model_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.model_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.triton_server_host_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.triton_server_host_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+TurnDetectionPipecatSmartTurnOptions::~TurnDetectionPipecatSmartTurnOptions() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionPipecatSmartTurnOptions::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.model_name_.Destroy();
+  _impl_.triton_server_host_.Destroy();
+}
+
+void TurnDetectionPipecatSmartTurnOptions::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionPipecatSmartTurnOptions::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _impl_.model_name_.ClearNonDefaultToEmpty();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _impl_.triton_server_host_.ClearNonDefaultToEmpty();
+    }
+  }
+  if (cached_has_bits & 0x0000003cu) {
+    ::memset(&_impl_.triton_server_port_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.end_of_turn_probability_threshold_) -
+        reinterpret_cast<char*>(&_impl_.triton_server_port_)) + sizeof(_impl_.end_of_turn_probability_threshold_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionPipecatSmartTurnOptions::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional string model_name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_model_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.model_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string triton_server_host = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_triton_server_host();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_host"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int64 triton_server_port = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _Internal::set_has_triton_server_port(&has_bits);
+          _impl_.triton_server_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float max_audio_seconds = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
+          _Internal::set_has_max_audio_seconds(&has_bits);
+          _impl_.max_audio_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float timeout_seconds = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+          _Internal::set_has_timeout_seconds(&has_bits);
+          _impl_.timeout_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float end_of_turn_probability_threshold = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 53)) {
+          _Internal::set_has_end_of_turn_probability_threshold(&has_bits);
+          _impl_.end_of_turn_probability_threshold_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionPipecatSmartTurnOptions::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional string model_name = 1;
+  if (_internal_has_model_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_model_name().data(), static_cast<int>(this->_internal_model_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.model_name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_model_name(), target);
+  }
+
+  // optional string triton_server_host = 2;
+  if (_internal_has_triton_server_host()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_triton_server_host().data(), static_cast<int>(this->_internal_triton_server_host().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.s2t.TurnDetectionPipecatSmartTurnOptions.triton_server_host");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_triton_server_host(), target);
+  }
+
+  // optional int64 triton_server_port = 3;
+  if (_internal_has_triton_server_port()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_triton_server_port(), target);
+  }
+
+  // optional float max_audio_seconds = 4;
+  if (_internal_has_max_audio_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_max_audio_seconds(), target);
+  }
+
+  // optional float timeout_seconds = 5;
+  if (_internal_has_timeout_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_timeout_seconds(), target);
+  }
+
+  // optional float end_of_turn_probability_threshold = 6;
+  if (_internal_has_end_of_turn_probability_threshold()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(6, this->_internal_end_of_turn_probability_threshold(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+  return target;
+}
+
+size_t TurnDetectionPipecatSmartTurnOptions::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x0000003fu) {
+    // optional string model_name = 1;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_model_name());
+    }
+
+    // optional string triton_server_host = 2;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_triton_server_host());
+    }
+
+    // optional int64 triton_server_port = 3;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_triton_server_port());
+    }
+
+    // optional float max_audio_seconds = 4;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float timeout_seconds = 5;
+    if (cached_has_bits & 0x00000010u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float end_of_turn_probability_threshold = 6;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += 1 + 4;
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionPipecatSmartTurnOptions::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionPipecatSmartTurnOptions::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionPipecatSmartTurnOptions::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionPipecatSmartTurnOptions::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionPipecatSmartTurnOptions*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionPipecatSmartTurnOptions&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x0000003fu) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_set_model_name(from._internal_model_name());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_set_triton_server_host(from._internal_triton_server_host());
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.triton_server_port_ = from._impl_.triton_server_port_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      _this->_impl_.max_audio_seconds_ = from._impl_.max_audio_seconds_;
+    }
+    if (cached_has_bits & 0x00000010u) {
+      _this->_impl_.timeout_seconds_ = from._impl_.timeout_seconds_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.end_of_turn_probability_threshold_ = from._impl_.end_of_turn_probability_threshold_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionPipecatSmartTurnOptions::CopyFrom(const TurnDetectionPipecatSmartTurnOptions& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionPipecatSmartTurnOptions)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionPipecatSmartTurnOptions::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionPipecatSmartTurnOptions::InternalSwap(TurnDetectionPipecatSmartTurnOptions* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.model_name_, lhs_arena,
+      &other->_impl_.model_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.triton_server_host_, lhs_arena,
+      &other->_impl_.triton_server_host_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TurnDetectionPipecatSmartTurnOptions, _impl_.end_of_turn_probability_threshold_)
+      + sizeof(TurnDetectionPipecatSmartTurnOptions::_impl_.end_of_turn_probability_threshold_)
+      - PROTOBUF_FIELD_OFFSET(TurnDetectionPipecatSmartTurnOptions, _impl_.triton_server_port_)>(
+          reinterpret_cast<char*>(&_impl_.triton_server_port_),
+          reinterpret_cast<char*>(&other->_impl_.triton_server_port_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionPipecatSmartTurnOptions::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[48]);
+}
+
+// ===================================================================
+
+class TurnDetectionConversationContext::_Internal {
+ public:
+};
+
+TurnDetectionConversationContext::TurnDetectionConversationContext(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionConversationContext)
+}
+TurnDetectionConversationContext::TurnDetectionConversationContext(const TurnDetectionConversationContext& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionConversationContext* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.turn_detection_context_turns_){from._impl_.turn_detection_context_turns_}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionConversationContext)
+}
+
+inline void TurnDetectionConversationContext::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.turn_detection_context_turns_){arena}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+TurnDetectionConversationContext::~TurnDetectionConversationContext() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionConversationContext)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionConversationContext::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.turn_detection_context_turns_.~RepeatedPtrField();
+}
+
+void TurnDetectionConversationContext::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionConversationContext::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionConversationContext)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.turn_detection_context_turns_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionConversationContext::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .ondewo.s2t.TurnDetectionContextTurn turn_detection_context_turns = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_turn_detection_context_turns(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionConversationContext::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionConversationContext)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .ondewo.s2t.TurnDetectionContextTurn turn_detection_context_turns = 1;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_turn_detection_context_turns_size()); i < n; i++) {
+    const auto& repfield = this->_internal_turn_detection_context_turns(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionConversationContext)
+  return target;
+}
+
+size_t TurnDetectionConversationContext::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionConversationContext)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .ondewo.s2t.TurnDetectionContextTurn turn_detection_context_turns = 1;
+  total_size += 1UL * this->_internal_turn_detection_context_turns_size();
+  for (const auto& msg : this->_impl_.turn_detection_context_turns_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionConversationContext::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionConversationContext::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionConversationContext::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionConversationContext::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionConversationContext*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionConversationContext&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionConversationContext)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.turn_detection_context_turns_.MergeFrom(from._impl_.turn_detection_context_turns_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionConversationContext::CopyFrom(const TurnDetectionConversationContext& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionConversationContext)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionConversationContext::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionConversationContext::InternalSwap(TurnDetectionConversationContext* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.turn_detection_context_turns_.InternalSwap(&other->_impl_.turn_detection_context_turns_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionConversationContext::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[49]);
+}
+
+// ===================================================================
+
+class TurnDetectionContextTurn::_Internal {
+ public:
+};
+
+TurnDetectionContextTurn::TurnDetectionContextTurn(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionContextTurn)
+}
+TurnDetectionContextTurn::TurnDetectionContextTurn(const TurnDetectionContextTurn& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionContextTurn* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.text_){}
+    , decltype(_impl_.role_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.text_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.text_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_text().empty()) {
+    _this->_impl_.text_.Set(from._internal_text(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.role_ = from._impl_.role_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionContextTurn)
+}
+
+inline void TurnDetectionContextTurn::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.text_){}
+    , decltype(_impl_.role_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.text_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.text_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+TurnDetectionContextTurn::~TurnDetectionContextTurn() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionContextTurn)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionContextTurn::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.text_.Destroy();
+}
+
+void TurnDetectionContextTurn::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionContextTurn::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionContextTurn)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.text_.ClearToEmpty();
+  _impl_.role_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionContextTurn::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .ondewo.s2t.TurnDetectionContextTurn.Role role = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_role(static_cast<::ondewo::s2t::TurnDetectionContextTurn_Role>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // string text = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_text();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.s2t.TurnDetectionContextTurn.text"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionContextTurn::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionContextTurn)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .ondewo.s2t.TurnDetectionContextTurn.Role role = 1;
+  if (this->_internal_role() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_role(), target);
+  }
+
+  // string text = 2;
+  if (!this->_internal_text().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_text().data(), static_cast<int>(this->_internal_text().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.s2t.TurnDetectionContextTurn.text");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_text(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionContextTurn)
+  return target;
+}
+
+size_t TurnDetectionContextTurn::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionContextTurn)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string text = 2;
+  if (!this->_internal_text().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_text());
+  }
+
+  // .ondewo.s2t.TurnDetectionContextTurn.Role role = 1;
+  if (this->_internal_role() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_role());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionContextTurn::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionContextTurn::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionContextTurn::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionContextTurn::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionContextTurn*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionContextTurn&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionContextTurn)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_text().empty()) {
+    _this->_internal_set_text(from._internal_text());
+  }
+  if (from._internal_role() != 0) {
+    _this->_internal_set_role(from._internal_role());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionContextTurn::CopyFrom(const TurnDetectionContextTurn& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionContextTurn)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionContextTurn::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionContextTurn::InternalSwap(TurnDetectionContextTurn* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.text_, lhs_arena,
+      &other->_impl_.text_, rhs_arena
+  );
+  swap(_impl_.role_, other->_impl_.role_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionContextTurn::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[50]);
+}
+
+// ===================================================================
+
+class TurnDetectionHoldBands::_Internal {
+ public:
+};
+
+TurnDetectionHoldBands::TurnDetectionHoldBands(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionHoldBands)
+}
+TurnDetectionHoldBands::TurnDetectionHoldBands(const TurnDetectionHoldBands& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionHoldBands* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.turn_detection_hold_bands_){from._impl_.turn_detection_hold_bands_}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionHoldBands)
+}
+
+inline void TurnDetectionHoldBands::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.turn_detection_hold_bands_){arena}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+TurnDetectionHoldBands::~TurnDetectionHoldBands() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionHoldBands)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionHoldBands::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.turn_detection_hold_bands_.~RepeatedPtrField();
+}
+
+void TurnDetectionHoldBands::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionHoldBands::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionHoldBands)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.turn_detection_hold_bands_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionHoldBands::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .ondewo.s2t.TurnDetectionHoldBand turn_detection_hold_bands = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_turn_detection_hold_bands(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionHoldBands::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionHoldBands)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .ondewo.s2t.TurnDetectionHoldBand turn_detection_hold_bands = 1;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_turn_detection_hold_bands_size()); i < n; i++) {
+    const auto& repfield = this->_internal_turn_detection_hold_bands(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionHoldBands)
+  return target;
+}
+
+size_t TurnDetectionHoldBands::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionHoldBands)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .ondewo.s2t.TurnDetectionHoldBand turn_detection_hold_bands = 1;
+  total_size += 1UL * this->_internal_turn_detection_hold_bands_size();
+  for (const auto& msg : this->_impl_.turn_detection_hold_bands_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionHoldBands::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionHoldBands::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionHoldBands::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionHoldBands::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionHoldBands*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionHoldBands&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionHoldBands)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.turn_detection_hold_bands_.MergeFrom(from._impl_.turn_detection_hold_bands_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionHoldBands::CopyFrom(const TurnDetectionHoldBands& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionHoldBands)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionHoldBands::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionHoldBands::InternalSwap(TurnDetectionHoldBands* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.turn_detection_hold_bands_.InternalSwap(&other->_impl_.turn_detection_hold_bands_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionHoldBands::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[51]);
+}
+
+// ===================================================================
+
+class TurnDetectionHoldBand::_Internal {
+ public:
+};
+
+TurnDetectionHoldBand::TurnDetectionHoldBand(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.s2t.TurnDetectionHoldBand)
+}
+TurnDetectionHoldBand::TurnDetectionHoldBand(const TurnDetectionHoldBand& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  TurnDetectionHoldBand* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.upper_probability_){}
+    , decltype(_impl_.max_silence_seconds_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.upper_probability_, &from._impl_.upper_probability_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.max_silence_seconds_) -
+    reinterpret_cast<char*>(&_impl_.upper_probability_)) + sizeof(_impl_.max_silence_seconds_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.s2t.TurnDetectionHoldBand)
+}
+
+inline void TurnDetectionHoldBand::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.upper_probability_){0}
+    , decltype(_impl_.max_silence_seconds_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+TurnDetectionHoldBand::~TurnDetectionHoldBand() {
+  // @@protoc_insertion_point(destructor:ondewo.s2t.TurnDetectionHoldBand)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void TurnDetectionHoldBand::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void TurnDetectionHoldBand::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void TurnDetectionHoldBand::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.s2t.TurnDetectionHoldBand)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.upper_probability_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.max_silence_seconds_) -
+      reinterpret_cast<char*>(&_impl_.upper_probability_)) + sizeof(_impl_.max_silence_seconds_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* TurnDetectionHoldBand::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // float upper_probability = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 13)) {
+          _impl_.upper_probability_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // float max_silence_seconds = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 21)) {
+          _impl_.max_silence_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* TurnDetectionHoldBand::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.s2t.TurnDetectionHoldBand)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // float upper_probability = 1;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_upper_probability = this->_internal_upper_probability();
+  uint32_t raw_upper_probability;
+  memcpy(&raw_upper_probability, &tmp_upper_probability, sizeof(tmp_upper_probability));
+  if (raw_upper_probability != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(1, this->_internal_upper_probability(), target);
+  }
+
+  // float max_silence_seconds = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_max_silence_seconds = this->_internal_max_silence_seconds();
+  uint32_t raw_max_silence_seconds;
+  memcpy(&raw_max_silence_seconds, &tmp_max_silence_seconds, sizeof(tmp_max_silence_seconds));
+  if (raw_max_silence_seconds != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(2, this->_internal_max_silence_seconds(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.s2t.TurnDetectionHoldBand)
+  return target;
+}
+
+size_t TurnDetectionHoldBand::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.s2t.TurnDetectionHoldBand)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // float upper_probability = 1;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_upper_probability = this->_internal_upper_probability();
+  uint32_t raw_upper_probability;
+  memcpy(&raw_upper_probability, &tmp_upper_probability, sizeof(tmp_upper_probability));
+  if (raw_upper_probability != 0) {
+    total_size += 1 + 4;
+  }
+
+  // float max_silence_seconds = 2;
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_max_silence_seconds = this->_internal_max_silence_seconds();
+  uint32_t raw_max_silence_seconds;
+  memcpy(&raw_max_silence_seconds, &tmp_max_silence_seconds, sizeof(tmp_max_silence_seconds));
+  if (raw_max_silence_seconds != 0) {
+    total_size += 1 + 4;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData TurnDetectionHoldBand::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    TurnDetectionHoldBand::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*TurnDetectionHoldBand::GetClassData() const { return &_class_data_; }
+
+
+void TurnDetectionHoldBand::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<TurnDetectionHoldBand*>(&to_msg);
+  auto& from = static_cast<const TurnDetectionHoldBand&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.s2t.TurnDetectionHoldBand)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_upper_probability = from._internal_upper_probability();
+  uint32_t raw_upper_probability;
+  memcpy(&raw_upper_probability, &tmp_upper_probability, sizeof(tmp_upper_probability));
+  if (raw_upper_probability != 0) {
+    _this->_internal_set_upper_probability(from._internal_upper_probability());
+  }
+  static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
+  float tmp_max_silence_seconds = from._internal_max_silence_seconds();
+  uint32_t raw_max_silence_seconds;
+  memcpy(&raw_max_silence_seconds, &tmp_max_silence_seconds, sizeof(tmp_max_silence_seconds));
+  if (raw_max_silence_seconds != 0) {
+    _this->_internal_set_max_silence_seconds(from._internal_max_silence_seconds());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void TurnDetectionHoldBand::CopyFrom(const TurnDetectionHoldBand& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.s2t.TurnDetectionHoldBand)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TurnDetectionHoldBand::IsInitialized() const {
+  return true;
+}
+
+void TurnDetectionHoldBand::InternalSwap(TurnDetectionHoldBand* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(TurnDetectionHoldBand, _impl_.max_silence_seconds_)
+      + sizeof(TurnDetectionHoldBand::_impl_.max_silence_seconds_)
+      - PROTOBUF_FIELD_OFFSET(TurnDetectionHoldBand, _impl_.upper_probability_)>(
+          reinterpret_cast<char*>(&_impl_.upper_probability_),
+          reinterpret_cast<char*>(&other->_impl_.upper_probability_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionHoldBand::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[52]);
 }
 
 // ===================================================================
@@ -17403,7 +20784,7 @@ void OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse::MergeFrom(const OpenaiLlmOpt
 ::PROTOBUF_NAMESPACE_ID::Metadata OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[44]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[53]);
 }
 
 // ===================================================================
@@ -17417,7 +20798,7 @@ void OpenaiLlmOptions_LogitBiasEntry_DoNotUse::MergeFrom(const OpenaiLlmOptions_
 ::PROTOBUF_NAMESPACE_ID::Metadata OpenaiLlmOptions_LogitBiasEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[45]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[54]);
 }
 
 // ===================================================================
@@ -19019,7 +22400,7 @@ void OpenaiLlmOptions::InternalSwap(OpenaiLlmOptions* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata OpenaiLlmOptions::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[46]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[55]);
 }
 
 // ===================================================================
@@ -19435,7 +22816,7 @@ void VoiceActivityDetection::InternalSwap(VoiceActivityDetection* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata VoiceActivityDetection::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[47]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[56]);
 }
 
 // ===================================================================
@@ -19820,7 +23201,7 @@ void Pyannote::InternalSwap(Pyannote* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Pyannote::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[48]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[57]);
 }
 
 // ===================================================================
@@ -20264,7 +23645,7 @@ void Silero::InternalSwap(Silero* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Silero::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[49]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[58]);
 }
 
 // ===================================================================
@@ -20679,7 +24060,7 @@ void WespeakerTsd::InternalSwap(WespeakerTsd* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WespeakerTsd::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[50]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[59]);
 }
 
 // ===================================================================
@@ -20911,7 +24292,7 @@ void PostProcessing::InternalSwap(PostProcessing* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PostProcessing::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[51]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[60]);
 }
 
 // ===================================================================
@@ -21191,7 +24572,7 @@ void PostProcessors::InternalSwap(PostProcessors* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PostProcessors::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[52]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[61]);
 }
 
 // ===================================================================
@@ -21454,7 +24835,7 @@ void SymSpell::InternalSwap(SymSpell* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SymSpell::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[53]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[62]);
 }
 
 // ===================================================================
@@ -21696,7 +25077,7 @@ void S2tNormalization::InternalSwap(S2tNormalization* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2tNormalization::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[54]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[63]);
 }
 
 // ===================================================================
@@ -22427,7 +25808,7 @@ void S2tLlmPostProcessing::InternalSwap(S2tLlmPostProcessing* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2tLlmPostProcessing::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[55]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[64]);
 }
 
 // ===================================================================
@@ -22738,7 +26119,7 @@ void S2tLlmPostProcessingTranslationOptions::InternalSwap(S2tLlmPostProcessingTr
 ::PROTOBUF_NAMESPACE_ID::Metadata S2tLlmPostProcessingTranslationOptions::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[56]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[65]);
 }
 
 // ===================================================================
@@ -23206,7 +26587,7 @@ void S2tLlmPostProcessingInverseNormalizationOptions::InternalSwap(S2tLlmPostPro
 ::PROTOBUF_NAMESPACE_ID::Metadata S2tLlmPostProcessingInverseNormalizationOptions::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[57]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[66]);
 }
 
 // ===================================================================
@@ -23674,7 +27055,7 @@ void S2tLlmPostProcessingNormalizationOptions::InternalSwap(S2tLlmPostProcessing
 ::PROTOBUF_NAMESPACE_ID::Metadata S2tLlmPostProcessingNormalizationOptions::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[58]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[67]);
 }
 
 // ===================================================================
@@ -23995,7 +27376,7 @@ void S2tLlmPostProcessingSummarizationOptions::InternalSwap(S2tLlmPostProcessing
 ::PROTOBUF_NAMESPACE_ID::Metadata S2tLlmPostProcessingSummarizationOptions::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[59]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[68]);
 }
 
 // ===================================================================
@@ -24249,7 +27630,7 @@ void S2tLlmPostProcessingSubTaskOptions::InternalSwap(S2tLlmPostProcessingSubTas
 ::PROTOBUF_NAMESPACE_ID::Metadata S2tLlmPostProcessingSubTaskOptions::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[60]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[69]);
 }
 
 // ===================================================================
@@ -24502,7 +27883,7 @@ void Logging::InternalSwap(Logging* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Logging::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[61]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[70]);
 }
 
 // ===================================================================
@@ -24692,7 +28073,7 @@ void ListS2tLanguageModelsRequest::InternalSwap(ListS2tLanguageModelsRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata ListS2tLanguageModelsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[62]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[71]);
 }
 
 // ===================================================================
@@ -24934,7 +28315,7 @@ void LanguageModelPipelineId::InternalSwap(LanguageModelPipelineId* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata LanguageModelPipelineId::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[63]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[72]);
 }
 
 // ===================================================================
@@ -25119,7 +28500,7 @@ void ListS2tLanguageModelsResponse::InternalSwap(ListS2tLanguageModelsResponse* 
 ::PROTOBUF_NAMESPACE_ID::Metadata ListS2tLanguageModelsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[64]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[73]);
 }
 
 // ===================================================================
@@ -25322,7 +28703,7 @@ void CreateUserLanguageModelRequest::InternalSwap(CreateUserLanguageModelRequest
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateUserLanguageModelRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[65]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[74]);
 }
 
 // ===================================================================
@@ -25525,7 +28906,7 @@ void DeleteUserLanguageModelRequest::InternalSwap(DeleteUserLanguageModelRequest
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteUserLanguageModelRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[66]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[75]);
 }
 
 // ===================================================================
@@ -25773,7 +29154,7 @@ void AddDataToUserLanguageModelRequest::InternalSwap(AddDataToUserLanguageModelR
 ::PROTOBUF_NAMESPACE_ID::Metadata AddDataToUserLanguageModelRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[67]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[76]);
 }
 
 // ===================================================================
@@ -26003,7 +29384,7 @@ void TrainUserLanguageModelRequest::InternalSwap(TrainUserLanguageModelRequest* 
 ::PROTOBUF_NAMESPACE_ID::Metadata TrainUserLanguageModelRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[68]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[77]);
 }
 
 // ===================================================================
@@ -26206,7 +29587,7 @@ void ListS2tNormalizationPipelinesRequest::InternalSwap(ListS2tNormalizationPipe
 ::PROTOBUF_NAMESPACE_ID::Metadata ListS2tNormalizationPipelinesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[69]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[78]);
 }
 
 // ===================================================================
@@ -26396,7 +29777,7 @@ void ListS2tNormalizationPipelinesResponse::InternalSwap(ListS2tNormalizationPip
 ::PROTOBUF_NAMESPACE_ID::Metadata ListS2tNormalizationPipelinesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_getter, &descriptor_table_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto_once,
-      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[70]);
+      file_level_metadata_ondewo_2fs2t_2fspeech_2dto_2dtext_2eproto[79]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -26578,6 +29959,42 @@ Arena::CreateMaybeMessage< ::ondewo::s2t::StreamingSpeechRecognition >(Arena* ar
 template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionOptions*
 Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionOptions >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionOptions >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionChatLlmOptions*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionChatLlmOptions >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionChatLlmOptions >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionEndOfUtteranceLlmOptions >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionOndewoDeOptions*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionOndewoDeOptions >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionOndewoDeOptions >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionOndewoDeFusionOptions >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionPipecatSmartTurnOptions >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionConversationContext*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionConversationContext >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionConversationContext >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionContextTurn*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionContextTurn >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionContextTurn >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionHoldBands*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionHoldBands >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionHoldBands >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::s2t::TurnDetectionHoldBand*
+Arena::CreateMaybeMessage< ::ondewo::s2t::TurnDetectionHoldBand >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::s2t::TurnDetectionHoldBand >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::s2t::OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse*
 Arena::CreateMaybeMessage< ::ondewo::s2t::OpenaiLlmOptions_DefaultHeadersEntry_DoNotUse >(Arena* arena) {

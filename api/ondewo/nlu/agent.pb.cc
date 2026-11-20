@@ -37,6 +37,7 @@ PROTOBUF_CONSTEXPR Agent::Agent(
   , /*decltype(_impl_.configs_)*/nullptr
   , /*decltype(_impl_.created_at_)*/nullptr
   , /*decltype(_impl_.modified_at_)*/nullptr
+  , /*decltype(_impl_.warm_transfer_settings_)*/nullptr
   , /*decltype(_impl_.status_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct AgentDefaultTypeInternal {
@@ -48,6 +49,77 @@ struct AgentDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AgentDefaultTypeInternal _Agent_default_instance_;
+PROTOBUF_CONSTEXPR WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse(
+    ::_pbi::ConstantInitialized) {}
+struct WarmTransferAgentSettings_DefaultTextsEntry_DoNotUseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WarmTransferAgentSettings_DefaultTextsEntry_DoNotUseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WarmTransferAgentSettings_DefaultTextsEntry_DoNotUseDefaultTypeInternal() {}
+  union {
+    WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WarmTransferAgentSettings_DefaultTextsEntry_DoNotUseDefaultTypeInternal _WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse_default_instance_;
+PROTOBUF_CONSTEXPR WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse(
+    ::_pbi::ConstantInitialized) {}
+struct WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUseDefaultTypeInternal() {}
+  union {
+    WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUseDefaultTypeInternal _WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse_default_instance_;
+PROTOBUF_CONSTEXPR WarmTransferAgentSettings::WarmTransferAgentSettings(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.default_texts_)*/{::_pbi::ConstantInitialized()}
+  , /*decltype(_impl_.extra_lexicon_)*/{::_pbi::ConstantInitialized()}
+  , /*decltype(_impl_.llm_ccai_service_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.enabled_)*/false} {}
+struct WarmTransferAgentSettingsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WarmTransferAgentSettingsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WarmTransferAgentSettingsDefaultTypeInternal() {}
+  union {
+    WarmTransferAgentSettings _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WarmTransferAgentSettingsDefaultTypeInternal _WarmTransferAgentSettings_default_instance_;
+PROTOBUF_CONSTEXPR WarmTransferAgentTexts::WarmTransferAgentTexts(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.ready_question_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.accept_question_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.decline_reason_question_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.caller_declined_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.caller_unreachable_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+struct WarmTransferAgentTextsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WarmTransferAgentTextsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WarmTransferAgentTextsDefaultTypeInternal() {}
+  union {
+    WarmTransferAgentTexts _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WarmTransferAgentTextsDefaultTypeInternal _WarmTransferAgentTexts_default_instance_;
+PROTOBUF_CONSTEXPR WarmTransferAgentLexicon::WarmTransferAgentLexicon(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.accept_phrases_)*/{}
+  , /*decltype(_impl_.decline_phrases_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct WarmTransferAgentLexiconDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WarmTransferAgentLexiconDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WarmTransferAgentLexiconDefaultTypeInternal() {}
+  union {
+    WarmTransferAgentLexicon _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WarmTransferAgentLexiconDefaultTypeInternal _WarmTransferAgentLexicon_default_instance_;
 PROTOBUF_CONSTEXPR AgentWithOwner::AgentWithOwner(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.agent_)*/nullptr
@@ -1366,7 +1438,7 @@ struct RotateProjectTechnicalUserPasswordResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RotateProjectTechnicalUserPasswordResponseDefaultTypeInternal _RotateProjectTechnicalUserPasswordResponse_default_instance_;
 }  // namespace nlu
 }  // namespace ondewo
-static ::_pb::Metadata file_level_metadata_ondewo_2fnlu_2fagent_2eproto[80];
+static ::_pb::Metadata file_level_metadata_ondewo_2fnlu_2fagent_2eproto[85];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fnlu_2fagent_2eproto[9];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fnlu_2fagent_2eproto = nullptr;
 
@@ -1391,6 +1463,65 @@ const uint32_t TableStruct_ondewo_2fnlu_2fagent_2eproto::offsets[] PROTOBUF_SECT
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::Agent, _impl_.modified_at_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::Agent, _impl_.created_by_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::Agent, _impl_.modified_by_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::Agent, _impl_.warm_transfer_settings_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse, key_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse, value_),
+  0,
+  1,
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse, key_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse, value_),
+  0,
+  1,
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings, _impl_.enabled_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings, _impl_.llm_ccai_service_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings, _impl_.default_texts_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentSettings, _impl_.extra_lexicon_),
+  0,
+  ~0u,
+  ~0u,
+  ~0u,
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentTexts, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentTexts, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentTexts, _impl_.ready_question_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentTexts, _impl_.accept_question_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentTexts, _impl_.decline_reason_question_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentTexts, _impl_.caller_declined_message_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentTexts, _impl_.caller_unreachable_message_),
+  ~0u,
+  ~0u,
+  0,
+  ~0u,
+  ~0u,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentLexicon, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentLexicon, _impl_.accept_phrases_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::WarmTransferAgentLexicon, _impl_.decline_phrases_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::AgentWithOwner, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2240,89 +2371,99 @@ const uint32_t TableStruct_ondewo_2fnlu_2fagent_2eproto::offsets[] PROTOBUF_SECT
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::ondewo::nlu::Agent)},
-  { 20, -1, -1, sizeof(::ondewo::nlu::AgentWithOwner)},
-  { 28, -1, -1, sizeof(::ondewo::nlu::AgentOfUserWithOwner)},
-  { 36, -1, -1, sizeof(::ondewo::nlu::CreateAgentRequest)},
-  { 44, -1, -1, sizeof(::ondewo::nlu::UpdateAgentRequest)},
-  { 53, -1, -1, sizeof(::ondewo::nlu::DeleteAgentRequest)},
-  { 60, -1, -1, sizeof(::ondewo::nlu::GetAgentRequest)},
-  { 69, -1, -1, sizeof(::ondewo::nlu::ListAgentsRequest)},
-  { 79, -1, -1, sizeof(::ondewo::nlu::ListAgentsResponse)},
-  { 87, -1, -1, sizeof(::ondewo::nlu::ListAgentsOfUserResponse)},
-  { 95, -1, -1, sizeof(::ondewo::nlu::TrainAgentRequest)},
-  { 104, -1, -1, sizeof(::ondewo::nlu::BuildCacheRequest)},
-  { 112, -1, -1, sizeof(::ondewo::nlu::ExportAgentRequest)},
-  { 121, -1, -1, sizeof(::ondewo::nlu::ExportAgentResponse)},
-  { 130, -1, -1, sizeof(::ondewo::nlu::ExportBenchmarkAgentRequest)},
-  { 141, 149, -1, sizeof(::ondewo::nlu::ExportBenchmarkAgentResponse_TrainingPhrasesEntry_DoNotUse)},
-  { 151, -1, -1, sizeof(::ondewo::nlu::ExportBenchmarkAgentResponse)},
-  { 159, -1, -1, sizeof(::ondewo::nlu::OptimizeRankingMatchRequest)},
-  { 169, -1, -1, sizeof(::ondewo::nlu::RankingMatchOptimizationConfig)},
-  { 179, -1, -1, sizeof(::ondewo::nlu::OptimizeRankingMatchResponse)},
-  { 187, -1, -1, sizeof(::ondewo::nlu::ImportAgentRequest)},
-  { 197, -1, -1, sizeof(::ondewo::nlu::RestoreAgentRequest)},
-  { 207, -1, -1, sizeof(::ondewo::nlu::MigrateAgentRequest)},
-  { 214, -1, -1, sizeof(::ondewo::nlu::GetAgentStatisticsRequest)},
-  { 231, -1, -1, sizeof(::ondewo::nlu::GetAgentStatisticsResponse)},
-  { 241, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsRequest)},
-  { 263, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsResponse)},
-  { 273, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsTimeSeriesRequest)},
-  { 291, -1, -1, sizeof(::ondewo::nlu::LlmTelemetryTimeSeriesBucket)},
-  { 300, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsTimeSeriesResponse)},
-  { 308, -1, -1, sizeof(::ondewo::nlu::AddUserToProjectRequest)},
-  { 317, -1, -1, sizeof(::ondewo::nlu::RemoveUserFromProjectRequest)},
-  { 325, -1, -1, sizeof(::ondewo::nlu::ListUsersInProjectRequest)},
-  { 334, -1, -1, sizeof(::ondewo::nlu::UserInProject)},
-  { 343, -1, -1, sizeof(::ondewo::nlu::ListUsersInProjectResponse)},
-  { 351, -1, -1, sizeof(::ondewo::nlu::GetPlatformInfoResponse)},
-  { 359, -1, -1, sizeof(::ondewo::nlu::ListProjectPermissionsRequest)},
-  { 367, -1, -1, sizeof(::ondewo::nlu::ListProjectPermissionsResponse)},
-  { 375, -1, -1, sizeof(::ondewo::nlu::SetAgentStatusRequest)},
-  { 384, -1, -1, sizeof(::ondewo::nlu::AgentSorting)},
-  { 392, -1, -1, sizeof(::ondewo::nlu::SetResourcesRequest)},
-  { 403, -1, -1, sizeof(::ondewo::nlu::DeleteResourcesRequest)},
-  { 413, -1, -1, sizeof(::ondewo::nlu::ExportResourcesRequest)},
-  { 423, -1, -1, sizeof(::ondewo::nlu::ExportResourcesResponse)},
-  { 434, -1, -1, sizeof(::ondewo::nlu::GetModelStatusesRequest)},
-  { 444, -1, -1, sizeof(::ondewo::nlu::ModelStatus)},
-  { 456, -1, -1, sizeof(::ondewo::nlu::GetModelStatusesResponse)},
-  { 463, -1, -1, sizeof(::ondewo::nlu::CustomPlatformInfo)},
-  { 476, -1, -1, sizeof(::ondewo::nlu::GetPlatformMappingRequest)},
-  { 483, -1, -1, sizeof(::ondewo::nlu::PlatformMapping)},
-  { 491, -1, -1, sizeof(::ondewo::nlu::FullTextSearchRequest)},
-  { 501, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntityType_EntityTypeSearchResult)},
-  { 514, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntityType)},
-  { 527, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntity_EntitySearchResult)},
-  { 542, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntity)},
-  { 555, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult)},
-  { 572, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntitySynonym)},
-  { 585, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntent_IntentSearchResult)},
-  { 600, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntent)},
-  { 613, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextIn_IntentContextInSearchResult)},
-  { 628, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextIn)},
-  { 641, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult)},
-  { 656, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextOut)},
-  { 669, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult)},
-  { 688, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentUsersays)},
-  { 701, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentTags_IntentTagsSearchResult)},
-  { 717, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentTags)},
-  { 730, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentResponse_IntentResponseSearchResult)},
-  { 747, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentResponse)},
-  { 760, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentParameters_IntentParametersSearchResult)},
-  { 776, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentParameters)},
-  { 789, -1, -1, sizeof(::ondewo::nlu::ReindexAgentRequest)},
-  { 798, -1, -1, sizeof(::ondewo::nlu::CreateProjectTechnicalUserRequest)},
-  { 806, -1, -1, sizeof(::ondewo::nlu::CreateProjectTechnicalUserResponse)},
-  { 815, -1, -1, sizeof(::ondewo::nlu::ListProjectTechnicalUsersRequest)},
-  { 823, -1, -1, sizeof(::ondewo::nlu::ProjectTechnicalUser)},
-  { 833, -1, -1, sizeof(::ondewo::nlu::ListProjectTechnicalUsersResponse)},
-  { 841, -1, -1, sizeof(::ondewo::nlu::DeleteProjectTechnicalUserRequest)},
-  { 849, -1, -1, sizeof(::ondewo::nlu::RotateProjectTechnicalUserPasswordRequest)},
-  { 857, -1, -1, sizeof(::ondewo::nlu::RotateProjectTechnicalUserPasswordResponse)},
+  { 21, 29, -1, sizeof(::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse)},
+  { 31, 39, -1, sizeof(::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse)},
+  { 41, 51, -1, sizeof(::ondewo::nlu::WarmTransferAgentSettings)},
+  { 55, 66, -1, sizeof(::ondewo::nlu::WarmTransferAgentTexts)},
+  { 71, -1, -1, sizeof(::ondewo::nlu::WarmTransferAgentLexicon)},
+  { 79, -1, -1, sizeof(::ondewo::nlu::AgentWithOwner)},
+  { 87, -1, -1, sizeof(::ondewo::nlu::AgentOfUserWithOwner)},
+  { 95, -1, -1, sizeof(::ondewo::nlu::CreateAgentRequest)},
+  { 103, -1, -1, sizeof(::ondewo::nlu::UpdateAgentRequest)},
+  { 112, -1, -1, sizeof(::ondewo::nlu::DeleteAgentRequest)},
+  { 119, -1, -1, sizeof(::ondewo::nlu::GetAgentRequest)},
+  { 128, -1, -1, sizeof(::ondewo::nlu::ListAgentsRequest)},
+  { 138, -1, -1, sizeof(::ondewo::nlu::ListAgentsResponse)},
+  { 146, -1, -1, sizeof(::ondewo::nlu::ListAgentsOfUserResponse)},
+  { 154, -1, -1, sizeof(::ondewo::nlu::TrainAgentRequest)},
+  { 163, -1, -1, sizeof(::ondewo::nlu::BuildCacheRequest)},
+  { 171, -1, -1, sizeof(::ondewo::nlu::ExportAgentRequest)},
+  { 180, -1, -1, sizeof(::ondewo::nlu::ExportAgentResponse)},
+  { 189, -1, -1, sizeof(::ondewo::nlu::ExportBenchmarkAgentRequest)},
+  { 200, 208, -1, sizeof(::ondewo::nlu::ExportBenchmarkAgentResponse_TrainingPhrasesEntry_DoNotUse)},
+  { 210, -1, -1, sizeof(::ondewo::nlu::ExportBenchmarkAgentResponse)},
+  { 218, -1, -1, sizeof(::ondewo::nlu::OptimizeRankingMatchRequest)},
+  { 228, -1, -1, sizeof(::ondewo::nlu::RankingMatchOptimizationConfig)},
+  { 238, -1, -1, sizeof(::ondewo::nlu::OptimizeRankingMatchResponse)},
+  { 246, -1, -1, sizeof(::ondewo::nlu::ImportAgentRequest)},
+  { 256, -1, -1, sizeof(::ondewo::nlu::RestoreAgentRequest)},
+  { 266, -1, -1, sizeof(::ondewo::nlu::MigrateAgentRequest)},
+  { 273, -1, -1, sizeof(::ondewo::nlu::GetAgentStatisticsRequest)},
+  { 290, -1, -1, sizeof(::ondewo::nlu::GetAgentStatisticsResponse)},
+  { 300, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsRequest)},
+  { 322, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsResponse)},
+  { 332, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsTimeSeriesRequest)},
+  { 350, -1, -1, sizeof(::ondewo::nlu::LlmTelemetryTimeSeriesBucket)},
+  { 359, -1, -1, sizeof(::ondewo::nlu::GetSessionsStatisticsTimeSeriesResponse)},
+  { 367, -1, -1, sizeof(::ondewo::nlu::AddUserToProjectRequest)},
+  { 376, -1, -1, sizeof(::ondewo::nlu::RemoveUserFromProjectRequest)},
+  { 384, -1, -1, sizeof(::ondewo::nlu::ListUsersInProjectRequest)},
+  { 393, -1, -1, sizeof(::ondewo::nlu::UserInProject)},
+  { 402, -1, -1, sizeof(::ondewo::nlu::ListUsersInProjectResponse)},
+  { 410, -1, -1, sizeof(::ondewo::nlu::GetPlatformInfoResponse)},
+  { 418, -1, -1, sizeof(::ondewo::nlu::ListProjectPermissionsRequest)},
+  { 426, -1, -1, sizeof(::ondewo::nlu::ListProjectPermissionsResponse)},
+  { 434, -1, -1, sizeof(::ondewo::nlu::SetAgentStatusRequest)},
+  { 443, -1, -1, sizeof(::ondewo::nlu::AgentSorting)},
+  { 451, -1, -1, sizeof(::ondewo::nlu::SetResourcesRequest)},
+  { 462, -1, -1, sizeof(::ondewo::nlu::DeleteResourcesRequest)},
+  { 472, -1, -1, sizeof(::ondewo::nlu::ExportResourcesRequest)},
+  { 482, -1, -1, sizeof(::ondewo::nlu::ExportResourcesResponse)},
+  { 493, -1, -1, sizeof(::ondewo::nlu::GetModelStatusesRequest)},
+  { 503, -1, -1, sizeof(::ondewo::nlu::ModelStatus)},
+  { 515, -1, -1, sizeof(::ondewo::nlu::GetModelStatusesResponse)},
+  { 522, -1, -1, sizeof(::ondewo::nlu::CustomPlatformInfo)},
+  { 535, -1, -1, sizeof(::ondewo::nlu::GetPlatformMappingRequest)},
+  { 542, -1, -1, sizeof(::ondewo::nlu::PlatformMapping)},
+  { 550, -1, -1, sizeof(::ondewo::nlu::FullTextSearchRequest)},
+  { 560, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntityType_EntityTypeSearchResult)},
+  { 573, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntityType)},
+  { 586, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntity_EntitySearchResult)},
+  { 601, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntity)},
+  { 614, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult)},
+  { 631, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseEntitySynonym)},
+  { 644, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntent_IntentSearchResult)},
+  { 659, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntent)},
+  { 672, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextIn_IntentContextInSearchResult)},
+  { 687, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextIn)},
+  { 700, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult)},
+  { 715, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentContextOut)},
+  { 728, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult)},
+  { 747, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentUsersays)},
+  { 760, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentTags_IntentTagsSearchResult)},
+  { 776, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentTags)},
+  { 789, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentResponse_IntentResponseSearchResult)},
+  { 806, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentResponse)},
+  { 819, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentParameters_IntentParametersSearchResult)},
+  { 835, -1, -1, sizeof(::ondewo::nlu::FullTextSearchResponseIntentParameters)},
+  { 848, -1, -1, sizeof(::ondewo::nlu::ReindexAgentRequest)},
+  { 857, -1, -1, sizeof(::ondewo::nlu::CreateProjectTechnicalUserRequest)},
+  { 865, -1, -1, sizeof(::ondewo::nlu::CreateProjectTechnicalUserResponse)},
+  { 874, -1, -1, sizeof(::ondewo::nlu::ListProjectTechnicalUsersRequest)},
+  { 882, -1, -1, sizeof(::ondewo::nlu::ProjectTechnicalUser)},
+  { 892, -1, -1, sizeof(::ondewo::nlu::ListProjectTechnicalUsersResponse)},
+  { 900, -1, -1, sizeof(::ondewo::nlu::DeleteProjectTechnicalUserRequest)},
+  { 908, -1, -1, sizeof(::ondewo::nlu::RotateProjectTechnicalUserPasswordRequest)},
+  { 916, -1, -1, sizeof(::ondewo::nlu::RotateProjectTechnicalUserPasswordResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::nlu::_Agent_default_instance_._instance,
+  &::ondewo::nlu::_WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse_default_instance_._instance,
+  &::ondewo::nlu::_WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse_default_instance_._instance,
+  &::ondewo::nlu::_WarmTransferAgentSettings_default_instance_._instance,
+  &::ondewo::nlu::_WarmTransferAgentTexts_default_instance_._instance,
+  &::ondewo::nlu::_WarmTransferAgentLexicon_default_instance_._instance,
   &::ondewo::nlu::_AgentWithOwner_default_instance_._instance,
   &::ondewo::nlu::_AgentOfUserWithOwner_default_instance_._instance,
   &::ondewo::nlu::_CreateAgentRequest_default_instance_._instance,
@@ -2414,7 +2555,7 @@ const char descriptor_table_protodef_ondewo_2fnlu_2fagent_2eproto[] PROTOBUF_SEC
   "to\032\025ondewo/nlu/user.proto\032\035ondewo/nlu/pr"
   "oject_role.proto\032\033ondewo/nlu/operations."
   "proto\032\030ondewo/nlu/session.proto\032\035ondewo/"
-  "nlu/ccai_project.proto\"\233\003\n\005Agent\022\016\n\006pare"
+  "nlu/ccai_project.proto\"\342\003\n\005Agent\022\016\n\006pare"
   "nt\030\001 \001(\t\022\024\n\014display_name\030\002 \001(\t\022\035\n\025defaul"
   "t_language_code\030\003 \001(\t\022 \n\030supported_langu"
   "age_codes\030\004 \003(\t\022\021\n\ttime_zone\030\005 \001(\t\022\024\n\014nl"
@@ -2424,555 +2565,575 @@ const char descriptor_table_protodef_ondewo_2fnlu_2fagent_2eproto[] PROTOBUF_SEC
   "\013description\030\n \001(\t\022.\n\ncreated_at\030\013 \001(\0132\032"
   ".google.protobuf.Timestamp\022/\n\013modified_a"
   "t\030\014 \001(\0132\032.google.protobuf.Timestamp\022\022\n\nc"
-  "reated_by\030\r \001(\t\022\023\n\013modified_by\030\016 \001(\t\"S\n\016"
-  "AgentWithOwner\022 \n\005agent\030\001 \001(\0132\021.ondewo.n"
-  "lu.Agent\022\037\n\005owner\030\002 \001(\0132\020.ondewo.nlu.Use"
-  "r\"{\n\024AgentOfUserWithOwner\0224\n\020agent_with_"
-  "owner\030\001 \001(\0132\032.ondewo.nlu.AgentWithOwner\022"
-  "-\n\014project_role\030\002 \001(\0132\027.ondewo.nlu.Proje"
-  "ctRole\"a\n\022CreateAgentRequest\022 \n\005agent\030\001 "
-  "\001(\0132\021.ondewo.nlu.Agent\022)\n\nagent_view\030\002 \001"
-  "(\0162\025.ondewo.nlu.AgentView\"\222\001\n\022UpdateAgen"
-  "tRequest\022 \n\005agent\030\001 \001(\0132\021.ondewo.nlu.Age"
-  "nt\022)\n\nagent_view\030\002 \001(\0162\025.ondewo.nlu.Agen"
-  "tView\022/\n\013update_mask\030\003 \001(\0132\032.google.prot"
-  "obuf.FieldMask\"$\n\022DeleteAgentRequest\022\016\n\006"
-  "parent\030\001 \001(\t\"|\n\017GetAgentRequest\022\016\n\006paren"
-  "t\030\001 \001(\t\022)\n\nagent_view\030\002 \001(\0162\025.ondewo.nlu"
-  ".AgentView\022.\n\nfield_mask\030\003 \001(\0132\032.google."
-  "protobuf.FieldMask\"\263\001\n\021ListAgentsRequest"
-  "\022)\n\nagent_view\030\001 \001(\0162\025.ondewo.nlu.AgentV"
-  "iew\022\022\n\npage_token\030\002 \001(\t\022/\n\rsort_by_field"
-  "\030\003 \001(\0132\030.ondewo.nlu.AgentSorting\022.\n\nfiel"
-  "d_mask\030\004 \001(\0132\032.google.protobuf.FieldMask"
-  "\"e\n\022ListAgentsResponse\0226\n\022agents_with_ow"
-  "ners\030\001 \003(\0132\032.ondewo.nlu.AgentWithOwner\022\027"
-  "\n\017next_page_token\030\002 \001(\t\"y\n\030ListAgentsOfU"
-  "serResponse\022D\n\032agents_of_user_with_owner"
-  "s\030\001 \003(\0132 .ondewo.nlu.AgentOfUserWithOwne"
-  "r\022\027\n\017next_page_token\030\002 \001(\t\"p\n\021TrainAgent"
-  "Request\022\016\n\006parent\030\001 \001(\t\022\016\n\006branch\030\002 \001(\t\022"
-  ";\n\023initiation_protocol\030\003 \001(\0162\036.ondewo.nl"
-  "u.InitiationProtocol\"3\n\021BuildCacheReques"
-  "t\022\016\n\006parent\030\001 \001(\t\022\016\n\006branch\030\002 \001(\t\"R\n\022Exp"
-  "ortAgentRequest\022\016\n\006parent\030\001 \001(\t\022\021\n\tagent"
-  "_uri\030\002 \001(\t\022\031\n\021compression_level\030\003 \001(\005\"L\n"
-  "\023ExportAgentResponse\022\023\n\tagent_uri\030\001 \001(\tH"
-  "\000\022\027\n\ragent_content\030\002 \001(\014H\000B\007\n\005agent\"\205\001\n\033"
-  "ExportBenchmarkAgentRequest\022\016\n\006parent\030\001 "
-  "\001(\t\022\031\n\021compression_level\030\002 \001(\005\022\021\n\ttest_s"
-  "ize\030\003 \001(\002\022\022\n\ntrain_size\030\004 \001(\002\022\024\n\014random_"
-  "state\030\005 \001(\005\"\357\001\n\034ExportBenchmarkAgentResp"
-  "onse\022\025\n\ragent_content\030\001 \001(\014\022W\n\020training_"
-  "phrases\030\002 \003(\0132=.ondewo.nlu.ExportBenchma"
-  "rkAgentResponse.TrainingPhrasesEntry\032_\n\024"
-  "TrainingPhrasesEntry\022\013\n\003key\030\001 \001(\t\0226\n\005val"
-  "ue\030\002 \001(\0132\'.ondewo.nlu.ListTrainingPhrase"
-  "sResponse:\0028\001\"\241\001\n\033OptimizeRankingMatchRe"
-  "quest\022\016\n\006parent\030\001 \001(\t\022\026\n\016language_codes\030"
-  "\002 \003(\t\022H\n\024optimization_configs\030\003 \003(\0132*.on"
-  "dewo.nlu.RankingMatchOptimizationConfig\022"
-  "\020\n\010in_place\030\004 \001(\010\"\223\001\n\036RankingMatchOptimi"
-  "zationConfig\022\025\n\rlanguage_code\030\001 \001(\t\022\020\n\010n"
-  "_splits\030\002 \001(\005\022\023\n\013random_seed\030\003 \001(\005\0223\n\022in"
-  "itial_thresholds\030\004 \001(\0132\027.google.protobuf"
-  ".Struct\"\214\001\n\034OptimizeRankingMatchResponse"
-  "\0222\n\021optimization_info\030\001 \001(\0132\027.google.pro"
-  "tobuf.Struct\0228\n\027optimized_ondewo_config\030"
-  "\003 \001(\0132\027.google.protobuf.Struct\"[\n\022Import"
-  "AgentRequest\022\016\n\006parent\030\001 \001(\t\022\023\n\tagent_ur"
-  "i\030\002 \001(\tH\000\022\027\n\ragent_content\030\003 \001(\014H\000B\007\n\005ag"
-  "ent\"\\\n\023RestoreAgentRequest\022\016\n\006parent\030\001 \001"
-  "(\t\022\023\n\tagent_uri\030\002 \001(\tH\000\022\027\n\ragent_content"
-  "\030\003 \001(\014H\000B\007\n\005agent\",\n\023MigrateAgentRequest"
-  "\022\025\n\ragent_content\030\001 \001(\014\"\227\003\n\031GetAgentStat"
-  "isticsRequest\022\016\n\006parent\030\001 \001(\t\022(\n\006format\030"
-  "\002 \001(\0162\030.ondewo.nlu.ReportFormat\022\025\n\rlangu"
-  "age_code\030\003 \001(\t\022$\n\004type\030\004 \001(\0162\026.ondewo.nl"
-  "u.ReportType\022\030\n\020llm_model_filter\030\005 \003(\t\022\033"
-  "\n\023llm_provider_filter\030\006 \003(\t\022\035\n\025llm_agent"
-  "_name_filter\030\007 \003(\t\022\025\n\rllm_group_bys\030\010 \003("
-  "\t\022.\n\nfield_mask\030\t \001(\0132\032.google.protobuf."
-  "FieldMask\022I\n llm_ccai_service_provider_f"
-  "ilter\030\n \003(\0162\037.ondewo.nlu.CcaiServiceProv"
-  "ider\022\033\n\023llm_base_url_filter\030\013 \003(\t\"\273\001\n\032Ge"
-  "tAgentStatisticsResponse\022\017\n\007reports\030\001 \001("
-  "\014\022(\n\006format\030\002 \001(\0162\030.ondewo.nlu.ReportFor"
-  "mat\022$\n\004type\030\003 \001(\0162\026.ondewo.nlu.ReportTyp"
-  "e\022<\n\024llm_telemetry_report\030\004 \001(\0132\036.ondewo"
-  ".nlu.LlmTelemetryReport\"\301\004\n\034GetSessionsS"
-  "tatisticsRequest\022\016\n\006parent\030\001 \001(\t\022(\n\006form"
-  "at\030\002 \001(\0162\030.ondewo.nlu.ReportFormat\022,\n\004ty"
-  "pe\030\003 \001(\0162\036.ondewo.nlu.SessionsReportType"
-  "\0221\n\016session_filter\030\004 \001(\0132\031.ondewo.nlu.Se"
-  "ssionFilter\0222\n\017context_filters\030\005 \003(\0132\031.o"
-  "ndewo.nlu.ContextFilter\022\r\n\005limit\030\006 \001(\005\022\021"
-  "\n\tgroup_bys\030\007 \003(\t\022\021\n\torder_bys\030\010 \003(\t\022.\n\n"
-  "field_mask\030\t \001(\0132\032.google.protobuf.Field"
-  "Mask\022\021\n\tsql_query\030\n \001(\t\022\030\n\020llm_model_fil"
-  "ter\030\013 \003(\t\022\033\n\023llm_provider_filter\030\014 \003(\t\022\035"
-  "\n\025llm_agent_name_filter\030\r \003(\t\022\034\n\024llm_too"
-  "l_name_filter\030\016 \003(\t\022I\n llm_ccai_service_"
-  "provider_filter\030\017 \003(\0162\037.ondewo.nlu.CcaiS"
-  "erviceProvider\022\033\n\023llm_base_url_filter\030\020 "
-  "\003(\t\"\306\001\n\035GetSessionsStatisticsResponse\022\017\n"
-  "\007reports\030\001 \001(\014\022(\n\006format\030\002 \001(\0162\030.ondewo."
-  "nlu.ReportFormat\022,\n\004type\030\003 \001(\0162\036.ondewo."
-  "nlu.SessionsReportType\022<\n\024llm_telemetry_"
-  "report\030\004 \001(\0132\036.ondewo.nlu.LlmTelemetryRe"
-  "port\"\330\003\n&GetSessionsStatisticsTimeSeries"
-  "Request\022\016\n\006parent\030\001 \001(\t\022,\n\004type\030\002 \001(\0162\036."
-  "ondewo.nlu.SessionsReportType\0221\n\016session"
-  "_filter\030\003 \001(\0132\031.ondewo.nlu.SessionFilter"
-  "\022\034\n\024bucket_width_seconds\030\004 \001(\005\022\023\n\013max_bu"
-  "ckets\030\005 \001(\005\022\030\n\020llm_model_filter\030\006 \003(\t\022\033\n"
-  "\023llm_provider_filter\030\007 \003(\t\022\035\n\025llm_agent_"
-  "name_filter\030\010 \003(\t\022\034\n\024llm_tool_name_filte"
-  "r\030\t \003(\t\022I\n llm_ccai_service_provider_fil"
-  "ter\030\n \003(\0162\037.ondewo.nlu.CcaiServiceProvid"
-  "er\022.\n\nfield_mask\030\013 \001(\0132\032.google.protobuf"
-  ".FieldMask\022\033\n\023llm_base_url_filter\030\014 \003(\t\""
-  "\276\001\n\034LlmTelemetryTimeSeriesBucket\0220\n\014buck"
-  "et_start\030\001 \001(\0132\032.google.protobuf.Timesta"
-  "mp\022.\n\nbucket_end\030\002 \001(\0132\032.google.protobuf"
-  ".Timestamp\022<\n\024llm_telemetry_report\030\003 \001(\013"
-  "2\036.ondewo.nlu.LlmTelemetryReport\"\234\001\n\'Get"
-  "SessionsStatisticsTimeSeriesResponse\022S\n!"
-  "llm_telemetry_time_series_buckets\030\001 \003(\0132"
-  "(.ondewo.nlu.LlmTelemetryTimeSeriesBucke"
-  "t\022\034\n\024bucket_width_seconds\030\002 \001(\005\"S\n\027AddUs"
-  "erToProjectRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007us"
-  "er_id\030\002 \001(\t\022\027\n\017project_role_id\030\004 \001(\r\"\?\n\034"
-  "RemoveUserFromProjectRequest\022\016\n\006parent\030\001"
-  " \001(\t\022\017\n\007user_id\030\002 \001(\t\"o\n\031ListUsersInProj"
-  "ectRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\npage_token"
-  "\030\002 \001(\t\022.\n\nfield_mask\030\003 \001(\0132\032.google.prot"
-  "obuf.FieldMask\"P\n\rUserInProject\022\016\n\006paren"
-  "t\030\001 \001(\t\022\036\n\004user\030\002 \001(\0132\020.ondewo.nlu.User\022"
-  "\017\n\007role_id\030\003 \001(\r\"_\n\032ListUsersInProjectRe"
-  "sponse\022(\n\005users\030\001 \003(\0132\031.ondewo.nlu.UserI"
-  "nProject\022\027\n\017next_page_token\030\002 \001(\t\"\?\n\027Get"
-  "PlatformInfoResponse\022\017\n\007version\030\001 \001(\t\022\023\n"
-  "\013commit_hash\030\002 \001(\t\"c\n\035ListProjectPermiss"
-  "ionsRequest\022\022\n\npage_token\030\001 \001(\t\022.\n\nfield"
-  "_mask\030\002 \001(\0132\032.google.protobuf.FieldMask\""
-  "N\n\036ListProjectPermissionsResponse\022\023\n\013per"
-  "missions\030\001 \003(\t\022\027\n\017next_page_token\030\002 \001(\t\""
-  "{\n\025SetAgentStatusRequest\022\016\n\006parent\030\001 \001(\t"
-  "\022\'\n\006status\030\002 \001(\0162\027.ondewo.nlu.AgentStatu"
-  "s\022)\n\nagent_view\030\003 \001(\0162\025.ondewo.nlu.Agent"
-  "View\"\243\002\n\014AgentSorting\022A\n\rsorting_field\030\001"
-  " \001(\0162*.ondewo.nlu.AgentSorting.AgentSort"
-  "ingField\022-\n\014sorting_mode\030\002 \001(\0162\027.ondewo."
-  "nlu.SortingMode\"\240\001\n\021AgentSortingField\022\024\n"
-  "\020NO_AGENT_SORTING\020\000\022\026\n\022SORT_AGENT_BY_NAM"
-  "E\020\001\022\037\n\033SORT_AGENT_BY_CREATION_DATE\020\002\022\036\n\032"
-  "SORT_AGENT_BY_LAST_UPDATED\020\003\022\034\n\030SORT_AGE"
-  "NT_BY_OWNER_NAME\020\004\"o\n\023SetResourcesReques"
-  "t\022\016\n\006parent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030"
-  "\003 \001(\t\022\025\n\rresource_file\030\004 \001(\014\022\025\n\rlanguage"
-  "_code\030\005 \001(\t\"[\n\026DeleteResourcesRequest\022\016\n"
-  "\006parent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001("
-  "\t\022\025\n\rlanguage_code\030\004 \001(\t\"[\n\026ExportResour"
-  "cesRequest\022\016\n\006parent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t"
-  "\022\014\n\004type\030\003 \001(\t\022\025\n\rlanguage_code\030\004 \001(\t\"s\n"
-  "\027ExportResourcesResponse\022\016\n\006parent\030\001 \001(\t"
-  "\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\025\n\rlanguage"
-  "_code\030\004 \001(\t\022\025\n\rresource_file\030\005 \001(\014\"k\n\027Ge"
-  "tModelStatusesRequest\022\016\n\006parent\030\001 \001(\t\022\025\n"
-  "\rcache_version\030\002 \001(\005\022\025\n\rlanguage_code\030\003 "
-  "\001(\t\022\022\n\nmodel_name\030\004 \001(\t\"\300\002\n\013ModelStatus\022"
-  "\025\n\rcache_version\030\001 \001(\005\022\025\n\rlanguage_code\030"
-  "\002 \001(\t\022\022\n\nmodel_name\030\003 \001(\t\0223\n\017status_set_"
-  "time\030\004 \001(\0132\032.google.protobuf.Timestamp\022\016"
-  "\n\006config\030\005 \001(\t\0222\n\006status\030\006 \001(\0162\".ondewo."
-  "nlu.ModelStatus.StatusName\"v\n\nStatusName"
-  "\022\013\n\007UNKNOWN\020\000\022\020\n\014INITIALIZING\020\001\022\017\n\013INITI"
-  "ALIZED\020\002\022\020\n\014LOADING_DATA\020\003\022\014\n\010TRAINING\020\004"
-  "\022\013\n\007TESTING\020\005\022\013\n\007TRAINED\020\006\"K\n\030GetModelSt"
-  "atusesResponse\022/\n\016model_statuses\030\001 \003(\0132\027"
-  ".ondewo.nlu.ModelStatus\"\375\001\n\022CustomPlatfo"
-  "rmInfo\0225\n\010platform\030\001 \001(\0162#.ondewo.nlu.In"
-  "tent.Message.Platform\022\024\n\014display_name\030\002 "
-  "\001(\t\022\020\n\010position\030\003 \001(\r\022.\n\ncreated_at\030\004 \001("
-  "\0132\032.google.protobuf.Timestamp\022/\n\013modifie"
-  "d_at\030\005 \001(\0132\032.google.protobuf.Timestamp\022\022"
-  "\n\ncreated_by\030\006 \001(\t\022\023\n\013modified_by\030\007 \001(\t\""
-  "+\n\031GetPlatformMappingRequest\022\016\n\006parent\030\001"
-  " \001(\t\"X\n\017PlatformMapping\022\016\n\006parent\030\001 \001(\t\022"
-  "5\n\rplatform_info\030\002 \003(\0132\036.ondewo.nlu.Cust"
-  "omPlatformInfo\"\231\003\n\025FullTextSearchRequest"
-  "\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022"
-  "\014\n\004term\030\003 \001(\t\022\022\n\npage_token\030\004 \001(\t\"\266\002\n\tQu"
-  "eryType\022\007\n\003ALL\020\000\022\025\n\021OndewoEntityQuery\020\001\022"
-  "\031\n\025OndewoEntityTypeQuery\020\002\022\034\n\030OndewoEnti"
-  "tySynonymQuery\020\003\022\025\n\021OndewoIntentQuery\020\004\022"
-  "\036\n\032OndewoIntentContextInQuery\020\005\022\037\n\033Ondew"
-  "oIntentContextOutQuery\020\006\022\035\n\031OndewoIntent"
-  "UsersaysQuery\020\007\022\031\n\025OndewoIntentTagsQuery"
-  "\020\010\022\037\n\033OndewoIntentParametersQuery\020\t\022\035\n\031O"
-  "ndewoIntentResponseQuery\020\n\"\322\003\n FullTextS"
-  "earchResponseEntityType\022\016\n\006parent\030\001 \001(\t\022"
-  "\025\n\rlanguage_code\030\002 \001(\t\022`\n\023entity_type_re"
-  "sults\030\003 \003(\0132C.ondewo.nlu.FullTextSearchR"
-  "esponseEntityType.EntityTypeSearchResult"
-  "\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n"
-  "\004time\030\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\330\001\n"
-  "\026EntityTypeSearchResult\022\014\n\004name\030\001 \001(\t\022\024\n"
-  "\014display_name\030\002 \001(\t\022\020\n\010language\030\003 \001(\t\022.\n"
-  "\ncreated_at\030\004 \001(\0132\032.google.protobuf.Time"
-  "stamp\022/\n\013modified_at\030\005 \001(\0132\032.google.prot"
-  "obuf.Timestamp\022\022\n\ncreated_by\030\006 \001(\t\022\023\n\013mo"
-  "dified_by\030\007 \001(\t\"\371\003\n\034FullTextSearchRespon"
-  "seEntity\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_cod"
-  "e\030\002 \001(\t\022S\n\016entity_results\030\003 \003(\0132;.ondewo"
-  ".nlu.FullTextSearchResponseEntity.Entity"
-  "SearchResult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_qu"
-  "ery\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_tok"
-  "en\030\007 \001(\t\032\220\002\n\022EntitySearchResult\022\014\n\004name\030"
-  "\001 \001(\t\022\024\n\014display_name\030\002 \001(\t\022\030\n\020entity_ty"
-  "pe_name\030\003 \001(\t\022 \n\030entity_type_display_nam"
-  "e\030\004 \001(\t\022\020\n\010language\030\005 \001(\t\022.\n\ncreated_at\030"
-  "\006 \001(\0132\032.google.protobuf.Timestamp\022/\n\013mod"
-  "ified_at\030\007 \001(\0132\032.google.protobuf.Timesta"
-  "mp\022\022\n\ncreated_by\030\010 \001(\t\022\023\n\013modified_by\030\t "
-  "\001(\t\"\317\004\n#FullTextSearchResponseEntitySyno"
-  "nym\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001"
-  "(\t\022i\n\026entity_synonym_results\030\003 \003(\0132I.ond"
-  "ewo.nlu.FullTextSearchResponseEntitySyno"
-  "nym.EntitySynonymSearchResult\022\014\n\004term\030\004 "
-  "\001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002"
-  "\022\027\n\017next_page_token\030\007 \001(\t\032\311\002\n\031EntitySyno"
-  "nymSearchResult\022\014\n\004name\030\001 \001(\t\022\024\n\014display"
-  "_name\030\002 \001(\t\022\030\n\020entity_type_name\030\003 \001(\t\022 \n"
-  "\030entity_type_display_name\030\004 \001(\t\022\023\n\013entit"
-  "y_name\030\005 \001(\t\022\033\n\023entity_display_name\030\006 \001("
-  "\t\022\020\n\010language\030\007 \001(\t\022.\n\ncreated_at\030\010 \001(\0132"
+  "reated_by\030\r \001(\t\022\023\n\013modified_by\030\016 \001(\t\022E\n\026"
+  "warm_transfer_settings\030\017 \001(\0132%.ondewo.nl"
+  "u.WarmTransferAgentSettings\"\260\003\n\031WarmTran"
+  "sferAgentSettings\022\024\n\007enabled\030\001 \001(\010H\000\210\001\001\022"
+  "\035\n\025llm_ccai_service_name\030\002 \001(\t\022N\n\rdefaul"
+  "t_texts\030\003 \003(\01327.ondewo.nlu.WarmTransferA"
+  "gentSettings.DefaultTextsEntry\022N\n\rextra_"
+  "lexicon\030\004 \003(\01327.ondewo.nlu.WarmTransferA"
+  "gentSettings.ExtraLexiconEntry\032W\n\021Defaul"
+  "tTextsEntry\022\013\n\003key\030\001 \001(\t\0221\n\005value\030\002 \001(\0132"
+  "\".ondewo.nlu.WarmTransferAgentTexts:\0028\001\032"
+  "Y\n\021ExtraLexiconEntry\022\013\n\003key\030\001 \001(\t\0223\n\005val"
+  "ue\030\002 \001(\0132$.ondewo.nlu.WarmTransferAgentL"
+  "exicon:\0028\001B\n\n\010_enabled\"\320\001\n\026WarmTransferA"
+  "gentTexts\022\026\n\016ready_question\030\001 \001(\t\022\027\n\017acc"
+  "ept_question\030\002 \001(\t\022$\n\027decline_reason_que"
+  "stion\030\003 \001(\tH\000\210\001\001\022\037\n\027caller_declined_mess"
+  "age\030\004 \001(\t\022\"\n\032caller_unreachable_message\030"
+  "\005 \001(\tB\032\n\030_decline_reason_question\"K\n\030War"
+  "mTransferAgentLexicon\022\026\n\016accept_phrases\030"
+  "\001 \003(\t\022\027\n\017decline_phrases\030\002 \003(\t\"S\n\016AgentW"
+  "ithOwner\022 \n\005agent\030\001 \001(\0132\021.ondewo.nlu.Age"
+  "nt\022\037\n\005owner\030\002 \001(\0132\020.ondewo.nlu.User\"{\n\024A"
+  "gentOfUserWithOwner\0224\n\020agent_with_owner\030"
+  "\001 \001(\0132\032.ondewo.nlu.AgentWithOwner\022-\n\014pro"
+  "ject_role\030\002 \001(\0132\027.ondewo.nlu.ProjectRole"
+  "\"a\n\022CreateAgentRequest\022 \n\005agent\030\001 \001(\0132\021."
+  "ondewo.nlu.Agent\022)\n\nagent_view\030\002 \001(\0162\025.o"
+  "ndewo.nlu.AgentView\"\222\001\n\022UpdateAgentReque"
+  "st\022 \n\005agent\030\001 \001(\0132\021.ondewo.nlu.Agent\022)\n\n"
+  "agent_view\030\002 \001(\0162\025.ondewo.nlu.AgentView\022"
+  "/\n\013update_mask\030\003 \001(\0132\032.google.protobuf.F"
+  "ieldMask\"$\n\022DeleteAgentRequest\022\016\n\006parent"
+  "\030\001 \001(\t\"|\n\017GetAgentRequest\022\016\n\006parent\030\001 \001("
+  "\t\022)\n\nagent_view\030\002 \001(\0162\025.ondewo.nlu.Agent"
+  "View\022.\n\nfield_mask\030\003 \001(\0132\032.google.protob"
+  "uf.FieldMask\"\263\001\n\021ListAgentsRequest\022)\n\nag"
+  "ent_view\030\001 \001(\0162\025.ondewo.nlu.AgentView\022\022\n"
+  "\npage_token\030\002 \001(\t\022/\n\rsort_by_field\030\003 \001(\013"
+  "2\030.ondewo.nlu.AgentSorting\022.\n\nfield_mask"
+  "\030\004 \001(\0132\032.google.protobuf.FieldMask\"e\n\022Li"
+  "stAgentsResponse\0226\n\022agents_with_owners\030\001"
+  " \003(\0132\032.ondewo.nlu.AgentWithOwner\022\027\n\017next"
+  "_page_token\030\002 \001(\t\"y\n\030ListAgentsOfUserRes"
+  "ponse\022D\n\032agents_of_user_with_owners\030\001 \003("
+  "\0132 .ondewo.nlu.AgentOfUserWithOwner\022\027\n\017n"
+  "ext_page_token\030\002 \001(\t\"p\n\021TrainAgentReques"
+  "t\022\016\n\006parent\030\001 \001(\t\022\016\n\006branch\030\002 \001(\t\022;\n\023ini"
+  "tiation_protocol\030\003 \001(\0162\036.ondewo.nlu.Init"
+  "iationProtocol\"3\n\021BuildCacheRequest\022\016\n\006p"
+  "arent\030\001 \001(\t\022\016\n\006branch\030\002 \001(\t\"R\n\022ExportAge"
+  "ntRequest\022\016\n\006parent\030\001 \001(\t\022\021\n\tagent_uri\030\002"
+  " \001(\t\022\031\n\021compression_level\030\003 \001(\005\"L\n\023Expor"
+  "tAgentResponse\022\023\n\tagent_uri\030\001 \001(\tH\000\022\027\n\ra"
+  "gent_content\030\002 \001(\014H\000B\007\n\005agent\"\205\001\n\033Export"
+  "BenchmarkAgentRequest\022\016\n\006parent\030\001 \001(\t\022\031\n"
+  "\021compression_level\030\002 \001(\005\022\021\n\ttest_size\030\003 "
+  "\001(\002\022\022\n\ntrain_size\030\004 \001(\002\022\024\n\014random_state\030"
+  "\005 \001(\005\"\357\001\n\034ExportBenchmarkAgentResponse\022\025"
+  "\n\ragent_content\030\001 \001(\014\022W\n\020training_phrase"
+  "s\030\002 \003(\0132=.ondewo.nlu.ExportBenchmarkAgen"
+  "tResponse.TrainingPhrasesEntry\032_\n\024Traini"
+  "ngPhrasesEntry\022\013\n\003key\030\001 \001(\t\0226\n\005value\030\002 \001"
+  "(\0132\'.ondewo.nlu.ListTrainingPhrasesRespo"
+  "nse:\0028\001\"\241\001\n\033OptimizeRankingMatchRequest\022"
+  "\016\n\006parent\030\001 \001(\t\022\026\n\016language_codes\030\002 \003(\t\022"
+  "H\n\024optimization_configs\030\003 \003(\0132*.ondewo.n"
+  "lu.RankingMatchOptimizationConfig\022\020\n\010in_"
+  "place\030\004 \001(\010\"\223\001\n\036RankingMatchOptimization"
+  "Config\022\025\n\rlanguage_code\030\001 \001(\t\022\020\n\010n_split"
+  "s\030\002 \001(\005\022\023\n\013random_seed\030\003 \001(\005\0223\n\022initial_"
+  "thresholds\030\004 \001(\0132\027.google.protobuf.Struc"
+  "t\"\214\001\n\034OptimizeRankingMatchResponse\0222\n\021op"
+  "timization_info\030\001 \001(\0132\027.google.protobuf."
+  "Struct\0228\n\027optimized_ondewo_config\030\003 \001(\0132"
+  "\027.google.protobuf.Struct\"[\n\022ImportAgentR"
+  "equest\022\016\n\006parent\030\001 \001(\t\022\023\n\tagent_uri\030\002 \001("
+  "\tH\000\022\027\n\ragent_content\030\003 \001(\014H\000B\007\n\005agent\"\\\n"
+  "\023RestoreAgentRequest\022\016\n\006parent\030\001 \001(\t\022\023\n\t"
+  "agent_uri\030\002 \001(\tH\000\022\027\n\ragent_content\030\003 \001(\014"
+  "H\000B\007\n\005agent\",\n\023MigrateAgentRequest\022\025\n\rag"
+  "ent_content\030\001 \001(\014\"\227\003\n\031GetAgentStatistics"
+  "Request\022\016\n\006parent\030\001 \001(\t\022(\n\006format\030\002 \001(\0162"
+  "\030.ondewo.nlu.ReportFormat\022\025\n\rlanguage_co"
+  "de\030\003 \001(\t\022$\n\004type\030\004 \001(\0162\026.ondewo.nlu.Repo"
+  "rtType\022\030\n\020llm_model_filter\030\005 \003(\t\022\033\n\023llm_"
+  "provider_filter\030\006 \003(\t\022\035\n\025llm_agent_name_"
+  "filter\030\007 \003(\t\022\025\n\rllm_group_bys\030\010 \003(\t\022.\n\nf"
+  "ield_mask\030\t \001(\0132\032.google.protobuf.FieldM"
+  "ask\022I\n llm_ccai_service_provider_filter\030"
+  "\n \003(\0162\037.ondewo.nlu.CcaiServiceProvider\022\033"
+  "\n\023llm_base_url_filter\030\013 \003(\t\"\273\001\n\032GetAgent"
+  "StatisticsResponse\022\017\n\007reports\030\001 \001(\014\022(\n\006f"
+  "ormat\030\002 \001(\0162\030.ondewo.nlu.ReportFormat\022$\n"
+  "\004type\030\003 \001(\0162\026.ondewo.nlu.ReportType\022<\n\024l"
+  "lm_telemetry_report\030\004 \001(\0132\036.ondewo.nlu.L"
+  "lmTelemetryReport\"\301\004\n\034GetSessionsStatist"
+  "icsRequest\022\016\n\006parent\030\001 \001(\t\022(\n\006format\030\002 \001"
+  "(\0162\030.ondewo.nlu.ReportFormat\022,\n\004type\030\003 \001"
+  "(\0162\036.ondewo.nlu.SessionsReportType\0221\n\016se"
+  "ssion_filter\030\004 \001(\0132\031.ondewo.nlu.SessionF"
+  "ilter\0222\n\017context_filters\030\005 \003(\0132\031.ondewo."
+  "nlu.ContextFilter\022\r\n\005limit\030\006 \001(\005\022\021\n\tgrou"
+  "p_bys\030\007 \003(\t\022\021\n\torder_bys\030\010 \003(\t\022.\n\nfield_"
+  "mask\030\t \001(\0132\032.google.protobuf.FieldMask\022\021"
+  "\n\tsql_query\030\n \001(\t\022\030\n\020llm_model_filter\030\013 "
+  "\003(\t\022\033\n\023llm_provider_filter\030\014 \003(\t\022\035\n\025llm_"
+  "agent_name_filter\030\r \003(\t\022\034\n\024llm_tool_name"
+  "_filter\030\016 \003(\t\022I\n llm_ccai_service_provid"
+  "er_filter\030\017 \003(\0162\037.ondewo.nlu.CcaiService"
+  "Provider\022\033\n\023llm_base_url_filter\030\020 \003(\t\"\306\001"
+  "\n\035GetSessionsStatisticsResponse\022\017\n\007repor"
+  "ts\030\001 \001(\014\022(\n\006format\030\002 \001(\0162\030.ondewo.nlu.Re"
+  "portFormat\022,\n\004type\030\003 \001(\0162\036.ondewo.nlu.Se"
+  "ssionsReportType\022<\n\024llm_telemetry_report"
+  "\030\004 \001(\0132\036.ondewo.nlu.LlmTelemetryReport\"\330"
+  "\003\n&GetSessionsStatisticsTimeSeriesReques"
+  "t\022\016\n\006parent\030\001 \001(\t\022,\n\004type\030\002 \001(\0162\036.ondewo"
+  ".nlu.SessionsReportType\0221\n\016session_filte"
+  "r\030\003 \001(\0132\031.ondewo.nlu.SessionFilter\022\034\n\024bu"
+  "cket_width_seconds\030\004 \001(\005\022\023\n\013max_buckets\030"
+  "\005 \001(\005\022\030\n\020llm_model_filter\030\006 \003(\t\022\033\n\023llm_p"
+  "rovider_filter\030\007 \003(\t\022\035\n\025llm_agent_name_f"
+  "ilter\030\010 \003(\t\022\034\n\024llm_tool_name_filter\030\t \003("
+  "\t\022I\n llm_ccai_service_provider_filter\030\n "
+  "\003(\0162\037.ondewo.nlu.CcaiServiceProvider\022.\n\n"
+  "field_mask\030\013 \001(\0132\032.google.protobuf.Field"
+  "Mask\022\033\n\023llm_base_url_filter\030\014 \003(\t\"\276\001\n\034Ll"
+  "mTelemetryTimeSeriesBucket\0220\n\014bucket_sta"
+  "rt\030\001 \001(\0132\032.google.protobuf.Timestamp\022.\n\n"
+  "bucket_end\030\002 \001(\0132\032.google.protobuf.Times"
+  "tamp\022<\n\024llm_telemetry_report\030\003 \001(\0132\036.ond"
+  "ewo.nlu.LlmTelemetryReport\"\234\001\n\'GetSessio"
+  "nsStatisticsTimeSeriesResponse\022S\n!llm_te"
+  "lemetry_time_series_buckets\030\001 \003(\0132(.onde"
+  "wo.nlu.LlmTelemetryTimeSeriesBucket\022\034\n\024b"
+  "ucket_width_seconds\030\002 \001(\005\"S\n\027AddUserToPr"
+  "ojectRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007user_id\030"
+  "\002 \001(\t\022\027\n\017project_role_id\030\004 \001(\r\"\?\n\034Remove"
+  "UserFromProjectRequest\022\016\n\006parent\030\001 \001(\t\022\017"
+  "\n\007user_id\030\002 \001(\t\"o\n\031ListUsersInProjectReq"
+  "uest\022\016\n\006parent\030\001 \001(\t\022\022\n\npage_token\030\002 \001(\t"
+  "\022.\n\nfield_mask\030\003 \001(\0132\032.google.protobuf.F"
+  "ieldMask\"P\n\rUserInProject\022\016\n\006parent\030\001 \001("
+  "\t\022\036\n\004user\030\002 \001(\0132\020.ondewo.nlu.User\022\017\n\007rol"
+  "e_id\030\003 \001(\r\"_\n\032ListUsersInProjectResponse"
+  "\022(\n\005users\030\001 \003(\0132\031.ondewo.nlu.UserInProje"
+  "ct\022\027\n\017next_page_token\030\002 \001(\t\"\?\n\027GetPlatfo"
+  "rmInfoResponse\022\017\n\007version\030\001 \001(\t\022\023\n\013commi"
+  "t_hash\030\002 \001(\t\"c\n\035ListProjectPermissionsRe"
+  "quest\022\022\n\npage_token\030\001 \001(\t\022.\n\nfield_mask\030"
+  "\002 \001(\0132\032.google.protobuf.FieldMask\"N\n\036Lis"
+  "tProjectPermissionsResponse\022\023\n\013permissio"
+  "ns\030\001 \003(\t\022\027\n\017next_page_token\030\002 \001(\t\"{\n\025Set"
+  "AgentStatusRequest\022\016\n\006parent\030\001 \001(\t\022\'\n\006st"
+  "atus\030\002 \001(\0162\027.ondewo.nlu.AgentStatus\022)\n\na"
+  "gent_view\030\003 \001(\0162\025.ondewo.nlu.AgentView\"\243"
+  "\002\n\014AgentSorting\022A\n\rsorting_field\030\001 \001(\0162*"
+  ".ondewo.nlu.AgentSorting.AgentSortingFie"
+  "ld\022-\n\014sorting_mode\030\002 \001(\0162\027.ondewo.nlu.So"
+  "rtingMode\"\240\001\n\021AgentSortingField\022\024\n\020NO_AG"
+  "ENT_SORTING\020\000\022\026\n\022SORT_AGENT_BY_NAME\020\001\022\037\n"
+  "\033SORT_AGENT_BY_CREATION_DATE\020\002\022\036\n\032SORT_A"
+  "GENT_BY_LAST_UPDATED\020\003\022\034\n\030SORT_AGENT_BY_"
+  "OWNER_NAME\020\004\"o\n\023SetResourcesRequest\022\016\n\006p"
+  "arent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022"
+  "\025\n\rresource_file\030\004 \001(\014\022\025\n\rlanguage_code\030"
+  "\005 \001(\t\"[\n\026DeleteResourcesRequest\022\016\n\006paren"
+  "t\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\025\n\rl"
+  "anguage_code\030\004 \001(\t\"[\n\026ExportResourcesReq"
+  "uest\022\016\n\006parent\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\014\n\004ty"
+  "pe\030\003 \001(\t\022\025\n\rlanguage_code\030\004 \001(\t\"s\n\027Expor"
+  "tResourcesResponse\022\016\n\006parent\030\001 \001(\t\022\014\n\004na"
+  "me\030\002 \001(\t\022\014\n\004type\030\003 \001(\t\022\025\n\rlanguage_code\030"
+  "\004 \001(\t\022\025\n\rresource_file\030\005 \001(\014\"k\n\027GetModel"
+  "StatusesRequest\022\016\n\006parent\030\001 \001(\t\022\025\n\rcache"
+  "_version\030\002 \001(\005\022\025\n\rlanguage_code\030\003 \001(\t\022\022\n"
+  "\nmodel_name\030\004 \001(\t\"\300\002\n\013ModelStatus\022\025\n\rcac"
+  "he_version\030\001 \001(\005\022\025\n\rlanguage_code\030\002 \001(\t\022"
+  "\022\n\nmodel_name\030\003 \001(\t\0223\n\017status_set_time\030\004"
+  " \001(\0132\032.google.protobuf.Timestamp\022\016\n\006conf"
+  "ig\030\005 \001(\t\0222\n\006status\030\006 \001(\0162\".ondewo.nlu.Mo"
+  "delStatus.StatusName\"v\n\nStatusName\022\013\n\007UN"
+  "KNOWN\020\000\022\020\n\014INITIALIZING\020\001\022\017\n\013INITIALIZED"
+  "\020\002\022\020\n\014LOADING_DATA\020\003\022\014\n\010TRAINING\020\004\022\013\n\007TE"
+  "STING\020\005\022\013\n\007TRAINED\020\006\"K\n\030GetModelStatuses"
+  "Response\022/\n\016model_statuses\030\001 \003(\0132\027.ondew"
+  "o.nlu.ModelStatus\"\375\001\n\022CustomPlatformInfo"
+  "\0225\n\010platform\030\001 \001(\0162#.ondewo.nlu.Intent.M"
+  "essage.Platform\022\024\n\014display_name\030\002 \001(\t\022\020\n"
+  "\010position\030\003 \001(\r\022.\n\ncreated_at\030\004 \001(\0132\032.go"
+  "ogle.protobuf.Timestamp\022/\n\013modified_at\030\005"
+  " \001(\0132\032.google.protobuf.Timestamp\022\022\n\ncrea"
+  "ted_by\030\006 \001(\t\022\023\n\013modified_by\030\007 \001(\t\"+\n\031Get"
+  "PlatformMappingRequest\022\016\n\006parent\030\001 \001(\t\"X"
+  "\n\017PlatformMapping\022\016\n\006parent\030\001 \001(\t\0225\n\rpla"
+  "tform_info\030\002 \003(\0132\036.ondewo.nlu.CustomPlat"
+  "formInfo\"\231\003\n\025FullTextSearchRequest\022\016\n\006pa"
+  "rent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022\014\n\004ter"
+  "m\030\003 \001(\t\022\022\n\npage_token\030\004 \001(\t\"\266\002\n\tQueryTyp"
+  "e\022\007\n\003ALL\020\000\022\025\n\021OndewoEntityQuery\020\001\022\031\n\025Ond"
+  "ewoEntityTypeQuery\020\002\022\034\n\030OndewoEntitySyno"
+  "nymQuery\020\003\022\025\n\021OndewoIntentQuery\020\004\022\036\n\032Ond"
+  "ewoIntentContextInQuery\020\005\022\037\n\033OndewoInten"
+  "tContextOutQuery\020\006\022\035\n\031OndewoIntentUsersa"
+  "ysQuery\020\007\022\031\n\025OndewoIntentTagsQuery\020\010\022\037\n\033"
+  "OndewoIntentParametersQuery\020\t\022\035\n\031OndewoI"
+  "ntentResponseQuery\020\n\"\322\003\n FullTextSearchR"
+  "esponseEntityType\022\016\n\006parent\030\001 \001(\t\022\025\n\rlan"
+  "guage_code\030\002 \001(\t\022`\n\023entity_type_results\030"
+  "\003 \003(\0132C.ondewo.nlu.FullTextSearchRespons"
+  "eEntityType.EntityTypeSearchResult\022\014\n\004te"
+  "rm\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030"
+  "\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\330\001\n\026Entit"
+  "yTypeSearchResult\022\014\n\004name\030\001 \001(\t\022\024\n\014displ"
+  "ay_name\030\002 \001(\t\022\020\n\010language\030\003 \001(\t\022.\n\ncreat"
+  "ed_at\030\004 \001(\0132\032.google.protobuf.Timestamp\022"
+  "/\n\013modified_at\030\005 \001(\0132\032.google.protobuf.T"
+  "imestamp\022\022\n\ncreated_by\030\006 \001(\t\022\023\n\013modified"
+  "_by\030\007 \001(\t\"\371\003\n\034FullTextSearchResponseEnti"
+  "ty\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001("
+  "\t\022S\n\016entity_results\030\003 \003(\0132;.ondewo.nlu.F"
+  "ullTextSearchResponseEntity.EntitySearch"
+  "Result\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_query\030\005 "
+  "\001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_token\030\007 \001"
+  "(\t\032\220\002\n\022EntitySearchResult\022\014\n\004name\030\001 \001(\t\022"
+  "\024\n\014display_name\030\002 \001(\t\022\030\n\020entity_type_nam"
+  "e\030\003 \001(\t\022 \n\030entity_type_display_name\030\004 \001("
+  "\t\022\020\n\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001(\0132"
   "\032.google.protobuf.Timestamp\022/\n\013modified_"
-  "at\030\t \001(\0132\032.google.protobuf.Timestamp\022\022\n\n"
-  "created_by\030\n \001(\t\022\023\n\013modified_by\030\013 \001(\t\"\340\003"
-  "\n\034FullTextSearchResponseIntent\022\016\n\006parent"
-  "\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022S\n\016intent_"
-  "results\030\003 \003(\0132;.ondewo.nlu.FullTextSearc"
-  "hResponseIntent.IntentSearchResult\022\014\n\004te"
-  "rm\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030"
-  "\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\367\001\n\022Inten"
-  "tSearchResult\022\014\n\004name\030\001 \001(\t\022\024\n\014display_n"
-  "ame\030\002 \001(\t\022\023\n\013domain_name\030\003 \001(\t\022\014\n\004tags\030\004"
-  " \003(\t\022\020\n\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001"
-  "(\0132\032.google.protobuf.Timestamp\022/\n\013modifi"
-  "ed_at\030\007 \001(\0132\032.google.protobuf.Timestamp\022"
-  "\022\n\ncreated_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t"
-  "\"\226\004\n%FullTextSearchResponseIntentContext"
-  "In\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001("
-  "\t\022p\n\031intent_context_in_results\030\003 \003(\0132M.o"
-  "ndewo.nlu.FullTextSearchResponseIntentCo"
-  "ntextIn.IntentContextInSearchResult\022\014\n\004t"
-  "erm\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time"
-  "\030\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\207\002\n\033Inte"
-  "ntContextInSearchResult\022\014\n\004name\030\001 \001(\t\022\023\n"
-  "\013intent_name\030\002 \001(\t\022\033\n\023intent_display_nam"
-  "e\030\003 \001(\t\022\014\n\004tags\030\004 \003(\t\022\020\n\010language\030\005 \001(\t\022"
-  ".\n\ncreated_at\030\006 \001(\0132\032.google.protobuf.Ti"
-  "mestamp\022/\n\013modified_at\030\007 \001(\0132\032.google.pr"
-  "otobuf.Timestamp\022\022\n\ncreated_by\030\010 \001(\t\022\023\n\013"
-  "modified_by\030\t \001(\t\"\233\004\n&FullTextSearchResp"
-  "onseIntentContextOut\022\016\n\006parent\030\001 \001(\t\022\025\n\r"
-  "language_code\030\002 \001(\t\022s\n\032intent_context_ou"
-  "t_results\030\003 \003(\0132O.ondewo.nlu.FullTextSea"
-  "rchResponseIntentContextOut.IntentContex"
-  "tOutSearchResult\022\014\n\004term\030\004 \001(\t\022\025\n\relasti"
-  "c_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page"
-  "_token\030\007 \001(\t\032\210\002\n\034IntentContextOutSearchR"
-  "esult\022\014\n\004name\030\001 \001(\t\022\023\n\013intent_name\030\002 \001(\t"
-  "\022\033\n\023intent_display_name\030\003 \001(\t\022\014\n\004tags\030\004 "
-  "\003(\t\022\020\n\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001("
-  "\0132\032.google.protobuf.Timestamp\022/\n\013modifie"
-  "d_at\030\007 \001(\0132\032.google.protobuf.Timestamp\022\022"
-  "\n\ncreated_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t\""
-  "\351\004\n$FullTextSearchResponseIntentUsersays"
-  "\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022"
-  "l\n\027intent_usersays_results\030\003 \003(\0132K.ondew"
-  "o.nlu.FullTextSearchResponseIntentUsersa"
-  "ys.IntentUsersaysSearchResult\022\014\n\004term\030\004 "
+  "at\030\007 \001(\0132\032.google.protobuf.Timestamp\022\022\n\n"
+  "created_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t\"\317\004"
+  "\n#FullTextSearchResponseEntitySynonym\022\016\n"
+  "\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022i\n\026"
+  "entity_synonym_results\030\003 \003(\0132I.ondewo.nl"
+  "u.FullTextSearchResponseEntitySynonym.En"
+  "titySynonymSearchResult\022\014\n\004term\030\004 \001(\t\022\025\n"
+  "\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017ne"
+  "xt_page_token\030\007 \001(\t\032\311\002\n\031EntitySynonymSea"
+  "rchResult\022\014\n\004name\030\001 \001(\t\022\024\n\014display_name\030"
+  "\002 \001(\t\022\030\n\020entity_type_name\030\003 \001(\t\022 \n\030entit"
+  "y_type_display_name\030\004 \001(\t\022\023\n\013entity_name"
+  "\030\005 \001(\t\022\033\n\023entity_display_name\030\006 \001(\t\022\020\n\010l"
+  "anguage\030\007 \001(\t\022.\n\ncreated_at\030\010 \001(\0132\032.goog"
+  "le.protobuf.Timestamp\022/\n\013modified_at\030\t \001"
+  "(\0132\032.google.protobuf.Timestamp\022\022\n\ncreate"
+  "d_by\030\n \001(\t\022\023\n\013modified_by\030\013 \001(\t\"\340\003\n\034Full"
+  "TextSearchResponseIntent\022\016\n\006parent\030\001 \001(\t"
+  "\022\025\n\rlanguage_code\030\002 \001(\t\022S\n\016intent_result"
+  "s\030\003 \003(\0132;.ondewo.nlu.FullTextSearchRespo"
+  "nseIntent.IntentSearchResult\022\014\n\004term\030\004 \001"
+  "(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022"
+  "\027\n\017next_page_token\030\007 \001(\t\032\367\001\n\022IntentSearc"
+  "hResult\022\014\n\004name\030\001 \001(\t\022\024\n\014display_name\030\002 "
+  "\001(\t\022\023\n\013domain_name\030\003 \001(\t\022\014\n\004tags\030\004 \003(\t\022\020"
+  "\n\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001(\0132\032.g"
+  "oogle.protobuf.Timestamp\022/\n\013modified_at\030"
+  "\007 \001(\0132\032.google.protobuf.Timestamp\022\022\n\ncre"
+  "ated_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t\"\226\004\n%F"
+  "ullTextSearchResponseIntentContextIn\022\016\n\006"
+  "parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022p\n\031i"
+  "ntent_context_in_results\030\003 \003(\0132M.ondewo."
+  "nlu.FullTextSearchResponseIntentContextI"
+  "n.IntentContextInSearchResult\022\014\n\004term\030\004 "
   "\001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002"
-  "\022\027\n\017next_page_token\030\007 \001(\t\032\337\002\n\032IntentUser"
-  "saysSearchResult\022\014\n\004name\030\001 \001(\t\022\014\n\004text\030\002"
-  " \001(\t\022\034\n\024text_as_entity_types\030\003 \001(\t\022\035\n\025te"
-  "xt_as_entity_values\030\004 \001(\t\022\014\n\004type\030\005 \001(\t\022"
-  "\023\n\013intent_name\030\006 \001(\t\022\033\n\023intent_display_n"
-  "ame\030\007 \001(\t\022\014\n\004tags\030\010 \003(\t\022\020\n\010language\030\t \001("
-  "\t\022.\n\ncreated_at\030\n \001(\0132\032.google.protobuf."
-  "Timestamp\022/\n\013modified_at\030\013 \001(\0132\032.google."
-  "protobuf.Timestamp\022\022\n\ncreated_by\030\014 \001(\t\022\023"
-  "\n\013modified_by\030\r \001(\t\"\212\004\n FullTextSearchRe"
-  "sponseIntentTags\022\016\n\006parent\030\001 \001(\t\022\025\n\rlang"
-  "uage_code\030\002 \001(\t\022`\n\023intent_tags_results\030\003"
-  " \003(\0132C.ondewo.nlu.FullTextSearchResponse"
-  "IntentTags.IntentTagsSearchResult\022\014\n\004ter"
-  "m\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006"
-  " \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\220\002\n\026Intent"
-  "TagsSearchResult\022\014\n\004name\030\001 \001(\t\022\014\n\004text\030\002"
-  " \001(\t\022\023\n\013intent_name\030\003 \001(\t\022\033\n\023intent_disp"
-  "lay_name\030\004 \001(\t\022\014\n\004tags\030\005 \003(\t\022\020\n\010language"
-  "\030\006 \001(\t\022.\n\ncreated_at\030\007 \001(\0132\032.google.prot"
-  "obuf.Timestamp\022/\n\013modified_at\030\010 \001(\0132\032.go"
-  "ogle.protobuf.Timestamp\022\022\n\ncreated_by\030\t "
-  "\001(\t\022\023\n\013modified_by\030\n \001(\t\"\271\004\n$FullTextSea"
-  "rchResponseIntentResponse\022\016\n\006parent\030\001 \001("
-  "\t\022\025\n\rlanguage_code\030\002 \001(\t\022l\n\027intent_respo"
-  "nse_results\030\003 \003(\0132K.ondewo.nlu.FullTextS"
-  "earchResponseIntentResponse.IntentRespon"
-  "seSearchResult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_"
-  "query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_t"
-  "oken\030\007 \001(\t\032\257\002\n\032IntentResponseSearchResul"
-  "t\022\014\n\004text\030\001 \001(\t\022\020\n\010platform\030\002 \001(\t\022\025\n\rres"
-  "ponse_type\030\003 \001(\t\022\023\n\013intent_name\030\004 \001(\t\022\033\n"
-  "\023intent_display_name\030\005 \001(\t\022\014\n\004tags\030\006 \003(\t"
-  "\022\020\n\010language\030\007 \001(\t\022.\n\ncreated_at\030\010 \001(\0132\032"
-  ".google.protobuf.Timestamp\022/\n\013modified_a"
-  "t\030\t \001(\0132\032.google.protobuf.Timestamp\022\022\n\nc"
-  "reated_by\030\n \001(\t\022\023\n\013modified_by\030\013 \001(\t\"\304\004\n"
-  "&FullTextSearchResponseIntentParameters\022"
-  "\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022r"
-  "\n\031intent_parameters_results\030\003 \003(\0132O.onde"
-  "wo.nlu.FullTextSearchResponseIntentParam"
-  "eters.IntentParametersSearchResult\022\014\n\004te"
-  "rm\030\004 \001(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030"
-  "\006 \001(\002\022\027\n\017next_page_token\030\007 \001(\t\032\262\002\n\034Inten"
-  "tParametersSearchResult\022\026\n\016parameter_nam"
-  "e\030\001 \001(\t\022\036\n\026parameter_display_name\030\002 \001(\t\022"
-  "\023\n\013intent_name\030\003 \001(\t\022\033\n\023intent_display_n"
-  "ame\030\004 \001(\t\022\014\n\004tags\030\005 \003(\t\022\020\n\010language\030\006 \001("
-  "\t\022.\n\ncreated_at\030\007 \001(\0132\032.google.protobuf."
-  "Timestamp\022/\n\013modified_at\030\010 \001(\0132\032.google."
-  "protobuf.Timestamp\022\022\n\ncreated_by\030\t \001(\t\022\023"
-  "\n\013modified_by\030\n \001(\t\"|\n\023ReindexAgentReque"
-  "st\022\016\n\006parent\030\001 \001(\t\022\023\n\013branch_name\030\002 \001(\t\022"
-  "@\n\013index_types\030\003 \003(\0162+.ondewo.nlu.FullTe"
-  "xtSearchRequest.QueryType\"A\n!CreateProje"
-  "ctTechnicalUserRequest\022\016\n\006parent\030\001 \001(\t\022\014"
-  "\n\004name\030\002 \001(\t\"Y\n\"CreateProjectTechnicalUs"
-  "erResponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010username\030"
-  "\002 \001(\t\022\020\n\010password\030\003 \001(\t\"F\n ListProjectTe"
-  "chnicalUsersRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\np"
-  "age_token\030\002 \001(\t\"}\n\024ProjectTechnicalUser\022"
-  "\017\n\007user_id\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022.\n\ncr"
-  "eated_at\030\003 \001(\0132\032.google.protobuf.Timesta"
-  "mp\022\022\n\ncreated_by\030\004 \001(\t\"w\n!ListProjectTec"
-  "hnicalUsersResponse\0229\n\017technical_users\030\001"
-  " \003(\0132 .ondewo.nlu.ProjectTechnicalUser\022\027"
-  "\n\017next_page_token\030\002 \001(\t\"D\n!DeleteProject"
-  "TechnicalUserRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007"
-  "user_id\030\002 \001(\t\"L\n)RotateProjectTechnicalU"
-  "serPasswordRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007us"
-  "er_id\030\002 \001(\t\"a\n*RotateProjectTechnicalUse"
-  "rPasswordResponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010us"
-  "ername\030\002 \001(\t\022\020\n\010password\030\003 \001(\t*l\n\tAgentV"
-  "iew\022\032\n\026AGENT_VIEW_UNSPECIFIED\020\000\022\023\n\017AGENT"
-  "_VIEW_FULL\020\001\022\026\n\022AGENT_VIEW_SHALLOW\020\002\022\026\n\022"
-  "AGENT_VIEW_MINIMUM\020\003*J\n\022InitiationProtoc"
-  "ol\022\027\n\023AS_SOON_AS_POSSIBLE\020\000\022\020\n\014WHEN_TRAI"
-  "NED\020\001\022\t\n\005NEVER\020\002*\360\005\n\nReportType\022\007\n\003ALL\020\000"
-  "\022\027\n\023INTENT_PER_LANGUAGE\020\001\022\027\n\023ENTITY_PER_"
-  "LANGUAGE\020\002\022\024\n\020ENTITY_COLLISION\020\003\022\022\n\016INTE"
-  "NT_GENERAL\020\004\022\031\n\025AGENT_LLM_TOKEN_USAGE\020\005\022"
-  "\031\n\025AGENT_LLM_MODELS_USED\020\006\022\034\n\030AGENT_LLM_"
-  "PROVIDERS_USED\020\007\022 \n\034AGENT_LLM_CCAI_SERVI"
-  "CES_USED\020\010\022\031\n\025AGENT_LLM_AGENTS_USED\020\t\022\024\n"
-  "\020AGENT_LLM_ERRORS\020\n\022\036\n\032AGENT_LLM_CACHE_E"
-  "FFICIENCY\020\013\022\036\n\032AGENT_LLM_REASONING_EFFOR"
-  "T\020\014\022\031\n\025AGENT_LLM_TOP_X_TOOLS\020\r\022\033\n\027AGENT_"
-  "LLM_LEAST_X_TOOLS\020\016\022\025\n\021AGENT_LLM_LATENCY"
-  "\020\017\022\034\n\030AGENT_LLM_FINISH_REASONS\020\020\022\036\n\032AGEN"
-  "T_LLM_TOTAL_STATISTICS\020\021\022\037\n\033AGENT_LLM_IN"
-  "PUT_TOKEN_USAGE\020\022\022 \n\034AGENT_LLM_OUTPUT_TO"
-  "KEN_USAGE\020\023\022\"\n\036AGENT_LLM_THINKING_TOKEN_"
-  "USAGE\020\024\022#\n\037AGENT_LLM_TOOL_CALL_TOKEN_USA"
-  "GE\020\025\022\032\n\026AGENT_LLM_TOP_X_MODELS\020\026\022*\n&AGEN"
-  "T_LLM_TOP_X_CCAI_SERVICE_PROVIDERS\020\027\022\037\n\033"
-  "AGENT_LLM_TOP_X_AGENT_NAMES\020\030\022\024\n\020AGENT_L"
-  "LM_SAFETY\020\031*\366\t\n\022SessionsReportType\022\014\n\010SE"
-  "SSIONS\020\000\022\021\n\rSESSION_STEPS\020\001\022\031\n\025SESSION_T"
-  "OP_X_INTENTS\020\002\022\036\n\032SESSION_TOP_X_ENTITY_T"
-  "YPES\020\003\022\037\n\033SESSION_TOP_X_ENTITY_VALUES\020\004\022"
-  "\027\n\023SESSION_TOP_X_USERS\020\005\022\030\n\024SESSION_TOP_"
-  "X_LABELS\020\006\022\026\n\022SESSION_TOP_X_TAGS\020\007\022\037\n\033SE"
-  "SSION_TOP_X_PHONE_NUMBERS\020\010\022\033\n\027SESSION_H"
-  "UMAN_HANDOVERS\020\t\022\025\n\021SESSION_SQL_QUERY\020\n\022"
-  "\033\n\027SESSION_LEAST_X_INTENTS\020\013\022 \n\034SESSION_"
-  "LEAST_X_ENTITY_TYPES\020\014\022!\n\035SESSION_LEAST_"
-  "X_ENTITY_VALUES\020\r\022\031\n\025SESSION_LEAST_X_USE"
-  "RS\020\016\022\032\n\026SESSION_LEAST_X_LABELS\020\017\022\030\n\024SESS"
-  "ION_LEAST_X_TAGS\020\020\022\024\n\020TOTAL_STATISTICS\020\021"
-  "\022\033\n\027SESSION_LLM_TOKEN_USAGE\020\022\022\032\n\026SESSION"
-  "_LLM_TOOL_CALLS\020\023\022\030\n\024SESSION_LLM_THINKIN"
-  "G\020\024\022\036\n\032SESSION_LLM_FINISH_REASONS\020\025\022\027\n\023S"
-  "ESSION_LLM_LATENCY\020\026\022\033\n\027SESSION_LLM_RAG_"
-  "METRICS\020\027\022\033\n\027SESSION_LLM_MODELS_USED\020\030\022\036"
-  "\n\032SESSION_LLM_PROVIDERS_USED\020\031\022\"\n\036SESSIO"
-  "N_LLM_CCAI_SERVICES_USED\020\032\022\033\n\027SESSION_LL"
-  "M_AGENTS_USED\020\033\022\026\n\022SESSION_LLM_ERRORS\020\034\022"
-  " \n\034SESSION_LLM_CACHE_EFFICIENCY\020\035\022 \n\034SES"
-  "SION_LLM_REASONING_EFFORT\020\036\022\033\n\027SESSION_L"
-  "LM_TOP_X_TOOLS\020\037\022\035\n\031SESSION_LLM_LEAST_X_"
-  "TOOLS\020 \022 \n\034SESSION_LLM_TOTAL_STATISTICS\020"
-  "!\022!\n\035SESSION_LLM_INPUT_TOKEN_USAGE\020\"\022\"\n\036"
-  "SESSION_LLM_OUTPUT_TOKEN_USAGE\020#\022$\n SESS"
-  "ION_LLM_THINKING_TOKEN_USAGE\020$\022%\n!SESSIO"
-  "N_LLM_TOOL_CALL_TOKEN_USAGE\020%\022\034\n\030SESSION"
-  "_LLM_TOP_X_MODELS\020&\022,\n(SESSION_LLM_TOP_X"
-  "_CCAI_SERVICE_PROVIDERS\020\'\022!\n\035SESSION_LLM"
-  "_TOP_X_AGENT_NAMES\020(\022\026\n\022SESSION_LLM_SAFE"
-  "TY\020)*+\n\014ReportFormat\022\007\n\003CSV\020\000\022\010\n\004HTML\020\001\022"
-  "\010\n\004JSON\020\002*\'\n\013AgentStatus\022\n\n\006ACTIVE\020\000\022\014\n\010"
-  "INACTIVE\020\0012\331-\n\006Agents\022Y\n\013CreateAgent\022\036.o"
-  "ndewo.nlu.CreateAgentRequest\032\021.ondewo.nl"
-  "u.Agent\"\027\202\323\344\223\002\021\"\014/v2/projects:\001*\022p\n\013Upda"
-  "teAgent\022\036.ondewo.nlu.UpdateAgentRequest\032"
-  "\021.ondewo.nlu.Agent\".\202\323\344\223\002(2#/v2/{agent.p"
-  "arent=projects/*/agent}:\001*\022a\n\010GetAgent\022\033"
-  ".ondewo.nlu.GetAgentRequest\032\021.ondewo.nlu"
-  ".Agent\"%\202\323\344\223\002\037\022\035/v2/{parent=projects/*/a"
-  "gent}\022l\n\013DeleteAgent\022\036.ondewo.nlu.Delete"
-  "AgentRequest\032\026.google.protobuf.Empty\"%\202\323"
-  "\344\223\002\037*\035/v2/{parent=projects/*/agent}\022W\n\017D"
-  "eleteAllAgents\022\026.google.protobuf.Empty\032\026"
-  ".google.protobuf.Empty\"\024\202\323\344\223\002\016*\014/v2/proj"
-  "ects\022a\n\nListAgents\022\035.ondewo.nlu.ListAgen"
-  "tsRequest\032\036.ondewo.nlu.ListAgentsRespons"
-  "e\"\024\202\323\344\223\002\016\022\014/v2/projects\022m\n\020ListAgentsOfU"
-  "ser\022\035.ondewo.nlu.ListAgentsRequest\032$.ond"
-  "ewo.nlu.ListAgentsOfUserResponse\"\024\202\323\344\223\002\016"
-  "\022\014/v2/projects\022h\n\rListAllAgents\022\035.ondewo"
-  ".nlu.ListAgentsRequest\032\036.ondewo.nlu.List"
-  "AgentsResponse\"\030\202\323\344\223\002\022\022\020/v2/projects:all"
-  "\022\213\001\n\020AddUserToProject\022#.ondewo.nlu.AddUs"
-  "erToProjectRequest\032\026.google.protobuf.Emp"
-  "ty\":\202\323\344\223\0024\"//v2/{parent=projects/*/agent"
-  "}/users/{user_id=*}:\001*\022\222\001\n\025RemoveUserFro"
-  "mProject\022(.ondewo.nlu.RemoveUserFromProj"
-  "ectRequest\032\026.google.protobuf.Empty\"7\202\323\344\223"
-  "\0021*//v2/{parent=projects/*/agent}/users/"
-  "{user_id=*}\022\220\001\n\022ListUsersInProject\022%.ond"
-  "ewo.nlu.ListUsersInProjectRequest\032&.onde"
-  "wo.nlu.ListUsersInProjectResponse\"+\202\323\344\223\002"
-  "%\022#/v2/{parent=projects/*/agent}/users\022c"
-  "\n\017GetPlatformInfo\022\026.google.protobuf.Empt"
-  "y\032#.ondewo.nlu.GetPlatformInfoResponse\"\023"
-  "\202\323\344\223\002\r\022\013/v2/version\022\220\001\n\026ListProjectPermi"
-  "ssions\022).ondewo.nlu.ListProjectPermissio"
-  "nsRequest\032*.ondewo.nlu.ListProjectPermis"
-  "sionsResponse\"\037\202\323\344\223\002\031\022\027/v2/project_permi"
-  "ssions\022r\n\nTrainAgent\022\035.ondewo.nlu.TrainA"
-  "gentRequest\032\025.ondewo.nlu.Operation\".\202\323\344\223"
-  "\002(\"#/v2/{parent=projects/*/agent}:train:"
-  "\001*\022x\n\nBuildCache\022\035.ondewo.nlu.BuildCache"
-  "Request\032\025.ondewo.nlu.Operation\"4\202\323\344\223\002.\")"
-  "/v2/{parent=projects/*/agent}:build_cach"
-  "e:\001*\022u\n\013ExportAgent\022\036.ondewo.nlu.ExportA"
-  "gentRequest\032\025.ondewo.nlu.Operation\"/\202\323\344\223"
-  "\002)\"$/v2/{parent=projects/*/agent}:export"
-  ":\001*\022\221\001\n\024ExportBenchmarkAgent\022\'.ondewo.nl"
-  "u.ExportBenchmarkAgentRequest\032\025.ondewo.n"
-  "lu.Operation\"9\202\323\344\223\0023\"./v2/{parent=projec"
-  "ts/*/agent}:export_benchmark:\001*\022u\n\013Impor"
-  "tAgent\022\036.ondewo.nlu.ImportAgentRequest\032\025"
-  ".ondewo.nlu.Operation\"/\202\323\344\223\002)\"$/v2/{pare"
-  "nt=projects/*/agent}:import:\001*\022x\n\014Migrat"
-  "eAgent\022\037.ondewo.nlu.MigrateAgentRequest\032"
-  "\025.ondewo.nlu.Operation\"0\202\323\344\223\002*\"%/v2/{par"
-  "ent=projects/*/agent}:migrate:\001*\022\227\001\n\024Opt"
-  "imizeRankingMatch\022\'.ondewo.nlu.OptimizeR"
-  "ankingMatchRequest\032\025.ondewo.nlu.Operatio"
-  "n\"\?\202\323\344\223\0029\"4/v2/{parent=projects/*/agent}"
-  ":optimize_ranking_match:\001*\022x\n\014RestoreAge"
-  "nt\022\037.ondewo.nlu.RestoreAgentRequest\032\025.on"
-  "dewo.nlu.Operation\"0\202\323\344\223\002*\"%/v2/{parent="
-  "projects/*/agent}:restore:\001*\022\225\001\n\022GetAgen"
-  "tStatistics\022%.ondewo.nlu.GetAgentStatist"
-  "icsRequest\032&.ondewo.nlu.GetAgentStatisti"
-  "csResponse\"0\202\323\344\223\002*\022(/v2/{parent=projects"
-  "/*/agent}:statistics\022\246\001\n\025GetSessionsStat"
-  "istics\022(.ondewo.nlu.GetSessionsStatistic"
-  "sRequest\032).ondewo.nlu.GetSessionsStatist"
-  "icsResponse\"8\202\323\344\223\0022\0220/v2/{parent=project"
-  "s/*/agent}:session_statistics\022\320\001\n\037GetSes"
-  "sionsStatisticsTimeSeries\0222.ondewo.nlu.G"
-  "etSessionsStatisticsTimeSeriesRequest\0323."
-  "ondewo.nlu.GetSessionsStatisticsTimeSeri"
-  "esResponse\"D\202\323\344\223\002>\022</v2/{parent=projects"
-  "/*/agent}:session_statistics_time_series"
-  "\022w\n\016SetAgentStatus\022!.ondewo.nlu.SetAgent"
-  "StatusRequest\032\021.ondewo.nlu.Agent\"/\202\323\344\223\002)"
-  "\"$/v2/{parent=projects/*/agent}:status:\001"
-  "*\022{\n\014SetResources\022\037.ondewo.nlu.SetResour"
-  "cesRequest\032\026.google.protobuf.Empty\"2\202\323\344\223"
-  "\002,\"\'/v2/{parent=projects/*/agent}:resour"
-  "ces:\001*\022~\n\017DeleteResources\022\".ondewo.nlu.D"
-  "eleteResourcesRequest\032\026.google.protobuf."
-  "Empty\"/\202\323\344\223\002)*\'/v2/{parent=projects/*/ag"
-  "ent}:resources\022\216\001\n\017ExportResources\022\".ond"
-  "ewo.nlu.ExportResourcesRequest\032#.ondewo."
-  "nlu.ExportResourcesResponse\"2\202\323\344\223\002,\"\'/v2"
-  "/{parent=projects/*/agent}:resources:\001*\022"
-  "]\n\020GetModelStatuses\022#.ondewo.nlu.GetMode"
-  "lStatusesRequest\032$.ondewo.nlu.GetModelSt"
-  "atusesResponse\022X\n\022GetPlatformMapping\022%.o"
-  "ndewo.nlu.GetPlatformMappingRequest\032\033.on"
-  "dewo.nlu.PlatformMapping\022N\n\022SetPlatformM"
-  "apping\022\033.ondewo.nlu.PlatformMapping\032\033.on"
-  "dewo.nlu.PlatformMapping\022n\n\033GetFullTextS"
-  "earchEntityType\022!.ondewo.nlu.FullTextSea"
-  "rchRequest\032,.ondewo.nlu.FullTextSearchRe"
-  "sponseEntityType\022f\n\027GetFullTextSearchEnt"
-  "ity\022!.ondewo.nlu.FullTextSearchRequest\032("
-  ".ondewo.nlu.FullTextSearchResponseEntity"
-  "\022t\n\036GetFullTextSearchEntitySynonym\022!.ond"
-  "ewo.nlu.FullTextSearchRequest\032/.ondewo.n"
-  "lu.FullTextSearchResponseEntitySynonym\022f"
-  "\n\027GetFullTextSearchIntent\022!.ondewo.nlu.F"
-  "ullTextSearchRequest\032(.ondewo.nlu.FullTe"
-  "xtSearchResponseIntent\022x\n GetFullTextSea"
-  "rchIntentContextIn\022!.ondewo.nlu.FullText"
-  "SearchRequest\0321.ondewo.nlu.FullTextSearc"
-  "hResponseIntentContextIn\022z\n!GetFullTextS"
-  "earchIntentContextOut\022!.ondewo.nlu.FullT"
-  "extSearchRequest\0322.ondewo.nlu.FullTextSe"
-  "archResponseIntentContextOut\022v\n\037GetFullT"
-  "extSearchIntentUsersays\022!.ondewo.nlu.Ful"
-  "lTextSearchRequest\0320.ondewo.nlu.FullText"
-  "SearchResponseIntentUsersays\022n\n\033GetFullT"
-  "extSearchIntentTags\022!.ondewo.nlu.FullTex"
-  "tSearchRequest\032,.ondewo.nlu.FullTextSear"
-  "chResponseIntentTags\022v\n\037GetFullTextSearc"
-  "hIntentResponse\022!.ondewo.nlu.FullTextSea"
-  "rchRequest\0320.ondewo.nlu.FullTextSearchRe"
-  "sponseIntentResponse\022z\n!GetFullTextSearc"
-  "hIntentParameters\022!.ondewo.nlu.FullTextS"
-  "earchRequest\0322.ondewo.nlu.FullTextSearch"
-  "ResponseIntentParameters\022F\n\014ReindexAgent"
-  "\022\037.ondewo.nlu.ReindexAgentRequest\032\025.onde"
-  "wo.nlu.Operation\022\265\001\n\032CreateProjectTechni"
-  "calUser\022-.ondewo.nlu.CreateProjectTechni"
-  "calUserRequest\032..ondewo.nlu.CreateProjec"
-  "tTechnicalUserResponse\"8\202\323\344\223\0022\"-/v2/{par"
-  "ent=projects/*/agent}/technical_users:\001*"
-  "\022\257\001\n\031ListProjectTechnicalUsers\022,.ondewo."
-  "nlu.ListProjectTechnicalUsersRequest\032-.o"
-  "ndewo.nlu.ListProjectTechnicalUsersRespo"
-  "nse\"5\202\323\344\223\002/\022-/v2/{parent=projects/*/agen"
-  "t}/technical_users\022\246\001\n\032DeleteProjectTech"
-  "nicalUser\022-.ondewo.nlu.DeleteProjectTech"
-  "nicalUserRequest\032\026.google.protobuf.Empty"
-  "\"A\202\323\344\223\002;*9/v2/{parent=projects/*/agent}/"
-  "technical_users/{user_id=*}\022\350\001\n\"RotatePr"
-  "ojectTechnicalUserPassword\0225.ondewo.nlu."
-  "RotateProjectTechnicalUserPasswordReques"
-  "t\0326.ondewo.nlu.RotateProjectTechnicalUse"
-  "rPasswordResponse\"S\202\323\344\223\002M\"H/v2/{parent=p"
-  "rojects/*/agent}/technical_users/{user_i"
-  "d=*}:rotatePassword:\001*b\006proto3"
+  "\022\027\n\017next_page_token\030\007 \001(\t\032\207\002\n\033IntentCont"
+  "extInSearchResult\022\014\n\004name\030\001 \001(\t\022\023\n\013inten"
+  "t_name\030\002 \001(\t\022\033\n\023intent_display_name\030\003 \001("
+  "\t\022\014\n\004tags\030\004 \003(\t\022\020\n\010language\030\005 \001(\t\022.\n\ncre"
+  "ated_at\030\006 \001(\0132\032.google.protobuf.Timestam"
+  "p\022/\n\013modified_at\030\007 \001(\0132\032.google.protobuf"
+  ".Timestamp\022\022\n\ncreated_by\030\010 \001(\t\022\023\n\013modifi"
+  "ed_by\030\t \001(\t\"\233\004\n&FullTextSearchResponseIn"
+  "tentContextOut\022\016\n\006parent\030\001 \001(\t\022\025\n\rlangua"
+  "ge_code\030\002 \001(\t\022s\n\032intent_context_out_resu"
+  "lts\030\003 \003(\0132O.ondewo.nlu.FullTextSearchRes"
+  "ponseIntentContextOut.IntentContextOutSe"
+  "archResult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_quer"
+  "y\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_token"
+  "\030\007 \001(\t\032\210\002\n\034IntentContextOutSearchResult\022"
+  "\014\n\004name\030\001 \001(\t\022\023\n\013intent_name\030\002 \001(\t\022\033\n\023in"
+  "tent_display_name\030\003 \001(\t\022\014\n\004tags\030\004 \003(\t\022\020\n"
+  "\010language\030\005 \001(\t\022.\n\ncreated_at\030\006 \001(\0132\032.go"
+  "ogle.protobuf.Timestamp\022/\n\013modified_at\030\007"
+  " \001(\0132\032.google.protobuf.Timestamp\022\022\n\ncrea"
+  "ted_by\030\010 \001(\t\022\023\n\013modified_by\030\t \001(\t\"\351\004\n$Fu"
+  "llTextSearchResponseIntentUsersays\022\016\n\006pa"
+  "rent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022l\n\027int"
+  "ent_usersays_results\030\003 \003(\0132K.ondewo.nlu."
+  "FullTextSearchResponseIntentUsersays.Int"
+  "entUsersaysSearchResult\022\014\n\004term\030\004 \001(\t\022\025\n"
+  "\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017ne"
+  "xt_page_token\030\007 \001(\t\032\337\002\n\032IntentUsersaysSe"
+  "archResult\022\014\n\004name\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\022\034"
+  "\n\024text_as_entity_types\030\003 \001(\t\022\035\n\025text_as_"
+  "entity_values\030\004 \001(\t\022\014\n\004type\030\005 \001(\t\022\023\n\013int"
+  "ent_name\030\006 \001(\t\022\033\n\023intent_display_name\030\007 "
+  "\001(\t\022\014\n\004tags\030\010 \003(\t\022\020\n\010language\030\t \001(\t\022.\n\nc"
+  "reated_at\030\n \001(\0132\032.google.protobuf.Timest"
+  "amp\022/\n\013modified_at\030\013 \001(\0132\032.google.protob"
+  "uf.Timestamp\022\022\n\ncreated_by\030\014 \001(\t\022\023\n\013modi"
+  "fied_by\030\r \001(\t\"\212\004\n FullTextSearchResponse"
+  "IntentTags\022\016\n\006parent\030\001 \001(\t\022\025\n\rlanguage_c"
+  "ode\030\002 \001(\t\022`\n\023intent_tags_results\030\003 \003(\0132C"
+  ".ondewo.nlu.FullTextSearchResponseIntent"
+  "Tags.IntentTagsSearchResult\022\014\n\004term\030\004 \001("
+  "\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027"
+  "\n\017next_page_token\030\007 \001(\t\032\220\002\n\026IntentTagsSe"
+  "archResult\022\014\n\004name\030\001 \001(\t\022\014\n\004text\030\002 \001(\t\022\023"
+  "\n\013intent_name\030\003 \001(\t\022\033\n\023intent_display_na"
+  "me\030\004 \001(\t\022\014\n\004tags\030\005 \003(\t\022\020\n\010language\030\006 \001(\t"
+  "\022.\n\ncreated_at\030\007 \001(\0132\032.google.protobuf.T"
+  "imestamp\022/\n\013modified_at\030\010 \001(\0132\032.google.p"
+  "rotobuf.Timestamp\022\022\n\ncreated_by\030\t \001(\t\022\023\n"
+  "\013modified_by\030\n \001(\t\"\271\004\n$FullTextSearchRes"
+  "ponseIntentResponse\022\016\n\006parent\030\001 \001(\t\022\025\n\rl"
+  "anguage_code\030\002 \001(\t\022l\n\027intent_response_re"
+  "sults\030\003 \003(\0132K.ondewo.nlu.FullTextSearchR"
+  "esponseIntentResponse.IntentResponseSear"
+  "chResult\022\014\n\004term\030\004 \001(\t\022\025\n\relastic_query\030"
+  "\005 \001(\t\022\014\n\004time\030\006 \001(\002\022\027\n\017next_page_token\030\007"
+  " \001(\t\032\257\002\n\032IntentResponseSearchResult\022\014\n\004t"
+  "ext\030\001 \001(\t\022\020\n\010platform\030\002 \001(\t\022\025\n\rresponse_"
+  "type\030\003 \001(\t\022\023\n\013intent_name\030\004 \001(\t\022\033\n\023inten"
+  "t_display_name\030\005 \001(\t\022\014\n\004tags\030\006 \003(\t\022\020\n\010la"
+  "nguage\030\007 \001(\t\022.\n\ncreated_at\030\010 \001(\0132\032.googl"
+  "e.protobuf.Timestamp\022/\n\013modified_at\030\t \001("
+  "\0132\032.google.protobuf.Timestamp\022\022\n\ncreated"
+  "_by\030\n \001(\t\022\023\n\013modified_by\030\013 \001(\t\"\304\004\n&FullT"
+  "extSearchResponseIntentParameters\022\016\n\006par"
+  "ent\030\001 \001(\t\022\025\n\rlanguage_code\030\002 \001(\t\022r\n\031inte"
+  "nt_parameters_results\030\003 \003(\0132O.ondewo.nlu"
+  ".FullTextSearchResponseIntentParameters."
+  "IntentParametersSearchResult\022\014\n\004term\030\004 \001"
+  "(\t\022\025\n\relastic_query\030\005 \001(\t\022\014\n\004time\030\006 \001(\002\022"
+  "\027\n\017next_page_token\030\007 \001(\t\032\262\002\n\034IntentParam"
+  "etersSearchResult\022\026\n\016parameter_name\030\001 \001("
+  "\t\022\036\n\026parameter_display_name\030\002 \001(\t\022\023\n\013int"
+  "ent_name\030\003 \001(\t\022\033\n\023intent_display_name\030\004 "
+  "\001(\t\022\014\n\004tags\030\005 \003(\t\022\020\n\010language\030\006 \001(\t\022.\n\nc"
+  "reated_at\030\007 \001(\0132\032.google.protobuf.Timest"
+  "amp\022/\n\013modified_at\030\010 \001(\0132\032.google.protob"
+  "uf.Timestamp\022\022\n\ncreated_by\030\t \001(\t\022\023\n\013modi"
+  "fied_by\030\n \001(\t\"|\n\023ReindexAgentRequest\022\016\n\006"
+  "parent\030\001 \001(\t\022\023\n\013branch_name\030\002 \001(\t\022@\n\013ind"
+  "ex_types\030\003 \003(\0162+.ondewo.nlu.FullTextSear"
+  "chRequest.QueryType\"A\n!CreateProjectTech"
+  "nicalUserRequest\022\016\n\006parent\030\001 \001(\t\022\014\n\004name"
+  "\030\002 \001(\t\"Y\n\"CreateProjectTechnicalUserResp"
+  "onse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022"
+  "\020\n\010password\030\003 \001(\t\"F\n ListProjectTechnica"
+  "lUsersRequest\022\016\n\006parent\030\001 \001(\t\022\022\n\npage_to"
+  "ken\030\002 \001(\t\"}\n\024ProjectTechnicalUser\022\017\n\007use"
+  "r_id\030\001 \001(\t\022\020\n\010username\030\002 \001(\t\022.\n\ncreated_"
+  "at\030\003 \001(\0132\032.google.protobuf.Timestamp\022\022\n\n"
+  "created_by\030\004 \001(\t\"w\n!ListProjectTechnical"
+  "UsersResponse\0229\n\017technical_users\030\001 \003(\0132 "
+  ".ondewo.nlu.ProjectTechnicalUser\022\027\n\017next"
+  "_page_token\030\002 \001(\t\"D\n!DeleteProjectTechni"
+  "calUserRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007user_i"
+  "d\030\002 \001(\t\"L\n)RotateProjectTechnicalUserPas"
+  "swordRequest\022\016\n\006parent\030\001 \001(\t\022\017\n\007user_id\030"
+  "\002 \001(\t\"a\n*RotateProjectTechnicalUserPassw"
+  "ordResponse\022\017\n\007user_id\030\001 \001(\t\022\020\n\010username"
+  "\030\002 \001(\t\022\020\n\010password\030\003 \001(\t*l\n\tAgentView\022\032\n"
+  "\026AGENT_VIEW_UNSPECIFIED\020\000\022\023\n\017AGENT_VIEW_"
+  "FULL\020\001\022\026\n\022AGENT_VIEW_SHALLOW\020\002\022\026\n\022AGENT_"
+  "VIEW_MINIMUM\020\003*J\n\022InitiationProtocol\022\027\n\023"
+  "AS_SOON_AS_POSSIBLE\020\000\022\020\n\014WHEN_TRAINED\020\001\022"
+  "\t\n\005NEVER\020\002*\360\005\n\nReportType\022\007\n\003ALL\020\000\022\027\n\023IN"
+  "TENT_PER_LANGUAGE\020\001\022\027\n\023ENTITY_PER_LANGUA"
+  "GE\020\002\022\024\n\020ENTITY_COLLISION\020\003\022\022\n\016INTENT_GEN"
+  "ERAL\020\004\022\031\n\025AGENT_LLM_TOKEN_USAGE\020\005\022\031\n\025AGE"
+  "NT_LLM_MODELS_USED\020\006\022\034\n\030AGENT_LLM_PROVID"
+  "ERS_USED\020\007\022 \n\034AGENT_LLM_CCAI_SERVICES_US"
+  "ED\020\010\022\031\n\025AGENT_LLM_AGENTS_USED\020\t\022\024\n\020AGENT"
+  "_LLM_ERRORS\020\n\022\036\n\032AGENT_LLM_CACHE_EFFICIE"
+  "NCY\020\013\022\036\n\032AGENT_LLM_REASONING_EFFORT\020\014\022\031\n"
+  "\025AGENT_LLM_TOP_X_TOOLS\020\r\022\033\n\027AGENT_LLM_LE"
+  "AST_X_TOOLS\020\016\022\025\n\021AGENT_LLM_LATENCY\020\017\022\034\n\030"
+  "AGENT_LLM_FINISH_REASONS\020\020\022\036\n\032AGENT_LLM_"
+  "TOTAL_STATISTICS\020\021\022\037\n\033AGENT_LLM_INPUT_TO"
+  "KEN_USAGE\020\022\022 \n\034AGENT_LLM_OUTPUT_TOKEN_US"
+  "AGE\020\023\022\"\n\036AGENT_LLM_THINKING_TOKEN_USAGE\020"
+  "\024\022#\n\037AGENT_LLM_TOOL_CALL_TOKEN_USAGE\020\025\022\032"
+  "\n\026AGENT_LLM_TOP_X_MODELS\020\026\022*\n&AGENT_LLM_"
+  "TOP_X_CCAI_SERVICE_PROVIDERS\020\027\022\037\n\033AGENT_"
+  "LLM_TOP_X_AGENT_NAMES\020\030\022\024\n\020AGENT_LLM_SAF"
+  "ETY\020\031*\366\t\n\022SessionsReportType\022\014\n\010SESSIONS"
+  "\020\000\022\021\n\rSESSION_STEPS\020\001\022\031\n\025SESSION_TOP_X_I"
+  "NTENTS\020\002\022\036\n\032SESSION_TOP_X_ENTITY_TYPES\020\003"
+  "\022\037\n\033SESSION_TOP_X_ENTITY_VALUES\020\004\022\027\n\023SES"
+  "SION_TOP_X_USERS\020\005\022\030\n\024SESSION_TOP_X_LABE"
+  "LS\020\006\022\026\n\022SESSION_TOP_X_TAGS\020\007\022\037\n\033SESSION_"
+  "TOP_X_PHONE_NUMBERS\020\010\022\033\n\027SESSION_HUMAN_H"
+  "ANDOVERS\020\t\022\025\n\021SESSION_SQL_QUERY\020\n\022\033\n\027SES"
+  "SION_LEAST_X_INTENTS\020\013\022 \n\034SESSION_LEAST_"
+  "X_ENTITY_TYPES\020\014\022!\n\035SESSION_LEAST_X_ENTI"
+  "TY_VALUES\020\r\022\031\n\025SESSION_LEAST_X_USERS\020\016\022\032"
+  "\n\026SESSION_LEAST_X_LABELS\020\017\022\030\n\024SESSION_LE"
+  "AST_X_TAGS\020\020\022\024\n\020TOTAL_STATISTICS\020\021\022\033\n\027SE"
+  "SSION_LLM_TOKEN_USAGE\020\022\022\032\n\026SESSION_LLM_T"
+  "OOL_CALLS\020\023\022\030\n\024SESSION_LLM_THINKING\020\024\022\036\n"
+  "\032SESSION_LLM_FINISH_REASONS\020\025\022\027\n\023SESSION"
+  "_LLM_LATENCY\020\026\022\033\n\027SESSION_LLM_RAG_METRIC"
+  "S\020\027\022\033\n\027SESSION_LLM_MODELS_USED\020\030\022\036\n\032SESS"
+  "ION_LLM_PROVIDERS_USED\020\031\022\"\n\036SESSION_LLM_"
+  "CCAI_SERVICES_USED\020\032\022\033\n\027SESSION_LLM_AGEN"
+  "TS_USED\020\033\022\026\n\022SESSION_LLM_ERRORS\020\034\022 \n\034SES"
+  "SION_LLM_CACHE_EFFICIENCY\020\035\022 \n\034SESSION_L"
+  "LM_REASONING_EFFORT\020\036\022\033\n\027SESSION_LLM_TOP"
+  "_X_TOOLS\020\037\022\035\n\031SESSION_LLM_LEAST_X_TOOLS\020"
+  " \022 \n\034SESSION_LLM_TOTAL_STATISTICS\020!\022!\n\035S"
+  "ESSION_LLM_INPUT_TOKEN_USAGE\020\"\022\"\n\036SESSIO"
+  "N_LLM_OUTPUT_TOKEN_USAGE\020#\022$\n SESSION_LL"
+  "M_THINKING_TOKEN_USAGE\020$\022%\n!SESSION_LLM_"
+  "TOOL_CALL_TOKEN_USAGE\020%\022\034\n\030SESSION_LLM_T"
+  "OP_X_MODELS\020&\022,\n(SESSION_LLM_TOP_X_CCAI_"
+  "SERVICE_PROVIDERS\020\'\022!\n\035SESSION_LLM_TOP_X"
+  "_AGENT_NAMES\020(\022\026\n\022SESSION_LLM_SAFETY\020)*+"
+  "\n\014ReportFormat\022\007\n\003CSV\020\000\022\010\n\004HTML\020\001\022\010\n\004JSO"
+  "N\020\002*\'\n\013AgentStatus\022\n\n\006ACTIVE\020\000\022\014\n\010INACTI"
+  "VE\020\0012\331-\n\006Agents\022Y\n\013CreateAgent\022\036.ondewo."
+  "nlu.CreateAgentRequest\032\021.ondewo.nlu.Agen"
+  "t\"\027\202\323\344\223\002\021\"\014/v2/projects:\001*\022p\n\013UpdateAgen"
+  "t\022\036.ondewo.nlu.UpdateAgentRequest\032\021.onde"
+  "wo.nlu.Agent\".\202\323\344\223\002(2#/v2/{agent.parent="
+  "projects/*/agent}:\001*\022a\n\010GetAgent\022\033.ondew"
+  "o.nlu.GetAgentRequest\032\021.ondewo.nlu.Agent"
+  "\"%\202\323\344\223\002\037\022\035/v2/{parent=projects/*/agent}\022"
+  "l\n\013DeleteAgent\022\036.ondewo.nlu.DeleteAgentR"
+  "equest\032\026.google.protobuf.Empty\"%\202\323\344\223\002\037*\035"
+  "/v2/{parent=projects/*/agent}\022W\n\017DeleteA"
+  "llAgents\022\026.google.protobuf.Empty\032\026.googl"
+  "e.protobuf.Empty\"\024\202\323\344\223\002\016*\014/v2/projects\022a"
+  "\n\nListAgents\022\035.ondewo.nlu.ListAgentsRequ"
+  "est\032\036.ondewo.nlu.ListAgentsResponse\"\024\202\323\344"
+  "\223\002\016\022\014/v2/projects\022m\n\020ListAgentsOfUser\022\035."
+  "ondewo.nlu.ListAgentsRequest\032$.ondewo.nl"
+  "u.ListAgentsOfUserResponse\"\024\202\323\344\223\002\016\022\014/v2/"
+  "projects\022h\n\rListAllAgents\022\035.ondewo.nlu.L"
+  "istAgentsRequest\032\036.ondewo.nlu.ListAgents"
+  "Response\"\030\202\323\344\223\002\022\022\020/v2/projects:all\022\213\001\n\020A"
+  "ddUserToProject\022#.ondewo.nlu.AddUserToPr"
+  "ojectRequest\032\026.google.protobuf.Empty\":\202\323"
+  "\344\223\0024\"//v2/{parent=projects/*/agent}/user"
+  "s/{user_id=*}:\001*\022\222\001\n\025RemoveUserFromProje"
+  "ct\022(.ondewo.nlu.RemoveUserFromProjectReq"
+  "uest\032\026.google.protobuf.Empty\"7\202\323\344\223\0021*//v"
+  "2/{parent=projects/*/agent}/users/{user_"
+  "id=*}\022\220\001\n\022ListUsersInProject\022%.ondewo.nl"
+  "u.ListUsersInProjectRequest\032&.ondewo.nlu"
+  ".ListUsersInProjectResponse\"+\202\323\344\223\002%\022#/v2"
+  "/{parent=projects/*/agent}/users\022c\n\017GetP"
+  "latformInfo\022\026.google.protobuf.Empty\032#.on"
+  "dewo.nlu.GetPlatformInfoResponse\"\023\202\323\344\223\002\r"
+  "\022\013/v2/version\022\220\001\n\026ListProjectPermissions"
+  "\022).ondewo.nlu.ListProjectPermissionsRequ"
+  "est\032*.ondewo.nlu.ListProjectPermissionsR"
+  "esponse\"\037\202\323\344\223\002\031\022\027/v2/project_permissions"
+  "\022r\n\nTrainAgent\022\035.ondewo.nlu.TrainAgentRe"
+  "quest\032\025.ondewo.nlu.Operation\".\202\323\344\223\002(\"#/v"
+  "2/{parent=projects/*/agent}:train:\001*\022x\n\n"
+  "BuildCache\022\035.ondewo.nlu.BuildCacheReques"
+  "t\032\025.ondewo.nlu.Operation\"4\202\323\344\223\002.\")/v2/{p"
+  "arent=projects/*/agent}:build_cache:\001*\022u"
+  "\n\013ExportAgent\022\036.ondewo.nlu.ExportAgentRe"
+  "quest\032\025.ondewo.nlu.Operation\"/\202\323\344\223\002)\"$/v"
+  "2/{parent=projects/*/agent}:export:\001*\022\221\001"
+  "\n\024ExportBenchmarkAgent\022\'.ondewo.nlu.Expo"
+  "rtBenchmarkAgentRequest\032\025.ondewo.nlu.Ope"
+  "ration\"9\202\323\344\223\0023\"./v2/{parent=projects/*/a"
+  "gent}:export_benchmark:\001*\022u\n\013ImportAgent"
+  "\022\036.ondewo.nlu.ImportAgentRequest\032\025.ondew"
+  "o.nlu.Operation\"/\202\323\344\223\002)\"$/v2/{parent=pro"
+  "jects/*/agent}:import:\001*\022x\n\014MigrateAgent"
+  "\022\037.ondewo.nlu.MigrateAgentRequest\032\025.onde"
+  "wo.nlu.Operation\"0\202\323\344\223\002*\"%/v2/{parent=pr"
+  "ojects/*/agent}:migrate:\001*\022\227\001\n\024OptimizeR"
+  "ankingMatch\022\'.ondewo.nlu.OptimizeRanking"
+  "MatchRequest\032\025.ondewo.nlu.Operation\"\?\202\323\344"
+  "\223\0029\"4/v2/{parent=projects/*/agent}:optim"
+  "ize_ranking_match:\001*\022x\n\014RestoreAgent\022\037.o"
+  "ndewo.nlu.RestoreAgentRequest\032\025.ondewo.n"
+  "lu.Operation\"0\202\323\344\223\002*\"%/v2/{parent=projec"
+  "ts/*/agent}:restore:\001*\022\225\001\n\022GetAgentStati"
+  "stics\022%.ondewo.nlu.GetAgentStatisticsReq"
+  "uest\032&.ondewo.nlu.GetAgentStatisticsResp"
+  "onse\"0\202\323\344\223\002*\022(/v2/{parent=projects/*/age"
+  "nt}:statistics\022\246\001\n\025GetSessionsStatistics"
+  "\022(.ondewo.nlu.GetSessionsStatisticsReque"
+  "st\032).ondewo.nlu.GetSessionsStatisticsRes"
+  "ponse\"8\202\323\344\223\0022\0220/v2/{parent=projects/*/ag"
+  "ent}:session_statistics\022\320\001\n\037GetSessionsS"
+  "tatisticsTimeSeries\0222.ondewo.nlu.GetSess"
+  "ionsStatisticsTimeSeriesRequest\0323.ondewo"
+  ".nlu.GetSessionsStatisticsTimeSeriesResp"
+  "onse\"D\202\323\344\223\002>\022</v2/{parent=projects/*/age"
+  "nt}:session_statistics_time_series\022w\n\016Se"
+  "tAgentStatus\022!.ondewo.nlu.SetAgentStatus"
+  "Request\032\021.ondewo.nlu.Agent\"/\202\323\344\223\002)\"$/v2/"
+  "{parent=projects/*/agent}:status:\001*\022{\n\014S"
+  "etResources\022\037.ondewo.nlu.SetResourcesReq"
+  "uest\032\026.google.protobuf.Empty\"2\202\323\344\223\002,\"\'/v"
+  "2/{parent=projects/*/agent}:resources:\001*"
+  "\022~\n\017DeleteResources\022\".ondewo.nlu.DeleteR"
+  "esourcesRequest\032\026.google.protobuf.Empty\""
+  "/\202\323\344\223\002)*\'/v2/{parent=projects/*/agent}:r"
+  "esources\022\216\001\n\017ExportResources\022\".ondewo.nl"
+  "u.ExportResourcesRequest\032#.ondewo.nlu.Ex"
+  "portResourcesResponse\"2\202\323\344\223\002,\"\'/v2/{pare"
+  "nt=projects/*/agent}:resources:\001*\022]\n\020Get"
+  "ModelStatuses\022#.ondewo.nlu.GetModelStatu"
+  "sesRequest\032$.ondewo.nlu.GetModelStatuses"
+  "Response\022X\n\022GetPlatformMapping\022%.ondewo."
+  "nlu.GetPlatformMappingRequest\032\033.ondewo.n"
+  "lu.PlatformMapping\022N\n\022SetPlatformMapping"
+  "\022\033.ondewo.nlu.PlatformMapping\032\033.ondewo.n"
+  "lu.PlatformMapping\022n\n\033GetFullTextSearchE"
+  "ntityType\022!.ondewo.nlu.FullTextSearchReq"
+  "uest\032,.ondewo.nlu.FullTextSearchResponse"
+  "EntityType\022f\n\027GetFullTextSearchEntity\022!."
+  "ondewo.nlu.FullTextSearchRequest\032(.ondew"
+  "o.nlu.FullTextSearchResponseEntity\022t\n\036Ge"
+  "tFullTextSearchEntitySynonym\022!.ondewo.nl"
+  "u.FullTextSearchRequest\032/.ondewo.nlu.Ful"
+  "lTextSearchResponseEntitySynonym\022f\n\027GetF"
+  "ullTextSearchIntent\022!.ondewo.nlu.FullTex"
+  "tSearchRequest\032(.ondewo.nlu.FullTextSear"
+  "chResponseIntent\022x\n GetFullTextSearchInt"
+  "entContextIn\022!.ondewo.nlu.FullTextSearch"
+  "Request\0321.ondewo.nlu.FullTextSearchRespo"
+  "nseIntentContextIn\022z\n!GetFullTextSearchI"
+  "ntentContextOut\022!.ondewo.nlu.FullTextSea"
+  "rchRequest\0322.ondewo.nlu.FullTextSearchRe"
+  "sponseIntentContextOut\022v\n\037GetFullTextSea"
+  "rchIntentUsersays\022!.ondewo.nlu.FullTextS"
+  "earchRequest\0320.ondewo.nlu.FullTextSearch"
+  "ResponseIntentUsersays\022n\n\033GetFullTextSea"
+  "rchIntentTags\022!.ondewo.nlu.FullTextSearc"
+  "hRequest\032,.ondewo.nlu.FullTextSearchResp"
+  "onseIntentTags\022v\n\037GetFullTextSearchInten"
+  "tResponse\022!.ondewo.nlu.FullTextSearchReq"
+  "uest\0320.ondewo.nlu.FullTextSearchResponse"
+  "IntentResponse\022z\n!GetFullTextSearchInten"
+  "tParameters\022!.ondewo.nlu.FullTextSearchR"
+  "equest\0322.ondewo.nlu.FullTextSearchRespon"
+  "seIntentParameters\022F\n\014ReindexAgent\022\037.ond"
+  "ewo.nlu.ReindexAgentRequest\032\025.ondewo.nlu"
+  ".Operation\022\265\001\n\032CreateProjectTechnicalUse"
+  "r\022-.ondewo.nlu.CreateProjectTechnicalUse"
+  "rRequest\032..ondewo.nlu.CreateProjectTechn"
+  "icalUserResponse\"8\202\323\344\223\0022\"-/v2/{parent=pr"
+  "ojects/*/agent}/technical_users:\001*\022\257\001\n\031L"
+  "istProjectTechnicalUsers\022,.ondewo.nlu.Li"
+  "stProjectTechnicalUsersRequest\032-.ondewo."
+  "nlu.ListProjectTechnicalUsersResponse\"5\202"
+  "\323\344\223\002/\022-/v2/{parent=projects/*/agent}/tec"
+  "hnical_users\022\246\001\n\032DeleteProjectTechnicalU"
+  "ser\022-.ondewo.nlu.DeleteProjectTechnicalU"
+  "serRequest\032\026.google.protobuf.Empty\"A\202\323\344\223"
+  "\002;*9/v2/{parent=projects/*/agent}/techni"
+  "cal_users/{user_id=*}\022\350\001\n\"RotateProjectT"
+  "echnicalUserPassword\0225.ondewo.nlu.Rotate"
+  "ProjectTechnicalUserPasswordRequest\0326.on"
+  "dewo.nlu.RotateProjectTechnicalUserPassw"
+  "ordResponse\"S\202\323\344\223\002M\"H/v2/{parent=project"
+  "s/*/agent}/technical_users/{user_id=*}:r"
+  "otatePassword:\001*b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2fagent_2eproto_deps[12] = {
   &::descriptor_table_google_2fapi_2fannotations_2eproto,
@@ -2990,9 +3151,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2fagen
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fnlu_2fagent_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fnlu_2fagent_2eproto = {
-    false, false, 22710, descriptor_table_protodef_ondewo_2fnlu_2fagent_2eproto,
+    false, false, 23504, descriptor_table_protodef_ondewo_2fnlu_2fagent_2eproto,
     "ondewo/nlu/agent.proto",
-    &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once, descriptor_table_ondewo_2fnlu_2fagent_2eproto_deps, 12, 80,
+    &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once, descriptor_table_ondewo_2fnlu_2fagent_2eproto_deps, 12, 85,
     schemas, file_default_instances, TableStruct_ondewo_2fnlu_2fagent_2eproto::offsets,
     file_level_metadata_ondewo_2fnlu_2fagent_2eproto, file_level_enum_descriptors_ondewo_2fnlu_2fagent_2eproto,
     file_level_service_descriptors_ondewo_2fnlu_2fagent_2eproto,
@@ -3262,6 +3423,7 @@ class Agent::_Internal {
   static const ::PROTOBUF_NAMESPACE_ID::Struct& configs(const Agent* msg);
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& created_at(const Agent* msg);
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& modified_at(const Agent* msg);
+  static const ::ondewo::nlu::WarmTransferAgentSettings& warm_transfer_settings(const Agent* msg);
 };
 
 const ::PROTOBUF_NAMESPACE_ID::Struct&
@@ -3275,6 +3437,10 @@ Agent::_Internal::created_at(const Agent* msg) {
 const ::PROTOBUF_NAMESPACE_ID::Timestamp&
 Agent::_Internal::modified_at(const Agent* msg) {
   return *msg->_impl_.modified_at_;
+}
+const ::ondewo::nlu::WarmTransferAgentSettings&
+Agent::_Internal::warm_transfer_settings(const Agent* msg) {
+  return *msg->_impl_.warm_transfer_settings_;
 }
 void Agent::clear_configs() {
   if (GetArenaForAllocation() == nullptr && _impl_.configs_ != nullptr) {
@@ -3317,6 +3483,7 @@ Agent::Agent(const Agent& from)
     , decltype(_impl_.configs_){nullptr}
     , decltype(_impl_.created_at_){nullptr}
     , decltype(_impl_.modified_at_){nullptr}
+    , decltype(_impl_.warm_transfer_settings_){nullptr}
     , decltype(_impl_.status_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
@@ -3402,6 +3569,9 @@ Agent::Agent(const Agent& from)
   if (from._internal_has_modified_at()) {
     _this->_impl_.modified_at_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.modified_at_);
   }
+  if (from._internal_has_warm_transfer_settings()) {
+    _this->_impl_.warm_transfer_settings_ = new ::ondewo::nlu::WarmTransferAgentSettings(*from._impl_.warm_transfer_settings_);
+  }
   _this->_impl_.status_ = from._impl_.status_;
   // @@protoc_insertion_point(copy_constructor:ondewo.nlu.Agent)
 }
@@ -3424,6 +3594,7 @@ inline void Agent::SharedCtor(
     , decltype(_impl_.configs_){nullptr}
     , decltype(_impl_.created_at_){nullptr}
     , decltype(_impl_.modified_at_){nullptr}
+    , decltype(_impl_.warm_transfer_settings_){nullptr}
     , decltype(_impl_.status_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -3489,6 +3660,7 @@ inline void Agent::SharedDtor() {
   if (this != internal_default_instance()) delete _impl_.configs_;
   if (this != internal_default_instance()) delete _impl_.created_at_;
   if (this != internal_default_instance()) delete _impl_.modified_at_;
+  if (this != internal_default_instance()) delete _impl_.warm_transfer_settings_;
 }
 
 void Agent::SetCachedSize(int size) const {
@@ -3523,6 +3695,10 @@ void Agent::Clear() {
     delete _impl_.modified_at_;
   }
   _impl_.modified_at_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.warm_transfer_settings_ != nullptr) {
+    delete _impl_.warm_transfer_settings_;
+  }
+  _impl_.warm_transfer_settings_ = nullptr;
   _impl_.status_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -3668,6 +3844,14 @@ const char* Agent::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.Agent.modified_by"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.nlu.WarmTransferAgentSettings warm_transfer_settings = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 122)) {
+          ptr = ctx->ParseMessage(_internal_mutable_warm_transfer_settings(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -3828,6 +4012,13 @@ uint8_t* Agent::_InternalSerialize(
         14, this->_internal_modified_by(), target);
   }
 
+  // .ondewo.nlu.WarmTransferAgentSettings warm_transfer_settings = 15;
+  if (this->_internal_has_warm_transfer_settings()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(15, _Internal::warm_transfer_settings(this),
+        _Internal::warm_transfer_settings(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3936,6 +4127,13 @@ size_t Agent::ByteSizeLong() const {
         *_impl_.modified_at_);
   }
 
+  // .ondewo.nlu.WarmTransferAgentSettings warm_transfer_settings = 15;
+  if (this->_internal_has_warm_transfer_settings()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.warm_transfer_settings_);
+  }
+
   // .ondewo.nlu.AgentStatus status = 9;
   if (this->_internal_status() != 0) {
     total_size += 1 +
@@ -3999,6 +4197,10 @@ void Agent::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF
   if (from._internal_has_modified_at()) {
     _this->_internal_mutable_modified_at()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_modified_at());
+  }
+  if (from._internal_has_warm_transfer_settings()) {
+    _this->_internal_mutable_warm_transfer_settings()->::ondewo::nlu::WarmTransferAgentSettings::MergeFrom(
+        from._internal_warm_transfer_settings());
   }
   if (from._internal_status() != 0) {
     _this->_internal_set_status(from._internal_status());
@@ -4071,6 +4273,1043 @@ void Agent::InternalSwap(Agent* other) {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
       file_level_metadata_ondewo_2fnlu_2fagent_2eproto[0]);
+}
+
+// ===================================================================
+
+WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse() {}
+WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+    : SuperType(arena) {}
+void WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse::MergeFrom(const WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse& other) {
+  MergeFromInternal(other);
+}
+::PROTOBUF_NAMESPACE_ID::Metadata WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[1]);
+}
+
+// ===================================================================
+
+WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse() {}
+WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+    : SuperType(arena) {}
+void WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse::MergeFrom(const WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse& other) {
+  MergeFromInternal(other);
+}
+::PROTOBUF_NAMESPACE_ID::Metadata WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[2]);
+}
+
+// ===================================================================
+
+class WarmTransferAgentSettings::_Internal {
+ public:
+  using HasBits = decltype(std::declval<WarmTransferAgentSettings>()._impl_._has_bits_);
+  static void set_has_enabled(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+};
+
+WarmTransferAgentSettings::WarmTransferAgentSettings(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  if (arena != nullptr && !is_message_owned) {
+    arena->OwnCustomDestructor(this, &WarmTransferAgentSettings::ArenaDtor);
+  }
+  // @@protoc_insertion_point(arena_constructor:ondewo.nlu.WarmTransferAgentSettings)
+}
+WarmTransferAgentSettings::WarmTransferAgentSettings(const WarmTransferAgentSettings& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  WarmTransferAgentSettings* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_.default_texts_)*/{}
+    , /*decltype(_impl_.extra_lexicon_)*/{}
+    , decltype(_impl_.llm_ccai_service_name_){}
+    , decltype(_impl_.enabled_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.default_texts_.MergeFrom(from._impl_.default_texts_);
+  _this->_impl_.extra_lexicon_.MergeFrom(from._impl_.extra_lexicon_);
+  _impl_.llm_ccai_service_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_ccai_service_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_llm_ccai_service_name().empty()) {
+    _this->_impl_.llm_ccai_service_name_.Set(from._internal_llm_ccai_service_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.enabled_ = from._impl_.enabled_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.nlu.WarmTransferAgentSettings)
+}
+
+inline void WarmTransferAgentSettings::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , /*decltype(_impl_.default_texts_)*/{::_pbi::ArenaInitialized(), arena}
+    , /*decltype(_impl_.extra_lexicon_)*/{::_pbi::ArenaInitialized(), arena}
+    , decltype(_impl_.llm_ccai_service_name_){}
+    , decltype(_impl_.enabled_){false}
+  };
+  _impl_.llm_ccai_service_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.llm_ccai_service_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+WarmTransferAgentSettings::~WarmTransferAgentSettings() {
+  // @@protoc_insertion_point(destructor:ondewo.nlu.WarmTransferAgentSettings)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    ArenaDtor(this);
+    return;
+  }
+  SharedDtor();
+}
+
+inline void WarmTransferAgentSettings::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.default_texts_.Destruct();
+  _impl_.default_texts_.~MapField();
+  _impl_.extra_lexicon_.Destruct();
+  _impl_.extra_lexicon_.~MapField();
+  _impl_.llm_ccai_service_name_.Destroy();
+}
+
+void WarmTransferAgentSettings::ArenaDtor(void* object) {
+  WarmTransferAgentSettings* _this = reinterpret_cast< WarmTransferAgentSettings* >(object);
+  _this->_impl_.default_texts_.Destruct();
+  _this->_impl_.extra_lexicon_.Destruct();
+}
+void WarmTransferAgentSettings::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void WarmTransferAgentSettings::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.nlu.WarmTransferAgentSettings)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.default_texts_.Clear();
+  _impl_.extra_lexicon_.Clear();
+  _impl_.llm_ccai_service_name_.ClearToEmpty();
+  _impl_.enabled_ = false;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* WarmTransferAgentSettings::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional bool enabled = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _Internal::set_has_enabled(&has_bits);
+          _impl_.enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string llm_ccai_service_name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_llm_ccai_service_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.WarmTransferAgentSettings.llm_ccai_service_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // map<string, .ondewo.nlu.WarmTransferAgentTexts> default_texts = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(&_impl_.default_texts_, ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // map<string, .ondewo.nlu.WarmTransferAgentLexicon> extra_lexicon = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(&_impl_.extra_lexicon_, ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* WarmTransferAgentSettings::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.nlu.WarmTransferAgentSettings)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional bool enabled = 1;
+  if (_internal_has_enabled()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_enabled(), target);
+  }
+
+  // string llm_ccai_service_name = 2;
+  if (!this->_internal_llm_ccai_service_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_llm_ccai_service_name().data(), static_cast<int>(this->_internal_llm_ccai_service_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.WarmTransferAgentSettings.llm_ccai_service_name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_llm_ccai_service_name(), target);
+  }
+
+  // map<string, .ondewo.nlu.WarmTransferAgentTexts> default_texts = 3;
+  if (!this->_internal_default_texts().empty()) {
+    using MapType = ::_pb::Map<std::string, ::ondewo::nlu::WarmTransferAgentTexts>;
+    using WireHelper = WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse::Funcs;
+    const auto& map_field = this->_internal_default_texts();
+    auto check_utf8 = [](const MapType::value_type& entry) {
+      (void)entry;
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+        entry.first.data(), static_cast<int>(entry.first.length()),
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+        "ondewo.nlu.WarmTransferAgentSettings.DefaultTextsEntry.key");
+    };
+
+    if (stream->IsSerializationDeterministic() && map_field.size() > 1) {
+      for (const auto& entry : ::_pbi::MapSorterPtr<MapType>(map_field)) {
+        target = WireHelper::InternalSerialize(3, entry.first, entry.second, target, stream);
+        check_utf8(entry);
+      }
+    } else {
+      for (const auto& entry : map_field) {
+        target = WireHelper::InternalSerialize(3, entry.first, entry.second, target, stream);
+        check_utf8(entry);
+      }
+    }
+  }
+
+  // map<string, .ondewo.nlu.WarmTransferAgentLexicon> extra_lexicon = 4;
+  if (!this->_internal_extra_lexicon().empty()) {
+    using MapType = ::_pb::Map<std::string, ::ondewo::nlu::WarmTransferAgentLexicon>;
+    using WireHelper = WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse::Funcs;
+    const auto& map_field = this->_internal_extra_lexicon();
+    auto check_utf8 = [](const MapType::value_type& entry) {
+      (void)entry;
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+        entry.first.data(), static_cast<int>(entry.first.length()),
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+        "ondewo.nlu.WarmTransferAgentSettings.ExtraLexiconEntry.key");
+    };
+
+    if (stream->IsSerializationDeterministic() && map_field.size() > 1) {
+      for (const auto& entry : ::_pbi::MapSorterPtr<MapType>(map_field)) {
+        target = WireHelper::InternalSerialize(4, entry.first, entry.second, target, stream);
+        check_utf8(entry);
+      }
+    } else {
+      for (const auto& entry : map_field) {
+        target = WireHelper::InternalSerialize(4, entry.first, entry.second, target, stream);
+        check_utf8(entry);
+      }
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.nlu.WarmTransferAgentSettings)
+  return target;
+}
+
+size_t WarmTransferAgentSettings::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.nlu.WarmTransferAgentSettings)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // map<string, .ondewo.nlu.WarmTransferAgentTexts> default_texts = 3;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(this->_internal_default_texts_size());
+  for (::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >::const_iterator
+      it = this->_internal_default_texts().begin();
+      it != this->_internal_default_texts().end(); ++it) {
+    total_size += WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse::Funcs::ByteSizeLong(it->first, it->second);
+  }
+
+  // map<string, .ondewo.nlu.WarmTransferAgentLexicon> extra_lexicon = 4;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(this->_internal_extra_lexicon_size());
+  for (::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >::const_iterator
+      it = this->_internal_extra_lexicon().begin();
+      it != this->_internal_extra_lexicon().end(); ++it) {
+    total_size += WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse::Funcs::ByteSizeLong(it->first, it->second);
+  }
+
+  // string llm_ccai_service_name = 2;
+  if (!this->_internal_llm_ccai_service_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_llm_ccai_service_name());
+  }
+
+  // optional bool enabled = 1;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData WarmTransferAgentSettings::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    WarmTransferAgentSettings::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*WarmTransferAgentSettings::GetClassData() const { return &_class_data_; }
+
+
+void WarmTransferAgentSettings::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<WarmTransferAgentSettings*>(&to_msg);
+  auto& from = static_cast<const WarmTransferAgentSettings&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.nlu.WarmTransferAgentSettings)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.default_texts_.MergeFrom(from._impl_.default_texts_);
+  _this->_impl_.extra_lexicon_.MergeFrom(from._impl_.extra_lexicon_);
+  if (!from._internal_llm_ccai_service_name().empty()) {
+    _this->_internal_set_llm_ccai_service_name(from._internal_llm_ccai_service_name());
+  }
+  if (from._internal_has_enabled()) {
+    _this->_internal_set_enabled(from._internal_enabled());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void WarmTransferAgentSettings::CopyFrom(const WarmTransferAgentSettings& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.nlu.WarmTransferAgentSettings)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool WarmTransferAgentSettings::IsInitialized() const {
+  return true;
+}
+
+void WarmTransferAgentSettings::InternalSwap(WarmTransferAgentSettings* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.default_texts_.InternalSwap(&other->_impl_.default_texts_);
+  _impl_.extra_lexicon_.InternalSwap(&other->_impl_.extra_lexicon_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.llm_ccai_service_name_, lhs_arena,
+      &other->_impl_.llm_ccai_service_name_, rhs_arena
+  );
+  swap(_impl_.enabled_, other->_impl_.enabled_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata WarmTransferAgentSettings::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[3]);
+}
+
+// ===================================================================
+
+class WarmTransferAgentTexts::_Internal {
+ public:
+  using HasBits = decltype(std::declval<WarmTransferAgentTexts>()._impl_._has_bits_);
+  static void set_has_decline_reason_question(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+};
+
+WarmTransferAgentTexts::WarmTransferAgentTexts(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.nlu.WarmTransferAgentTexts)
+}
+WarmTransferAgentTexts::WarmTransferAgentTexts(const WarmTransferAgentTexts& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  WarmTransferAgentTexts* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.ready_question_){}
+    , decltype(_impl_.accept_question_){}
+    , decltype(_impl_.decline_reason_question_){}
+    , decltype(_impl_.caller_declined_message_){}
+    , decltype(_impl_.caller_unreachable_message_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.ready_question_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ready_question_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_ready_question().empty()) {
+    _this->_impl_.ready_question_.Set(from._internal_ready_question(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.accept_question_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.accept_question_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_accept_question().empty()) {
+    _this->_impl_.accept_question_.Set(from._internal_accept_question(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.decline_reason_question_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.decline_reason_question_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_decline_reason_question()) {
+    _this->_impl_.decline_reason_question_.Set(from._internal_decline_reason_question(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.caller_declined_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.caller_declined_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_caller_declined_message().empty()) {
+    _this->_impl_.caller_declined_message_.Set(from._internal_caller_declined_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.caller_unreachable_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.caller_unreachable_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_caller_unreachable_message().empty()) {
+    _this->_impl_.caller_unreachable_message_.Set(from._internal_caller_unreachable_message(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.nlu.WarmTransferAgentTexts)
+}
+
+inline void WarmTransferAgentTexts::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.ready_question_){}
+    , decltype(_impl_.accept_question_){}
+    , decltype(_impl_.decline_reason_question_){}
+    , decltype(_impl_.caller_declined_message_){}
+    , decltype(_impl_.caller_unreachable_message_){}
+  };
+  _impl_.ready_question_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ready_question_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.accept_question_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.accept_question_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.decline_reason_question_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.decline_reason_question_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.caller_declined_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.caller_declined_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.caller_unreachable_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.caller_unreachable_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+WarmTransferAgentTexts::~WarmTransferAgentTexts() {
+  // @@protoc_insertion_point(destructor:ondewo.nlu.WarmTransferAgentTexts)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void WarmTransferAgentTexts::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.ready_question_.Destroy();
+  _impl_.accept_question_.Destroy();
+  _impl_.decline_reason_question_.Destroy();
+  _impl_.caller_declined_message_.Destroy();
+  _impl_.caller_unreachable_message_.Destroy();
+}
+
+void WarmTransferAgentTexts::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void WarmTransferAgentTexts::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.nlu.WarmTransferAgentTexts)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.ready_question_.ClearToEmpty();
+  _impl_.accept_question_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.decline_reason_question_.ClearNonDefaultToEmpty();
+  }
+  _impl_.caller_declined_message_.ClearToEmpty();
+  _impl_.caller_unreachable_message_.ClearToEmpty();
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* WarmTransferAgentTexts::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string ready_question = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_ready_question();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.WarmTransferAgentTexts.ready_question"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string accept_question = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_accept_question();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.WarmTransferAgentTexts.accept_question"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string decline_reason_question = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_decline_reason_question();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.WarmTransferAgentTexts.decline_reason_question"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string caller_declined_message = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_caller_declined_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.WarmTransferAgentTexts.caller_declined_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string caller_unreachable_message = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_caller_unreachable_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.WarmTransferAgentTexts.caller_unreachable_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* WarmTransferAgentTexts::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.nlu.WarmTransferAgentTexts)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string ready_question = 1;
+  if (!this->_internal_ready_question().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ready_question().data(), static_cast<int>(this->_internal_ready_question().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.WarmTransferAgentTexts.ready_question");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_ready_question(), target);
+  }
+
+  // string accept_question = 2;
+  if (!this->_internal_accept_question().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_accept_question().data(), static_cast<int>(this->_internal_accept_question().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.WarmTransferAgentTexts.accept_question");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_accept_question(), target);
+  }
+
+  // optional string decline_reason_question = 3;
+  if (_internal_has_decline_reason_question()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_decline_reason_question().data(), static_cast<int>(this->_internal_decline_reason_question().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.WarmTransferAgentTexts.decline_reason_question");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_decline_reason_question(), target);
+  }
+
+  // string caller_declined_message = 4;
+  if (!this->_internal_caller_declined_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_caller_declined_message().data(), static_cast<int>(this->_internal_caller_declined_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.WarmTransferAgentTexts.caller_declined_message");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_caller_declined_message(), target);
+  }
+
+  // string caller_unreachable_message = 5;
+  if (!this->_internal_caller_unreachable_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_caller_unreachable_message().data(), static_cast<int>(this->_internal_caller_unreachable_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.WarmTransferAgentTexts.caller_unreachable_message");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_caller_unreachable_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.nlu.WarmTransferAgentTexts)
+  return target;
+}
+
+size_t WarmTransferAgentTexts::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.nlu.WarmTransferAgentTexts)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string ready_question = 1;
+  if (!this->_internal_ready_question().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_ready_question());
+  }
+
+  // string accept_question = 2;
+  if (!this->_internal_accept_question().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_accept_question());
+  }
+
+  // optional string decline_reason_question = 3;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_decline_reason_question());
+  }
+
+  // string caller_declined_message = 4;
+  if (!this->_internal_caller_declined_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_caller_declined_message());
+  }
+
+  // string caller_unreachable_message = 5;
+  if (!this->_internal_caller_unreachable_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_caller_unreachable_message());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData WarmTransferAgentTexts::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    WarmTransferAgentTexts::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*WarmTransferAgentTexts::GetClassData() const { return &_class_data_; }
+
+
+void WarmTransferAgentTexts::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<WarmTransferAgentTexts*>(&to_msg);
+  auto& from = static_cast<const WarmTransferAgentTexts&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.nlu.WarmTransferAgentTexts)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_ready_question().empty()) {
+    _this->_internal_set_ready_question(from._internal_ready_question());
+  }
+  if (!from._internal_accept_question().empty()) {
+    _this->_internal_set_accept_question(from._internal_accept_question());
+  }
+  if (from._internal_has_decline_reason_question()) {
+    _this->_internal_set_decline_reason_question(from._internal_decline_reason_question());
+  }
+  if (!from._internal_caller_declined_message().empty()) {
+    _this->_internal_set_caller_declined_message(from._internal_caller_declined_message());
+  }
+  if (!from._internal_caller_unreachable_message().empty()) {
+    _this->_internal_set_caller_unreachable_message(from._internal_caller_unreachable_message());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void WarmTransferAgentTexts::CopyFrom(const WarmTransferAgentTexts& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.nlu.WarmTransferAgentTexts)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool WarmTransferAgentTexts::IsInitialized() const {
+  return true;
+}
+
+void WarmTransferAgentTexts::InternalSwap(WarmTransferAgentTexts* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.ready_question_, lhs_arena,
+      &other->_impl_.ready_question_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.accept_question_, lhs_arena,
+      &other->_impl_.accept_question_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.decline_reason_question_, lhs_arena,
+      &other->_impl_.decline_reason_question_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.caller_declined_message_, lhs_arena,
+      &other->_impl_.caller_declined_message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.caller_unreachable_message_, lhs_arena,
+      &other->_impl_.caller_unreachable_message_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata WarmTransferAgentTexts::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[4]);
+}
+
+// ===================================================================
+
+class WarmTransferAgentLexicon::_Internal {
+ public:
+};
+
+WarmTransferAgentLexicon::WarmTransferAgentLexicon(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.nlu.WarmTransferAgentLexicon)
+}
+WarmTransferAgentLexicon::WarmTransferAgentLexicon(const WarmTransferAgentLexicon& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  WarmTransferAgentLexicon* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.accept_phrases_){from._impl_.accept_phrases_}
+    , decltype(_impl_.decline_phrases_){from._impl_.decline_phrases_}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:ondewo.nlu.WarmTransferAgentLexicon)
+}
+
+inline void WarmTransferAgentLexicon::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.accept_phrases_){arena}
+    , decltype(_impl_.decline_phrases_){arena}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+WarmTransferAgentLexicon::~WarmTransferAgentLexicon() {
+  // @@protoc_insertion_point(destructor:ondewo.nlu.WarmTransferAgentLexicon)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void WarmTransferAgentLexicon::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.accept_phrases_.~RepeatedPtrField();
+  _impl_.decline_phrases_.~RepeatedPtrField();
+}
+
+void WarmTransferAgentLexicon::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void WarmTransferAgentLexicon::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.nlu.WarmTransferAgentLexicon)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.accept_phrases_.Clear();
+  _impl_.decline_phrases_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* WarmTransferAgentLexicon::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated string accept_phrases = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_accept_phrases();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.WarmTransferAgentLexicon.accept_phrases"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string decline_phrases = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_decline_phrases();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.WarmTransferAgentLexicon.decline_phrases"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* WarmTransferAgentLexicon::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.nlu.WarmTransferAgentLexicon)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated string accept_phrases = 1;
+  for (int i = 0, n = this->_internal_accept_phrases_size(); i < n; i++) {
+    const auto& s = this->_internal_accept_phrases(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.WarmTransferAgentLexicon.accept_phrases");
+    target = stream->WriteString(1, s, target);
+  }
+
+  // repeated string decline_phrases = 2;
+  for (int i = 0, n = this->_internal_decline_phrases_size(); i < n; i++) {
+    const auto& s = this->_internal_decline_phrases(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.WarmTransferAgentLexicon.decline_phrases");
+    target = stream->WriteString(2, s, target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.nlu.WarmTransferAgentLexicon)
+  return target;
+}
+
+size_t WarmTransferAgentLexicon::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.nlu.WarmTransferAgentLexicon)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated string accept_phrases = 1;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.accept_phrases_.size());
+  for (int i = 0, n = _impl_.accept_phrases_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.accept_phrases_.Get(i));
+  }
+
+  // repeated string decline_phrases = 2;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.decline_phrases_.size());
+  for (int i = 0, n = _impl_.decline_phrases_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.decline_phrases_.Get(i));
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData WarmTransferAgentLexicon::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    WarmTransferAgentLexicon::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*WarmTransferAgentLexicon::GetClassData() const { return &_class_data_; }
+
+
+void WarmTransferAgentLexicon::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<WarmTransferAgentLexicon*>(&to_msg);
+  auto& from = static_cast<const WarmTransferAgentLexicon&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.nlu.WarmTransferAgentLexicon)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.accept_phrases_.MergeFrom(from._impl_.accept_phrases_);
+  _this->_impl_.decline_phrases_.MergeFrom(from._impl_.decline_phrases_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void WarmTransferAgentLexicon::CopyFrom(const WarmTransferAgentLexicon& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.nlu.WarmTransferAgentLexicon)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool WarmTransferAgentLexicon::IsInitialized() const {
+  return true;
+}
+
+void WarmTransferAgentLexicon::InternalSwap(WarmTransferAgentLexicon* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.accept_phrases_.InternalSwap(&other->_impl_.accept_phrases_);
+  _impl_.decline_phrases_.InternalSwap(&other->_impl_.decline_phrases_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata WarmTransferAgentLexicon::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[5]);
 }
 
 // ===================================================================
@@ -4315,7 +5554,7 @@ void AgentWithOwner::InternalSwap(AgentWithOwner* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AgentWithOwner::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[1]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[6]);
 }
 
 // ===================================================================
@@ -4560,7 +5799,7 @@ void AgentOfUserWithOwner::InternalSwap(AgentOfUserWithOwner* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AgentOfUserWithOwner::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[2]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[7]);
 }
 
 // ===================================================================
@@ -4787,7 +6026,7 @@ void CreateAgentRequest::InternalSwap(CreateAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[3]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[8]);
 }
 
 // ===================================================================
@@ -5061,7 +6300,7 @@ void UpdateAgentRequest::InternalSwap(UpdateAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[4]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[9]);
 }
 
 // ===================================================================
@@ -5264,7 +6503,7 @@ void DeleteAgentRequest::InternalSwap(DeleteAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[5]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[10]);
 }
 
 // ===================================================================
@@ -5549,7 +6788,7 @@ void GetAgentRequest::InternalSwap(GetAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[6]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[11]);
 }
 
 // ===================================================================
@@ -5875,7 +7114,7 @@ void ListAgentsRequest::InternalSwap(ListAgentsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListAgentsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[7]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[12]);
 }
 
 // ===================================================================
@@ -6112,7 +7351,7 @@ void ListAgentsResponse::InternalSwap(ListAgentsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListAgentsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[8]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[13]);
 }
 
 // ===================================================================
@@ -6349,7 +7588,7 @@ void ListAgentsOfUserResponse::InternalSwap(ListAgentsOfUserResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListAgentsOfUserResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[9]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[14]);
 }
 
 // ===================================================================
@@ -6632,7 +7871,7 @@ void TrainAgentRequest::InternalSwap(TrainAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TrainAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[10]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[15]);
 }
 
 // ===================================================================
@@ -6885,7 +8124,7 @@ void BuildCacheRequest::InternalSwap(BuildCacheRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata BuildCacheRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[11]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[16]);
 }
 
 // ===================================================================
@@ -7165,7 +8404,7 @@ void ExportAgentRequest::InternalSwap(ExportAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ExportAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[12]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[17]);
 }
 
 // ===================================================================
@@ -7427,7 +8666,7 @@ void ExportAgentResponse::InternalSwap(ExportAgentResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ExportAgentResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[13]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[18]);
 }
 
 // ===================================================================
@@ -7762,7 +9001,7 @@ void ExportBenchmarkAgentRequest::InternalSwap(ExportBenchmarkAgentRequest* othe
 ::PROTOBUF_NAMESPACE_ID::Metadata ExportBenchmarkAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[14]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[19]);
 }
 
 // ===================================================================
@@ -7776,7 +9015,7 @@ void ExportBenchmarkAgentResponse_TrainingPhrasesEntry_DoNotUse::MergeFrom(const
 ::PROTOBUF_NAMESPACE_ID::Metadata ExportBenchmarkAgentResponse_TrainingPhrasesEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[15]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[20]);
 }
 
 // ===================================================================
@@ -8041,7 +9280,7 @@ void ExportBenchmarkAgentResponse::InternalSwap(ExportBenchmarkAgentResponse* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata ExportBenchmarkAgentResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[16]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[21]);
 }
 
 // ===================================================================
@@ -8344,7 +9583,7 @@ void OptimizeRankingMatchRequest::InternalSwap(OptimizeRankingMatchRequest* othe
 ::PROTOBUF_NAMESPACE_ID::Metadata OptimizeRankingMatchRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[17]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[22]);
 }
 
 // ===================================================================
@@ -8654,7 +9893,7 @@ void RankingMatchOptimizationConfig::InternalSwap(RankingMatchOptimizationConfig
 ::PROTOBUF_NAMESPACE_ID::Metadata RankingMatchOptimizationConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[18]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[23]);
 }
 
 // ===================================================================
@@ -8905,7 +10144,7 @@ void OptimizeRankingMatchResponse::InternalSwap(OptimizeRankingMatchResponse* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata OptimizeRankingMatchResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[19]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[24]);
 }
 
 // ===================================================================
@@ -9219,7 +10458,7 @@ void ImportAgentRequest::InternalSwap(ImportAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ImportAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[20]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[25]);
 }
 
 // ===================================================================
@@ -9533,7 +10772,7 @@ void RestoreAgentRequest::InternalSwap(RestoreAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RestoreAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[21]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[26]);
 }
 
 // ===================================================================
@@ -9731,7 +10970,7 @@ void MigrateAgentRequest::InternalSwap(MigrateAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata MigrateAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[22]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[27]);
 }
 
 // ===================================================================
@@ -10338,7 +11577,7 @@ void GetAgentStatisticsRequest::InternalSwap(GetAgentStatisticsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetAgentStatisticsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[23]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[28]);
 }
 
 // ===================================================================
@@ -10649,7 +11888,7 @@ void GetAgentStatisticsResponse::InternalSwap(GetAgentStatisticsResponse* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata GetAgentStatisticsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[24]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[29]);
 }
 
 // ===================================================================
@@ -11442,7 +12681,7 @@ void GetSessionsStatisticsRequest::InternalSwap(GetSessionsStatisticsRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata GetSessionsStatisticsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[25]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[30]);
 }
 
 // ===================================================================
@@ -11753,7 +12992,7 @@ void GetSessionsStatisticsResponse::InternalSwap(GetSessionsStatisticsResponse* 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetSessionsStatisticsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[26]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[31]);
 }
 
 // ===================================================================
@@ -12378,7 +13617,7 @@ void GetSessionsStatisticsTimeSeriesRequest::InternalSwap(GetSessionsStatisticsT
 ::PROTOBUF_NAMESPACE_ID::Metadata GetSessionsStatisticsTimeSeriesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[27]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[32]);
 }
 
 // ===================================================================
@@ -12676,7 +13915,7 @@ void LlmTelemetryTimeSeriesBucket::InternalSwap(LlmTelemetryTimeSeriesBucket* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata LlmTelemetryTimeSeriesBucket::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[28]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[33]);
 }
 
 // ===================================================================
@@ -12888,7 +14127,7 @@ void GetSessionsStatisticsTimeSeriesResponse::InternalSwap(GetSessionsStatistics
 ::PROTOBUF_NAMESPACE_ID::Metadata GetSessionsStatisticsTimeSeriesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[29]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[34]);
 }
 
 // ===================================================================
@@ -13168,7 +14407,7 @@ void AddUserToProjectRequest::InternalSwap(AddUserToProjectRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AddUserToProjectRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[30]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[35]);
 }
 
 // ===================================================================
@@ -13421,7 +14660,7 @@ void RemoveUserFromProjectRequest::InternalSwap(RemoveUserFromProjectRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata RemoveUserFromProjectRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[31]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[36]);
 }
 
 // ===================================================================
@@ -13722,7 +14961,7 @@ void ListUsersInProjectRequest::InternalSwap(ListUsersInProjectRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListUsersInProjectRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[32]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[37]);
 }
 
 // ===================================================================
@@ -14004,7 +15243,7 @@ void UserInProject::InternalSwap(UserInProject* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UserInProject::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[33]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[38]);
 }
 
 // ===================================================================
@@ -14241,7 +15480,7 @@ void ListUsersInProjectResponse::InternalSwap(ListUsersInProjectResponse* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata ListUsersInProjectResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[34]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[39]);
 }
 
 // ===================================================================
@@ -14494,7 +15733,7 @@ void GetPlatformInfoResponse::InternalSwap(GetPlatformInfoResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetPlatformInfoResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[35]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[40]);
 }
 
 // ===================================================================
@@ -14745,7 +15984,7 @@ void ListProjectPermissionsRequest::InternalSwap(ListProjectPermissionsRequest* 
 ::PROTOBUF_NAMESPACE_ID::Metadata ListProjectPermissionsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[36]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[41]);
 }
 
 // ===================================================================
@@ -14987,7 +16226,7 @@ void ListProjectPermissionsResponse::InternalSwap(ListProjectPermissionsResponse
 ::PROTOBUF_NAMESPACE_ID::Metadata ListProjectPermissionsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[37]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[42]);
 }
 
 // ===================================================================
@@ -15256,7 +16495,7 @@ void SetAgentStatusRequest::InternalSwap(SetAgentStatusRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SetAgentStatusRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[38]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[43]);
 }
 
 // ===================================================================
@@ -15473,7 +16712,7 @@ void AgentSorting::InternalSwap(AgentSorting* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AgentSorting::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[39]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[44]);
 }
 
 // ===================================================================
@@ -15871,7 +17110,7 @@ void SetResourcesRequest::InternalSwap(SetResourcesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SetResourcesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[40]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[45]);
 }
 
 // ===================================================================
@@ -16224,7 +17463,7 @@ void DeleteResourcesRequest::InternalSwap(DeleteResourcesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteResourcesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[41]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[46]);
 }
 
 // ===================================================================
@@ -16577,7 +17816,7 @@ void ExportResourcesRequest::InternalSwap(ExportResourcesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ExportResourcesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[42]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[47]);
 }
 
 // ===================================================================
@@ -16975,7 +18214,7 @@ void ExportResourcesResponse::InternalSwap(ExportResourcesResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ExportResourcesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[43]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[48]);
 }
 
 // ===================================================================
@@ -17305,7 +18544,7 @@ void GetModelStatusesRequest::InternalSwap(GetModelStatusesRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetModelStatusesRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[44]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[49]);
 }
 
 // ===================================================================
@@ -17718,7 +18957,7 @@ void ModelStatus::InternalSwap(ModelStatus* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ModelStatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[45]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[50]);
 }
 
 // ===================================================================
@@ -17903,7 +19142,7 @@ void GetModelStatusesResponse::InternalSwap(GetModelStatusesResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetModelStatusesResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[46]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[51]);
 }
 
 // ===================================================================
@@ -18363,7 +19602,7 @@ void CustomPlatformInfo::InternalSwap(CustomPlatformInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CustomPlatformInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[47]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[52]);
 }
 
 // ===================================================================
@@ -18566,7 +19805,7 @@ void GetPlatformMappingRequest::InternalSwap(GetPlatformMappingRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetPlatformMappingRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[48]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[53]);
 }
 
 // ===================================================================
@@ -18803,7 +20042,7 @@ void PlatformMapping::InternalSwap(PlatformMapping* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PlatformMapping::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[49]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[54]);
 }
 
 // ===================================================================
@@ -19156,7 +20395,7 @@ void FullTextSearchRequest::InternalSwap(FullTextSearchRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[50]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[55]);
 }
 
 // ===================================================================
@@ -19659,7 +20898,7 @@ void FullTextSearchResponseEntityType_EntityTypeSearchResult::InternalSwap(FullT
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseEntityType_EntityTypeSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[51]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[56]);
 }
 
 // ===================================================================
@@ -20135,7 +21374,7 @@ void FullTextSearchResponseEntityType::InternalSwap(FullTextSearchResponseEntity
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseEntityType::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[52]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[57]);
 }
 
 // ===================================================================
@@ -20738,7 +21977,7 @@ void FullTextSearchResponseEntity_EntitySearchResult::InternalSwap(FullTextSearc
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseEntity_EntitySearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[53]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[58]);
 }
 
 // ===================================================================
@@ -21214,7 +22453,7 @@ void FullTextSearchResponseEntity::InternalSwap(FullTextSearchResponseEntity* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseEntity::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[54]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[59]);
 }
 
 // ===================================================================
@@ -21917,7 +23156,7 @@ void FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult::InternalSwap
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[55]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[60]);
 }
 
 // ===================================================================
@@ -22393,7 +23632,7 @@ void FullTextSearchResponseEntitySynonym::InternalSwap(FullTextSearchResponseEnt
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseEntitySynonym::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[56]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[61]);
 }
 
 // ===================================================================
@@ -22985,7 +24224,7 @@ void FullTextSearchResponseIntent_IntentSearchResult::InternalSwap(FullTextSearc
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntent_IntentSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[57]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[62]);
 }
 
 // ===================================================================
@@ -23461,7 +24700,7 @@ void FullTextSearchResponseIntent::InternalSwap(FullTextSearchResponseIntent* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[58]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[63]);
 }
 
 // ===================================================================
@@ -24053,7 +25292,7 @@ void FullTextSearchResponseIntentContextIn_IntentContextInSearchResult::Internal
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentContextIn_IntentContextInSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[59]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[64]);
 }
 
 // ===================================================================
@@ -24529,7 +25768,7 @@ void FullTextSearchResponseIntentContextIn::InternalSwap(FullTextSearchResponseI
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentContextIn::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[60]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[65]);
 }
 
 // ===================================================================
@@ -25121,7 +26360,7 @@ void FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult::Intern
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[61]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[66]);
 }
 
 // ===================================================================
@@ -25597,7 +26836,7 @@ void FullTextSearchResponseIntentContextOut::InternalSwap(FullTextSearchResponse
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentContextOut::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[62]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[67]);
 }
 
 // ===================================================================
@@ -26389,7 +27628,7 @@ void FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult::InternalSw
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[63]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[68]);
 }
 
 // ===================================================================
@@ -26865,7 +28104,7 @@ void FullTextSearchResponseIntentUsersays::InternalSwap(FullTextSearchResponseIn
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentUsersays::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[64]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[69]);
 }
 
 // ===================================================================
@@ -27507,7 +28746,7 @@ void FullTextSearchResponseIntentTags_IntentTagsSearchResult::InternalSwap(FullT
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentTags_IntentTagsSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[65]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[70]);
 }
 
 // ===================================================================
@@ -27983,7 +29222,7 @@ void FullTextSearchResponseIntentTags::InternalSwap(FullTextSearchResponseIntent
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentTags::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[66]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[71]);
 }
 
 // ===================================================================
@@ -28675,7 +29914,7 @@ void FullTextSearchResponseIntentResponse_IntentResponseSearchResult::InternalSw
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentResponse_IntentResponseSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[67]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[72]);
 }
 
 // ===================================================================
@@ -29151,7 +30390,7 @@ void FullTextSearchResponseIntentResponse::InternalSwap(FullTextSearchResponseIn
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[68]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[73]);
 }
 
 // ===================================================================
@@ -29793,7 +31032,7 @@ void FullTextSearchResponseIntentParameters_IntentParametersSearchResult::Intern
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentParameters_IntentParametersSearchResult::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[69]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[74]);
 }
 
 // ===================================================================
@@ -30269,7 +31508,7 @@ void FullTextSearchResponseIntentParameters::InternalSwap(FullTextSearchResponse
 ::PROTOBUF_NAMESPACE_ID::Metadata FullTextSearchResponseIntentParameters::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[70]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[75]);
 }
 
 // ===================================================================
@@ -30568,7 +31807,7 @@ void ReindexAgentRequest::InternalSwap(ReindexAgentRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ReindexAgentRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[71]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[76]);
 }
 
 // ===================================================================
@@ -30821,7 +32060,7 @@ void CreateProjectTechnicalUserRequest::InternalSwap(CreateProjectTechnicalUserR
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateProjectTechnicalUserRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[72]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[77]);
 }
 
 // ===================================================================
@@ -31124,7 +32363,7 @@ void CreateProjectTechnicalUserResponse::InternalSwap(CreateProjectTechnicalUser
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateProjectTechnicalUserResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[73]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[78]);
 }
 
 // ===================================================================
@@ -31377,7 +32616,7 @@ void ListProjectTechnicalUsersRequest::InternalSwap(ListProjectTechnicalUsersReq
 ::PROTOBUF_NAMESPACE_ID::Metadata ListProjectTechnicalUsersRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[74]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[79]);
 }
 
 // ===================================================================
@@ -31728,7 +32967,7 @@ void ProjectTechnicalUser::InternalSwap(ProjectTechnicalUser* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ProjectTechnicalUser::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[75]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[80]);
 }
 
 // ===================================================================
@@ -31965,7 +33204,7 @@ void ListProjectTechnicalUsersResponse::InternalSwap(ListProjectTechnicalUsersRe
 ::PROTOBUF_NAMESPACE_ID::Metadata ListProjectTechnicalUsersResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[76]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[81]);
 }
 
 // ===================================================================
@@ -32218,7 +33457,7 @@ void DeleteProjectTechnicalUserRequest::InternalSwap(DeleteProjectTechnicalUserR
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteProjectTechnicalUserRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[77]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[82]);
 }
 
 // ===================================================================
@@ -32471,7 +33710,7 @@ void RotateProjectTechnicalUserPasswordRequest::InternalSwap(RotateProjectTechni
 ::PROTOBUF_NAMESPACE_ID::Metadata RotateProjectTechnicalUserPasswordRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[78]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[83]);
 }
 
 // ===================================================================
@@ -32774,7 +34013,7 @@ void RotateProjectTechnicalUserPasswordResponse::InternalSwap(RotateProjectTechn
 ::PROTOBUF_NAMESPACE_ID::Metadata RotateProjectTechnicalUserPasswordResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fnlu_2fagent_2eproto_getter, &descriptor_table_ondewo_2fnlu_2fagent_2eproto_once,
-      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[79]);
+      file_level_metadata_ondewo_2fnlu_2fagent_2eproto[84]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -32784,6 +34023,26 @@ PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::ondewo::nlu::Agent*
 Arena::CreateMaybeMessage< ::ondewo::nlu::Agent >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::nlu::Agent >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse*
+Arena::CreateMaybeMessage< ::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse*
+Arena::CreateMaybeMessage< ::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::nlu::WarmTransferAgentSettings*
+Arena::CreateMaybeMessage< ::ondewo::nlu::WarmTransferAgentSettings >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::nlu::WarmTransferAgentSettings >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::nlu::WarmTransferAgentTexts*
+Arena::CreateMaybeMessage< ::ondewo::nlu::WarmTransferAgentTexts >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::nlu::WarmTransferAgentTexts >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::nlu::WarmTransferAgentLexicon*
+Arena::CreateMaybeMessage< ::ondewo::nlu::WarmTransferAgentLexicon >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::nlu::WarmTransferAgentLexicon >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::nlu::AgentWithOwner*
 Arena::CreateMaybeMessage< ::ondewo::nlu::AgentWithOwner >(Arena* arena) {

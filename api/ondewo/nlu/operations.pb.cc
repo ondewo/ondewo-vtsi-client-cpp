@@ -136,6 +136,8 @@ PROTOBUF_CONSTEXPR StreamRemoteOperationContainerLogsRequest::StreamRemoteOperat
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.container_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.regex_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.resume_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.min_log_level_)*/0
   , /*decltype(_impl_.tail_lines_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -153,8 +155,10 @@ PROTOBUF_CONSTEXPR GetRemoteOperationContainerLogsRequest::GetRemoteOperationCon
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.regex_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.container_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.resume_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.start_time_)*/nullptr
   , /*decltype(_impl_.end_time_)*/nullptr
+  , /*decltype(_impl_.field_mask_)*/nullptr
   , /*decltype(_impl_.min_log_level_)*/0
   , /*decltype(_impl_.max_lines_)*/0
   , /*decltype(_impl_.before_seq_)*/int64_t{0}
@@ -172,10 +176,12 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR GetRemoteOperationContainerLogsResponse::GetRemoteOperationContainerLogsResponse(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.log_lines_)*/{}
+  , /*decltype(_impl_.next_resume_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.min_available_seq_)*/int64_t{0}
   , /*decltype(_impl_.max_available_seq_)*/int64_t{0}
   , /*decltype(_impl_.truncated_)*/false
   , /*decltype(_impl_.has_more_older_)*/false
+  , /*decltype(_impl_.has_more_newer_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct GetRemoteOperationContainerLogsResponseDefaultTypeInternal {
   PROTOBUF_CONSTEXPR GetRemoteOperationContainerLogsResponseDefaultTypeInternal()
@@ -191,6 +197,7 @@ PROTOBUF_CONSTEXPR RemoteOperationContainerLogLine::RemoteOperationContainerLogL
     /*decltype(_impl_.message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.container_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.container_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.log_stream_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.timestamp_)*/nullptr
   , /*decltype(_impl_.seq_)*/int64_t{0}
   , /*decltype(_impl_.level_)*/0
@@ -414,6 +421,8 @@ const uint32_t TableStruct_ondewo_2fnlu_2foperations_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::StreamRemoteOperationContainerLogsRequest, _impl_.min_log_level_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::StreamRemoteOperationContainerLogsRequest, _impl_.tail_lines_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::StreamRemoteOperationContainerLogsRequest, _impl_.container_id_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::StreamRemoteOperationContainerLogsRequest, _impl_.regex_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::StreamRemoteOperationContainerLogsRequest, _impl_.resume_token_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -429,6 +438,8 @@ const uint32_t TableStruct_ondewo_2fnlu_2foperations_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsRequest, _impl_.container_id_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsRequest, _impl_.before_seq_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsRequest, _impl_.after_seq_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsRequest, _impl_.field_mask_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsRequest, _impl_.resume_token_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -440,6 +451,8 @@ const uint32_t TableStruct_ondewo_2fnlu_2foperations_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsResponse, _impl_.min_available_seq_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsResponse, _impl_.max_available_seq_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsResponse, _impl_.has_more_older_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsResponse, _impl_.next_resume_token_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerLogsResponse, _impl_.has_more_newer_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RemoteOperationContainerLogLine, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -452,6 +465,7 @@ const uint32_t TableStruct_ondewo_2fnlu_2foperations_2eproto::offsets[] PROTOBUF
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RemoteOperationContainerLogLine, _impl_.container_id_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RemoteOperationContainerLogLine, _impl_.container_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RemoteOperationContainerLogLine, _impl_.seq_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::nlu::RemoteOperationContainerLogLine, _impl_.log_stream_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::nlu::GetRemoteOperationContainerStatusRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -555,16 +569,16 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 54, -1, -1, sizeof(::ondewo::nlu::CancelOperationRequest)},
   { 61, -1, -1, sizeof(::ondewo::nlu::DeleteOperationRequest)},
   { 68, -1, -1, sizeof(::ondewo::nlu::StreamRemoteOperationContainerLogsRequest)},
-  { 78, -1, -1, sizeof(::ondewo::nlu::GetRemoteOperationContainerLogsRequest)},
-  { 93, -1, -1, sizeof(::ondewo::nlu::GetRemoteOperationContainerLogsResponse)},
-  { 104, -1, -1, sizeof(::ondewo::nlu::RemoteOperationContainerLogLine)},
-  { 116, -1, -1, sizeof(::ondewo::nlu::GetRemoteOperationContainerStatusRequest)},
-  { 124, 132, -1, sizeof(::ondewo::nlu::RemoteOperationContainerStatus_EnvironmentVariablesEntry_DoNotUse)},
-  { 134, -1, -1, sizeof(::ondewo::nlu::RemoteOperationContainerStatus)},
-  { 159, 167, -1, sizeof(::ondewo::nlu::RemoteOperationContainer_EnvironmentVariablesEntry_DoNotUse)},
-  { 169, -1, -1, sizeof(::ondewo::nlu::RemoteOperationContainer)},
-  { 194, -1, -1, sizeof(::ondewo::nlu::ListRemoteOperationContainersRequest)},
-  { 202, -1, -1, sizeof(::ondewo::nlu::ListRemoteOperationContainersResponse)},
+  { 80, -1, -1, sizeof(::ondewo::nlu::GetRemoteOperationContainerLogsRequest)},
+  { 97, -1, -1, sizeof(::ondewo::nlu::GetRemoteOperationContainerLogsResponse)},
+  { 110, -1, -1, sizeof(::ondewo::nlu::RemoteOperationContainerLogLine)},
+  { 123, -1, -1, sizeof(::ondewo::nlu::GetRemoteOperationContainerStatusRequest)},
+  { 131, 139, -1, sizeof(::ondewo::nlu::RemoteOperationContainerStatus_EnvironmentVariablesEntry_DoNotUse)},
+  { 141, -1, -1, sizeof(::ondewo::nlu::RemoteOperationContainerStatus)},
+  { 166, 174, -1, sizeof(::ondewo::nlu::RemoteOperationContainer_EnvironmentVariablesEntry_DoNotUse)},
+  { 176, -1, -1, sizeof(::ondewo::nlu::RemoteOperationContainer)},
+  { 201, -1, -1, sizeof(::ondewo::nlu::ListRemoteOperationContainersRequest)},
+  { 209, -1, -1, sizeof(::ondewo::nlu::ListRemoteOperationContainersResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -619,111 +633,116 @@ const char descriptor_table_protodef_ondewo_2fnlu_2foperations_2eproto[] PROTOBU
   "ponse\022)\n\noperations\030\001 \003(\0132\025.ondewo.nlu.O"
   "peration\022\027\n\017next_page_token\030\002 \001(\t\"&\n\026Can"
   "celOperationRequest\022\014\n\004name\030\001 \001(\t\"&\n\026Del"
-  "eteOperationRequest\022\014\n\004name\030\001 \001(\t\"\223\001\n)St"
+  "eteOperationRequest\022\014\n\004name\030\001 \001(\t\"\270\001\n)St"
   "reamRemoteOperationContainerLogsRequest\022"
   "\014\n\004name\030\001 \001(\t\022.\n\rmin_log_level\030\002 \001(\0162\027.o"
   "ndewo.nlu.LogSeverity\022\022\n\ntail_lines\030\003 \001("
-  "\005\022\024\n\014container_id\030\004 \001(\t\"\243\002\n&GetRemoteOpe"
-  "rationContainerLogsRequest\022\014\n\004name\030\001 \001(\t"
-  "\022.\n\rmin_log_level\030\002 \001(\0162\027.ondewo.nlu.Log"
-  "Severity\022.\n\nstart_time\030\003 \001(\0132\032.google.pr"
-  "otobuf.Timestamp\022,\n\010end_time\030\004 \001(\0132\032.goo"
-  "gle.protobuf.Timestamp\022\021\n\tmax_lines\030\005 \001("
-  "\005\022\r\n\005regex\030\006 \001(\t\022\024\n\014container_id\030\007 \001(\t\022\022"
-  "\n\nbefore_seq\030\010 \001(\003\022\021\n\tafter_seq\030\t \001(\003\"\312\001"
-  "\n\'GetRemoteOperationContainerLogsRespons"
-  "e\022>\n\tlog_lines\030\001 \003(\0132+.ondewo.nlu.Remote"
-  "OperationContainerLogLine\022\021\n\ttruncated\030\002"
-  " \001(\010\022\031\n\021min_available_seq\030\003 \001(\003\022\031\n\021max_a"
-  "vailable_seq\030\004 \001(\003\022\026\n\016has_more_older\030\005 \001"
-  "(\010\"\304\001\n\037RemoteOperationContainerLogLine\022-"
-  "\n\ttimestamp\030\001 \001(\0132\032.google.protobuf.Time"
-  "stamp\022&\n\005level\030\002 \001(\0162\027.ondewo.nlu.LogSev"
-  "erity\022\017\n\007message\030\003 \001(\t\022\024\n\014container_id\030\004"
-  " \001(\t\022\026\n\016container_name\030\005 \001(\t\022\013\n\003seq\030\006 \001("
-  "\003\"N\n(GetRemoteOperationContainerStatusRe"
-  "quest\022\014\n\004name\030\001 \001(\t\022\024\n\014container_id\030\002 \001("
-  "\t\"\271\005\n\036RemoteOperationContainerStatus\022\014\n\004"
-  "name\030\001 \001(\t\022K\n\017lifecycle_state\030\002 \001(\01622.on"
-  "dewo.nlu.RemoteOperationContainerLifecyc"
-  "leState\022\021\n\thost_name\030\003 \001(\t\022\026\n\016container_"
-  "name\030\004 \001(\t\022\024\n\014container_id\030\013 \001(\t\022\021\n\texit"
-  "_code\030\005 \001(\005\022\022\n\noom_killed\030\006 \001(\010\022\025\n\rhealt"
-  "h_status\030\007 \001(\t\022.\n\nstarted_at\030\010 \001(\0132\032.goo"
-  "gle.protobuf.Timestamp\022/\n\013finished_at\030\t "
-  "\001(\0132\032.google.protobuf.Timestamp\022/\n\013obser"
-  "ved_at\030\n \001(\0132\032.google.protobuf.Timestamp"
-  "\022c\n\025environment_variables\030\014 \003(\0132D.ondewo"
-  ".nlu.RemoteOperationContainerStatus.Envi"
-  "ronmentVariablesEntry\022\017\n\007command\030\r \003(\t\022\032"
-  "\n\022memory_limit_bytes\030\016 \001(\003\022\021\n\tnano_cpus\030"
-  "\017 \001(\003\022\023\n\013cpuset_cpus\030\020 \001(\t\022\021\n\tcpu_quota\030"
-  "\021 \001(\003\022\022\n\ncpu_period\030\022 \001(\003\022\r\n\005image\030\023 \001(\t"
-  "\032;\n\031EnvironmentVariablesEntry\022\013\n\003key\030\001 \001"
-  "(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\226\005\n\030RemoteOperatio"
-  "nContainer\022\024\n\014container_id\030\001 \001(\t\022\026\n\016cont"
-  "ainer_name\030\002 \001(\t\022\021\n\thost_name\030\003 \001(\t\022K\n\017l"
-  "ifecycle_state\030\004 \001(\01622.ondewo.nlu.Remote"
-  "OperationContainerLifecycleState\022\026\n\016oper"
-  "ation_name\030\005 \001(\t\022\r\n\005image\030\006 \001(\t\022\r\n\005phase"
-  "\030\007 \001(\t\022\021\n\texit_code\030\010 \001(\005\022\022\n\noom_killed\030"
-  "\t \001(\010\022.\n\nstarted_at\030\n \001(\0132\032.google.proto"
-  "buf.Timestamp\022/\n\013finished_at\030\013 \001(\0132\032.goo"
-  "gle.protobuf.Timestamp\022\026\n\016logs_available"
-  "\030\014 \001(\010\022]\n\025environment_variables\030\r \003(\0132>."
-  "ondewo.nlu.RemoteOperationContainer.Envi"
-  "ronmentVariablesEntry\022\017\n\007command\030\016 \003(\t\022\032"
-  "\n\022memory_limit_bytes\030\017 \001(\003\022\021\n\tnano_cpus\030"
-  "\020 \001(\003\022\023\n\013cpuset_cpus\030\021 \001(\t\022\021\n\tcpu_quota\030"
-  "\022 \001(\003\022\022\n\ncpu_period\030\023 \001(\003\032;\n\031Environment"
-  "VariablesEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001"
-  "(\t:\0028\001\"T\n$ListRemoteOperationContainersR"
-  "equest\022\014\n\004name\030\001 \001(\t\022\036\n\026include_sub_oper"
-  "ations\030\002 \001(\010\"a\n%ListRemoteOperationConta"
-  "inersResponse\0228\n\ncontainers\030\001 \003(\0132$.onde"
-  "wo.nlu.RemoteOperationContainer*\354\003\n&Remo"
-  "teOperationContainerLifecycleState\022:\n6RE"
-  "MOTE_OPERATION_CONTAINER_LIFECYCLE_STATE"
-  "_UNSPECIFIED\020\000\0228\n4REMOTE_OPERATION_CONTA"
-  "INER_LIFECYCLE_STATE_NOT_FOUND\020\001\0226\n2REMO"
-  "TE_OPERATION_CONTAINER_LIFECYCLE_STATE_C"
-  "REATED\020\002\0226\n2REMOTE_OPERATION_CONTAINER_L"
-  "IFECYCLE_STATE_RUNNING\020\003\0225\n1REMOTE_OPERA"
-  "TION_CONTAINER_LIFECYCLE_STATE_PAUSED\020\004\022"
-  "9\n5REMOTE_OPERATION_CONTAINER_LIFECYCLE_"
-  "STATE_RESTARTING\020\005\0225\n1REMOTE_OPERATION_C"
-  "ONTAINER_LIFECYCLE_STATE_EXITED\020\006\0223\n/REM"
-  "OTE_OPERATION_CONTAINER_LIFECYCLE_STATE_"
-  "DEAD\020\0072\222\t\n\nOperations\022v\n\016ListOperations\022"
-  "!.ondewo.nlu.ListOperationsRequest\032\".ond"
-  "ewo.nlu.ListOperationsResponse\"\035\202\323\344\223\002\027\022\025"
-  "/v1/{name=operations}\022h\n\014GetOperation\022\037."
-  "ondewo.nlu.GetOperationRequest\032\025.ondewo."
-  "nlu.Operation\" \202\323\344\223\002\032\022\030/v1/{name=operati"
-  "ons/**}\022o\n\017DeleteOperation\022\".ondewo.nlu."
-  "DeleteOperationRequest\032\026.google.protobuf"
-  ".Empty\" \202\323\344\223\002\032*\030/v1/{name=operations/**}"
-  "\022y\n\017CancelOperation\022\".ondewo.nlu.CancelO"
-  "perationRequest\032\026.google.protobuf.Empty\""
-  "*\202\323\344\223\002$\"\037/v1/{name=operations/**}:cancel"
-  ":\001*\022\212\001\n\"StreamRemoteOperationContainerLo"
-  "gs\0225.ondewo.nlu.StreamRemoteOperationCon"
-  "tainerLogsRequest\032+.ondewo.nlu.RemoteOpe"
-  "rationContainerLogLine0\001\022\272\001\n\037GetRemoteOp"
-  "erationContainerLogs\0222.ondewo.nlu.GetRem"
-  "oteOperationContainerLogsRequest\0323.ondew"
-  "o.nlu.GetRemoteOperationContainerLogsRes"
-  "ponse\".\202\323\344\223\002(\022&/v1/{name=operations/**}:"
-  "containerLogs\022\267\001\n!GetRemoteOperationCont"
-  "ainerStatus\0224.ondewo.nlu.GetRemoteOperat"
-  "ionContainerStatusRequest\032*.ondewo.nlu.R"
-  "emoteOperationContainerStatus\"0\202\323\344\223\002*\022(/"
-  "v1/{name=operations/**}:containerStatus\022"
-  "\261\001\n\035ListRemoteOperationContainers\0220.onde"
-  "wo.nlu.ListRemoteOperationContainersRequ"
-  "est\0321.ondewo.nlu.ListRemoteOperationCont"
-  "ainersResponse\"+\202\323\344\223\002%\022#/v1/{name=operat"
-  "ions/**}:containersb\006proto3"
+  "\005\022\024\n\014container_id\030\004 \001(\t\022\r\n\005regex\030\005 \001(\t\022\024"
+  "\n\014resume_token\030\006 \001(\t\"\351\002\n&GetRemoteOperat"
+  "ionContainerLogsRequest\022\014\n\004name\030\001 \001(\t\022.\n"
+  "\rmin_log_level\030\002 \001(\0162\027.ondewo.nlu.LogSev"
+  "erity\022.\n\nstart_time\030\003 \001(\0132\032.google.proto"
+  "buf.Timestamp\022,\n\010end_time\030\004 \001(\0132\032.google"
+  ".protobuf.Timestamp\022\021\n\tmax_lines\030\005 \001(\005\022\r"
+  "\n\005regex\030\006 \001(\t\022\024\n\014container_id\030\007 \001(\t\022\022\n\nb"
+  "efore_seq\030\010 \001(\003\022\021\n\tafter_seq\030\t \001(\003\022.\n\nfi"
+  "eld_mask\030\n \001(\0132\032.google.protobuf.FieldMa"
+  "sk\022\024\n\014resume_token\030\013 \001(\t\"\375\001\n\'GetRemoteOp"
+  "erationContainerLogsResponse\022>\n\tlog_line"
+  "s\030\001 \003(\0132+.ondewo.nlu.RemoteOperationCont"
+  "ainerLogLine\022\021\n\ttruncated\030\002 \001(\010\022\031\n\021min_a"
+  "vailable_seq\030\003 \001(\003\022\031\n\021max_available_seq\030"
+  "\004 \001(\003\022\026\n\016has_more_older\030\005 \001(\010\022\031\n\021next_re"
+  "sume_token\030\006 \001(\t\022\026\n\016has_more_newer\030\007 \001(\010"
+  "\"\330\001\n\037RemoteOperationContainerLogLine\022-\n\t"
+  "timestamp\030\001 \001(\0132\032.google.protobuf.Timest"
+  "amp\022&\n\005level\030\002 \001(\0162\027.ondewo.nlu.LogSever"
+  "ity\022\017\n\007message\030\003 \001(\t\022\024\n\014container_id\030\004 \001"
+  "(\t\022\026\n\016container_name\030\005 \001(\t\022\013\n\003seq\030\006 \001(\003\022"
+  "\022\n\nlog_stream\030\007 \001(\t\"N\n(GetRemoteOperatio"
+  "nContainerStatusRequest\022\014\n\004name\030\001 \001(\t\022\024\n"
+  "\014container_id\030\002 \001(\t\"\271\005\n\036RemoteOperationC"
+  "ontainerStatus\022\014\n\004name\030\001 \001(\t\022K\n\017lifecycl"
+  "e_state\030\002 \001(\01622.ondewo.nlu.RemoteOperati"
+  "onContainerLifecycleState\022\021\n\thost_name\030\003"
+  " \001(\t\022\026\n\016container_name\030\004 \001(\t\022\024\n\014containe"
+  "r_id\030\013 \001(\t\022\021\n\texit_code\030\005 \001(\005\022\022\n\noom_kil"
+  "led\030\006 \001(\010\022\025\n\rhealth_status\030\007 \001(\t\022.\n\nstar"
+  "ted_at\030\010 \001(\0132\032.google.protobuf.Timestamp"
+  "\022/\n\013finished_at\030\t \001(\0132\032.google.protobuf."
+  "Timestamp\022/\n\013observed_at\030\n \001(\0132\032.google."
+  "protobuf.Timestamp\022c\n\025environment_variab"
+  "les\030\014 \003(\0132D.ondewo.nlu.RemoteOperationCo"
+  "ntainerStatus.EnvironmentVariablesEntry\022"
+  "\017\n\007command\030\r \003(\t\022\032\n\022memory_limit_bytes\030\016"
+  " \001(\003\022\021\n\tnano_cpus\030\017 \001(\003\022\023\n\013cpuset_cpus\030\020"
+  " \001(\t\022\021\n\tcpu_quota\030\021 \001(\003\022\022\n\ncpu_period\030\022 "
+  "\001(\003\022\r\n\005image\030\023 \001(\t\032;\n\031EnvironmentVariabl"
+  "esEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\""
+  "\226\005\n\030RemoteOperationContainer\022\024\n\014containe"
+  "r_id\030\001 \001(\t\022\026\n\016container_name\030\002 \001(\t\022\021\n\tho"
+  "st_name\030\003 \001(\t\022K\n\017lifecycle_state\030\004 \001(\01622"
+  ".ondewo.nlu.RemoteOperationContainerLife"
+  "cycleState\022\026\n\016operation_name\030\005 \001(\t\022\r\n\005im"
+  "age\030\006 \001(\t\022\r\n\005phase\030\007 \001(\t\022\021\n\texit_code\030\010 "
+  "\001(\005\022\022\n\noom_killed\030\t \001(\010\022.\n\nstarted_at\030\n "
+  "\001(\0132\032.google.protobuf.Timestamp\022/\n\013finis"
+  "hed_at\030\013 \001(\0132\032.google.protobuf.Timestamp"
+  "\022\026\n\016logs_available\030\014 \001(\010\022]\n\025environment_"
+  "variables\030\r \003(\0132>.ondewo.nlu.RemoteOpera"
+  "tionContainer.EnvironmentVariablesEntry\022"
+  "\017\n\007command\030\016 \003(\t\022\032\n\022memory_limit_bytes\030\017"
+  " \001(\003\022\021\n\tnano_cpus\030\020 \001(\003\022\023\n\013cpuset_cpus\030\021"
+  " \001(\t\022\021\n\tcpu_quota\030\022 \001(\003\022\022\n\ncpu_period\030\023 "
+  "\001(\003\032;\n\031EnvironmentVariablesEntry\022\013\n\003key\030"
+  "\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"T\n$ListRemoteOp"
+  "erationContainersRequest\022\014\n\004name\030\001 \001(\t\022\036"
+  "\n\026include_sub_operations\030\002 \001(\010\"a\n%ListRe"
+  "moteOperationContainersResponse\0228\n\nconta"
+  "iners\030\001 \003(\0132$.ondewo.nlu.RemoteOperation"
+  "Container*\354\003\n&RemoteOperationContainerLi"
+  "fecycleState\022:\n6REMOTE_OPERATION_CONTAIN"
+  "ER_LIFECYCLE_STATE_UNSPECIFIED\020\000\0228\n4REMO"
+  "TE_OPERATION_CONTAINER_LIFECYCLE_STATE_N"
+  "OT_FOUND\020\001\0226\n2REMOTE_OPERATION_CONTAINER"
+  "_LIFECYCLE_STATE_CREATED\020\002\0226\n2REMOTE_OPE"
+  "RATION_CONTAINER_LIFECYCLE_STATE_RUNNING"
+  "\020\003\0225\n1REMOTE_OPERATION_CONTAINER_LIFECYC"
+  "LE_STATE_PAUSED\020\004\0229\n5REMOTE_OPERATION_CO"
+  "NTAINER_LIFECYCLE_STATE_RESTARTING\020\005\0225\n1"
+  "REMOTE_OPERATION_CONTAINER_LIFECYCLE_STA"
+  "TE_EXITED\020\006\0223\n/REMOTE_OPERATION_CONTAINE"
+  "R_LIFECYCLE_STATE_DEAD\020\0072\222\t\n\nOperations\022"
+  "v\n\016ListOperations\022!.ondewo.nlu.ListOpera"
+  "tionsRequest\032\".ondewo.nlu.ListOperations"
+  "Response\"\035\202\323\344\223\002\027\022\025/v1/{name=operations}\022"
+  "h\n\014GetOperation\022\037.ondewo.nlu.GetOperatio"
+  "nRequest\032\025.ondewo.nlu.Operation\" \202\323\344\223\002\032\022"
+  "\030/v1/{name=operations/**}\022o\n\017DeleteOpera"
+  "tion\022\".ondewo.nlu.DeleteOperationRequest"
+  "\032\026.google.protobuf.Empty\" \202\323\344\223\002\032*\030/v1/{n"
+  "ame=operations/**}\022y\n\017CancelOperation\022\"."
+  "ondewo.nlu.CancelOperationRequest\032\026.goog"
+  "le.protobuf.Empty\"*\202\323\344\223\002$\"\037/v1/{name=ope"
+  "rations/**}:cancel:\001*\022\212\001\n\"StreamRemoteOp"
+  "erationContainerLogs\0225.ondewo.nlu.Stream"
+  "RemoteOperationContainerLogsRequest\032+.on"
+  "dewo.nlu.RemoteOperationContainerLogLine"
+  "0\001\022\272\001\n\037GetRemoteOperationContainerLogs\0222"
+  ".ondewo.nlu.GetRemoteOperationContainerL"
+  "ogsRequest\0323.ondewo.nlu.GetRemoteOperati"
+  "onContainerLogsResponse\".\202\323\344\223\002(\022&/v1/{na"
+  "me=operations/**}:containerLogs\022\267\001\n!GetR"
+  "emoteOperationContainerStatus\0224.ondewo.n"
+  "lu.GetRemoteOperationContainerStatusRequ"
+  "est\032*.ondewo.nlu.RemoteOperationContaine"
+  "rStatus\"0\202\323\344\223\002*\022(/v1/{name=operations/**"
+  "}:containerStatus\022\261\001\n\035ListRemoteOperatio"
+  "nContainers\0220.ondewo.nlu.ListRemoteOpera"
+  "tionContainersRequest\0321.ondewo.nlu.ListR"
+  "emoteOperationContainersResponse\"+\202\323\344\223\002%"
+  "\022#/v1/{name=operations/**}:containersb\006p"
+  "roto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2foperations_2eproto_deps[8] = {
   &::descriptor_table_google_2fapi_2fannotations_2eproto,
@@ -737,7 +756,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fnlu_2foper
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fnlu_2foperations_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fnlu_2foperations_2eproto = {
-    false, false, 5387, descriptor_table_protodef_ondewo_2fnlu_2foperations_2eproto,
+    false, false, 5565, descriptor_table_protodef_ondewo_2fnlu_2foperations_2eproto,
     "ondewo/nlu/operations.proto",
     &descriptor_table_ondewo_2fnlu_2foperations_2eproto_once, descriptor_table_ondewo_2fnlu_2foperations_2eproto_deps, 8, 18,
     schemas, file_default_instances, TableStruct_ondewo_2fnlu_2foperations_2eproto::offsets,
@@ -3090,6 +3109,8 @@ StreamRemoteOperationContainerLogsRequest::StreamRemoteOperationContainerLogsReq
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
     , decltype(_impl_.container_id_){}
+    , decltype(_impl_.regex_){}
+    , decltype(_impl_.resume_token_){}
     , decltype(_impl_.min_log_level_){}
     , decltype(_impl_.tail_lines_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -3111,6 +3132,22 @@ StreamRemoteOperationContainerLogsRequest::StreamRemoteOperationContainerLogsReq
     _this->_impl_.container_id_.Set(from._internal_container_id(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.regex_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.regex_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_regex().empty()) {
+    _this->_impl_.regex_.Set(from._internal_regex(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.resume_token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.resume_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_resume_token().empty()) {
+    _this->_impl_.resume_token_.Set(from._internal_resume_token(), 
+      _this->GetArenaForAllocation());
+  }
   ::memcpy(&_impl_.min_log_level_, &from._impl_.min_log_level_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.tail_lines_) -
     reinterpret_cast<char*>(&_impl_.min_log_level_)) + sizeof(_impl_.tail_lines_));
@@ -3124,6 +3161,8 @@ inline void StreamRemoteOperationContainerLogsRequest::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.name_){}
     , decltype(_impl_.container_id_){}
+    , decltype(_impl_.regex_){}
+    , decltype(_impl_.resume_token_){}
     , decltype(_impl_.min_log_level_){0}
     , decltype(_impl_.tail_lines_){0}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -3135,6 +3174,14 @@ inline void StreamRemoteOperationContainerLogsRequest::SharedCtor(
   _impl_.container_id_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.container_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.regex_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.regex_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.resume_token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.resume_token_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -3151,6 +3198,8 @@ inline void StreamRemoteOperationContainerLogsRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.name_.Destroy();
   _impl_.container_id_.Destroy();
+  _impl_.regex_.Destroy();
+  _impl_.resume_token_.Destroy();
 }
 
 void StreamRemoteOperationContainerLogsRequest::SetCachedSize(int size) const {
@@ -3165,6 +3214,8 @@ void StreamRemoteOperationContainerLogsRequest::Clear() {
 
   _impl_.name_.ClearToEmpty();
   _impl_.container_id_.ClearToEmpty();
+  _impl_.regex_.ClearToEmpty();
+  _impl_.resume_token_.ClearToEmpty();
   ::memset(&_impl_.min_log_level_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.tail_lines_) -
       reinterpret_cast<char*>(&_impl_.min_log_level_)) + sizeof(_impl_.tail_lines_));
@@ -3211,6 +3262,26 @@ const char* StreamRemoteOperationContainerLogsRequest::_InternalParse(const char
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.StreamRemoteOperationContainerLogsRequest.container_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string regex = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_regex();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.StreamRemoteOperationContainerLogsRequest.regex"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string resume_token = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          auto str = _internal_mutable_resume_token();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.StreamRemoteOperationContainerLogsRequest.resume_token"));
         } else
           goto handle_unusual;
         continue;
@@ -3276,6 +3347,26 @@ uint8_t* StreamRemoteOperationContainerLogsRequest::_InternalSerialize(
         4, this->_internal_container_id(), target);
   }
 
+  // string regex = 5;
+  if (!this->_internal_regex().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_regex().data(), static_cast<int>(this->_internal_regex().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.StreamRemoteOperationContainerLogsRequest.regex");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_regex(), target);
+  }
+
+  // string resume_token = 6;
+  if (!this->_internal_resume_token().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_resume_token().data(), static_cast<int>(this->_internal_resume_token().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.StreamRemoteOperationContainerLogsRequest.resume_token");
+    target = stream->WriteStringMaybeAliased(
+        6, this->_internal_resume_token(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3304,6 +3395,20 @@ size_t StreamRemoteOperationContainerLogsRequest::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_container_id());
+  }
+
+  // string regex = 5;
+  if (!this->_internal_regex().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_regex());
+  }
+
+  // string resume_token = 6;
+  if (!this->_internal_resume_token().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_resume_token());
   }
 
   // .ondewo.nlu.LogSeverity min_log_level = 2;
@@ -3341,6 +3446,12 @@ void StreamRemoteOperationContainerLogsRequest::MergeImpl(::PROTOBUF_NAMESPACE_I
   if (!from._internal_container_id().empty()) {
     _this->_internal_set_container_id(from._internal_container_id());
   }
+  if (!from._internal_regex().empty()) {
+    _this->_internal_set_regex(from._internal_regex());
+  }
+  if (!from._internal_resume_token().empty()) {
+    _this->_internal_set_resume_token(from._internal_resume_token());
+  }
   if (from._internal_min_log_level() != 0) {
     _this->_internal_set_min_log_level(from._internal_min_log_level());
   }
@@ -3374,6 +3485,14 @@ void StreamRemoteOperationContainerLogsRequest::InternalSwap(StreamRemoteOperati
       &_impl_.container_id_, lhs_arena,
       &other->_impl_.container_id_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.regex_, lhs_arena,
+      &other->_impl_.regex_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.resume_token_, lhs_arena,
+      &other->_impl_.resume_token_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(StreamRemoteOperationContainerLogsRequest, _impl_.tail_lines_)
       + sizeof(StreamRemoteOperationContainerLogsRequest::_impl_.tail_lines_)
@@ -3394,6 +3513,7 @@ class GetRemoteOperationContainerLogsRequest::_Internal {
  public:
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& start_time(const GetRemoteOperationContainerLogsRequest* msg);
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& end_time(const GetRemoteOperationContainerLogsRequest* msg);
+  static const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask(const GetRemoteOperationContainerLogsRequest* msg);
 };
 
 const ::PROTOBUF_NAMESPACE_ID::Timestamp&
@@ -3403,6 +3523,10 @@ GetRemoteOperationContainerLogsRequest::_Internal::start_time(const GetRemoteOpe
 const ::PROTOBUF_NAMESPACE_ID::Timestamp&
 GetRemoteOperationContainerLogsRequest::_Internal::end_time(const GetRemoteOperationContainerLogsRequest* msg) {
   return *msg->_impl_.end_time_;
+}
+const ::PROTOBUF_NAMESPACE_ID::FieldMask&
+GetRemoteOperationContainerLogsRequest::_Internal::field_mask(const GetRemoteOperationContainerLogsRequest* msg) {
+  return *msg->_impl_.field_mask_;
 }
 void GetRemoteOperationContainerLogsRequest::clear_start_time() {
   if (GetArenaForAllocation() == nullptr && _impl_.start_time_ != nullptr) {
@@ -3415,6 +3539,12 @@ void GetRemoteOperationContainerLogsRequest::clear_end_time() {
     delete _impl_.end_time_;
   }
   _impl_.end_time_ = nullptr;
+}
+void GetRemoteOperationContainerLogsRequest::clear_field_mask() {
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
 }
 GetRemoteOperationContainerLogsRequest::GetRemoteOperationContainerLogsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -3429,8 +3559,10 @@ GetRemoteOperationContainerLogsRequest::GetRemoteOperationContainerLogsRequest(c
       decltype(_impl_.name_){}
     , decltype(_impl_.regex_){}
     , decltype(_impl_.container_id_){}
+    , decltype(_impl_.resume_token_){}
     , decltype(_impl_.start_time_){nullptr}
     , decltype(_impl_.end_time_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , decltype(_impl_.min_log_level_){}
     , decltype(_impl_.max_lines_){}
     , decltype(_impl_.before_seq_){}
@@ -3462,11 +3594,22 @@ GetRemoteOperationContainerLogsRequest::GetRemoteOperationContainerLogsRequest(c
     _this->_impl_.container_id_.Set(from._internal_container_id(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.resume_token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.resume_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_resume_token().empty()) {
+    _this->_impl_.resume_token_.Set(from._internal_resume_token(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_start_time()) {
     _this->_impl_.start_time_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.start_time_);
   }
   if (from._internal_has_end_time()) {
     _this->_impl_.end_time_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.end_time_);
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_impl_.field_mask_ = new ::PROTOBUF_NAMESPACE_ID::FieldMask(*from._impl_.field_mask_);
   }
   ::memcpy(&_impl_.min_log_level_, &from._impl_.min_log_level_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.after_seq_) -
@@ -3482,8 +3625,10 @@ inline void GetRemoteOperationContainerLogsRequest::SharedCtor(
       decltype(_impl_.name_){}
     , decltype(_impl_.regex_){}
     , decltype(_impl_.container_id_){}
+    , decltype(_impl_.resume_token_){}
     , decltype(_impl_.start_time_){nullptr}
     , decltype(_impl_.end_time_){nullptr}
+    , decltype(_impl_.field_mask_){nullptr}
     , decltype(_impl_.min_log_level_){0}
     , decltype(_impl_.max_lines_){0}
     , decltype(_impl_.before_seq_){int64_t{0}}
@@ -3502,6 +3647,10 @@ inline void GetRemoteOperationContainerLogsRequest::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.container_id_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.resume_token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.resume_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 GetRemoteOperationContainerLogsRequest::~GetRemoteOperationContainerLogsRequest() {
@@ -3518,8 +3667,10 @@ inline void GetRemoteOperationContainerLogsRequest::SharedDtor() {
   _impl_.name_.Destroy();
   _impl_.regex_.Destroy();
   _impl_.container_id_.Destroy();
+  _impl_.resume_token_.Destroy();
   if (this != internal_default_instance()) delete _impl_.start_time_;
   if (this != internal_default_instance()) delete _impl_.end_time_;
+  if (this != internal_default_instance()) delete _impl_.field_mask_;
 }
 
 void GetRemoteOperationContainerLogsRequest::SetCachedSize(int size) const {
@@ -3535,6 +3686,7 @@ void GetRemoteOperationContainerLogsRequest::Clear() {
   _impl_.name_.ClearToEmpty();
   _impl_.regex_.ClearToEmpty();
   _impl_.container_id_.ClearToEmpty();
+  _impl_.resume_token_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.start_time_ != nullptr) {
     delete _impl_.start_time_;
   }
@@ -3543,6 +3695,10 @@ void GetRemoteOperationContainerLogsRequest::Clear() {
     delete _impl_.end_time_;
   }
   _impl_.end_time_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.field_mask_ != nullptr) {
+    delete _impl_.field_mask_;
+  }
+  _impl_.field_mask_ = nullptr;
   ::memset(&_impl_.min_log_level_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.after_seq_) -
       reinterpret_cast<char*>(&_impl_.min_log_level_)) + sizeof(_impl_.after_seq_));
@@ -3631,6 +3787,24 @@ const char* GetRemoteOperationContainerLogsRequest::_InternalParse(const char* p
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
           _impl_.after_seq_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .google.protobuf.FieldMask field_mask = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
+          ptr = ctx->ParseMessage(_internal_mutable_field_mask(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string resume_token = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          auto str = _internal_mutable_resume_token();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.GetRemoteOperationContainerLogsRequest.resume_token"));
         } else
           goto handle_unusual;
         continue;
@@ -3732,6 +3906,23 @@ uint8_t* GetRemoteOperationContainerLogsRequest::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(9, this->_internal_after_seq(), target);
   }
 
+  // .google.protobuf.FieldMask field_mask = 10;
+  if (this->_internal_has_field_mask()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(10, _Internal::field_mask(this),
+        _Internal::field_mask(this).GetCachedSize(), target, stream);
+  }
+
+  // string resume_token = 11;
+  if (!this->_internal_resume_token().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_resume_token().data(), static_cast<int>(this->_internal_resume_token().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.GetRemoteOperationContainerLogsRequest.resume_token");
+    target = stream->WriteStringMaybeAliased(
+        11, this->_internal_resume_token(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3769,6 +3960,13 @@ size_t GetRemoteOperationContainerLogsRequest::ByteSizeLong() const {
         this->_internal_container_id());
   }
 
+  // string resume_token = 11;
+  if (!this->_internal_resume_token().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_resume_token());
+  }
+
   // .google.protobuf.Timestamp start_time = 3;
   if (this->_internal_has_start_time()) {
     total_size += 1 +
@@ -3781,6 +3979,13 @@ size_t GetRemoteOperationContainerLogsRequest::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.end_time_);
+  }
+
+  // .google.protobuf.FieldMask field_mask = 10;
+  if (this->_internal_has_field_mask()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.field_mask_);
   }
 
   // .ondewo.nlu.LogSeverity min_log_level = 2;
@@ -3831,6 +4036,9 @@ void GetRemoteOperationContainerLogsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::
   if (!from._internal_container_id().empty()) {
     _this->_internal_set_container_id(from._internal_container_id());
   }
+  if (!from._internal_resume_token().empty()) {
+    _this->_internal_set_resume_token(from._internal_resume_token());
+  }
   if (from._internal_has_start_time()) {
     _this->_internal_mutable_start_time()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_start_time());
@@ -3838,6 +4046,10 @@ void GetRemoteOperationContainerLogsRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::
   if (from._internal_has_end_time()) {
     _this->_internal_mutable_end_time()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_end_time());
+  }
+  if (from._internal_has_field_mask()) {
+    _this->_internal_mutable_field_mask()->::PROTOBUF_NAMESPACE_ID::FieldMask::MergeFrom(
+        from._internal_field_mask());
   }
   if (from._internal_min_log_level() != 0) {
     _this->_internal_set_min_log_level(from._internal_min_log_level());
@@ -3882,6 +4094,10 @@ void GetRemoteOperationContainerLogsRequest::InternalSwap(GetRemoteOperationCont
       &_impl_.container_id_, lhs_arena,
       &other->_impl_.container_id_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.resume_token_, lhs_arena,
+      &other->_impl_.resume_token_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(GetRemoteOperationContainerLogsRequest, _impl_.after_seq_)
       + sizeof(GetRemoteOperationContainerLogsRequest::_impl_.after_seq_)
@@ -3913,16 +4129,26 @@ GetRemoteOperationContainerLogsResponse::GetRemoteOperationContainerLogsResponse
   GetRemoteOperationContainerLogsResponse* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.log_lines_){from._impl_.log_lines_}
+    , decltype(_impl_.next_resume_token_){}
     , decltype(_impl_.min_available_seq_){}
     , decltype(_impl_.max_available_seq_){}
     , decltype(_impl_.truncated_){}
     , decltype(_impl_.has_more_older_){}
+    , decltype(_impl_.has_more_newer_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.next_resume_token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.next_resume_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_next_resume_token().empty()) {
+    _this->_impl_.next_resume_token_.Set(from._internal_next_resume_token(), 
+      _this->GetArenaForAllocation());
+  }
   ::memcpy(&_impl_.min_available_seq_, &from._impl_.min_available_seq_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.has_more_older_) -
-    reinterpret_cast<char*>(&_impl_.min_available_seq_)) + sizeof(_impl_.has_more_older_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.has_more_newer_) -
+    reinterpret_cast<char*>(&_impl_.min_available_seq_)) + sizeof(_impl_.has_more_newer_));
   // @@protoc_insertion_point(copy_constructor:ondewo.nlu.GetRemoteOperationContainerLogsResponse)
 }
 
@@ -3932,12 +4158,18 @@ inline void GetRemoteOperationContainerLogsResponse::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.log_lines_){arena}
+    , decltype(_impl_.next_resume_token_){}
     , decltype(_impl_.min_available_seq_){int64_t{0}}
     , decltype(_impl_.max_available_seq_){int64_t{0}}
     , decltype(_impl_.truncated_){false}
     , decltype(_impl_.has_more_older_){false}
+    , decltype(_impl_.has_more_newer_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.next_resume_token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.next_resume_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 GetRemoteOperationContainerLogsResponse::~GetRemoteOperationContainerLogsResponse() {
@@ -3952,6 +4184,7 @@ GetRemoteOperationContainerLogsResponse::~GetRemoteOperationContainerLogsRespons
 inline void GetRemoteOperationContainerLogsResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.log_lines_.~RepeatedPtrField();
+  _impl_.next_resume_token_.Destroy();
 }
 
 void GetRemoteOperationContainerLogsResponse::SetCachedSize(int size) const {
@@ -3965,9 +4198,10 @@ void GetRemoteOperationContainerLogsResponse::Clear() {
   (void) cached_has_bits;
 
   _impl_.log_lines_.Clear();
+  _impl_.next_resume_token_.ClearToEmpty();
   ::memset(&_impl_.min_available_seq_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.has_more_older_) -
-      reinterpret_cast<char*>(&_impl_.min_available_seq_)) + sizeof(_impl_.has_more_older_));
+      reinterpret_cast<char*>(&_impl_.has_more_newer_) -
+      reinterpret_cast<char*>(&_impl_.min_available_seq_)) + sizeof(_impl_.has_more_newer_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -4018,6 +4252,24 @@ const char* GetRemoteOperationContainerLogsResponse::_InternalParse(const char* 
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
           _impl_.has_more_older_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string next_resume_token = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          auto str = _internal_mutable_next_resume_token();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.GetRemoteOperationContainerLogsResponse.next_resume_token"));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool has_more_newer = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _impl_.has_more_newer_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -4083,6 +4335,22 @@ uint8_t* GetRemoteOperationContainerLogsResponse::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(5, this->_internal_has_more_older(), target);
   }
 
+  // string next_resume_token = 6;
+  if (!this->_internal_next_resume_token().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_next_resume_token().data(), static_cast<int>(this->_internal_next_resume_token().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.GetRemoteOperationContainerLogsResponse.next_resume_token");
+    target = stream->WriteStringMaybeAliased(
+        6, this->_internal_next_resume_token(), target);
+  }
+
+  // bool has_more_newer = 7;
+  if (this->_internal_has_more_newer() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(7, this->_internal_has_more_newer(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4106,6 +4374,13 @@ size_t GetRemoteOperationContainerLogsResponse::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
+  // string next_resume_token = 6;
+  if (!this->_internal_next_resume_token().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_next_resume_token());
+  }
+
   // int64 min_available_seq = 3;
   if (this->_internal_min_available_seq() != 0) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_min_available_seq());
@@ -4123,6 +4398,11 @@ size_t GetRemoteOperationContainerLogsResponse::ByteSizeLong() const {
 
   // bool has_more_older = 5;
   if (this->_internal_has_more_older() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool has_more_newer = 7;
+  if (this->_internal_has_more_newer() != 0) {
     total_size += 1 + 1;
   }
 
@@ -4145,6 +4425,9 @@ void GetRemoteOperationContainerLogsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID:
   (void) cached_has_bits;
 
   _this->_impl_.log_lines_.MergeFrom(from._impl_.log_lines_);
+  if (!from._internal_next_resume_token().empty()) {
+    _this->_internal_set_next_resume_token(from._internal_next_resume_token());
+  }
   if (from._internal_min_available_seq() != 0) {
     _this->_internal_set_min_available_seq(from._internal_min_available_seq());
   }
@@ -4156,6 +4439,9 @@ void GetRemoteOperationContainerLogsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID:
   }
   if (from._internal_has_more_older() != 0) {
     _this->_internal_set_has_more_older(from._internal_has_more_older());
+  }
+  if (from._internal_has_more_newer() != 0) {
+    _this->_internal_set_has_more_newer(from._internal_has_more_newer());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -4173,11 +4459,17 @@ bool GetRemoteOperationContainerLogsResponse::IsInitialized() const {
 
 void GetRemoteOperationContainerLogsResponse::InternalSwap(GetRemoteOperationContainerLogsResponse* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.log_lines_.InternalSwap(&other->_impl_.log_lines_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.next_resume_token_, lhs_arena,
+      &other->_impl_.next_resume_token_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(GetRemoteOperationContainerLogsResponse, _impl_.has_more_older_)
-      + sizeof(GetRemoteOperationContainerLogsResponse::_impl_.has_more_older_)
+      PROTOBUF_FIELD_OFFSET(GetRemoteOperationContainerLogsResponse, _impl_.has_more_newer_)
+      + sizeof(GetRemoteOperationContainerLogsResponse::_impl_.has_more_newer_)
       - PROTOBUF_FIELD_OFFSET(GetRemoteOperationContainerLogsResponse, _impl_.min_available_seq_)>(
           reinterpret_cast<char*>(&_impl_.min_available_seq_),
           reinterpret_cast<char*>(&other->_impl_.min_available_seq_));
@@ -4219,6 +4511,7 @@ RemoteOperationContainerLogLine::RemoteOperationContainerLogLine(const RemoteOpe
       decltype(_impl_.message_){}
     , decltype(_impl_.container_id_){}
     , decltype(_impl_.container_name_){}
+    , decltype(_impl_.log_stream_){}
     , decltype(_impl_.timestamp_){nullptr}
     , decltype(_impl_.seq_){}
     , decltype(_impl_.level_){}
@@ -4249,6 +4542,14 @@ RemoteOperationContainerLogLine::RemoteOperationContainerLogLine(const RemoteOpe
     _this->_impl_.container_name_.Set(from._internal_container_name(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.log_stream_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.log_stream_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_log_stream().empty()) {
+    _this->_impl_.log_stream_.Set(from._internal_log_stream(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_timestamp()) {
     _this->_impl_.timestamp_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.timestamp_);
   }
@@ -4266,6 +4567,7 @@ inline void RemoteOperationContainerLogLine::SharedCtor(
       decltype(_impl_.message_){}
     , decltype(_impl_.container_id_){}
     , decltype(_impl_.container_name_){}
+    , decltype(_impl_.log_stream_){}
     , decltype(_impl_.timestamp_){nullptr}
     , decltype(_impl_.seq_){int64_t{0}}
     , decltype(_impl_.level_){0}
@@ -4283,6 +4585,10 @@ inline void RemoteOperationContainerLogLine::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.container_name_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.log_stream_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.log_stream_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 RemoteOperationContainerLogLine::~RemoteOperationContainerLogLine() {
@@ -4299,6 +4605,7 @@ inline void RemoteOperationContainerLogLine::SharedDtor() {
   _impl_.message_.Destroy();
   _impl_.container_id_.Destroy();
   _impl_.container_name_.Destroy();
+  _impl_.log_stream_.Destroy();
   if (this != internal_default_instance()) delete _impl_.timestamp_;
 }
 
@@ -4315,6 +4622,7 @@ void RemoteOperationContainerLogLine::Clear() {
   _impl_.message_.ClearToEmpty();
   _impl_.container_id_.ClearToEmpty();
   _impl_.container_name_.ClearToEmpty();
+  _impl_.log_stream_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.timestamp_ != nullptr) {
     delete _impl_.timestamp_;
   }
@@ -4383,6 +4691,16 @@ const char* RemoteOperationContainerLogLine::_InternalParse(const char* ptr, ::_
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
           _impl_.seq_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string log_stream = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          auto str = _internal_mutable_log_stream();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.nlu.RemoteOperationContainerLogLine.log_stream"));
         } else
           goto handle_unusual;
         continue;
@@ -4465,6 +4783,16 @@ uint8_t* RemoteOperationContainerLogLine::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(6, this->_internal_seq(), target);
   }
 
+  // string log_stream = 7;
+  if (!this->_internal_log_stream().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_log_stream().data(), static_cast<int>(this->_internal_log_stream().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.nlu.RemoteOperationContainerLogLine.log_stream");
+    target = stream->WriteStringMaybeAliased(
+        7, this->_internal_log_stream(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4500,6 +4828,13 @@ size_t RemoteOperationContainerLogLine::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_container_name());
+  }
+
+  // string log_stream = 7;
+  if (!this->_internal_log_stream().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_log_stream());
   }
 
   // .google.protobuf.Timestamp timestamp = 1;
@@ -4547,6 +4882,9 @@ void RemoteOperationContainerLogLine::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message
   if (!from._internal_container_name().empty()) {
     _this->_internal_set_container_name(from._internal_container_name());
   }
+  if (!from._internal_log_stream().empty()) {
+    _this->_internal_set_log_stream(from._internal_log_stream());
+  }
   if (from._internal_has_timestamp()) {
     _this->_internal_mutable_timestamp()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_timestamp());
@@ -4587,6 +4925,10 @@ void RemoteOperationContainerLogLine::InternalSwap(RemoteOperationContainerLogLi
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.container_name_, lhs_arena,
       &other->_impl_.container_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.log_stream_, lhs_arena,
+      &other->_impl_.log_stream_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(RemoteOperationContainerLogLine, _impl_.level_)

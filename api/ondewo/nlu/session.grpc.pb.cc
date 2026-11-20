@@ -25,6 +25,9 @@ namespace nlu {
 static const char* Sessions_method_names[] = {
   "/ondewo.nlu.Sessions/DetectIntent",
   "/ondewo.nlu.Sessions/StreamingDetectIntent",
+  "/ondewo.nlu.Sessions/InterruptTurn",
+  "/ondewo.nlu.Sessions/PrepareWarmTransferIntro",
+  "/ondewo.nlu.Sessions/GetWarmTransferIntroOutcome",
   "/ondewo.nlu.Sessions/ListSessions",
   "/ondewo.nlu.Sessions/GetSession",
   "/ondewo.nlu.Sessions/CreateSession",
@@ -84,54 +87,57 @@ std::unique_ptr< Sessions::Stub> Sessions::NewStub(const std::shared_ptr< ::grpc
 Sessions::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_DetectIntent_(Sessions_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_StreamingDetectIntent_(Sessions_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::BIDI_STREAMING, channel)
-  , rpcmethod_ListSessions_(Sessions_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetSession_(Sessions_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CreateSession_(Sessions_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CreateSessionStep_(Sessions_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetSessionStep_(Sessions_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UpdateSessionStep_(Sessions_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeleteSessionStep_(Sessions_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeleteSession_(Sessions_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListSessionLabels_(Sessions_method_names[10], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListSessionLabelsOfAllSessions_(Sessions_method_names[11], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListLanguageCodesOfAllSessions_(Sessions_method_names[12], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListMatchedIntentsOfAllSessions_(Sessions_method_names[13], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListMatchedEntityTypesOfAllSessions_(Sessions_method_names[14], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListUserIdsOfAllSessions_(Sessions_method_names[15], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListIdentifiedUserIdsOfAllSessions_(Sessions_method_names[16], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListTagsOfAllSessions_(Sessions_method_names[17], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListInputContextsOfAllSessions_(Sessions_method_names[18], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListOutputContextsOfAllSessions_(Sessions_method_names[19], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListPlatformsOfAllSessions_(Sessions_method_names[20], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListAccountIdsOfAllSessions_(Sessions_method_names[21], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListPropertyIdsOfAllSessions_(Sessions_method_names[22], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListDatastreamIdsOfAllSessions_(Sessions_method_names[23], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListOriginIdsOfAllSessions_(Sessions_method_names[24], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AddSessionLabels_(Sessions_method_names[25], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeleteSessionLabels_(Sessions_method_names[26], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AddSessionComment_(Sessions_method_names[27], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeleteSessionComments_(Sessions_method_names[28], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UpdateSessionComments_(Sessions_method_names[29], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListSessionComments_(Sessions_method_names[30], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListSessionCommentsOfAllSessions_(Sessions_method_names[31], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AddSessionFeedback_(Sessions_method_names[32], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AddSessionStepFeedback_(Sessions_method_names[33], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetSessionFeedback_(Sessions_method_names[34], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UpdateSessionFeedback_(Sessions_method_names[35], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeleteSessionFeedback_(Sessions_method_names[36], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListSessionFeedback_(Sessions_method_names[37], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListSessionFeedbackOfAllSessions_(Sessions_method_names[38], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetFeedbackStatistics_(Sessions_method_names[39], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetFeedbackStatisticsTimeSeries_(Sessions_method_names[40], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListSessionReviews_(Sessions_method_names[41], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetSessionReview_(Sessions_method_names[42], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetLatestSessionReview_(Sessions_method_names[43], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_CreateSessionReview_(Sessions_method_names[44], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetAudioFiles_(Sessions_method_names[45], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_AddAudioFiles_(Sessions_method_names[46], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeleteAudioFiles_(Sessions_method_names[47], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetAudioFileOfSession_(Sessions_method_names[48], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListAudioFiles_(Sessions_method_names[49], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_InterruptTurn_(Sessions_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_PrepareWarmTransferIntro_(Sessions_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetWarmTransferIntroOutcome_(Sessions_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSessions_(Sessions_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetSession_(Sessions_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CreateSession_(Sessions_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CreateSessionStep_(Sessions_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetSessionStep_(Sessions_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpdateSessionStep_(Sessions_method_names[10], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteSessionStep_(Sessions_method_names[11], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteSession_(Sessions_method_names[12], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSessionLabels_(Sessions_method_names[13], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSessionLabelsOfAllSessions_(Sessions_method_names[14], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListLanguageCodesOfAllSessions_(Sessions_method_names[15], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListMatchedIntentsOfAllSessions_(Sessions_method_names[16], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListMatchedEntityTypesOfAllSessions_(Sessions_method_names[17], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListUserIdsOfAllSessions_(Sessions_method_names[18], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListIdentifiedUserIdsOfAllSessions_(Sessions_method_names[19], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListTagsOfAllSessions_(Sessions_method_names[20], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListInputContextsOfAllSessions_(Sessions_method_names[21], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListOutputContextsOfAllSessions_(Sessions_method_names[22], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListPlatformsOfAllSessions_(Sessions_method_names[23], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListAccountIdsOfAllSessions_(Sessions_method_names[24], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListPropertyIdsOfAllSessions_(Sessions_method_names[25], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListDatastreamIdsOfAllSessions_(Sessions_method_names[26], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListOriginIdsOfAllSessions_(Sessions_method_names[27], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddSessionLabels_(Sessions_method_names[28], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteSessionLabels_(Sessions_method_names[29], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddSessionComment_(Sessions_method_names[30], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteSessionComments_(Sessions_method_names[31], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpdateSessionComments_(Sessions_method_names[32], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSessionComments_(Sessions_method_names[33], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSessionCommentsOfAllSessions_(Sessions_method_names[34], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddSessionFeedback_(Sessions_method_names[35], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddSessionStepFeedback_(Sessions_method_names[36], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetSessionFeedback_(Sessions_method_names[37], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpdateSessionFeedback_(Sessions_method_names[38], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteSessionFeedback_(Sessions_method_names[39], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSessionFeedback_(Sessions_method_names[40], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSessionFeedbackOfAllSessions_(Sessions_method_names[41], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetFeedbackStatistics_(Sessions_method_names[42], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetFeedbackStatisticsTimeSeries_(Sessions_method_names[43], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSessionReviews_(Sessions_method_names[44], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetSessionReview_(Sessions_method_names[45], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetLatestSessionReview_(Sessions_method_names[46], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CreateSessionReview_(Sessions_method_names[47], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetAudioFiles_(Sessions_method_names[48], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddAudioFiles_(Sessions_method_names[49], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteAudioFiles_(Sessions_method_names[50], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetAudioFileOfSession_(Sessions_method_names[51], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListAudioFiles_(Sessions_method_names[52], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status Sessions::Stub::DetectIntent(::grpc::ClientContext* context, const ::ondewo::nlu::DetectIntentRequest& request, ::ondewo::nlu::DetectIntentResponse* response) {
@@ -171,6 +177,75 @@ void Sessions::Stub::async::StreamingDetectIntent(::grpc::ClientContext* context
 
 ::grpc::ClientAsyncReaderWriter< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>* Sessions::Stub::PrepareAsyncStreamingDetectIntentRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncReaderWriterFactory< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>::Create(channel_.get(), cq, rpcmethod_StreamingDetectIntent_, context, false, nullptr);
+}
+
+::grpc::Status Sessions::Stub::InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::ondewo::nlu::InterruptTurnResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::nlu::InterruptTurnRequest, ::ondewo::nlu::InterruptTurnResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_InterruptTurn_, context, request, response);
+}
+
+void Sessions::Stub::async::InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::nlu::InterruptTurnRequest, ::ondewo::nlu::InterruptTurnResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_InterruptTurn_, context, request, response, std::move(f));
+}
+
+void Sessions::Stub::async::InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_InterruptTurn_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::nlu::InterruptTurnResponse>* Sessions::Stub::PrepareAsyncInterruptTurnRaw(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::nlu::InterruptTurnResponse, ::ondewo::nlu::InterruptTurnRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_InterruptTurn_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::nlu::InterruptTurnResponse>* Sessions::Stub::AsyncInterruptTurnRaw(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncInterruptTurnRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Sessions::Stub::PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::ondewo::nlu::PrepareWarmTransferIntroResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_PrepareWarmTransferIntro_, context, request, response);
+}
+
+void Sessions::Stub::async::PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::ondewo::nlu::PrepareWarmTransferIntroResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_PrepareWarmTransferIntro_, context, request, response, std::move(f));
+}
+
+void Sessions::Stub::async::PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_PrepareWarmTransferIntro_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::nlu::PrepareWarmTransferIntroResponse>* Sessions::Stub::PrepareAsyncPrepareWarmTransferIntroRaw(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::nlu::PrepareWarmTransferIntroResponse, ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_PrepareWarmTransferIntro_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::nlu::PrepareWarmTransferIntroResponse>* Sessions::Stub::AsyncPrepareWarmTransferIntroRaw(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncPrepareWarmTransferIntroRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Sessions::Stub::GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::ondewo::nlu::WarmTransferIntroOutcome* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::ondewo::nlu::WarmTransferIntroOutcome, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetWarmTransferIntroOutcome_, context, request, response);
+}
+
+void Sessions::Stub::async::GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::ondewo::nlu::WarmTransferIntroOutcome, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetWarmTransferIntroOutcome_, context, request, response, std::move(f));
+}
+
+void Sessions::Stub::async::GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetWarmTransferIntroOutcome_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::nlu::WarmTransferIntroOutcome>* Sessions::Stub::PrepareAsyncGetWarmTransferIntroOutcomeRaw(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::ondewo::nlu::WarmTransferIntroOutcome, ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetWarmTransferIntroOutcome_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::ondewo::nlu::WarmTransferIntroOutcome>* Sessions::Stub::AsyncGetWarmTransferIntroOutcomeRaw(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetWarmTransferIntroOutcomeRaw(context, request, cq);
+  result->StartCall();
+  return result;
 }
 
 ::grpc::Status Sessions::Stub::ListSessions(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest& request, ::ondewo::nlu::ListSessionsResponse* response) {
@@ -1301,6 +1376,36 @@ Sessions::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Sessions_method_names[2],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::InterruptTurnRequest, ::ondewo::nlu::InterruptTurnResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Sessions::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::nlu::InterruptTurnRequest* req,
+             ::ondewo::nlu::InterruptTurnResponse* resp) {
+               return service->InterruptTurn(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Sessions_method_names[3],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::ondewo::nlu::PrepareWarmTransferIntroResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Sessions::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::nlu::PrepareWarmTransferIntroRequest* req,
+             ::ondewo::nlu::PrepareWarmTransferIntroResponse* resp) {
+               return service->PrepareWarmTransferIntro(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Sessions_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::ondewo::nlu::WarmTransferIntroOutcome, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Sessions::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* req,
+             ::ondewo::nlu::WarmTransferIntroOutcome* resp) {
+               return service->GetWarmTransferIntroOutcome(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Sessions_method_names[5],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListSessionsRequest, ::ondewo::nlu::ListSessionsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
              ::grpc::ServerContext* ctx,
@@ -1309,7 +1414,7 @@ Sessions::Service::Service() {
                return service->ListSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[3],
+      Sessions_method_names[6],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetSessionRequest, ::ondewo::nlu::Session, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1319,7 +1424,7 @@ Sessions::Service::Service() {
                return service->GetSession(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[4],
+      Sessions_method_names[7],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::CreateSessionRequest, ::ondewo::nlu::Session, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1329,7 +1434,7 @@ Sessions::Service::Service() {
                return service->CreateSession(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[5],
+      Sessions_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::CreateSessionStepRequest, ::ondewo::nlu::SessionStep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1339,7 +1444,7 @@ Sessions::Service::Service() {
                return service->CreateSessionStep(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[6],
+      Sessions_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetSessionStepRequest, ::ondewo::nlu::SessionStep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1349,7 +1454,7 @@ Sessions::Service::Service() {
                return service->GetSessionStep(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[7],
+      Sessions_method_names[10],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::UpdateSessionStepRequest, ::ondewo::nlu::SessionStep, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1359,7 +1464,7 @@ Sessions::Service::Service() {
                return service->UpdateSessionStep(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[8],
+      Sessions_method_names[11],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::DeleteSessionStepRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1369,7 +1474,7 @@ Sessions::Service::Service() {
                return service->DeleteSessionStep(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[9],
+      Sessions_method_names[12],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::DeleteSessionRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1379,7 +1484,7 @@ Sessions::Service::Service() {
                return service->DeleteSession(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[10],
+      Sessions_method_names[13],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListSessionLabelsRequest, ::ondewo::nlu::ListSessionLabelsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1389,7 +1494,7 @@ Sessions::Service::Service() {
                return service->ListSessionLabels(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[11],
+      Sessions_method_names[14],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest, ::ondewo::nlu::ListSessionLabelsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1399,7 +1504,7 @@ Sessions::Service::Service() {
                return service->ListSessionLabelsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[12],
+      Sessions_method_names[15],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest, ::ondewo::nlu::ListLanguageCodesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1409,7 +1514,7 @@ Sessions::Service::Service() {
                return service->ListLanguageCodesOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[13],
+      Sessions_method_names[16],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest, ::ondewo::nlu::ListMatchedIntentsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1419,7 +1524,7 @@ Sessions::Service::Service() {
                return service->ListMatchedIntentsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[14],
+      Sessions_method_names[17],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest, ::ondewo::nlu::ListMatchedEntityTypesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1429,7 +1534,7 @@ Sessions::Service::Service() {
                return service->ListMatchedEntityTypesOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[15],
+      Sessions_method_names[18],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListUserIdsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1439,7 +1544,7 @@ Sessions::Service::Service() {
                return service->ListUserIdsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[16],
+      Sessions_method_names[19],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListIdentifiedUserIdsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1449,7 +1554,7 @@ Sessions::Service::Service() {
                return service->ListIdentifiedUserIdsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[17],
+      Sessions_method_names[20],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListTagsOfAllSessionsRequest, ::ondewo::nlu::ListTagsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1459,7 +1564,7 @@ Sessions::Service::Service() {
                return service->ListTagsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[18],
+      Sessions_method_names[21],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListInputContextsOfAllSessionsRequest, ::ondewo::nlu::ListInputContextsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1469,7 +1574,7 @@ Sessions::Service::Service() {
                return service->ListInputContextsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[19],
+      Sessions_method_names[22],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListOutputContextsOfAllSessionsRequest, ::ondewo::nlu::ListOutputContextsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1479,7 +1584,7 @@ Sessions::Service::Service() {
                return service->ListOutputContextsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[20],
+      Sessions_method_names[23],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListPlatformsOfAllSessionsRequest, ::ondewo::nlu::ListPlatformsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1489,7 +1594,7 @@ Sessions::Service::Service() {
                return service->ListPlatformsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[21],
+      Sessions_method_names[24],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListAccountIdsOfAllSessionsRequest, ::ondewo::nlu::ListAccountIdsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1499,7 +1604,7 @@ Sessions::Service::Service() {
                return service->ListAccountIdsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[22],
+      Sessions_method_names[25],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest, ::ondewo::nlu::ListPropertyIdsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1509,7 +1614,7 @@ Sessions::Service::Service() {
                return service->ListPropertyIdsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[23],
+      Sessions_method_names[26],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest, ::ondewo::nlu::ListDatastreamIdsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1519,7 +1624,7 @@ Sessions::Service::Service() {
                return service->ListDatastreamIdsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[24],
+      Sessions_method_names[27],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListOriginIdsOfAllSessionsRequest, ::ondewo::nlu::ListOriginIdsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1529,7 +1634,7 @@ Sessions::Service::Service() {
                return service->ListOriginIdsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[25],
+      Sessions_method_names[28],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::AddSessionLabelsRequest, ::ondewo::nlu::Session, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1539,7 +1644,7 @@ Sessions::Service::Service() {
                return service->AddSessionLabels(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[26],
+      Sessions_method_names[29],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::DeleteSessionLabelsRequest, ::ondewo::nlu::Session, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1549,7 +1654,7 @@ Sessions::Service::Service() {
                return service->DeleteSessionLabels(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[27],
+      Sessions_method_names[30],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::AddSessionCommentRequest, ::ondewo::nlu::Comment, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1559,7 +1664,7 @@ Sessions::Service::Service() {
                return service->AddSessionComment(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[28],
+      Sessions_method_names[31],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::DeleteSessionCommentsRequest, ::ondewo::nlu::Session, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1569,7 +1674,7 @@ Sessions::Service::Service() {
                return service->DeleteSessionComments(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[29],
+      Sessions_method_names[32],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::UpdateSessionCommentsRequest, ::ondewo::nlu::Session, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1579,7 +1684,7 @@ Sessions::Service::Service() {
                return service->UpdateSessionComments(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[30],
+      Sessions_method_names[33],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListSessionCommentsRequest, ::ondewo::nlu::ListSessionCommentsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1589,7 +1694,7 @@ Sessions::Service::Service() {
                return service->ListSessionComments(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[31],
+      Sessions_method_names[34],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest, ::ondewo::nlu::ListSessionCommentsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1599,7 +1704,7 @@ Sessions::Service::Service() {
                return service->ListSessionCommentsOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[32],
+      Sessions_method_names[35],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::AddSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1609,7 +1714,7 @@ Sessions::Service::Service() {
                return service->AddSessionFeedback(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[33],
+      Sessions_method_names[36],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::AddSessionStepFeedbackRequest, ::ondewo::nlu::SessionFeedback, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1619,7 +1724,7 @@ Sessions::Service::Service() {
                return service->AddSessionStepFeedback(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[34],
+      Sessions_method_names[37],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1629,7 +1734,7 @@ Sessions::Service::Service() {
                return service->GetSessionFeedback(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[35],
+      Sessions_method_names[38],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::UpdateSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1639,7 +1744,7 @@ Sessions::Service::Service() {
                return service->UpdateSessionFeedback(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[36],
+      Sessions_method_names[39],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::DeleteSessionFeedbackRequest, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1649,7 +1754,7 @@ Sessions::Service::Service() {
                return service->DeleteSessionFeedback(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[37],
+      Sessions_method_names[40],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListSessionFeedbackRequest, ::ondewo::nlu::ListSessionFeedbackResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1659,7 +1764,7 @@ Sessions::Service::Service() {
                return service->ListSessionFeedback(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[38],
+      Sessions_method_names[41],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest, ::ondewo::nlu::ListSessionFeedbackResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1669,7 +1774,7 @@ Sessions::Service::Service() {
                return service->ListSessionFeedbackOfAllSessions(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[39],
+      Sessions_method_names[42],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetFeedbackStatisticsRequest, ::ondewo::nlu::GetFeedbackStatisticsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1679,7 +1784,7 @@ Sessions::Service::Service() {
                return service->GetFeedbackStatistics(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[40],
+      Sessions_method_names[43],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest, ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1689,7 +1794,7 @@ Sessions::Service::Service() {
                return service->GetFeedbackStatisticsTimeSeries(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[41],
+      Sessions_method_names[44],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListSessionReviewsRequest, ::ondewo::nlu::ListSessionReviewsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1699,7 +1804,7 @@ Sessions::Service::Service() {
                return service->ListSessionReviews(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[42],
+      Sessions_method_names[45],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetSessionReviewRequest, ::ondewo::nlu::SessionReview, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1709,7 +1814,7 @@ Sessions::Service::Service() {
                return service->GetSessionReview(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[43],
+      Sessions_method_names[46],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetLatestSessionReviewRequest, ::ondewo::nlu::SessionReview, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1719,7 +1824,7 @@ Sessions::Service::Service() {
                return service->GetLatestSessionReview(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[44],
+      Sessions_method_names[47],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::CreateSessionReviewRequest, ::ondewo::nlu::SessionReview, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1729,7 +1834,7 @@ Sessions::Service::Service() {
                return service->CreateSessionReview(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[45],
+      Sessions_method_names[48],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetAudioFilesRequest, ::ondewo::nlu::GetAudioFilesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1739,7 +1844,7 @@ Sessions::Service::Service() {
                return service->GetAudioFiles(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[46],
+      Sessions_method_names[49],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::AddAudioFilesRequest, ::ondewo::nlu::AddAudioFilesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1749,7 +1854,7 @@ Sessions::Service::Service() {
                return service->AddAudioFiles(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[47],
+      Sessions_method_names[50],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::DeleteAudioFilesRequest, ::ondewo::nlu::DeleteAudioFilesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1759,7 +1864,7 @@ Sessions::Service::Service() {
                return service->DeleteAudioFiles(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[48],
+      Sessions_method_names[51],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::GetAudioFileOfSessionRequest, ::ondewo::nlu::AudioFileResource, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1769,7 +1874,7 @@ Sessions::Service::Service() {
                return service->GetAudioFileOfSession(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      Sessions_method_names[49],
+      Sessions_method_names[52],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< Sessions::Service, ::ondewo::nlu::ListAudioFilesRequest, ::ondewo::nlu::ListAudioFilesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](Sessions::Service* service,
@@ -1793,6 +1898,27 @@ Sessions::Service::~Service() {
 ::grpc::Status Sessions::Service::StreamingDetectIntent(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::ondewo::nlu::StreamingDetectIntentResponse, ::ondewo::nlu::StreamingDetectIntentRequest>* stream) {
   (void) context;
   (void) stream;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Sessions::Service::InterruptTurn(::grpc::ServerContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Sessions::Service::PrepareWarmTransferIntro(::grpc::ServerContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Sessions::Service::GetWarmTransferIntroOutcome(::grpc::ServerContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response) {
+  (void) context;
+  (void) request;
+  (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 

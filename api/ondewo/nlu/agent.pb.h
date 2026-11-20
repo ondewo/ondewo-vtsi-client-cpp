@@ -302,6 +302,21 @@ extern UpdateAgentRequestDefaultTypeInternal _UpdateAgentRequest_default_instanc
 class UserInProject;
 struct UserInProjectDefaultTypeInternal;
 extern UserInProjectDefaultTypeInternal _UserInProject_default_instance_;
+class WarmTransferAgentLexicon;
+struct WarmTransferAgentLexiconDefaultTypeInternal;
+extern WarmTransferAgentLexiconDefaultTypeInternal _WarmTransferAgentLexicon_default_instance_;
+class WarmTransferAgentSettings;
+struct WarmTransferAgentSettingsDefaultTypeInternal;
+extern WarmTransferAgentSettingsDefaultTypeInternal _WarmTransferAgentSettings_default_instance_;
+class WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse;
+struct WarmTransferAgentSettings_DefaultTextsEntry_DoNotUseDefaultTypeInternal;
+extern WarmTransferAgentSettings_DefaultTextsEntry_DoNotUseDefaultTypeInternal _WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse_default_instance_;
+class WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse;
+struct WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUseDefaultTypeInternal;
+extern WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUseDefaultTypeInternal _WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse_default_instance_;
+class WarmTransferAgentTexts;
+struct WarmTransferAgentTextsDefaultTypeInternal;
+extern WarmTransferAgentTextsDefaultTypeInternal _WarmTransferAgentTexts_default_instance_;
 }  // namespace nlu
 }  // namespace ondewo
 PROTOBUF_NAMESPACE_OPEN
@@ -385,6 +400,11 @@ template<> ::ondewo::nlu::SetResourcesRequest* Arena::CreateMaybeMessage<::ondew
 template<> ::ondewo::nlu::TrainAgentRequest* Arena::CreateMaybeMessage<::ondewo::nlu::TrainAgentRequest>(Arena*);
 template<> ::ondewo::nlu::UpdateAgentRequest* Arena::CreateMaybeMessage<::ondewo::nlu::UpdateAgentRequest>(Arena*);
 template<> ::ondewo::nlu::UserInProject* Arena::CreateMaybeMessage<::ondewo::nlu::UserInProject>(Arena*);
+template<> ::ondewo::nlu::WarmTransferAgentLexicon* Arena::CreateMaybeMessage<::ondewo::nlu::WarmTransferAgentLexicon>(Arena*);
+template<> ::ondewo::nlu::WarmTransferAgentSettings* Arena::CreateMaybeMessage<::ondewo::nlu::WarmTransferAgentSettings>(Arena*);
+template<> ::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::nlu::WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse>(Arena*);
+template<> ::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::nlu::WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse>(Arena*);
+template<> ::ondewo::nlu::WarmTransferAgentTexts* Arena::CreateMaybeMessage<::ondewo::nlu::WarmTransferAgentTexts>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace ondewo {
 namespace nlu {
@@ -835,6 +855,7 @@ class Agent final :
     kConfigsFieldNumber = 7,
     kCreatedAtFieldNumber = 11,
     kModifiedAtFieldNumber = 12,
+    kWarmTransferSettingsFieldNumber = 15,
     kStatusFieldNumber = 9,
   };
   // repeated string supported_language_codes = 4;
@@ -1041,6 +1062,24 @@ class Agent final :
       ::PROTOBUF_NAMESPACE_ID::Timestamp* modified_at);
   ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_modified_at();
 
+  // .ondewo.nlu.WarmTransferAgentSettings warm_transfer_settings = 15;
+  bool has_warm_transfer_settings() const;
+  private:
+  bool _internal_has_warm_transfer_settings() const;
+  public:
+  void clear_warm_transfer_settings();
+  const ::ondewo::nlu::WarmTransferAgentSettings& warm_transfer_settings() const;
+  PROTOBUF_NODISCARD ::ondewo::nlu::WarmTransferAgentSettings* release_warm_transfer_settings();
+  ::ondewo::nlu::WarmTransferAgentSettings* mutable_warm_transfer_settings();
+  void set_allocated_warm_transfer_settings(::ondewo::nlu::WarmTransferAgentSettings* warm_transfer_settings);
+  private:
+  const ::ondewo::nlu::WarmTransferAgentSettings& _internal_warm_transfer_settings() const;
+  ::ondewo::nlu::WarmTransferAgentSettings* _internal_mutable_warm_transfer_settings();
+  public:
+  void unsafe_arena_set_allocated_warm_transfer_settings(
+      ::ondewo::nlu::WarmTransferAgentSettings* warm_transfer_settings);
+  ::ondewo::nlu::WarmTransferAgentSettings* unsafe_arena_release_warm_transfer_settings();
+
   // .ondewo.nlu.AgentStatus status = 9;
   void clear_status();
   ::ondewo::nlu::AgentStatus status() const;
@@ -1071,7 +1110,689 @@ class Agent final :
     ::PROTOBUF_NAMESPACE_ID::Struct* configs_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* created_at_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* modified_at_;
+    ::ondewo::nlu::WarmTransferAgentSettings* warm_transfer_settings_;
     int status_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fnlu_2fagent_2eproto;
+};
+// -------------------------------------------------------------------
+
+class WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse, 
+    std::string, ::ondewo::nlu::WarmTransferAgentTexts,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse, 
+    std::string, ::ondewo::nlu::WarmTransferAgentTexts,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> SuperType;
+  WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse();
+  explicit PROTOBUF_CONSTEXPR WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse& other);
+  static const WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse*>(&_WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(std::string* s) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(s->data(), static_cast<int>(s->size()), ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE, "ondewo.nlu.WarmTransferAgentSettings.DefaultTextsEntry.key");
+ }
+  static bool ValidateValue(void*) { return true; }
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  friend struct ::TableStruct_ondewo_2fnlu_2fagent_2eproto;
+};
+
+// -------------------------------------------------------------------
+
+class WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse, 
+    std::string, ::ondewo::nlu::WarmTransferAgentLexicon,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse, 
+    std::string, ::ondewo::nlu::WarmTransferAgentLexicon,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> SuperType;
+  WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse();
+  explicit PROTOBUF_CONSTEXPR WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse& other);
+  static const WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse*>(&_WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(std::string* s) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(s->data(), static_cast<int>(s->size()), ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE, "ondewo.nlu.WarmTransferAgentSettings.ExtraLexiconEntry.key");
+ }
+  static bool ValidateValue(void*) { return true; }
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  friend struct ::TableStruct_ondewo_2fnlu_2fagent_2eproto;
+};
+
+// -------------------------------------------------------------------
+
+class WarmTransferAgentSettings final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.nlu.WarmTransferAgentSettings) */ {
+ public:
+  inline WarmTransferAgentSettings() : WarmTransferAgentSettings(nullptr) {}
+  ~WarmTransferAgentSettings() override;
+  explicit PROTOBUF_CONSTEXPR WarmTransferAgentSettings(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  WarmTransferAgentSettings(const WarmTransferAgentSettings& from);
+  WarmTransferAgentSettings(WarmTransferAgentSettings&& from) noexcept
+    : WarmTransferAgentSettings() {
+    *this = ::std::move(from);
+  }
+
+  inline WarmTransferAgentSettings& operator=(const WarmTransferAgentSettings& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline WarmTransferAgentSettings& operator=(WarmTransferAgentSettings&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const WarmTransferAgentSettings& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const WarmTransferAgentSettings* internal_default_instance() {
+    return reinterpret_cast<const WarmTransferAgentSettings*>(
+               &_WarmTransferAgentSettings_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(WarmTransferAgentSettings& a, WarmTransferAgentSettings& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(WarmTransferAgentSettings* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(WarmTransferAgentSettings* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  WarmTransferAgentSettings* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<WarmTransferAgentSettings>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const WarmTransferAgentSettings& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const WarmTransferAgentSettings& from) {
+    WarmTransferAgentSettings::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WarmTransferAgentSettings* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.nlu.WarmTransferAgentSettings";
+  }
+  protected:
+  explicit WarmTransferAgentSettings(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDefaultTextsFieldNumber = 3,
+    kExtraLexiconFieldNumber = 4,
+    kLlmCcaiServiceNameFieldNumber = 2,
+    kEnabledFieldNumber = 1,
+  };
+  // map<string, .ondewo.nlu.WarmTransferAgentTexts> default_texts = 3;
+  int default_texts_size() const;
+  private:
+  int _internal_default_texts_size() const;
+  public:
+  void clear_default_texts();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >&
+      _internal_default_texts() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >*
+      _internal_mutable_default_texts();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >&
+      default_texts() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >*
+      mutable_default_texts();
+
+  // map<string, .ondewo.nlu.WarmTransferAgentLexicon> extra_lexicon = 4;
+  int extra_lexicon_size() const;
+  private:
+  int _internal_extra_lexicon_size() const;
+  public:
+  void clear_extra_lexicon();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >&
+      _internal_extra_lexicon() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >*
+      _internal_mutable_extra_lexicon();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >&
+      extra_lexicon() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >*
+      mutable_extra_lexicon();
+
+  // string llm_ccai_service_name = 2;
+  void clear_llm_ccai_service_name();
+  const std::string& llm_ccai_service_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_llm_ccai_service_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_llm_ccai_service_name();
+  PROTOBUF_NODISCARD std::string* release_llm_ccai_service_name();
+  void set_allocated_llm_ccai_service_name(std::string* llm_ccai_service_name);
+  private:
+  const std::string& _internal_llm_ccai_service_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_llm_ccai_service_name(const std::string& value);
+  std::string* _internal_mutable_llm_ccai_service_name();
+  public:
+
+  // optional bool enabled = 1;
+  bool has_enabled() const;
+  private:
+  bool _internal_has_enabled() const;
+  public:
+  void clear_enabled();
+  bool enabled() const;
+  void set_enabled(bool value);
+  private:
+  bool _internal_enabled() const;
+  void _internal_set_enabled(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.nlu.WarmTransferAgentSettings)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+        WarmTransferAgentSettings_DefaultTextsEntry_DoNotUse,
+        std::string, ::ondewo::nlu::WarmTransferAgentTexts,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> default_texts_;
+    ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+        WarmTransferAgentSettings_ExtraLexiconEntry_DoNotUse,
+        std::string, ::ondewo::nlu::WarmTransferAgentLexicon,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> extra_lexicon_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr llm_ccai_service_name_;
+    bool enabled_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fnlu_2fagent_2eproto;
+};
+// -------------------------------------------------------------------
+
+class WarmTransferAgentTexts final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.nlu.WarmTransferAgentTexts) */ {
+ public:
+  inline WarmTransferAgentTexts() : WarmTransferAgentTexts(nullptr) {}
+  ~WarmTransferAgentTexts() override;
+  explicit PROTOBUF_CONSTEXPR WarmTransferAgentTexts(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  WarmTransferAgentTexts(const WarmTransferAgentTexts& from);
+  WarmTransferAgentTexts(WarmTransferAgentTexts&& from) noexcept
+    : WarmTransferAgentTexts() {
+    *this = ::std::move(from);
+  }
+
+  inline WarmTransferAgentTexts& operator=(const WarmTransferAgentTexts& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline WarmTransferAgentTexts& operator=(WarmTransferAgentTexts&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const WarmTransferAgentTexts& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const WarmTransferAgentTexts* internal_default_instance() {
+    return reinterpret_cast<const WarmTransferAgentTexts*>(
+               &_WarmTransferAgentTexts_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(WarmTransferAgentTexts& a, WarmTransferAgentTexts& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(WarmTransferAgentTexts* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(WarmTransferAgentTexts* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  WarmTransferAgentTexts* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<WarmTransferAgentTexts>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const WarmTransferAgentTexts& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const WarmTransferAgentTexts& from) {
+    WarmTransferAgentTexts::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WarmTransferAgentTexts* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.nlu.WarmTransferAgentTexts";
+  }
+  protected:
+  explicit WarmTransferAgentTexts(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kReadyQuestionFieldNumber = 1,
+    kAcceptQuestionFieldNumber = 2,
+    kDeclineReasonQuestionFieldNumber = 3,
+    kCallerDeclinedMessageFieldNumber = 4,
+    kCallerUnreachableMessageFieldNumber = 5,
+  };
+  // string ready_question = 1;
+  void clear_ready_question();
+  const std::string& ready_question() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ready_question(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ready_question();
+  PROTOBUF_NODISCARD std::string* release_ready_question();
+  void set_allocated_ready_question(std::string* ready_question);
+  private:
+  const std::string& _internal_ready_question() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ready_question(const std::string& value);
+  std::string* _internal_mutable_ready_question();
+  public:
+
+  // string accept_question = 2;
+  void clear_accept_question();
+  const std::string& accept_question() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_accept_question(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_accept_question();
+  PROTOBUF_NODISCARD std::string* release_accept_question();
+  void set_allocated_accept_question(std::string* accept_question);
+  private:
+  const std::string& _internal_accept_question() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_accept_question(const std::string& value);
+  std::string* _internal_mutable_accept_question();
+  public:
+
+  // optional string decline_reason_question = 3;
+  bool has_decline_reason_question() const;
+  private:
+  bool _internal_has_decline_reason_question() const;
+  public:
+  void clear_decline_reason_question();
+  const std::string& decline_reason_question() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_decline_reason_question(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_decline_reason_question();
+  PROTOBUF_NODISCARD std::string* release_decline_reason_question();
+  void set_allocated_decline_reason_question(std::string* decline_reason_question);
+  private:
+  const std::string& _internal_decline_reason_question() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_decline_reason_question(const std::string& value);
+  std::string* _internal_mutable_decline_reason_question();
+  public:
+
+  // string caller_declined_message = 4;
+  void clear_caller_declined_message();
+  const std::string& caller_declined_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_caller_declined_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_caller_declined_message();
+  PROTOBUF_NODISCARD std::string* release_caller_declined_message();
+  void set_allocated_caller_declined_message(std::string* caller_declined_message);
+  private:
+  const std::string& _internal_caller_declined_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_caller_declined_message(const std::string& value);
+  std::string* _internal_mutable_caller_declined_message();
+  public:
+
+  // string caller_unreachable_message = 5;
+  void clear_caller_unreachable_message();
+  const std::string& caller_unreachable_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_caller_unreachable_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_caller_unreachable_message();
+  PROTOBUF_NODISCARD std::string* release_caller_unreachable_message();
+  void set_allocated_caller_unreachable_message(std::string* caller_unreachable_message);
+  private:
+  const std::string& _internal_caller_unreachable_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_caller_unreachable_message(const std::string& value);
+  std::string* _internal_mutable_caller_unreachable_message();
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.nlu.WarmTransferAgentTexts)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ready_question_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr accept_question_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr decline_reason_question_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr caller_declined_message_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr caller_unreachable_message_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fnlu_2fagent_2eproto;
+};
+// -------------------------------------------------------------------
+
+class WarmTransferAgentLexicon final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.nlu.WarmTransferAgentLexicon) */ {
+ public:
+  inline WarmTransferAgentLexicon() : WarmTransferAgentLexicon(nullptr) {}
+  ~WarmTransferAgentLexicon() override;
+  explicit PROTOBUF_CONSTEXPR WarmTransferAgentLexicon(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  WarmTransferAgentLexicon(const WarmTransferAgentLexicon& from);
+  WarmTransferAgentLexicon(WarmTransferAgentLexicon&& from) noexcept
+    : WarmTransferAgentLexicon() {
+    *this = ::std::move(from);
+  }
+
+  inline WarmTransferAgentLexicon& operator=(const WarmTransferAgentLexicon& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline WarmTransferAgentLexicon& operator=(WarmTransferAgentLexicon&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const WarmTransferAgentLexicon& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const WarmTransferAgentLexicon* internal_default_instance() {
+    return reinterpret_cast<const WarmTransferAgentLexicon*>(
+               &_WarmTransferAgentLexicon_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(WarmTransferAgentLexicon& a, WarmTransferAgentLexicon& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(WarmTransferAgentLexicon* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(WarmTransferAgentLexicon* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  WarmTransferAgentLexicon* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<WarmTransferAgentLexicon>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const WarmTransferAgentLexicon& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const WarmTransferAgentLexicon& from) {
+    WarmTransferAgentLexicon::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WarmTransferAgentLexicon* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.nlu.WarmTransferAgentLexicon";
+  }
+  protected:
+  explicit WarmTransferAgentLexicon(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAcceptPhrasesFieldNumber = 1,
+    kDeclinePhrasesFieldNumber = 2,
+  };
+  // repeated string accept_phrases = 1;
+  int accept_phrases_size() const;
+  private:
+  int _internal_accept_phrases_size() const;
+  public:
+  void clear_accept_phrases();
+  const std::string& accept_phrases(int index) const;
+  std::string* mutable_accept_phrases(int index);
+  void set_accept_phrases(int index, const std::string& value);
+  void set_accept_phrases(int index, std::string&& value);
+  void set_accept_phrases(int index, const char* value);
+  void set_accept_phrases(int index, const char* value, size_t size);
+  std::string* add_accept_phrases();
+  void add_accept_phrases(const std::string& value);
+  void add_accept_phrases(std::string&& value);
+  void add_accept_phrases(const char* value);
+  void add_accept_phrases(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& accept_phrases() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_accept_phrases();
+  private:
+  const std::string& _internal_accept_phrases(int index) const;
+  std::string* _internal_add_accept_phrases();
+  public:
+
+  // repeated string decline_phrases = 2;
+  int decline_phrases_size() const;
+  private:
+  int _internal_decline_phrases_size() const;
+  public:
+  void clear_decline_phrases();
+  const std::string& decline_phrases(int index) const;
+  std::string* mutable_decline_phrases(int index);
+  void set_decline_phrases(int index, const std::string& value);
+  void set_decline_phrases(int index, std::string&& value);
+  void set_decline_phrases(int index, const char* value);
+  void set_decline_phrases(int index, const char* value, size_t size);
+  std::string* add_decline_phrases();
+  void add_decline_phrases(const std::string& value);
+  void add_decline_phrases(std::string&& value);
+  void add_decline_phrases(const char* value);
+  void add_decline_phrases(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& decline_phrases() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_decline_phrases();
+  private:
+  const std::string& _internal_decline_phrases(int index) const;
+  std::string* _internal_add_decline_phrases();
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.nlu.WarmTransferAgentLexicon)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> accept_phrases_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> decline_phrases_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1127,7 +1848,7 @@ class AgentWithOwner final :
                &_AgentWithOwner_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    6;
 
   friend void swap(AgentWithOwner& a, AgentWithOwner& b) {
     a.Swap(&b);
@@ -1304,7 +2025,7 @@ class AgentOfUserWithOwner final :
                &_AgentOfUserWithOwner_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    7;
 
   friend void swap(AgentOfUserWithOwner& a, AgentOfUserWithOwner& b) {
     a.Swap(&b);
@@ -1481,7 +2202,7 @@ class CreateAgentRequest final :
                &_CreateAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    8;
 
   friend void swap(CreateAgentRequest& a, CreateAgentRequest& b) {
     a.Swap(&b);
@@ -1649,7 +2370,7 @@ class UpdateAgentRequest final :
                &_UpdateAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    9;
 
   friend void swap(UpdateAgentRequest& a, UpdateAgentRequest& b) {
     a.Swap(&b);
@@ -1837,7 +2558,7 @@ class DeleteAgentRequest final :
                &_DeleteAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    10;
 
   friend void swap(DeleteAgentRequest& a, DeleteAgentRequest& b) {
     a.Swap(&b);
@@ -1990,7 +2711,7 @@ class GetAgentRequest final :
                &_GetAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    11;
 
   friend void swap(GetAgentRequest& a, GetAgentRequest& b) {
     a.Swap(&b);
@@ -2174,7 +2895,7 @@ class ListAgentsRequest final :
                &_ListAgentsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    12;
 
   friend void swap(ListAgentsRequest& a, ListAgentsRequest& b) {
     a.Swap(&b);
@@ -2378,7 +3099,7 @@ class ListAgentsResponse final :
                &_ListAgentsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    13;
 
   friend void swap(ListAgentsResponse& a, ListAgentsResponse& b) {
     a.Swap(&b);
@@ -2551,7 +3272,7 @@ class ListAgentsOfUserResponse final :
                &_ListAgentsOfUserResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    14;
 
   friend void swap(ListAgentsOfUserResponse& a, ListAgentsOfUserResponse& b) {
     a.Swap(&b);
@@ -2724,7 +3445,7 @@ class TrainAgentRequest final :
                &_TrainAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    15;
 
   friend void swap(TrainAgentRequest& a, TrainAgentRequest& b) {
     a.Swap(&b);
@@ -2904,7 +3625,7 @@ class BuildCacheRequest final :
                &_BuildCacheRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    16;
 
   friend void swap(BuildCacheRequest& a, BuildCacheRequest& b) {
     a.Swap(&b);
@@ -3073,7 +3794,7 @@ class ExportAgentRequest final :
                &_ExportAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    17;
 
   friend void swap(ExportAgentRequest& a, ExportAgentRequest& b) {
     a.Swap(&b);
@@ -3259,7 +3980,7 @@ class ExportAgentResponse final :
                &_ExportAgentResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    18;
 
   friend void swap(ExportAgentResponse& a, ExportAgentResponse& b) {
     a.Swap(&b);
@@ -3449,7 +4170,7 @@ class ExportBenchmarkAgentRequest final :
                &_ExportBenchmarkAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    19;
 
   friend void swap(ExportBenchmarkAgentRequest& a, ExportBenchmarkAgentRequest& b) {
     a.Swap(&b);
@@ -3672,7 +4393,7 @@ class ExportBenchmarkAgentResponse final :
                &_ExportBenchmarkAgentResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    21;
 
   friend void swap(ExportBenchmarkAgentResponse& a, ExportBenchmarkAgentResponse& b) {
     a.Swap(&b);
@@ -3851,7 +4572,7 @@ class OptimizeRankingMatchRequest final :
                &_OptimizeRankingMatchRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    22;
 
   friend void swap(OptimizeRankingMatchRequest& a, OptimizeRankingMatchRequest& b) {
     a.Swap(&b);
@@ -4061,7 +4782,7 @@ class RankingMatchOptimizationConfig final :
                &_RankingMatchOptimizationConfig_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    23;
 
   friend void swap(RankingMatchOptimizationConfig& a, RankingMatchOptimizationConfig& b) {
     a.Swap(&b);
@@ -4256,7 +4977,7 @@ class OptimizeRankingMatchResponse final :
                &_OptimizeRankingMatchResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    24;
 
   friend void swap(OptimizeRankingMatchResponse& a, OptimizeRankingMatchResponse& b) {
     a.Swap(&b);
@@ -4439,7 +5160,7 @@ class ImportAgentRequest final :
                &_ImportAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    25;
 
   friend void swap(ImportAgentRequest& a, ImportAgentRequest& b) {
     a.Swap(&b);
@@ -4651,7 +5372,7 @@ class RestoreAgentRequest final :
                &_RestoreAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    26;
 
   friend void swap(RestoreAgentRequest& a, RestoreAgentRequest& b) {
     a.Swap(&b);
@@ -4857,7 +5578,7 @@ class MigrateAgentRequest final :
                &_MigrateAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    27;
 
   friend void swap(MigrateAgentRequest& a, MigrateAgentRequest& b) {
     a.Swap(&b);
@@ -5010,7 +5731,7 @@ class GetAgentStatisticsRequest final :
                &_GetAgentStatisticsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    28;
 
   friend void swap(GetAgentStatisticsRequest& a, GetAgentStatisticsRequest& b) {
     a.Swap(&b);
@@ -5371,7 +6092,7 @@ class GetAgentStatisticsResponse final :
                &_GetAgentStatisticsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    29;
 
   friend void swap(GetAgentStatisticsResponse& a, GetAgentStatisticsResponse& b) {
     a.Swap(&b);
@@ -5566,7 +6287,7 @@ class GetSessionsStatisticsRequest final :
                &_GetSessionsStatisticsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    30;
 
   friend void swap(GetSessionsStatisticsRequest& a, GetSessionsStatisticsRequest& b) {
     a.Swap(&b);
@@ -6030,7 +6751,7 @@ class GetSessionsStatisticsResponse final :
                &_GetSessionsStatisticsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    31;
 
   friend void swap(GetSessionsStatisticsResponse& a, GetSessionsStatisticsResponse& b) {
     a.Swap(&b);
@@ -6225,7 +6946,7 @@ class GetSessionsStatisticsTimeSeriesRequest final :
                &_GetSessionsStatisticsTimeSeriesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    32;
 
   friend void swap(GetSessionsStatisticsTimeSeriesRequest& a, GetSessionsStatisticsTimeSeriesRequest& b) {
     a.Swap(&b);
@@ -6601,7 +7322,7 @@ class LlmTelemetryTimeSeriesBucket final :
                &_LlmTelemetryTimeSeriesBucket_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    33;
 
   friend void swap(LlmTelemetryTimeSeriesBucket& a, LlmTelemetryTimeSeriesBucket& b) {
     a.Swap(&b);
@@ -6798,7 +7519,7 @@ class GetSessionsStatisticsTimeSeriesResponse final :
                &_GetSessionsStatisticsTimeSeriesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    34;
 
   friend void swap(GetSessionsStatisticsTimeSeriesResponse& a, GetSessionsStatisticsTimeSeriesResponse& b) {
     a.Swap(&b);
@@ -6966,7 +7687,7 @@ class AddUserToProjectRequest final :
                &_AddUserToProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    35;
 
   friend void swap(AddUserToProjectRequest& a, AddUserToProjectRequest& b) {
     a.Swap(&b);
@@ -7146,7 +7867,7 @@ class RemoveUserFromProjectRequest final :
                &_RemoveUserFromProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    36;
 
   friend void swap(RemoveUserFromProjectRequest& a, RemoveUserFromProjectRequest& b) {
     a.Swap(&b);
@@ -7315,7 +8036,7 @@ class ListUsersInProjectRequest final :
                &_ListUsersInProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    37;
 
   friend void swap(ListUsersInProjectRequest& a, ListUsersInProjectRequest& b) {
     a.Swap(&b);
@@ -7504,7 +8225,7 @@ class UserInProject final :
                &_UserInProject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    38;
 
   friend void swap(UserInProject& a, UserInProject& b) {
     a.Swap(&b);
@@ -7688,7 +8409,7 @@ class ListUsersInProjectResponse final :
                &_ListUsersInProjectResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    39;
 
   friend void swap(ListUsersInProjectResponse& a, ListUsersInProjectResponse& b) {
     a.Swap(&b);
@@ -7861,7 +8582,7 @@ class GetPlatformInfoResponse final :
                &_GetPlatformInfoResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    40;
 
   friend void swap(GetPlatformInfoResponse& a, GetPlatformInfoResponse& b) {
     a.Swap(&b);
@@ -8030,7 +8751,7 @@ class ListProjectPermissionsRequest final :
                &_ListProjectPermissionsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    41;
 
   friend void swap(ListProjectPermissionsRequest& a, ListProjectPermissionsRequest& b) {
     a.Swap(&b);
@@ -8203,7 +8924,7 @@ class ListProjectPermissionsResponse final :
                &_ListProjectPermissionsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    42;
 
   friend void swap(ListProjectPermissionsResponse& a, ListProjectPermissionsResponse& b) {
     a.Swap(&b);
@@ -8382,7 +9103,7 @@ class SetAgentStatusRequest final :
                &_SetAgentStatusRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    43;
 
   friend void swap(SetAgentStatusRequest& a, SetAgentStatusRequest& b) {
     a.Swap(&b);
@@ -8557,7 +9278,7 @@ class AgentSorting final :
                &_AgentSorting_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    44;
 
   friend void swap(AgentSorting& a, AgentSorting& b) {
     a.Swap(&b);
@@ -8752,7 +9473,7 @@ class SetResourcesRequest final :
                &_SetResourcesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    45;
 
   friend void swap(SetResourcesRequest& a, SetResourcesRequest& b) {
     a.Swap(&b);
@@ -8969,7 +9690,7 @@ class DeleteResourcesRequest final :
                &_DeleteResourcesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    46;
 
   friend void swap(DeleteResourcesRequest& a, DeleteResourcesRequest& b) {
     a.Swap(&b);
@@ -9170,7 +9891,7 @@ class ExportResourcesRequest final :
                &_ExportResourcesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    47;
 
   friend void swap(ExportResourcesRequest& a, ExportResourcesRequest& b) {
     a.Swap(&b);
@@ -9371,7 +10092,7 @@ class ExportResourcesResponse final :
                &_ExportResourcesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    48;
 
   friend void swap(ExportResourcesResponse& a, ExportResourcesResponse& b) {
     a.Swap(&b);
@@ -9588,7 +10309,7 @@ class GetModelStatusesRequest final :
                &_GetModelStatusesRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    49;
 
   friend void swap(GetModelStatusesRequest& a, GetModelStatusesRequest& b) {
     a.Swap(&b);
@@ -9784,7 +10505,7 @@ class ModelStatus final :
                &_ModelStatus_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    50;
 
   friend void swap(ModelStatus& a, ModelStatus& b) {
     a.Swap(&b);
@@ -10051,7 +10772,7 @@ class GetModelStatusesResponse final :
                &_GetModelStatusesResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    51;
 
   friend void swap(GetModelStatusesResponse& a, GetModelStatusesResponse& b) {
     a.Swap(&b);
@@ -10208,7 +10929,7 @@ class CustomPlatformInfo final :
                &_CustomPlatformInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    52;
 
   friend void swap(CustomPlatformInfo& a, CustomPlatformInfo& b) {
     a.Swap(&b);
@@ -10455,7 +11176,7 @@ class GetPlatformMappingRequest final :
                &_GetPlatformMappingRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    53;
 
   friend void swap(GetPlatformMappingRequest& a, GetPlatformMappingRequest& b) {
     a.Swap(&b);
@@ -10608,7 +11329,7 @@ class PlatformMapping final :
                &_PlatformMapping_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    54;
 
   friend void swap(PlatformMapping& a, PlatformMapping& b) {
     a.Swap(&b);
@@ -10781,7 +11502,7 @@ class FullTextSearchRequest final :
                &_FullTextSearchRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    55;
 
   friend void swap(FullTextSearchRequest& a, FullTextSearchRequest& b) {
     a.Swap(&b);
@@ -11030,7 +11751,7 @@ class FullTextSearchResponseEntityType_EntityTypeSearchResult final :
                &_FullTextSearchResponseEntityType_EntityTypeSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    56;
 
   friend void swap(FullTextSearchResponseEntityType_EntityTypeSearchResult& a, FullTextSearchResponseEntityType_EntityTypeSearchResult& b) {
     a.Swap(&b);
@@ -11287,7 +12008,7 @@ class FullTextSearchResponseEntityType final :
                &_FullTextSearchResponseEntityType_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    57;
 
   friend void swap(FullTextSearchResponseEntityType& a, FullTextSearchResponseEntityType& b) {
     a.Swap(&b);
@@ -11537,7 +12258,7 @@ class FullTextSearchResponseEntity_EntitySearchResult final :
                &_FullTextSearchResponseEntity_EntitySearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    58;
 
   friend void swap(FullTextSearchResponseEntity_EntitySearchResult& a, FullTextSearchResponseEntity_EntitySearchResult& b) {
     a.Swap(&b);
@@ -11826,7 +12547,7 @@ class FullTextSearchResponseEntity final :
                &_FullTextSearchResponseEntity_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    59;
 
   friend void swap(FullTextSearchResponseEntity& a, FullTextSearchResponseEntity& b) {
     a.Swap(&b);
@@ -12076,7 +12797,7 @@ class FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult final :
                &_FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    60;
 
   friend void swap(FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult& a, FullTextSearchResponseEntitySynonym_EntitySynonymSearchResult& b) {
     a.Swap(&b);
@@ -12397,7 +13118,7 @@ class FullTextSearchResponseEntitySynonym final :
                &_FullTextSearchResponseEntitySynonym_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    61;
 
   friend void swap(FullTextSearchResponseEntitySynonym& a, FullTextSearchResponseEntitySynonym& b) {
     a.Swap(&b);
@@ -12647,7 +13368,7 @@ class FullTextSearchResponseIntent_IntentSearchResult final :
                &_FullTextSearchResponseIntent_IntentSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    57;
+    62;
 
   friend void swap(FullTextSearchResponseIntent_IntentSearchResult& a, FullTextSearchResponseIntent_IntentSearchResult& b) {
     a.Swap(&b);
@@ -12946,7 +13667,7 @@ class FullTextSearchResponseIntent final :
                &_FullTextSearchResponseIntent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    58;
+    63;
 
   friend void swap(FullTextSearchResponseIntent& a, FullTextSearchResponseIntent& b) {
     a.Swap(&b);
@@ -13196,7 +13917,7 @@ class FullTextSearchResponseIntentContextIn_IntentContextInSearchResult final :
                &_FullTextSearchResponseIntentContextIn_IntentContextInSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    59;
+    64;
 
   friend void swap(FullTextSearchResponseIntentContextIn_IntentContextInSearchResult& a, FullTextSearchResponseIntentContextIn_IntentContextInSearchResult& b) {
     a.Swap(&b);
@@ -13495,7 +14216,7 @@ class FullTextSearchResponseIntentContextIn final :
                &_FullTextSearchResponseIntentContextIn_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    60;
+    65;
 
   friend void swap(FullTextSearchResponseIntentContextIn& a, FullTextSearchResponseIntentContextIn& b) {
     a.Swap(&b);
@@ -13745,7 +14466,7 @@ class FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult final 
                &_FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    61;
+    66;
 
   friend void swap(FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult& a, FullTextSearchResponseIntentContextOut_IntentContextOutSearchResult& b) {
     a.Swap(&b);
@@ -14044,7 +14765,7 @@ class FullTextSearchResponseIntentContextOut final :
                &_FullTextSearchResponseIntentContextOut_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    62;
+    67;
 
   friend void swap(FullTextSearchResponseIntentContextOut& a, FullTextSearchResponseIntentContextOut& b) {
     a.Swap(&b);
@@ -14294,7 +15015,7 @@ class FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult final :
                &_FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    63;
+    68;
 
   friend void swap(FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult& a, FullTextSearchResponseIntentUsersays_IntentUsersaysSearchResult& b) {
     a.Swap(&b);
@@ -14657,7 +15378,7 @@ class FullTextSearchResponseIntentUsersays final :
                &_FullTextSearchResponseIntentUsersays_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    64;
+    69;
 
   friend void swap(FullTextSearchResponseIntentUsersays& a, FullTextSearchResponseIntentUsersays& b) {
     a.Swap(&b);
@@ -14907,7 +15628,7 @@ class FullTextSearchResponseIntentTags_IntentTagsSearchResult final :
                &_FullTextSearchResponseIntentTags_IntentTagsSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    65;
+    70;
 
   friend void swap(FullTextSearchResponseIntentTags_IntentTagsSearchResult& a, FullTextSearchResponseIntentTags_IntentTagsSearchResult& b) {
     a.Swap(&b);
@@ -15222,7 +15943,7 @@ class FullTextSearchResponseIntentTags final :
                &_FullTextSearchResponseIntentTags_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    71;
 
   friend void swap(FullTextSearchResponseIntentTags& a, FullTextSearchResponseIntentTags& b) {
     a.Swap(&b);
@@ -15472,7 +16193,7 @@ class FullTextSearchResponseIntentResponse_IntentResponseSearchResult final :
                &_FullTextSearchResponseIntentResponse_IntentResponseSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    67;
+    72;
 
   friend void swap(FullTextSearchResponseIntentResponse_IntentResponseSearchResult& a, FullTextSearchResponseIntentResponse_IntentResponseSearchResult& b) {
     a.Swap(&b);
@@ -15803,7 +16524,7 @@ class FullTextSearchResponseIntentResponse final :
                &_FullTextSearchResponseIntentResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    68;
+    73;
 
   friend void swap(FullTextSearchResponseIntentResponse& a, FullTextSearchResponseIntentResponse& b) {
     a.Swap(&b);
@@ -16053,7 +16774,7 @@ class FullTextSearchResponseIntentParameters_IntentParametersSearchResult final 
                &_FullTextSearchResponseIntentParameters_IntentParametersSearchResult_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    69;
+    74;
 
   friend void swap(FullTextSearchResponseIntentParameters_IntentParametersSearchResult& a, FullTextSearchResponseIntentParameters_IntentParametersSearchResult& b) {
     a.Swap(&b);
@@ -16368,7 +17089,7 @@ class FullTextSearchResponseIntentParameters final :
                &_FullTextSearchResponseIntentParameters_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    70;
+    75;
 
   friend void swap(FullTextSearchResponseIntentParameters& a, FullTextSearchResponseIntentParameters& b) {
     a.Swap(&b);
@@ -16618,7 +17339,7 @@ class ReindexAgentRequest final :
                &_ReindexAgentRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    71;
+    76;
 
   friend void swap(ReindexAgentRequest& a, ReindexAgentRequest& b) {
     a.Swap(&b);
@@ -16807,7 +17528,7 @@ class CreateProjectTechnicalUserRequest final :
                &_CreateProjectTechnicalUserRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    72;
+    77;
 
   friend void swap(CreateProjectTechnicalUserRequest& a, CreateProjectTechnicalUserRequest& b) {
     a.Swap(&b);
@@ -16976,7 +17697,7 @@ class CreateProjectTechnicalUserResponse final :
                &_CreateProjectTechnicalUserResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    73;
+    78;
 
   friend void swap(CreateProjectTechnicalUserResponse& a, CreateProjectTechnicalUserResponse& b) {
     a.Swap(&b);
@@ -17161,7 +17882,7 @@ class ListProjectTechnicalUsersRequest final :
                &_ListProjectTechnicalUsersRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    74;
+    79;
 
   friend void swap(ListProjectTechnicalUsersRequest& a, ListProjectTechnicalUsersRequest& b) {
     a.Swap(&b);
@@ -17330,7 +18051,7 @@ class ProjectTechnicalUser final :
                &_ProjectTechnicalUser_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    80;
 
   friend void swap(ProjectTechnicalUser& a, ProjectTechnicalUser& b) {
     a.Swap(&b);
@@ -17535,7 +18256,7 @@ class ListProjectTechnicalUsersResponse final :
                &_ListProjectTechnicalUsersResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    81;
 
   friend void swap(ListProjectTechnicalUsersResponse& a, ListProjectTechnicalUsersResponse& b) {
     a.Swap(&b);
@@ -17708,7 +18429,7 @@ class DeleteProjectTechnicalUserRequest final :
                &_DeleteProjectTechnicalUserRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    82;
 
   friend void swap(DeleteProjectTechnicalUserRequest& a, DeleteProjectTechnicalUserRequest& b) {
     a.Swap(&b);
@@ -17877,7 +18598,7 @@ class RotateProjectTechnicalUserPasswordRequest final :
                &_RotateProjectTechnicalUserPasswordRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    83;
 
   friend void swap(RotateProjectTechnicalUserPasswordRequest& a, RotateProjectTechnicalUserPasswordRequest& b) {
     a.Swap(&b);
@@ -18046,7 +18767,7 @@ class RotateProjectTechnicalUserPasswordResponse final :
                &_RotateProjectTechnicalUserPasswordResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    84;
 
   friend void swap(RotateProjectTechnicalUserPasswordResponse& a, RotateProjectTechnicalUserPasswordResponse& b) {
     a.Swap(&b);
@@ -18990,6 +19711,666 @@ inline void Agent::set_allocated_modified_by(std::string* modified_by) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.Agent.modified_by)
+}
+
+// .ondewo.nlu.WarmTransferAgentSettings warm_transfer_settings = 15;
+inline bool Agent::_internal_has_warm_transfer_settings() const {
+  return this != internal_default_instance() && _impl_.warm_transfer_settings_ != nullptr;
+}
+inline bool Agent::has_warm_transfer_settings() const {
+  return _internal_has_warm_transfer_settings();
+}
+inline void Agent::clear_warm_transfer_settings() {
+  if (GetArenaForAllocation() == nullptr && _impl_.warm_transfer_settings_ != nullptr) {
+    delete _impl_.warm_transfer_settings_;
+  }
+  _impl_.warm_transfer_settings_ = nullptr;
+}
+inline const ::ondewo::nlu::WarmTransferAgentSettings& Agent::_internal_warm_transfer_settings() const {
+  const ::ondewo::nlu::WarmTransferAgentSettings* p = _impl_.warm_transfer_settings_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::nlu::WarmTransferAgentSettings&>(
+      ::ondewo::nlu::_WarmTransferAgentSettings_default_instance_);
+}
+inline const ::ondewo::nlu::WarmTransferAgentSettings& Agent::warm_transfer_settings() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.Agent.warm_transfer_settings)
+  return _internal_warm_transfer_settings();
+}
+inline void Agent::unsafe_arena_set_allocated_warm_transfer_settings(
+    ::ondewo::nlu::WarmTransferAgentSettings* warm_transfer_settings) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.warm_transfer_settings_);
+  }
+  _impl_.warm_transfer_settings_ = warm_transfer_settings;
+  if (warm_transfer_settings) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.nlu.Agent.warm_transfer_settings)
+}
+inline ::ondewo::nlu::WarmTransferAgentSettings* Agent::release_warm_transfer_settings() {
+  
+  ::ondewo::nlu::WarmTransferAgentSettings* temp = _impl_.warm_transfer_settings_;
+  _impl_.warm_transfer_settings_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::nlu::WarmTransferAgentSettings* Agent::unsafe_arena_release_warm_transfer_settings() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.Agent.warm_transfer_settings)
+  
+  ::ondewo::nlu::WarmTransferAgentSettings* temp = _impl_.warm_transfer_settings_;
+  _impl_.warm_transfer_settings_ = nullptr;
+  return temp;
+}
+inline ::ondewo::nlu::WarmTransferAgentSettings* Agent::_internal_mutable_warm_transfer_settings() {
+  
+  if (_impl_.warm_transfer_settings_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::nlu::WarmTransferAgentSettings>(GetArenaForAllocation());
+    _impl_.warm_transfer_settings_ = p;
+  }
+  return _impl_.warm_transfer_settings_;
+}
+inline ::ondewo::nlu::WarmTransferAgentSettings* Agent::mutable_warm_transfer_settings() {
+  ::ondewo::nlu::WarmTransferAgentSettings* _msg = _internal_mutable_warm_transfer_settings();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.Agent.warm_transfer_settings)
+  return _msg;
+}
+inline void Agent::set_allocated_warm_transfer_settings(::ondewo::nlu::WarmTransferAgentSettings* warm_transfer_settings) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.warm_transfer_settings_;
+  }
+  if (warm_transfer_settings) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(warm_transfer_settings);
+    if (message_arena != submessage_arena) {
+      warm_transfer_settings = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, warm_transfer_settings, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.warm_transfer_settings_ = warm_transfer_settings;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.Agent.warm_transfer_settings)
+}
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// WarmTransferAgentSettings
+
+// optional bool enabled = 1;
+inline bool WarmTransferAgentSettings::_internal_has_enabled() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool WarmTransferAgentSettings::has_enabled() const {
+  return _internal_has_enabled();
+}
+inline void WarmTransferAgentSettings::clear_enabled() {
+  _impl_.enabled_ = false;
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline bool WarmTransferAgentSettings::_internal_enabled() const {
+  return _impl_.enabled_;
+}
+inline bool WarmTransferAgentSettings::enabled() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentSettings.enabled)
+  return _internal_enabled();
+}
+inline void WarmTransferAgentSettings::_internal_set_enabled(bool value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.enabled_ = value;
+}
+inline void WarmTransferAgentSettings::set_enabled(bool value) {
+  _internal_set_enabled(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentSettings.enabled)
+}
+
+// string llm_ccai_service_name = 2;
+inline void WarmTransferAgentSettings::clear_llm_ccai_service_name() {
+  _impl_.llm_ccai_service_name_.ClearToEmpty();
+}
+inline const std::string& WarmTransferAgentSettings::llm_ccai_service_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentSettings.llm_ccai_service_name)
+  return _internal_llm_ccai_service_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void WarmTransferAgentSettings::set_llm_ccai_service_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.llm_ccai_service_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentSettings.llm_ccai_service_name)
+}
+inline std::string* WarmTransferAgentSettings::mutable_llm_ccai_service_name() {
+  std::string* _s = _internal_mutable_llm_ccai_service_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.WarmTransferAgentSettings.llm_ccai_service_name)
+  return _s;
+}
+inline const std::string& WarmTransferAgentSettings::_internal_llm_ccai_service_name() const {
+  return _impl_.llm_ccai_service_name_.Get();
+}
+inline void WarmTransferAgentSettings::_internal_set_llm_ccai_service_name(const std::string& value) {
+  
+  _impl_.llm_ccai_service_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentSettings::_internal_mutable_llm_ccai_service_name() {
+  
+  return _impl_.llm_ccai_service_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentSettings::release_llm_ccai_service_name() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.WarmTransferAgentSettings.llm_ccai_service_name)
+  return _impl_.llm_ccai_service_name_.Release();
+}
+inline void WarmTransferAgentSettings::set_allocated_llm_ccai_service_name(std::string* llm_ccai_service_name) {
+  if (llm_ccai_service_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.llm_ccai_service_name_.SetAllocated(llm_ccai_service_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.llm_ccai_service_name_.IsDefault()) {
+    _impl_.llm_ccai_service_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.WarmTransferAgentSettings.llm_ccai_service_name)
+}
+
+// map<string, .ondewo.nlu.WarmTransferAgentTexts> default_texts = 3;
+inline int WarmTransferAgentSettings::_internal_default_texts_size() const {
+  return _impl_.default_texts_.size();
+}
+inline int WarmTransferAgentSettings::default_texts_size() const {
+  return _internal_default_texts_size();
+}
+inline void WarmTransferAgentSettings::clear_default_texts() {
+  _impl_.default_texts_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >&
+WarmTransferAgentSettings::_internal_default_texts() const {
+  return _impl_.default_texts_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >&
+WarmTransferAgentSettings::default_texts() const {
+  // @@protoc_insertion_point(field_map:ondewo.nlu.WarmTransferAgentSettings.default_texts)
+  return _internal_default_texts();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >*
+WarmTransferAgentSettings::_internal_mutable_default_texts() {
+  return _impl_.default_texts_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentTexts >*
+WarmTransferAgentSettings::mutable_default_texts() {
+  // @@protoc_insertion_point(field_mutable_map:ondewo.nlu.WarmTransferAgentSettings.default_texts)
+  return _internal_mutable_default_texts();
+}
+
+// map<string, .ondewo.nlu.WarmTransferAgentLexicon> extra_lexicon = 4;
+inline int WarmTransferAgentSettings::_internal_extra_lexicon_size() const {
+  return _impl_.extra_lexicon_.size();
+}
+inline int WarmTransferAgentSettings::extra_lexicon_size() const {
+  return _internal_extra_lexicon_size();
+}
+inline void WarmTransferAgentSettings::clear_extra_lexicon() {
+  _impl_.extra_lexicon_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >&
+WarmTransferAgentSettings::_internal_extra_lexicon() const {
+  return _impl_.extra_lexicon_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >&
+WarmTransferAgentSettings::extra_lexicon() const {
+  // @@protoc_insertion_point(field_map:ondewo.nlu.WarmTransferAgentSettings.extra_lexicon)
+  return _internal_extra_lexicon();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >*
+WarmTransferAgentSettings::_internal_mutable_extra_lexicon() {
+  return _impl_.extra_lexicon_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::nlu::WarmTransferAgentLexicon >*
+WarmTransferAgentSettings::mutable_extra_lexicon() {
+  // @@protoc_insertion_point(field_mutable_map:ondewo.nlu.WarmTransferAgentSettings.extra_lexicon)
+  return _internal_mutable_extra_lexicon();
+}
+
+// -------------------------------------------------------------------
+
+// WarmTransferAgentTexts
+
+// string ready_question = 1;
+inline void WarmTransferAgentTexts::clear_ready_question() {
+  _impl_.ready_question_.ClearToEmpty();
+}
+inline const std::string& WarmTransferAgentTexts::ready_question() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentTexts.ready_question)
+  return _internal_ready_question();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void WarmTransferAgentTexts::set_ready_question(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.ready_question_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentTexts.ready_question)
+}
+inline std::string* WarmTransferAgentTexts::mutable_ready_question() {
+  std::string* _s = _internal_mutable_ready_question();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.WarmTransferAgentTexts.ready_question)
+  return _s;
+}
+inline const std::string& WarmTransferAgentTexts::_internal_ready_question() const {
+  return _impl_.ready_question_.Get();
+}
+inline void WarmTransferAgentTexts::_internal_set_ready_question(const std::string& value) {
+  
+  _impl_.ready_question_.Set(value, GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::_internal_mutable_ready_question() {
+  
+  return _impl_.ready_question_.Mutable(GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::release_ready_question() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.WarmTransferAgentTexts.ready_question)
+  return _impl_.ready_question_.Release();
+}
+inline void WarmTransferAgentTexts::set_allocated_ready_question(std::string* ready_question) {
+  if (ready_question != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.ready_question_.SetAllocated(ready_question, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.ready_question_.IsDefault()) {
+    _impl_.ready_question_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.WarmTransferAgentTexts.ready_question)
+}
+
+// string accept_question = 2;
+inline void WarmTransferAgentTexts::clear_accept_question() {
+  _impl_.accept_question_.ClearToEmpty();
+}
+inline const std::string& WarmTransferAgentTexts::accept_question() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentTexts.accept_question)
+  return _internal_accept_question();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void WarmTransferAgentTexts::set_accept_question(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.accept_question_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentTexts.accept_question)
+}
+inline std::string* WarmTransferAgentTexts::mutable_accept_question() {
+  std::string* _s = _internal_mutable_accept_question();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.WarmTransferAgentTexts.accept_question)
+  return _s;
+}
+inline const std::string& WarmTransferAgentTexts::_internal_accept_question() const {
+  return _impl_.accept_question_.Get();
+}
+inline void WarmTransferAgentTexts::_internal_set_accept_question(const std::string& value) {
+  
+  _impl_.accept_question_.Set(value, GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::_internal_mutable_accept_question() {
+  
+  return _impl_.accept_question_.Mutable(GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::release_accept_question() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.WarmTransferAgentTexts.accept_question)
+  return _impl_.accept_question_.Release();
+}
+inline void WarmTransferAgentTexts::set_allocated_accept_question(std::string* accept_question) {
+  if (accept_question != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.accept_question_.SetAllocated(accept_question, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.accept_question_.IsDefault()) {
+    _impl_.accept_question_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.WarmTransferAgentTexts.accept_question)
+}
+
+// optional string decline_reason_question = 3;
+inline bool WarmTransferAgentTexts::_internal_has_decline_reason_question() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool WarmTransferAgentTexts::has_decline_reason_question() const {
+  return _internal_has_decline_reason_question();
+}
+inline void WarmTransferAgentTexts::clear_decline_reason_question() {
+  _impl_.decline_reason_question_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& WarmTransferAgentTexts::decline_reason_question() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentTexts.decline_reason_question)
+  return _internal_decline_reason_question();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void WarmTransferAgentTexts::set_decline_reason_question(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.decline_reason_question_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentTexts.decline_reason_question)
+}
+inline std::string* WarmTransferAgentTexts::mutable_decline_reason_question() {
+  std::string* _s = _internal_mutable_decline_reason_question();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.WarmTransferAgentTexts.decline_reason_question)
+  return _s;
+}
+inline const std::string& WarmTransferAgentTexts::_internal_decline_reason_question() const {
+  return _impl_.decline_reason_question_.Get();
+}
+inline void WarmTransferAgentTexts::_internal_set_decline_reason_question(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.decline_reason_question_.Set(value, GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::_internal_mutable_decline_reason_question() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.decline_reason_question_.Mutable(GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::release_decline_reason_question() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.WarmTransferAgentTexts.decline_reason_question)
+  if (!_internal_has_decline_reason_question()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.decline_reason_question_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.decline_reason_question_.IsDefault()) {
+    _impl_.decline_reason_question_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void WarmTransferAgentTexts::set_allocated_decline_reason_question(std::string* decline_reason_question) {
+  if (decline_reason_question != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.decline_reason_question_.SetAllocated(decline_reason_question, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.decline_reason_question_.IsDefault()) {
+    _impl_.decline_reason_question_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.WarmTransferAgentTexts.decline_reason_question)
+}
+
+// string caller_declined_message = 4;
+inline void WarmTransferAgentTexts::clear_caller_declined_message() {
+  _impl_.caller_declined_message_.ClearToEmpty();
+}
+inline const std::string& WarmTransferAgentTexts::caller_declined_message() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentTexts.caller_declined_message)
+  return _internal_caller_declined_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void WarmTransferAgentTexts::set_caller_declined_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.caller_declined_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentTexts.caller_declined_message)
+}
+inline std::string* WarmTransferAgentTexts::mutable_caller_declined_message() {
+  std::string* _s = _internal_mutable_caller_declined_message();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.WarmTransferAgentTexts.caller_declined_message)
+  return _s;
+}
+inline const std::string& WarmTransferAgentTexts::_internal_caller_declined_message() const {
+  return _impl_.caller_declined_message_.Get();
+}
+inline void WarmTransferAgentTexts::_internal_set_caller_declined_message(const std::string& value) {
+  
+  _impl_.caller_declined_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::_internal_mutable_caller_declined_message() {
+  
+  return _impl_.caller_declined_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::release_caller_declined_message() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.WarmTransferAgentTexts.caller_declined_message)
+  return _impl_.caller_declined_message_.Release();
+}
+inline void WarmTransferAgentTexts::set_allocated_caller_declined_message(std::string* caller_declined_message) {
+  if (caller_declined_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.caller_declined_message_.SetAllocated(caller_declined_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.caller_declined_message_.IsDefault()) {
+    _impl_.caller_declined_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.WarmTransferAgentTexts.caller_declined_message)
+}
+
+// string caller_unreachable_message = 5;
+inline void WarmTransferAgentTexts::clear_caller_unreachable_message() {
+  _impl_.caller_unreachable_message_.ClearToEmpty();
+}
+inline const std::string& WarmTransferAgentTexts::caller_unreachable_message() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentTexts.caller_unreachable_message)
+  return _internal_caller_unreachable_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void WarmTransferAgentTexts::set_caller_unreachable_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.caller_unreachable_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentTexts.caller_unreachable_message)
+}
+inline std::string* WarmTransferAgentTexts::mutable_caller_unreachable_message() {
+  std::string* _s = _internal_mutable_caller_unreachable_message();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.WarmTransferAgentTexts.caller_unreachable_message)
+  return _s;
+}
+inline const std::string& WarmTransferAgentTexts::_internal_caller_unreachable_message() const {
+  return _impl_.caller_unreachable_message_.Get();
+}
+inline void WarmTransferAgentTexts::_internal_set_caller_unreachable_message(const std::string& value) {
+  
+  _impl_.caller_unreachable_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::_internal_mutable_caller_unreachable_message() {
+  
+  return _impl_.caller_unreachable_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* WarmTransferAgentTexts::release_caller_unreachable_message() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.WarmTransferAgentTexts.caller_unreachable_message)
+  return _impl_.caller_unreachable_message_.Release();
+}
+inline void WarmTransferAgentTexts::set_allocated_caller_unreachable_message(std::string* caller_unreachable_message) {
+  if (caller_unreachable_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.caller_unreachable_message_.SetAllocated(caller_unreachable_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.caller_unreachable_message_.IsDefault()) {
+    _impl_.caller_unreachable_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.WarmTransferAgentTexts.caller_unreachable_message)
+}
+
+// -------------------------------------------------------------------
+
+// WarmTransferAgentLexicon
+
+// repeated string accept_phrases = 1;
+inline int WarmTransferAgentLexicon::_internal_accept_phrases_size() const {
+  return _impl_.accept_phrases_.size();
+}
+inline int WarmTransferAgentLexicon::accept_phrases_size() const {
+  return _internal_accept_phrases_size();
+}
+inline void WarmTransferAgentLexicon::clear_accept_phrases() {
+  _impl_.accept_phrases_.Clear();
+}
+inline std::string* WarmTransferAgentLexicon::add_accept_phrases() {
+  std::string* _s = _internal_add_accept_phrases();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+  return _s;
+}
+inline const std::string& WarmTransferAgentLexicon::_internal_accept_phrases(int index) const {
+  return _impl_.accept_phrases_.Get(index);
+}
+inline const std::string& WarmTransferAgentLexicon::accept_phrases(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+  return _internal_accept_phrases(index);
+}
+inline std::string* WarmTransferAgentLexicon::mutable_accept_phrases(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+  return _impl_.accept_phrases_.Mutable(index);
+}
+inline void WarmTransferAgentLexicon::set_accept_phrases(int index, const std::string& value) {
+  _impl_.accept_phrases_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+}
+inline void WarmTransferAgentLexicon::set_accept_phrases(int index, std::string&& value) {
+  _impl_.accept_phrases_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+}
+inline void WarmTransferAgentLexicon::set_accept_phrases(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.accept_phrases_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+}
+inline void WarmTransferAgentLexicon::set_accept_phrases(int index, const char* value, size_t size) {
+  _impl_.accept_phrases_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+}
+inline std::string* WarmTransferAgentLexicon::_internal_add_accept_phrases() {
+  return _impl_.accept_phrases_.Add();
+}
+inline void WarmTransferAgentLexicon::add_accept_phrases(const std::string& value) {
+  _impl_.accept_phrases_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+}
+inline void WarmTransferAgentLexicon::add_accept_phrases(std::string&& value) {
+  _impl_.accept_phrases_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+}
+inline void WarmTransferAgentLexicon::add_accept_phrases(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.accept_phrases_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+}
+inline void WarmTransferAgentLexicon::add_accept_phrases(const char* value, size_t size) {
+  _impl_.accept_phrases_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+WarmTransferAgentLexicon::accept_phrases() const {
+  // @@protoc_insertion_point(field_list:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+  return _impl_.accept_phrases_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+WarmTransferAgentLexicon::mutable_accept_phrases() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.nlu.WarmTransferAgentLexicon.accept_phrases)
+  return &_impl_.accept_phrases_;
+}
+
+// repeated string decline_phrases = 2;
+inline int WarmTransferAgentLexicon::_internal_decline_phrases_size() const {
+  return _impl_.decline_phrases_.size();
+}
+inline int WarmTransferAgentLexicon::decline_phrases_size() const {
+  return _internal_decline_phrases_size();
+}
+inline void WarmTransferAgentLexicon::clear_decline_phrases() {
+  _impl_.decline_phrases_.Clear();
+}
+inline std::string* WarmTransferAgentLexicon::add_decline_phrases() {
+  std::string* _s = _internal_add_decline_phrases();
+  // @@protoc_insertion_point(field_add_mutable:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+  return _s;
+}
+inline const std::string& WarmTransferAgentLexicon::_internal_decline_phrases(int index) const {
+  return _impl_.decline_phrases_.Get(index);
+}
+inline const std::string& WarmTransferAgentLexicon::decline_phrases(int index) const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+  return _internal_decline_phrases(index);
+}
+inline std::string* WarmTransferAgentLexicon::mutable_decline_phrases(int index) {
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+  return _impl_.decline_phrases_.Mutable(index);
+}
+inline void WarmTransferAgentLexicon::set_decline_phrases(int index, const std::string& value) {
+  _impl_.decline_phrases_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+}
+inline void WarmTransferAgentLexicon::set_decline_phrases(int index, std::string&& value) {
+  _impl_.decline_phrases_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+}
+inline void WarmTransferAgentLexicon::set_decline_phrases(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.decline_phrases_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+}
+inline void WarmTransferAgentLexicon::set_decline_phrases(int index, const char* value, size_t size) {
+  _impl_.decline_phrases_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+}
+inline std::string* WarmTransferAgentLexicon::_internal_add_decline_phrases() {
+  return _impl_.decline_phrases_.Add();
+}
+inline void WarmTransferAgentLexicon::add_decline_phrases(const std::string& value) {
+  _impl_.decline_phrases_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+}
+inline void WarmTransferAgentLexicon::add_decline_phrases(std::string&& value) {
+  _impl_.decline_phrases_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+}
+inline void WarmTransferAgentLexicon::add_decline_phrases(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.decline_phrases_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+}
+inline void WarmTransferAgentLexicon::add_decline_phrases(const char* value, size_t size) {
+  _impl_.decline_phrases_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+WarmTransferAgentLexicon::decline_phrases() const {
+  // @@protoc_insertion_point(field_list:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+  return _impl_.decline_phrases_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+WarmTransferAgentLexicon::mutable_decline_phrases() {
+  // @@protoc_insertion_point(field_mutable_list:ondewo.nlu.WarmTransferAgentLexicon.decline_phrases)
+  return &_impl_.decline_phrases_;
 }
 
 // -------------------------------------------------------------------
@@ -38518,6 +39899,16 @@ inline void RotateProjectTechnicalUserPasswordResponse::set_allocated_password(s
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

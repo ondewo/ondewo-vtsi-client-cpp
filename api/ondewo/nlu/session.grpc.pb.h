@@ -89,6 +89,45 @@ class Sessions final {
     std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>> PrepareAsyncStreamingDetectIntent(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>>(PrepareAsyncStreamingDetectIntentRaw(context, cq));
     }
+    // Interrupts a turn of the session outside a <code>StreamingDetectIntent</code> stream: cancels it, reports what
+    // the user actually heard of its answer, or discards the session step of a preemptive draft. Meant for clients
+    // without a call-length stream (e.g. a stop button) and for a heard report that arrives after the stream closed.
+    // A voice client with an open stream sends the same <code>TurnControl</code> on that stream instead
+    // (<code>StreamingDetectIntentRequest.turn_control</code>). Requires the permission to interrupt a turn of the
+    // session's project.
+    virtual ::grpc::Status InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::ondewo::nlu::InterruptTurnResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::InterruptTurnResponse>> AsyncInterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::InterruptTurnResponse>>(AsyncInterruptTurnRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::InterruptTurnResponse>> PrepareAsyncInterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::InterruptTurnResponse>>(PrepareAsyncInterruptTurnRaw(context, request, cq));
+    }
+    // Prepares the intro session of a warm transfer: reads the history, the contexts and the slots of the source
+    // (caller) session, renders the intro text (with an LLM within a time budget, or from the TEMPLATE when the LLM
+    // fails or is not configured), strips every <code>&lt;SIP:…&gt;</code> markup from it, and stores the text, the
+    // configuration and the stage in the intro session, which must not exist yet. Writes no step into the source
+    // session. Idempotent per (<code>intro_session</code>, <code>transfer_request_id</code>): a repeated request
+    // answers the response of the first one. Answers <code>UNIMPLEMENTED</code> when the server's warm transfer
+    // feature is switched off, and <code>FAILED_PRECONDITION</code> with <code>reason=warm-intro-disabled-for-agent</code>
+    // when <code>Agent.warm_transfer_settings.enabled</code> is false. Requires the permission to run a warm transfer
+    // intro of the session's project. See <code>docs/warm_transfer.md</code>.
+    virtual ::grpc::Status PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::PrepareWarmTransferIntroResponse>> AsyncPrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::PrepareWarmTransferIntroResponse>>(AsyncPrepareWarmTransferIntroRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::PrepareWarmTransferIntroResponse>> PrepareAsyncPrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::PrepareWarmTransferIntroResponse>>(PrepareAsyncPrepareWarmTransferIntroRaw(context, request, cq));
+    }
+    // Returns the decision the target gave in the intro session of a warm transfer. Never returns the reason text
+    // or the intro text. Answers <code>UNIMPLEMENTED</code> when the server's warm transfer feature is switched off.
+    // Requires the permission to run a warm transfer intro of the session's project.
+    virtual ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::ondewo::nlu::WarmTransferIntroOutcome* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::WarmTransferIntroOutcome>> AsyncGetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::WarmTransferIntroOutcome>>(AsyncGetWarmTransferIntroOutcomeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::WarmTransferIntroOutcome>> PrepareAsyncGetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::WarmTransferIntroOutcome>>(PrepareAsyncGetWarmTransferIntroOutcomeRaw(context, request, cq));
+    }
     // *** SESSION RELATED ENDPOINTS *** //
     //
     // ListSessions: returns list of sessions from ondewo-kb; by default returns only session IDs
@@ -513,6 +552,30 @@ class Sessions final {
       // and returns structured, actionable data as a result. This method is only
       // available via the gRPC API (not REST).
       virtual void StreamingDetectIntent(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::ondewo::nlu::StreamingDetectIntentRequest,::ondewo::nlu::StreamingDetectIntentResponse>* reactor) = 0;
+      // Interrupts a turn of the session outside a <code>StreamingDetectIntent</code> stream: cancels it, reports what
+      // the user actually heard of its answer, or discards the session step of a preemptive draft. Meant for clients
+      // without a call-length stream (e.g. a stop button) and for a heard report that arrives after the stream closed.
+      // A voice client with an open stream sends the same <code>TurnControl</code> on that stream instead
+      // (<code>StreamingDetectIntentRequest.turn_control</code>). Requires the permission to interrupt a turn of the
+      // session's project.
+      virtual void InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // Prepares the intro session of a warm transfer: reads the history, the contexts and the slots of the source
+      // (caller) session, renders the intro text (with an LLM within a time budget, or from the TEMPLATE when the LLM
+      // fails or is not configured), strips every <code>&lt;SIP:…&gt;</code> markup from it, and stores the text, the
+      // configuration and the stage in the intro session, which must not exist yet. Writes no step into the source
+      // session. Idempotent per (<code>intro_session</code>, <code>transfer_request_id</code>): a repeated request
+      // answers the response of the first one. Answers <code>UNIMPLEMENTED</code> when the server's warm transfer
+      // feature is switched off, and <code>FAILED_PRECONDITION</code> with <code>reason=warm-intro-disabled-for-agent</code>
+      // when <code>Agent.warm_transfer_settings.enabled</code> is false. Requires the permission to run a warm transfer
+      // intro of the session's project. See <code>docs/warm_transfer.md</code>.
+      virtual void PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      // Returns the decision the target gave in the intro session of a warm transfer. Never returns the reason text
+      // or the intro text. Answers <code>UNIMPLEMENTED</code> when the server's warm transfer feature is switched off.
+      // Requires the permission to run a warm transfer intro of the session's project.
+      virtual void GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       // *** SESSION RELATED ENDPOINTS *** //
       //
       // ListSessions: returns list of sessions from ondewo-kb; by default returns only session IDs
@@ -694,6 +757,12 @@ class Sessions final {
     virtual ::grpc::ClientReaderWriterInterface< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>* StreamingDetectIntentRaw(::grpc::ClientContext* context) = 0;
     virtual ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>* AsyncStreamingDetectIntentRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncReaderWriterInterface< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>* PrepareAsyncStreamingDetectIntentRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::InterruptTurnResponse>* AsyncInterruptTurnRaw(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::InterruptTurnResponse>* PrepareAsyncInterruptTurnRaw(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::PrepareWarmTransferIntroResponse>* AsyncPrepareWarmTransferIntroRaw(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::PrepareWarmTransferIntroResponse>* PrepareAsyncPrepareWarmTransferIntroRaw(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::WarmTransferIntroOutcome>* AsyncGetWarmTransferIntroOutcomeRaw(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::WarmTransferIntroOutcome>* PrepareAsyncGetWarmTransferIntroOutcomeRaw(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::ListSessionsResponse>* AsyncListSessionsRaw(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::ListSessionsResponse>* PrepareAsyncListSessionsRaw(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::ondewo::nlu::Session>* AsyncGetSessionRaw(::grpc::ClientContext* context, const ::ondewo::nlu::GetSessionRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -809,6 +878,27 @@ class Sessions final {
     }
     std::unique_ptr<  ::grpc::ClientAsyncReaderWriter< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>> PrepareAsyncStreamingDetectIntent(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncReaderWriter< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>>(PrepareAsyncStreamingDetectIntentRaw(context, cq));
+    }
+    ::grpc::Status InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::ondewo::nlu::InterruptTurnResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::InterruptTurnResponse>> AsyncInterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::InterruptTurnResponse>>(AsyncInterruptTurnRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::InterruptTurnResponse>> PrepareAsyncInterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::InterruptTurnResponse>>(PrepareAsyncInterruptTurnRaw(context, request, cq));
+    }
+    ::grpc::Status PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::PrepareWarmTransferIntroResponse>> AsyncPrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::PrepareWarmTransferIntroResponse>>(AsyncPrepareWarmTransferIntroRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::PrepareWarmTransferIntroResponse>> PrepareAsyncPrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::PrepareWarmTransferIntroResponse>>(PrepareAsyncPrepareWarmTransferIntroRaw(context, request, cq));
+    }
+    ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::ondewo::nlu::WarmTransferIntroOutcome* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::WarmTransferIntroOutcome>> AsyncGetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::WarmTransferIntroOutcome>>(AsyncGetWarmTransferIntroOutcomeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::WarmTransferIntroOutcome>> PrepareAsyncGetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::WarmTransferIntroOutcome>>(PrepareAsyncGetWarmTransferIntroOutcomeRaw(context, request, cq));
     }
     ::grpc::Status ListSessions(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest& request, ::ondewo::nlu::ListSessionsResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::ListSessionsResponse>> AsyncListSessions(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest& request, ::grpc::CompletionQueue* cq) {
@@ -1152,6 +1242,12 @@ class Sessions final {
       void DetectIntent(::grpc::ClientContext* context, const ::ondewo::nlu::DetectIntentRequest* request, ::ondewo::nlu::DetectIntentResponse* response, std::function<void(::grpc::Status)>) override;
       void DetectIntent(::grpc::ClientContext* context, const ::ondewo::nlu::DetectIntentRequest* request, ::ondewo::nlu::DetectIntentResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void StreamingDetectIntent(::grpc::ClientContext* context, ::grpc::ClientBidiReactor< ::ondewo::nlu::StreamingDetectIntentRequest,::ondewo::nlu::StreamingDetectIntentResponse>* reactor) override;
+      void InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response, std::function<void(::grpc::Status)>) override;
+      void InterruptTurn(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response, std::function<void(::grpc::Status)>) override;
+      void PrepareWarmTransferIntro(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response, std::function<void(::grpc::Status)>) override;
+      void GetWarmTransferIntroOutcome(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response, ::grpc::ClientUnaryReactor* reactor) override;
       void ListSessions(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest* request, ::ondewo::nlu::ListSessionsResponse* response, std::function<void(::grpc::Status)>) override;
       void ListSessions(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest* request, ::ondewo::nlu::ListSessionsResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void GetSession(::grpc::ClientContext* context, const ::ondewo::nlu::GetSessionRequest* request, ::ondewo::nlu::Session* response, std::function<void(::grpc::Status)>) override;
@@ -1264,6 +1360,12 @@ class Sessions final {
     ::grpc::ClientReaderWriter< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>* StreamingDetectIntentRaw(::grpc::ClientContext* context) override;
     ::grpc::ClientAsyncReaderWriter< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>* AsyncStreamingDetectIntentRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq, void* tag) override;
     ::grpc::ClientAsyncReaderWriter< ::ondewo::nlu::StreamingDetectIntentRequest, ::ondewo::nlu::StreamingDetectIntentResponse>* PrepareAsyncStreamingDetectIntentRaw(::grpc::ClientContext* context, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::InterruptTurnResponse>* AsyncInterruptTurnRaw(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::InterruptTurnResponse>* PrepareAsyncInterruptTurnRaw(::grpc::ClientContext* context, const ::ondewo::nlu::InterruptTurnRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::PrepareWarmTransferIntroResponse>* AsyncPrepareWarmTransferIntroRaw(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::PrepareWarmTransferIntroResponse>* PrepareAsyncPrepareWarmTransferIntroRaw(::grpc::ClientContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::WarmTransferIntroOutcome>* AsyncGetWarmTransferIntroOutcomeRaw(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::WarmTransferIntroOutcome>* PrepareAsyncGetWarmTransferIntroOutcomeRaw(::grpc::ClientContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::ListSessionsResponse>* AsyncListSessionsRaw(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::ListSessionsResponse>* PrepareAsyncListSessionsRaw(::grpc::ClientContext* context, const ::ondewo::nlu::ListSessionsRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::Session>* AsyncGetSessionRaw(::grpc::ClientContext* context, const ::ondewo::nlu::GetSessionRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -1362,6 +1464,9 @@ class Sessions final {
     ::grpc::ClientAsyncResponseReader< ::ondewo::nlu::ListAudioFilesResponse>* PrepareAsyncListAudioFilesRaw(::grpc::ClientContext* context, const ::ondewo::nlu::ListAudioFilesRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_DetectIntent_;
     const ::grpc::internal::RpcMethod rpcmethod_StreamingDetectIntent_;
+    const ::grpc::internal::RpcMethod rpcmethod_InterruptTurn_;
+    const ::grpc::internal::RpcMethod rpcmethod_PrepareWarmTransferIntro_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetWarmTransferIntroOutcome_;
     const ::grpc::internal::RpcMethod rpcmethod_ListSessions_;
     const ::grpc::internal::RpcMethod rpcmethod_GetSession_;
     const ::grpc::internal::RpcMethod rpcmethod_CreateSession_;
@@ -1426,6 +1531,27 @@ class Sessions final {
     // and returns structured, actionable data as a result. This method is only
     // available via the gRPC API (not REST).
     virtual ::grpc::Status StreamingDetectIntent(::grpc::ServerContext* context, ::grpc::ServerReaderWriter< ::ondewo::nlu::StreamingDetectIntentResponse, ::ondewo::nlu::StreamingDetectIntentRequest>* stream);
+    // Interrupts a turn of the session outside a <code>StreamingDetectIntent</code> stream: cancels it, reports what
+    // the user actually heard of its answer, or discards the session step of a preemptive draft. Meant for clients
+    // without a call-length stream (e.g. a stop button) and for a heard report that arrives after the stream closed.
+    // A voice client with an open stream sends the same <code>TurnControl</code> on that stream instead
+    // (<code>StreamingDetectIntentRequest.turn_control</code>). Requires the permission to interrupt a turn of the
+    // session's project.
+    virtual ::grpc::Status InterruptTurn(::grpc::ServerContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response);
+    // Prepares the intro session of a warm transfer: reads the history, the contexts and the slots of the source
+    // (caller) session, renders the intro text (with an LLM within a time budget, or from the TEMPLATE when the LLM
+    // fails or is not configured), strips every <code>&lt;SIP:…&gt;</code> markup from it, and stores the text, the
+    // configuration and the stage in the intro session, which must not exist yet. Writes no step into the source
+    // session. Idempotent per (<code>intro_session</code>, <code>transfer_request_id</code>): a repeated request
+    // answers the response of the first one. Answers <code>UNIMPLEMENTED</code> when the server's warm transfer
+    // feature is switched off, and <code>FAILED_PRECONDITION</code> with <code>reason=warm-intro-disabled-for-agent</code>
+    // when <code>Agent.warm_transfer_settings.enabled</code> is false. Requires the permission to run a warm transfer
+    // intro of the session's project. See <code>docs/warm_transfer.md</code>.
+    virtual ::grpc::Status PrepareWarmTransferIntro(::grpc::ServerContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response);
+    // Returns the decision the target gave in the intro session of a warm transfer. Never returns the reason text
+    // or the intro text. Answers <code>UNIMPLEMENTED</code> when the server's warm transfer feature is switched off.
+    // Requires the permission to run a warm transfer intro of the session's project.
+    virtual ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ServerContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response);
     // *** SESSION RELATED ENDPOINTS *** //
     //
     // ListSessions: returns list of sessions from ondewo-kb; by default returns only session IDs
@@ -1591,12 +1717,72 @@ class Sessions final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_InterruptTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_InterruptTurn() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_InterruptTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InterruptTurn(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::InterruptTurnRequest* /*request*/, ::ondewo::nlu::InterruptTurnResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInterruptTurn(::grpc::ServerContext* context, ::ondewo::nlu::InterruptTurnRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::InterruptTurnResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_PrepareWarmTransferIntro : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_PrepareWarmTransferIntro() {
+      ::grpc::Service::MarkMethodAsync(3);
+    }
+    ~WithAsyncMethod_PrepareWarmTransferIntro() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PrepareWarmTransferIntro(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* /*request*/, ::ondewo::nlu::PrepareWarmTransferIntroResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestPrepareWarmTransferIntro(::grpc::ServerContext* context, ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::PrepareWarmTransferIntroResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_GetWarmTransferIntroOutcome : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetWarmTransferIntroOutcome() {
+      ::grpc::Service::MarkMethodAsync(4);
+    }
+    ~WithAsyncMethod_GetWarmTransferIntroOutcome() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* /*request*/, ::ondewo::nlu::WarmTransferIntroOutcome* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetWarmTransferIntroOutcome(::grpc::ServerContext* context, ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::WarmTransferIntroOutcome>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_ListSessions : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSessions() {
-      ::grpc::Service::MarkMethodAsync(2);
+      ::grpc::Service::MarkMethodAsync(5);
     }
     ~WithAsyncMethod_ListSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1607,7 +1793,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListSessionsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1616,7 +1802,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetSession() {
-      ::grpc::Service::MarkMethodAsync(3);
+      ::grpc::Service::MarkMethodAsync(6);
     }
     ~WithAsyncMethod_GetSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1627,7 +1813,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetSession(::grpc::ServerContext* context, ::ondewo::nlu::GetSessionRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::Session>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1636,7 +1822,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_CreateSession() {
-      ::grpc::Service::MarkMethodAsync(4);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_CreateSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1647,7 +1833,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateSession(::grpc::ServerContext* context, ::ondewo::nlu::CreateSessionRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::Session>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1656,7 +1842,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_CreateSessionStep() {
-      ::grpc::Service::MarkMethodAsync(5);
+      ::grpc::Service::MarkMethodAsync(8);
     }
     ~WithAsyncMethod_CreateSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1667,7 +1853,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateSessionStep(::grpc::ServerContext* context, ::ondewo::nlu::CreateSessionStepRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionStep>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1676,7 +1862,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetSessionStep() {
-      ::grpc::Service::MarkMethodAsync(6);
+      ::grpc::Service::MarkMethodAsync(9);
     }
     ~WithAsyncMethod_GetSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1687,7 +1873,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetSessionStep(::grpc::ServerContext* context, ::ondewo::nlu::GetSessionStepRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionStep>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1696,7 +1882,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UpdateSessionStep() {
-      ::grpc::Service::MarkMethodAsync(7);
+      ::grpc::Service::MarkMethodAsync(10);
     }
     ~WithAsyncMethod_UpdateSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1707,7 +1893,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateSessionStep(::grpc::ServerContext* context, ::ondewo::nlu::UpdateSessionStepRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionStep>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1716,7 +1902,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteSessionStep() {
-      ::grpc::Service::MarkMethodAsync(8);
+      ::grpc::Service::MarkMethodAsync(11);
     }
     ~WithAsyncMethod_DeleteSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1727,7 +1913,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSessionStep(::grpc::ServerContext* context, ::ondewo::nlu::DeleteSessionStepRequest* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1736,7 +1922,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteSession() {
-      ::grpc::Service::MarkMethodAsync(9);
+      ::grpc::Service::MarkMethodAsync(12);
     }
     ~WithAsyncMethod_DeleteSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1747,7 +1933,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSession(::grpc::ServerContext* context, ::ondewo::nlu::DeleteSessionRequest* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1756,7 +1942,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSessionLabels() {
-      ::grpc::Service::MarkMethodAsync(10);
+      ::grpc::Service::MarkMethodAsync(13);
     }
     ~WithAsyncMethod_ListSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1767,7 +1953,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionLabels(::grpc::ServerContext* context, ::ondewo::nlu::ListSessionLabelsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListSessionLabelsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1776,7 +1962,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSessionLabelsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(11);
+      ::grpc::Service::MarkMethodAsync(14);
     }
     ~WithAsyncMethod_ListSessionLabelsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1787,7 +1973,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionLabelsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListSessionLabelsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1796,7 +1982,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListLanguageCodesOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(12);
+      ::grpc::Service::MarkMethodAsync(15);
     }
     ~WithAsyncMethod_ListLanguageCodesOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1807,7 +1993,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListLanguageCodesOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListLanguageCodesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1816,7 +2002,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListMatchedIntentsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(13);
+      ::grpc::Service::MarkMethodAsync(16);
     }
     ~WithAsyncMethod_ListMatchedIntentsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1827,7 +2013,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListMatchedIntentsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListMatchedIntentsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1836,7 +2022,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListMatchedEntityTypesOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(14);
+      ::grpc::Service::MarkMethodAsync(17);
     }
     ~WithAsyncMethod_ListMatchedEntityTypesOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1847,7 +2033,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListMatchedEntityTypesOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListMatchedEntityTypesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1856,7 +2042,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(15);
+      ::grpc::Service::MarkMethodAsync(18);
     }
     ~WithAsyncMethod_ListUserIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1867,7 +2053,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListUserIdsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListUserIdsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListUserIdsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1876,7 +2062,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListIdentifiedUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(16);
+      ::grpc::Service::MarkMethodAsync(19);
     }
     ~WithAsyncMethod_ListIdentifiedUserIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1887,7 +2073,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListIdentifiedUserIdsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListIdentifiedUserIdsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1896,7 +2082,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListTagsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(17);
+      ::grpc::Service::MarkMethodAsync(20);
     }
     ~WithAsyncMethod_ListTagsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1907,7 +2093,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListTagsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListTagsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListTagsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1916,7 +2102,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListInputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(18);
+      ::grpc::Service::MarkMethodAsync(21);
     }
     ~WithAsyncMethod_ListInputContextsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1927,7 +2113,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListInputContextsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListInputContextsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListInputContextsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(21, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1936,7 +2122,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListOutputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(19);
+      ::grpc::Service::MarkMethodAsync(22);
     }
     ~WithAsyncMethod_ListOutputContextsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1947,7 +2133,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListOutputContextsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListOutputContextsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListOutputContextsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1956,7 +2142,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListPlatformsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(20);
+      ::grpc::Service::MarkMethodAsync(23);
     }
     ~WithAsyncMethod_ListPlatformsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1967,7 +2153,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListPlatformsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListPlatformsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListPlatformsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1976,7 +2162,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListAccountIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(21);
+      ::grpc::Service::MarkMethodAsync(24);
     }
     ~WithAsyncMethod_ListAccountIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1987,7 +2173,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListAccountIdsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListAccountIdsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListAccountIdsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(21, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(24, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1996,7 +2182,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListPropertyIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(22);
+      ::grpc::Service::MarkMethodAsync(25);
     }
     ~WithAsyncMethod_ListPropertyIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2007,7 +2193,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListPropertyIdsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListPropertyIdsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(25, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2016,7 +2202,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListDatastreamIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(23);
+      ::grpc::Service::MarkMethodAsync(26);
     }
     ~WithAsyncMethod_ListDatastreamIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2027,7 +2213,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListDatastreamIdsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListDatastreamIdsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2036,7 +2222,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListOriginIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(24);
+      ::grpc::Service::MarkMethodAsync(27);
     }
     ~WithAsyncMethod_ListOriginIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2047,7 +2233,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListOriginIdsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListOriginIdsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListOriginIdsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(24, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(27, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2056,7 +2242,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_AddSessionLabels() {
-      ::grpc::Service::MarkMethodAsync(25);
+      ::grpc::Service::MarkMethodAsync(28);
     }
     ~WithAsyncMethod_AddSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2067,7 +2253,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddSessionLabels(::grpc::ServerContext* context, ::ondewo::nlu::AddSessionLabelsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::Session>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(25, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(28, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2076,7 +2262,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteSessionLabels() {
-      ::grpc::Service::MarkMethodAsync(26);
+      ::grpc::Service::MarkMethodAsync(29);
     }
     ~WithAsyncMethod_DeleteSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2087,7 +2273,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSessionLabels(::grpc::ServerContext* context, ::ondewo::nlu::DeleteSessionLabelsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::Session>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(29, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2096,7 +2282,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_AddSessionComment() {
-      ::grpc::Service::MarkMethodAsync(27);
+      ::grpc::Service::MarkMethodAsync(30);
     }
     ~WithAsyncMethod_AddSessionComment() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2107,7 +2293,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddSessionComment(::grpc::ServerContext* context, ::ondewo::nlu::AddSessionCommentRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::Comment>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(27, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(30, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2116,7 +2302,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteSessionComments() {
-      ::grpc::Service::MarkMethodAsync(28);
+      ::grpc::Service::MarkMethodAsync(31);
     }
     ~WithAsyncMethod_DeleteSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2127,7 +2313,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSessionComments(::grpc::ServerContext* context, ::ondewo::nlu::DeleteSessionCommentsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::Session>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(28, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(31, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2136,7 +2322,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UpdateSessionComments() {
-      ::grpc::Service::MarkMethodAsync(29);
+      ::grpc::Service::MarkMethodAsync(32);
     }
     ~WithAsyncMethod_UpdateSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2147,7 +2333,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateSessionComments(::grpc::ServerContext* context, ::ondewo::nlu::UpdateSessionCommentsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::Session>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(29, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(32, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2156,7 +2342,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSessionComments() {
-      ::grpc::Service::MarkMethodAsync(30);
+      ::grpc::Service::MarkMethodAsync(33);
     }
     ~WithAsyncMethod_ListSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2167,7 +2353,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionComments(::grpc::ServerContext* context, ::ondewo::nlu::ListSessionCommentsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListSessionCommentsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(30, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(33, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2176,7 +2362,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSessionCommentsOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(31);
+      ::grpc::Service::MarkMethodAsync(34);
     }
     ~WithAsyncMethod_ListSessionCommentsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2187,7 +2373,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionCommentsOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListSessionCommentsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(31, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(34, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2196,7 +2382,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_AddSessionFeedback() {
-      ::grpc::Service::MarkMethodAsync(32);
+      ::grpc::Service::MarkMethodAsync(35);
     }
     ~WithAsyncMethod_AddSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2207,7 +2393,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddSessionFeedback(::grpc::ServerContext* context, ::ondewo::nlu::AddSessionFeedbackRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionFeedback>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(32, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(35, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2216,7 +2402,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_AddSessionStepFeedback() {
-      ::grpc::Service::MarkMethodAsync(33);
+      ::grpc::Service::MarkMethodAsync(36);
     }
     ~WithAsyncMethod_AddSessionStepFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2227,7 +2413,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddSessionStepFeedback(::grpc::ServerContext* context, ::ondewo::nlu::AddSessionStepFeedbackRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionFeedback>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(33, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(36, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2236,7 +2422,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetSessionFeedback() {
-      ::grpc::Service::MarkMethodAsync(34);
+      ::grpc::Service::MarkMethodAsync(37);
     }
     ~WithAsyncMethod_GetSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2247,7 +2433,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetSessionFeedback(::grpc::ServerContext* context, ::ondewo::nlu::GetSessionFeedbackRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionFeedback>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(34, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(37, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2256,7 +2442,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UpdateSessionFeedback() {
-      ::grpc::Service::MarkMethodAsync(35);
+      ::grpc::Service::MarkMethodAsync(38);
     }
     ~WithAsyncMethod_UpdateSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2267,7 +2453,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateSessionFeedback(::grpc::ServerContext* context, ::ondewo::nlu::UpdateSessionFeedbackRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionFeedback>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(35, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(38, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2276,7 +2462,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteSessionFeedback() {
-      ::grpc::Service::MarkMethodAsync(36);
+      ::grpc::Service::MarkMethodAsync(39);
     }
     ~WithAsyncMethod_DeleteSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2287,7 +2473,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSessionFeedback(::grpc::ServerContext* context, ::ondewo::nlu::DeleteSessionFeedbackRequest* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(36, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(39, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2296,7 +2482,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSessionFeedback() {
-      ::grpc::Service::MarkMethodAsync(37);
+      ::grpc::Service::MarkMethodAsync(40);
     }
     ~WithAsyncMethod_ListSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2307,7 +2493,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionFeedback(::grpc::ServerContext* context, ::ondewo::nlu::ListSessionFeedbackRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListSessionFeedbackResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(37, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(40, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2316,7 +2502,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSessionFeedbackOfAllSessions() {
-      ::grpc::Service::MarkMethodAsync(38);
+      ::grpc::Service::MarkMethodAsync(41);
     }
     ~WithAsyncMethod_ListSessionFeedbackOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2327,7 +2513,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionFeedbackOfAllSessions(::grpc::ServerContext* context, ::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListSessionFeedbackResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(38, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(41, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2336,7 +2522,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetFeedbackStatistics() {
-      ::grpc::Service::MarkMethodAsync(39);
+      ::grpc::Service::MarkMethodAsync(42);
     }
     ~WithAsyncMethod_GetFeedbackStatistics() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2347,7 +2533,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetFeedbackStatistics(::grpc::ServerContext* context, ::ondewo::nlu::GetFeedbackStatisticsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::GetFeedbackStatisticsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(39, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(42, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2356,7 +2542,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetFeedbackStatisticsTimeSeries() {
-      ::grpc::Service::MarkMethodAsync(40);
+      ::grpc::Service::MarkMethodAsync(43);
     }
     ~WithAsyncMethod_GetFeedbackStatisticsTimeSeries() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2367,7 +2553,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetFeedbackStatisticsTimeSeries(::grpc::ServerContext* context, ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(40, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(43, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2376,7 +2562,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSessionReviews() {
-      ::grpc::Service::MarkMethodAsync(41);
+      ::grpc::Service::MarkMethodAsync(44);
     }
     ~WithAsyncMethod_ListSessionReviews() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2387,7 +2573,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionReviews(::grpc::ServerContext* context, ::ondewo::nlu::ListSessionReviewsRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListSessionReviewsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(41, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(44, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2396,7 +2582,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetSessionReview() {
-      ::grpc::Service::MarkMethodAsync(42);
+      ::grpc::Service::MarkMethodAsync(45);
     }
     ~WithAsyncMethod_GetSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2407,7 +2593,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetSessionReview(::grpc::ServerContext* context, ::ondewo::nlu::GetSessionReviewRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionReview>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(42, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(45, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2416,7 +2602,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetLatestSessionReview() {
-      ::grpc::Service::MarkMethodAsync(43);
+      ::grpc::Service::MarkMethodAsync(46);
     }
     ~WithAsyncMethod_GetLatestSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2427,7 +2613,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetLatestSessionReview(::grpc::ServerContext* context, ::ondewo::nlu::GetLatestSessionReviewRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionReview>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(43, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(46, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2436,7 +2622,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_CreateSessionReview() {
-      ::grpc::Service::MarkMethodAsync(44);
+      ::grpc::Service::MarkMethodAsync(47);
     }
     ~WithAsyncMethod_CreateSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2447,7 +2633,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateSessionReview(::grpc::ServerContext* context, ::ondewo::nlu::CreateSessionReviewRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::SessionReview>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(44, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(47, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2456,7 +2642,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetAudioFiles() {
-      ::grpc::Service::MarkMethodAsync(45);
+      ::grpc::Service::MarkMethodAsync(48);
     }
     ~WithAsyncMethod_GetAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2467,7 +2653,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetAudioFiles(::grpc::ServerContext* context, ::ondewo::nlu::GetAudioFilesRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::GetAudioFilesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(45, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(48, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2476,7 +2662,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_AddAudioFiles() {
-      ::grpc::Service::MarkMethodAsync(46);
+      ::grpc::Service::MarkMethodAsync(49);
     }
     ~WithAsyncMethod_AddAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2487,7 +2673,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddAudioFiles(::grpc::ServerContext* context, ::ondewo::nlu::AddAudioFilesRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::AddAudioFilesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(46, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(49, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2496,7 +2682,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteAudioFiles() {
-      ::grpc::Service::MarkMethodAsync(47);
+      ::grpc::Service::MarkMethodAsync(50);
     }
     ~WithAsyncMethod_DeleteAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2507,7 +2693,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteAudioFiles(::grpc::ServerContext* context, ::ondewo::nlu::DeleteAudioFilesRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::DeleteAudioFilesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(47, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(50, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2516,7 +2702,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_GetAudioFileOfSession() {
-      ::grpc::Service::MarkMethodAsync(48);
+      ::grpc::Service::MarkMethodAsync(51);
     }
     ~WithAsyncMethod_GetAudioFileOfSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2527,7 +2713,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetAudioFileOfSession(::grpc::ServerContext* context, ::ondewo::nlu::GetAudioFileOfSessionRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::AudioFileResource>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(48, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(51, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -2536,7 +2722,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListAudioFiles() {
-      ::grpc::Service::MarkMethodAsync(49);
+      ::grpc::Service::MarkMethodAsync(52);
     }
     ~WithAsyncMethod_ListAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -2547,10 +2733,10 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListAudioFiles(::grpc::ServerContext* context, ::ondewo::nlu::ListAudioFilesRequest* request, ::grpc::ServerAsyncResponseWriter< ::ondewo::nlu::ListAudioFilesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(49, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(52, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_DetectIntent<WithAsyncMethod_StreamingDetectIntent<WithAsyncMethod_ListSessions<WithAsyncMethod_GetSession<WithAsyncMethod_CreateSession<WithAsyncMethod_CreateSessionStep<WithAsyncMethod_GetSessionStep<WithAsyncMethod_UpdateSessionStep<WithAsyncMethod_DeleteSessionStep<WithAsyncMethod_DeleteSession<WithAsyncMethod_ListSessionLabels<WithAsyncMethod_ListSessionLabelsOfAllSessions<WithAsyncMethod_ListLanguageCodesOfAllSessions<WithAsyncMethod_ListMatchedIntentsOfAllSessions<WithAsyncMethod_ListMatchedEntityTypesOfAllSessions<WithAsyncMethod_ListUserIdsOfAllSessions<WithAsyncMethod_ListIdentifiedUserIdsOfAllSessions<WithAsyncMethod_ListTagsOfAllSessions<WithAsyncMethod_ListInputContextsOfAllSessions<WithAsyncMethod_ListOutputContextsOfAllSessions<WithAsyncMethod_ListPlatformsOfAllSessions<WithAsyncMethod_ListAccountIdsOfAllSessions<WithAsyncMethod_ListPropertyIdsOfAllSessions<WithAsyncMethod_ListDatastreamIdsOfAllSessions<WithAsyncMethod_ListOriginIdsOfAllSessions<WithAsyncMethod_AddSessionLabels<WithAsyncMethod_DeleteSessionLabels<WithAsyncMethod_AddSessionComment<WithAsyncMethod_DeleteSessionComments<WithAsyncMethod_UpdateSessionComments<WithAsyncMethod_ListSessionComments<WithAsyncMethod_ListSessionCommentsOfAllSessions<WithAsyncMethod_AddSessionFeedback<WithAsyncMethod_AddSessionStepFeedback<WithAsyncMethod_GetSessionFeedback<WithAsyncMethod_UpdateSessionFeedback<WithAsyncMethod_DeleteSessionFeedback<WithAsyncMethod_ListSessionFeedback<WithAsyncMethod_ListSessionFeedbackOfAllSessions<WithAsyncMethod_GetFeedbackStatistics<WithAsyncMethod_GetFeedbackStatisticsTimeSeries<WithAsyncMethod_ListSessionReviews<WithAsyncMethod_GetSessionReview<WithAsyncMethod_GetLatestSessionReview<WithAsyncMethod_CreateSessionReview<WithAsyncMethod_GetAudioFiles<WithAsyncMethod_AddAudioFiles<WithAsyncMethod_DeleteAudioFiles<WithAsyncMethod_GetAudioFileOfSession<WithAsyncMethod_ListAudioFiles<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_DetectIntent<WithAsyncMethod_StreamingDetectIntent<WithAsyncMethod_InterruptTurn<WithAsyncMethod_PrepareWarmTransferIntro<WithAsyncMethod_GetWarmTransferIntroOutcome<WithAsyncMethod_ListSessions<WithAsyncMethod_GetSession<WithAsyncMethod_CreateSession<WithAsyncMethod_CreateSessionStep<WithAsyncMethod_GetSessionStep<WithAsyncMethod_UpdateSessionStep<WithAsyncMethod_DeleteSessionStep<WithAsyncMethod_DeleteSession<WithAsyncMethod_ListSessionLabels<WithAsyncMethod_ListSessionLabelsOfAllSessions<WithAsyncMethod_ListLanguageCodesOfAllSessions<WithAsyncMethod_ListMatchedIntentsOfAllSessions<WithAsyncMethod_ListMatchedEntityTypesOfAllSessions<WithAsyncMethod_ListUserIdsOfAllSessions<WithAsyncMethod_ListIdentifiedUserIdsOfAllSessions<WithAsyncMethod_ListTagsOfAllSessions<WithAsyncMethod_ListInputContextsOfAllSessions<WithAsyncMethod_ListOutputContextsOfAllSessions<WithAsyncMethod_ListPlatformsOfAllSessions<WithAsyncMethod_ListAccountIdsOfAllSessions<WithAsyncMethod_ListPropertyIdsOfAllSessions<WithAsyncMethod_ListDatastreamIdsOfAllSessions<WithAsyncMethod_ListOriginIdsOfAllSessions<WithAsyncMethod_AddSessionLabels<WithAsyncMethod_DeleteSessionLabels<WithAsyncMethod_AddSessionComment<WithAsyncMethod_DeleteSessionComments<WithAsyncMethod_UpdateSessionComments<WithAsyncMethod_ListSessionComments<WithAsyncMethod_ListSessionCommentsOfAllSessions<WithAsyncMethod_AddSessionFeedback<WithAsyncMethod_AddSessionStepFeedback<WithAsyncMethod_GetSessionFeedback<WithAsyncMethod_UpdateSessionFeedback<WithAsyncMethod_DeleteSessionFeedback<WithAsyncMethod_ListSessionFeedback<WithAsyncMethod_ListSessionFeedbackOfAllSessions<WithAsyncMethod_GetFeedbackStatistics<WithAsyncMethod_GetFeedbackStatisticsTimeSeries<WithAsyncMethod_ListSessionReviews<WithAsyncMethod_GetSessionReview<WithAsyncMethod_GetLatestSessionReview<WithAsyncMethod_CreateSessionReview<WithAsyncMethod_GetAudioFiles<WithAsyncMethod_AddAudioFiles<WithAsyncMethod_DeleteAudioFiles<WithAsyncMethod_GetAudioFileOfSession<WithAsyncMethod_ListAudioFiles<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_DetectIntent : public BaseClass {
    private:
@@ -2602,18 +2788,99 @@ class Sessions final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class WithCallbackMethod_InterruptTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_InterruptTurn() {
+      ::grpc::Service::MarkMethodCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::InterruptTurnRequest, ::ondewo::nlu::InterruptTurnResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::nlu::InterruptTurnRequest* request, ::ondewo::nlu::InterruptTurnResponse* response) { return this->InterruptTurn(context, request, response); }));}
+    void SetMessageAllocatorFor_InterruptTurn(
+        ::grpc::MessageAllocator< ::ondewo::nlu::InterruptTurnRequest, ::ondewo::nlu::InterruptTurnResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::InterruptTurnRequest, ::ondewo::nlu::InterruptTurnResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_InterruptTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InterruptTurn(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::InterruptTurnRequest* /*request*/, ::ondewo::nlu::InterruptTurnResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* InterruptTurn(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::nlu::InterruptTurnRequest* /*request*/, ::ondewo::nlu::InterruptTurnResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_PrepareWarmTransferIntro : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_PrepareWarmTransferIntro() {
+      ::grpc::Service::MarkMethodCallback(3,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::ondewo::nlu::PrepareWarmTransferIntroResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* request, ::ondewo::nlu::PrepareWarmTransferIntroResponse* response) { return this->PrepareWarmTransferIntro(context, request, response); }));}
+    void SetMessageAllocatorFor_PrepareWarmTransferIntro(
+        ::grpc::MessageAllocator< ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::ondewo::nlu::PrepareWarmTransferIntroResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::ondewo::nlu::PrepareWarmTransferIntroResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_PrepareWarmTransferIntro() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PrepareWarmTransferIntro(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* /*request*/, ::ondewo::nlu::PrepareWarmTransferIntroResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* PrepareWarmTransferIntro(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* /*request*/, ::ondewo::nlu::PrepareWarmTransferIntroResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_GetWarmTransferIntroOutcome : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_GetWarmTransferIntroOutcome() {
+      ::grpc::Service::MarkMethodCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::ondewo::nlu::WarmTransferIntroOutcome>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* request, ::ondewo::nlu::WarmTransferIntroOutcome* response) { return this->GetWarmTransferIntroOutcome(context, request, response); }));}
+    void SetMessageAllocatorFor_GetWarmTransferIntroOutcome(
+        ::grpc::MessageAllocator< ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::ondewo::nlu::WarmTransferIntroOutcome>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::ondewo::nlu::WarmTransferIntroOutcome>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_GetWarmTransferIntroOutcome() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* /*request*/, ::ondewo::nlu::WarmTransferIntroOutcome* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetWarmTransferIntroOutcome(
+      ::grpc::CallbackServerContext* /*context*/, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* /*request*/, ::ondewo::nlu::WarmTransferIntroOutcome* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithCallbackMethod_ListSessions : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSessions() {
-      ::grpc::Service::MarkMethodCallback(2,
+      ::grpc::Service::MarkMethodCallback(5,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionsRequest, ::ondewo::nlu::ListSessionsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListSessionsRequest* request, ::ondewo::nlu::ListSessionsResponse* response) { return this->ListSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListSessionsRequest, ::ondewo::nlu::ListSessionsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionsRequest, ::ondewo::nlu::ListSessionsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2634,13 +2901,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetSession() {
-      ::grpc::Service::MarkMethodCallback(3,
+      ::grpc::Service::MarkMethodCallback(6,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetSessionRequest, ::ondewo::nlu::Session>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetSessionRequest* request, ::ondewo::nlu::Session* response) { return this->GetSession(context, request, response); }));}
     void SetMessageAllocatorFor_GetSession(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetSessionRequest, ::ondewo::nlu::Session>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetSessionRequest, ::ondewo::nlu::Session>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2661,13 +2928,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_CreateSession() {
-      ::grpc::Service::MarkMethodCallback(4,
+      ::grpc::Service::MarkMethodCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::CreateSessionRequest, ::ondewo::nlu::Session>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::CreateSessionRequest* request, ::ondewo::nlu::Session* response) { return this->CreateSession(context, request, response); }));}
     void SetMessageAllocatorFor_CreateSession(
         ::grpc::MessageAllocator< ::ondewo::nlu::CreateSessionRequest, ::ondewo::nlu::Session>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::CreateSessionRequest, ::ondewo::nlu::Session>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2688,13 +2955,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_CreateSessionStep() {
-      ::grpc::Service::MarkMethodCallback(5,
+      ::grpc::Service::MarkMethodCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::CreateSessionStepRequest, ::ondewo::nlu::SessionStep>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::CreateSessionStepRequest* request, ::ondewo::nlu::SessionStep* response) { return this->CreateSessionStep(context, request, response); }));}
     void SetMessageAllocatorFor_CreateSessionStep(
         ::grpc::MessageAllocator< ::ondewo::nlu::CreateSessionStepRequest, ::ondewo::nlu::SessionStep>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::CreateSessionStepRequest, ::ondewo::nlu::SessionStep>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2715,13 +2982,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetSessionStep() {
-      ::grpc::Service::MarkMethodCallback(6,
+      ::grpc::Service::MarkMethodCallback(9,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetSessionStepRequest, ::ondewo::nlu::SessionStep>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetSessionStepRequest* request, ::ondewo::nlu::SessionStep* response) { return this->GetSessionStep(context, request, response); }));}
     void SetMessageAllocatorFor_GetSessionStep(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetSessionStepRequest, ::ondewo::nlu::SessionStep>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetSessionStepRequest, ::ondewo::nlu::SessionStep>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2742,13 +3009,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_UpdateSessionStep() {
-      ::grpc::Service::MarkMethodCallback(7,
+      ::grpc::Service::MarkMethodCallback(10,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::UpdateSessionStepRequest, ::ondewo::nlu::SessionStep>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::UpdateSessionStepRequest* request, ::ondewo::nlu::SessionStep* response) { return this->UpdateSessionStep(context, request, response); }));}
     void SetMessageAllocatorFor_UpdateSessionStep(
         ::grpc::MessageAllocator< ::ondewo::nlu::UpdateSessionStepRequest, ::ondewo::nlu::SessionStep>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::UpdateSessionStepRequest, ::ondewo::nlu::SessionStep>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2769,13 +3036,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteSessionStep() {
-      ::grpc::Service::MarkMethodCallback(8,
+      ::grpc::Service::MarkMethodCallback(11,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionStepRequest, ::google::protobuf::Empty>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::DeleteSessionStepRequest* request, ::google::protobuf::Empty* response) { return this->DeleteSessionStep(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteSessionStep(
         ::grpc::MessageAllocator< ::ondewo::nlu::DeleteSessionStepRequest, ::google::protobuf::Empty>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionStepRequest, ::google::protobuf::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2796,13 +3063,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteSession() {
-      ::grpc::Service::MarkMethodCallback(9,
+      ::grpc::Service::MarkMethodCallback(12,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionRequest, ::google::protobuf::Empty>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::DeleteSessionRequest* request, ::google::protobuf::Empty* response) { return this->DeleteSession(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteSession(
         ::grpc::MessageAllocator< ::ondewo::nlu::DeleteSessionRequest, ::google::protobuf::Empty>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionRequest, ::google::protobuf::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2823,13 +3090,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSessionLabels() {
-      ::grpc::Service::MarkMethodCallback(10,
+      ::grpc::Service::MarkMethodCallback(13,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionLabelsRequest, ::ondewo::nlu::ListSessionLabelsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListSessionLabelsRequest* request, ::ondewo::nlu::ListSessionLabelsResponse* response) { return this->ListSessionLabels(context, request, response); }));}
     void SetMessageAllocatorFor_ListSessionLabels(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListSessionLabelsRequest, ::ondewo::nlu::ListSessionLabelsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionLabelsRequest, ::ondewo::nlu::ListSessionLabelsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2850,13 +3117,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSessionLabelsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(11,
+      ::grpc::Service::MarkMethodCallback(14,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest, ::ondewo::nlu::ListSessionLabelsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest* request, ::ondewo::nlu::ListSessionLabelsResponse* response) { return this->ListSessionLabelsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListSessionLabelsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest, ::ondewo::nlu::ListSessionLabelsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest, ::ondewo::nlu::ListSessionLabelsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2877,13 +3144,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListLanguageCodesOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(12,
+      ::grpc::Service::MarkMethodCallback(15,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest, ::ondewo::nlu::ListLanguageCodesResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest* request, ::ondewo::nlu::ListLanguageCodesResponse* response) { return this->ListLanguageCodesOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListLanguageCodesOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest, ::ondewo::nlu::ListLanguageCodesResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest, ::ondewo::nlu::ListLanguageCodesResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2904,13 +3171,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListMatchedIntentsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(13,
+      ::grpc::Service::MarkMethodCallback(16,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest, ::ondewo::nlu::ListMatchedIntentsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest* request, ::ondewo::nlu::ListMatchedIntentsResponse* response) { return this->ListMatchedIntentsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListMatchedIntentsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest, ::ondewo::nlu::ListMatchedIntentsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(16);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest, ::ondewo::nlu::ListMatchedIntentsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2931,13 +3198,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListMatchedEntityTypesOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(14,
+      ::grpc::Service::MarkMethodCallback(17,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest, ::ondewo::nlu::ListMatchedEntityTypesResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest* request, ::ondewo::nlu::ListMatchedEntityTypesResponse* response) { return this->ListMatchedEntityTypesOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListMatchedEntityTypesOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest, ::ondewo::nlu::ListMatchedEntityTypesResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(17);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest, ::ondewo::nlu::ListMatchedEntityTypesResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2958,13 +3225,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(15,
+      ::grpc::Service::MarkMethodCallback(18,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListUserIdsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListUserIdsOfAllSessionsRequest* request, ::ondewo::nlu::ListUserIdsResponse* response) { return this->ListUserIdsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListUserIdsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListUserIdsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(18);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListUserIdsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -2985,13 +3252,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListIdentifiedUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(16,
+      ::grpc::Service::MarkMethodCallback(19,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListIdentifiedUserIdsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest* request, ::ondewo::nlu::ListIdentifiedUserIdsResponse* response) { return this->ListIdentifiedUserIdsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListIdentifiedUserIdsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListIdentifiedUserIdsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(16);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(19);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListIdentifiedUserIdsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3012,13 +3279,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListTagsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(17,
+      ::grpc::Service::MarkMethodCallback(20,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListTagsOfAllSessionsRequest, ::ondewo::nlu::ListTagsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListTagsOfAllSessionsRequest* request, ::ondewo::nlu::ListTagsResponse* response) { return this->ListTagsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListTagsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListTagsOfAllSessionsRequest, ::ondewo::nlu::ListTagsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(17);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(20);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListTagsOfAllSessionsRequest, ::ondewo::nlu::ListTagsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3039,13 +3306,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListInputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(18,
+      ::grpc::Service::MarkMethodCallback(21,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListInputContextsOfAllSessionsRequest, ::ondewo::nlu::ListInputContextsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListInputContextsOfAllSessionsRequest* request, ::ondewo::nlu::ListInputContextsResponse* response) { return this->ListInputContextsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListInputContextsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListInputContextsOfAllSessionsRequest, ::ondewo::nlu::ListInputContextsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(18);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(21);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListInputContextsOfAllSessionsRequest, ::ondewo::nlu::ListInputContextsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3066,13 +3333,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListOutputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(19,
+      ::grpc::Service::MarkMethodCallback(22,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListOutputContextsOfAllSessionsRequest, ::ondewo::nlu::ListOutputContextsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListOutputContextsOfAllSessionsRequest* request, ::ondewo::nlu::ListOutputContextsResponse* response) { return this->ListOutputContextsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListOutputContextsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListOutputContextsOfAllSessionsRequest, ::ondewo::nlu::ListOutputContextsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(19);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(22);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListOutputContextsOfAllSessionsRequest, ::ondewo::nlu::ListOutputContextsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3093,13 +3360,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListPlatformsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(20,
+      ::grpc::Service::MarkMethodCallback(23,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListPlatformsOfAllSessionsRequest, ::ondewo::nlu::ListPlatformsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListPlatformsOfAllSessionsRequest* request, ::ondewo::nlu::ListPlatformsResponse* response) { return this->ListPlatformsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListPlatformsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListPlatformsOfAllSessionsRequest, ::ondewo::nlu::ListPlatformsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(20);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(23);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListPlatformsOfAllSessionsRequest, ::ondewo::nlu::ListPlatformsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3120,13 +3387,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListAccountIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(21,
+      ::grpc::Service::MarkMethodCallback(24,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListAccountIdsOfAllSessionsRequest, ::ondewo::nlu::ListAccountIdsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListAccountIdsOfAllSessionsRequest* request, ::ondewo::nlu::ListAccountIdsResponse* response) { return this->ListAccountIdsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListAccountIdsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListAccountIdsOfAllSessionsRequest, ::ondewo::nlu::ListAccountIdsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(21);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(24);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListAccountIdsOfAllSessionsRequest, ::ondewo::nlu::ListAccountIdsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3147,13 +3414,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListPropertyIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(22,
+      ::grpc::Service::MarkMethodCallback(25,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest, ::ondewo::nlu::ListPropertyIdsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest* request, ::ondewo::nlu::ListPropertyIdsResponse* response) { return this->ListPropertyIdsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListPropertyIdsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest, ::ondewo::nlu::ListPropertyIdsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(22);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(25);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest, ::ondewo::nlu::ListPropertyIdsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3174,13 +3441,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListDatastreamIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(23,
+      ::grpc::Service::MarkMethodCallback(26,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest, ::ondewo::nlu::ListDatastreamIdsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest* request, ::ondewo::nlu::ListDatastreamIdsResponse* response) { return this->ListDatastreamIdsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListDatastreamIdsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest, ::ondewo::nlu::ListDatastreamIdsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(23);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(26);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest, ::ondewo::nlu::ListDatastreamIdsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3201,13 +3468,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListOriginIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(24,
+      ::grpc::Service::MarkMethodCallback(27,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListOriginIdsOfAllSessionsRequest, ::ondewo::nlu::ListOriginIdsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListOriginIdsOfAllSessionsRequest* request, ::ondewo::nlu::ListOriginIdsResponse* response) { return this->ListOriginIdsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListOriginIdsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListOriginIdsOfAllSessionsRequest, ::ondewo::nlu::ListOriginIdsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(24);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(27);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListOriginIdsOfAllSessionsRequest, ::ondewo::nlu::ListOriginIdsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3228,13 +3495,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_AddSessionLabels() {
-      ::grpc::Service::MarkMethodCallback(25,
+      ::grpc::Service::MarkMethodCallback(28,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddSessionLabelsRequest, ::ondewo::nlu::Session>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::AddSessionLabelsRequest* request, ::ondewo::nlu::Session* response) { return this->AddSessionLabels(context, request, response); }));}
     void SetMessageAllocatorFor_AddSessionLabels(
         ::grpc::MessageAllocator< ::ondewo::nlu::AddSessionLabelsRequest, ::ondewo::nlu::Session>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(25);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(28);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddSessionLabelsRequest, ::ondewo::nlu::Session>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3255,13 +3522,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteSessionLabels() {
-      ::grpc::Service::MarkMethodCallback(26,
+      ::grpc::Service::MarkMethodCallback(29,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionLabelsRequest, ::ondewo::nlu::Session>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::DeleteSessionLabelsRequest* request, ::ondewo::nlu::Session* response) { return this->DeleteSessionLabels(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteSessionLabels(
         ::grpc::MessageAllocator< ::ondewo::nlu::DeleteSessionLabelsRequest, ::ondewo::nlu::Session>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(26);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(29);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionLabelsRequest, ::ondewo::nlu::Session>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3282,13 +3549,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_AddSessionComment() {
-      ::grpc::Service::MarkMethodCallback(27,
+      ::grpc::Service::MarkMethodCallback(30,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddSessionCommentRequest, ::ondewo::nlu::Comment>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::AddSessionCommentRequest* request, ::ondewo::nlu::Comment* response) { return this->AddSessionComment(context, request, response); }));}
     void SetMessageAllocatorFor_AddSessionComment(
         ::grpc::MessageAllocator< ::ondewo::nlu::AddSessionCommentRequest, ::ondewo::nlu::Comment>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(27);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(30);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddSessionCommentRequest, ::ondewo::nlu::Comment>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3309,13 +3576,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteSessionComments() {
-      ::grpc::Service::MarkMethodCallback(28,
+      ::grpc::Service::MarkMethodCallback(31,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionCommentsRequest, ::ondewo::nlu::Session>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::DeleteSessionCommentsRequest* request, ::ondewo::nlu::Session* response) { return this->DeleteSessionComments(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteSessionComments(
         ::grpc::MessageAllocator< ::ondewo::nlu::DeleteSessionCommentsRequest, ::ondewo::nlu::Session>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(28);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(31);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionCommentsRequest, ::ondewo::nlu::Session>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3336,13 +3603,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_UpdateSessionComments() {
-      ::grpc::Service::MarkMethodCallback(29,
+      ::grpc::Service::MarkMethodCallback(32,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::UpdateSessionCommentsRequest, ::ondewo::nlu::Session>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::UpdateSessionCommentsRequest* request, ::ondewo::nlu::Session* response) { return this->UpdateSessionComments(context, request, response); }));}
     void SetMessageAllocatorFor_UpdateSessionComments(
         ::grpc::MessageAllocator< ::ondewo::nlu::UpdateSessionCommentsRequest, ::ondewo::nlu::Session>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(29);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(32);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::UpdateSessionCommentsRequest, ::ondewo::nlu::Session>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3363,13 +3630,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSessionComments() {
-      ::grpc::Service::MarkMethodCallback(30,
+      ::grpc::Service::MarkMethodCallback(33,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionCommentsRequest, ::ondewo::nlu::ListSessionCommentsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListSessionCommentsRequest* request, ::ondewo::nlu::ListSessionCommentsResponse* response) { return this->ListSessionComments(context, request, response); }));}
     void SetMessageAllocatorFor_ListSessionComments(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListSessionCommentsRequest, ::ondewo::nlu::ListSessionCommentsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(30);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(33);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionCommentsRequest, ::ondewo::nlu::ListSessionCommentsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3390,13 +3657,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSessionCommentsOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(31,
+      ::grpc::Service::MarkMethodCallback(34,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest, ::ondewo::nlu::ListSessionCommentsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest* request, ::ondewo::nlu::ListSessionCommentsResponse* response) { return this->ListSessionCommentsOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListSessionCommentsOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest, ::ondewo::nlu::ListSessionCommentsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(31);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(34);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest, ::ondewo::nlu::ListSessionCommentsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3417,13 +3684,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_AddSessionFeedback() {
-      ::grpc::Service::MarkMethodCallback(32,
+      ::grpc::Service::MarkMethodCallback(35,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::AddSessionFeedbackRequest* request, ::ondewo::nlu::SessionFeedback* response) { return this->AddSessionFeedback(context, request, response); }));}
     void SetMessageAllocatorFor_AddSessionFeedback(
         ::grpc::MessageAllocator< ::ondewo::nlu::AddSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(32);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(35);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3444,13 +3711,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_AddSessionStepFeedback() {
-      ::grpc::Service::MarkMethodCallback(33,
+      ::grpc::Service::MarkMethodCallback(36,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddSessionStepFeedbackRequest, ::ondewo::nlu::SessionFeedback>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::AddSessionStepFeedbackRequest* request, ::ondewo::nlu::SessionFeedback* response) { return this->AddSessionStepFeedback(context, request, response); }));}
     void SetMessageAllocatorFor_AddSessionStepFeedback(
         ::grpc::MessageAllocator< ::ondewo::nlu::AddSessionStepFeedbackRequest, ::ondewo::nlu::SessionFeedback>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(33);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(36);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddSessionStepFeedbackRequest, ::ondewo::nlu::SessionFeedback>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3471,13 +3738,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetSessionFeedback() {
-      ::grpc::Service::MarkMethodCallback(34,
+      ::grpc::Service::MarkMethodCallback(37,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetSessionFeedbackRequest* request, ::ondewo::nlu::SessionFeedback* response) { return this->GetSessionFeedback(context, request, response); }));}
     void SetMessageAllocatorFor_GetSessionFeedback(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(34);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(37);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3498,13 +3765,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_UpdateSessionFeedback() {
-      ::grpc::Service::MarkMethodCallback(35,
+      ::grpc::Service::MarkMethodCallback(38,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::UpdateSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::UpdateSessionFeedbackRequest* request, ::ondewo::nlu::SessionFeedback* response) { return this->UpdateSessionFeedback(context, request, response); }));}
     void SetMessageAllocatorFor_UpdateSessionFeedback(
         ::grpc::MessageAllocator< ::ondewo::nlu::UpdateSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(35);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(38);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::UpdateSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3525,13 +3792,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteSessionFeedback() {
-      ::grpc::Service::MarkMethodCallback(36,
+      ::grpc::Service::MarkMethodCallback(39,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionFeedbackRequest, ::google::protobuf::Empty>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::DeleteSessionFeedbackRequest* request, ::google::protobuf::Empty* response) { return this->DeleteSessionFeedback(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteSessionFeedback(
         ::grpc::MessageAllocator< ::ondewo::nlu::DeleteSessionFeedbackRequest, ::google::protobuf::Empty>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(36);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(39);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteSessionFeedbackRequest, ::google::protobuf::Empty>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3552,13 +3819,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSessionFeedback() {
-      ::grpc::Service::MarkMethodCallback(37,
+      ::grpc::Service::MarkMethodCallback(40,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionFeedbackRequest, ::ondewo::nlu::ListSessionFeedbackResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListSessionFeedbackRequest* request, ::ondewo::nlu::ListSessionFeedbackResponse* response) { return this->ListSessionFeedback(context, request, response); }));}
     void SetMessageAllocatorFor_ListSessionFeedback(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListSessionFeedbackRequest, ::ondewo::nlu::ListSessionFeedbackResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(37);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(40);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionFeedbackRequest, ::ondewo::nlu::ListSessionFeedbackResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3579,13 +3846,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSessionFeedbackOfAllSessions() {
-      ::grpc::Service::MarkMethodCallback(38,
+      ::grpc::Service::MarkMethodCallback(41,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest, ::ondewo::nlu::ListSessionFeedbackResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest* request, ::ondewo::nlu::ListSessionFeedbackResponse* response) { return this->ListSessionFeedbackOfAllSessions(context, request, response); }));}
     void SetMessageAllocatorFor_ListSessionFeedbackOfAllSessions(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest, ::ondewo::nlu::ListSessionFeedbackResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(38);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(41);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest, ::ondewo::nlu::ListSessionFeedbackResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3606,13 +3873,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetFeedbackStatistics() {
-      ::grpc::Service::MarkMethodCallback(39,
+      ::grpc::Service::MarkMethodCallback(42,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetFeedbackStatisticsRequest, ::ondewo::nlu::GetFeedbackStatisticsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetFeedbackStatisticsRequest* request, ::ondewo::nlu::GetFeedbackStatisticsResponse* response) { return this->GetFeedbackStatistics(context, request, response); }));}
     void SetMessageAllocatorFor_GetFeedbackStatistics(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetFeedbackStatisticsRequest, ::ondewo::nlu::GetFeedbackStatisticsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(39);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(42);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetFeedbackStatisticsRequest, ::ondewo::nlu::GetFeedbackStatisticsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3633,13 +3900,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetFeedbackStatisticsTimeSeries() {
-      ::grpc::Service::MarkMethodCallback(40,
+      ::grpc::Service::MarkMethodCallback(43,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest, ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest* request, ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse* response) { return this->GetFeedbackStatisticsTimeSeries(context, request, response); }));}
     void SetMessageAllocatorFor_GetFeedbackStatisticsTimeSeries(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest, ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(40);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(43);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest, ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3660,13 +3927,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSessionReviews() {
-      ::grpc::Service::MarkMethodCallback(41,
+      ::grpc::Service::MarkMethodCallback(44,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionReviewsRequest, ::ondewo::nlu::ListSessionReviewsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListSessionReviewsRequest* request, ::ondewo::nlu::ListSessionReviewsResponse* response) { return this->ListSessionReviews(context, request, response); }));}
     void SetMessageAllocatorFor_ListSessionReviews(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListSessionReviewsRequest, ::ondewo::nlu::ListSessionReviewsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(41);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(44);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListSessionReviewsRequest, ::ondewo::nlu::ListSessionReviewsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3687,13 +3954,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetSessionReview() {
-      ::grpc::Service::MarkMethodCallback(42,
+      ::grpc::Service::MarkMethodCallback(45,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetSessionReviewRequest, ::ondewo::nlu::SessionReview>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetSessionReviewRequest* request, ::ondewo::nlu::SessionReview* response) { return this->GetSessionReview(context, request, response); }));}
     void SetMessageAllocatorFor_GetSessionReview(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetSessionReviewRequest, ::ondewo::nlu::SessionReview>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(42);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(45);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetSessionReviewRequest, ::ondewo::nlu::SessionReview>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3714,13 +3981,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetLatestSessionReview() {
-      ::grpc::Service::MarkMethodCallback(43,
+      ::grpc::Service::MarkMethodCallback(46,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetLatestSessionReviewRequest, ::ondewo::nlu::SessionReview>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetLatestSessionReviewRequest* request, ::ondewo::nlu::SessionReview* response) { return this->GetLatestSessionReview(context, request, response); }));}
     void SetMessageAllocatorFor_GetLatestSessionReview(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetLatestSessionReviewRequest, ::ondewo::nlu::SessionReview>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(43);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(46);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetLatestSessionReviewRequest, ::ondewo::nlu::SessionReview>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3741,13 +4008,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_CreateSessionReview() {
-      ::grpc::Service::MarkMethodCallback(44,
+      ::grpc::Service::MarkMethodCallback(47,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::CreateSessionReviewRequest, ::ondewo::nlu::SessionReview>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::CreateSessionReviewRequest* request, ::ondewo::nlu::SessionReview* response) { return this->CreateSessionReview(context, request, response); }));}
     void SetMessageAllocatorFor_CreateSessionReview(
         ::grpc::MessageAllocator< ::ondewo::nlu::CreateSessionReviewRequest, ::ondewo::nlu::SessionReview>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(44);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(47);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::CreateSessionReviewRequest, ::ondewo::nlu::SessionReview>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3768,13 +4035,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetAudioFiles() {
-      ::grpc::Service::MarkMethodCallback(45,
+      ::grpc::Service::MarkMethodCallback(48,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetAudioFilesRequest, ::ondewo::nlu::GetAudioFilesResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetAudioFilesRequest* request, ::ondewo::nlu::GetAudioFilesResponse* response) { return this->GetAudioFiles(context, request, response); }));}
     void SetMessageAllocatorFor_GetAudioFiles(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetAudioFilesRequest, ::ondewo::nlu::GetAudioFilesResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(45);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(48);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetAudioFilesRequest, ::ondewo::nlu::GetAudioFilesResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3795,13 +4062,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_AddAudioFiles() {
-      ::grpc::Service::MarkMethodCallback(46,
+      ::grpc::Service::MarkMethodCallback(49,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddAudioFilesRequest, ::ondewo::nlu::AddAudioFilesResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::AddAudioFilesRequest* request, ::ondewo::nlu::AddAudioFilesResponse* response) { return this->AddAudioFiles(context, request, response); }));}
     void SetMessageAllocatorFor_AddAudioFiles(
         ::grpc::MessageAllocator< ::ondewo::nlu::AddAudioFilesRequest, ::ondewo::nlu::AddAudioFilesResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(46);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(49);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::AddAudioFilesRequest, ::ondewo::nlu::AddAudioFilesResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3822,13 +4089,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteAudioFiles() {
-      ::grpc::Service::MarkMethodCallback(47,
+      ::grpc::Service::MarkMethodCallback(50,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteAudioFilesRequest, ::ondewo::nlu::DeleteAudioFilesResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::DeleteAudioFilesRequest* request, ::ondewo::nlu::DeleteAudioFilesResponse* response) { return this->DeleteAudioFiles(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteAudioFiles(
         ::grpc::MessageAllocator< ::ondewo::nlu::DeleteAudioFilesRequest, ::ondewo::nlu::DeleteAudioFilesResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(47);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(50);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::DeleteAudioFilesRequest, ::ondewo::nlu::DeleteAudioFilesResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3849,13 +4116,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_GetAudioFileOfSession() {
-      ::grpc::Service::MarkMethodCallback(48,
+      ::grpc::Service::MarkMethodCallback(51,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetAudioFileOfSessionRequest, ::ondewo::nlu::AudioFileResource>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::GetAudioFileOfSessionRequest* request, ::ondewo::nlu::AudioFileResource* response) { return this->GetAudioFileOfSession(context, request, response); }));}
     void SetMessageAllocatorFor_GetAudioFileOfSession(
         ::grpc::MessageAllocator< ::ondewo::nlu::GetAudioFileOfSessionRequest, ::ondewo::nlu::AudioFileResource>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(48);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(51);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::GetAudioFileOfSessionRequest, ::ondewo::nlu::AudioFileResource>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3876,13 +4143,13 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListAudioFiles() {
-      ::grpc::Service::MarkMethodCallback(49,
+      ::grpc::Service::MarkMethodCallback(52,
           new ::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListAudioFilesRequest, ::ondewo::nlu::ListAudioFilesResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::ondewo::nlu::ListAudioFilesRequest* request, ::ondewo::nlu::ListAudioFilesResponse* response) { return this->ListAudioFiles(context, request, response); }));}
     void SetMessageAllocatorFor_ListAudioFiles(
         ::grpc::MessageAllocator< ::ondewo::nlu::ListAudioFilesRequest, ::ondewo::nlu::ListAudioFilesResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(49);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(52);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::ondewo::nlu::ListAudioFilesRequest, ::ondewo::nlu::ListAudioFilesResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -3897,7 +4164,7 @@ class Sessions final {
     virtual ::grpc::ServerUnaryReactor* ListAudioFiles(
       ::grpc::CallbackServerContext* /*context*/, const ::ondewo::nlu::ListAudioFilesRequest* /*request*/, ::ondewo::nlu::ListAudioFilesResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_DetectIntent<WithCallbackMethod_StreamingDetectIntent<WithCallbackMethod_ListSessions<WithCallbackMethod_GetSession<WithCallbackMethod_CreateSession<WithCallbackMethod_CreateSessionStep<WithCallbackMethod_GetSessionStep<WithCallbackMethod_UpdateSessionStep<WithCallbackMethod_DeleteSessionStep<WithCallbackMethod_DeleteSession<WithCallbackMethod_ListSessionLabels<WithCallbackMethod_ListSessionLabelsOfAllSessions<WithCallbackMethod_ListLanguageCodesOfAllSessions<WithCallbackMethod_ListMatchedIntentsOfAllSessions<WithCallbackMethod_ListMatchedEntityTypesOfAllSessions<WithCallbackMethod_ListUserIdsOfAllSessions<WithCallbackMethod_ListIdentifiedUserIdsOfAllSessions<WithCallbackMethod_ListTagsOfAllSessions<WithCallbackMethod_ListInputContextsOfAllSessions<WithCallbackMethod_ListOutputContextsOfAllSessions<WithCallbackMethod_ListPlatformsOfAllSessions<WithCallbackMethod_ListAccountIdsOfAllSessions<WithCallbackMethod_ListPropertyIdsOfAllSessions<WithCallbackMethod_ListDatastreamIdsOfAllSessions<WithCallbackMethod_ListOriginIdsOfAllSessions<WithCallbackMethod_AddSessionLabels<WithCallbackMethod_DeleteSessionLabels<WithCallbackMethod_AddSessionComment<WithCallbackMethod_DeleteSessionComments<WithCallbackMethod_UpdateSessionComments<WithCallbackMethod_ListSessionComments<WithCallbackMethod_ListSessionCommentsOfAllSessions<WithCallbackMethod_AddSessionFeedback<WithCallbackMethod_AddSessionStepFeedback<WithCallbackMethod_GetSessionFeedback<WithCallbackMethod_UpdateSessionFeedback<WithCallbackMethod_DeleteSessionFeedback<WithCallbackMethod_ListSessionFeedback<WithCallbackMethod_ListSessionFeedbackOfAllSessions<WithCallbackMethod_GetFeedbackStatistics<WithCallbackMethod_GetFeedbackStatisticsTimeSeries<WithCallbackMethod_ListSessionReviews<WithCallbackMethod_GetSessionReview<WithCallbackMethod_GetLatestSessionReview<WithCallbackMethod_CreateSessionReview<WithCallbackMethod_GetAudioFiles<WithCallbackMethod_AddAudioFiles<WithCallbackMethod_DeleteAudioFiles<WithCallbackMethod_GetAudioFileOfSession<WithCallbackMethod_ListAudioFiles<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > CallbackService;
+  typedef WithCallbackMethod_DetectIntent<WithCallbackMethod_StreamingDetectIntent<WithCallbackMethod_InterruptTurn<WithCallbackMethod_PrepareWarmTransferIntro<WithCallbackMethod_GetWarmTransferIntroOutcome<WithCallbackMethod_ListSessions<WithCallbackMethod_GetSession<WithCallbackMethod_CreateSession<WithCallbackMethod_CreateSessionStep<WithCallbackMethod_GetSessionStep<WithCallbackMethod_UpdateSessionStep<WithCallbackMethod_DeleteSessionStep<WithCallbackMethod_DeleteSession<WithCallbackMethod_ListSessionLabels<WithCallbackMethod_ListSessionLabelsOfAllSessions<WithCallbackMethod_ListLanguageCodesOfAllSessions<WithCallbackMethod_ListMatchedIntentsOfAllSessions<WithCallbackMethod_ListMatchedEntityTypesOfAllSessions<WithCallbackMethod_ListUserIdsOfAllSessions<WithCallbackMethod_ListIdentifiedUserIdsOfAllSessions<WithCallbackMethod_ListTagsOfAllSessions<WithCallbackMethod_ListInputContextsOfAllSessions<WithCallbackMethod_ListOutputContextsOfAllSessions<WithCallbackMethod_ListPlatformsOfAllSessions<WithCallbackMethod_ListAccountIdsOfAllSessions<WithCallbackMethod_ListPropertyIdsOfAllSessions<WithCallbackMethod_ListDatastreamIdsOfAllSessions<WithCallbackMethod_ListOriginIdsOfAllSessions<WithCallbackMethod_AddSessionLabels<WithCallbackMethod_DeleteSessionLabels<WithCallbackMethod_AddSessionComment<WithCallbackMethod_DeleteSessionComments<WithCallbackMethod_UpdateSessionComments<WithCallbackMethod_ListSessionComments<WithCallbackMethod_ListSessionCommentsOfAllSessions<WithCallbackMethod_AddSessionFeedback<WithCallbackMethod_AddSessionStepFeedback<WithCallbackMethod_GetSessionFeedback<WithCallbackMethod_UpdateSessionFeedback<WithCallbackMethod_DeleteSessionFeedback<WithCallbackMethod_ListSessionFeedback<WithCallbackMethod_ListSessionFeedbackOfAllSessions<WithCallbackMethod_GetFeedbackStatistics<WithCallbackMethod_GetFeedbackStatisticsTimeSeries<WithCallbackMethod_ListSessionReviews<WithCallbackMethod_GetSessionReview<WithCallbackMethod_GetLatestSessionReview<WithCallbackMethod_CreateSessionReview<WithCallbackMethod_GetAudioFiles<WithCallbackMethod_AddAudioFiles<WithCallbackMethod_DeleteAudioFiles<WithCallbackMethod_GetAudioFileOfSession<WithCallbackMethod_ListAudioFiles<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_DetectIntent : public BaseClass {
@@ -3934,12 +4201,63 @@ class Sessions final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_InterruptTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_InterruptTurn() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_InterruptTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InterruptTurn(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::InterruptTurnRequest* /*request*/, ::ondewo::nlu::InterruptTurnResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_PrepareWarmTransferIntro : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_PrepareWarmTransferIntro() {
+      ::grpc::Service::MarkMethodGeneric(3);
+    }
+    ~WithGenericMethod_PrepareWarmTransferIntro() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PrepareWarmTransferIntro(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* /*request*/, ::ondewo::nlu::PrepareWarmTransferIntroResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_GetWarmTransferIntroOutcome : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetWarmTransferIntroOutcome() {
+      ::grpc::Service::MarkMethodGeneric(4);
+    }
+    ~WithGenericMethod_GetWarmTransferIntroOutcome() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* /*request*/, ::ondewo::nlu::WarmTransferIntroOutcome* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_ListSessions : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSessions() {
-      ::grpc::Service::MarkMethodGeneric(2);
+      ::grpc::Service::MarkMethodGeneric(5);
     }
     ~WithGenericMethod_ListSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3956,7 +4274,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetSession() {
-      ::grpc::Service::MarkMethodGeneric(3);
+      ::grpc::Service::MarkMethodGeneric(6);
     }
     ~WithGenericMethod_GetSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3973,7 +4291,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_CreateSession() {
-      ::grpc::Service::MarkMethodGeneric(4);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_CreateSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -3990,7 +4308,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_CreateSessionStep() {
-      ::grpc::Service::MarkMethodGeneric(5);
+      ::grpc::Service::MarkMethodGeneric(8);
     }
     ~WithGenericMethod_CreateSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4007,7 +4325,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetSessionStep() {
-      ::grpc::Service::MarkMethodGeneric(6);
+      ::grpc::Service::MarkMethodGeneric(9);
     }
     ~WithGenericMethod_GetSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4024,7 +4342,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UpdateSessionStep() {
-      ::grpc::Service::MarkMethodGeneric(7);
+      ::grpc::Service::MarkMethodGeneric(10);
     }
     ~WithGenericMethod_UpdateSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4041,7 +4359,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteSessionStep() {
-      ::grpc::Service::MarkMethodGeneric(8);
+      ::grpc::Service::MarkMethodGeneric(11);
     }
     ~WithGenericMethod_DeleteSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4058,7 +4376,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteSession() {
-      ::grpc::Service::MarkMethodGeneric(9);
+      ::grpc::Service::MarkMethodGeneric(12);
     }
     ~WithGenericMethod_DeleteSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4075,7 +4393,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSessionLabels() {
-      ::grpc::Service::MarkMethodGeneric(10);
+      ::grpc::Service::MarkMethodGeneric(13);
     }
     ~WithGenericMethod_ListSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4092,7 +4410,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSessionLabelsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(11);
+      ::grpc::Service::MarkMethodGeneric(14);
     }
     ~WithGenericMethod_ListSessionLabelsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4109,7 +4427,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListLanguageCodesOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(12);
+      ::grpc::Service::MarkMethodGeneric(15);
     }
     ~WithGenericMethod_ListLanguageCodesOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4126,7 +4444,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListMatchedIntentsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(13);
+      ::grpc::Service::MarkMethodGeneric(16);
     }
     ~WithGenericMethod_ListMatchedIntentsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4143,7 +4461,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListMatchedEntityTypesOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(14);
+      ::grpc::Service::MarkMethodGeneric(17);
     }
     ~WithGenericMethod_ListMatchedEntityTypesOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4160,7 +4478,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(15);
+      ::grpc::Service::MarkMethodGeneric(18);
     }
     ~WithGenericMethod_ListUserIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4177,7 +4495,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListIdentifiedUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(16);
+      ::grpc::Service::MarkMethodGeneric(19);
     }
     ~WithGenericMethod_ListIdentifiedUserIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4194,7 +4512,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListTagsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(17);
+      ::grpc::Service::MarkMethodGeneric(20);
     }
     ~WithGenericMethod_ListTagsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4211,7 +4529,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListInputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(18);
+      ::grpc::Service::MarkMethodGeneric(21);
     }
     ~WithGenericMethod_ListInputContextsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4228,7 +4546,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListOutputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(19);
+      ::grpc::Service::MarkMethodGeneric(22);
     }
     ~WithGenericMethod_ListOutputContextsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4245,7 +4563,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListPlatformsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(20);
+      ::grpc::Service::MarkMethodGeneric(23);
     }
     ~WithGenericMethod_ListPlatformsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4262,7 +4580,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListAccountIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(21);
+      ::grpc::Service::MarkMethodGeneric(24);
     }
     ~WithGenericMethod_ListAccountIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4279,7 +4597,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListPropertyIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(22);
+      ::grpc::Service::MarkMethodGeneric(25);
     }
     ~WithGenericMethod_ListPropertyIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4296,7 +4614,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListDatastreamIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(23);
+      ::grpc::Service::MarkMethodGeneric(26);
     }
     ~WithGenericMethod_ListDatastreamIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4313,7 +4631,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListOriginIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(24);
+      ::grpc::Service::MarkMethodGeneric(27);
     }
     ~WithGenericMethod_ListOriginIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4330,7 +4648,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_AddSessionLabels() {
-      ::grpc::Service::MarkMethodGeneric(25);
+      ::grpc::Service::MarkMethodGeneric(28);
     }
     ~WithGenericMethod_AddSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4347,7 +4665,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteSessionLabels() {
-      ::grpc::Service::MarkMethodGeneric(26);
+      ::grpc::Service::MarkMethodGeneric(29);
     }
     ~WithGenericMethod_DeleteSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4364,7 +4682,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_AddSessionComment() {
-      ::grpc::Service::MarkMethodGeneric(27);
+      ::grpc::Service::MarkMethodGeneric(30);
     }
     ~WithGenericMethod_AddSessionComment() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4381,7 +4699,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteSessionComments() {
-      ::grpc::Service::MarkMethodGeneric(28);
+      ::grpc::Service::MarkMethodGeneric(31);
     }
     ~WithGenericMethod_DeleteSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4398,7 +4716,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UpdateSessionComments() {
-      ::grpc::Service::MarkMethodGeneric(29);
+      ::grpc::Service::MarkMethodGeneric(32);
     }
     ~WithGenericMethod_UpdateSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4415,7 +4733,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSessionComments() {
-      ::grpc::Service::MarkMethodGeneric(30);
+      ::grpc::Service::MarkMethodGeneric(33);
     }
     ~WithGenericMethod_ListSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4432,7 +4750,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSessionCommentsOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(31);
+      ::grpc::Service::MarkMethodGeneric(34);
     }
     ~WithGenericMethod_ListSessionCommentsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4449,7 +4767,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_AddSessionFeedback() {
-      ::grpc::Service::MarkMethodGeneric(32);
+      ::grpc::Service::MarkMethodGeneric(35);
     }
     ~WithGenericMethod_AddSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4466,7 +4784,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_AddSessionStepFeedback() {
-      ::grpc::Service::MarkMethodGeneric(33);
+      ::grpc::Service::MarkMethodGeneric(36);
     }
     ~WithGenericMethod_AddSessionStepFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4483,7 +4801,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetSessionFeedback() {
-      ::grpc::Service::MarkMethodGeneric(34);
+      ::grpc::Service::MarkMethodGeneric(37);
     }
     ~WithGenericMethod_GetSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4500,7 +4818,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UpdateSessionFeedback() {
-      ::grpc::Service::MarkMethodGeneric(35);
+      ::grpc::Service::MarkMethodGeneric(38);
     }
     ~WithGenericMethod_UpdateSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4517,7 +4835,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteSessionFeedback() {
-      ::grpc::Service::MarkMethodGeneric(36);
+      ::grpc::Service::MarkMethodGeneric(39);
     }
     ~WithGenericMethod_DeleteSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4534,7 +4852,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSessionFeedback() {
-      ::grpc::Service::MarkMethodGeneric(37);
+      ::grpc::Service::MarkMethodGeneric(40);
     }
     ~WithGenericMethod_ListSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4551,7 +4869,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSessionFeedbackOfAllSessions() {
-      ::grpc::Service::MarkMethodGeneric(38);
+      ::grpc::Service::MarkMethodGeneric(41);
     }
     ~WithGenericMethod_ListSessionFeedbackOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4568,7 +4886,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetFeedbackStatistics() {
-      ::grpc::Service::MarkMethodGeneric(39);
+      ::grpc::Service::MarkMethodGeneric(42);
     }
     ~WithGenericMethod_GetFeedbackStatistics() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4585,7 +4903,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetFeedbackStatisticsTimeSeries() {
-      ::grpc::Service::MarkMethodGeneric(40);
+      ::grpc::Service::MarkMethodGeneric(43);
     }
     ~WithGenericMethod_GetFeedbackStatisticsTimeSeries() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4602,7 +4920,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSessionReviews() {
-      ::grpc::Service::MarkMethodGeneric(41);
+      ::grpc::Service::MarkMethodGeneric(44);
     }
     ~WithGenericMethod_ListSessionReviews() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4619,7 +4937,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetSessionReview() {
-      ::grpc::Service::MarkMethodGeneric(42);
+      ::grpc::Service::MarkMethodGeneric(45);
     }
     ~WithGenericMethod_GetSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4636,7 +4954,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetLatestSessionReview() {
-      ::grpc::Service::MarkMethodGeneric(43);
+      ::grpc::Service::MarkMethodGeneric(46);
     }
     ~WithGenericMethod_GetLatestSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4653,7 +4971,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_CreateSessionReview() {
-      ::grpc::Service::MarkMethodGeneric(44);
+      ::grpc::Service::MarkMethodGeneric(47);
     }
     ~WithGenericMethod_CreateSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4670,7 +4988,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetAudioFiles() {
-      ::grpc::Service::MarkMethodGeneric(45);
+      ::grpc::Service::MarkMethodGeneric(48);
     }
     ~WithGenericMethod_GetAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4687,7 +5005,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_AddAudioFiles() {
-      ::grpc::Service::MarkMethodGeneric(46);
+      ::grpc::Service::MarkMethodGeneric(49);
     }
     ~WithGenericMethod_AddAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4704,7 +5022,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteAudioFiles() {
-      ::grpc::Service::MarkMethodGeneric(47);
+      ::grpc::Service::MarkMethodGeneric(50);
     }
     ~WithGenericMethod_DeleteAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4721,7 +5039,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_GetAudioFileOfSession() {
-      ::grpc::Service::MarkMethodGeneric(48);
+      ::grpc::Service::MarkMethodGeneric(51);
     }
     ~WithGenericMethod_GetAudioFileOfSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4738,7 +5056,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListAudioFiles() {
-      ::grpc::Service::MarkMethodGeneric(49);
+      ::grpc::Service::MarkMethodGeneric(52);
     }
     ~WithGenericMethod_ListAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4790,12 +5108,72 @@ class Sessions final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_InterruptTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_InterruptTurn() {
+      ::grpc::Service::MarkMethodRaw(2);
+    }
+    ~WithRawMethod_InterruptTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InterruptTurn(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::InterruptTurnRequest* /*request*/, ::ondewo::nlu::InterruptTurnResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInterruptTurn(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_PrepareWarmTransferIntro : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_PrepareWarmTransferIntro() {
+      ::grpc::Service::MarkMethodRaw(3);
+    }
+    ~WithRawMethod_PrepareWarmTransferIntro() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PrepareWarmTransferIntro(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* /*request*/, ::ondewo::nlu::PrepareWarmTransferIntroResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestPrepareWarmTransferIntro(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_GetWarmTransferIntroOutcome : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetWarmTransferIntroOutcome() {
+      ::grpc::Service::MarkMethodRaw(4);
+    }
+    ~WithRawMethod_GetWarmTransferIntroOutcome() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* /*request*/, ::ondewo::nlu::WarmTransferIntroOutcome* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetWarmTransferIntroOutcome(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_ListSessions : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSessions() {
-      ::grpc::Service::MarkMethodRaw(2);
+      ::grpc::Service::MarkMethodRaw(5);
     }
     ~WithRawMethod_ListSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4806,7 +5184,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4815,7 +5193,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetSession() {
-      ::grpc::Service::MarkMethodRaw(3);
+      ::grpc::Service::MarkMethodRaw(6);
     }
     ~WithRawMethod_GetSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4826,7 +5204,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetSession(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4835,7 +5213,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_CreateSession() {
-      ::grpc::Service::MarkMethodRaw(4);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_CreateSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4846,7 +5224,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateSession(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4855,7 +5233,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_CreateSessionStep() {
-      ::grpc::Service::MarkMethodRaw(5);
+      ::grpc::Service::MarkMethodRaw(8);
     }
     ~WithRawMethod_CreateSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4866,7 +5244,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateSessionStep(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4875,7 +5253,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetSessionStep() {
-      ::grpc::Service::MarkMethodRaw(6);
+      ::grpc::Service::MarkMethodRaw(9);
     }
     ~WithRawMethod_GetSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4886,7 +5264,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetSessionStep(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4895,7 +5273,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UpdateSessionStep() {
-      ::grpc::Service::MarkMethodRaw(7);
+      ::grpc::Service::MarkMethodRaw(10);
     }
     ~WithRawMethod_UpdateSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4906,7 +5284,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateSessionStep(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4915,7 +5293,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteSessionStep() {
-      ::grpc::Service::MarkMethodRaw(8);
+      ::grpc::Service::MarkMethodRaw(11);
     }
     ~WithRawMethod_DeleteSessionStep() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4926,7 +5304,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSessionStep(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4935,7 +5313,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteSession() {
-      ::grpc::Service::MarkMethodRaw(9);
+      ::grpc::Service::MarkMethodRaw(12);
     }
     ~WithRawMethod_DeleteSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4946,7 +5324,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSession(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4955,7 +5333,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSessionLabels() {
-      ::grpc::Service::MarkMethodRaw(10);
+      ::grpc::Service::MarkMethodRaw(13);
     }
     ~WithRawMethod_ListSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4966,7 +5344,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionLabels(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4975,7 +5353,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSessionLabelsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(11);
+      ::grpc::Service::MarkMethodRaw(14);
     }
     ~WithRawMethod_ListSessionLabelsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -4986,7 +5364,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionLabelsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -4995,7 +5373,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListLanguageCodesOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(12);
+      ::grpc::Service::MarkMethodRaw(15);
     }
     ~WithRawMethod_ListLanguageCodesOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5006,7 +5384,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListLanguageCodesOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5015,7 +5393,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListMatchedIntentsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(13);
+      ::grpc::Service::MarkMethodRaw(16);
     }
     ~WithRawMethod_ListMatchedIntentsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5026,7 +5404,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListMatchedIntentsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5035,7 +5413,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListMatchedEntityTypesOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(14);
+      ::grpc::Service::MarkMethodRaw(17);
     }
     ~WithRawMethod_ListMatchedEntityTypesOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5046,7 +5424,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListMatchedEntityTypesOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5055,7 +5433,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(15);
+      ::grpc::Service::MarkMethodRaw(18);
     }
     ~WithRawMethod_ListUserIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5066,7 +5444,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListUserIdsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5075,7 +5453,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListIdentifiedUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(16);
+      ::grpc::Service::MarkMethodRaw(19);
     }
     ~WithRawMethod_ListIdentifiedUserIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5086,7 +5464,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListIdentifiedUserIdsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5095,7 +5473,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListTagsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(17);
+      ::grpc::Service::MarkMethodRaw(20);
     }
     ~WithRawMethod_ListTagsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5106,7 +5484,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListTagsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5115,7 +5493,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListInputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(18);
+      ::grpc::Service::MarkMethodRaw(21);
     }
     ~WithRawMethod_ListInputContextsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5126,7 +5504,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListInputContextsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(21, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5135,7 +5513,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListOutputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(19);
+      ::grpc::Service::MarkMethodRaw(22);
     }
     ~WithRawMethod_ListOutputContextsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5146,7 +5524,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListOutputContextsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5155,7 +5533,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListPlatformsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(20);
+      ::grpc::Service::MarkMethodRaw(23);
     }
     ~WithRawMethod_ListPlatformsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5166,7 +5544,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListPlatformsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5175,7 +5553,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListAccountIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(21);
+      ::grpc::Service::MarkMethodRaw(24);
     }
     ~WithRawMethod_ListAccountIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5186,7 +5564,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListAccountIdsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(21, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(24, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5195,7 +5573,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListPropertyIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(22);
+      ::grpc::Service::MarkMethodRaw(25);
     }
     ~WithRawMethod_ListPropertyIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5206,7 +5584,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListPropertyIdsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(22, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(25, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5215,7 +5593,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListDatastreamIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(23);
+      ::grpc::Service::MarkMethodRaw(26);
     }
     ~WithRawMethod_ListDatastreamIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5226,7 +5604,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListDatastreamIdsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(23, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5235,7 +5613,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListOriginIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(24);
+      ::grpc::Service::MarkMethodRaw(27);
     }
     ~WithRawMethod_ListOriginIdsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5246,7 +5624,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListOriginIdsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(24, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(27, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5255,7 +5633,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_AddSessionLabels() {
-      ::grpc::Service::MarkMethodRaw(25);
+      ::grpc::Service::MarkMethodRaw(28);
     }
     ~WithRawMethod_AddSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5266,7 +5644,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddSessionLabels(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(25, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(28, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5275,7 +5653,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteSessionLabels() {
-      ::grpc::Service::MarkMethodRaw(26);
+      ::grpc::Service::MarkMethodRaw(29);
     }
     ~WithRawMethod_DeleteSessionLabels() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5286,7 +5664,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSessionLabels(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(26, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(29, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5295,7 +5673,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_AddSessionComment() {
-      ::grpc::Service::MarkMethodRaw(27);
+      ::grpc::Service::MarkMethodRaw(30);
     }
     ~WithRawMethod_AddSessionComment() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5306,7 +5684,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddSessionComment(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(27, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(30, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5315,7 +5693,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteSessionComments() {
-      ::grpc::Service::MarkMethodRaw(28);
+      ::grpc::Service::MarkMethodRaw(31);
     }
     ~WithRawMethod_DeleteSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5326,7 +5704,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSessionComments(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(28, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(31, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5335,7 +5713,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UpdateSessionComments() {
-      ::grpc::Service::MarkMethodRaw(29);
+      ::grpc::Service::MarkMethodRaw(32);
     }
     ~WithRawMethod_UpdateSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5346,7 +5724,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateSessionComments(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(29, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(32, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5355,7 +5733,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSessionComments() {
-      ::grpc::Service::MarkMethodRaw(30);
+      ::grpc::Service::MarkMethodRaw(33);
     }
     ~WithRawMethod_ListSessionComments() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5366,7 +5744,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionComments(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(30, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(33, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5375,7 +5753,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSessionCommentsOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(31);
+      ::grpc::Service::MarkMethodRaw(34);
     }
     ~WithRawMethod_ListSessionCommentsOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5386,7 +5764,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionCommentsOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(31, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(34, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5395,7 +5773,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_AddSessionFeedback() {
-      ::grpc::Service::MarkMethodRaw(32);
+      ::grpc::Service::MarkMethodRaw(35);
     }
     ~WithRawMethod_AddSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5406,7 +5784,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddSessionFeedback(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(32, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(35, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5415,7 +5793,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_AddSessionStepFeedback() {
-      ::grpc::Service::MarkMethodRaw(33);
+      ::grpc::Service::MarkMethodRaw(36);
     }
     ~WithRawMethod_AddSessionStepFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5426,7 +5804,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddSessionStepFeedback(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(33, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(36, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5435,7 +5813,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetSessionFeedback() {
-      ::grpc::Service::MarkMethodRaw(34);
+      ::grpc::Service::MarkMethodRaw(37);
     }
     ~WithRawMethod_GetSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5446,7 +5824,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetSessionFeedback(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(34, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(37, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5455,7 +5833,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UpdateSessionFeedback() {
-      ::grpc::Service::MarkMethodRaw(35);
+      ::grpc::Service::MarkMethodRaw(38);
     }
     ~WithRawMethod_UpdateSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5466,7 +5844,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateSessionFeedback(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(35, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(38, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5475,7 +5853,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteSessionFeedback() {
-      ::grpc::Service::MarkMethodRaw(36);
+      ::grpc::Service::MarkMethodRaw(39);
     }
     ~WithRawMethod_DeleteSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5486,7 +5864,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSessionFeedback(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(36, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(39, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5495,7 +5873,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSessionFeedback() {
-      ::grpc::Service::MarkMethodRaw(37);
+      ::grpc::Service::MarkMethodRaw(40);
     }
     ~WithRawMethod_ListSessionFeedback() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5506,7 +5884,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionFeedback(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(37, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(40, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5515,7 +5893,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSessionFeedbackOfAllSessions() {
-      ::grpc::Service::MarkMethodRaw(38);
+      ::grpc::Service::MarkMethodRaw(41);
     }
     ~WithRawMethod_ListSessionFeedbackOfAllSessions() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5526,7 +5904,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionFeedbackOfAllSessions(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(38, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(41, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5535,7 +5913,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetFeedbackStatistics() {
-      ::grpc::Service::MarkMethodRaw(39);
+      ::grpc::Service::MarkMethodRaw(42);
     }
     ~WithRawMethod_GetFeedbackStatistics() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5546,7 +5924,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetFeedbackStatistics(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(39, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(42, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5555,7 +5933,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetFeedbackStatisticsTimeSeries() {
-      ::grpc::Service::MarkMethodRaw(40);
+      ::grpc::Service::MarkMethodRaw(43);
     }
     ~WithRawMethod_GetFeedbackStatisticsTimeSeries() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5566,7 +5944,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetFeedbackStatisticsTimeSeries(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(40, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(43, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5575,7 +5953,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSessionReviews() {
-      ::grpc::Service::MarkMethodRaw(41);
+      ::grpc::Service::MarkMethodRaw(44);
     }
     ~WithRawMethod_ListSessionReviews() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5586,7 +5964,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSessionReviews(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(41, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(44, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5595,7 +5973,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetSessionReview() {
-      ::grpc::Service::MarkMethodRaw(42);
+      ::grpc::Service::MarkMethodRaw(45);
     }
     ~WithRawMethod_GetSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5606,7 +5984,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetSessionReview(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(42, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(45, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5615,7 +5993,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetLatestSessionReview() {
-      ::grpc::Service::MarkMethodRaw(43);
+      ::grpc::Service::MarkMethodRaw(46);
     }
     ~WithRawMethod_GetLatestSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5626,7 +6004,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetLatestSessionReview(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(43, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(46, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5635,7 +6013,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_CreateSessionReview() {
-      ::grpc::Service::MarkMethodRaw(44);
+      ::grpc::Service::MarkMethodRaw(47);
     }
     ~WithRawMethod_CreateSessionReview() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5646,7 +6024,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCreateSessionReview(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(44, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(47, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5655,7 +6033,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetAudioFiles() {
-      ::grpc::Service::MarkMethodRaw(45);
+      ::grpc::Service::MarkMethodRaw(48);
     }
     ~WithRawMethod_GetAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5666,7 +6044,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetAudioFiles(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(45, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(48, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5675,7 +6053,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_AddAudioFiles() {
-      ::grpc::Service::MarkMethodRaw(46);
+      ::grpc::Service::MarkMethodRaw(49);
     }
     ~WithRawMethod_AddAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5686,7 +6064,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestAddAudioFiles(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(46, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(49, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5695,7 +6073,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteAudioFiles() {
-      ::grpc::Service::MarkMethodRaw(47);
+      ::grpc::Service::MarkMethodRaw(50);
     }
     ~WithRawMethod_DeleteAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5706,7 +6084,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteAudioFiles(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(47, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(50, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5715,7 +6093,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_GetAudioFileOfSession() {
-      ::grpc::Service::MarkMethodRaw(48);
+      ::grpc::Service::MarkMethodRaw(51);
     }
     ~WithRawMethod_GetAudioFileOfSession() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5726,7 +6104,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestGetAudioFileOfSession(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(48, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(51, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5735,7 +6113,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListAudioFiles() {
-      ::grpc::Service::MarkMethodRaw(49);
+      ::grpc::Service::MarkMethodRaw(52);
     }
     ~WithRawMethod_ListAudioFiles() override {
       BaseClassMustBeDerivedFromService(this);
@@ -5746,7 +6124,7 @@ class Sessions final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListAudioFiles(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(49, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(52, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -5795,12 +6173,78 @@ class Sessions final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_InterruptTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_InterruptTurn() {
+      ::grpc::Service::MarkMethodRawCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->InterruptTurn(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_InterruptTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status InterruptTurn(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::InterruptTurnRequest* /*request*/, ::ondewo::nlu::InterruptTurnResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* InterruptTurn(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_PrepareWarmTransferIntro : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_PrepareWarmTransferIntro() {
+      ::grpc::Service::MarkMethodRawCallback(3,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->PrepareWarmTransferIntro(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_PrepareWarmTransferIntro() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PrepareWarmTransferIntro(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* /*request*/, ::ondewo::nlu::PrepareWarmTransferIntroResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* PrepareWarmTransferIntro(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_GetWarmTransferIntroOutcome : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_GetWarmTransferIntroOutcome() {
+      ::grpc::Service::MarkMethodRawCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetWarmTransferIntroOutcome(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_GetWarmTransferIntroOutcome() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* /*request*/, ::ondewo::nlu::WarmTransferIntroOutcome* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetWarmTransferIntroOutcome(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_ListSessions : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSessions() {
-      ::grpc::Service::MarkMethodRawCallback(2,
+      ::grpc::Service::MarkMethodRawCallback(5,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSessions(context, request, response); }));
@@ -5822,7 +6266,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetSession() {
-      ::grpc::Service::MarkMethodRawCallback(3,
+      ::grpc::Service::MarkMethodRawCallback(6,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetSession(context, request, response); }));
@@ -5844,7 +6288,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_CreateSession() {
-      ::grpc::Service::MarkMethodRawCallback(4,
+      ::grpc::Service::MarkMethodRawCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->CreateSession(context, request, response); }));
@@ -5866,7 +6310,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_CreateSessionStep() {
-      ::grpc::Service::MarkMethodRawCallback(5,
+      ::grpc::Service::MarkMethodRawCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->CreateSessionStep(context, request, response); }));
@@ -5888,7 +6332,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetSessionStep() {
-      ::grpc::Service::MarkMethodRawCallback(6,
+      ::grpc::Service::MarkMethodRawCallback(9,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetSessionStep(context, request, response); }));
@@ -5910,7 +6354,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_UpdateSessionStep() {
-      ::grpc::Service::MarkMethodRawCallback(7,
+      ::grpc::Service::MarkMethodRawCallback(10,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateSessionStep(context, request, response); }));
@@ -5932,7 +6376,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteSessionStep() {
-      ::grpc::Service::MarkMethodRawCallback(8,
+      ::grpc::Service::MarkMethodRawCallback(11,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteSessionStep(context, request, response); }));
@@ -5954,7 +6398,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteSession() {
-      ::grpc::Service::MarkMethodRawCallback(9,
+      ::grpc::Service::MarkMethodRawCallback(12,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteSession(context, request, response); }));
@@ -5976,7 +6420,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSessionLabels() {
-      ::grpc::Service::MarkMethodRawCallback(10,
+      ::grpc::Service::MarkMethodRawCallback(13,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSessionLabels(context, request, response); }));
@@ -5998,7 +6442,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSessionLabelsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(11,
+      ::grpc::Service::MarkMethodRawCallback(14,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSessionLabelsOfAllSessions(context, request, response); }));
@@ -6020,7 +6464,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListLanguageCodesOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(12,
+      ::grpc::Service::MarkMethodRawCallback(15,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListLanguageCodesOfAllSessions(context, request, response); }));
@@ -6042,7 +6486,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListMatchedIntentsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(13,
+      ::grpc::Service::MarkMethodRawCallback(16,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListMatchedIntentsOfAllSessions(context, request, response); }));
@@ -6064,7 +6508,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListMatchedEntityTypesOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(14,
+      ::grpc::Service::MarkMethodRawCallback(17,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListMatchedEntityTypesOfAllSessions(context, request, response); }));
@@ -6086,7 +6530,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(15,
+      ::grpc::Service::MarkMethodRawCallback(18,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListUserIdsOfAllSessions(context, request, response); }));
@@ -6108,7 +6552,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListIdentifiedUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(16,
+      ::grpc::Service::MarkMethodRawCallback(19,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListIdentifiedUserIdsOfAllSessions(context, request, response); }));
@@ -6130,7 +6574,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListTagsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(17,
+      ::grpc::Service::MarkMethodRawCallback(20,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListTagsOfAllSessions(context, request, response); }));
@@ -6152,7 +6596,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListInputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(18,
+      ::grpc::Service::MarkMethodRawCallback(21,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListInputContextsOfAllSessions(context, request, response); }));
@@ -6174,7 +6618,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListOutputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(19,
+      ::grpc::Service::MarkMethodRawCallback(22,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListOutputContextsOfAllSessions(context, request, response); }));
@@ -6196,7 +6640,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListPlatformsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(20,
+      ::grpc::Service::MarkMethodRawCallback(23,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListPlatformsOfAllSessions(context, request, response); }));
@@ -6218,7 +6662,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListAccountIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(21,
+      ::grpc::Service::MarkMethodRawCallback(24,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListAccountIdsOfAllSessions(context, request, response); }));
@@ -6240,7 +6684,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListPropertyIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(22,
+      ::grpc::Service::MarkMethodRawCallback(25,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListPropertyIdsOfAllSessions(context, request, response); }));
@@ -6262,7 +6706,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListDatastreamIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(23,
+      ::grpc::Service::MarkMethodRawCallback(26,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListDatastreamIdsOfAllSessions(context, request, response); }));
@@ -6284,7 +6728,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListOriginIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(24,
+      ::grpc::Service::MarkMethodRawCallback(27,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListOriginIdsOfAllSessions(context, request, response); }));
@@ -6306,7 +6750,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_AddSessionLabels() {
-      ::grpc::Service::MarkMethodRawCallback(25,
+      ::grpc::Service::MarkMethodRawCallback(28,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddSessionLabels(context, request, response); }));
@@ -6328,7 +6772,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteSessionLabels() {
-      ::grpc::Service::MarkMethodRawCallback(26,
+      ::grpc::Service::MarkMethodRawCallback(29,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteSessionLabels(context, request, response); }));
@@ -6350,7 +6794,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_AddSessionComment() {
-      ::grpc::Service::MarkMethodRawCallback(27,
+      ::grpc::Service::MarkMethodRawCallback(30,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddSessionComment(context, request, response); }));
@@ -6372,7 +6816,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteSessionComments() {
-      ::grpc::Service::MarkMethodRawCallback(28,
+      ::grpc::Service::MarkMethodRawCallback(31,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteSessionComments(context, request, response); }));
@@ -6394,7 +6838,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_UpdateSessionComments() {
-      ::grpc::Service::MarkMethodRawCallback(29,
+      ::grpc::Service::MarkMethodRawCallback(32,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateSessionComments(context, request, response); }));
@@ -6416,7 +6860,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSessionComments() {
-      ::grpc::Service::MarkMethodRawCallback(30,
+      ::grpc::Service::MarkMethodRawCallback(33,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSessionComments(context, request, response); }));
@@ -6438,7 +6882,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSessionCommentsOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(31,
+      ::grpc::Service::MarkMethodRawCallback(34,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSessionCommentsOfAllSessions(context, request, response); }));
@@ -6460,7 +6904,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_AddSessionFeedback() {
-      ::grpc::Service::MarkMethodRawCallback(32,
+      ::grpc::Service::MarkMethodRawCallback(35,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddSessionFeedback(context, request, response); }));
@@ -6482,7 +6926,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_AddSessionStepFeedback() {
-      ::grpc::Service::MarkMethodRawCallback(33,
+      ::grpc::Service::MarkMethodRawCallback(36,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddSessionStepFeedback(context, request, response); }));
@@ -6504,7 +6948,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetSessionFeedback() {
-      ::grpc::Service::MarkMethodRawCallback(34,
+      ::grpc::Service::MarkMethodRawCallback(37,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetSessionFeedback(context, request, response); }));
@@ -6526,7 +6970,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_UpdateSessionFeedback() {
-      ::grpc::Service::MarkMethodRawCallback(35,
+      ::grpc::Service::MarkMethodRawCallback(38,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateSessionFeedback(context, request, response); }));
@@ -6548,7 +6992,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteSessionFeedback() {
-      ::grpc::Service::MarkMethodRawCallback(36,
+      ::grpc::Service::MarkMethodRawCallback(39,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteSessionFeedback(context, request, response); }));
@@ -6570,7 +7014,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSessionFeedback() {
-      ::grpc::Service::MarkMethodRawCallback(37,
+      ::grpc::Service::MarkMethodRawCallback(40,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSessionFeedback(context, request, response); }));
@@ -6592,7 +7036,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSessionFeedbackOfAllSessions() {
-      ::grpc::Service::MarkMethodRawCallback(38,
+      ::grpc::Service::MarkMethodRawCallback(41,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSessionFeedbackOfAllSessions(context, request, response); }));
@@ -6614,7 +7058,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetFeedbackStatistics() {
-      ::grpc::Service::MarkMethodRawCallback(39,
+      ::grpc::Service::MarkMethodRawCallback(42,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetFeedbackStatistics(context, request, response); }));
@@ -6636,7 +7080,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetFeedbackStatisticsTimeSeries() {
-      ::grpc::Service::MarkMethodRawCallback(40,
+      ::grpc::Service::MarkMethodRawCallback(43,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetFeedbackStatisticsTimeSeries(context, request, response); }));
@@ -6658,7 +7102,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSessionReviews() {
-      ::grpc::Service::MarkMethodRawCallback(41,
+      ::grpc::Service::MarkMethodRawCallback(44,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSessionReviews(context, request, response); }));
@@ -6680,7 +7124,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetSessionReview() {
-      ::grpc::Service::MarkMethodRawCallback(42,
+      ::grpc::Service::MarkMethodRawCallback(45,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetSessionReview(context, request, response); }));
@@ -6702,7 +7146,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetLatestSessionReview() {
-      ::grpc::Service::MarkMethodRawCallback(43,
+      ::grpc::Service::MarkMethodRawCallback(46,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetLatestSessionReview(context, request, response); }));
@@ -6724,7 +7168,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_CreateSessionReview() {
-      ::grpc::Service::MarkMethodRawCallback(44,
+      ::grpc::Service::MarkMethodRawCallback(47,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->CreateSessionReview(context, request, response); }));
@@ -6746,7 +7190,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetAudioFiles() {
-      ::grpc::Service::MarkMethodRawCallback(45,
+      ::grpc::Service::MarkMethodRawCallback(48,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetAudioFiles(context, request, response); }));
@@ -6768,7 +7212,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_AddAudioFiles() {
-      ::grpc::Service::MarkMethodRawCallback(46,
+      ::grpc::Service::MarkMethodRawCallback(49,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddAudioFiles(context, request, response); }));
@@ -6790,7 +7234,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteAudioFiles() {
-      ::grpc::Service::MarkMethodRawCallback(47,
+      ::grpc::Service::MarkMethodRawCallback(50,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteAudioFiles(context, request, response); }));
@@ -6812,7 +7256,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_GetAudioFileOfSession() {
-      ::grpc::Service::MarkMethodRawCallback(48,
+      ::grpc::Service::MarkMethodRawCallback(51,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetAudioFileOfSession(context, request, response); }));
@@ -6834,7 +7278,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListAudioFiles() {
-      ::grpc::Service::MarkMethodRawCallback(49,
+      ::grpc::Service::MarkMethodRawCallback(52,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListAudioFiles(context, request, response); }));
@@ -6878,12 +7322,93 @@ class Sessions final {
     virtual ::grpc::Status StreamedDetectIntent(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::nlu::DetectIntentRequest,::ondewo::nlu::DetectIntentResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_InterruptTurn : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_InterruptTurn() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::nlu::InterruptTurnRequest, ::ondewo::nlu::InterruptTurnResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::nlu::InterruptTurnRequest, ::ondewo::nlu::InterruptTurnResponse>* streamer) {
+                       return this->StreamedInterruptTurn(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_InterruptTurn() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status InterruptTurn(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::InterruptTurnRequest* /*request*/, ::ondewo::nlu::InterruptTurnResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedInterruptTurn(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::nlu::InterruptTurnRequest,::ondewo::nlu::InterruptTurnResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_PrepareWarmTransferIntro : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_PrepareWarmTransferIntro() {
+      ::grpc::Service::MarkMethodStreamed(3,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::ondewo::nlu::PrepareWarmTransferIntroResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::nlu::PrepareWarmTransferIntroRequest, ::ondewo::nlu::PrepareWarmTransferIntroResponse>* streamer) {
+                       return this->StreamedPrepareWarmTransferIntro(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_PrepareWarmTransferIntro() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status PrepareWarmTransferIntro(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::PrepareWarmTransferIntroRequest* /*request*/, ::ondewo::nlu::PrepareWarmTransferIntroResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedPrepareWarmTransferIntro(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::nlu::PrepareWarmTransferIntroRequest,::ondewo::nlu::PrepareWarmTransferIntroResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_GetWarmTransferIntroOutcome : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetWarmTransferIntroOutcome() {
+      ::grpc::Service::MarkMethodStreamed(4,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::ondewo::nlu::WarmTransferIntroOutcome>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest, ::ondewo::nlu::WarmTransferIntroOutcome>* streamer) {
+                       return this->StreamedGetWarmTransferIntroOutcome(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetWarmTransferIntroOutcome() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetWarmTransferIntroOutcome(::grpc::ServerContext* /*context*/, const ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest* /*request*/, ::ondewo::nlu::WarmTransferIntroOutcome* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetWarmTransferIntroOutcome(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::nlu::GetWarmTransferIntroOutcomeRequest,::ondewo::nlu::WarmTransferIntroOutcome>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_ListSessions : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSessions() {
-      ::grpc::Service::MarkMethodStreamed(2,
+      ::grpc::Service::MarkMethodStreamed(5,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListSessionsRequest, ::ondewo::nlu::ListSessionsResponse>(
             [this](::grpc::ServerContext* context,
@@ -6910,7 +7435,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetSession() {
-      ::grpc::Service::MarkMethodStreamed(3,
+      ::grpc::Service::MarkMethodStreamed(6,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetSessionRequest, ::ondewo::nlu::Session>(
             [this](::grpc::ServerContext* context,
@@ -6937,7 +7462,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_CreateSession() {
-      ::grpc::Service::MarkMethodStreamed(4,
+      ::grpc::Service::MarkMethodStreamed(7,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::CreateSessionRequest, ::ondewo::nlu::Session>(
             [this](::grpc::ServerContext* context,
@@ -6964,7 +7489,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_CreateSessionStep() {
-      ::grpc::Service::MarkMethodStreamed(5,
+      ::grpc::Service::MarkMethodStreamed(8,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::CreateSessionStepRequest, ::ondewo::nlu::SessionStep>(
             [this](::grpc::ServerContext* context,
@@ -6991,7 +7516,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetSessionStep() {
-      ::grpc::Service::MarkMethodStreamed(6,
+      ::grpc::Service::MarkMethodStreamed(9,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetSessionStepRequest, ::ondewo::nlu::SessionStep>(
             [this](::grpc::ServerContext* context,
@@ -7018,7 +7543,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UpdateSessionStep() {
-      ::grpc::Service::MarkMethodStreamed(7,
+      ::grpc::Service::MarkMethodStreamed(10,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::UpdateSessionStepRequest, ::ondewo::nlu::SessionStep>(
             [this](::grpc::ServerContext* context,
@@ -7045,7 +7570,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteSessionStep() {
-      ::grpc::Service::MarkMethodStreamed(8,
+      ::grpc::Service::MarkMethodStreamed(11,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::DeleteSessionStepRequest, ::google::protobuf::Empty>(
             [this](::grpc::ServerContext* context,
@@ -7072,7 +7597,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteSession() {
-      ::grpc::Service::MarkMethodStreamed(9,
+      ::grpc::Service::MarkMethodStreamed(12,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::DeleteSessionRequest, ::google::protobuf::Empty>(
             [this](::grpc::ServerContext* context,
@@ -7099,7 +7624,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSessionLabels() {
-      ::grpc::Service::MarkMethodStreamed(10,
+      ::grpc::Service::MarkMethodStreamed(13,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListSessionLabelsRequest, ::ondewo::nlu::ListSessionLabelsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7126,7 +7651,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSessionLabelsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(11,
+      ::grpc::Service::MarkMethodStreamed(14,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListSessionLabelsOfAllSessionsRequest, ::ondewo::nlu::ListSessionLabelsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7153,7 +7678,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListLanguageCodesOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(12,
+      ::grpc::Service::MarkMethodStreamed(15,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListLanguageCodesOfAllSessionsRequest, ::ondewo::nlu::ListLanguageCodesResponse>(
             [this](::grpc::ServerContext* context,
@@ -7180,7 +7705,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListMatchedIntentsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(13,
+      ::grpc::Service::MarkMethodStreamed(16,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListMatchedIntentsOfAllSessionsRequest, ::ondewo::nlu::ListMatchedIntentsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7207,7 +7732,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListMatchedEntityTypesOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(14,
+      ::grpc::Service::MarkMethodStreamed(17,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListMatchedEntityTypesOfAllSessionsRequest, ::ondewo::nlu::ListMatchedEntityTypesResponse>(
             [this](::grpc::ServerContext* context,
@@ -7234,7 +7759,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(15,
+      ::grpc::Service::MarkMethodStreamed(18,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListUserIdsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7261,7 +7786,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListIdentifiedUserIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(16,
+      ::grpc::Service::MarkMethodStreamed(19,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListIdentifiedUserIdsOfAllSessionsRequest, ::ondewo::nlu::ListIdentifiedUserIdsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7288,7 +7813,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListTagsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(17,
+      ::grpc::Service::MarkMethodStreamed(20,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListTagsOfAllSessionsRequest, ::ondewo::nlu::ListTagsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7315,7 +7840,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListInputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(18,
+      ::grpc::Service::MarkMethodStreamed(21,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListInputContextsOfAllSessionsRequest, ::ondewo::nlu::ListInputContextsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7342,7 +7867,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListOutputContextsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(19,
+      ::grpc::Service::MarkMethodStreamed(22,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListOutputContextsOfAllSessionsRequest, ::ondewo::nlu::ListOutputContextsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7369,7 +7894,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListPlatformsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(20,
+      ::grpc::Service::MarkMethodStreamed(23,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListPlatformsOfAllSessionsRequest, ::ondewo::nlu::ListPlatformsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7396,7 +7921,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListAccountIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(21,
+      ::grpc::Service::MarkMethodStreamed(24,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListAccountIdsOfAllSessionsRequest, ::ondewo::nlu::ListAccountIdsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7423,7 +7948,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListPropertyIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(22,
+      ::grpc::Service::MarkMethodStreamed(25,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListPropertyIdsOfAllSessionsRequest, ::ondewo::nlu::ListPropertyIdsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7450,7 +7975,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListDatastreamIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(23,
+      ::grpc::Service::MarkMethodStreamed(26,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListDatastreamIdsOfAllSessionsRequest, ::ondewo::nlu::ListDatastreamIdsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7477,7 +8002,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListOriginIdsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(24,
+      ::grpc::Service::MarkMethodStreamed(27,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListOriginIdsOfAllSessionsRequest, ::ondewo::nlu::ListOriginIdsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7504,7 +8029,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_AddSessionLabels() {
-      ::grpc::Service::MarkMethodStreamed(25,
+      ::grpc::Service::MarkMethodStreamed(28,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::AddSessionLabelsRequest, ::ondewo::nlu::Session>(
             [this](::grpc::ServerContext* context,
@@ -7531,7 +8056,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteSessionLabels() {
-      ::grpc::Service::MarkMethodStreamed(26,
+      ::grpc::Service::MarkMethodStreamed(29,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::DeleteSessionLabelsRequest, ::ondewo::nlu::Session>(
             [this](::grpc::ServerContext* context,
@@ -7558,7 +8083,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_AddSessionComment() {
-      ::grpc::Service::MarkMethodStreamed(27,
+      ::grpc::Service::MarkMethodStreamed(30,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::AddSessionCommentRequest, ::ondewo::nlu::Comment>(
             [this](::grpc::ServerContext* context,
@@ -7585,7 +8110,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteSessionComments() {
-      ::grpc::Service::MarkMethodStreamed(28,
+      ::grpc::Service::MarkMethodStreamed(31,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::DeleteSessionCommentsRequest, ::ondewo::nlu::Session>(
             [this](::grpc::ServerContext* context,
@@ -7612,7 +8137,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UpdateSessionComments() {
-      ::grpc::Service::MarkMethodStreamed(29,
+      ::grpc::Service::MarkMethodStreamed(32,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::UpdateSessionCommentsRequest, ::ondewo::nlu::Session>(
             [this](::grpc::ServerContext* context,
@@ -7639,7 +8164,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSessionComments() {
-      ::grpc::Service::MarkMethodStreamed(30,
+      ::grpc::Service::MarkMethodStreamed(33,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListSessionCommentsRequest, ::ondewo::nlu::ListSessionCommentsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7666,7 +8191,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSessionCommentsOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(31,
+      ::grpc::Service::MarkMethodStreamed(34,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListSessionCommentsOfAllSessionsRequest, ::ondewo::nlu::ListSessionCommentsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7693,7 +8218,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_AddSessionFeedback() {
-      ::grpc::Service::MarkMethodStreamed(32,
+      ::grpc::Service::MarkMethodStreamed(35,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::AddSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>(
             [this](::grpc::ServerContext* context,
@@ -7720,7 +8245,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_AddSessionStepFeedback() {
-      ::grpc::Service::MarkMethodStreamed(33,
+      ::grpc::Service::MarkMethodStreamed(36,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::AddSessionStepFeedbackRequest, ::ondewo::nlu::SessionFeedback>(
             [this](::grpc::ServerContext* context,
@@ -7747,7 +8272,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetSessionFeedback() {
-      ::grpc::Service::MarkMethodStreamed(34,
+      ::grpc::Service::MarkMethodStreamed(37,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>(
             [this](::grpc::ServerContext* context,
@@ -7774,7 +8299,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UpdateSessionFeedback() {
-      ::grpc::Service::MarkMethodStreamed(35,
+      ::grpc::Service::MarkMethodStreamed(38,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::UpdateSessionFeedbackRequest, ::ondewo::nlu::SessionFeedback>(
             [this](::grpc::ServerContext* context,
@@ -7801,7 +8326,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteSessionFeedback() {
-      ::grpc::Service::MarkMethodStreamed(36,
+      ::grpc::Service::MarkMethodStreamed(39,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::DeleteSessionFeedbackRequest, ::google::protobuf::Empty>(
             [this](::grpc::ServerContext* context,
@@ -7828,7 +8353,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSessionFeedback() {
-      ::grpc::Service::MarkMethodStreamed(37,
+      ::grpc::Service::MarkMethodStreamed(40,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListSessionFeedbackRequest, ::ondewo::nlu::ListSessionFeedbackResponse>(
             [this](::grpc::ServerContext* context,
@@ -7855,7 +8380,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSessionFeedbackOfAllSessions() {
-      ::grpc::Service::MarkMethodStreamed(38,
+      ::grpc::Service::MarkMethodStreamed(41,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListSessionFeedbackOfAllSessionsRequest, ::ondewo::nlu::ListSessionFeedbackResponse>(
             [this](::grpc::ServerContext* context,
@@ -7882,7 +8407,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetFeedbackStatistics() {
-      ::grpc::Service::MarkMethodStreamed(39,
+      ::grpc::Service::MarkMethodStreamed(42,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetFeedbackStatisticsRequest, ::ondewo::nlu::GetFeedbackStatisticsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7909,7 +8434,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetFeedbackStatisticsTimeSeries() {
-      ::grpc::Service::MarkMethodStreamed(40,
+      ::grpc::Service::MarkMethodStreamed(43,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesRequest, ::ondewo::nlu::GetFeedbackStatisticsTimeSeriesResponse>(
             [this](::grpc::ServerContext* context,
@@ -7936,7 +8461,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSessionReviews() {
-      ::grpc::Service::MarkMethodStreamed(41,
+      ::grpc::Service::MarkMethodStreamed(44,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListSessionReviewsRequest, ::ondewo::nlu::ListSessionReviewsResponse>(
             [this](::grpc::ServerContext* context,
@@ -7963,7 +8488,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetSessionReview() {
-      ::grpc::Service::MarkMethodStreamed(42,
+      ::grpc::Service::MarkMethodStreamed(45,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetSessionReviewRequest, ::ondewo::nlu::SessionReview>(
             [this](::grpc::ServerContext* context,
@@ -7990,7 +8515,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetLatestSessionReview() {
-      ::grpc::Service::MarkMethodStreamed(43,
+      ::grpc::Service::MarkMethodStreamed(46,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetLatestSessionReviewRequest, ::ondewo::nlu::SessionReview>(
             [this](::grpc::ServerContext* context,
@@ -8017,7 +8542,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_CreateSessionReview() {
-      ::grpc::Service::MarkMethodStreamed(44,
+      ::grpc::Service::MarkMethodStreamed(47,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::CreateSessionReviewRequest, ::ondewo::nlu::SessionReview>(
             [this](::grpc::ServerContext* context,
@@ -8044,7 +8569,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetAudioFiles() {
-      ::grpc::Service::MarkMethodStreamed(45,
+      ::grpc::Service::MarkMethodStreamed(48,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetAudioFilesRequest, ::ondewo::nlu::GetAudioFilesResponse>(
             [this](::grpc::ServerContext* context,
@@ -8071,7 +8596,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_AddAudioFiles() {
-      ::grpc::Service::MarkMethodStreamed(46,
+      ::grpc::Service::MarkMethodStreamed(49,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::AddAudioFilesRequest, ::ondewo::nlu::AddAudioFilesResponse>(
             [this](::grpc::ServerContext* context,
@@ -8098,7 +8623,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteAudioFiles() {
-      ::grpc::Service::MarkMethodStreamed(47,
+      ::grpc::Service::MarkMethodStreamed(50,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::DeleteAudioFilesRequest, ::ondewo::nlu::DeleteAudioFilesResponse>(
             [this](::grpc::ServerContext* context,
@@ -8125,7 +8650,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_GetAudioFileOfSession() {
-      ::grpc::Service::MarkMethodStreamed(48,
+      ::grpc::Service::MarkMethodStreamed(51,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::GetAudioFileOfSessionRequest, ::ondewo::nlu::AudioFileResource>(
             [this](::grpc::ServerContext* context,
@@ -8152,7 +8677,7 @@ class Sessions final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListAudioFiles() {
-      ::grpc::Service::MarkMethodStreamed(49,
+      ::grpc::Service::MarkMethodStreamed(52,
         new ::grpc::internal::StreamedUnaryHandler<
           ::ondewo::nlu::ListAudioFilesRequest, ::ondewo::nlu::ListAudioFilesResponse>(
             [this](::grpc::ServerContext* context,
@@ -8173,9 +8698,9 @@ class Sessions final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedListAudioFiles(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::ondewo::nlu::ListAudioFilesRequest,::ondewo::nlu::ListAudioFilesResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_DetectIntent<WithStreamedUnaryMethod_ListSessions<WithStreamedUnaryMethod_GetSession<WithStreamedUnaryMethod_CreateSession<WithStreamedUnaryMethod_CreateSessionStep<WithStreamedUnaryMethod_GetSessionStep<WithStreamedUnaryMethod_UpdateSessionStep<WithStreamedUnaryMethod_DeleteSessionStep<WithStreamedUnaryMethod_DeleteSession<WithStreamedUnaryMethod_ListSessionLabels<WithStreamedUnaryMethod_ListSessionLabelsOfAllSessions<WithStreamedUnaryMethod_ListLanguageCodesOfAllSessions<WithStreamedUnaryMethod_ListMatchedIntentsOfAllSessions<WithStreamedUnaryMethod_ListMatchedEntityTypesOfAllSessions<WithStreamedUnaryMethod_ListUserIdsOfAllSessions<WithStreamedUnaryMethod_ListIdentifiedUserIdsOfAllSessions<WithStreamedUnaryMethod_ListTagsOfAllSessions<WithStreamedUnaryMethod_ListInputContextsOfAllSessions<WithStreamedUnaryMethod_ListOutputContextsOfAllSessions<WithStreamedUnaryMethod_ListPlatformsOfAllSessions<WithStreamedUnaryMethod_ListAccountIdsOfAllSessions<WithStreamedUnaryMethod_ListPropertyIdsOfAllSessions<WithStreamedUnaryMethod_ListDatastreamIdsOfAllSessions<WithStreamedUnaryMethod_ListOriginIdsOfAllSessions<WithStreamedUnaryMethod_AddSessionLabels<WithStreamedUnaryMethod_DeleteSessionLabels<WithStreamedUnaryMethod_AddSessionComment<WithStreamedUnaryMethod_DeleteSessionComments<WithStreamedUnaryMethod_UpdateSessionComments<WithStreamedUnaryMethod_ListSessionComments<WithStreamedUnaryMethod_ListSessionCommentsOfAllSessions<WithStreamedUnaryMethod_AddSessionFeedback<WithStreamedUnaryMethod_AddSessionStepFeedback<WithStreamedUnaryMethod_GetSessionFeedback<WithStreamedUnaryMethod_UpdateSessionFeedback<WithStreamedUnaryMethod_DeleteSessionFeedback<WithStreamedUnaryMethod_ListSessionFeedback<WithStreamedUnaryMethod_ListSessionFeedbackOfAllSessions<WithStreamedUnaryMethod_GetFeedbackStatistics<WithStreamedUnaryMethod_GetFeedbackStatisticsTimeSeries<WithStreamedUnaryMethod_ListSessionReviews<WithStreamedUnaryMethod_GetSessionReview<WithStreamedUnaryMethod_GetLatestSessionReview<WithStreamedUnaryMethod_CreateSessionReview<WithStreamedUnaryMethod_GetAudioFiles<WithStreamedUnaryMethod_AddAudioFiles<WithStreamedUnaryMethod_DeleteAudioFiles<WithStreamedUnaryMethod_GetAudioFileOfSession<WithStreamedUnaryMethod_ListAudioFiles<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_DetectIntent<WithStreamedUnaryMethod_InterruptTurn<WithStreamedUnaryMethod_PrepareWarmTransferIntro<WithStreamedUnaryMethod_GetWarmTransferIntroOutcome<WithStreamedUnaryMethod_ListSessions<WithStreamedUnaryMethod_GetSession<WithStreamedUnaryMethod_CreateSession<WithStreamedUnaryMethod_CreateSessionStep<WithStreamedUnaryMethod_GetSessionStep<WithStreamedUnaryMethod_UpdateSessionStep<WithStreamedUnaryMethod_DeleteSessionStep<WithStreamedUnaryMethod_DeleteSession<WithStreamedUnaryMethod_ListSessionLabels<WithStreamedUnaryMethod_ListSessionLabelsOfAllSessions<WithStreamedUnaryMethod_ListLanguageCodesOfAllSessions<WithStreamedUnaryMethod_ListMatchedIntentsOfAllSessions<WithStreamedUnaryMethod_ListMatchedEntityTypesOfAllSessions<WithStreamedUnaryMethod_ListUserIdsOfAllSessions<WithStreamedUnaryMethod_ListIdentifiedUserIdsOfAllSessions<WithStreamedUnaryMethod_ListTagsOfAllSessions<WithStreamedUnaryMethod_ListInputContextsOfAllSessions<WithStreamedUnaryMethod_ListOutputContextsOfAllSessions<WithStreamedUnaryMethod_ListPlatformsOfAllSessions<WithStreamedUnaryMethod_ListAccountIdsOfAllSessions<WithStreamedUnaryMethod_ListPropertyIdsOfAllSessions<WithStreamedUnaryMethod_ListDatastreamIdsOfAllSessions<WithStreamedUnaryMethod_ListOriginIdsOfAllSessions<WithStreamedUnaryMethod_AddSessionLabels<WithStreamedUnaryMethod_DeleteSessionLabels<WithStreamedUnaryMethod_AddSessionComment<WithStreamedUnaryMethod_DeleteSessionComments<WithStreamedUnaryMethod_UpdateSessionComments<WithStreamedUnaryMethod_ListSessionComments<WithStreamedUnaryMethod_ListSessionCommentsOfAllSessions<WithStreamedUnaryMethod_AddSessionFeedback<WithStreamedUnaryMethod_AddSessionStepFeedback<WithStreamedUnaryMethod_GetSessionFeedback<WithStreamedUnaryMethod_UpdateSessionFeedback<WithStreamedUnaryMethod_DeleteSessionFeedback<WithStreamedUnaryMethod_ListSessionFeedback<WithStreamedUnaryMethod_ListSessionFeedbackOfAllSessions<WithStreamedUnaryMethod_GetFeedbackStatistics<WithStreamedUnaryMethod_GetFeedbackStatisticsTimeSeries<WithStreamedUnaryMethod_ListSessionReviews<WithStreamedUnaryMethod_GetSessionReview<WithStreamedUnaryMethod_GetLatestSessionReview<WithStreamedUnaryMethod_CreateSessionReview<WithStreamedUnaryMethod_GetAudioFiles<WithStreamedUnaryMethod_AddAudioFiles<WithStreamedUnaryMethod_DeleteAudioFiles<WithStreamedUnaryMethod_GetAudioFileOfSession<WithStreamedUnaryMethod_ListAudioFiles<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_DetectIntent<WithStreamedUnaryMethod_ListSessions<WithStreamedUnaryMethod_GetSession<WithStreamedUnaryMethod_CreateSession<WithStreamedUnaryMethod_CreateSessionStep<WithStreamedUnaryMethod_GetSessionStep<WithStreamedUnaryMethod_UpdateSessionStep<WithStreamedUnaryMethod_DeleteSessionStep<WithStreamedUnaryMethod_DeleteSession<WithStreamedUnaryMethod_ListSessionLabels<WithStreamedUnaryMethod_ListSessionLabelsOfAllSessions<WithStreamedUnaryMethod_ListLanguageCodesOfAllSessions<WithStreamedUnaryMethod_ListMatchedIntentsOfAllSessions<WithStreamedUnaryMethod_ListMatchedEntityTypesOfAllSessions<WithStreamedUnaryMethod_ListUserIdsOfAllSessions<WithStreamedUnaryMethod_ListIdentifiedUserIdsOfAllSessions<WithStreamedUnaryMethod_ListTagsOfAllSessions<WithStreamedUnaryMethod_ListInputContextsOfAllSessions<WithStreamedUnaryMethod_ListOutputContextsOfAllSessions<WithStreamedUnaryMethod_ListPlatformsOfAllSessions<WithStreamedUnaryMethod_ListAccountIdsOfAllSessions<WithStreamedUnaryMethod_ListPropertyIdsOfAllSessions<WithStreamedUnaryMethod_ListDatastreamIdsOfAllSessions<WithStreamedUnaryMethod_ListOriginIdsOfAllSessions<WithStreamedUnaryMethod_AddSessionLabels<WithStreamedUnaryMethod_DeleteSessionLabels<WithStreamedUnaryMethod_AddSessionComment<WithStreamedUnaryMethod_DeleteSessionComments<WithStreamedUnaryMethod_UpdateSessionComments<WithStreamedUnaryMethod_ListSessionComments<WithStreamedUnaryMethod_ListSessionCommentsOfAllSessions<WithStreamedUnaryMethod_AddSessionFeedback<WithStreamedUnaryMethod_AddSessionStepFeedback<WithStreamedUnaryMethod_GetSessionFeedback<WithStreamedUnaryMethod_UpdateSessionFeedback<WithStreamedUnaryMethod_DeleteSessionFeedback<WithStreamedUnaryMethod_ListSessionFeedback<WithStreamedUnaryMethod_ListSessionFeedbackOfAllSessions<WithStreamedUnaryMethod_GetFeedbackStatistics<WithStreamedUnaryMethod_GetFeedbackStatisticsTimeSeries<WithStreamedUnaryMethod_ListSessionReviews<WithStreamedUnaryMethod_GetSessionReview<WithStreamedUnaryMethod_GetLatestSessionReview<WithStreamedUnaryMethod_CreateSessionReview<WithStreamedUnaryMethod_GetAudioFiles<WithStreamedUnaryMethod_AddAudioFiles<WithStreamedUnaryMethod_DeleteAudioFiles<WithStreamedUnaryMethod_GetAudioFileOfSession<WithStreamedUnaryMethod_ListAudioFiles<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_DetectIntent<WithStreamedUnaryMethod_InterruptTurn<WithStreamedUnaryMethod_PrepareWarmTransferIntro<WithStreamedUnaryMethod_GetWarmTransferIntroOutcome<WithStreamedUnaryMethod_ListSessions<WithStreamedUnaryMethod_GetSession<WithStreamedUnaryMethod_CreateSession<WithStreamedUnaryMethod_CreateSessionStep<WithStreamedUnaryMethod_GetSessionStep<WithStreamedUnaryMethod_UpdateSessionStep<WithStreamedUnaryMethod_DeleteSessionStep<WithStreamedUnaryMethod_DeleteSession<WithStreamedUnaryMethod_ListSessionLabels<WithStreamedUnaryMethod_ListSessionLabelsOfAllSessions<WithStreamedUnaryMethod_ListLanguageCodesOfAllSessions<WithStreamedUnaryMethod_ListMatchedIntentsOfAllSessions<WithStreamedUnaryMethod_ListMatchedEntityTypesOfAllSessions<WithStreamedUnaryMethod_ListUserIdsOfAllSessions<WithStreamedUnaryMethod_ListIdentifiedUserIdsOfAllSessions<WithStreamedUnaryMethod_ListTagsOfAllSessions<WithStreamedUnaryMethod_ListInputContextsOfAllSessions<WithStreamedUnaryMethod_ListOutputContextsOfAllSessions<WithStreamedUnaryMethod_ListPlatformsOfAllSessions<WithStreamedUnaryMethod_ListAccountIdsOfAllSessions<WithStreamedUnaryMethod_ListPropertyIdsOfAllSessions<WithStreamedUnaryMethod_ListDatastreamIdsOfAllSessions<WithStreamedUnaryMethod_ListOriginIdsOfAllSessions<WithStreamedUnaryMethod_AddSessionLabels<WithStreamedUnaryMethod_DeleteSessionLabels<WithStreamedUnaryMethod_AddSessionComment<WithStreamedUnaryMethod_DeleteSessionComments<WithStreamedUnaryMethod_UpdateSessionComments<WithStreamedUnaryMethod_ListSessionComments<WithStreamedUnaryMethod_ListSessionCommentsOfAllSessions<WithStreamedUnaryMethod_AddSessionFeedback<WithStreamedUnaryMethod_AddSessionStepFeedback<WithStreamedUnaryMethod_GetSessionFeedback<WithStreamedUnaryMethod_UpdateSessionFeedback<WithStreamedUnaryMethod_DeleteSessionFeedback<WithStreamedUnaryMethod_ListSessionFeedback<WithStreamedUnaryMethod_ListSessionFeedbackOfAllSessions<WithStreamedUnaryMethod_GetFeedbackStatistics<WithStreamedUnaryMethod_GetFeedbackStatisticsTimeSeries<WithStreamedUnaryMethod_ListSessionReviews<WithStreamedUnaryMethod_GetSessionReview<WithStreamedUnaryMethod_GetLatestSessionReview<WithStreamedUnaryMethod_CreateSessionReview<WithStreamedUnaryMethod_GetAudioFiles<WithStreamedUnaryMethod_AddAudioFiles<WithStreamedUnaryMethod_DeleteAudioFiles<WithStreamedUnaryMethod_GetAudioFileOfSession<WithStreamedUnaryMethod_ListAudioFiles<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace nlu

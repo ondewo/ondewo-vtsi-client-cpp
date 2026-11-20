@@ -1725,6 +1725,8 @@ class StreamRemoteOperationContainerLogsRequest final :
   enum : int {
     kNameFieldNumber = 1,
     kContainerIdFieldNumber = 4,
+    kRegexFieldNumber = 5,
+    kResumeTokenFieldNumber = 6,
     kMinLogLevelFieldNumber = 2,
     kTailLinesFieldNumber = 3,
   };
@@ -1756,6 +1758,34 @@ class StreamRemoteOperationContainerLogsRequest final :
   std::string* _internal_mutable_container_id();
   public:
 
+  // string regex = 5;
+  void clear_regex();
+  const std::string& regex() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_regex(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_regex();
+  PROTOBUF_NODISCARD std::string* release_regex();
+  void set_allocated_regex(std::string* regex);
+  private:
+  const std::string& _internal_regex() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_regex(const std::string& value);
+  std::string* _internal_mutable_regex();
+  public:
+
+  // string resume_token = 6;
+  void clear_resume_token();
+  const std::string& resume_token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_resume_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_resume_token();
+  PROTOBUF_NODISCARD std::string* release_resume_token();
+  void set_allocated_resume_token(std::string* resume_token);
+  private:
+  const std::string& _internal_resume_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_resume_token(const std::string& value);
+  std::string* _internal_mutable_resume_token();
+  public:
+
   // .ondewo.nlu.LogSeverity min_log_level = 2;
   void clear_min_log_level();
   ::ondewo::nlu::LogSeverity min_log_level() const;
@@ -1784,6 +1814,8 @@ class StreamRemoteOperationContainerLogsRequest final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr container_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr regex_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr resume_token_;
     int min_log_level_;
     int32_t tail_lines_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -1917,8 +1949,10 @@ class GetRemoteOperationContainerLogsRequest final :
     kNameFieldNumber = 1,
     kRegexFieldNumber = 6,
     kContainerIdFieldNumber = 7,
+    kResumeTokenFieldNumber = 11,
     kStartTimeFieldNumber = 3,
     kEndTimeFieldNumber = 4,
+    kFieldMaskFieldNumber = 10,
     kMinLogLevelFieldNumber = 2,
     kMaxLinesFieldNumber = 5,
     kBeforeSeqFieldNumber = 8,
@@ -1966,6 +2000,20 @@ class GetRemoteOperationContainerLogsRequest final :
   std::string* _internal_mutable_container_id();
   public:
 
+  // string resume_token = 11;
+  void clear_resume_token();
+  const std::string& resume_token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_resume_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_resume_token();
+  PROTOBUF_NODISCARD std::string* release_resume_token();
+  void set_allocated_resume_token(std::string* resume_token);
+  private:
+  const std::string& _internal_resume_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_resume_token(const std::string& value);
+  std::string* _internal_mutable_resume_token();
+  public:
+
   // .google.protobuf.Timestamp start_time = 3;
   bool has_start_time() const;
   private:
@@ -2001,6 +2049,24 @@ class GetRemoteOperationContainerLogsRequest final :
   void unsafe_arena_set_allocated_end_time(
       ::PROTOBUF_NAMESPACE_ID::Timestamp* end_time);
   ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_end_time();
+
+  // .google.protobuf.FieldMask field_mask = 10;
+  bool has_field_mask() const;
+  private:
+  bool _internal_has_field_mask() const;
+  public:
+  void clear_field_mask();
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& field_mask() const;
+  PROTOBUF_NODISCARD ::PROTOBUF_NAMESPACE_ID::FieldMask* release_field_mask();
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* mutable_field_mask();
+  void set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask& _internal_field_mask() const;
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _internal_mutable_field_mask();
+  public:
+  void unsafe_arena_set_allocated_field_mask(
+      ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask);
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* unsafe_arena_release_field_mask();
 
   // .ondewo.nlu.LogSeverity min_log_level = 2;
   void clear_min_log_level();
@@ -2049,8 +2115,10 @@ class GetRemoteOperationContainerLogsRequest final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr regex_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr container_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr resume_token_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* end_time_;
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask_;
     int min_log_level_;
     int32_t max_lines_;
     int64_t before_seq_;
@@ -2184,10 +2252,12 @@ class GetRemoteOperationContainerLogsResponse final :
 
   enum : int {
     kLogLinesFieldNumber = 1,
+    kNextResumeTokenFieldNumber = 6,
     kMinAvailableSeqFieldNumber = 3,
     kMaxAvailableSeqFieldNumber = 4,
     kTruncatedFieldNumber = 2,
     kHasMoreOlderFieldNumber = 5,
+    kHasMoreNewerFieldNumber = 7,
   };
   // repeated .ondewo.nlu.RemoteOperationContainerLogLine log_lines = 1;
   int log_lines_size() const;
@@ -2206,6 +2276,20 @@ class GetRemoteOperationContainerLogsResponse final :
   ::ondewo::nlu::RemoteOperationContainerLogLine* add_log_lines();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::RemoteOperationContainerLogLine >&
       log_lines() const;
+
+  // string next_resume_token = 6;
+  void clear_next_resume_token();
+  const std::string& next_resume_token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_next_resume_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_next_resume_token();
+  PROTOBUF_NODISCARD std::string* release_next_resume_token();
+  void set_allocated_next_resume_token(std::string* next_resume_token);
+  private:
+  const std::string& _internal_next_resume_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_next_resume_token(const std::string& value);
+  std::string* _internal_mutable_next_resume_token();
+  public:
 
   // int64 min_available_seq = 3;
   void clear_min_available_seq();
@@ -2243,6 +2327,15 @@ class GetRemoteOperationContainerLogsResponse final :
   void _internal_set_has_more_older(bool value);
   public:
 
+  // bool has_more_newer = 7;
+  void clear_has_more_newer();
+  bool has_more_newer() const;
+  void set_has_more_newer(bool value);
+  private:
+  bool _internal_has_more_newer() const;
+  void _internal_set_has_more_newer(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.nlu.GetRemoteOperationContainerLogsResponse)
  private:
   class _Internal;
@@ -2252,10 +2345,12 @@ class GetRemoteOperationContainerLogsResponse final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ondewo::nlu::RemoteOperationContainerLogLine > log_lines_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr next_resume_token_;
     int64_t min_available_seq_;
     int64_t max_available_seq_;
     bool truncated_;
     bool has_more_older_;
+    bool has_more_newer_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2387,6 +2482,7 @@ class RemoteOperationContainerLogLine final :
     kMessageFieldNumber = 3,
     kContainerIdFieldNumber = 4,
     kContainerNameFieldNumber = 5,
+    kLogStreamFieldNumber = 7,
     kTimestampFieldNumber = 1,
     kSeqFieldNumber = 6,
     kLevelFieldNumber = 2,
@@ -2431,6 +2527,20 @@ class RemoteOperationContainerLogLine final :
   const std::string& _internal_container_name() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_container_name(const std::string& value);
   std::string* _internal_mutable_container_name();
+  public:
+
+  // string log_stream = 7;
+  void clear_log_stream();
+  const std::string& log_stream() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_log_stream(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_log_stream();
+  PROTOBUF_NODISCARD std::string* release_log_stream();
+  void set_allocated_log_stream(std::string* log_stream);
+  private:
+  const std::string& _internal_log_stream() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_log_stream(const std::string& value);
+  std::string* _internal_mutable_log_stream();
   public:
 
   // .google.protobuf.Timestamp timestamp = 1;
@@ -2480,6 +2590,7 @@ class RemoteOperationContainerLogLine final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr container_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr container_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr log_stream_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* timestamp_;
     int64_t seq_;
     int level_;
@@ -5432,6 +5543,106 @@ inline void StreamRemoteOperationContainerLogsRequest::set_allocated_container_i
   // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.container_id)
 }
 
+// string regex = 5;
+inline void StreamRemoteOperationContainerLogsRequest::clear_regex() {
+  _impl_.regex_.ClearToEmpty();
+}
+inline const std::string& StreamRemoteOperationContainerLogsRequest::regex() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.regex)
+  return _internal_regex();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void StreamRemoteOperationContainerLogsRequest::set_regex(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.regex_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.regex)
+}
+inline std::string* StreamRemoteOperationContainerLogsRequest::mutable_regex() {
+  std::string* _s = _internal_mutable_regex();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.regex)
+  return _s;
+}
+inline const std::string& StreamRemoteOperationContainerLogsRequest::_internal_regex() const {
+  return _impl_.regex_.Get();
+}
+inline void StreamRemoteOperationContainerLogsRequest::_internal_set_regex(const std::string& value) {
+  
+  _impl_.regex_.Set(value, GetArenaForAllocation());
+}
+inline std::string* StreamRemoteOperationContainerLogsRequest::_internal_mutable_regex() {
+  
+  return _impl_.regex_.Mutable(GetArenaForAllocation());
+}
+inline std::string* StreamRemoteOperationContainerLogsRequest::release_regex() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.regex)
+  return _impl_.regex_.Release();
+}
+inline void StreamRemoteOperationContainerLogsRequest::set_allocated_regex(std::string* regex) {
+  if (regex != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.regex_.SetAllocated(regex, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.regex_.IsDefault()) {
+    _impl_.regex_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.regex)
+}
+
+// string resume_token = 6;
+inline void StreamRemoteOperationContainerLogsRequest::clear_resume_token() {
+  _impl_.resume_token_.ClearToEmpty();
+}
+inline const std::string& StreamRemoteOperationContainerLogsRequest::resume_token() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.resume_token)
+  return _internal_resume_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void StreamRemoteOperationContainerLogsRequest::set_resume_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.resume_token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.resume_token)
+}
+inline std::string* StreamRemoteOperationContainerLogsRequest::mutable_resume_token() {
+  std::string* _s = _internal_mutable_resume_token();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.resume_token)
+  return _s;
+}
+inline const std::string& StreamRemoteOperationContainerLogsRequest::_internal_resume_token() const {
+  return _impl_.resume_token_.Get();
+}
+inline void StreamRemoteOperationContainerLogsRequest::_internal_set_resume_token(const std::string& value) {
+  
+  _impl_.resume_token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* StreamRemoteOperationContainerLogsRequest::_internal_mutable_resume_token() {
+  
+  return _impl_.resume_token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* StreamRemoteOperationContainerLogsRequest::release_resume_token() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.resume_token)
+  return _impl_.resume_token_.Release();
+}
+inline void StreamRemoteOperationContainerLogsRequest::set_allocated_resume_token(std::string* resume_token) {
+  if (resume_token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.resume_token_.SetAllocated(resume_token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.resume_token_.IsDefault()) {
+    _impl_.resume_token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.StreamRemoteOperationContainerLogsRequest.resume_token)
+}
+
 // -------------------------------------------------------------------
 
 // GetRemoteOperationContainerLogsRequest
@@ -5836,6 +6047,141 @@ inline void GetRemoteOperationContainerLogsRequest::set_after_seq(int64_t value)
   // @@protoc_insertion_point(field_set:ondewo.nlu.GetRemoteOperationContainerLogsRequest.after_seq)
 }
 
+// .google.protobuf.FieldMask field_mask = 10;
+inline bool GetRemoteOperationContainerLogsRequest::_internal_has_field_mask() const {
+  return this != internal_default_instance() && _impl_.field_mask_ != nullptr;
+}
+inline bool GetRemoteOperationContainerLogsRequest::has_field_mask() const {
+  return _internal_has_field_mask();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetRemoteOperationContainerLogsRequest::_internal_field_mask() const {
+  const ::PROTOBUF_NAMESPACE_ID::FieldMask* p = _impl_.field_mask_;
+  return p != nullptr ? *p : reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::FieldMask&>(
+      ::PROTOBUF_NAMESPACE_ID::_FieldMask_default_instance_);
+}
+inline const ::PROTOBUF_NAMESPACE_ID::FieldMask& GetRemoteOperationContainerLogsRequest::field_mask() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.GetRemoteOperationContainerLogsRequest.field_mask)
+  return _internal_field_mask();
+}
+inline void GetRemoteOperationContainerLogsRequest::unsafe_arena_set_allocated_field_mask(
+    ::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  _impl_.field_mask_ = field_mask;
+  if (field_mask) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.nlu.GetRemoteOperationContainerLogsRequest.field_mask)
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetRemoteOperationContainerLogsRequest::release_field_mask() {
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetRemoteOperationContainerLogsRequest::unsafe_arena_release_field_mask() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.GetRemoteOperationContainerLogsRequest.field_mask)
+  
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* temp = _impl_.field_mask_;
+  _impl_.field_mask_ = nullptr;
+  return temp;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetRemoteOperationContainerLogsRequest::_internal_mutable_field_mask() {
+  
+  if (_impl_.field_mask_ == nullptr) {
+    auto* p = CreateMaybeMessage<::PROTOBUF_NAMESPACE_ID::FieldMask>(GetArenaForAllocation());
+    _impl_.field_mask_ = p;
+  }
+  return _impl_.field_mask_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::FieldMask* GetRemoteOperationContainerLogsRequest::mutable_field_mask() {
+  ::PROTOBUF_NAMESPACE_ID::FieldMask* _msg = _internal_mutable_field_mask();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.GetRemoteOperationContainerLogsRequest.field_mask)
+  return _msg;
+}
+inline void GetRemoteOperationContainerLogsRequest::set_allocated_field_mask(::PROTOBUF_NAMESPACE_ID::FieldMask* field_mask) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.field_mask_);
+  }
+  if (field_mask) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(field_mask));
+    if (message_arena != submessage_arena) {
+      field_mask = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, field_mask, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.field_mask_ = field_mask;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.GetRemoteOperationContainerLogsRequest.field_mask)
+}
+
+// string resume_token = 11;
+inline void GetRemoteOperationContainerLogsRequest::clear_resume_token() {
+  _impl_.resume_token_.ClearToEmpty();
+}
+inline const std::string& GetRemoteOperationContainerLogsRequest::resume_token() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.GetRemoteOperationContainerLogsRequest.resume_token)
+  return _internal_resume_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GetRemoteOperationContainerLogsRequest::set_resume_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.resume_token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetRemoteOperationContainerLogsRequest.resume_token)
+}
+inline std::string* GetRemoteOperationContainerLogsRequest::mutable_resume_token() {
+  std::string* _s = _internal_mutable_resume_token();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.GetRemoteOperationContainerLogsRequest.resume_token)
+  return _s;
+}
+inline const std::string& GetRemoteOperationContainerLogsRequest::_internal_resume_token() const {
+  return _impl_.resume_token_.Get();
+}
+inline void GetRemoteOperationContainerLogsRequest::_internal_set_resume_token(const std::string& value) {
+  
+  _impl_.resume_token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GetRemoteOperationContainerLogsRequest::_internal_mutable_resume_token() {
+  
+  return _impl_.resume_token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GetRemoteOperationContainerLogsRequest::release_resume_token() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.GetRemoteOperationContainerLogsRequest.resume_token)
+  return _impl_.resume_token_.Release();
+}
+inline void GetRemoteOperationContainerLogsRequest::set_allocated_resume_token(std::string* resume_token) {
+  if (resume_token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.resume_token_.SetAllocated(resume_token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.resume_token_.IsDefault()) {
+    _impl_.resume_token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.GetRemoteOperationContainerLogsRequest.resume_token)
+}
+
 // -------------------------------------------------------------------
 
 // GetRemoteOperationContainerLogsResponse
@@ -5958,6 +6304,76 @@ inline void GetRemoteOperationContainerLogsResponse::_internal_set_has_more_olde
 inline void GetRemoteOperationContainerLogsResponse::set_has_more_older(bool value) {
   _internal_set_has_more_older(value);
   // @@protoc_insertion_point(field_set:ondewo.nlu.GetRemoteOperationContainerLogsResponse.has_more_older)
+}
+
+// string next_resume_token = 6;
+inline void GetRemoteOperationContainerLogsResponse::clear_next_resume_token() {
+  _impl_.next_resume_token_.ClearToEmpty();
+}
+inline const std::string& GetRemoteOperationContainerLogsResponse::next_resume_token() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.GetRemoteOperationContainerLogsResponse.next_resume_token)
+  return _internal_next_resume_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GetRemoteOperationContainerLogsResponse::set_next_resume_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.next_resume_token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetRemoteOperationContainerLogsResponse.next_resume_token)
+}
+inline std::string* GetRemoteOperationContainerLogsResponse::mutable_next_resume_token() {
+  std::string* _s = _internal_mutable_next_resume_token();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.GetRemoteOperationContainerLogsResponse.next_resume_token)
+  return _s;
+}
+inline const std::string& GetRemoteOperationContainerLogsResponse::_internal_next_resume_token() const {
+  return _impl_.next_resume_token_.Get();
+}
+inline void GetRemoteOperationContainerLogsResponse::_internal_set_next_resume_token(const std::string& value) {
+  
+  _impl_.next_resume_token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GetRemoteOperationContainerLogsResponse::_internal_mutable_next_resume_token() {
+  
+  return _impl_.next_resume_token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GetRemoteOperationContainerLogsResponse::release_next_resume_token() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.GetRemoteOperationContainerLogsResponse.next_resume_token)
+  return _impl_.next_resume_token_.Release();
+}
+inline void GetRemoteOperationContainerLogsResponse::set_allocated_next_resume_token(std::string* next_resume_token) {
+  if (next_resume_token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.next_resume_token_.SetAllocated(next_resume_token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.next_resume_token_.IsDefault()) {
+    _impl_.next_resume_token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.GetRemoteOperationContainerLogsResponse.next_resume_token)
+}
+
+// bool has_more_newer = 7;
+inline void GetRemoteOperationContainerLogsResponse::clear_has_more_newer() {
+  _impl_.has_more_newer_ = false;
+}
+inline bool GetRemoteOperationContainerLogsResponse::_internal_has_more_newer() const {
+  return _impl_.has_more_newer_;
+}
+inline bool GetRemoteOperationContainerLogsResponse::has_more_newer() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.GetRemoteOperationContainerLogsResponse.has_more_newer)
+  return _internal_has_more_newer();
+}
+inline void GetRemoteOperationContainerLogsResponse::_internal_set_has_more_newer(bool value) {
+  
+  _impl_.has_more_newer_ = value;
+}
+inline void GetRemoteOperationContainerLogsResponse::set_has_more_newer(bool value) {
+  _internal_set_has_more_newer(value);
+  // @@protoc_insertion_point(field_set:ondewo.nlu.GetRemoteOperationContainerLogsResponse.has_more_newer)
 }
 
 // -------------------------------------------------------------------
@@ -6237,6 +6653,56 @@ inline void RemoteOperationContainerLogLine::_internal_set_seq(int64_t value) {
 inline void RemoteOperationContainerLogLine::set_seq(int64_t value) {
   _internal_set_seq(value);
   // @@protoc_insertion_point(field_set:ondewo.nlu.RemoteOperationContainerLogLine.seq)
+}
+
+// string log_stream = 7;
+inline void RemoteOperationContainerLogLine::clear_log_stream() {
+  _impl_.log_stream_.ClearToEmpty();
+}
+inline const std::string& RemoteOperationContainerLogLine::log_stream() const {
+  // @@protoc_insertion_point(field_get:ondewo.nlu.RemoteOperationContainerLogLine.log_stream)
+  return _internal_log_stream();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RemoteOperationContainerLogLine::set_log_stream(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.log_stream_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.nlu.RemoteOperationContainerLogLine.log_stream)
+}
+inline std::string* RemoteOperationContainerLogLine::mutable_log_stream() {
+  std::string* _s = _internal_mutable_log_stream();
+  // @@protoc_insertion_point(field_mutable:ondewo.nlu.RemoteOperationContainerLogLine.log_stream)
+  return _s;
+}
+inline const std::string& RemoteOperationContainerLogLine::_internal_log_stream() const {
+  return _impl_.log_stream_.Get();
+}
+inline void RemoteOperationContainerLogLine::_internal_set_log_stream(const std::string& value) {
+  
+  _impl_.log_stream_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RemoteOperationContainerLogLine::_internal_mutable_log_stream() {
+  
+  return _impl_.log_stream_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RemoteOperationContainerLogLine::release_log_stream() {
+  // @@protoc_insertion_point(field_release:ondewo.nlu.RemoteOperationContainerLogLine.log_stream)
+  return _impl_.log_stream_.Release();
+}
+inline void RemoteOperationContainerLogLine::set_allocated_log_stream(std::string* log_stream) {
+  if (log_stream != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.log_stream_.SetAllocated(log_stream, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.log_stream_.IsDefault()) {
+    _impl_.log_stream_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.nlu.RemoteOperationContainerLogLine.log_stream)
 }
 
 // -------------------------------------------------------------------

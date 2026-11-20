@@ -469,6 +469,7 @@ class SoftphoneAccount final :
     kCreatedByFieldNumber = 15,
     kModifiedByFieldNumber = 17,
     kLockedReasonFieldNumber = 21,
+    kDescriptionFieldNumber = 22,
     kCurrentCertificateExpireTimeFieldNumber = 13,
     kSipPasswordSetAtFieldNumber = 14,
     kCreatedAtFieldNumber = 16,
@@ -660,6 +661,20 @@ class SoftphoneAccount final :
   std::string* _internal_mutable_locked_reason();
   public:
 
+  // string description = 22;
+  void clear_description();
+  const std::string& description() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_description(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_description();
+  PROTOBUF_NODISCARD std::string* release_description();
+  void set_allocated_description(std::string* description);
+  private:
+  const std::string& _internal_description() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_description(const std::string& value);
+  std::string* _internal_mutable_description();
+  public:
+
   // .google.protobuf.Timestamp current_certificate_expire_time = 13;
   bool has_current_certificate_expire_time() const;
   private:
@@ -816,6 +831,7 @@ class SoftphoneAccount final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr created_by_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr modified_by_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr locked_reason_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* current_certificate_expire_time_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* sip_password_set_at_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* created_at_;
@@ -7091,6 +7107,56 @@ inline void SoftphoneAccount::set_allocated_locked_reason(std::string* locked_re
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneAccount.locked_reason)
+}
+
+// string description = 22;
+inline void SoftphoneAccount::clear_description() {
+  _impl_.description_.ClearToEmpty();
+}
+inline const std::string& SoftphoneAccount::description() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.SoftphoneAccount.description)
+  return _internal_description();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SoftphoneAccount::set_description(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.description_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.SoftphoneAccount.description)
+}
+inline std::string* SoftphoneAccount::mutable_description() {
+  std::string* _s = _internal_mutable_description();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.SoftphoneAccount.description)
+  return _s;
+}
+inline const std::string& SoftphoneAccount::_internal_description() const {
+  return _impl_.description_.Get();
+}
+inline void SoftphoneAccount::_internal_set_description(const std::string& value) {
+  
+  _impl_.description_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SoftphoneAccount::_internal_mutable_description() {
+  
+  return _impl_.description_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SoftphoneAccount::release_description() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.SoftphoneAccount.description)
+  return _impl_.description_.Release();
+}
+inline void SoftphoneAccount::set_allocated_description(std::string* description) {
+  if (description != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.description_.SetAllocated(description, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.description_.IsDefault()) {
+    _impl_.description_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.SoftphoneAccount.description)
 }
 
 // -------------------------------------------------------------------

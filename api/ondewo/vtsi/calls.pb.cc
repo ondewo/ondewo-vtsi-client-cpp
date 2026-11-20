@@ -1055,6 +1055,7 @@ PROTOBUF_CONSTEXPR TransferCallRequest::TransferCallRequest(
   , /*decltype(_impl_.transfer_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.target_)*/nullptr
+  , /*decltype(_impl_.warm_transfer_config_)*/nullptr
   , /*decltype(_impl_.mode_)*/0
   , /*decltype(_impl_.ring_timeout_s_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -1117,6 +1118,8 @@ PROTOBUF_CONSTEXPR CallTransferRecord::CallTransferRecord(
     /*decltype(_impl_.resolved_target_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.target_)*/nullptr
   , /*decltype(_impl_.time_)*/nullptr
+  , /*decltype(_impl_.warm_intro_)*/nullptr
+  , /*decltype(_impl_.effective_warm_transfer_config_)*/nullptr
   , /*decltype(_impl_.mode_)*/0
   , /*decltype(_impl_.outcome_)*/0
   , /*decltype(_impl_.sip_response_code_)*/0
@@ -1205,6 +1208,36 @@ struct InviteToCallResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InviteToCallResponseDefaultTypeInternal _InviteToCallResponse_default_instance_;
+PROTOBUF_CONSTEXPR SendCallDtmfRequest::SendCallDtmfRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.call_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.digits_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SendCallDtmfRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SendCallDtmfRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SendCallDtmfRequestDefaultTypeInternal() {}
+  union {
+    SendCallDtmfRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SendCallDtmfRequestDefaultTypeInternal _SendCallDtmfRequest_default_instance_;
+PROTOBUF_CONSTEXPR SendCallDtmfResponse::SendCallDtmfResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.call_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.queued_keys_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SendCallDtmfResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SendCallDtmfResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SendCallDtmfResponseDefaultTypeInternal() {}
+  union {
+    SendCallDtmfResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SendCallDtmfResponseDefaultTypeInternal _SendCallDtmfResponse_default_instance_;
 PROTOBUF_CONSTEXPR RemoveCallParticipantRequest::RemoveCallParticipantRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.vtsi_project_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -1461,6 +1494,9 @@ PROTOBUF_CONSTEXPR Call::Call(
   , /*decltype(_impl_.redial_reason_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.answering_machine_detection_end_description_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.sip_call_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.ivr_menu_display_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.ivr_path_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.ivr_menu_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.start_time_)*/nullptr
   , /*decltype(_impl_.end_time_)*/nullptr
   , /*decltype(_impl_.sip_status_)*/nullptr
@@ -1863,7 +1899,7 @@ struct StreamCallResourceStatusResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StreamCallResourceStatusResponseDefaultTypeInternal _StreamCallResourceStatusResponse_default_instance_;
 }  // namespace vtsi
 }  // namespace ondewo
-static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[113];
+static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[115];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fvtsi_2fcalls_2eproto[14];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fvtsi_2fcalls_2eproto = nullptr;
 
@@ -2551,12 +2587,14 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets[] PROTOBUF_SEC
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TransferCallRequest, _impl_.headers_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TransferCallRequest, _impl_.ring_timeout_s_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TransferCallRequest, _impl_.request_id_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TransferCallRequest, _impl_.warm_transfer_config_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallTarget, _internal_metadata_),
   ~0u,  // no _extensions_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallTarget, _impl_._oneof_case_[0]),
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
@@ -2594,6 +2632,8 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets[] PROTOBUF_SEC
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallTransferRecord, _impl_.outcome_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallTransferRecord, _impl_.sip_response_code_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallTransferRecord, _impl_.time_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallTransferRecord, _impl_.warm_intro_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallTransferRecord, _impl_.effective_warm_transfer_config_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CallMediaControlState, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2645,6 +2685,24 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets[] PROTOBUF_SEC
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InviteToCallResponse, _impl_.call_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InviteToCallResponse, _impl_.participant_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InviteToCallResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SendCallDtmfRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SendCallDtmfRequest, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SendCallDtmfRequest, _impl_.call_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SendCallDtmfRequest, _impl_.digits_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SendCallDtmfResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SendCallDtmfResponse, _impl_.vtsi_project_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SendCallDtmfResponse, _impl_.call_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SendCallDtmfResponse, _impl_.queued_keys_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::RemoveCallParticipantRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2835,6 +2893,9 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets[] PROTOBUF_SEC
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.last_transfer_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.sip_call_id_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.labels_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.ivr_menu_display_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.ivr_path_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.ivr_menu_name_),
   ~0u,
   ~0u,
   ~0u,
@@ -2856,6 +2917,9 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets[] PROTOBUF_SEC
   8,
   1,
   2,
+  ~0u,
+  ~0u,
+  ~0u,
   ~0u,
   ~0u,
   ~0u,
@@ -3201,53 +3265,55 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 650, -1, -1, sizeof(::ondewo::vtsi::StopAllCallsRequest)},
   { 659, 667, -1, sizeof(::ondewo::vtsi::TransferCallRequest_HeadersEntry_DoNotUse)},
   { 669, -1, -1, sizeof(::ondewo::vtsi::TransferCallRequest)},
-  { 683, -1, -1, sizeof(::ondewo::vtsi::CallTarget)},
-  { 694, -1, -1, sizeof(::ondewo::vtsi::ListenerQueueTarget)},
-  { 700, -1, -1, sizeof(::ondewo::vtsi::TransferCallResponse)},
-  { 714, -1, -1, sizeof(::ondewo::vtsi::CallTransferRecord)},
-  { 726, -1, -1, sizeof(::ondewo::vtsi::CallMediaControlState)},
-  { 736, -1, -1, sizeof(::ondewo::vtsi::CallParticipant)},
-  { 753, -1, -1, sizeof(::ondewo::vtsi::InviteToCallRequest)},
-  { 767, -1, -1, sizeof(::ondewo::vtsi::InviteToCallResponse)},
-  { 777, -1, -1, sizeof(::ondewo::vtsi::RemoveCallParticipantRequest)},
-  { 786, -1, -1, sizeof(::ondewo::vtsi::RemoveCallParticipantResponse)},
-  { 796, -1, -1, sizeof(::ondewo::vtsi::SetCallMediaControlRequest)},
-  { 806, -1, -1, sizeof(::ondewo::vtsi::SetCallMediaControlResponse)},
-  { 817, -1, -1, sizeof(::ondewo::vtsi::StreamCallAudioConfig)},
-  { 829, -1, -1, sizeof(::ondewo::vtsi::CallAudioFrame)},
-  { 837, -1, -1, sizeof(::ondewo::vtsi::StreamCallAudioRequest)},
-  { 847, -1, -1, sizeof(::ondewo::vtsi::CallAudioStarted)},
-  { 857, -1, -1, sizeof(::ondewo::vtsi::CallAudioStats)},
-  { 868, -1, -1, sizeof(::ondewo::vtsi::CallAudioEnded)},
-  { 876, -1, -1, sizeof(::ondewo::vtsi::StreamCallAudioResponse)},
-  { 887, -1, -1, sizeof(::ondewo::vtsi::ListenCallAudioRequest)},
-  { 894, -1, -1, sizeof(::ondewo::vtsi::TransferCallsRequest)},
-  { 902, -1, -1, sizeof(::ondewo::vtsi::TransferCallsResponse)},
-  { 911, 921, -1, sizeof(::ondewo::vtsi::GetCallRequest)},
-  { 925, 933, -1, sizeof(::ondewo::vtsi::Call_LabelsEntry_DoNotUse)},
-  { 935, 967, -1, sizeof(::ondewo::vtsi::Call)},
-  { 993, 1001, -1, sizeof(::ondewo::vtsi::CallFilter_LabelsEntry_DoNotUse)},
-  { 1003, 1034, -1, sizeof(::ondewo::vtsi::CallFilter)},
-  { 1058, -1, -1, sizeof(::ondewo::vtsi::CallSorting)},
-  { 1066, 1079, -1, sizeof(::ondewo::vtsi::ListCallsRequest)},
-  { 1086, -1, -1, sizeof(::ondewo::vtsi::ListCallsResponse)},
-  { 1095, -1, -1, sizeof(::ondewo::vtsi::UpdateCallRequest)},
-  { 1104, -1, -1, sizeof(::ondewo::vtsi::UpdateCallResponse)},
-  { 1113, -1, -1, sizeof(::ondewo::vtsi::UpdateCallsRequest)},
-  { 1122, -1, -1, sizeof(::ondewo::vtsi::UpdateCallsResponse)},
-  { 1131, -1, -1, sizeof(::ondewo::vtsi::GetCallStatisticsRequest)},
-  { 1139, -1, -1, sizeof(::ondewo::vtsi::SipStatusTypeCount)},
-  { 1147, -1, -1, sizeof(::ondewo::vtsi::CallTypeCount)},
-  { 1155, -1, -1, sizeof(::ondewo::vtsi::AmdVerdictCount)},
-  { 1163, -1, -1, sizeof(::ondewo::vtsi::TransferOutcomeCount)},
-  { 1171, -1, -1, sizeof(::ondewo::vtsi::CallStatistics)},
-  { 1188, -1, -1, sizeof(::ondewo::vtsi::AllServicesStatuses)},
-  { 1199, -1, -1, sizeof(::ondewo::vtsi::ServiceStatus)},
-  { 1207, -1, -1, sizeof(::ondewo::vtsi::CallResourceStatus)},
-  { 1226, -1, -1, sizeof(::ondewo::vtsi::StreamCallerStatusRequest)},
-  { 1235, -1, -1, sizeof(::ondewo::vtsi::StreamListenerStatusRequest)},
-  { 1244, -1, -1, sizeof(::ondewo::vtsi::StreamScheduledCallerStatusRequest)},
-  { 1254, -1, -1, sizeof(::ondewo::vtsi::StreamCallResourceStatusResponse)},
+  { 684, -1, -1, sizeof(::ondewo::vtsi::CallTarget)},
+  { 696, -1, -1, sizeof(::ondewo::vtsi::ListenerQueueTarget)},
+  { 702, -1, -1, sizeof(::ondewo::vtsi::TransferCallResponse)},
+  { 716, -1, -1, sizeof(::ondewo::vtsi::CallTransferRecord)},
+  { 730, -1, -1, sizeof(::ondewo::vtsi::CallMediaControlState)},
+  { 740, -1, -1, sizeof(::ondewo::vtsi::CallParticipant)},
+  { 757, -1, -1, sizeof(::ondewo::vtsi::InviteToCallRequest)},
+  { 771, -1, -1, sizeof(::ondewo::vtsi::InviteToCallResponse)},
+  { 781, -1, -1, sizeof(::ondewo::vtsi::SendCallDtmfRequest)},
+  { 790, -1, -1, sizeof(::ondewo::vtsi::SendCallDtmfResponse)},
+  { 799, -1, -1, sizeof(::ondewo::vtsi::RemoveCallParticipantRequest)},
+  { 808, -1, -1, sizeof(::ondewo::vtsi::RemoveCallParticipantResponse)},
+  { 818, -1, -1, sizeof(::ondewo::vtsi::SetCallMediaControlRequest)},
+  { 828, -1, -1, sizeof(::ondewo::vtsi::SetCallMediaControlResponse)},
+  { 839, -1, -1, sizeof(::ondewo::vtsi::StreamCallAudioConfig)},
+  { 851, -1, -1, sizeof(::ondewo::vtsi::CallAudioFrame)},
+  { 859, -1, -1, sizeof(::ondewo::vtsi::StreamCallAudioRequest)},
+  { 869, -1, -1, sizeof(::ondewo::vtsi::CallAudioStarted)},
+  { 879, -1, -1, sizeof(::ondewo::vtsi::CallAudioStats)},
+  { 890, -1, -1, sizeof(::ondewo::vtsi::CallAudioEnded)},
+  { 898, -1, -1, sizeof(::ondewo::vtsi::StreamCallAudioResponse)},
+  { 909, -1, -1, sizeof(::ondewo::vtsi::ListenCallAudioRequest)},
+  { 916, -1, -1, sizeof(::ondewo::vtsi::TransferCallsRequest)},
+  { 924, -1, -1, sizeof(::ondewo::vtsi::TransferCallsResponse)},
+  { 933, 943, -1, sizeof(::ondewo::vtsi::GetCallRequest)},
+  { 947, 955, -1, sizeof(::ondewo::vtsi::Call_LabelsEntry_DoNotUse)},
+  { 957, 992, -1, sizeof(::ondewo::vtsi::Call)},
+  { 1021, 1029, -1, sizeof(::ondewo::vtsi::CallFilter_LabelsEntry_DoNotUse)},
+  { 1031, 1062, -1, sizeof(::ondewo::vtsi::CallFilter)},
+  { 1086, -1, -1, sizeof(::ondewo::vtsi::CallSorting)},
+  { 1094, 1107, -1, sizeof(::ondewo::vtsi::ListCallsRequest)},
+  { 1114, -1, -1, sizeof(::ondewo::vtsi::ListCallsResponse)},
+  { 1123, -1, -1, sizeof(::ondewo::vtsi::UpdateCallRequest)},
+  { 1132, -1, -1, sizeof(::ondewo::vtsi::UpdateCallResponse)},
+  { 1141, -1, -1, sizeof(::ondewo::vtsi::UpdateCallsRequest)},
+  { 1150, -1, -1, sizeof(::ondewo::vtsi::UpdateCallsResponse)},
+  { 1159, -1, -1, sizeof(::ondewo::vtsi::GetCallStatisticsRequest)},
+  { 1167, -1, -1, sizeof(::ondewo::vtsi::SipStatusTypeCount)},
+  { 1175, -1, -1, sizeof(::ondewo::vtsi::CallTypeCount)},
+  { 1183, -1, -1, sizeof(::ondewo::vtsi::AmdVerdictCount)},
+  { 1191, -1, -1, sizeof(::ondewo::vtsi::TransferOutcomeCount)},
+  { 1199, -1, -1, sizeof(::ondewo::vtsi::CallStatistics)},
+  { 1216, -1, -1, sizeof(::ondewo::vtsi::AllServicesStatuses)},
+  { 1227, -1, -1, sizeof(::ondewo::vtsi::ServiceStatus)},
+  { 1235, -1, -1, sizeof(::ondewo::vtsi::CallResourceStatus)},
+  { 1254, -1, -1, sizeof(::ondewo::vtsi::StreamCallerStatusRequest)},
+  { 1263, -1, -1, sizeof(::ondewo::vtsi::StreamListenerStatusRequest)},
+  { 1272, -1, -1, sizeof(::ondewo::vtsi::StreamScheduledCallerStatusRequest)},
+  { 1282, -1, -1, sizeof(::ondewo::vtsi::StreamCallResourceStatusResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -3325,6 +3391,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::vtsi::_CallParticipant_default_instance_._instance,
   &::ondewo::vtsi::_InviteToCallRequest_default_instance_._instance,
   &::ondewo::vtsi::_InviteToCallResponse_default_instance_._instance,
+  &::ondewo::vtsi::_SendCallDtmfRequest_default_instance_._instance,
+  &::ondewo::vtsi::_SendCallDtmfResponse_default_instance_._instance,
   &::ondewo::vtsi::_RemoveCallParticipantRequest_default_instance_._instance,
   &::ondewo::vtsi::_RemoveCallParticipantResponse_default_instance_._instance,
   &::ondewo::vtsi::_SetCallMediaControlRequest_default_instance_._instance,
@@ -3636,423 +3704,441 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fcalls_2eproto[] PROTOBUF_SE
   "e\030\002 \001(\t\"\216\001\n\023StopAllCallsRequest\022\031\n\021vtsi_"
   "project_name\030\001 \001(\t\022.\n\nfield_mask\030\002 \001(\0132\032"
   ".google.protobuf.FieldMask\022,\n\013call_filte"
-  "r\030\003 \001(\0132\027.ondewo.vtsi.CallFilter\"\306\002\n\023Tra"
+  "r\030\003 \001(\0132\027.ondewo.vtsi.CallFilter\"\205\003\n\023Tra"
   "nsferCallRequest\022\031\n\021vtsi_project_name\030\001 "
   "\001(\t\022\021\n\tcall_name\030\002 \001(\t\022\023\n\013transfer_id\030\003 "
   "\001(\t\022\'\n\006target\030\004 \001(\0132\027.ondewo.vtsi.CallTa"
   "rget\022\'\n\004mode\030\005 \001(\0162\031.ondewo.vtsi.Transfe"
   "rMode\022>\n\007headers\030\006 \003(\0132-.ondewo.vtsi.Tra"
   "nsferCallRequest.HeadersEntry\022\026\n\016ring_ti"
-  "meout_s\030\007 \001(\005\022\022\n\nrequest_id\030\010 \001(\t\032.\n\014Hea"
-  "dersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028"
-  "\001\"\245\001\n\nCallTarget\022\026\n\014phone_number\030\001 \001(\tH\000"
-  "\022 \n\026softphone_account_name\030\002 \001(\tH\000\022\027\n\rli"
-  "stener_name\030\003 \001(\tH\000\022:\n\016listener_queue\030\004 "
-  "\001(\0132 .ondewo.vtsi.ListenerQueueTargetH\000B"
-  "\010\n\006target\"\025\n\023ListenerQueueTarget\"\351\001\n\024Tra"
-  "nsferCallResponse\022\031\n\021vtsi_project_name\030\001"
-  " \001(\t\022\021\n\tcall_name\030\002 \001(\t\022\023\n\013transfer_id\030\003"
-  " \001(\t\022\025\n\rerror_message\030\004 \001(\t\022-\n\007outcome\030\005"
-  " \001(\0162\034.ondewo.vtsi.TransferOutcome\022\027\n\017re"
-  "solved_target\030\006 \001(\t\022\031\n\021sip_response_code"
-  "\030\007 \001(\005\022\024\n\014error_reason\030\010 \001(\t\"\363\001\n\022CallTra"
-  "nsferRecord\022\'\n\006target\030\001 \001(\0132\027.ondewo.vts"
-  "i.CallTarget\022\027\n\017resolved_target\030\002 \001(\t\022\'\n"
-  "\004mode\030\003 \001(\0162\031.ondewo.vtsi.TransferMode\022-"
-  "\n\007outcome\030\004 \001(\0162\034.ondewo.vtsi.TransferOu"
-  "tcome\022\031\n\021sip_response_code\030\005 \001(\005\022(\n\004time"
-  "\030\006 \001(\0132\032.google.protobuf.Timestamp\"\202\001\n\025C"
-  "allMediaControlState\022\021\n\tbot_muted\030\001 \001(\010\022"
-  "\030\n\020listening_paused\030\002 \001(\010\022\037\n\027connected_a"
-  "udio_streams\030\003 \001(\005\022\033\n\023joined_participant"
-  "s\030\004 \001(\005\"\305\003\n\017CallParticipant\022\026\n\016participa"
-  "nt_id\030\001 \001(\t\022\036\n\026softphone_account_name\030\002 "
-  "\001(\t\022*\n\004mode\030\003 \001(\0162\034.ondewo.vtsi.Particip"
-  "antMode\022,\n\005state\030\004 \001(\0162\035.ondewo.vtsi.Par"
-  "ticipantState\022.\n\ninvited_at\030\005 \001(\0132\032.goog"
-  "le.protobuf.Timestamp\022-\n\tjoined_at\030\006 \001(\013"
-  "2\032.google.protobuf.Timestamp\022+\n\007left_at\030"
-  "\007 \001(\0132\032.google.protobuf.Timestamp\022\022\n\nend"
-  "_reason\030\010 \001(\t\022\022\n\ninvited_by\030\t \001(\t\0220\n\nbot"
-  "_policy\030\n \001(\0162\034.ondewo.vtsi.BotPolicyOnJ"
-  "oin\022:\n\017end_reason_type\030\013 \001(\0162!.ondewo.vt"
-  "si.ParticipantEndReason\"\215\002\n\023InviteToCall"
-  "Request\022\031\n\021vtsi_project_name\030\001 \001(\t\022\021\n\tca"
-  "ll_name\030\002 \001(\t\022\036\n\026softphone_account_name\030"
-  "\003 \001(\t\022*\n\004mode\030\004 \001(\0162\034.ondewo.vtsi.Partic"
-  "ipantMode\022\026\n\016ring_timeout_s\030\005 \001(\005\0220\n\nbot"
-  "_policy\030\006 \001(\0162\034.ondewo.vtsi.BotPolicyOnJ"
-  "oin\022\036\n\026caller_id_display_name\030\007 \001(\t\022\022\n\nr"
-  "equest_id\030\010 \001(\t\"\216\001\n\024InviteToCallResponse"
+  "meout_s\030\007 \001(\005\022\022\n\nrequest_id\030\010 \001(\t\022=\n\024war"
+  "m_transfer_config\030\t \001(\0132\037.ondewo.vtsi.Wa"
+  "rmTransferConfig\032.\n\014HeadersEntry\022\013\n\003key\030"
+  "\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\276\001\n\nCallTarget\022"
+  "\026\n\014phone_number\030\001 \001(\tH\000\022 \n\026softphone_acc"
+  "ount_name\030\002 \001(\tH\000\022\027\n\rlistener_name\030\003 \001(\t"
+  "H\000\022:\n\016listener_queue\030\004 \001(\0132 .ondewo.vtsi"
+  ".ListenerQueueTargetH\000\022\027\n\rivr_menu_name\030"
+  "\005 \001(\tH\000B\010\n\006target\"\025\n\023ListenerQueueTarget"
+  "\"\351\001\n\024TransferCallResponse\022\031\n\021vtsi_projec"
+  "t_name\030\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t\022\023\n\013trans"
+  "fer_id\030\003 \001(\t\022\025\n\rerror_message\030\004 \001(\t\022-\n\007o"
+  "utcome\030\005 \001(\0162\034.ondewo.vtsi.TransferOutco"
+  "me\022\027\n\017resolved_target\030\006 \001(\t\022\031\n\021sip_respo"
+  "nse_code\030\007 \001(\005\022\024\n\014error_reason\030\010 \001(\t\"\356\002\n"
+  "\022CallTransferRecord\022\'\n\006target\030\001 \001(\0132\027.on"
+  "dewo.vtsi.CallTarget\022\027\n\017resolved_target\030"
+  "\002 \001(\t\022\'\n\004mode\030\003 \001(\0162\031.ondewo.vtsi.Transf"
+  "erMode\022-\n\007outcome\030\004 \001(\0162\034.ondewo.vtsi.Tr"
+  "ansferOutcome\022\031\n\021sip_response_code\030\005 \001(\005"
+  "\022(\n\004time\030\006 \001(\0132\032.google.protobuf.Timesta"
+  "mp\0220\n\nwarm_intro\030\007 \001(\0132\034.ondewo.vtsi.War"
+  "mIntroRecord\022G\n\036effective_warm_transfer_"
+  "config\030\010 \001(\0132\037.ondewo.vtsi.WarmTransferC"
+  "onfig\"\202\001\n\025CallMediaControlState\022\021\n\tbot_m"
+  "uted\030\001 \001(\010\022\030\n\020listening_paused\030\002 \001(\010\022\037\n\027"
+  "connected_audio_streams\030\003 \001(\005\022\033\n\023joined_"
+  "participants\030\004 \001(\005\"\305\003\n\017CallParticipant\022\026"
+  "\n\016participant_id\030\001 \001(\t\022\036\n\026softphone_acco"
+  "unt_name\030\002 \001(\t\022*\n\004mode\030\003 \001(\0162\034.ondewo.vt"
+  "si.ParticipantMode\022,\n\005state\030\004 \001(\0162\035.onde"
+  "wo.vtsi.ParticipantState\022.\n\ninvited_at\030\005"
+  " \001(\0132\032.google.protobuf.Timestamp\022-\n\tjoin"
+  "ed_at\030\006 \001(\0132\032.google.protobuf.Timestamp\022"
+  "+\n\007left_at\030\007 \001(\0132\032.google.protobuf.Times"
+  "tamp\022\022\n\nend_reason\030\010 \001(\t\022\022\n\ninvited_by\030\t"
+  " \001(\t\0220\n\nbot_policy\030\n \001(\0162\034.ondewo.vtsi.B"
+  "otPolicyOnJoin\022:\n\017end_reason_type\030\013 \001(\0162"
+  "!.ondewo.vtsi.ParticipantEndReason\"\215\002\n\023I"
+  "nviteToCallRequest\022\031\n\021vtsi_project_name\030"
+  "\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t\022\036\n\026softphone_ac"
+  "count_name\030\003 \001(\t\022*\n\004mode\030\004 \001(\0162\034.ondewo."
+  "vtsi.ParticipantMode\022\026\n\016ring_timeout_s\030\005"
+  " \001(\005\0220\n\nbot_policy\030\006 \001(\0162\034.ondewo.vtsi.B"
+  "otPolicyOnJoin\022\036\n\026caller_id_display_name"
+  "\030\007 \001(\t\022\022\n\nrequest_id\030\010 \001(\t\"\216\001\n\024InviteToC"
+  "allResponse\022\031\n\021vtsi_project_name\030\001 \001(\t\022\021"
+  "\n\tcall_name\030\002 \001(\t\0221\n\013participant\030\003 \001(\0132\034"
+  ".ondewo.vtsi.CallParticipant\022\025\n\rerror_me"
+  "ssage\030\004 \001(\t\"S\n\023SendCallDtmfRequest\022\031\n\021vt"
+  "si_project_name\030\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t"
+  "\022\016\n\006digits\030\003 \001(\t\"Y\n\024SendCallDtmfResponse"
   "\022\031\n\021vtsi_project_name\030\001 \001(\t\022\021\n\tcall_name"
-  "\030\002 \001(\t\0221\n\013participant\030\003 \001(\0132\034.ondewo.vts"
-  "i.CallParticipant\022\025\n\rerror_message\030\004 \001(\t"
-  "\"d\n\034RemoveCallParticipantRequest\022\031\n\021vtsi"
-  "_project_name\030\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t\022\026"
-  "\n\016participant_id\030\003 \001(\t\"\227\001\n\035RemoveCallPar"
-  "ticipantResponse\022\031\n\021vtsi_project_name\030\001 "
-  "\001(\t\022\021\n\tcall_name\030\002 \001(\t\0221\n\013participant\030\003 "
-  "\001(\0132\034.ondewo.vtsi.CallParticipant\022\025\n\rerr"
-  "or_message\030\004 \001(\t\"\262\001\n\032SetCallMediaControl"
-  "Request\022\031\n\021vtsi_project_name\030\001 \001(\t\022\021\n\tca"
-  "ll_name\030\002 \001(\t\0220\n\tbot_voice\030\003 \001(\0162\035.ondew"
-  "o.vtsi.CallMediaSetting\0224\n\rbot_listening"
-  "\030\004 \001(\0162\035.ondewo.vtsi.CallMediaSetting\"\246\001"
-  "\n\033SetCallMediaControlResponse\022\031\n\021vtsi_pr"
-  "oject_name\030\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t\0221\n\005s"
-  "tate\030\003 \001(\0132\".ondewo.vtsi.CallMediaContro"
-  "lState\022\017\n\007changed\030\004 \001(\010\022\025\n\rerror_message"
-  "\030\005 \001(\t\"\262\001\n\025StreamCallAudioConfig\022\031\n\021vtsi"
-  "_project_name\030\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t\022("
-  "\n\004mode\030\003 \001(\0162\032.ondewo.vtsi.CallAudioMode"
-  "\022\026\n\016sample_rate_hz\030\004 \001(\005\022\021\n\ttake_over\030\005 "
-  "\001(\010\022\026\n\016max_duration_s\030\006 \001(\005\"5\n\016CallAudio"
-  "Frame\022\021\n\tpcm_s16le\030\001 \001(\014\022\020\n\010sequence\030\002 \001"
-  "(\004\"\236\001\n\026StreamCallAudioRequest\0224\n\006config\030"
-  "\001 \001(\0132\".ondewo.vtsi.StreamCallAudioConfi"
-  "gH\000\022,\n\005audio\030\002 \001(\0132\033.ondewo.vtsi.CallAud"
-  "ioFrameH\000\022\025\n\013agent_muted\030\003 \001(\010H\000B\t\n\007requ"
-  "est\"y\n\020CallAudioStarted\022\021\n\tstream_id\030\001 \001"
-  "(\t\022\026\n\016sample_rate_hz\030\002 \001(\005\022\020\n\010frame_ms\030\003"
-  " \001(\005\022(\n\004mode\030\004 \001(\0162\032.ondewo.vtsi.CallAud"
-  "ioMode\"\203\001\n\016CallAudioStats\022\023\n\013frames_sent"
-  "\030\001 \001(\004\022\026\n\016frames_dropped\030\002 \001(\004\022\027\n\017frames"
-  "_received\030\003 \001(\004\022\021\n\tunderruns\030\004 \001(\004\022\030\n\020fr"
-  "ames_discarded\030\005 \001(\004\"Q\n\016CallAudioEnded\022/"
-  "\n\006reason\030\001 \001(\0162\037.ondewo.vtsi.CallAudioEn"
-  "dReason\022\016\n\006detail\030\002 \001(\t\"\341\001\n\027StreamCallAu"
-  "dioResponse\0220\n\007started\030\001 \001(\0132\035.ondewo.vt"
-  "si.CallAudioStartedH\000\022,\n\005audio\030\002 \001(\0132\033.o"
-  "ndewo.vtsi.CallAudioFrameH\000\022,\n\005stats\030\003 \001"
-  "(\0132\033.ondewo.vtsi.CallAudioStatsH\000\022,\n\005end"
-  "ed\030\004 \001(\0132\033.ondewo.vtsi.CallAudioEndedH\000B"
-  "\n\n\010response\"L\n\026ListenCallAudioRequest\0222\n"
-  "\006config\030\001 \001(\0132\".ondewo.vtsi.StreamCallAu"
-  "dioConfig\"s\n\024TransferCallsRequest\022\031\n\021vts"
-  "i_project_name\030\001 \001(\t\022@\n\026transfer_call_re"
-  "quests\030\002 \003(\0132 .ondewo.vtsi.TransferCallR"
-  "equest\"\215\001\n\025TransferCallsResponse\022\031\n\021vtsi"
-  "_project_name\030\001 \001(\t\022B\n\027transfer_call_res"
-  "ponses\030\002 \003(\0132!.ondewo.vtsi.TransferCallR"
-  "esponse\022\025\n\rerror_message\030\003 \001(\t\"\253\001\n\016GetCa"
-  "llRequest\022\031\n\021vtsi_project_name\030\001 \001(\t\022\021\n\t"
-  "call_name\030\002 \001(\t\022-\n\tcall_view\030\003 \001(\0162\025.ond"
-  "ewo.vtsi.CallViewH\000\210\001\001\022.\n\nfield_mask\030\004 \001"
-  "(\0132\032.google.protobuf.FieldMaskB\014\n\n_call_"
-  "view\"\316\n\n\004Call\022\014\n\004name\030\001 \001(\t\022\023\n\013sip_accou"
-  "nt\030\002 \001(\t\022\026\n\016container_name\030\003 \001(\t\022(\n\tcall"
-  "_type\030\004 \001(\0162\025.ondewo.vtsi.CallType\022\024\n\014ph"
-  "one_number\030\005 \001(\t\022.\n\nstart_time\030\006 \001(\0132\032.g"
-  "oogle.protobuf.Timestamp\022,\n\010end_time\030\007 \001"
-  "(\0132\032.google.protobuf.Timestamp\0229\n\017sip_st"
-  "atus_type\030\010 \001(\0162 .ondewo.sip.SipStatus.S"
-  "tatusType\022.\n\nsip_status\030\t \001(\0132\025.ondewo.s"
-  "ip.SipStatusH\000\210\001\001\022E\n\022sip_status_history\030"
-  "\n \001(\0132$.ondewo.sip.SipStatusHistoryRespo"
-  "nseH\001\210\001\001\022@\n\021services_statuses\030\013 \001(\0132 .on"
-  "dewo.vtsi.AllServicesStatusesH\002\210\001\001\022\016\n\006ac"
-  "tive\030\014 \001(\010\022\031\n\021vtsi_project_name\030\r \001(\t\022F\n"
-  "\026common_services_config\030\016 \001(\0132!.ondewo.v"
-  "tsi.CommonServicesConfigH\003\210\001\001\022\025\n\010sip_por"
-  "t\030\017 \001(\005H\004\210\001\001\022\025\n\010csi_port\030\020 \001(\005H\005\210\001\001\022\035\n\020n"
-  "lu_session_name\030\021 \001(\tH\006\210\001\001\022;\n\tplatforms\030"
-  "\022 \001(\0162#.ondewo.nlu.Intent.Message.Platfo"
-  "rmH\007\210\001\001\022\037\n\022redial_recommended\030\023 \001(\010H\010\210\001\001"
-  "\022\032\n\rredial_reason\030\024 \001(\tH\t\210\001\001\0228\n+answerin"
-  "g_machine_detection_end_description\030\025 \001("
-  "\tH\n\210\001\001\0229\n\rmedia_control\030\026 \001(\0132\".ondewo.v"
-  "tsi.CallMediaControlState\0222\n\014participant"
-  "s\030\027 \003(\0132\034.ondewo.vtsi.CallParticipant\0226\n"
-  "\rlast_transfer\030\030 \001(\0132\037.ondewo.vtsi.CallT"
-  "ransferRecord\022\023\n\013sip_call_id\030\031 \001(\t\022-\n\006la"
-  "bels\030\032 \003(\0132\035.ondewo.vtsi.Call.LabelsEntr"
-  "y\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002"
-  " \001(\t:\0028\001B\r\n\013_sip_statusB\025\n\023_sip_status_h"
-  "istoryB\024\n\022_services_statusesB\031\n\027_common_"
-  "services_configB\013\n\t_sip_portB\013\n\t_csi_por"
-  "tB\023\n\021_nlu_session_nameB\014\n\n_platformsB\025\n\023"
-  "_redial_recommendedB\020\n\016_redial_reasonB.\n"
-  ",_answering_machine_detection_end_descri"
-  "ption\"\376\007\n\nCallFilter\022\022\n\ncall_names\030\001 \003(\t"
-  "\022\031\n\021nlu_session_names\030\002 \003(\t\022\024\n\014sip_accou"
-  "nts\030\003 \003(\t\022\025\n\rphone_numbers\030\004 \003(\t\022\027\n\017cont"
-  "ainer_names\030\005 \003(\t\022\025\n\tsip_ports\030\006 \003(\tB\002\030\001"
-  "\022\025\n\tcsi_ports\030\007 \003(\tB\002\030\001\022)\n\ncall_types\030\010 "
-  "\003(\0162\025.ondewo.vtsi.CallType\022:\n\020sip_status"
-  "_types\030\t \003(\0162 .ondewo.sip.SipStatus.Stat"
-  "usType\0221\n\013call_status\030\n \001(\0162\027.ondewo.vts"
-  "i.CallStatusH\001\210\001\001\0223\n\nstart_time\030\013 \001(\0132\032."
-  "google.protobuf.TimestampH\002\210\001\001\0221\n\010end_ti"
-  "me\030\014 \001(\0132\032.google.protobuf.TimestampH\003\210\001"
-  "\001\022\036\n\021duration_in_s_min\030\r \001(\002H\004\210\001\001\022\036\n\021dur"
-  "ation_in_s_max\030\016 \001(\002H\005\210\001\001\0226\n\tplatforms\030\017"
-  " \003(\0162#.ondewo.nlu.Intent.Message.Platfor"
-  "m\022\027\n\rcampaign_name\030\020 \001(\tH\000\022\037\n\025campaign_d"
-  "isplay_name\030\021 \001(\tH\000\0223\n\006labels\030\022 \003(\0132#.on"
-  "dewo.vtsi.CallFilter.LabelsEntry\022\024\n\014call"
-  "er_names\030\023 \003(\t\022\026\n\016listener_names\030\024 \003(\t\022\037"
-  "\n\022redial_recommended\030\025 \001(\010H\006\210\001\001\0227\n\021trans"
-  "fer_outcomes\030\026 \003(\0162\034.ondewo.vtsi.Transfe"
-  "rOutcome\022\030\n\020sip_port_numbers\030\027 \003(\005\022\030\n\020cs"
-  "i_port_numbers\030\030 \003(\005\032-\n\013LabelsEntry\022\013\n\003k"
-  "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\n\n\010campaignB"
-  "\016\n\014_call_statusB\r\n\013_start_timeB\013\n\t_end_t"
-  "imeB\024\n\022_duration_in_s_minB\024\n\022_duration_i"
-  "n_s_maxB\025\n\023_redial_recommended\"\320\001\n\013CallS"
-  "orting\022@\n\rsorting_field\030\001 \001(\0162).ondewo.v"
-  "tsi.CallSorting.CallSortingField\0229\n\014sort"
-  "ing_mode\030\002 \001(\0162#.ondewo.vtsi.VtsiProject"
-  "SortingMode\"D\n\020CallSortingField\022\023\n\017NO_CA"
-  "LL_SORTING\020\000\022\033\n\027SORT_CALL_BY_START_TIME\020"
-  "\001\"\310\002\n\020ListCallsRequest\022\031\n\021vtsi_project_n"
-  "ame\030\001 \001(\t\022-\n\tcall_view\030\002 \001(\0162\025.ondewo.vt"
-  "si.CallViewH\000\210\001\001\0221\n\013call_filter\030\003 \001(\0132\027."
-  "ondewo.vtsi.CallFilterH\001\210\001\001\022\027\n\npage_toke"
-  "n\030\004 \001(\tH\002\210\001\001\022.\n\nfield_mask\030\005 \001(\0132\032.googl"
-  "e.protobuf.FieldMask\022\021\n\tpage_size\030\006 \001(\005\022"
-  ".\n\014call_sorting\030\007 \001(\0132\030.ondewo.vtsi.Call"
-  "SortingB\014\n\n_call_viewB\016\n\014_call_filterB\r\n"
-  "\013_page_token\"b\n\021ListCallsResponse\022 \n\005cal"
-  "ls\030\001 \003(\0132\021.ondewo.vtsi.Call\022\027\n\017next_page"
-  "_token\030\002 \001(\t\022\022\n\ntotal_size\030\003 \001(\005\"\225\001\n\021Upd"
-  "ateCallRequest\022\037\n\004call\030\001 \001(\0132\021.ondewo.vt"
-  "si.Call\022/\n\013update_mask\030\002 \001(\0132\032.google.pr"
-  "otobuf.FieldMask\022.\n\nfield_mask\030\003 \001(\0132\032.g"
-  "oogle.protobuf.FieldMask\"Z\n\022UpdateCallRe"
-  "sponse\022\014\n\004name\030\001 \001(\t\022\037\n\004call\030\002 \001(\0132\021.ond"
-  "ewo.vtsi.Call\022\025\n\rerror_message\030\003 \001(\t\"\235\001\n"
-  "\022UpdateCallsRequest\022\031\n\021vtsi_project_name"
-  "\030\001 \001(\t\022<\n\024update_call_requests\030\002 \003(\0132\036.o"
-  "ndewo.vtsi.UpdateCallRequest\022.\n\nfield_ma"
-  "sk\030\003 \001(\0132\032.google.protobuf.FieldMask\"\207\001\n"
-  "\023UpdateCallsResponse\022\031\n\021vtsi_project_nam"
-  "e\030\001 \001(\t\022>\n\025update_call_responses\030\002 \003(\0132\037"
-  ".ondewo.vtsi.UpdateCallResponse\022\025\n\rerror"
-  "_message\030\003 \001(\t\"c\n\030GetCallStatisticsReque"
-  "st\022\031\n\021vtsi_project_name\030\001 \001(\t\022,\n\013call_fi"
-  "lter\030\002 \001(\0132\027.ondewo.vtsi.CallFilter\"^\n\022S"
-  "ipStatusTypeCount\0229\n\017sip_status_type\030\001 \001"
-  "(\0162 .ondewo.sip.SipStatus.StatusType\022\r\n\005"
-  "count\030\002 \001(\005\"H\n\rCallTypeCount\022(\n\tcall_typ"
-  "e\030\001 \001(\0162\025.ondewo.vtsi.CallType\022\r\n\005count\030"
-  "\002 \001(\005\"f\n\017AmdVerdictCount\022D\n\007verdict\030\001 \001("
-  "\01623.ondewo.sip.AnsweringMachineDetection"
-  "Result.Verdict\022\r\n\005count\030\002 \001(\005\"T\n\024Transfe"
-  "rOutcomeCount\022-\n\007outcome\030\001 \001(\0162\034.ondewo."
-  "vtsi.TransferOutcome\022\r\n\005count\030\002 \001(\005\"\246\003\n\016"
-  "CallStatistics\022\031\n\021vtsi_project_name\030\001 \001("
-  "\t\022\r\n\005total\030\002 \001(\005\022\016\n\006active\030\003 \001(\005\022\?\n\026sip_"
-  "status_type_counts\030\004 \003(\0132\037.ondewo.vtsi.S"
-  "ipStatusTypeCount\0224\n\020call_type_counts\030\005 "
-  "\003(\0132\032.ondewo.vtsi.CallTypeCount\022\023\n\013ended"
-  "_calls\030\006 \001(\005\022\030\n\020total_duration_s\030\007 \001(\001\022\032"
-  "\n\022average_duration_s\030\010 \001(\001\022\032\n\022redial_rec"
-  "ommended\030\t \001(\005\0228\n\022amd_verdict_counts\030\n \003"
-  "(\0132\034.ondewo.vtsi.AmdVerdictCount\022B\n\027tran"
-  "sfer_outcome_counts\030\013 \003(\0132!.ondewo.vtsi."
-  "TransferOutcomeCount\"\212\002\n\023AllServicesStat"
-  "uses\022.\n\nstatus_sip\030\001 \001(\0132\032.ondewo.vtsi.S"
-  "erviceStatus\0223\n\017status_asterisk\030\002 \001(\0132\032."
-  "ondewo.vtsi.ServiceStatus\022.\n\nstatus_nlu\030"
-  "\003 \001(\0132\032.ondewo.vtsi.ServiceStatus\022.\n\nsta"
-  "tus_stt\030\004 \001(\0132\032.ondewo.vtsi.ServiceStatu"
-  "s\022.\n\nstatus_tts\030\005 \001(\0132\032.ondewo.vtsi.Serv"
-  "iceStatus\"7\n\rServiceStatus\022\017\n\007healthy\030\001 "
-  "\001(\010\022\025\n\rerror_message\030\002 \001(\t\"\356\003\n\022CallResou"
-  "rceStatus\022\025\n\rresource_name\030\001 \001(\t\022(\n\tcall"
-  "_type\030\002 \001(\0162\025.ondewo.vtsi.CallType\022\021\n\tca"
-  "ll_name\030\003 \001(\t\022\016\n\006active\030\004 \001(\010\0229\n\017sip_sta"
-  "tus_type\030\005 \001(\0162 .ondewo.sip.SipStatus.St"
-  "atusType\022\036\n\026sip_status_description\030\006 \001(\t"
-  "\022.\n\nstart_time\030\007 \001(\0132\032.google.protobuf.T"
-  "imestamp\022,\n\010end_time\030\010 \001(\0132\032.google.prot"
-  "obuf.Timestamp\022\024\n\014phone_number\030\t \001(\t\022C\n\027"
-  "scheduled_caller_status\030\n \001(\0162\".ondewo.v"
-  "tsi.ScheduledCallerStatus\0222\n\016scheduled_t"
-  "ime\030\013 \001(\0132\032.google.protobuf.Timestamp\022\025\n"
-  "\rcampaign_name\030\014 \001(\t\022\025\n\rerror_message\030\r "
-  "\001(\t\"a\n\031StreamCallerStatusRequest\022\031\n\021vtsi"
-  "_project_name\030\001 \001(\t\022\024\n\014caller_names\030\002 \003("
-  "\t\022\023\n\013active_only\030\003 \001(\010\"e\n\033StreamListener"
-  "StatusRequest\022\031\n\021vtsi_project_name\030\001 \001(\t"
-  "\022\026\n\016listener_names\030\002 \003(\t\022\023\n\013active_only\030"
-  "\003 \001(\010\"\254\001\n\"StreamScheduledCallerStatusReq"
-  "uest\022\031\n\021vtsi_project_name\030\001 \001(\t\022\036\n\026sched"
-  "uled_caller_names\030\002 \003(\t\0224\n\010statuses\030\003 \003("
-  "\0162\".ondewo.vtsi.ScheduledCallerStatus\022\025\n"
-  "\rcampaign_name\030\004 \001(\t\"\267\001\n StreamCallResou"
-  "rceStatusResponse\0221\n\010statuses\030\001 \003(\0132\037.on"
-  "dewo.vtsi.CallResourceStatus\022\036\n\026removed_"
-  "resource_names\030\002 \003(\t\022\020\n\010snapshot\030\003 \001(\010\022\032"
-  "\n\022snapshot_truncated\030\004 \001(\010\022\022\n\nend_reason"
-  "\030\005 \001(\t*\366\001\n\025ScheduledCallerStatus\022\'\n#SCHE"
-  "DULED_CALLER_STATUS_UNSPECIFIED\020\000\022#\n\037SCH"
-  "EDULED_CALLER_STATUS_PENDING\020\001\022\"\n\036SCHEDU"
-  "LED_CALLER_STATUS_FIRING\020\002\022 \n\034SCHEDULED_"
-  "CALLER_STATUS_DONE\020\003\022\"\n\036SCHEDULED_CALLER"
-  "_STATUS_FAILED\020\004\022%\n!SCHEDULED_CALLER_STA"
-  "TUS_CANCELLED\020\005*^\n\014TransferMode\022\035\n\031TRANS"
-  "FER_MODE_UNSPECIFIED\020\000\022\027\n\023TRANSFER_MODE_"
-  "BLIND\020\001\022\026\n\022TRANSFER_MODE_WARM\020\002*\311\002\n\017Tran"
-  "sferOutcome\022 \n\034TRANSFER_OUTCOME_UNSPECIF"
-  "IED\020\000\022\035\n\031TRANSFER_OUTCOME_ACCEPTED\020\001\022\034\n\030"
-  "TRANSFER_OUTCOME_PENDING\020\002\022#\n\037TRANSFER_O"
-  "UTCOME_TARGET_INVALID\020\003\022#\n\037TRANSFER_OUTC"
-  "OME_REFER_REJECTED\020\004\022\034\n\030TRANSFER_OUTCOME"
-  "_TIMEOUT\020\005\022\037\n\033TRANSFER_OUTCOME_CALL_ENDE"
-  "D\020\006\022(\n$TRANSFER_OUTCOME_CALL_SCOPE_MISMA"
-  "TCH\020\007\022$\n TRANSFER_OUTCOME_SIP_UNREACHABL"
-  "E\020\010*k\n\020CallMediaSetting\022 \n\034CALL_MEDIA_SE"
-  "TTING_UNCHANGED\020\000\022\031\n\025CALL_MEDIA_SETTING_"
-  "ON\020\001\022\032\n\026CALL_MEDIA_SETTING_OFF\020\002*r\n\017Part"
-  "icipantMode\022 \n\034PARTICIPANT_MODE_UNSPECIF"
-  "IED\020\000\022\037\n\033PARTICIPANT_MODE_CONFERENCE\020\001\022\034"
-  "\n\030PARTICIPANT_MODE_MONITOR\020\002*\230\001\n\017BotPoli"
-  "cyOnJoin\022\"\n\036BOT_POLICY_ON_JOIN_UNSPECIFI"
-  "ED\020\000\022\034\n\030BOT_POLICY_ON_JOIN_PAUSE\020\001\022&\n\"BO"
-  "T_POLICY_ON_JOIN_PAUSE_LISTENING\020\002\022\033\n\027BO"
-  "T_POLICY_ON_JOIN_KEEP\020\003*\254\001\n\020ParticipantS"
-  "tate\022!\n\035PARTICIPANT_STATE_UNSPECIFIED\020\000\022"
-  "\035\n\031PARTICIPANT_STATE_RINGING\020\001\022\034\n\030PARTIC"
-  "IPANT_STATE_JOINED\020\002\022\034\n\030PARTICIPANT_STAT"
-  "E_FAILED\020\003\022\032\n\026PARTICIPANT_STATE_LEFT\020\004*\227"
-  "\003\n\024ParticipantEndReason\022&\n\"PARTICIPANT_E"
-  "ND_REASON_UNSPECIFIED\020\000\022$\n PARTICIPANT_E"
-  "ND_REASON_NO_ANSWER\020\001\022\037\n\033PARTICIPANT_END"
-  "_REASON_BUSY\020\002\022.\n*PARTICIPANT_END_REASON"
-  "_CHANNEL_UNAVAILABLE\020\003\022%\n!PARTICIPANT_EN"
-  "D_REASON_CALL_ENDED\020\004\022\"\n\036PARTICIPANT_END"
-  "_REASON_REMOVED\020\005\022!\n\035PARTICIPANT_END_REA"
-  "SON_HANGUP\020\006\022&\n\"PARTICIPANT_END_REASON_H"
-  "ANDED_OVER\020\007\022&\n\"PARTICIPANT_END_REASON_J"
-  "OIN_FAILED\020\010\022\"\n\036PARTICIPANT_END_REASON_T"
-  "IMEOUT\020\t*f\n\rCallAudioMode\022\037\n\033CALL_AUDIO_"
-  "MODE_UNSPECIFIED\020\000\022\032\n\026CALL_AUDIO_MODE_LI"
-  "STEN\020\001\022\030\n\024CALL_AUDIO_MODE_TALK\020\002*\245\002\n\022Cal"
-  "lAudioEndReason\022%\n!CALL_AUDIO_END_REASON"
-  "_UNSPECIFIED\020\000\022\'\n#CALL_AUDIO_END_REASON_"
-  "CLIENT_CLOSED\020\001\022$\n CALL_AUDIO_END_REASON"
-  "_CALL_ENDED\020\002\022*\n&CALL_AUDIO_END_REASON_C"
-  "ALL_TRANSFERRED\020\003\022&\n\"CALL_AUDIO_END_REAS"
-  "ON_MAX_DURATION\020\004\022!\n\035CALL_AUDIO_END_REAS"
-  "ON_STALLED\020\005\022\"\n\036CALL_AUDIO_END_REASON_IN"
-  "TERNAL\020\006*.\n\010CallView\022\013\n\007MINIMUM\020\000\022\013\n\007SHA"
-  "LLOW\020\001\022\010\n\004FULL\020\002*[\n\nCallStatus\022\033\n\027CALL_S"
-  "TATUS_UNSPECIFIED\020\000\022\026\n\022CALL_STATUS_ACTIV"
-  "E\020\001\022\030\n\024CALL_STATUS_INACTIVE\020\002*D\n\010CallTyp"
-  "e\022\010\n\004BOTH\020\000\022\014\n\010LISTENER\020\001\022\n\n\006CALLER\020\002\022\024\n"
-  "\020SCHEDULED_CALLER\020\0032\327\"\n\005Calls\022P\n\013StartCa"
-  "ller\022\037.ondewo.vtsi.StartCallerRequest\032 ."
-  "ondewo.vtsi.StartCallerResponse\022S\n\014Start"
-  "Callers\022 .ondewo.vtsi.StartCallersReques"
-  "t\032!.ondewo.vtsi.StartCallersResponse\022P\n\013"
-  "ListCallers\022\037.ondewo.vtsi.ListCallersReq"
-  "uest\032 .ondewo.vtsi.ListCallersResponse\022\?"
-  "\n\tGetCaller\022\035.ondewo.vtsi.GetCallerReque"
-  "st\032\023.ondewo.vtsi.Caller\022S\n\014UpdateCaller\022"
-  " .ondewo.vtsi.UpdateCallerRequest\032!.onde"
-  "wo.vtsi.UpdateCallerResponse\022V\n\rUpdateCa"
-  "llers\022!.ondewo.vtsi.UpdateCallersRequest"
-  "\032\".ondewo.vtsi.UpdateCallersResponse\022S\n\014"
-  "DeleteCaller\022 .ondewo.vtsi.DeleteCallerR"
-  "equest\032!.ondewo.vtsi.DeleteCallerRespons"
-  "e\022V\n\rDeleteCallers\022!.ondewo.vtsi.DeleteC"
-  "allersRequest\032\".ondewo.vtsi.DeleteCaller"
-  "sResponse\022M\n\nStopCaller\022\036.ondewo.vtsi.St"
-  "opCallerRequest\032\037.ondewo.vtsi.StopCaller"
-  "Response\022P\n\013StopCallers\022\037.ondewo.vtsi.St"
-  "opCallersRequest\032 .ondewo.vtsi.StopCalle"
-  "rsResponse\022V\n\rStartListener\022!.ondewo.vts"
-  "i.StartListenerRequest\032\".ondewo.vtsi.Sta"
-  "rtListenerResponse\022Y\n\016StartListeners\022\".o"
-  "ndewo.vtsi.StartListenersRequest\032#.ondew"
-  "o.vtsi.StartListenersResponse\022S\n\014StopLis"
-  "tener\022 .ondewo.vtsi.StopListenerRequest\032"
-  "!.ondewo.vtsi.StopListenerResponse\022V\n\rSt"
-  "opListeners\022!.ondewo.vtsi.StopListenersR"
-  "equest\032\".ondewo.vtsi.StopListenersRespon"
-  "se\022V\n\rListListeners\022!.ondewo.vtsi.ListLi"
-  "stenersRequest\032\".ondewo.vtsi.ListListene"
-  "rsResponse\022E\n\013GetListener\022\037.ondewo.vtsi."
-  "GetListenerRequest\032\025.ondewo.vtsi.Listene"
-  "r\022Y\n\016UpdateListener\022\".ondewo.vtsi.Update"
-  "ListenerRequest\032#.ondewo.vtsi.UpdateList"
-  "enerResponse\022\\\n\017UpdateListeners\022#.ondewo"
-  ".vtsi.UpdateListenersRequest\032$.ondewo.vt"
-  "si.UpdateListenersResponse\022Y\n\016DeleteList"
-  "ener\022\".ondewo.vtsi.DeleteListenerRequest"
-  "\032#.ondewo.vtsi.DeleteListenerResponse\022\\\n"
-  "\017DeleteListeners\022#.ondewo.vtsi.DeleteLis"
-  "tenersRequest\032$.ondewo.vtsi.DeleteListen"
-  "ersResponse\022k\n\024StartScheduledCaller\022(.on"
-  "dewo.vtsi.StartScheduledCallerRequest\032)."
-  "ondewo.vtsi.StartScheduledCallerResponse"
-  "\022n\n\025StartScheduledCallers\022).ondewo.vtsi."
-  "StartScheduledCallersRequest\032*.ondewo.vt"
-  "si.StartScheduledCallersResponse\022k\n\024AddC"
-  "allersToCampaign\022(.ondewo.vtsi.AddCaller"
-  "sToCampaignRequest\032).ondewo.vtsi.AddCall"
-  "ersToCampaignResponse\022\206\001\n\035AddScheduledCa"
-  "llersToCampaign\0221.ondewo.vtsi.AddSchedul"
-  "edCallersToCampaignRequest\0322.ondewo.vtsi"
-  ".AddScheduledCallersToCampaignResponse\022Z"
-  "\n\022GetScheduledCaller\022&.ondewo.vtsi.GetSc"
-  "heduledCallerRequest\032\034.ondewo.vtsi.Sched"
-  "uledCaller\022k\n\024ListScheduledCallers\022(.ond"
-  "ewo.vtsi.ListScheduledCallersRequest\032).o"
-  "ndewo.vtsi.ListScheduledCallersResponse\022"
-  "`\n\025UpdateScheduledCaller\022).ondewo.vtsi.U"
-  "pdateScheduledCallerRequest\032\034.ondewo.vts"
-  "i.ScheduledCaller\022n\n\025CancelScheduledCall"
-  "er\022).ondewo.vtsi.CancelScheduledCallerRe"
-  "quest\032*.ondewo.vtsi.CancelScheduledCalle"
-  "rResponse\022q\n\026CancelScheduledCallers\022*.on"
-  "dewo.vtsi.CancelScheduledCallersRequest\032"
-  "+.ondewo.vtsi.CancelScheduledCallersResp"
-  "onse\022^\n\024RetryScheduledCaller\022(.ondewo.vt"
-  "si.RetryScheduledCallerRequest\032\034.ondewo."
-  "vtsi.ScheduledCaller\022G\n\010StopCall\022\034.ondew"
-  "o.vtsi.StopCallRequest\032\035.ondewo.vtsi.Sto"
-  "pCallResponse\022J\n\tStopCalls\022\035.ondewo.vtsi"
-  ".StopCallsRequest\032\036.ondewo.vtsi.StopCall"
-  "sResponse\022P\n\014StopAllCalls\022 .ondewo.vtsi."
-  "StopAllCallsRequest\032\036.ondewo.vtsi.StopCa"
-  "llsResponse\022S\n\014TransferCall\022 .ondewo.vts"
-  "i.TransferCallRequest\032!.ondewo.vtsi.Tran"
-  "sferCallResponse\022V\n\rTransferCalls\022!.onde"
-  "wo.vtsi.TransferCallsRequest\032\".ondewo.vt"
-  "si.TransferCallsResponse\0229\n\007GetCall\022\033.on"
-  "dewo.vtsi.GetCallRequest\032\021.ondewo.vtsi.C"
-  "all\022J\n\tListCalls\022\035.ondewo.vtsi.ListCalls"
-  "Request\032\036.ondewo.vtsi.ListCallsResponse\022"
-  "W\n\021GetCallStatistics\022%.ondewo.vtsi.GetCa"
-  "llStatisticsRequest\032\033.ondewo.vtsi.CallSt"
-  "atistics\022M\n\nUpdateCall\022\036.ondewo.vtsi.Upd"
-  "ateCallRequest\032\037.ondewo.vtsi.UpdateCallR"
-  "esponse\022P\n\013UpdateCalls\022\037.ondewo.vtsi.Upd"
-  "ateCallsRequest\032 .ondewo.vtsi.UpdateCall"
-  "sResponse\022m\n\022StreamCallerStatus\022&.ondewo"
-  ".vtsi.StreamCallerStatusRequest\032-.ondewo"
+  "\030\002 \001(\t\022\023\n\013queued_keys\030\003 \001(\005\"d\n\034RemoveCal"
+  "lParticipantRequest\022\031\n\021vtsi_project_name"
+  "\030\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t\022\026\n\016participant"
+  "_id\030\003 \001(\t\"\227\001\n\035RemoveCallParticipantRespo"
+  "nse\022\031\n\021vtsi_project_name\030\001 \001(\t\022\021\n\tcall_n"
+  "ame\030\002 \001(\t\0221\n\013participant\030\003 \001(\0132\034.ondewo."
+  "vtsi.CallParticipant\022\025\n\rerror_message\030\004 "
+  "\001(\t\"\262\001\n\032SetCallMediaControlRequest\022\031\n\021vt"
+  "si_project_name\030\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t"
+  "\0220\n\tbot_voice\030\003 \001(\0162\035.ondewo.vtsi.CallMe"
+  "diaSetting\0224\n\rbot_listening\030\004 \001(\0162\035.onde"
+  "wo.vtsi.CallMediaSetting\"\246\001\n\033SetCallMedi"
+  "aControlResponse\022\031\n\021vtsi_project_name\030\001 "
+  "\001(\t\022\021\n\tcall_name\030\002 \001(\t\0221\n\005state\030\003 \001(\0132\"."
+  "ondewo.vtsi.CallMediaControlState\022\017\n\007cha"
+  "nged\030\004 \001(\010\022\025\n\rerror_message\030\005 \001(\t\"\262\001\n\025St"
+  "reamCallAudioConfig\022\031\n\021vtsi_project_name"
+  "\030\001 \001(\t\022\021\n\tcall_name\030\002 \001(\t\022(\n\004mode\030\003 \001(\0162"
+  "\032.ondewo.vtsi.CallAudioMode\022\026\n\016sample_ra"
+  "te_hz\030\004 \001(\005\022\021\n\ttake_over\030\005 \001(\010\022\026\n\016max_du"
+  "ration_s\030\006 \001(\005\"5\n\016CallAudioFrame\022\021\n\tpcm_"
+  "s16le\030\001 \001(\014\022\020\n\010sequence\030\002 \001(\004\"\236\001\n\026Stream"
+  "CallAudioRequest\0224\n\006config\030\001 \001(\0132\".ondew"
+  "o.vtsi.StreamCallAudioConfigH\000\022,\n\005audio\030"
+  "\002 \001(\0132\033.ondewo.vtsi.CallAudioFrameH\000\022\025\n\013"
+  "agent_muted\030\003 \001(\010H\000B\t\n\007request\"y\n\020CallAu"
+  "dioStarted\022\021\n\tstream_id\030\001 \001(\t\022\026\n\016sample_"
+  "rate_hz\030\002 \001(\005\022\020\n\010frame_ms\030\003 \001(\005\022(\n\004mode\030"
+  "\004 \001(\0162\032.ondewo.vtsi.CallAudioMode\"\203\001\n\016Ca"
+  "llAudioStats\022\023\n\013frames_sent\030\001 \001(\004\022\026\n\016fra"
+  "mes_dropped\030\002 \001(\004\022\027\n\017frames_received\030\003 \001"
+  "(\004\022\021\n\tunderruns\030\004 \001(\004\022\030\n\020frames_discarde"
+  "d\030\005 \001(\004\"Q\n\016CallAudioEnded\022/\n\006reason\030\001 \001("
+  "\0162\037.ondewo.vtsi.CallAudioEndReason\022\016\n\006de"
+  "tail\030\002 \001(\t\"\341\001\n\027StreamCallAudioResponse\0220"
+  "\n\007started\030\001 \001(\0132\035.ondewo.vtsi.CallAudioS"
+  "tartedH\000\022,\n\005audio\030\002 \001(\0132\033.ondewo.vtsi.Ca"
+  "llAudioFrameH\000\022,\n\005stats\030\003 \001(\0132\033.ondewo.v"
+  "tsi.CallAudioStatsH\000\022,\n\005ended\030\004 \001(\0132\033.on"
+  "dewo.vtsi.CallAudioEndedH\000B\n\n\010response\"L"
+  "\n\026ListenCallAudioRequest\0222\n\006config\030\001 \001(\013"
+  "2\".ondewo.vtsi.StreamCallAudioConfig\"s\n\024"
+  "TransferCallsRequest\022\031\n\021vtsi_project_nam"
+  "e\030\001 \001(\t\022@\n\026transfer_call_requests\030\002 \003(\0132"
+  " .ondewo.vtsi.TransferCallRequest\"\215\001\n\025Tr"
+  "ansferCallsResponse\022\031\n\021vtsi_project_name"
+  "\030\001 \001(\t\022B\n\027transfer_call_responses\030\002 \003(\0132"
+  "!.ondewo.vtsi.TransferCallResponse\022\025\n\rer"
+  "ror_message\030\003 \001(\t\"\253\001\n\016GetCallRequest\022\031\n\021"
+  "vtsi_project_name\030\001 \001(\t\022\021\n\tcall_name\030\002 \001"
+  "(\t\022-\n\tcall_view\030\003 \001(\0162\025.ondewo.vtsi.Call"
+  "ViewH\000\210\001\001\022.\n\nfield_mask\030\004 \001(\0132\032.google.p"
+  "rotobuf.FieldMaskB\014\n\n_call_view\"\226\013\n\004Call"
+  "\022\014\n\004name\030\001 \001(\t\022\023\n\013sip_account\030\002 \001(\t\022\026\n\016c"
+  "ontainer_name\030\003 \001(\t\022(\n\tcall_type\030\004 \001(\0162\025"
+  ".ondewo.vtsi.CallType\022\024\n\014phone_number\030\005 "
+  "\001(\t\022.\n\nstart_time\030\006 \001(\0132\032.google.protobu"
+  "f.Timestamp\022,\n\010end_time\030\007 \001(\0132\032.google.p"
+  "rotobuf.Timestamp\0229\n\017sip_status_type\030\010 \001"
+  "(\0162 .ondewo.sip.SipStatus.StatusType\022.\n\n"
+  "sip_status\030\t \001(\0132\025.ondewo.sip.SipStatusH"
+  "\000\210\001\001\022E\n\022sip_status_history\030\n \001(\0132$.ondew"
+  "o.sip.SipStatusHistoryResponseH\001\210\001\001\022@\n\021s"
+  "ervices_statuses\030\013 \001(\0132 .ondewo.vtsi.All"
+  "ServicesStatusesH\002\210\001\001\022\016\n\006active\030\014 \001(\010\022\031\n"
+  "\021vtsi_project_name\030\r \001(\t\022F\n\026common_servi"
+  "ces_config\030\016 \001(\0132!.ondewo.vtsi.CommonSer"
+  "vicesConfigH\003\210\001\001\022\025\n\010sip_port\030\017 \001(\005H\004\210\001\001\022"
+  "\025\n\010csi_port\030\020 \001(\005H\005\210\001\001\022\035\n\020nlu_session_na"
+  "me\030\021 \001(\tH\006\210\001\001\022;\n\tplatforms\030\022 \001(\0162#.ondew"
+  "o.nlu.Intent.Message.PlatformH\007\210\001\001\022\037\n\022re"
+  "dial_recommended\030\023 \001(\010H\010\210\001\001\022\032\n\rredial_re"
+  "ason\030\024 \001(\tH\t\210\001\001\0228\n+answering_machine_det"
+  "ection_end_description\030\025 \001(\tH\n\210\001\001\0229\n\rmed"
+  "ia_control\030\026 \001(\0132\".ondewo.vtsi.CallMedia"
+  "ControlState\0222\n\014participants\030\027 \003(\0132\034.ond"
+  "ewo.vtsi.CallParticipant\0226\n\rlast_transfe"
+  "r\030\030 \001(\0132\037.ondewo.vtsi.CallTransferRecord"
+  "\022\023\n\013sip_call_id\030\031 \001(\t\022-\n\006labels\030\032 \003(\0132\035."
+  "ondewo.vtsi.Call.LabelsEntry\022\035\n\025ivr_menu"
+  "_display_name\030\033 \001(\t\022\020\n\010ivr_path\030\034 \001(\t\022\025\n"
+  "\rivr_menu_name\030\035 \001(\t\032-\n\013LabelsEntry\022\013\n\003k"
+  "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\r\n\013_sip_stat"
+  "usB\025\n\023_sip_status_historyB\024\n\022_services_s"
+  "tatusesB\031\n\027_common_services_configB\013\n\t_s"
+  "ip_portB\013\n\t_csi_portB\023\n\021_nlu_session_nam"
+  "eB\014\n\n_platformsB\025\n\023_redial_recommendedB\020"
+  "\n\016_redial_reasonB.\n,_answering_machine_d"
+  "etection_end_description\"\376\007\n\nCallFilter\022"
+  "\022\n\ncall_names\030\001 \003(\t\022\031\n\021nlu_session_names"
+  "\030\002 \003(\t\022\024\n\014sip_accounts\030\003 \003(\t\022\025\n\rphone_nu"
+  "mbers\030\004 \003(\t\022\027\n\017container_names\030\005 \003(\t\022\025\n\t"
+  "sip_ports\030\006 \003(\tB\002\030\001\022\025\n\tcsi_ports\030\007 \003(\tB\002"
+  "\030\001\022)\n\ncall_types\030\010 \003(\0162\025.ondewo.vtsi.Cal"
+  "lType\022:\n\020sip_status_types\030\t \003(\0162 .ondewo"
+  ".sip.SipStatus.StatusType\0221\n\013call_status"
+  "\030\n \001(\0162\027.ondewo.vtsi.CallStatusH\001\210\001\001\0223\n\n"
+  "start_time\030\013 \001(\0132\032.google.protobuf.Times"
+  "tampH\002\210\001\001\0221\n\010end_time\030\014 \001(\0132\032.google.pro"
+  "tobuf.TimestampH\003\210\001\001\022\036\n\021duration_in_s_mi"
+  "n\030\r \001(\002H\004\210\001\001\022\036\n\021duration_in_s_max\030\016 \001(\002H"
+  "\005\210\001\001\0226\n\tplatforms\030\017 \003(\0162#.ondewo.nlu.Int"
+  "ent.Message.Platform\022\027\n\rcampaign_name\030\020 "
+  "\001(\tH\000\022\037\n\025campaign_display_name\030\021 \001(\tH\000\0223"
+  "\n\006labels\030\022 \003(\0132#.ondewo.vtsi.CallFilter."
+  "LabelsEntry\022\024\n\014caller_names\030\023 \003(\t\022\026\n\016lis"
+  "tener_names\030\024 \003(\t\022\037\n\022redial_recommended\030"
+  "\025 \001(\010H\006\210\001\001\0227\n\021transfer_outcomes\030\026 \003(\0162\034."
+  "ondewo.vtsi.TransferOutcome\022\030\n\020sip_port_"
+  "numbers\030\027 \003(\005\022\030\n\020csi_port_numbers\030\030 \003(\005\032"
+  "-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001"
+  "(\t:\0028\001B\n\n\010campaignB\016\n\014_call_statusB\r\n\013_s"
+  "tart_timeB\013\n\t_end_timeB\024\n\022_duration_in_s"
+  "_minB\024\n\022_duration_in_s_maxB\025\n\023_redial_re"
+  "commended\"\320\001\n\013CallSorting\022@\n\rsorting_fie"
+  "ld\030\001 \001(\0162).ondewo.vtsi.CallSorting.CallS"
+  "ortingField\0229\n\014sorting_mode\030\002 \001(\0162#.onde"
+  "wo.vtsi.VtsiProjectSortingMode\"D\n\020CallSo"
+  "rtingField\022\023\n\017NO_CALL_SORTING\020\000\022\033\n\027SORT_"
+  "CALL_BY_START_TIME\020\001\"\310\002\n\020ListCallsReques"
+  "t\022\031\n\021vtsi_project_name\030\001 \001(\t\022-\n\tcall_vie"
+  "w\030\002 \001(\0162\025.ondewo.vtsi.CallViewH\000\210\001\001\0221\n\013c"
+  "all_filter\030\003 \001(\0132\027.ondewo.vtsi.CallFilte"
+  "rH\001\210\001\001\022\027\n\npage_token\030\004 \001(\tH\002\210\001\001\022.\n\nfield"
+  "_mask\030\005 \001(\0132\032.google.protobuf.FieldMask\022"
+  "\021\n\tpage_size\030\006 \001(\005\022.\n\014call_sorting\030\007 \001(\013"
+  "2\030.ondewo.vtsi.CallSortingB\014\n\n_call_view"
+  "B\016\n\014_call_filterB\r\n\013_page_token\"b\n\021ListC"
+  "allsResponse\022 \n\005calls\030\001 \003(\0132\021.ondewo.vts"
+  "i.Call\022\027\n\017next_page_token\030\002 \001(\t\022\022\n\ntotal"
+  "_size\030\003 \001(\005\"\225\001\n\021UpdateCallRequest\022\037\n\004cal"
+  "l\030\001 \001(\0132\021.ondewo.vtsi.Call\022/\n\013update_mas"
+  "k\030\002 \001(\0132\032.google.protobuf.FieldMask\022.\n\nf"
+  "ield_mask\030\003 \001(\0132\032.google.protobuf.FieldM"
+  "ask\"Z\n\022UpdateCallResponse\022\014\n\004name\030\001 \001(\t\022"
+  "\037\n\004call\030\002 \001(\0132\021.ondewo.vtsi.Call\022\025\n\rerro"
+  "r_message\030\003 \001(\t\"\235\001\n\022UpdateCallsRequest\022\031"
+  "\n\021vtsi_project_name\030\001 \001(\t\022<\n\024update_call"
+  "_requests\030\002 \003(\0132\036.ondewo.vtsi.UpdateCall"
+  "Request\022.\n\nfield_mask\030\003 \001(\0132\032.google.pro"
+  "tobuf.FieldMask\"\207\001\n\023UpdateCallsResponse\022"
+  "\031\n\021vtsi_project_name\030\001 \001(\t\022>\n\025update_cal"
+  "l_responses\030\002 \003(\0132\037.ondewo.vtsi.UpdateCa"
+  "llResponse\022\025\n\rerror_message\030\003 \001(\t\"c\n\030Get"
+  "CallStatisticsRequest\022\031\n\021vtsi_project_na"
+  "me\030\001 \001(\t\022,\n\013call_filter\030\002 \001(\0132\027.ondewo.v"
+  "tsi.CallFilter\"^\n\022SipStatusTypeCount\0229\n\017"
+  "sip_status_type\030\001 \001(\0162 .ondewo.sip.SipSt"
+  "atus.StatusType\022\r\n\005count\030\002 \001(\005\"H\n\rCallTy"
+  "peCount\022(\n\tcall_type\030\001 \001(\0162\025.ondewo.vtsi"
+  ".CallType\022\r\n\005count\030\002 \001(\005\"f\n\017AmdVerdictCo"
+  "unt\022D\n\007verdict\030\001 \001(\01623.ondewo.sip.Answer"
+  "ingMachineDetectionResult.Verdict\022\r\n\005cou"
+  "nt\030\002 \001(\005\"T\n\024TransferOutcomeCount\022-\n\007outc"
+  "ome\030\001 \001(\0162\034.ondewo.vtsi.TransferOutcome\022"
+  "\r\n\005count\030\002 \001(\005\"\246\003\n\016CallStatistics\022\031\n\021vts"
+  "i_project_name\030\001 \001(\t\022\r\n\005total\030\002 \001(\005\022\016\n\006a"
+  "ctive\030\003 \001(\005\022\?\n\026sip_status_type_counts\030\004 "
+  "\003(\0132\037.ondewo.vtsi.SipStatusTypeCount\0224\n\020"
+  "call_type_counts\030\005 \003(\0132\032.ondewo.vtsi.Cal"
+  "lTypeCount\022\023\n\013ended_calls\030\006 \001(\005\022\030\n\020total"
+  "_duration_s\030\007 \001(\001\022\032\n\022average_duration_s\030"
+  "\010 \001(\001\022\032\n\022redial_recommended\030\t \001(\005\0228\n\022amd"
+  "_verdict_counts\030\n \003(\0132\034.ondewo.vtsi.AmdV"
+  "erdictCount\022B\n\027transfer_outcome_counts\030\013"
+  " \003(\0132!.ondewo.vtsi.TransferOutcomeCount\""
+  "\212\002\n\023AllServicesStatuses\022.\n\nstatus_sip\030\001 "
+  "\001(\0132\032.ondewo.vtsi.ServiceStatus\0223\n\017statu"
+  "s_asterisk\030\002 \001(\0132\032.ondewo.vtsi.ServiceSt"
+  "atus\022.\n\nstatus_nlu\030\003 \001(\0132\032.ondewo.vtsi.S"
+  "erviceStatus\022.\n\nstatus_stt\030\004 \001(\0132\032.ondew"
+  "o.vtsi.ServiceStatus\022.\n\nstatus_tts\030\005 \001(\013"
+  "2\032.ondewo.vtsi.ServiceStatus\"7\n\rServiceS"
+  "tatus\022\017\n\007healthy\030\001 \001(\010\022\025\n\rerror_message\030"
+  "\002 \001(\t\"\356\003\n\022CallResourceStatus\022\025\n\rresource"
+  "_name\030\001 \001(\t\022(\n\tcall_type\030\002 \001(\0162\025.ondewo."
+  "vtsi.CallType\022\021\n\tcall_name\030\003 \001(\t\022\016\n\006acti"
+  "ve\030\004 \001(\010\0229\n\017sip_status_type\030\005 \001(\0162 .onde"
+  "wo.sip.SipStatus.StatusType\022\036\n\026sip_statu"
+  "s_description\030\006 \001(\t\022.\n\nstart_time\030\007 \001(\0132"
+  "\032.google.protobuf.Timestamp\022,\n\010end_time\030"
+  "\010 \001(\0132\032.google.protobuf.Timestamp\022\024\n\014pho"
+  "ne_number\030\t \001(\t\022C\n\027scheduled_caller_stat"
+  "us\030\n \001(\0162\".ondewo.vtsi.ScheduledCallerSt"
+  "atus\0222\n\016scheduled_time\030\013 \001(\0132\032.google.pr"
+  "otobuf.Timestamp\022\025\n\rcampaign_name\030\014 \001(\t\022"
+  "\025\n\rerror_message\030\r \001(\t\"a\n\031StreamCallerSt"
+  "atusRequest\022\031\n\021vtsi_project_name\030\001 \001(\t\022\024"
+  "\n\014caller_names\030\002 \003(\t\022\023\n\013active_only\030\003 \001("
+  "\010\"e\n\033StreamListenerStatusRequest\022\031\n\021vtsi"
+  "_project_name\030\001 \001(\t\022\026\n\016listener_names\030\002 "
+  "\003(\t\022\023\n\013active_only\030\003 \001(\010\"\254\001\n\"StreamSched"
+  "uledCallerStatusRequest\022\031\n\021vtsi_project_"
+  "name\030\001 \001(\t\022\036\n\026scheduled_caller_names\030\002 \003"
+  "(\t\0224\n\010statuses\030\003 \003(\0162\".ondewo.vtsi.Sched"
+  "uledCallerStatus\022\025\n\rcampaign_name\030\004 \001(\t\""
+  "\267\001\n StreamCallResourceStatusResponse\0221\n\010"
+  "statuses\030\001 \003(\0132\037.ondewo.vtsi.CallResourc"
+  "eStatus\022\036\n\026removed_resource_names\030\002 \003(\t\022"
+  "\020\n\010snapshot\030\003 \001(\010\022\032\n\022snapshot_truncated\030"
+  "\004 \001(\010\022\022\n\nend_reason\030\005 \001(\t*\366\001\n\025ScheduledC"
+  "allerStatus\022\'\n#SCHEDULED_CALLER_STATUS_U"
+  "NSPECIFIED\020\000\022#\n\037SCHEDULED_CALLER_STATUS_"
+  "PENDING\020\001\022\"\n\036SCHEDULED_CALLER_STATUS_FIR"
+  "ING\020\002\022 \n\034SCHEDULED_CALLER_STATUS_DONE\020\003\022"
+  "\"\n\036SCHEDULED_CALLER_STATUS_FAILED\020\004\022%\n!S"
+  "CHEDULED_CALLER_STATUS_CANCELLED\020\005*^\n\014Tr"
+  "ansferMode\022\035\n\031TRANSFER_MODE_UNSPECIFIED\020"
+  "\000\022\027\n\023TRANSFER_MODE_BLIND\020\001\022\026\n\022TRANSFER_M"
+  "ODE_WARM\020\002*\333\003\n\017TransferOutcome\022 \n\034TRANSF"
+  "ER_OUTCOME_UNSPECIFIED\020\000\022\035\n\031TRANSFER_OUT"
+  "COME_ACCEPTED\020\001\022\034\n\030TRANSFER_OUTCOME_PEND"
+  "ING\020\002\022#\n\037TRANSFER_OUTCOME_TARGET_INVALID"
+  "\020\003\022#\n\037TRANSFER_OUTCOME_REFER_REJECTED\020\004\022"
+  "\034\n\030TRANSFER_OUTCOME_TIMEOUT\020\005\022\037\n\033TRANSFE"
+  "R_OUTCOME_CALL_ENDED\020\006\022(\n$TRANSFER_OUTCO"
+  "ME_CALL_SCOPE_MISMATCH\020\007\022$\n TRANSFER_OUT"
+  "COME_SIP_UNREACHABLE\020\010\022\035\n\031TRANSFER_OUTCO"
+  "ME_DECLINED\020\t\022 \n\034TRANSFER_OUTCOME_NO_DEC"
+  "ISION\020\n\022\'\n#TRANSFER_OUTCOME_TARGET_UNAVA"
+  "ILABLE\020\013\022&\n\"TRANSFER_OUTCOME_INTRO_UNAVA"
+  "ILABLE\020\014*k\n\020CallMediaSetting\022 \n\034CALL_MED"
+  "IA_SETTING_UNCHANGED\020\000\022\031\n\025CALL_MEDIA_SET"
+  "TING_ON\020\001\022\032\n\026CALL_MEDIA_SETTING_OFF\020\002*r\n"
+  "\017ParticipantMode\022 \n\034PARTICIPANT_MODE_UNS"
+  "PECIFIED\020\000\022\037\n\033PARTICIPANT_MODE_CONFERENC"
+  "E\020\001\022\034\n\030PARTICIPANT_MODE_MONITOR\020\002*\230\001\n\017Bo"
+  "tPolicyOnJoin\022\"\n\036BOT_POLICY_ON_JOIN_UNSP"
+  "ECIFIED\020\000\022\034\n\030BOT_POLICY_ON_JOIN_PAUSE\020\001\022"
+  "&\n\"BOT_POLICY_ON_JOIN_PAUSE_LISTENING\020\002\022"
+  "\033\n\027BOT_POLICY_ON_JOIN_KEEP\020\003*\254\001\n\020Partici"
+  "pantState\022!\n\035PARTICIPANT_STATE_UNSPECIFI"
+  "ED\020\000\022\035\n\031PARTICIPANT_STATE_RINGING\020\001\022\034\n\030P"
+  "ARTICIPANT_STATE_JOINED\020\002\022\034\n\030PARTICIPANT"
+  "_STATE_FAILED\020\003\022\032\n\026PARTICIPANT_STATE_LEF"
+  "T\020\004*\227\003\n\024ParticipantEndReason\022&\n\"PARTICIP"
+  "ANT_END_REASON_UNSPECIFIED\020\000\022$\n PARTICIP"
+  "ANT_END_REASON_NO_ANSWER\020\001\022\037\n\033PARTICIPAN"
+  "T_END_REASON_BUSY\020\002\022.\n*PARTICIPANT_END_R"
+  "EASON_CHANNEL_UNAVAILABLE\020\003\022%\n!PARTICIPA"
+  "NT_END_REASON_CALL_ENDED\020\004\022\"\n\036PARTICIPAN"
+  "T_END_REASON_REMOVED\020\005\022!\n\035PARTICIPANT_EN"
+  "D_REASON_HANGUP\020\006\022&\n\"PARTICIPANT_END_REA"
+  "SON_HANDED_OVER\020\007\022&\n\"PARTICIPANT_END_REA"
+  "SON_JOIN_FAILED\020\010\022\"\n\036PARTICIPANT_END_REA"
+  "SON_TIMEOUT\020\t*f\n\rCallAudioMode\022\037\n\033CALL_A"
+  "UDIO_MODE_UNSPECIFIED\020\000\022\032\n\026CALL_AUDIO_MO"
+  "DE_LISTEN\020\001\022\030\n\024CALL_AUDIO_MODE_TALK\020\002*\245\002"
+  "\n\022CallAudioEndReason\022%\n!CALL_AUDIO_END_R"
+  "EASON_UNSPECIFIED\020\000\022\'\n#CALL_AUDIO_END_RE"
+  "ASON_CLIENT_CLOSED\020\001\022$\n CALL_AUDIO_END_R"
+  "EASON_CALL_ENDED\020\002\022*\n&CALL_AUDIO_END_REA"
+  "SON_CALL_TRANSFERRED\020\003\022&\n\"CALL_AUDIO_END"
+  "_REASON_MAX_DURATION\020\004\022!\n\035CALL_AUDIO_END"
+  "_REASON_STALLED\020\005\022\"\n\036CALL_AUDIO_END_REAS"
+  "ON_INTERNAL\020\006*.\n\010CallView\022\013\n\007MINIMUM\020\000\022\013"
+  "\n\007SHALLOW\020\001\022\010\n\004FULL\020\002*[\n\nCallStatus\022\033\n\027C"
+  "ALL_STATUS_UNSPECIFIED\020\000\022\026\n\022CALL_STATUS_"
+  "ACTIVE\020\001\022\030\n\024CALL_STATUS_INACTIVE\020\002*D\n\010Ca"
+  "llType\022\010\n\004BOTH\020\000\022\014\n\010LISTENER\020\001\022\n\n\006CALLER"
+  "\020\002\022\024\n\020SCHEDULED_CALLER\020\0032\254#\n\005Calls\022P\n\013St"
+  "artCaller\022\037.ondewo.vtsi.StartCallerReque"
+  "st\032 .ondewo.vtsi.StartCallerResponse\022S\n\014"
+  "StartCallers\022 .ondewo.vtsi.StartCallersR"
+  "equest\032!.ondewo.vtsi.StartCallersRespons"
+  "e\022P\n\013ListCallers\022\037.ondewo.vtsi.ListCalle"
+  "rsRequest\032 .ondewo.vtsi.ListCallersRespo"
+  "nse\022\?\n\tGetCaller\022\035.ondewo.vtsi.GetCaller"
+  "Request\032\023.ondewo.vtsi.Caller\022S\n\014UpdateCa"
+  "ller\022 .ondewo.vtsi.UpdateCallerRequest\032!"
+  ".ondewo.vtsi.UpdateCallerResponse\022V\n\rUpd"
+  "ateCallers\022!.ondewo.vtsi.UpdateCallersRe"
+  "quest\032\".ondewo.vtsi.UpdateCallersRespons"
+  "e\022S\n\014DeleteCaller\022 .ondewo.vtsi.DeleteCa"
+  "llerRequest\032!.ondewo.vtsi.DeleteCallerRe"
+  "sponse\022V\n\rDeleteCallers\022!.ondewo.vtsi.De"
+  "leteCallersRequest\032\".ondewo.vtsi.DeleteC"
+  "allersResponse\022M\n\nStopCaller\022\036.ondewo.vt"
+  "si.StopCallerRequest\032\037.ondewo.vtsi.StopC"
+  "allerResponse\022P\n\013StopCallers\022\037.ondewo.vt"
+  "si.StopCallersRequest\032 .ondewo.vtsi.Stop"
+  "CallersResponse\022V\n\rStartListener\022!.ondew"
+  "o.vtsi.StartListenerRequest\032\".ondewo.vts"
+  "i.StartListenerResponse\022Y\n\016StartListener"
+  "s\022\".ondewo.vtsi.StartListenersRequest\032#."
+  "ondewo.vtsi.StartListenersResponse\022S\n\014St"
+  "opListener\022 .ondewo.vtsi.StopListenerReq"
+  "uest\032!.ondewo.vtsi.StopListenerResponse\022"
+  "V\n\rStopListeners\022!.ondewo.vtsi.StopListe"
+  "nersRequest\032\".ondewo.vtsi.StopListenersR"
+  "esponse\022V\n\rListListeners\022!.ondewo.vtsi.L"
+  "istListenersRequest\032\".ondewo.vtsi.ListLi"
+  "stenersResponse\022E\n\013GetListener\022\037.ondewo."
+  "vtsi.GetListenerRequest\032\025.ondewo.vtsi.Li"
+  "stener\022Y\n\016UpdateListener\022\".ondewo.vtsi.U"
+  "pdateListenerRequest\032#.ondewo.vtsi.Updat"
+  "eListenerResponse\022\\\n\017UpdateListeners\022#.o"
+  "ndewo.vtsi.UpdateListenersRequest\032$.onde"
+  "wo.vtsi.UpdateListenersResponse\022Y\n\016Delet"
+  "eListener\022\".ondewo.vtsi.DeleteListenerRe"
+  "quest\032#.ondewo.vtsi.DeleteListenerRespon"
+  "se\022\\\n\017DeleteListeners\022#.ondewo.vtsi.Dele"
+  "teListenersRequest\032$.ondewo.vtsi.DeleteL"
+  "istenersResponse\022k\n\024StartScheduledCaller"
+  "\022(.ondewo.vtsi.StartScheduledCallerReque"
+  "st\032).ondewo.vtsi.StartScheduledCallerRes"
+  "ponse\022n\n\025StartScheduledCallers\022).ondewo."
+  "vtsi.StartScheduledCallersRequest\032*.onde"
+  "wo.vtsi.StartScheduledCallersResponse\022k\n"
+  "\024AddCallersToCampaign\022(.ondewo.vtsi.AddC"
+  "allersToCampaignRequest\032).ondewo.vtsi.Ad"
+  "dCallersToCampaignResponse\022\206\001\n\035AddSchedu"
+  "ledCallersToCampaign\0221.ondewo.vtsi.AddSc"
+  "heduledCallersToCampaignRequest\0322.ondewo"
+  ".vtsi.AddScheduledCallersToCampaignRespo"
+  "nse\022Z\n\022GetScheduledCaller\022&.ondewo.vtsi."
+  "GetScheduledCallerRequest\032\034.ondewo.vtsi."
+  "ScheduledCaller\022k\n\024ListScheduledCallers\022"
+  "(.ondewo.vtsi.ListScheduledCallersReques"
+  "t\032).ondewo.vtsi.ListScheduledCallersResp"
+  "onse\022`\n\025UpdateScheduledCaller\022).ondewo.v"
+  "tsi.UpdateScheduledCallerRequest\032\034.ondew"
+  "o.vtsi.ScheduledCaller\022n\n\025CancelSchedule"
+  "dCaller\022).ondewo.vtsi.CancelScheduledCal"
+  "lerRequest\032*.ondewo.vtsi.CancelScheduled"
+  "CallerResponse\022q\n\026CancelScheduledCallers"
+  "\022*.ondewo.vtsi.CancelScheduledCallersReq"
+  "uest\032+.ondewo.vtsi.CancelScheduledCaller"
+  "sResponse\022^\n\024RetryScheduledCaller\022(.onde"
+  "wo.vtsi.RetryScheduledCallerRequest\032\034.on"
+  "dewo.vtsi.ScheduledCaller\022G\n\010StopCall\022\034."
+  "ondewo.vtsi.StopCallRequest\032\035.ondewo.vts"
+  "i.StopCallResponse\022J\n\tStopCalls\022\035.ondewo"
+  ".vtsi.StopCallsRequest\032\036.ondewo.vtsi.Sto"
+  "pCallsResponse\022P\n\014StopAllCalls\022 .ondewo."
+  "vtsi.StopAllCallsRequest\032\036.ondewo.vtsi.S"
+  "topCallsResponse\022S\n\014TransferCall\022 .ondew"
+  "o.vtsi.TransferCallRequest\032!.ondewo.vtsi"
+  ".TransferCallResponse\022V\n\rTransferCalls\022!"
+  ".ondewo.vtsi.TransferCallsRequest\032\".onde"
+  "wo.vtsi.TransferCallsResponse\0229\n\007GetCall"
+  "\022\033.ondewo.vtsi.GetCallRequest\032\021.ondewo.v"
+  "tsi.Call\022J\n\tListCalls\022\035.ondewo.vtsi.List"
+  "CallsRequest\032\036.ondewo.vtsi.ListCallsResp"
+  "onse\022W\n\021GetCallStatistics\022%.ondewo.vtsi."
+  "GetCallStatisticsRequest\032\033.ondewo.vtsi.C"
+  "allStatistics\022M\n\nUpdateCall\022\036.ondewo.vts"
+  "i.UpdateCallRequest\032\037.ondewo.vtsi.Update"
+  "CallResponse\022P\n\013UpdateCalls\022\037.ondewo.vts"
+  "i.UpdateCallsRequest\032 .ondewo.vtsi.Updat"
+  "eCallsResponse\022m\n\022StreamCallerStatus\022&.o"
+  "ndewo.vtsi.StreamCallerStatusRequest\032-.o"
+  "ndewo.vtsi.StreamCallResourceStatusRespo"
+  "nse0\001\022q\n\024StreamListenerStatus\022(.ondewo.v"
+  "tsi.StreamListenerStatusRequest\032-.ondewo"
   ".vtsi.StreamCallResourceStatusResponse0\001"
-  "\022q\n\024StreamListenerStatus\022(.ondewo.vtsi.S"
-  "treamListenerStatusRequest\032-.ondewo.vtsi"
-  ".StreamCallResourceStatusResponse0\001\022\177\n\033S"
-  "treamScheduledCallerStatus\022/.ondewo.vtsi"
-  ".StreamScheduledCallerStatusRequest\032-.on"
-  "dewo.vtsi.StreamCallResourceStatusRespon"
-  "se0\001\022S\n\014InviteToCall\022 .ondewo.vtsi.Invit"
-  "eToCallRequest\032!.ondewo.vtsi.InviteToCal"
-  "lResponse\022n\n\025RemoveCallParticipant\022).ond"
-  "ewo.vtsi.RemoveCallParticipantRequest\032*."
-  "ondewo.vtsi.RemoveCallParticipantRespons"
-  "e\022h\n\023SetCallMediaControl\022\'.ondewo.vtsi.S"
-  "etCallMediaControlRequest\032(.ondewo.vtsi."
-  "SetCallMediaControlResponse\022`\n\017StreamCal"
-  "lAudio\022#.ondewo.vtsi.StreamCallAudioRequ"
-  "est\032$.ondewo.vtsi.StreamCallAudioRespons"
-  "e(\0010\001\022^\n\017ListenCallAudio\022#.ondewo.vtsi.L"
-  "istenCallAudioRequest\032$.ondewo.vtsi.Stre"
-  "amCallAudioResponse0\001P\004b\006proto3"
+  "\022\177\n\033StreamScheduledCallerStatus\022/.ondewo"
+  ".vtsi.StreamScheduledCallerStatusRequest"
+  "\032-.ondewo.vtsi.StreamCallResourceStatusR"
+  "esponse0\001\022S\n\014InviteToCall\022 .ondewo.vtsi."
+  "InviteToCallRequest\032!.ondewo.vtsi.Invite"
+  "ToCallResponse\022n\n\025RemoveCallParticipant\022"
+  ").ondewo.vtsi.RemoveCallParticipantReque"
+  "st\032*.ondewo.vtsi.RemoveCallParticipantRe"
+  "sponse\022h\n\023SetCallMediaControl\022\'.ondewo.v"
+  "tsi.SetCallMediaControlRequest\032(.ondewo."
+  "vtsi.SetCallMediaControlResponse\022S\n\014Send"
+  "CallDtmf\022 .ondewo.vtsi.SendCallDtmfReque"
+  "st\032!.ondewo.vtsi.SendCallDtmfResponse\022`\n"
+  "\017StreamCallAudio\022#.ondewo.vtsi.StreamCal"
+  "lAudioRequest\032$.ondewo.vtsi.StreamCallAu"
+  "dioResponse(\0010\001\022^\n\017ListenCallAudio\022#.ond"
+  "ewo.vtsi.ListenCallAudioRequest\032$.ondewo"
+  ".vtsi.StreamCallAudioResponse0\001P\004b\006proto"
+  "3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_deps[7] = {
   &::descriptor_table_google_2fprotobuf_2ffield_5fmask_2eproto,
@@ -4065,9 +4151,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fcal
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fvtsi_2fcalls_2eproto = {
-    false, false, 27431, descriptor_table_protodef_ondewo_2fvtsi_2fcalls_2eproto,
+    false, false, 28121, descriptor_table_protodef_ondewo_2fvtsi_2fcalls_2eproto,
     "ondewo/vtsi/calls.proto",
-    &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once, descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_deps, 7, 113,
+    &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once, descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_deps, 7, 115,
     schemas, file_default_instances, TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets,
     file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto, file_level_enum_descriptors_ondewo_2fvtsi_2fcalls_2eproto,
     file_level_service_descriptors_ondewo_2fvtsi_2fcalls_2eproto,
@@ -4149,6 +4235,10 @@ bool TransferOutcome_IsValid(int value) {
     case 6:
     case 7:
     case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
       return true;
     default:
       return false;
@@ -24830,11 +24920,22 @@ void TransferCallRequest_HeadersEntry_DoNotUse::MergeFrom(const TransferCallRequ
 class TransferCallRequest::_Internal {
  public:
   static const ::ondewo::vtsi::CallTarget& target(const TransferCallRequest* msg);
+  static const ::ondewo::vtsi::WarmTransferConfig& warm_transfer_config(const TransferCallRequest* msg);
 };
 
 const ::ondewo::vtsi::CallTarget&
 TransferCallRequest::_Internal::target(const TransferCallRequest* msg) {
   return *msg->_impl_.target_;
+}
+const ::ondewo::vtsi::WarmTransferConfig&
+TransferCallRequest::_Internal::warm_transfer_config(const TransferCallRequest* msg) {
+  return *msg->_impl_.warm_transfer_config_;
+}
+void TransferCallRequest::clear_warm_transfer_config() {
+  if (GetArenaForAllocation() == nullptr && _impl_.warm_transfer_config_ != nullptr) {
+    delete _impl_.warm_transfer_config_;
+  }
+  _impl_.warm_transfer_config_ = nullptr;
 }
 TransferCallRequest::TransferCallRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -24855,6 +24956,7 @@ TransferCallRequest::TransferCallRequest(const TransferCallRequest& from)
     , decltype(_impl_.transfer_id_){}
     , decltype(_impl_.request_id_){}
     , decltype(_impl_.target_){nullptr}
+    , decltype(_impl_.warm_transfer_config_){nullptr}
     , decltype(_impl_.mode_){}
     , decltype(_impl_.ring_timeout_s_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -24896,6 +24998,9 @@ TransferCallRequest::TransferCallRequest(const TransferCallRequest& from)
   if (from._internal_has_target()) {
     _this->_impl_.target_ = new ::ondewo::vtsi::CallTarget(*from._impl_.target_);
   }
+  if (from._internal_has_warm_transfer_config()) {
+    _this->_impl_.warm_transfer_config_ = new ::ondewo::vtsi::WarmTransferConfig(*from._impl_.warm_transfer_config_);
+  }
   ::memcpy(&_impl_.mode_, &from._impl_.mode_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.ring_timeout_s_) -
     reinterpret_cast<char*>(&_impl_.mode_)) + sizeof(_impl_.ring_timeout_s_));
@@ -24913,6 +25018,7 @@ inline void TransferCallRequest::SharedCtor(
     , decltype(_impl_.transfer_id_){}
     , decltype(_impl_.request_id_){}
     , decltype(_impl_.target_){nullptr}
+    , decltype(_impl_.warm_transfer_config_){nullptr}
     , decltype(_impl_.mode_){0}
     , decltype(_impl_.ring_timeout_s_){0}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -24954,6 +25060,7 @@ inline void TransferCallRequest::SharedDtor() {
   _impl_.transfer_id_.Destroy();
   _impl_.request_id_.Destroy();
   if (this != internal_default_instance()) delete _impl_.target_;
+  if (this != internal_default_instance()) delete _impl_.warm_transfer_config_;
 }
 
 void TransferCallRequest::ArenaDtor(void* object) {
@@ -24979,6 +25086,10 @@ void TransferCallRequest::Clear() {
     delete _impl_.target_;
   }
   _impl_.target_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.warm_transfer_config_ != nullptr) {
+    delete _impl_.warm_transfer_config_;
+  }
+  _impl_.warm_transfer_config_ = nullptr;
   ::memset(&_impl_.mode_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.ring_timeout_s_) -
       reinterpret_cast<char*>(&_impl_.mode_)) + sizeof(_impl_.ring_timeout_s_));
@@ -25066,6 +25177,14 @@ const char* TransferCallRequest::_InternalParse(const char* ptr, ::_pbi::ParseCo
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.TransferCallRequest.request_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.WarmTransferConfig warm_transfer_config = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          ptr = ctx->ParseMessage(_internal_mutable_warm_transfer_config(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -25188,6 +25307,13 @@ uint8_t* TransferCallRequest::_InternalSerialize(
         8, this->_internal_request_id(), target);
   }
 
+  // .ondewo.vtsi.WarmTransferConfig warm_transfer_config = 9;
+  if (this->_internal_has_warm_transfer_config()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(9, _Internal::warm_transfer_config(this),
+        _Internal::warm_transfer_config(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -25248,6 +25374,13 @@ size_t TransferCallRequest::ByteSizeLong() const {
         *_impl_.target_);
   }
 
+  // .ondewo.vtsi.WarmTransferConfig warm_transfer_config = 9;
+  if (this->_internal_has_warm_transfer_config()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.warm_transfer_config_);
+  }
+
   // .ondewo.vtsi.TransferMode mode = 5;
   if (this->_internal_mode() != 0) {
     total_size += 1 +
@@ -25293,6 +25426,10 @@ void TransferCallRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   if (from._internal_has_target()) {
     _this->_internal_mutable_target()->::ondewo::vtsi::CallTarget::MergeFrom(
         from._internal_target());
+  }
+  if (from._internal_has_warm_transfer_config()) {
+    _this->_internal_mutable_warm_transfer_config()->::ondewo::vtsi::WarmTransferConfig::MergeFrom(
+        from._internal_warm_transfer_config());
   }
   if (from._internal_mode() != 0) {
     _this->_internal_set_mode(from._internal_mode());
@@ -25410,6 +25547,10 @@ CallTarget::CallTarget(const CallTarget& from)
           from._internal_listener_queue());
       break;
     }
+    case kIvrMenuName: {
+      _this->_internal_set_ivr_menu_name(from._internal_ivr_menu_name());
+      break;
+    }
     case TARGET_NOT_SET: {
       break;
     }
@@ -25468,6 +25609,10 @@ void CallTarget::clear_target() {
       if (GetArenaForAllocation() == nullptr) {
         delete _impl_.target_.listener_queue_;
       }
+      break;
+    }
+    case kIvrMenuName: {
+      _impl_.target_.ivr_menu_name_.Destroy();
       break;
     }
     case TARGET_NOT_SET: {
@@ -25529,6 +25674,16 @@ const char* CallTarget::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_listener_queue(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string ivr_menu_name = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_ivr_menu_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.CallTarget.ivr_menu_name"));
         } else
           goto handle_unusual;
         continue;
@@ -25598,6 +25753,16 @@ uint8_t* CallTarget::_InternalSerialize(
         _Internal::listener_queue(this).GetCachedSize(), target, stream);
   }
 
+  // string ivr_menu_name = 5;
+  if (_internal_has_ivr_menu_name()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ivr_menu_name().data(), static_cast<int>(this->_internal_ivr_menu_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.CallTarget.ivr_menu_name");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_ivr_menu_name(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -25643,6 +25808,13 @@ size_t CallTarget::ByteSizeLong() const {
           *_impl_.target_.listener_queue_);
       break;
     }
+    // string ivr_menu_name = 5;
+    case kIvrMenuName: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_ivr_menu_name());
+      break;
+    }
     case TARGET_NOT_SET: {
       break;
     }
@@ -25681,6 +25853,10 @@ void CallTarget::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
     case kListenerQueue: {
       _this->_internal_mutable_listener_queue()->::ondewo::vtsi::ListenerQueueTarget::MergeFrom(
           from._internal_listener_queue());
+      break;
+    }
+    case kIvrMenuName: {
+      _this->_internal_set_ivr_menu_name(from._internal_ivr_menu_name());
       break;
     }
     case TARGET_NOT_SET: {
@@ -26276,6 +26452,8 @@ class CallTransferRecord::_Internal {
  public:
   static const ::ondewo::vtsi::CallTarget& target(const CallTransferRecord* msg);
   static const ::PROTOBUF_NAMESPACE_ID::Timestamp& time(const CallTransferRecord* msg);
+  static const ::ondewo::vtsi::WarmIntroRecord& warm_intro(const CallTransferRecord* msg);
+  static const ::ondewo::vtsi::WarmTransferConfig& effective_warm_transfer_config(const CallTransferRecord* msg);
 };
 
 const ::ondewo::vtsi::CallTarget&
@@ -26286,11 +26464,31 @@ const ::PROTOBUF_NAMESPACE_ID::Timestamp&
 CallTransferRecord::_Internal::time(const CallTransferRecord* msg) {
   return *msg->_impl_.time_;
 }
+const ::ondewo::vtsi::WarmIntroRecord&
+CallTransferRecord::_Internal::warm_intro(const CallTransferRecord* msg) {
+  return *msg->_impl_.warm_intro_;
+}
+const ::ondewo::vtsi::WarmTransferConfig&
+CallTransferRecord::_Internal::effective_warm_transfer_config(const CallTransferRecord* msg) {
+  return *msg->_impl_.effective_warm_transfer_config_;
+}
 void CallTransferRecord::clear_time() {
   if (GetArenaForAllocation() == nullptr && _impl_.time_ != nullptr) {
     delete _impl_.time_;
   }
   _impl_.time_ = nullptr;
+}
+void CallTransferRecord::clear_warm_intro() {
+  if (GetArenaForAllocation() == nullptr && _impl_.warm_intro_ != nullptr) {
+    delete _impl_.warm_intro_;
+  }
+  _impl_.warm_intro_ = nullptr;
+}
+void CallTransferRecord::clear_effective_warm_transfer_config() {
+  if (GetArenaForAllocation() == nullptr && _impl_.effective_warm_transfer_config_ != nullptr) {
+    delete _impl_.effective_warm_transfer_config_;
+  }
+  _impl_.effective_warm_transfer_config_ = nullptr;
 }
 CallTransferRecord::CallTransferRecord(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -26305,6 +26503,8 @@ CallTransferRecord::CallTransferRecord(const CallTransferRecord& from)
       decltype(_impl_.resolved_target_){}
     , decltype(_impl_.target_){nullptr}
     , decltype(_impl_.time_){nullptr}
+    , decltype(_impl_.warm_intro_){nullptr}
+    , decltype(_impl_.effective_warm_transfer_config_){nullptr}
     , decltype(_impl_.mode_){}
     , decltype(_impl_.outcome_){}
     , decltype(_impl_.sip_response_code_){}
@@ -26325,6 +26525,12 @@ CallTransferRecord::CallTransferRecord(const CallTransferRecord& from)
   if (from._internal_has_time()) {
     _this->_impl_.time_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.time_);
   }
+  if (from._internal_has_warm_intro()) {
+    _this->_impl_.warm_intro_ = new ::ondewo::vtsi::WarmIntroRecord(*from._impl_.warm_intro_);
+  }
+  if (from._internal_has_effective_warm_transfer_config()) {
+    _this->_impl_.effective_warm_transfer_config_ = new ::ondewo::vtsi::WarmTransferConfig(*from._impl_.effective_warm_transfer_config_);
+  }
   ::memcpy(&_impl_.mode_, &from._impl_.mode_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.sip_response_code_) -
     reinterpret_cast<char*>(&_impl_.mode_)) + sizeof(_impl_.sip_response_code_));
@@ -26339,6 +26545,8 @@ inline void CallTransferRecord::SharedCtor(
       decltype(_impl_.resolved_target_){}
     , decltype(_impl_.target_){nullptr}
     , decltype(_impl_.time_){nullptr}
+    , decltype(_impl_.warm_intro_){nullptr}
+    , decltype(_impl_.effective_warm_transfer_config_){nullptr}
     , decltype(_impl_.mode_){0}
     , decltype(_impl_.outcome_){0}
     , decltype(_impl_.sip_response_code_){0}
@@ -26364,6 +26572,8 @@ inline void CallTransferRecord::SharedDtor() {
   _impl_.resolved_target_.Destroy();
   if (this != internal_default_instance()) delete _impl_.target_;
   if (this != internal_default_instance()) delete _impl_.time_;
+  if (this != internal_default_instance()) delete _impl_.warm_intro_;
+  if (this != internal_default_instance()) delete _impl_.effective_warm_transfer_config_;
 }
 
 void CallTransferRecord::SetCachedSize(int size) const {
@@ -26385,6 +26595,14 @@ void CallTransferRecord::Clear() {
     delete _impl_.time_;
   }
   _impl_.time_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.warm_intro_ != nullptr) {
+    delete _impl_.warm_intro_;
+  }
+  _impl_.warm_intro_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.effective_warm_transfer_config_ != nullptr) {
+    delete _impl_.effective_warm_transfer_config_;
+  }
+  _impl_.effective_warm_transfer_config_ = nullptr;
   ::memset(&_impl_.mode_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.sip_response_code_) -
       reinterpret_cast<char*>(&_impl_.mode_)) + sizeof(_impl_.sip_response_code_));
@@ -26445,6 +26663,22 @@ const char* CallTransferRecord::_InternalParse(const char* ptr, ::_pbi::ParseCon
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           ptr = ctx->ParseMessage(_internal_mutable_time(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.WarmIntroRecord warm_intro = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_warm_intro(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.WarmTransferConfig effective_warm_transfer_config = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          ptr = ctx->ParseMessage(_internal_mutable_effective_warm_transfer_config(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -26522,6 +26756,20 @@ uint8_t* CallTransferRecord::_InternalSerialize(
         _Internal::time(this).GetCachedSize(), target, stream);
   }
 
+  // .ondewo.vtsi.WarmIntroRecord warm_intro = 7;
+  if (this->_internal_has_warm_intro()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(7, _Internal::warm_intro(this),
+        _Internal::warm_intro(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.vtsi.WarmTransferConfig effective_warm_transfer_config = 8;
+  if (this->_internal_has_effective_warm_transfer_config()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(8, _Internal::effective_warm_transfer_config(this),
+        _Internal::effective_warm_transfer_config(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -26557,6 +26805,20 @@ size_t CallTransferRecord::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.time_);
+  }
+
+  // .ondewo.vtsi.WarmIntroRecord warm_intro = 7;
+  if (this->_internal_has_warm_intro()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.warm_intro_);
+  }
+
+  // .ondewo.vtsi.WarmTransferConfig effective_warm_transfer_config = 8;
+  if (this->_internal_has_effective_warm_transfer_config()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.effective_warm_transfer_config_);
   }
 
   // .ondewo.vtsi.TransferMode mode = 3;
@@ -26604,6 +26866,14 @@ void CallTransferRecord::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
   if (from._internal_has_time()) {
     _this->_internal_mutable_time()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_time());
+  }
+  if (from._internal_has_warm_intro()) {
+    _this->_internal_mutable_warm_intro()->::ondewo::vtsi::WarmIntroRecord::MergeFrom(
+        from._internal_warm_intro());
+  }
+  if (from._internal_has_effective_warm_transfer_config()) {
+    _this->_internal_mutable_effective_warm_transfer_config()->::ondewo::vtsi::WarmTransferConfig::MergeFrom(
+        from._internal_effective_warm_transfer_config());
   }
   if (from._internal_mode() != 0) {
     _this->_internal_set_mode(from._internal_mode());
@@ -28364,6 +28634,589 @@ void InviteToCallResponse::InternalSwap(InviteToCallResponse* other) {
 
 // ===================================================================
 
+class SendCallDtmfRequest::_Internal {
+ public:
+};
+
+SendCallDtmfRequest::SendCallDtmfRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.SendCallDtmfRequest)
+}
+SendCallDtmfRequest::SendCallDtmfRequest(const SendCallDtmfRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SendCallDtmfRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.call_name_){}
+    , decltype(_impl_.digits_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.call_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.call_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_call_name().empty()) {
+    _this->_impl_.call_name_.Set(from._internal_call_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.digits_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.digits_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_digits().empty()) {
+    _this->_impl_.digits_.Set(from._internal_digits(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.SendCallDtmfRequest)
+}
+
+inline void SendCallDtmfRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.call_name_){}
+    , decltype(_impl_.digits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.call_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.call_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.digits_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.digits_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SendCallDtmfRequest::~SendCallDtmfRequest() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.SendCallDtmfRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SendCallDtmfRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  _impl_.call_name_.Destroy();
+  _impl_.digits_.Destroy();
+}
+
+void SendCallDtmfRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SendCallDtmfRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.SendCallDtmfRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  _impl_.call_name_.ClearToEmpty();
+  _impl_.digits_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SendCallDtmfRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string vtsi_project_name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.SendCallDtmfRequest.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string call_name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_call_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.SendCallDtmfRequest.call_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string digits = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_digits();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.SendCallDtmfRequest.digits"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SendCallDtmfRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.SendCallDtmfRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string vtsi_project_name = 1;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.SendCallDtmfRequest.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_vtsi_project_name(), target);
+  }
+
+  // string call_name = 2;
+  if (!this->_internal_call_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_call_name().data(), static_cast<int>(this->_internal_call_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.SendCallDtmfRequest.call_name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_call_name(), target);
+  }
+
+  // string digits = 3;
+  if (!this->_internal_digits().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_digits().data(), static_cast<int>(this->_internal_digits().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.SendCallDtmfRequest.digits");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_digits(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.SendCallDtmfRequest)
+  return target;
+}
+
+size_t SendCallDtmfRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.SendCallDtmfRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string vtsi_project_name = 1;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // string call_name = 2;
+  if (!this->_internal_call_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_call_name());
+  }
+
+  // string digits = 3;
+  if (!this->_internal_digits().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_digits());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SendCallDtmfRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SendCallDtmfRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SendCallDtmfRequest::GetClassData() const { return &_class_data_; }
+
+
+void SendCallDtmfRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SendCallDtmfRequest*>(&to_msg);
+  auto& from = static_cast<const SendCallDtmfRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.SendCallDtmfRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (!from._internal_call_name().empty()) {
+    _this->_internal_set_call_name(from._internal_call_name());
+  }
+  if (!from._internal_digits().empty()) {
+    _this->_internal_set_digits(from._internal_digits());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SendCallDtmfRequest::CopyFrom(const SendCallDtmfRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.SendCallDtmfRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SendCallDtmfRequest::IsInitialized() const {
+  return true;
+}
+
+void SendCallDtmfRequest::InternalSwap(SendCallDtmfRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.call_name_, lhs_arena,
+      &other->_impl_.call_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.digits_, lhs_arena,
+      &other->_impl_.digits_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SendCallDtmfRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[74]);
+}
+
+// ===================================================================
+
+class SendCallDtmfResponse::_Internal {
+ public:
+};
+
+SendCallDtmfResponse::SendCallDtmfResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.SendCallDtmfResponse)
+}
+SendCallDtmfResponse::SendCallDtmfResponse(const SendCallDtmfResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SendCallDtmfResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.call_name_){}
+    , decltype(_impl_.queued_keys_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_impl_.vtsi_project_name_.Set(from._internal_vtsi_project_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.call_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.call_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_call_name().empty()) {
+    _this->_impl_.call_name_.Set(from._internal_call_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.queued_keys_ = from._impl_.queued_keys_;
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.SendCallDtmfResponse)
+}
+
+inline void SendCallDtmfResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.vtsi_project_name_){}
+    , decltype(_impl_.call_name_){}
+    , decltype(_impl_.queued_keys_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.vtsi_project_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.vtsi_project_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.call_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.call_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SendCallDtmfResponse::~SendCallDtmfResponse() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.SendCallDtmfResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SendCallDtmfResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.vtsi_project_name_.Destroy();
+  _impl_.call_name_.Destroy();
+}
+
+void SendCallDtmfResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SendCallDtmfResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.SendCallDtmfResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.vtsi_project_name_.ClearToEmpty();
+  _impl_.call_name_.ClearToEmpty();
+  _impl_.queued_keys_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SendCallDtmfResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string vtsi_project_name = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_vtsi_project_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.SendCallDtmfResponse.vtsi_project_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string call_name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_call_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.SendCallDtmfResponse.call_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 queued_keys = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.queued_keys_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SendCallDtmfResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.SendCallDtmfResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string vtsi_project_name = 1;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_vtsi_project_name().data(), static_cast<int>(this->_internal_vtsi_project_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.SendCallDtmfResponse.vtsi_project_name");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_vtsi_project_name(), target);
+  }
+
+  // string call_name = 2;
+  if (!this->_internal_call_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_call_name().data(), static_cast<int>(this->_internal_call_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.SendCallDtmfResponse.call_name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_call_name(), target);
+  }
+
+  // int32 queued_keys = 3;
+  if (this->_internal_queued_keys() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_queued_keys(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.SendCallDtmfResponse)
+  return target;
+}
+
+size_t SendCallDtmfResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.SendCallDtmfResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string vtsi_project_name = 1;
+  if (!this->_internal_vtsi_project_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_vtsi_project_name());
+  }
+
+  // string call_name = 2;
+  if (!this->_internal_call_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_call_name());
+  }
+
+  // int32 queued_keys = 3;
+  if (this->_internal_queued_keys() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_queued_keys());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SendCallDtmfResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SendCallDtmfResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SendCallDtmfResponse::GetClassData() const { return &_class_data_; }
+
+
+void SendCallDtmfResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SendCallDtmfResponse*>(&to_msg);
+  auto& from = static_cast<const SendCallDtmfResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.SendCallDtmfResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_vtsi_project_name().empty()) {
+    _this->_internal_set_vtsi_project_name(from._internal_vtsi_project_name());
+  }
+  if (!from._internal_call_name().empty()) {
+    _this->_internal_set_call_name(from._internal_call_name());
+  }
+  if (from._internal_queued_keys() != 0) {
+    _this->_internal_set_queued_keys(from._internal_queued_keys());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SendCallDtmfResponse::CopyFrom(const SendCallDtmfResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.SendCallDtmfResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SendCallDtmfResponse::IsInitialized() const {
+  return true;
+}
+
+void SendCallDtmfResponse::InternalSwap(SendCallDtmfResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.vtsi_project_name_, lhs_arena,
+      &other->_impl_.vtsi_project_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.call_name_, lhs_arena,
+      &other->_impl_.call_name_, rhs_arena
+  );
+  swap(_impl_.queued_keys_, other->_impl_.queued_keys_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SendCallDtmfResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[75]);
+}
+
+// ===================================================================
+
 class RemoveCallParticipantRequest::_Internal {
  public:
 };
@@ -28662,7 +29515,7 @@ void RemoveCallParticipantRequest::InternalSwap(RemoveCallParticipantRequest* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata RemoveCallParticipantRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[74]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[76]);
 }
 
 // ===================================================================
@@ -29007,7 +29860,7 @@ void RemoveCallParticipantResponse::InternalSwap(RemoveCallParticipantResponse* 
 ::PROTOBUF_NAMESPACE_ID::Metadata RemoveCallParticipantResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[75]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[77]);
 }
 
 // ===================================================================
@@ -29326,7 +30179,7 @@ void SetCallMediaControlRequest::InternalSwap(SetCallMediaControlRequest* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata SetCallMediaControlRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[76]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[78]);
 }
 
 // ===================================================================
@@ -29702,7 +30555,7 @@ void SetCallMediaControlResponse::InternalSwap(SetCallMediaControlResponse* othe
 ::PROTOBUF_NAMESPACE_ID::Metadata SetCallMediaControlResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[77]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[79]);
 }
 
 // ===================================================================
@@ -30066,7 +30919,7 @@ void StreamCallAudioConfig::InternalSwap(StreamCallAudioConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamCallAudioConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[78]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[80]);
 }
 
 // ===================================================================
@@ -30291,7 +31144,7 @@ void CallAudioFrame::InternalSwap(CallAudioFrame* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallAudioFrame::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[79]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[81]);
 }
 
 // ===================================================================
@@ -30627,7 +31480,7 @@ void StreamCallAudioRequest::InternalSwap(StreamCallAudioRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamCallAudioRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[80]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[82]);
 }
 
 // ===================================================================
@@ -30917,7 +31770,7 @@ void CallAudioStarted::InternalSwap(CallAudioStarted* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallAudioStarted::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[81]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[83]);
 }
 
 // ===================================================================
@@ -31200,7 +32053,7 @@ void CallAudioStats::InternalSwap(CallAudioStats* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallAudioStats::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[82]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[84]);
 }
 
 // ===================================================================
@@ -31433,7 +32286,7 @@ void CallAudioEnded::InternalSwap(CallAudioEnded* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallAudioEnded::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[83]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[85]);
 }
 
 // ===================================================================
@@ -31854,7 +32707,7 @@ void StreamCallAudioResponse::InternalSwap(StreamCallAudioResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamCallAudioResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[84]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[86]);
 }
 
 // ===================================================================
@@ -32047,7 +32900,7 @@ void ListenCallAudioRequest::InternalSwap(ListenCallAudioRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListenCallAudioRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[85]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[87]);
 }
 
 // ===================================================================
@@ -32284,7 +33137,7 @@ void TransferCallsRequest::InternalSwap(TransferCallsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TransferCallsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[86]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[88]);
 }
 
 // ===================================================================
@@ -32571,7 +33424,7 @@ void TransferCallsResponse::InternalSwap(TransferCallsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TransferCallsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[87]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[89]);
 }
 
 // ===================================================================
@@ -32917,7 +33770,7 @@ void GetCallRequest::InternalSwap(GetCallRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetCallRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[88]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[90]);
 }
 
 // ===================================================================
@@ -32931,7 +33784,7 @@ void Call_LabelsEntry_DoNotUse::MergeFrom(const Call_LabelsEntry_DoNotUse& other
 ::PROTOBUF_NAMESPACE_ID::Metadata Call_LabelsEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[89]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[91]);
 }
 
 // ===================================================================
@@ -33064,6 +33917,9 @@ Call::Call(const Call& from)
     , decltype(_impl_.redial_reason_){}
     , decltype(_impl_.answering_machine_detection_end_description_){}
     , decltype(_impl_.sip_call_id_){}
+    , decltype(_impl_.ivr_menu_display_name_){}
+    , decltype(_impl_.ivr_path_){}
+    , decltype(_impl_.ivr_menu_name_){}
     , decltype(_impl_.start_time_){nullptr}
     , decltype(_impl_.end_time_){nullptr}
     , decltype(_impl_.sip_status_){nullptr}
@@ -33154,6 +34010,30 @@ Call::Call(const Call& from)
     _this->_impl_.sip_call_id_.Set(from._internal_sip_call_id(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.ivr_menu_display_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ivr_menu_display_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_ivr_menu_display_name().empty()) {
+    _this->_impl_.ivr_menu_display_name_.Set(from._internal_ivr_menu_display_name(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.ivr_path_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ivr_path_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_ivr_path().empty()) {
+    _this->_impl_.ivr_path_.Set(from._internal_ivr_path(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.ivr_menu_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ivr_menu_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_ivr_menu_name().empty()) {
+    _this->_impl_.ivr_menu_name_.Set(from._internal_ivr_menu_name(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_start_time()) {
     _this->_impl_.start_time_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.start_time_);
   }
@@ -33202,6 +34082,9 @@ inline void Call::SharedCtor(
     , decltype(_impl_.redial_reason_){}
     , decltype(_impl_.answering_machine_detection_end_description_){}
     , decltype(_impl_.sip_call_id_){}
+    , decltype(_impl_.ivr_menu_display_name_){}
+    , decltype(_impl_.ivr_path_){}
+    , decltype(_impl_.ivr_menu_name_){}
     , decltype(_impl_.start_time_){nullptr}
     , decltype(_impl_.end_time_){nullptr}
     , decltype(_impl_.sip_status_){nullptr}
@@ -33254,6 +34137,18 @@ inline void Call::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.sip_call_id_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.ivr_menu_display_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ivr_menu_display_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.ivr_path_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ivr_path_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.ivr_menu_name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.ivr_menu_name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 Call::~Call() {
@@ -33280,6 +34175,9 @@ inline void Call::SharedDtor() {
   _impl_.redial_reason_.Destroy();
   _impl_.answering_machine_detection_end_description_.Destroy();
   _impl_.sip_call_id_.Destroy();
+  _impl_.ivr_menu_display_name_.Destroy();
+  _impl_.ivr_path_.Destroy();
+  _impl_.ivr_menu_name_.Destroy();
   if (this != internal_default_instance()) delete _impl_.start_time_;
   if (this != internal_default_instance()) delete _impl_.end_time_;
   if (this != internal_default_instance()) delete _impl_.sip_status_;
@@ -33324,6 +34222,9 @@ void Call::Clear() {
     }
   }
   _impl_.sip_call_id_.ClearToEmpty();
+  _impl_.ivr_menu_display_name_.ClearToEmpty();
+  _impl_.ivr_path_.ClearToEmpty();
+  _impl_.ivr_menu_name_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.start_time_ != nullptr) {
     delete _impl_.start_time_;
   }
@@ -33621,6 +34522,36 @@ const char* Call::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
+      // string ivr_menu_display_name = 27;
+      case 27:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 218)) {
+          auto str = _internal_mutable_ivr_menu_display_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.Call.ivr_menu_display_name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string ivr_path = 28;
+      case 28:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 226)) {
+          auto str = _internal_mutable_ivr_path();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.Call.ivr_path"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string ivr_menu_name = 29;
+      case 29:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 234)) {
+          auto str = _internal_mutable_ivr_menu_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.Call.ivr_menu_name"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -33880,6 +34811,36 @@ uint8_t* Call::_InternalSerialize(
     }
   }
 
+  // string ivr_menu_display_name = 27;
+  if (!this->_internal_ivr_menu_display_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ivr_menu_display_name().data(), static_cast<int>(this->_internal_ivr_menu_display_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.Call.ivr_menu_display_name");
+    target = stream->WriteStringMaybeAliased(
+        27, this->_internal_ivr_menu_display_name(), target);
+  }
+
+  // string ivr_path = 28;
+  if (!this->_internal_ivr_path().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ivr_path().data(), static_cast<int>(this->_internal_ivr_path().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.Call.ivr_path");
+    target = stream->WriteStringMaybeAliased(
+        28, this->_internal_ivr_path(), target);
+  }
+
+  // string ivr_menu_name = 29;
+  if (!this->_internal_ivr_menu_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_ivr_menu_name().data(), static_cast<int>(this->_internal_ivr_menu_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.Call.ivr_menu_name");
+    target = stream->WriteStringMaybeAliased(
+        29, this->_internal_ivr_menu_name(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -33976,6 +34937,27 @@ size_t Call::ByteSizeLong() const {
     total_size += 2 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_sip_call_id());
+  }
+
+  // string ivr_menu_display_name = 27;
+  if (!this->_internal_ivr_menu_display_name().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_ivr_menu_display_name());
+  }
+
+  // string ivr_path = 28;
+  if (!this->_internal_ivr_path().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_ivr_path());
+  }
+
+  // string ivr_menu_name = 29;
+  if (!this->_internal_ivr_menu_name().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_ivr_menu_name());
   }
 
   // .google.protobuf.Timestamp start_time = 6;
@@ -34128,6 +35110,15 @@ void Call::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_
   if (!from._internal_sip_call_id().empty()) {
     _this->_internal_set_sip_call_id(from._internal_sip_call_id());
   }
+  if (!from._internal_ivr_menu_display_name().empty()) {
+    _this->_internal_set_ivr_menu_display_name(from._internal_ivr_menu_display_name());
+  }
+  if (!from._internal_ivr_path().empty()) {
+    _this->_internal_set_ivr_path(from._internal_ivr_path());
+  }
+  if (!from._internal_ivr_menu_name().empty()) {
+    _this->_internal_set_ivr_menu_name(from._internal_ivr_menu_name());
+  }
   if (from._internal_has_start_time()) {
     _this->_internal_mutable_start_time()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_start_time());
@@ -34244,6 +35235,18 @@ void Call::InternalSwap(Call* other) {
       &_impl_.sip_call_id_, lhs_arena,
       &other->_impl_.sip_call_id_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.ivr_menu_display_name_, lhs_arena,
+      &other->_impl_.ivr_menu_display_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.ivr_path_, lhs_arena,
+      &other->_impl_.ivr_path_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.ivr_menu_name_, lhs_arena,
+      &other->_impl_.ivr_menu_name_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Call, _impl_.platforms_)
       + sizeof(Call::_impl_.platforms_)
@@ -34255,7 +35258,7 @@ void Call::InternalSwap(Call* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Call::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[90]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[92]);
 }
 
 // ===================================================================
@@ -34269,7 +35272,7 @@ void CallFilter_LabelsEntry_DoNotUse::MergeFrom(const CallFilter_LabelsEntry_DoN
 ::PROTOBUF_NAMESPACE_ID::Metadata CallFilter_LabelsEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[91]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[93]);
 }
 
 // ===================================================================
@@ -35464,7 +36467,7 @@ void CallFilter::InternalSwap(CallFilter* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallFilter::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[92]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[94]);
 }
 
 // ===================================================================
@@ -35681,7 +36684,7 @@ void CallSorting::InternalSwap(CallSorting* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallSorting::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[93]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[95]);
 }
 
 // ===================================================================
@@ -36152,7 +37155,7 @@ void ListCallsRequest::InternalSwap(ListCallsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCallsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[94]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[96]);
 }
 
 // ===================================================================
@@ -36416,7 +37419,7 @@ void ListCallsResponse::InternalSwap(ListCallsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListCallsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[95]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[97]);
 }
 
 // ===================================================================
@@ -36708,7 +37711,7 @@ void UpdateCallRequest::InternalSwap(UpdateCallRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateCallRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[96]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[98]);
 }
 
 // ===================================================================
@@ -37003,7 +38006,7 @@ void UpdateCallResponse::InternalSwap(UpdateCallResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateCallResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[97]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[99]);
 }
 
 // ===================================================================
@@ -37288,7 +38291,7 @@ void UpdateCallsRequest::InternalSwap(UpdateCallsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateCallsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[98]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[100]);
 }
 
 // ===================================================================
@@ -37575,7 +38578,7 @@ void UpdateCallsResponse::InternalSwap(UpdateCallsResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateCallsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[99]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[101]);
 }
 
 // ===================================================================
@@ -37820,7 +38823,7 @@ void GetCallStatisticsRequest::InternalSwap(GetCallStatisticsRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetCallStatisticsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[100]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[102]);
 }
 
 // ===================================================================
@@ -38034,7 +39037,7 @@ void SipStatusTypeCount::InternalSwap(SipStatusTypeCount* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipStatusTypeCount::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[101]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[103]);
 }
 
 // ===================================================================
@@ -38248,7 +39251,7 @@ void CallTypeCount::InternalSwap(CallTypeCount* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallTypeCount::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[102]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[104]);
 }
 
 // ===================================================================
@@ -38462,7 +39465,7 @@ void AmdVerdictCount::InternalSwap(AmdVerdictCount* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AmdVerdictCount::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[103]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[105]);
 }
 
 // ===================================================================
@@ -38676,7 +39679,7 @@ void TransferOutcomeCount::InternalSwap(TransferOutcomeCount* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TransferOutcomeCount::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[104]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[106]);
 }
 
 // ===================================================================
@@ -39195,7 +40198,7 @@ void CallStatistics::InternalSwap(CallStatistics* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallStatistics::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[105]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[107]);
 }
 
 // ===================================================================
@@ -39557,7 +40560,7 @@ void AllServicesStatuses::InternalSwap(AllServicesStatuses* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AllServicesStatuses::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[106]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[108]);
 }
 
 // ===================================================================
@@ -39787,7 +40790,7 @@ void ServiceStatus::InternalSwap(ServiceStatus* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ServiceStatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[107]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[109]);
 }
 
 // ===================================================================
@@ -40498,7 +41501,7 @@ void CallResourceStatus::InternalSwap(CallResourceStatus* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallResourceStatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[108]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[110]);
 }
 
 // ===================================================================
@@ -40767,7 +41770,7 @@ void StreamCallerStatusRequest::InternalSwap(StreamCallerStatusRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamCallerStatusRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[109]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[111]);
 }
 
 // ===================================================================
@@ -41036,7 +42039,7 @@ void StreamListenerStatusRequest::InternalSwap(StreamListenerStatusRequest* othe
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamListenerStatusRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[110]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[112]);
 }
 
 // ===================================================================
@@ -41374,7 +42377,7 @@ void StreamScheduledCallerStatusRequest::InternalSwap(StreamScheduledCallerStatu
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamScheduledCallerStatusRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[111]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[113]);
 }
 
 // ===================================================================
@@ -41710,7 +42713,7 @@ void StreamCallResourceStatusResponse::InternalSwap(StreamCallResourceStatusResp
 ::PROTOBUF_NAMESPACE_ID::Metadata StreamCallResourceStatusResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[112]);
+      file_level_metadata_ondewo_2fvtsi_2fcalls_2eproto[114]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -42012,6 +43015,14 @@ Arena::CreateMaybeMessage< ::ondewo::vtsi::InviteToCallRequest >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::InviteToCallResponse*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::InviteToCallResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::InviteToCallResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::SendCallDtmfRequest*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::SendCallDtmfRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::SendCallDtmfRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::SendCallDtmfResponse*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::SendCallDtmfResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::SendCallDtmfResponse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::RemoveCallParticipantRequest*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::RemoveCallParticipantRequest >(Arena* arena) {

@@ -29,10 +29,14 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/map.h>  // IWYU pragma: export
+#include <google/protobuf/map_entry.h>
+#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include <google/protobuf/field_mask.pb.h>
 #include <google/protobuf/timestamp.pb.h>
+#include "ondewo/vtsi/call_configs.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_ondewo_2fvtsi_2fprojects_2eproto
@@ -85,6 +89,9 @@ extern ListVtsiProjectsRequestDefaultTypeInternal _ListVtsiProjectsRequest_defau
 class ListVtsiProjectsResponse;
 struct ListVtsiProjectsResponseDefaultTypeInternal;
 extern ListVtsiProjectsResponseDefaultTypeInternal _ListVtsiProjectsResponse_default_instance_;
+class TransferTargetDirectoryItem;
+struct TransferTargetDirectoryItemDefaultTypeInternal;
+extern TransferTargetDirectoryItemDefaultTypeInternal _TransferTargetDirectoryItem_default_instance_;
 class UndeployVtsiProjectRequest;
 struct UndeployVtsiProjectRequestDefaultTypeInternal;
 extern UndeployVtsiProjectRequestDefaultTypeInternal _UndeployVtsiProjectRequest_default_instance_;
@@ -100,9 +107,15 @@ extern UpdateVtsiProjectResponseDefaultTypeInternal _UpdateVtsiProjectResponse_d
 class VtsiProject;
 struct VtsiProjectDefaultTypeInternal;
 extern VtsiProjectDefaultTypeInternal _VtsiProject_default_instance_;
+class VtsiProjectFeatureAvailability;
+struct VtsiProjectFeatureAvailabilityDefaultTypeInternal;
+extern VtsiProjectFeatureAvailabilityDefaultTypeInternal _VtsiProjectFeatureAvailability_default_instance_;
 class VtsiProjectSorting;
 struct VtsiProjectSortingDefaultTypeInternal;
 extern VtsiProjectSortingDefaultTypeInternal _VtsiProjectSorting_default_instance_;
+class VtsiProject_TransferTargetDirectoryEntry_DoNotUse;
+struct VtsiProject_TransferTargetDirectoryEntry_DoNotUseDefaultTypeInternal;
+extern VtsiProject_TransferTargetDirectoryEntry_DoNotUseDefaultTypeInternal _VtsiProject_TransferTargetDirectoryEntry_DoNotUse_default_instance_;
 }  // namespace vtsi
 }  // namespace ondewo
 PROTOBUF_NAMESPACE_OPEN
@@ -118,12 +131,15 @@ template<> ::ondewo::vtsi::DeployVtsiProjectResponse* Arena::CreateMaybeMessage<
 template<> ::ondewo::vtsi::GetVtsiProjectRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::GetVtsiProjectRequest>(Arena*);
 template<> ::ondewo::vtsi::ListVtsiProjectsRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::ListVtsiProjectsRequest>(Arena*);
 template<> ::ondewo::vtsi::ListVtsiProjectsResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::ListVtsiProjectsResponse>(Arena*);
+template<> ::ondewo::vtsi::TransferTargetDirectoryItem* Arena::CreateMaybeMessage<::ondewo::vtsi::TransferTargetDirectoryItem>(Arena*);
 template<> ::ondewo::vtsi::UndeployVtsiProjectRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::UndeployVtsiProjectRequest>(Arena*);
 template<> ::ondewo::vtsi::UndeployVtsiProjectResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::UndeployVtsiProjectResponse>(Arena*);
 template<> ::ondewo::vtsi::UpdateVtsiProjectRequest* Arena::CreateMaybeMessage<::ondewo::vtsi::UpdateVtsiProjectRequest>(Arena*);
 template<> ::ondewo::vtsi::UpdateVtsiProjectResponse* Arena::CreateMaybeMessage<::ondewo::vtsi::UpdateVtsiProjectResponse>(Arena*);
 template<> ::ondewo::vtsi::VtsiProject* Arena::CreateMaybeMessage<::ondewo::vtsi::VtsiProject>(Arena*);
+template<> ::ondewo::vtsi::VtsiProjectFeatureAvailability* Arena::CreateMaybeMessage<::ondewo::vtsi::VtsiProjectFeatureAvailability>(Arena*);
 template<> ::ondewo::vtsi::VtsiProjectSorting* Arena::CreateMaybeMessage<::ondewo::vtsi::VtsiProjectSorting>(Arena*);
+template<> ::ondewo::vtsi::VtsiProject_TransferTargetDirectoryEntry_DoNotUse* Arena::CreateMaybeMessage<::ondewo::vtsi::VtsiProject_TransferTargetDirectoryEntry_DoNotUse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace ondewo {
 namespace vtsi {
@@ -155,6 +171,62 @@ inline bool VtsiProjectSorting_VtsiProjectSortingField_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, VtsiProjectSorting_VtsiProjectSortingField* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<VtsiProjectSorting_VtsiProjectSortingField>(
     VtsiProjectSorting_VtsiProjectSortingField_descriptor(), name, value);
+}
+enum WarmIntroAvailability : int {
+  WARM_INTRO_AVAILABILITY_UNSPECIFIED = 0,
+  WARM_INTRO_AVAILABILITY_AVAILABLE = 1,
+  WARM_INTRO_AVAILABILITY_DISABLED_BY_DEPLOYMENT = 2,
+  WARM_INTRO_AVAILABILITY_NEEDS_LOCAL_ASTERISK = 3,
+  WARM_INTRO_AVAILABILITY_NEEDS_LISTENER = 4,
+  WARM_INTRO_AVAILABILITY_NEEDS_CALL_CONTROL_KEY = 5,
+  WarmIntroAvailability_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  WarmIntroAvailability_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool WarmIntroAvailability_IsValid(int value);
+constexpr WarmIntroAvailability WarmIntroAvailability_MIN = WARM_INTRO_AVAILABILITY_UNSPECIFIED;
+constexpr WarmIntroAvailability WarmIntroAvailability_MAX = WARM_INTRO_AVAILABILITY_NEEDS_CALL_CONTROL_KEY;
+constexpr int WarmIntroAvailability_ARRAYSIZE = WarmIntroAvailability_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* WarmIntroAvailability_descriptor();
+template<typename T>
+inline const std::string& WarmIntroAvailability_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, WarmIntroAvailability>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function WarmIntroAvailability_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    WarmIntroAvailability_descriptor(), enum_t_value);
+}
+inline bool WarmIntroAvailability_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, WarmIntroAvailability* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<WarmIntroAvailability>(
+    WarmIntroAvailability_descriptor(), name, value);
+}
+enum IvrAvailability : int {
+  IVR_AVAILABILITY_UNSPECIFIED = 0,
+  IVR_AVAILABILITY_AVAILABLE = 1,
+  IVR_AVAILABILITY_DISABLED_BY_DEPLOYMENT = 2,
+  IVR_AVAILABILITY_NEEDS_LOCAL_ASTERISK = 3,
+  IvrAvailability_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  IvrAvailability_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool IvrAvailability_IsValid(int value);
+constexpr IvrAvailability IvrAvailability_MIN = IVR_AVAILABILITY_UNSPECIFIED;
+constexpr IvrAvailability IvrAvailability_MAX = IVR_AVAILABILITY_NEEDS_LOCAL_ASTERISK;
+constexpr int IvrAvailability_ARRAYSIZE = IvrAvailability_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* IvrAvailability_descriptor();
+template<typename T>
+inline const std::string& IvrAvailability_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, IvrAvailability>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function IvrAvailability_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    IvrAvailability_descriptor(), enum_t_value);
+}
+inline bool IvrAvailability_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, IvrAvailability* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<IvrAvailability>(
+    IvrAvailability_descriptor(), name, value);
 }
 enum TrunkRegistrationState : int {
   TRUNK_REGISTRATION_STATE_UNSPECIFIED = 0,
@@ -297,6 +369,32 @@ inline bool VtsiProjectView_Parse(
 }
 // ===================================================================
 
+class VtsiProject_TransferTargetDirectoryEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<VtsiProject_TransferTargetDirectoryEntry_DoNotUse, 
+    std::string, ::ondewo::vtsi::TransferTargetDirectoryItem,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> {
+public:
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<VtsiProject_TransferTargetDirectoryEntry_DoNotUse, 
+    std::string, ::ondewo::vtsi::TransferTargetDirectoryItem,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> SuperType;
+  VtsiProject_TransferTargetDirectoryEntry_DoNotUse();
+  explicit PROTOBUF_CONSTEXPR VtsiProject_TransferTargetDirectoryEntry_DoNotUse(
+      ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  explicit VtsiProject_TransferTargetDirectoryEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  void MergeFrom(const VtsiProject_TransferTargetDirectoryEntry_DoNotUse& other);
+  static const VtsiProject_TransferTargetDirectoryEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const VtsiProject_TransferTargetDirectoryEntry_DoNotUse*>(&_VtsiProject_TransferTargetDirectoryEntry_DoNotUse_default_instance_); }
+  static bool ValidateKey(std::string* s) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(s->data(), static_cast<int>(s->size()), ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::PARSE, "ondewo.vtsi.VtsiProject.TransferTargetDirectoryEntry.key");
+ }
+  static bool ValidateValue(void*) { return true; }
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  friend struct ::TableStruct_ondewo_2fvtsi_2fprojects_2eproto;
+};
+
+// -------------------------------------------------------------------
+
 class VtsiProject final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.VtsiProject) */ {
  public:
@@ -345,7 +443,7 @@ class VtsiProject final :
                &_VtsiProject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(VtsiProject& a, VtsiProject& b) {
     a.Swap(&b);
@@ -406,6 +504,8 @@ class VtsiProject final :
   protected:
   explicit VtsiProject(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
+  private:
+  static void ArenaDtor(void* object);
   public:
 
   static const ClassData _class_data_;
@@ -415,11 +515,13 @@ class VtsiProject final :
 
   // nested types ----------------------------------------------------
 
+
   // accessors -------------------------------------------------------
 
   enum : int {
     kNluAgentNamesFieldNumber = 14,
     kTransferPhoneNumberAllowlistFieldNumber = 17,
+    kTransferTargetDirectoryFieldNumber = 25,
     kNameFieldNumber = 1,
     kDisplayNameFieldNumber = 2,
     kCreatedByFieldNumber = 7,
@@ -430,6 +532,8 @@ class VtsiProject final :
     kCreatedAtFieldNumber = 8,
     kModifiedAtFieldNumber = 10,
     kStatusChangedAtFieldNumber = 19,
+    kWarmTransferDefaultsFieldNumber = 22,
+    kFeatureAvailabilityFieldNumber = 23,
     kMaxCallersFieldNumber = 3,
     kMaxListenersFieldNumber = 4,
     kVtsiProjectStatusFieldNumber = 6,
@@ -439,6 +543,7 @@ class VtsiProject final :
     kDeployedCallersFieldNumber = 15,
     kDeployedListenersFieldNumber = 16,
     kTrunkRegistrationStateFieldNumber = 20,
+    kIvrMenusEnabledFieldNumber = 24,
   };
   // repeated string nlu_agent_names = 14;
   int nlu_agent_names_size() const;
@@ -487,6 +592,23 @@ class VtsiProject final :
   const std::string& _internal_transfer_phone_number_allowlist(int index) const;
   std::string* _internal_add_transfer_phone_number_allowlist();
   public:
+
+  // map<string, .ondewo.vtsi.TransferTargetDirectoryItem> transfer_target_directory = 25;
+  int transfer_target_directory_size() const;
+  private:
+  int _internal_transfer_target_directory_size() const;
+  public:
+  void clear_transfer_target_directory();
+  private:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::vtsi::TransferTargetDirectoryItem >&
+      _internal_transfer_target_directory() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::vtsi::TransferTargetDirectoryItem >*
+      _internal_mutable_transfer_target_directory();
+  public:
+  const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::vtsi::TransferTargetDirectoryItem >&
+      transfer_target_directory() const;
+  ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::vtsi::TransferTargetDirectoryItem >*
+      mutable_transfer_target_directory();
 
   // string name = 1;
   void clear_name();
@@ -644,6 +766,42 @@ class VtsiProject final :
       ::PROTOBUF_NAMESPACE_ID::Timestamp* status_changed_at);
   ::PROTOBUF_NAMESPACE_ID::Timestamp* unsafe_arena_release_status_changed_at();
 
+  // .ondewo.vtsi.WarmTransferConfig warm_transfer_defaults = 22;
+  bool has_warm_transfer_defaults() const;
+  private:
+  bool _internal_has_warm_transfer_defaults() const;
+  public:
+  void clear_warm_transfer_defaults();
+  const ::ondewo::vtsi::WarmTransferConfig& warm_transfer_defaults() const;
+  PROTOBUF_NODISCARD ::ondewo::vtsi::WarmTransferConfig* release_warm_transfer_defaults();
+  ::ondewo::vtsi::WarmTransferConfig* mutable_warm_transfer_defaults();
+  void set_allocated_warm_transfer_defaults(::ondewo::vtsi::WarmTransferConfig* warm_transfer_defaults);
+  private:
+  const ::ondewo::vtsi::WarmTransferConfig& _internal_warm_transfer_defaults() const;
+  ::ondewo::vtsi::WarmTransferConfig* _internal_mutable_warm_transfer_defaults();
+  public:
+  void unsafe_arena_set_allocated_warm_transfer_defaults(
+      ::ondewo::vtsi::WarmTransferConfig* warm_transfer_defaults);
+  ::ondewo::vtsi::WarmTransferConfig* unsafe_arena_release_warm_transfer_defaults();
+
+  // .ondewo.vtsi.VtsiProjectFeatureAvailability feature_availability = 23;
+  bool has_feature_availability() const;
+  private:
+  bool _internal_has_feature_availability() const;
+  public:
+  void clear_feature_availability();
+  const ::ondewo::vtsi::VtsiProjectFeatureAvailability& feature_availability() const;
+  PROTOBUF_NODISCARD ::ondewo::vtsi::VtsiProjectFeatureAvailability* release_feature_availability();
+  ::ondewo::vtsi::VtsiProjectFeatureAvailability* mutable_feature_availability();
+  void set_allocated_feature_availability(::ondewo::vtsi::VtsiProjectFeatureAvailability* feature_availability);
+  private:
+  const ::ondewo::vtsi::VtsiProjectFeatureAvailability& _internal_feature_availability() const;
+  ::ondewo::vtsi::VtsiProjectFeatureAvailability* _internal_mutable_feature_availability();
+  public:
+  void unsafe_arena_set_allocated_feature_availability(
+      ::ondewo::vtsi::VtsiProjectFeatureAvailability* feature_availability);
+  ::ondewo::vtsi::VtsiProjectFeatureAvailability* unsafe_arena_release_feature_availability();
+
   // int32 max_callers = 3;
   void clear_max_callers();
   int32_t max_callers() const;
@@ -725,6 +883,19 @@ class VtsiProject final :
   void _internal_set_trunk_registration_state(::ondewo::vtsi::TrunkRegistrationState value);
   public:
 
+  // optional bool ivr_menus_enabled = 24;
+  bool has_ivr_menus_enabled() const;
+  private:
+  bool _internal_has_ivr_menus_enabled() const;
+  public:
+  void clear_ivr_menus_enabled();
+  bool ivr_menus_enabled() const;
+  void set_ivr_menus_enabled(bool value);
+  private:
+  bool _internal_ivr_menus_enabled() const;
+  void _internal_set_ivr_menus_enabled(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ondewo.vtsi.VtsiProject)
  private:
   class _Internal;
@@ -733,8 +904,15 @@ class VtsiProject final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> nlu_agent_names_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> transfer_phone_number_allowlist_;
+    ::PROTOBUF_NAMESPACE_ID::internal::MapField<
+        VtsiProject_TransferTargetDirectoryEntry_DoNotUse,
+        std::string, ::ondewo::vtsi::TransferTargetDirectoryItem,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> transfer_target_directory_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr display_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr created_by_;
@@ -745,6 +923,8 @@ class VtsiProject final :
     ::PROTOBUF_NAMESPACE_ID::Timestamp* created_at_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* modified_at_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* status_changed_at_;
+    ::ondewo::vtsi::WarmTransferConfig* warm_transfer_defaults_;
+    ::ondewo::vtsi::VtsiProjectFeatureAvailability* feature_availability_;
     int32_t max_callers_;
     int32_t max_listeners_;
     int vtsi_project_status_;
@@ -754,6 +934,345 @@ class VtsiProject final :
     int32_t deployed_callers_;
     int32_t deployed_listeners_;
     int trunk_registration_state_;
+    bool ivr_menus_enabled_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fprojects_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TransferTargetDirectoryItem final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.TransferTargetDirectoryItem) */ {
+ public:
+  inline TransferTargetDirectoryItem() : TransferTargetDirectoryItem(nullptr) {}
+  ~TransferTargetDirectoryItem() override;
+  explicit PROTOBUF_CONSTEXPR TransferTargetDirectoryItem(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  TransferTargetDirectoryItem(const TransferTargetDirectoryItem& from);
+  TransferTargetDirectoryItem(TransferTargetDirectoryItem&& from) noexcept
+    : TransferTargetDirectoryItem() {
+    *this = ::std::move(from);
+  }
+
+  inline TransferTargetDirectoryItem& operator=(const TransferTargetDirectoryItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TransferTargetDirectoryItem& operator=(TransferTargetDirectoryItem&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TransferTargetDirectoryItem& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TransferTargetDirectoryItem* internal_default_instance() {
+    return reinterpret_cast<const TransferTargetDirectoryItem*>(
+               &_TransferTargetDirectoryItem_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(TransferTargetDirectoryItem& a, TransferTargetDirectoryItem& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TransferTargetDirectoryItem* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TransferTargetDirectoryItem* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TransferTargetDirectoryItem* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<TransferTargetDirectoryItem>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const TransferTargetDirectoryItem& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const TransferTargetDirectoryItem& from) {
+    TransferTargetDirectoryItem::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TransferTargetDirectoryItem* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.TransferTargetDirectoryItem";
+  }
+  protected:
+  explicit TransferTargetDirectoryItem(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDisplayNameFieldNumber = 1,
+    kDescriptionFieldNumber = 2,
+  };
+  // string display_name = 1;
+  void clear_display_name();
+  const std::string& display_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_display_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_display_name();
+  PROTOBUF_NODISCARD std::string* release_display_name();
+  void set_allocated_display_name(std::string* display_name);
+  private:
+  const std::string& _internal_display_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_display_name(const std::string& value);
+  std::string* _internal_mutable_display_name();
+  public:
+
+  // string description = 2;
+  void clear_description();
+  const std::string& description() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_description(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_description();
+  PROTOBUF_NODISCARD std::string* release_description();
+  void set_allocated_description(std::string* description);
+  private:
+  const std::string& _internal_description() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_description(const std::string& value);
+  std::string* _internal_mutable_description();
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.TransferTargetDirectoryItem)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr display_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ondewo_2fvtsi_2fprojects_2eproto;
+};
+// -------------------------------------------------------------------
+
+class VtsiProjectFeatureAvailability final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ondewo.vtsi.VtsiProjectFeatureAvailability) */ {
+ public:
+  inline VtsiProjectFeatureAvailability() : VtsiProjectFeatureAvailability(nullptr) {}
+  ~VtsiProjectFeatureAvailability() override;
+  explicit PROTOBUF_CONSTEXPR VtsiProjectFeatureAvailability(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  VtsiProjectFeatureAvailability(const VtsiProjectFeatureAvailability& from);
+  VtsiProjectFeatureAvailability(VtsiProjectFeatureAvailability&& from) noexcept
+    : VtsiProjectFeatureAvailability() {
+    *this = ::std::move(from);
+  }
+
+  inline VtsiProjectFeatureAvailability& operator=(const VtsiProjectFeatureAvailability& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline VtsiProjectFeatureAvailability& operator=(VtsiProjectFeatureAvailability&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const VtsiProjectFeatureAvailability& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const VtsiProjectFeatureAvailability* internal_default_instance() {
+    return reinterpret_cast<const VtsiProjectFeatureAvailability*>(
+               &_VtsiProjectFeatureAvailability_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(VtsiProjectFeatureAvailability& a, VtsiProjectFeatureAvailability& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(VtsiProjectFeatureAvailability* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(VtsiProjectFeatureAvailability* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  VtsiProjectFeatureAvailability* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<VtsiProjectFeatureAvailability>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const VtsiProjectFeatureAvailability& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const VtsiProjectFeatureAvailability& from) {
+    VtsiProjectFeatureAvailability::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(VtsiProjectFeatureAvailability* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ondewo.vtsi.VtsiProjectFeatureAvailability";
+  }
+  protected:
+  explicit VtsiProjectFeatureAvailability(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kWarmIntroFieldNumber = 1,
+    kWarmIntroPhaseBFieldNumber = 2,
+    kIvrFieldNumber = 3,
+  };
+  // .ondewo.vtsi.WarmIntroAvailability warm_intro = 1;
+  void clear_warm_intro();
+  ::ondewo::vtsi::WarmIntroAvailability warm_intro() const;
+  void set_warm_intro(::ondewo::vtsi::WarmIntroAvailability value);
+  private:
+  ::ondewo::vtsi::WarmIntroAvailability _internal_warm_intro() const;
+  void _internal_set_warm_intro(::ondewo::vtsi::WarmIntroAvailability value);
+  public:
+
+  // bool warm_intro_phase_b = 2;
+  void clear_warm_intro_phase_b();
+  bool warm_intro_phase_b() const;
+  void set_warm_intro_phase_b(bool value);
+  private:
+  bool _internal_warm_intro_phase_b() const;
+  void _internal_set_warm_intro_phase_b(bool value);
+  public:
+
+  // .ondewo.vtsi.IvrAvailability ivr = 3;
+  void clear_ivr();
+  ::ondewo::vtsi::IvrAvailability ivr() const;
+  void set_ivr(::ondewo::vtsi::IvrAvailability value);
+  private:
+  ::ondewo::vtsi::IvrAvailability _internal_ivr() const;
+  void _internal_set_ivr(::ondewo::vtsi::IvrAvailability value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ondewo.vtsi.VtsiProjectFeatureAvailability)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int warm_intro_;
+    bool warm_intro_phase_b_;
+    int ivr_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -809,7 +1328,7 @@ class AsteriskConfigsVariables final :
                &_AsteriskConfigsVariables_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    4;
 
   friend void swap(AsteriskConfigsVariables& a, AsteriskConfigsVariables& b) {
     a.Swap(&b);
@@ -1135,7 +1654,7 @@ class AsteriskConfigsFiles final :
                &_AsteriskConfigsFiles_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    5;
 
   friend void swap(AsteriskConfigsFiles& a, AsteriskConfigsFiles& b) {
     a.Swap(&b);
@@ -1343,7 +1862,7 @@ class AsteriskConfigs final :
                &_AsteriskConfigs_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    6;
 
   friend void swap(AsteriskConfigs& a, AsteriskConfigs& b) {
     a.Swap(&b);
@@ -1586,7 +2105,7 @@ class CreateVtsiProjectRequest final :
                &_CreateVtsiProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    7;
 
   friend void swap(CreateVtsiProjectRequest& a, CreateVtsiProjectRequest& b) {
     a.Swap(&b);
@@ -1770,7 +2289,7 @@ class CreateVtsiProjectResponse final :
                &_CreateVtsiProjectResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    8;
 
   friend void swap(CreateVtsiProjectResponse& a, CreateVtsiProjectResponse& b) {
     a.Swap(&b);
@@ -1943,7 +2462,7 @@ class GetVtsiProjectRequest final :
                &_GetVtsiProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    9;
 
   friend void swap(GetVtsiProjectRequest& a, GetVtsiProjectRequest& b) {
     a.Swap(&b);
@@ -2127,7 +2646,7 @@ class ListVtsiProjectsRequest final :
                &_ListVtsiProjectsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    10;
 
   friend void swap(ListVtsiProjectsRequest& a, ListVtsiProjectsRequest& b) {
     a.Swap(&b);
@@ -2449,7 +2968,7 @@ class ListVtsiProjectsResponse final :
                &_ListVtsiProjectsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    11;
 
   friend void swap(ListVtsiProjectsResponse& a, ListVtsiProjectsResponse& b) {
     a.Swap(&b);
@@ -2622,7 +3141,7 @@ class VtsiProjectSorting final :
                &_VtsiProjectSorting_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    12;
 
   friend void swap(VtsiProjectSorting& a, VtsiProjectSorting& b) {
     a.Swap(&b);
@@ -2826,7 +3345,7 @@ class UpdateVtsiProjectRequest final :
                &_UpdateVtsiProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    13;
 
   friend void swap(UpdateVtsiProjectRequest& a, UpdateVtsiProjectRequest& b) {
     a.Swap(&b);
@@ -3034,7 +3553,7 @@ class UpdateVtsiProjectResponse final :
                &_UpdateVtsiProjectResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    14;
 
   friend void swap(UpdateVtsiProjectResponse& a, UpdateVtsiProjectResponse& b) {
     a.Swap(&b);
@@ -3223,7 +3742,7 @@ class DeleteVtsiProjectRequest final :
                &_DeleteVtsiProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    15;
 
   friend void swap(DeleteVtsiProjectRequest& a, DeleteVtsiProjectRequest& b) {
     a.Swap(&b);
@@ -3376,7 +3895,7 @@ class DeleteVtsiProjectResponse final :
                &_DeleteVtsiProjectResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    16;
 
   friend void swap(DeleteVtsiProjectResponse& a, DeleteVtsiProjectResponse& b) {
     a.Swap(&b);
@@ -3545,7 +4064,7 @@ class DeployVtsiProjectRequest final :
                &_DeployVtsiProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    17;
 
   friend void swap(DeployVtsiProjectRequest& a, DeployVtsiProjectRequest& b) {
     a.Swap(&b);
@@ -3698,7 +4217,7 @@ class DeployVtsiProjectResponse final :
                &_DeployVtsiProjectResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    18;
 
   friend void swap(DeployVtsiProjectResponse& a, DeployVtsiProjectResponse& b) {
     a.Swap(&b);
@@ -3867,7 +4386,7 @@ class UndeployVtsiProjectRequest final :
                &_UndeployVtsiProjectRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    19;
 
   friend void swap(UndeployVtsiProjectRequest& a, UndeployVtsiProjectRequest& b) {
     a.Swap(&b);
@@ -4020,7 +4539,7 @@ class UndeployVtsiProjectResponse final :
                &_UndeployVtsiProjectResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    20;
 
   friend void swap(UndeployVtsiProjectResponse& a, UndeployVtsiProjectResponse& b) {
     a.Swap(&b);
@@ -4148,6 +4667,8 @@ class UndeployVtsiProjectResponse final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // VtsiProject
 
 // string name = 1;
@@ -5123,6 +5644,406 @@ inline void VtsiProject::set_allocated_asterisk_version_effective(std::string* a
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.VtsiProject.asterisk_version_effective)
+}
+
+// .ondewo.vtsi.WarmTransferConfig warm_transfer_defaults = 22;
+inline bool VtsiProject::_internal_has_warm_transfer_defaults() const {
+  return this != internal_default_instance() && _impl_.warm_transfer_defaults_ != nullptr;
+}
+inline bool VtsiProject::has_warm_transfer_defaults() const {
+  return _internal_has_warm_transfer_defaults();
+}
+inline const ::ondewo::vtsi::WarmTransferConfig& VtsiProject::_internal_warm_transfer_defaults() const {
+  const ::ondewo::vtsi::WarmTransferConfig* p = _impl_.warm_transfer_defaults_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::vtsi::WarmTransferConfig&>(
+      ::ondewo::vtsi::_WarmTransferConfig_default_instance_);
+}
+inline const ::ondewo::vtsi::WarmTransferConfig& VtsiProject::warm_transfer_defaults() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProject.warm_transfer_defaults)
+  return _internal_warm_transfer_defaults();
+}
+inline void VtsiProject::unsafe_arena_set_allocated_warm_transfer_defaults(
+    ::ondewo::vtsi::WarmTransferConfig* warm_transfer_defaults) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.warm_transfer_defaults_);
+  }
+  _impl_.warm_transfer_defaults_ = warm_transfer_defaults;
+  if (warm_transfer_defaults) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.VtsiProject.warm_transfer_defaults)
+}
+inline ::ondewo::vtsi::WarmTransferConfig* VtsiProject::release_warm_transfer_defaults() {
+  
+  ::ondewo::vtsi::WarmTransferConfig* temp = _impl_.warm_transfer_defaults_;
+  _impl_.warm_transfer_defaults_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* VtsiProject::unsafe_arena_release_warm_transfer_defaults() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.VtsiProject.warm_transfer_defaults)
+  
+  ::ondewo::vtsi::WarmTransferConfig* temp = _impl_.warm_transfer_defaults_;
+  _impl_.warm_transfer_defaults_ = nullptr;
+  return temp;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* VtsiProject::_internal_mutable_warm_transfer_defaults() {
+  
+  if (_impl_.warm_transfer_defaults_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::vtsi::WarmTransferConfig>(GetArenaForAllocation());
+    _impl_.warm_transfer_defaults_ = p;
+  }
+  return _impl_.warm_transfer_defaults_;
+}
+inline ::ondewo::vtsi::WarmTransferConfig* VtsiProject::mutable_warm_transfer_defaults() {
+  ::ondewo::vtsi::WarmTransferConfig* _msg = _internal_mutable_warm_transfer_defaults();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.VtsiProject.warm_transfer_defaults)
+  return _msg;
+}
+inline void VtsiProject::set_allocated_warm_transfer_defaults(::ondewo::vtsi::WarmTransferConfig* warm_transfer_defaults) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.warm_transfer_defaults_);
+  }
+  if (warm_transfer_defaults) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(warm_transfer_defaults));
+    if (message_arena != submessage_arena) {
+      warm_transfer_defaults = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, warm_transfer_defaults, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.warm_transfer_defaults_ = warm_transfer_defaults;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.VtsiProject.warm_transfer_defaults)
+}
+
+// .ondewo.vtsi.VtsiProjectFeatureAvailability feature_availability = 23;
+inline bool VtsiProject::_internal_has_feature_availability() const {
+  return this != internal_default_instance() && _impl_.feature_availability_ != nullptr;
+}
+inline bool VtsiProject::has_feature_availability() const {
+  return _internal_has_feature_availability();
+}
+inline void VtsiProject::clear_feature_availability() {
+  if (GetArenaForAllocation() == nullptr && _impl_.feature_availability_ != nullptr) {
+    delete _impl_.feature_availability_;
+  }
+  _impl_.feature_availability_ = nullptr;
+}
+inline const ::ondewo::vtsi::VtsiProjectFeatureAvailability& VtsiProject::_internal_feature_availability() const {
+  const ::ondewo::vtsi::VtsiProjectFeatureAvailability* p = _impl_.feature_availability_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ondewo::vtsi::VtsiProjectFeatureAvailability&>(
+      ::ondewo::vtsi::_VtsiProjectFeatureAvailability_default_instance_);
+}
+inline const ::ondewo::vtsi::VtsiProjectFeatureAvailability& VtsiProject::feature_availability() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProject.feature_availability)
+  return _internal_feature_availability();
+}
+inline void VtsiProject::unsafe_arena_set_allocated_feature_availability(
+    ::ondewo::vtsi::VtsiProjectFeatureAvailability* feature_availability) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.feature_availability_);
+  }
+  _impl_.feature_availability_ = feature_availability;
+  if (feature_availability) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ondewo.vtsi.VtsiProject.feature_availability)
+}
+inline ::ondewo::vtsi::VtsiProjectFeatureAvailability* VtsiProject::release_feature_availability() {
+  
+  ::ondewo::vtsi::VtsiProjectFeatureAvailability* temp = _impl_.feature_availability_;
+  _impl_.feature_availability_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ondewo::vtsi::VtsiProjectFeatureAvailability* VtsiProject::unsafe_arena_release_feature_availability() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.VtsiProject.feature_availability)
+  
+  ::ondewo::vtsi::VtsiProjectFeatureAvailability* temp = _impl_.feature_availability_;
+  _impl_.feature_availability_ = nullptr;
+  return temp;
+}
+inline ::ondewo::vtsi::VtsiProjectFeatureAvailability* VtsiProject::_internal_mutable_feature_availability() {
+  
+  if (_impl_.feature_availability_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ondewo::vtsi::VtsiProjectFeatureAvailability>(GetArenaForAllocation());
+    _impl_.feature_availability_ = p;
+  }
+  return _impl_.feature_availability_;
+}
+inline ::ondewo::vtsi::VtsiProjectFeatureAvailability* VtsiProject::mutable_feature_availability() {
+  ::ondewo::vtsi::VtsiProjectFeatureAvailability* _msg = _internal_mutable_feature_availability();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.VtsiProject.feature_availability)
+  return _msg;
+}
+inline void VtsiProject::set_allocated_feature_availability(::ondewo::vtsi::VtsiProjectFeatureAvailability* feature_availability) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.feature_availability_;
+  }
+  if (feature_availability) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(feature_availability);
+    if (message_arena != submessage_arena) {
+      feature_availability = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, feature_availability, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.feature_availability_ = feature_availability;
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.VtsiProject.feature_availability)
+}
+
+// optional bool ivr_menus_enabled = 24;
+inline bool VtsiProject::_internal_has_ivr_menus_enabled() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool VtsiProject::has_ivr_menus_enabled() const {
+  return _internal_has_ivr_menus_enabled();
+}
+inline void VtsiProject::clear_ivr_menus_enabled() {
+  _impl_.ivr_menus_enabled_ = false;
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline bool VtsiProject::_internal_ivr_menus_enabled() const {
+  return _impl_.ivr_menus_enabled_;
+}
+inline bool VtsiProject::ivr_menus_enabled() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProject.ivr_menus_enabled)
+  return _internal_ivr_menus_enabled();
+}
+inline void VtsiProject::_internal_set_ivr_menus_enabled(bool value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.ivr_menus_enabled_ = value;
+}
+inline void VtsiProject::set_ivr_menus_enabled(bool value) {
+  _internal_set_ivr_menus_enabled(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProject.ivr_menus_enabled)
+}
+
+// map<string, .ondewo.vtsi.TransferTargetDirectoryItem> transfer_target_directory = 25;
+inline int VtsiProject::_internal_transfer_target_directory_size() const {
+  return _impl_.transfer_target_directory_.size();
+}
+inline int VtsiProject::transfer_target_directory_size() const {
+  return _internal_transfer_target_directory_size();
+}
+inline void VtsiProject::clear_transfer_target_directory() {
+  _impl_.transfer_target_directory_.Clear();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::vtsi::TransferTargetDirectoryItem >&
+VtsiProject::_internal_transfer_target_directory() const {
+  return _impl_.transfer_target_directory_.GetMap();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::vtsi::TransferTargetDirectoryItem >&
+VtsiProject::transfer_target_directory() const {
+  // @@protoc_insertion_point(field_map:ondewo.vtsi.VtsiProject.transfer_target_directory)
+  return _internal_transfer_target_directory();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::vtsi::TransferTargetDirectoryItem >*
+VtsiProject::_internal_mutable_transfer_target_directory() {
+  return _impl_.transfer_target_directory_.MutableMap();
+}
+inline ::PROTOBUF_NAMESPACE_ID::Map< std::string, ::ondewo::vtsi::TransferTargetDirectoryItem >*
+VtsiProject::mutable_transfer_target_directory() {
+  // @@protoc_insertion_point(field_mutable_map:ondewo.vtsi.VtsiProject.transfer_target_directory)
+  return _internal_mutable_transfer_target_directory();
+}
+
+// -------------------------------------------------------------------
+
+// TransferTargetDirectoryItem
+
+// string display_name = 1;
+inline void TransferTargetDirectoryItem::clear_display_name() {
+  _impl_.display_name_.ClearToEmpty();
+}
+inline const std::string& TransferTargetDirectoryItem::display_name() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.TransferTargetDirectoryItem.display_name)
+  return _internal_display_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void TransferTargetDirectoryItem::set_display_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.display_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.TransferTargetDirectoryItem.display_name)
+}
+inline std::string* TransferTargetDirectoryItem::mutable_display_name() {
+  std::string* _s = _internal_mutable_display_name();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.TransferTargetDirectoryItem.display_name)
+  return _s;
+}
+inline const std::string& TransferTargetDirectoryItem::_internal_display_name() const {
+  return _impl_.display_name_.Get();
+}
+inline void TransferTargetDirectoryItem::_internal_set_display_name(const std::string& value) {
+  
+  _impl_.display_name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* TransferTargetDirectoryItem::_internal_mutable_display_name() {
+  
+  return _impl_.display_name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* TransferTargetDirectoryItem::release_display_name() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.TransferTargetDirectoryItem.display_name)
+  return _impl_.display_name_.Release();
+}
+inline void TransferTargetDirectoryItem::set_allocated_display_name(std::string* display_name) {
+  if (display_name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.display_name_.SetAllocated(display_name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.display_name_.IsDefault()) {
+    _impl_.display_name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.TransferTargetDirectoryItem.display_name)
+}
+
+// string description = 2;
+inline void TransferTargetDirectoryItem::clear_description() {
+  _impl_.description_.ClearToEmpty();
+}
+inline const std::string& TransferTargetDirectoryItem::description() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.TransferTargetDirectoryItem.description)
+  return _internal_description();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void TransferTargetDirectoryItem::set_description(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.description_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.TransferTargetDirectoryItem.description)
+}
+inline std::string* TransferTargetDirectoryItem::mutable_description() {
+  std::string* _s = _internal_mutable_description();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.TransferTargetDirectoryItem.description)
+  return _s;
+}
+inline const std::string& TransferTargetDirectoryItem::_internal_description() const {
+  return _impl_.description_.Get();
+}
+inline void TransferTargetDirectoryItem::_internal_set_description(const std::string& value) {
+  
+  _impl_.description_.Set(value, GetArenaForAllocation());
+}
+inline std::string* TransferTargetDirectoryItem::_internal_mutable_description() {
+  
+  return _impl_.description_.Mutable(GetArenaForAllocation());
+}
+inline std::string* TransferTargetDirectoryItem::release_description() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.TransferTargetDirectoryItem.description)
+  return _impl_.description_.Release();
+}
+inline void TransferTargetDirectoryItem::set_allocated_description(std::string* description) {
+  if (description != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.description_.SetAllocated(description, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.description_.IsDefault()) {
+    _impl_.description_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.TransferTargetDirectoryItem.description)
+}
+
+// -------------------------------------------------------------------
+
+// VtsiProjectFeatureAvailability
+
+// .ondewo.vtsi.WarmIntroAvailability warm_intro = 1;
+inline void VtsiProjectFeatureAvailability::clear_warm_intro() {
+  _impl_.warm_intro_ = 0;
+}
+inline ::ondewo::vtsi::WarmIntroAvailability VtsiProjectFeatureAvailability::_internal_warm_intro() const {
+  return static_cast< ::ondewo::vtsi::WarmIntroAvailability >(_impl_.warm_intro_);
+}
+inline ::ondewo::vtsi::WarmIntroAvailability VtsiProjectFeatureAvailability::warm_intro() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProjectFeatureAvailability.warm_intro)
+  return _internal_warm_intro();
+}
+inline void VtsiProjectFeatureAvailability::_internal_set_warm_intro(::ondewo::vtsi::WarmIntroAvailability value) {
+  
+  _impl_.warm_intro_ = value;
+}
+inline void VtsiProjectFeatureAvailability::set_warm_intro(::ondewo::vtsi::WarmIntroAvailability value) {
+  _internal_set_warm_intro(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProjectFeatureAvailability.warm_intro)
+}
+
+// bool warm_intro_phase_b = 2;
+inline void VtsiProjectFeatureAvailability::clear_warm_intro_phase_b() {
+  _impl_.warm_intro_phase_b_ = false;
+}
+inline bool VtsiProjectFeatureAvailability::_internal_warm_intro_phase_b() const {
+  return _impl_.warm_intro_phase_b_;
+}
+inline bool VtsiProjectFeatureAvailability::warm_intro_phase_b() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProjectFeatureAvailability.warm_intro_phase_b)
+  return _internal_warm_intro_phase_b();
+}
+inline void VtsiProjectFeatureAvailability::_internal_set_warm_intro_phase_b(bool value) {
+  
+  _impl_.warm_intro_phase_b_ = value;
+}
+inline void VtsiProjectFeatureAvailability::set_warm_intro_phase_b(bool value) {
+  _internal_set_warm_intro_phase_b(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProjectFeatureAvailability.warm_intro_phase_b)
+}
+
+// .ondewo.vtsi.IvrAvailability ivr = 3;
+inline void VtsiProjectFeatureAvailability::clear_ivr() {
+  _impl_.ivr_ = 0;
+}
+inline ::ondewo::vtsi::IvrAvailability VtsiProjectFeatureAvailability::_internal_ivr() const {
+  return static_cast< ::ondewo::vtsi::IvrAvailability >(_impl_.ivr_);
+}
+inline ::ondewo::vtsi::IvrAvailability VtsiProjectFeatureAvailability::ivr() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.VtsiProjectFeatureAvailability.ivr)
+  return _internal_ivr();
+}
+inline void VtsiProjectFeatureAvailability::_internal_set_ivr(::ondewo::vtsi::IvrAvailability value) {
+  
+  _impl_.ivr_ = value;
+}
+inline void VtsiProjectFeatureAvailability::set_ivr(::ondewo::vtsi::IvrAvailability value) {
+  _internal_set_ivr(value);
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.VtsiProjectFeatureAvailability.ivr)
 }
 
 // -------------------------------------------------------------------
@@ -8453,6 +9374,12 @@ inline void UndeployVtsiProjectResponse::set_allocated_error_message(std::string
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -8465,6 +9392,16 @@ template <> struct is_proto_enum< ::ondewo::vtsi::VtsiProjectSorting_VtsiProject
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::VtsiProjectSorting_VtsiProjectSortingField>() {
   return ::ondewo::vtsi::VtsiProjectSorting_VtsiProjectSortingField_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::vtsi::WarmIntroAvailability> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::WarmIntroAvailability>() {
+  return ::ondewo::vtsi::WarmIntroAvailability_descriptor();
+}
+template <> struct is_proto_enum< ::ondewo::vtsi::IvrAvailability> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::ondewo::vtsi::IvrAvailability>() {
+  return ::ondewo::vtsi::IvrAvailability_descriptor();
 }
 template <> struct is_proto_enum< ::ondewo::vtsi::TrunkRegistrationState> : ::std::true_type {};
 template <>
