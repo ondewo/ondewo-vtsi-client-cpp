@@ -1497,6 +1497,7 @@ PROTOBUF_CONSTEXPR Call::Call(
   , /*decltype(_impl_.ivr_menu_display_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.ivr_path_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.ivr_menu_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.dialed_number_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.start_time_)*/nullptr
   , /*decltype(_impl_.end_time_)*/nullptr
   , /*decltype(_impl_.sip_status_)*/nullptr
@@ -2896,6 +2897,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets[] PROTOBUF_SEC
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.ivr_menu_display_name_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.ivr_path_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.ivr_menu_name_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::Call, _impl_.dialed_number_),
   ~0u,
   ~0u,
   ~0u,
@@ -2917,6 +2919,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets[] PROTOBUF_SEC
   8,
   1,
   2,
+  ~0u,
   ~0u,
   ~0u,
   ~0u,
@@ -3291,29 +3294,29 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 924, -1, -1, sizeof(::ondewo::vtsi::TransferCallsResponse)},
   { 933, 943, -1, sizeof(::ondewo::vtsi::GetCallRequest)},
   { 947, 955, -1, sizeof(::ondewo::vtsi::Call_LabelsEntry_DoNotUse)},
-  { 957, 992, -1, sizeof(::ondewo::vtsi::Call)},
-  { 1021, 1029, -1, sizeof(::ondewo::vtsi::CallFilter_LabelsEntry_DoNotUse)},
-  { 1031, 1062, -1, sizeof(::ondewo::vtsi::CallFilter)},
-  { 1086, -1, -1, sizeof(::ondewo::vtsi::CallSorting)},
-  { 1094, 1107, -1, sizeof(::ondewo::vtsi::ListCallsRequest)},
-  { 1114, -1, -1, sizeof(::ondewo::vtsi::ListCallsResponse)},
-  { 1123, -1, -1, sizeof(::ondewo::vtsi::UpdateCallRequest)},
-  { 1132, -1, -1, sizeof(::ondewo::vtsi::UpdateCallResponse)},
-  { 1141, -1, -1, sizeof(::ondewo::vtsi::UpdateCallsRequest)},
-  { 1150, -1, -1, sizeof(::ondewo::vtsi::UpdateCallsResponse)},
-  { 1159, -1, -1, sizeof(::ondewo::vtsi::GetCallStatisticsRequest)},
-  { 1167, -1, -1, sizeof(::ondewo::vtsi::SipStatusTypeCount)},
-  { 1175, -1, -1, sizeof(::ondewo::vtsi::CallTypeCount)},
-  { 1183, -1, -1, sizeof(::ondewo::vtsi::AmdVerdictCount)},
-  { 1191, -1, -1, sizeof(::ondewo::vtsi::TransferOutcomeCount)},
-  { 1199, -1, -1, sizeof(::ondewo::vtsi::CallStatistics)},
-  { 1216, -1, -1, sizeof(::ondewo::vtsi::AllServicesStatuses)},
-  { 1227, -1, -1, sizeof(::ondewo::vtsi::ServiceStatus)},
-  { 1235, -1, -1, sizeof(::ondewo::vtsi::CallResourceStatus)},
-  { 1254, -1, -1, sizeof(::ondewo::vtsi::StreamCallerStatusRequest)},
-  { 1263, -1, -1, sizeof(::ondewo::vtsi::StreamListenerStatusRequest)},
-  { 1272, -1, -1, sizeof(::ondewo::vtsi::StreamScheduledCallerStatusRequest)},
-  { 1282, -1, -1, sizeof(::ondewo::vtsi::StreamCallResourceStatusResponse)},
+  { 957, 993, -1, sizeof(::ondewo::vtsi::Call)},
+  { 1023, 1031, -1, sizeof(::ondewo::vtsi::CallFilter_LabelsEntry_DoNotUse)},
+  { 1033, 1064, -1, sizeof(::ondewo::vtsi::CallFilter)},
+  { 1088, -1, -1, sizeof(::ondewo::vtsi::CallSorting)},
+  { 1096, 1109, -1, sizeof(::ondewo::vtsi::ListCallsRequest)},
+  { 1116, -1, -1, sizeof(::ondewo::vtsi::ListCallsResponse)},
+  { 1125, -1, -1, sizeof(::ondewo::vtsi::UpdateCallRequest)},
+  { 1134, -1, -1, sizeof(::ondewo::vtsi::UpdateCallResponse)},
+  { 1143, -1, -1, sizeof(::ondewo::vtsi::UpdateCallsRequest)},
+  { 1152, -1, -1, sizeof(::ondewo::vtsi::UpdateCallsResponse)},
+  { 1161, -1, -1, sizeof(::ondewo::vtsi::GetCallStatisticsRequest)},
+  { 1169, -1, -1, sizeof(::ondewo::vtsi::SipStatusTypeCount)},
+  { 1177, -1, -1, sizeof(::ondewo::vtsi::CallTypeCount)},
+  { 1185, -1, -1, sizeof(::ondewo::vtsi::AmdVerdictCount)},
+  { 1193, -1, -1, sizeof(::ondewo::vtsi::TransferOutcomeCount)},
+  { 1201, -1, -1, sizeof(::ondewo::vtsi::CallStatistics)},
+  { 1218, -1, -1, sizeof(::ondewo::vtsi::AllServicesStatuses)},
+  { 1229, -1, -1, sizeof(::ondewo::vtsi::ServiceStatus)},
+  { 1237, -1, -1, sizeof(::ondewo::vtsi::CallResourceStatus)},
+  { 1256, -1, -1, sizeof(::ondewo::vtsi::StreamCallerStatusRequest)},
+  { 1265, -1, -1, sizeof(::ondewo::vtsi::StreamListenerStatusRequest)},
+  { 1274, -1, -1, sizeof(::ondewo::vtsi::StreamScheduledCallerStatusRequest)},
+  { 1284, -1, -1, sizeof(::ondewo::vtsi::StreamCallResourceStatusResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -3816,7 +3819,7 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fcalls_2eproto[] PROTOBUF_SE
   "vtsi_project_name\030\001 \001(\t\022\021\n\tcall_name\030\002 \001"
   "(\t\022-\n\tcall_view\030\003 \001(\0162\025.ondewo.vtsi.Call"
   "ViewH\000\210\001\001\022.\n\nfield_mask\030\004 \001(\0132\032.google.p"
-  "rotobuf.FieldMaskB\014\n\n_call_view\"\226\013\n\004Call"
+  "rotobuf.FieldMaskB\014\n\n_call_view\"\255\013\n\004Call"
   "\022\014\n\004name\030\001 \001(\t\022\023\n\013sip_account\030\002 \001(\t\022\026\n\016c"
   "ontainer_name\030\003 \001(\t\022(\n\tcall_type\030\004 \001(\0162\025"
   ".ondewo.vtsi.CallType\022\024\n\014phone_number\030\005 "
@@ -3845,300 +3848,300 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fcalls_2eproto[] PROTOBUF_SE
   "\022\023\n\013sip_call_id\030\031 \001(\t\022-\n\006labels\030\032 \003(\0132\035."
   "ondewo.vtsi.Call.LabelsEntry\022\035\n\025ivr_menu"
   "_display_name\030\033 \001(\t\022\020\n\010ivr_path\030\034 \001(\t\022\025\n"
-  "\rivr_menu_name\030\035 \001(\t\032-\n\013LabelsEntry\022\013\n\003k"
-  "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\r\n\013_sip_stat"
-  "usB\025\n\023_sip_status_historyB\024\n\022_services_s"
-  "tatusesB\031\n\027_common_services_configB\013\n\t_s"
-  "ip_portB\013\n\t_csi_portB\023\n\021_nlu_session_nam"
-  "eB\014\n\n_platformsB\025\n\023_redial_recommendedB\020"
-  "\n\016_redial_reasonB.\n,_answering_machine_d"
-  "etection_end_description\"\376\007\n\nCallFilter\022"
-  "\022\n\ncall_names\030\001 \003(\t\022\031\n\021nlu_session_names"
-  "\030\002 \003(\t\022\024\n\014sip_accounts\030\003 \003(\t\022\025\n\rphone_nu"
-  "mbers\030\004 \003(\t\022\027\n\017container_names\030\005 \003(\t\022\025\n\t"
-  "sip_ports\030\006 \003(\tB\002\030\001\022\025\n\tcsi_ports\030\007 \003(\tB\002"
-  "\030\001\022)\n\ncall_types\030\010 \003(\0162\025.ondewo.vtsi.Cal"
-  "lType\022:\n\020sip_status_types\030\t \003(\0162 .ondewo"
-  ".sip.SipStatus.StatusType\0221\n\013call_status"
-  "\030\n \001(\0162\027.ondewo.vtsi.CallStatusH\001\210\001\001\0223\n\n"
-  "start_time\030\013 \001(\0132\032.google.protobuf.Times"
-  "tampH\002\210\001\001\0221\n\010end_time\030\014 \001(\0132\032.google.pro"
-  "tobuf.TimestampH\003\210\001\001\022\036\n\021duration_in_s_mi"
-  "n\030\r \001(\002H\004\210\001\001\022\036\n\021duration_in_s_max\030\016 \001(\002H"
-  "\005\210\001\001\0226\n\tplatforms\030\017 \003(\0162#.ondewo.nlu.Int"
-  "ent.Message.Platform\022\027\n\rcampaign_name\030\020 "
-  "\001(\tH\000\022\037\n\025campaign_display_name\030\021 \001(\tH\000\0223"
-  "\n\006labels\030\022 \003(\0132#.ondewo.vtsi.CallFilter."
-  "LabelsEntry\022\024\n\014caller_names\030\023 \003(\t\022\026\n\016lis"
-  "tener_names\030\024 \003(\t\022\037\n\022redial_recommended\030"
-  "\025 \001(\010H\006\210\001\001\0227\n\021transfer_outcomes\030\026 \003(\0162\034."
-  "ondewo.vtsi.TransferOutcome\022\030\n\020sip_port_"
-  "numbers\030\027 \003(\005\022\030\n\020csi_port_numbers\030\030 \003(\005\032"
-  "-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001"
-  "(\t:\0028\001B\n\n\010campaignB\016\n\014_call_statusB\r\n\013_s"
-  "tart_timeB\013\n\t_end_timeB\024\n\022_duration_in_s"
-  "_minB\024\n\022_duration_in_s_maxB\025\n\023_redial_re"
-  "commended\"\320\001\n\013CallSorting\022@\n\rsorting_fie"
-  "ld\030\001 \001(\0162).ondewo.vtsi.CallSorting.CallS"
-  "ortingField\0229\n\014sorting_mode\030\002 \001(\0162#.onde"
-  "wo.vtsi.VtsiProjectSortingMode\"D\n\020CallSo"
-  "rtingField\022\023\n\017NO_CALL_SORTING\020\000\022\033\n\027SORT_"
-  "CALL_BY_START_TIME\020\001\"\310\002\n\020ListCallsReques"
-  "t\022\031\n\021vtsi_project_name\030\001 \001(\t\022-\n\tcall_vie"
-  "w\030\002 \001(\0162\025.ondewo.vtsi.CallViewH\000\210\001\001\0221\n\013c"
-  "all_filter\030\003 \001(\0132\027.ondewo.vtsi.CallFilte"
-  "rH\001\210\001\001\022\027\n\npage_token\030\004 \001(\tH\002\210\001\001\022.\n\nfield"
-  "_mask\030\005 \001(\0132\032.google.protobuf.FieldMask\022"
-  "\021\n\tpage_size\030\006 \001(\005\022.\n\014call_sorting\030\007 \001(\013"
-  "2\030.ondewo.vtsi.CallSortingB\014\n\n_call_view"
-  "B\016\n\014_call_filterB\r\n\013_page_token\"b\n\021ListC"
-  "allsResponse\022 \n\005calls\030\001 \003(\0132\021.ondewo.vts"
-  "i.Call\022\027\n\017next_page_token\030\002 \001(\t\022\022\n\ntotal"
-  "_size\030\003 \001(\005\"\225\001\n\021UpdateCallRequest\022\037\n\004cal"
-  "l\030\001 \001(\0132\021.ondewo.vtsi.Call\022/\n\013update_mas"
-  "k\030\002 \001(\0132\032.google.protobuf.FieldMask\022.\n\nf"
-  "ield_mask\030\003 \001(\0132\032.google.protobuf.FieldM"
-  "ask\"Z\n\022UpdateCallResponse\022\014\n\004name\030\001 \001(\t\022"
-  "\037\n\004call\030\002 \001(\0132\021.ondewo.vtsi.Call\022\025\n\rerro"
-  "r_message\030\003 \001(\t\"\235\001\n\022UpdateCallsRequest\022\031"
-  "\n\021vtsi_project_name\030\001 \001(\t\022<\n\024update_call"
-  "_requests\030\002 \003(\0132\036.ondewo.vtsi.UpdateCall"
-  "Request\022.\n\nfield_mask\030\003 \001(\0132\032.google.pro"
-  "tobuf.FieldMask\"\207\001\n\023UpdateCallsResponse\022"
-  "\031\n\021vtsi_project_name\030\001 \001(\t\022>\n\025update_cal"
-  "l_responses\030\002 \003(\0132\037.ondewo.vtsi.UpdateCa"
-  "llResponse\022\025\n\rerror_message\030\003 \001(\t\"c\n\030Get"
-  "CallStatisticsRequest\022\031\n\021vtsi_project_na"
-  "me\030\001 \001(\t\022,\n\013call_filter\030\002 \001(\0132\027.ondewo.v"
-  "tsi.CallFilter\"^\n\022SipStatusTypeCount\0229\n\017"
-  "sip_status_type\030\001 \001(\0162 .ondewo.sip.SipSt"
-  "atus.StatusType\022\r\n\005count\030\002 \001(\005\"H\n\rCallTy"
-  "peCount\022(\n\tcall_type\030\001 \001(\0162\025.ondewo.vtsi"
-  ".CallType\022\r\n\005count\030\002 \001(\005\"f\n\017AmdVerdictCo"
-  "unt\022D\n\007verdict\030\001 \001(\01623.ondewo.sip.Answer"
-  "ingMachineDetectionResult.Verdict\022\r\n\005cou"
-  "nt\030\002 \001(\005\"T\n\024TransferOutcomeCount\022-\n\007outc"
-  "ome\030\001 \001(\0162\034.ondewo.vtsi.TransferOutcome\022"
-  "\r\n\005count\030\002 \001(\005\"\246\003\n\016CallStatistics\022\031\n\021vts"
-  "i_project_name\030\001 \001(\t\022\r\n\005total\030\002 \001(\005\022\016\n\006a"
-  "ctive\030\003 \001(\005\022\?\n\026sip_status_type_counts\030\004 "
-  "\003(\0132\037.ondewo.vtsi.SipStatusTypeCount\0224\n\020"
-  "call_type_counts\030\005 \003(\0132\032.ondewo.vtsi.Cal"
-  "lTypeCount\022\023\n\013ended_calls\030\006 \001(\005\022\030\n\020total"
-  "_duration_s\030\007 \001(\001\022\032\n\022average_duration_s\030"
-  "\010 \001(\001\022\032\n\022redial_recommended\030\t \001(\005\0228\n\022amd"
-  "_verdict_counts\030\n \003(\0132\034.ondewo.vtsi.AmdV"
-  "erdictCount\022B\n\027transfer_outcome_counts\030\013"
-  " \003(\0132!.ondewo.vtsi.TransferOutcomeCount\""
-  "\212\002\n\023AllServicesStatuses\022.\n\nstatus_sip\030\001 "
-  "\001(\0132\032.ondewo.vtsi.ServiceStatus\0223\n\017statu"
-  "s_asterisk\030\002 \001(\0132\032.ondewo.vtsi.ServiceSt"
-  "atus\022.\n\nstatus_nlu\030\003 \001(\0132\032.ondewo.vtsi.S"
-  "erviceStatus\022.\n\nstatus_stt\030\004 \001(\0132\032.ondew"
-  "o.vtsi.ServiceStatus\022.\n\nstatus_tts\030\005 \001(\013"
-  "2\032.ondewo.vtsi.ServiceStatus\"7\n\rServiceS"
-  "tatus\022\017\n\007healthy\030\001 \001(\010\022\025\n\rerror_message\030"
-  "\002 \001(\t\"\356\003\n\022CallResourceStatus\022\025\n\rresource"
-  "_name\030\001 \001(\t\022(\n\tcall_type\030\002 \001(\0162\025.ondewo."
-  "vtsi.CallType\022\021\n\tcall_name\030\003 \001(\t\022\016\n\006acti"
-  "ve\030\004 \001(\010\0229\n\017sip_status_type\030\005 \001(\0162 .onde"
-  "wo.sip.SipStatus.StatusType\022\036\n\026sip_statu"
-  "s_description\030\006 \001(\t\022.\n\nstart_time\030\007 \001(\0132"
-  "\032.google.protobuf.Timestamp\022,\n\010end_time\030"
-  "\010 \001(\0132\032.google.protobuf.Timestamp\022\024\n\014pho"
-  "ne_number\030\t \001(\t\022C\n\027scheduled_caller_stat"
-  "us\030\n \001(\0162\".ondewo.vtsi.ScheduledCallerSt"
-  "atus\0222\n\016scheduled_time\030\013 \001(\0132\032.google.pr"
-  "otobuf.Timestamp\022\025\n\rcampaign_name\030\014 \001(\t\022"
-  "\025\n\rerror_message\030\r \001(\t\"a\n\031StreamCallerSt"
-  "atusRequest\022\031\n\021vtsi_project_name\030\001 \001(\t\022\024"
-  "\n\014caller_names\030\002 \003(\t\022\023\n\013active_only\030\003 \001("
-  "\010\"e\n\033StreamListenerStatusRequest\022\031\n\021vtsi"
-  "_project_name\030\001 \001(\t\022\026\n\016listener_names\030\002 "
-  "\003(\t\022\023\n\013active_only\030\003 \001(\010\"\254\001\n\"StreamSched"
-  "uledCallerStatusRequest\022\031\n\021vtsi_project_"
-  "name\030\001 \001(\t\022\036\n\026scheduled_caller_names\030\002 \003"
-  "(\t\0224\n\010statuses\030\003 \003(\0162\".ondewo.vtsi.Sched"
-  "uledCallerStatus\022\025\n\rcampaign_name\030\004 \001(\t\""
-  "\267\001\n StreamCallResourceStatusResponse\0221\n\010"
-  "statuses\030\001 \003(\0132\037.ondewo.vtsi.CallResourc"
-  "eStatus\022\036\n\026removed_resource_names\030\002 \003(\t\022"
-  "\020\n\010snapshot\030\003 \001(\010\022\032\n\022snapshot_truncated\030"
-  "\004 \001(\010\022\022\n\nend_reason\030\005 \001(\t*\366\001\n\025ScheduledC"
-  "allerStatus\022\'\n#SCHEDULED_CALLER_STATUS_U"
-  "NSPECIFIED\020\000\022#\n\037SCHEDULED_CALLER_STATUS_"
-  "PENDING\020\001\022\"\n\036SCHEDULED_CALLER_STATUS_FIR"
-  "ING\020\002\022 \n\034SCHEDULED_CALLER_STATUS_DONE\020\003\022"
-  "\"\n\036SCHEDULED_CALLER_STATUS_FAILED\020\004\022%\n!S"
-  "CHEDULED_CALLER_STATUS_CANCELLED\020\005*^\n\014Tr"
-  "ansferMode\022\035\n\031TRANSFER_MODE_UNSPECIFIED\020"
-  "\000\022\027\n\023TRANSFER_MODE_BLIND\020\001\022\026\n\022TRANSFER_M"
-  "ODE_WARM\020\002*\333\003\n\017TransferOutcome\022 \n\034TRANSF"
-  "ER_OUTCOME_UNSPECIFIED\020\000\022\035\n\031TRANSFER_OUT"
-  "COME_ACCEPTED\020\001\022\034\n\030TRANSFER_OUTCOME_PEND"
-  "ING\020\002\022#\n\037TRANSFER_OUTCOME_TARGET_INVALID"
-  "\020\003\022#\n\037TRANSFER_OUTCOME_REFER_REJECTED\020\004\022"
-  "\034\n\030TRANSFER_OUTCOME_TIMEOUT\020\005\022\037\n\033TRANSFE"
-  "R_OUTCOME_CALL_ENDED\020\006\022(\n$TRANSFER_OUTCO"
-  "ME_CALL_SCOPE_MISMATCH\020\007\022$\n TRANSFER_OUT"
-  "COME_SIP_UNREACHABLE\020\010\022\035\n\031TRANSFER_OUTCO"
-  "ME_DECLINED\020\t\022 \n\034TRANSFER_OUTCOME_NO_DEC"
-  "ISION\020\n\022\'\n#TRANSFER_OUTCOME_TARGET_UNAVA"
-  "ILABLE\020\013\022&\n\"TRANSFER_OUTCOME_INTRO_UNAVA"
-  "ILABLE\020\014*k\n\020CallMediaSetting\022 \n\034CALL_MED"
-  "IA_SETTING_UNCHANGED\020\000\022\031\n\025CALL_MEDIA_SET"
-  "TING_ON\020\001\022\032\n\026CALL_MEDIA_SETTING_OFF\020\002*r\n"
-  "\017ParticipantMode\022 \n\034PARTICIPANT_MODE_UNS"
-  "PECIFIED\020\000\022\037\n\033PARTICIPANT_MODE_CONFERENC"
-  "E\020\001\022\034\n\030PARTICIPANT_MODE_MONITOR\020\002*\230\001\n\017Bo"
-  "tPolicyOnJoin\022\"\n\036BOT_POLICY_ON_JOIN_UNSP"
-  "ECIFIED\020\000\022\034\n\030BOT_POLICY_ON_JOIN_PAUSE\020\001\022"
-  "&\n\"BOT_POLICY_ON_JOIN_PAUSE_LISTENING\020\002\022"
-  "\033\n\027BOT_POLICY_ON_JOIN_KEEP\020\003*\254\001\n\020Partici"
-  "pantState\022!\n\035PARTICIPANT_STATE_UNSPECIFI"
-  "ED\020\000\022\035\n\031PARTICIPANT_STATE_RINGING\020\001\022\034\n\030P"
-  "ARTICIPANT_STATE_JOINED\020\002\022\034\n\030PARTICIPANT"
-  "_STATE_FAILED\020\003\022\032\n\026PARTICIPANT_STATE_LEF"
-  "T\020\004*\227\003\n\024ParticipantEndReason\022&\n\"PARTICIP"
-  "ANT_END_REASON_UNSPECIFIED\020\000\022$\n PARTICIP"
-  "ANT_END_REASON_NO_ANSWER\020\001\022\037\n\033PARTICIPAN"
-  "T_END_REASON_BUSY\020\002\022.\n*PARTICIPANT_END_R"
-  "EASON_CHANNEL_UNAVAILABLE\020\003\022%\n!PARTICIPA"
-  "NT_END_REASON_CALL_ENDED\020\004\022\"\n\036PARTICIPAN"
-  "T_END_REASON_REMOVED\020\005\022!\n\035PARTICIPANT_EN"
-  "D_REASON_HANGUP\020\006\022&\n\"PARTICIPANT_END_REA"
-  "SON_HANDED_OVER\020\007\022&\n\"PARTICIPANT_END_REA"
-  "SON_JOIN_FAILED\020\010\022\"\n\036PARTICIPANT_END_REA"
-  "SON_TIMEOUT\020\t*f\n\rCallAudioMode\022\037\n\033CALL_A"
-  "UDIO_MODE_UNSPECIFIED\020\000\022\032\n\026CALL_AUDIO_MO"
-  "DE_LISTEN\020\001\022\030\n\024CALL_AUDIO_MODE_TALK\020\002*\245\002"
-  "\n\022CallAudioEndReason\022%\n!CALL_AUDIO_END_R"
-  "EASON_UNSPECIFIED\020\000\022\'\n#CALL_AUDIO_END_RE"
-  "ASON_CLIENT_CLOSED\020\001\022$\n CALL_AUDIO_END_R"
-  "EASON_CALL_ENDED\020\002\022*\n&CALL_AUDIO_END_REA"
-  "SON_CALL_TRANSFERRED\020\003\022&\n\"CALL_AUDIO_END"
-  "_REASON_MAX_DURATION\020\004\022!\n\035CALL_AUDIO_END"
-  "_REASON_STALLED\020\005\022\"\n\036CALL_AUDIO_END_REAS"
-  "ON_INTERNAL\020\006*.\n\010CallView\022\013\n\007MINIMUM\020\000\022\013"
-  "\n\007SHALLOW\020\001\022\010\n\004FULL\020\002*[\n\nCallStatus\022\033\n\027C"
-  "ALL_STATUS_UNSPECIFIED\020\000\022\026\n\022CALL_STATUS_"
-  "ACTIVE\020\001\022\030\n\024CALL_STATUS_INACTIVE\020\002*D\n\010Ca"
-  "llType\022\010\n\004BOTH\020\000\022\014\n\010LISTENER\020\001\022\n\n\006CALLER"
-  "\020\002\022\024\n\020SCHEDULED_CALLER\020\0032\254#\n\005Calls\022P\n\013St"
-  "artCaller\022\037.ondewo.vtsi.StartCallerReque"
-  "st\032 .ondewo.vtsi.StartCallerResponse\022S\n\014"
-  "StartCallers\022 .ondewo.vtsi.StartCallersR"
-  "equest\032!.ondewo.vtsi.StartCallersRespons"
-  "e\022P\n\013ListCallers\022\037.ondewo.vtsi.ListCalle"
-  "rsRequest\032 .ondewo.vtsi.ListCallersRespo"
-  "nse\022\?\n\tGetCaller\022\035.ondewo.vtsi.GetCaller"
-  "Request\032\023.ondewo.vtsi.Caller\022S\n\014UpdateCa"
-  "ller\022 .ondewo.vtsi.UpdateCallerRequest\032!"
-  ".ondewo.vtsi.UpdateCallerResponse\022V\n\rUpd"
-  "ateCallers\022!.ondewo.vtsi.UpdateCallersRe"
-  "quest\032\".ondewo.vtsi.UpdateCallersRespons"
-  "e\022S\n\014DeleteCaller\022 .ondewo.vtsi.DeleteCa"
-  "llerRequest\032!.ondewo.vtsi.DeleteCallerRe"
-  "sponse\022V\n\rDeleteCallers\022!.ondewo.vtsi.De"
-  "leteCallersRequest\032\".ondewo.vtsi.DeleteC"
-  "allersResponse\022M\n\nStopCaller\022\036.ondewo.vt"
-  "si.StopCallerRequest\032\037.ondewo.vtsi.StopC"
-  "allerResponse\022P\n\013StopCallers\022\037.ondewo.vt"
-  "si.StopCallersRequest\032 .ondewo.vtsi.Stop"
-  "CallersResponse\022V\n\rStartListener\022!.ondew"
-  "o.vtsi.StartListenerRequest\032\".ondewo.vts"
-  "i.StartListenerResponse\022Y\n\016StartListener"
-  "s\022\".ondewo.vtsi.StartListenersRequest\032#."
-  "ondewo.vtsi.StartListenersResponse\022S\n\014St"
-  "opListener\022 .ondewo.vtsi.StopListenerReq"
-  "uest\032!.ondewo.vtsi.StopListenerResponse\022"
-  "V\n\rStopListeners\022!.ondewo.vtsi.StopListe"
-  "nersRequest\032\".ondewo.vtsi.StopListenersR"
-  "esponse\022V\n\rListListeners\022!.ondewo.vtsi.L"
-  "istListenersRequest\032\".ondewo.vtsi.ListLi"
-  "stenersResponse\022E\n\013GetListener\022\037.ondewo."
-  "vtsi.GetListenerRequest\032\025.ondewo.vtsi.Li"
-  "stener\022Y\n\016UpdateListener\022\".ondewo.vtsi.U"
-  "pdateListenerRequest\032#.ondewo.vtsi.Updat"
-  "eListenerResponse\022\\\n\017UpdateListeners\022#.o"
-  "ndewo.vtsi.UpdateListenersRequest\032$.onde"
-  "wo.vtsi.UpdateListenersResponse\022Y\n\016Delet"
-  "eListener\022\".ondewo.vtsi.DeleteListenerRe"
-  "quest\032#.ondewo.vtsi.DeleteListenerRespon"
-  "se\022\\\n\017DeleteListeners\022#.ondewo.vtsi.Dele"
-  "teListenersRequest\032$.ondewo.vtsi.DeleteL"
-  "istenersResponse\022k\n\024StartScheduledCaller"
-  "\022(.ondewo.vtsi.StartScheduledCallerReque"
-  "st\032).ondewo.vtsi.StartScheduledCallerRes"
-  "ponse\022n\n\025StartScheduledCallers\022).ondewo."
-  "vtsi.StartScheduledCallersRequest\032*.onde"
-  "wo.vtsi.StartScheduledCallersResponse\022k\n"
-  "\024AddCallersToCampaign\022(.ondewo.vtsi.AddC"
-  "allersToCampaignRequest\032).ondewo.vtsi.Ad"
-  "dCallersToCampaignResponse\022\206\001\n\035AddSchedu"
-  "ledCallersToCampaign\0221.ondewo.vtsi.AddSc"
-  "heduledCallersToCampaignRequest\0322.ondewo"
-  ".vtsi.AddScheduledCallersToCampaignRespo"
-  "nse\022Z\n\022GetScheduledCaller\022&.ondewo.vtsi."
-  "GetScheduledCallerRequest\032\034.ondewo.vtsi."
-  "ScheduledCaller\022k\n\024ListScheduledCallers\022"
-  "(.ondewo.vtsi.ListScheduledCallersReques"
-  "t\032).ondewo.vtsi.ListScheduledCallersResp"
-  "onse\022`\n\025UpdateScheduledCaller\022).ondewo.v"
-  "tsi.UpdateScheduledCallerRequest\032\034.ondew"
-  "o.vtsi.ScheduledCaller\022n\n\025CancelSchedule"
-  "dCaller\022).ondewo.vtsi.CancelScheduledCal"
-  "lerRequest\032*.ondewo.vtsi.CancelScheduled"
-  "CallerResponse\022q\n\026CancelScheduledCallers"
-  "\022*.ondewo.vtsi.CancelScheduledCallersReq"
-  "uest\032+.ondewo.vtsi.CancelScheduledCaller"
-  "sResponse\022^\n\024RetryScheduledCaller\022(.onde"
-  "wo.vtsi.RetryScheduledCallerRequest\032\034.on"
-  "dewo.vtsi.ScheduledCaller\022G\n\010StopCall\022\034."
-  "ondewo.vtsi.StopCallRequest\032\035.ondewo.vts"
-  "i.StopCallResponse\022J\n\tStopCalls\022\035.ondewo"
-  ".vtsi.StopCallsRequest\032\036.ondewo.vtsi.Sto"
-  "pCallsResponse\022P\n\014StopAllCalls\022 .ondewo."
-  "vtsi.StopAllCallsRequest\032\036.ondewo.vtsi.S"
-  "topCallsResponse\022S\n\014TransferCall\022 .ondew"
-  "o.vtsi.TransferCallRequest\032!.ondewo.vtsi"
-  ".TransferCallResponse\022V\n\rTransferCalls\022!"
-  ".ondewo.vtsi.TransferCallsRequest\032\".onde"
-  "wo.vtsi.TransferCallsResponse\0229\n\007GetCall"
-  "\022\033.ondewo.vtsi.GetCallRequest\032\021.ondewo.v"
-  "tsi.Call\022J\n\tListCalls\022\035.ondewo.vtsi.List"
-  "CallsRequest\032\036.ondewo.vtsi.ListCallsResp"
-  "onse\022W\n\021GetCallStatistics\022%.ondewo.vtsi."
-  "GetCallStatisticsRequest\032\033.ondewo.vtsi.C"
-  "allStatistics\022M\n\nUpdateCall\022\036.ondewo.vts"
-  "i.UpdateCallRequest\032\037.ondewo.vtsi.Update"
-  "CallResponse\022P\n\013UpdateCalls\022\037.ondewo.vts"
-  "i.UpdateCallsRequest\032 .ondewo.vtsi.Updat"
-  "eCallsResponse\022m\n\022StreamCallerStatus\022&.o"
-  "ndewo.vtsi.StreamCallerStatusRequest\032-.o"
-  "ndewo.vtsi.StreamCallResourceStatusRespo"
-  "nse0\001\022q\n\024StreamListenerStatus\022(.ondewo.v"
-  "tsi.StreamListenerStatusRequest\032-.ondewo"
-  ".vtsi.StreamCallResourceStatusResponse0\001"
-  "\022\177\n\033StreamScheduledCallerStatus\022/.ondewo"
-  ".vtsi.StreamScheduledCallerStatusRequest"
-  "\032-.ondewo.vtsi.StreamCallResourceStatusR"
-  "esponse0\001\022S\n\014InviteToCall\022 .ondewo.vtsi."
-  "InviteToCallRequest\032!.ondewo.vtsi.Invite"
-  "ToCallResponse\022n\n\025RemoveCallParticipant\022"
-  ").ondewo.vtsi.RemoveCallParticipantReque"
-  "st\032*.ondewo.vtsi.RemoveCallParticipantRe"
-  "sponse\022h\n\023SetCallMediaControl\022\'.ondewo.v"
-  "tsi.SetCallMediaControlRequest\032(.ondewo."
-  "vtsi.SetCallMediaControlResponse\022S\n\014Send"
-  "CallDtmf\022 .ondewo.vtsi.SendCallDtmfReque"
-  "st\032!.ondewo.vtsi.SendCallDtmfResponse\022`\n"
-  "\017StreamCallAudio\022#.ondewo.vtsi.StreamCal"
-  "lAudioRequest\032$.ondewo.vtsi.StreamCallAu"
-  "dioResponse(\0010\001\022^\n\017ListenCallAudio\022#.ond"
-  "ewo.vtsi.ListenCallAudioRequest\032$.ondewo"
-  ".vtsi.StreamCallAudioResponse0\001P\004b\006proto"
-  "3"
+  "\rivr_menu_name\030\035 \001(\t\022\025\n\rdialed_number\030\036 "
+  "\001(\t\032-\n\013LabelsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value"
+  "\030\002 \001(\t:\0028\001B\r\n\013_sip_statusB\025\n\023_sip_status"
+  "_historyB\024\n\022_services_statusesB\031\n\027_commo"
+  "n_services_configB\013\n\t_sip_portB\013\n\t_csi_p"
+  "ortB\023\n\021_nlu_session_nameB\014\n\n_platformsB\025"
+  "\n\023_redial_recommendedB\020\n\016_redial_reasonB"
+  ".\n,_answering_machine_detection_end_desc"
+  "ription\"\376\007\n\nCallFilter\022\022\n\ncall_names\030\001 \003"
+  "(\t\022\031\n\021nlu_session_names\030\002 \003(\t\022\024\n\014sip_acc"
+  "ounts\030\003 \003(\t\022\025\n\rphone_numbers\030\004 \003(\t\022\027\n\017co"
+  "ntainer_names\030\005 \003(\t\022\025\n\tsip_ports\030\006 \003(\tB\002"
+  "\030\001\022\025\n\tcsi_ports\030\007 \003(\tB\002\030\001\022)\n\ncall_types\030"
+  "\010 \003(\0162\025.ondewo.vtsi.CallType\022:\n\020sip_stat"
+  "us_types\030\t \003(\0162 .ondewo.sip.SipStatus.St"
+  "atusType\0221\n\013call_status\030\n \001(\0162\027.ondewo.v"
+  "tsi.CallStatusH\001\210\001\001\0223\n\nstart_time\030\013 \001(\0132"
+  "\032.google.protobuf.TimestampH\002\210\001\001\0221\n\010end_"
+  "time\030\014 \001(\0132\032.google.protobuf.TimestampH\003"
+  "\210\001\001\022\036\n\021duration_in_s_min\030\r \001(\002H\004\210\001\001\022\036\n\021d"
+  "uration_in_s_max\030\016 \001(\002H\005\210\001\001\0226\n\tplatforms"
+  "\030\017 \003(\0162#.ondewo.nlu.Intent.Message.Platf"
+  "orm\022\027\n\rcampaign_name\030\020 \001(\tH\000\022\037\n\025campaign"
+  "_display_name\030\021 \001(\tH\000\0223\n\006labels\030\022 \003(\0132#."
+  "ondewo.vtsi.CallFilter.LabelsEntry\022\024\n\014ca"
+  "ller_names\030\023 \003(\t\022\026\n\016listener_names\030\024 \003(\t"
+  "\022\037\n\022redial_recommended\030\025 \001(\010H\006\210\001\001\0227\n\021tra"
+  "nsfer_outcomes\030\026 \003(\0162\034.ondewo.vtsi.Trans"
+  "ferOutcome\022\030\n\020sip_port_numbers\030\027 \003(\005\022\030\n\020"
+  "csi_port_numbers\030\030 \003(\005\032-\n\013LabelsEntry\022\013\n"
+  "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\n\n\010campaig"
+  "nB\016\n\014_call_statusB\r\n\013_start_timeB\013\n\t_end"
+  "_timeB\024\n\022_duration_in_s_minB\024\n\022_duration"
+  "_in_s_maxB\025\n\023_redial_recommended\"\320\001\n\013Cal"
+  "lSorting\022@\n\rsorting_field\030\001 \001(\0162).ondewo"
+  ".vtsi.CallSorting.CallSortingField\0229\n\014so"
+  "rting_mode\030\002 \001(\0162#.ondewo.vtsi.VtsiProje"
+  "ctSortingMode\"D\n\020CallSortingField\022\023\n\017NO_"
+  "CALL_SORTING\020\000\022\033\n\027SORT_CALL_BY_START_TIM"
+  "E\020\001\"\310\002\n\020ListCallsRequest\022\031\n\021vtsi_project"
+  "_name\030\001 \001(\t\022-\n\tcall_view\030\002 \001(\0162\025.ondewo."
+  "vtsi.CallViewH\000\210\001\001\0221\n\013call_filter\030\003 \001(\0132"
+  "\027.ondewo.vtsi.CallFilterH\001\210\001\001\022\027\n\npage_to"
+  "ken\030\004 \001(\tH\002\210\001\001\022.\n\nfield_mask\030\005 \001(\0132\032.goo"
+  "gle.protobuf.FieldMask\022\021\n\tpage_size\030\006 \001("
+  "\005\022.\n\014call_sorting\030\007 \001(\0132\030.ondewo.vtsi.Ca"
+  "llSortingB\014\n\n_call_viewB\016\n\014_call_filterB"
+  "\r\n\013_page_token\"b\n\021ListCallsResponse\022 \n\005c"
+  "alls\030\001 \003(\0132\021.ondewo.vtsi.Call\022\027\n\017next_pa"
+  "ge_token\030\002 \001(\t\022\022\n\ntotal_size\030\003 \001(\005\"\225\001\n\021U"
+  "pdateCallRequest\022\037\n\004call\030\001 \001(\0132\021.ondewo."
+  "vtsi.Call\022/\n\013update_mask\030\002 \001(\0132\032.google."
+  "protobuf.FieldMask\022.\n\nfield_mask\030\003 \001(\0132\032"
+  ".google.protobuf.FieldMask\"Z\n\022UpdateCall"
+  "Response\022\014\n\004name\030\001 \001(\t\022\037\n\004call\030\002 \001(\0132\021.o"
+  "ndewo.vtsi.Call\022\025\n\rerror_message\030\003 \001(\t\"\235"
+  "\001\n\022UpdateCallsRequest\022\031\n\021vtsi_project_na"
+  "me\030\001 \001(\t\022<\n\024update_call_requests\030\002 \003(\0132\036"
+  ".ondewo.vtsi.UpdateCallRequest\022.\n\nfield_"
+  "mask\030\003 \001(\0132\032.google.protobuf.FieldMask\"\207"
+  "\001\n\023UpdateCallsResponse\022\031\n\021vtsi_project_n"
+  "ame\030\001 \001(\t\022>\n\025update_call_responses\030\002 \003(\013"
+  "2\037.ondewo.vtsi.UpdateCallResponse\022\025\n\rerr"
+  "or_message\030\003 \001(\t\"c\n\030GetCallStatisticsReq"
+  "uest\022\031\n\021vtsi_project_name\030\001 \001(\t\022,\n\013call_"
+  "filter\030\002 \001(\0132\027.ondewo.vtsi.CallFilter\"^\n"
+  "\022SipStatusTypeCount\0229\n\017sip_status_type\030\001"
+  " \001(\0162 .ondewo.sip.SipStatus.StatusType\022\r"
+  "\n\005count\030\002 \001(\005\"H\n\rCallTypeCount\022(\n\tcall_t"
+  "ype\030\001 \001(\0162\025.ondewo.vtsi.CallType\022\r\n\005coun"
+  "t\030\002 \001(\005\"f\n\017AmdVerdictCount\022D\n\007verdict\030\001 "
+  "\001(\01623.ondewo.sip.AnsweringMachineDetecti"
+  "onResult.Verdict\022\r\n\005count\030\002 \001(\005\"T\n\024Trans"
+  "ferOutcomeCount\022-\n\007outcome\030\001 \001(\0162\034.ondew"
+  "o.vtsi.TransferOutcome\022\r\n\005count\030\002 \001(\005\"\246\003"
+  "\n\016CallStatistics\022\031\n\021vtsi_project_name\030\001 "
+  "\001(\t\022\r\n\005total\030\002 \001(\005\022\016\n\006active\030\003 \001(\005\022\?\n\026si"
+  "p_status_type_counts\030\004 \003(\0132\037.ondewo.vtsi"
+  ".SipStatusTypeCount\0224\n\020call_type_counts\030"
+  "\005 \003(\0132\032.ondewo.vtsi.CallTypeCount\022\023\n\013end"
+  "ed_calls\030\006 \001(\005\022\030\n\020total_duration_s\030\007 \001(\001"
+  "\022\032\n\022average_duration_s\030\010 \001(\001\022\032\n\022redial_r"
+  "ecommended\030\t \001(\005\0228\n\022amd_verdict_counts\030\n"
+  " \003(\0132\034.ondewo.vtsi.AmdVerdictCount\022B\n\027tr"
+  "ansfer_outcome_counts\030\013 \003(\0132!.ondewo.vts"
+  "i.TransferOutcomeCount\"\212\002\n\023AllServicesSt"
+  "atuses\022.\n\nstatus_sip\030\001 \001(\0132\032.ondewo.vtsi"
+  ".ServiceStatus\0223\n\017status_asterisk\030\002 \001(\0132"
+  "\032.ondewo.vtsi.ServiceStatus\022.\n\nstatus_nl"
+  "u\030\003 \001(\0132\032.ondewo.vtsi.ServiceStatus\022.\n\ns"
+  "tatus_stt\030\004 \001(\0132\032.ondewo.vtsi.ServiceSta"
+  "tus\022.\n\nstatus_tts\030\005 \001(\0132\032.ondewo.vtsi.Se"
+  "rviceStatus\"7\n\rServiceStatus\022\017\n\007healthy\030"
+  "\001 \001(\010\022\025\n\rerror_message\030\002 \001(\t\"\356\003\n\022CallRes"
+  "ourceStatus\022\025\n\rresource_name\030\001 \001(\t\022(\n\tca"
+  "ll_type\030\002 \001(\0162\025.ondewo.vtsi.CallType\022\021\n\t"
+  "call_name\030\003 \001(\t\022\016\n\006active\030\004 \001(\010\0229\n\017sip_s"
+  "tatus_type\030\005 \001(\0162 .ondewo.sip.SipStatus."
+  "StatusType\022\036\n\026sip_status_description\030\006 \001"
+  "(\t\022.\n\nstart_time\030\007 \001(\0132\032.google.protobuf"
+  ".Timestamp\022,\n\010end_time\030\010 \001(\0132\032.google.pr"
+  "otobuf.Timestamp\022\024\n\014phone_number\030\t \001(\t\022C"
+  "\n\027scheduled_caller_status\030\n \001(\0162\".ondewo"
+  ".vtsi.ScheduledCallerStatus\0222\n\016scheduled"
+  "_time\030\013 \001(\0132\032.google.protobuf.Timestamp\022"
+  "\025\n\rcampaign_name\030\014 \001(\t\022\025\n\rerror_message\030"
+  "\r \001(\t\"a\n\031StreamCallerStatusRequest\022\031\n\021vt"
+  "si_project_name\030\001 \001(\t\022\024\n\014caller_names\030\002 "
+  "\003(\t\022\023\n\013active_only\030\003 \001(\010\"e\n\033StreamListen"
+  "erStatusRequest\022\031\n\021vtsi_project_name\030\001 \001"
+  "(\t\022\026\n\016listener_names\030\002 \003(\t\022\023\n\013active_onl"
+  "y\030\003 \001(\010\"\254\001\n\"StreamScheduledCallerStatusR"
+  "equest\022\031\n\021vtsi_project_name\030\001 \001(\t\022\036\n\026sch"
+  "eduled_caller_names\030\002 \003(\t\0224\n\010statuses\030\003 "
+  "\003(\0162\".ondewo.vtsi.ScheduledCallerStatus\022"
+  "\025\n\rcampaign_name\030\004 \001(\t\"\267\001\n StreamCallRes"
+  "ourceStatusResponse\0221\n\010statuses\030\001 \003(\0132\037."
+  "ondewo.vtsi.CallResourceStatus\022\036\n\026remove"
+  "d_resource_names\030\002 \003(\t\022\020\n\010snapshot\030\003 \001(\010"
+  "\022\032\n\022snapshot_truncated\030\004 \001(\010\022\022\n\nend_reas"
+  "on\030\005 \001(\t*\366\001\n\025ScheduledCallerStatus\022\'\n#SC"
+  "HEDULED_CALLER_STATUS_UNSPECIFIED\020\000\022#\n\037S"
+  "CHEDULED_CALLER_STATUS_PENDING\020\001\022\"\n\036SCHE"
+  "DULED_CALLER_STATUS_FIRING\020\002\022 \n\034SCHEDULE"
+  "D_CALLER_STATUS_DONE\020\003\022\"\n\036SCHEDULED_CALL"
+  "ER_STATUS_FAILED\020\004\022%\n!SCHEDULED_CALLER_S"
+  "TATUS_CANCELLED\020\005*^\n\014TransferMode\022\035\n\031TRA"
+  "NSFER_MODE_UNSPECIFIED\020\000\022\027\n\023TRANSFER_MOD"
+  "E_BLIND\020\001\022\026\n\022TRANSFER_MODE_WARM\020\002*\333\003\n\017Tr"
+  "ansferOutcome\022 \n\034TRANSFER_OUTCOME_UNSPEC"
+  "IFIED\020\000\022\035\n\031TRANSFER_OUTCOME_ACCEPTED\020\001\022\034"
+  "\n\030TRANSFER_OUTCOME_PENDING\020\002\022#\n\037TRANSFER"
+  "_OUTCOME_TARGET_INVALID\020\003\022#\n\037TRANSFER_OU"
+  "TCOME_REFER_REJECTED\020\004\022\034\n\030TRANSFER_OUTCO"
+  "ME_TIMEOUT\020\005\022\037\n\033TRANSFER_OUTCOME_CALL_EN"
+  "DED\020\006\022(\n$TRANSFER_OUTCOME_CALL_SCOPE_MIS"
+  "MATCH\020\007\022$\n TRANSFER_OUTCOME_SIP_UNREACHA"
+  "BLE\020\010\022\035\n\031TRANSFER_OUTCOME_DECLINED\020\t\022 \n\034"
+  "TRANSFER_OUTCOME_NO_DECISION\020\n\022\'\n#TRANSF"
+  "ER_OUTCOME_TARGET_UNAVAILABLE\020\013\022&\n\"TRANS"
+  "FER_OUTCOME_INTRO_UNAVAILABLE\020\014*k\n\020CallM"
+  "ediaSetting\022 \n\034CALL_MEDIA_SETTING_UNCHAN"
+  "GED\020\000\022\031\n\025CALL_MEDIA_SETTING_ON\020\001\022\032\n\026CALL"
+  "_MEDIA_SETTING_OFF\020\002*r\n\017ParticipantMode\022"
+  " \n\034PARTICIPANT_MODE_UNSPECIFIED\020\000\022\037\n\033PAR"
+  "TICIPANT_MODE_CONFERENCE\020\001\022\034\n\030PARTICIPAN"
+  "T_MODE_MONITOR\020\002*\230\001\n\017BotPolicyOnJoin\022\"\n\036"
+  "BOT_POLICY_ON_JOIN_UNSPECIFIED\020\000\022\034\n\030BOT_"
+  "POLICY_ON_JOIN_PAUSE\020\001\022&\n\"BOT_POLICY_ON_"
+  "JOIN_PAUSE_LISTENING\020\002\022\033\n\027BOT_POLICY_ON_"
+  "JOIN_KEEP\020\003*\254\001\n\020ParticipantState\022!\n\035PART"
+  "ICIPANT_STATE_UNSPECIFIED\020\000\022\035\n\031PARTICIPA"
+  "NT_STATE_RINGING\020\001\022\034\n\030PARTICIPANT_STATE_"
+  "JOINED\020\002\022\034\n\030PARTICIPANT_STATE_FAILED\020\003\022\032"
+  "\n\026PARTICIPANT_STATE_LEFT\020\004*\227\003\n\024Participa"
+  "ntEndReason\022&\n\"PARTICIPANT_END_REASON_UN"
+  "SPECIFIED\020\000\022$\n PARTICIPANT_END_REASON_NO"
+  "_ANSWER\020\001\022\037\n\033PARTICIPANT_END_REASON_BUSY"
+  "\020\002\022.\n*PARTICIPANT_END_REASON_CHANNEL_UNA"
+  "VAILABLE\020\003\022%\n!PARTICIPANT_END_REASON_CAL"
+  "L_ENDED\020\004\022\"\n\036PARTICIPANT_END_REASON_REMO"
+  "VED\020\005\022!\n\035PARTICIPANT_END_REASON_HANGUP\020\006"
+  "\022&\n\"PARTICIPANT_END_REASON_HANDED_OVER\020\007"
+  "\022&\n\"PARTICIPANT_END_REASON_JOIN_FAILED\020\010"
+  "\022\"\n\036PARTICIPANT_END_REASON_TIMEOUT\020\t*f\n\r"
+  "CallAudioMode\022\037\n\033CALL_AUDIO_MODE_UNSPECI"
+  "FIED\020\000\022\032\n\026CALL_AUDIO_MODE_LISTEN\020\001\022\030\n\024CA"
+  "LL_AUDIO_MODE_TALK\020\002*\245\002\n\022CallAudioEndRea"
+  "son\022%\n!CALL_AUDIO_END_REASON_UNSPECIFIED"
+  "\020\000\022\'\n#CALL_AUDIO_END_REASON_CLIENT_CLOSE"
+  "D\020\001\022$\n CALL_AUDIO_END_REASON_CALL_ENDED\020"
+  "\002\022*\n&CALL_AUDIO_END_REASON_CALL_TRANSFER"
+  "RED\020\003\022&\n\"CALL_AUDIO_END_REASON_MAX_DURAT"
+  "ION\020\004\022!\n\035CALL_AUDIO_END_REASON_STALLED\020\005"
+  "\022\"\n\036CALL_AUDIO_END_REASON_INTERNAL\020\006*.\n\010"
+  "CallView\022\013\n\007MINIMUM\020\000\022\013\n\007SHALLOW\020\001\022\010\n\004FU"
+  "LL\020\002*[\n\nCallStatus\022\033\n\027CALL_STATUS_UNSPEC"
+  "IFIED\020\000\022\026\n\022CALL_STATUS_ACTIVE\020\001\022\030\n\024CALL_"
+  "STATUS_INACTIVE\020\002*D\n\010CallType\022\010\n\004BOTH\020\000\022"
+  "\014\n\010LISTENER\020\001\022\n\n\006CALLER\020\002\022\024\n\020SCHEDULED_C"
+  "ALLER\020\0032\254#\n\005Calls\022P\n\013StartCaller\022\037.ondew"
+  "o.vtsi.StartCallerRequest\032 .ondewo.vtsi."
+  "StartCallerResponse\022S\n\014StartCallers\022 .on"
+  "dewo.vtsi.StartCallersRequest\032!.ondewo.v"
+  "tsi.StartCallersResponse\022P\n\013ListCallers\022"
+  "\037.ondewo.vtsi.ListCallersRequest\032 .ondew"
+  "o.vtsi.ListCallersResponse\022\?\n\tGetCaller\022"
+  "\035.ondewo.vtsi.GetCallerRequest\032\023.ondewo."
+  "vtsi.Caller\022S\n\014UpdateCaller\022 .ondewo.vts"
+  "i.UpdateCallerRequest\032!.ondewo.vtsi.Upda"
+  "teCallerResponse\022V\n\rUpdateCallers\022!.onde"
+  "wo.vtsi.UpdateCallersRequest\032\".ondewo.vt"
+  "si.UpdateCallersResponse\022S\n\014DeleteCaller"
+  "\022 .ondewo.vtsi.DeleteCallerRequest\032!.ond"
+  "ewo.vtsi.DeleteCallerResponse\022V\n\rDeleteC"
+  "allers\022!.ondewo.vtsi.DeleteCallersReques"
+  "t\032\".ondewo.vtsi.DeleteCallersResponse\022M\n"
+  "\nStopCaller\022\036.ondewo.vtsi.StopCallerRequ"
+  "est\032\037.ondewo.vtsi.StopCallerResponse\022P\n\013"
+  "StopCallers\022\037.ondewo.vtsi.StopCallersReq"
+  "uest\032 .ondewo.vtsi.StopCallersResponse\022V"
+  "\n\rStartListener\022!.ondewo.vtsi.StartListe"
+  "nerRequest\032\".ondewo.vtsi.StartListenerRe"
+  "sponse\022Y\n\016StartListeners\022\".ondewo.vtsi.S"
+  "tartListenersRequest\032#.ondewo.vtsi.Start"
+  "ListenersResponse\022S\n\014StopListener\022 .onde"
+  "wo.vtsi.StopListenerRequest\032!.ondewo.vts"
+  "i.StopListenerResponse\022V\n\rStopListeners\022"
+  "!.ondewo.vtsi.StopListenersRequest\032\".ond"
+  "ewo.vtsi.StopListenersResponse\022V\n\rListLi"
+  "steners\022!.ondewo.vtsi.ListListenersReque"
+  "st\032\".ondewo.vtsi.ListListenersResponse\022E"
+  "\n\013GetListener\022\037.ondewo.vtsi.GetListenerR"
+  "equest\032\025.ondewo.vtsi.Listener\022Y\n\016UpdateL"
+  "istener\022\".ondewo.vtsi.UpdateListenerRequ"
+  "est\032#.ondewo.vtsi.UpdateListenerResponse"
+  "\022\\\n\017UpdateListeners\022#.ondewo.vtsi.Update"
+  "ListenersRequest\032$.ondewo.vtsi.UpdateLis"
+  "tenersResponse\022Y\n\016DeleteListener\022\".ondew"
+  "o.vtsi.DeleteListenerRequest\032#.ondewo.vt"
+  "si.DeleteListenerResponse\022\\\n\017DeleteListe"
+  "ners\022#.ondewo.vtsi.DeleteListenersReques"
+  "t\032$.ondewo.vtsi.DeleteListenersResponse\022"
+  "k\n\024StartScheduledCaller\022(.ondewo.vtsi.St"
+  "artScheduledCallerRequest\032).ondewo.vtsi."
+  "StartScheduledCallerResponse\022n\n\025StartSch"
+  "eduledCallers\022).ondewo.vtsi.StartSchedul"
+  "edCallersRequest\032*.ondewo.vtsi.StartSche"
+  "duledCallersResponse\022k\n\024AddCallersToCamp"
+  "aign\022(.ondewo.vtsi.AddCallersToCampaignR"
+  "equest\032).ondewo.vtsi.AddCallersToCampaig"
+  "nResponse\022\206\001\n\035AddScheduledCallersToCampa"
+  "ign\0221.ondewo.vtsi.AddScheduledCallersToC"
+  "ampaignRequest\0322.ondewo.vtsi.AddSchedule"
+  "dCallersToCampaignResponse\022Z\n\022GetSchedul"
+  "edCaller\022&.ondewo.vtsi.GetScheduledCalle"
+  "rRequest\032\034.ondewo.vtsi.ScheduledCaller\022k"
+  "\n\024ListScheduledCallers\022(.ondewo.vtsi.Lis"
+  "tScheduledCallersRequest\032).ondewo.vtsi.L"
+  "istScheduledCallersResponse\022`\n\025UpdateSch"
+  "eduledCaller\022).ondewo.vtsi.UpdateSchedul"
+  "edCallerRequest\032\034.ondewo.vtsi.ScheduledC"
+  "aller\022n\n\025CancelScheduledCaller\022).ondewo."
+  "vtsi.CancelScheduledCallerRequest\032*.onde"
+  "wo.vtsi.CancelScheduledCallerResponse\022q\n"
+  "\026CancelScheduledCallers\022*.ondewo.vtsi.Ca"
+  "ncelScheduledCallersRequest\032+.ondewo.vts"
+  "i.CancelScheduledCallersResponse\022^\n\024Retr"
+  "yScheduledCaller\022(.ondewo.vtsi.RetrySche"
+  "duledCallerRequest\032\034.ondewo.vtsi.Schedul"
+  "edCaller\022G\n\010StopCall\022\034.ondewo.vtsi.StopC"
+  "allRequest\032\035.ondewo.vtsi.StopCallRespons"
+  "e\022J\n\tStopCalls\022\035.ondewo.vtsi.StopCallsRe"
+  "quest\032\036.ondewo.vtsi.StopCallsResponse\022P\n"
+  "\014StopAllCalls\022 .ondewo.vtsi.StopAllCalls"
+  "Request\032\036.ondewo.vtsi.StopCallsResponse\022"
+  "S\n\014TransferCall\022 .ondewo.vtsi.TransferCa"
+  "llRequest\032!.ondewo.vtsi.TransferCallResp"
+  "onse\022V\n\rTransferCalls\022!.ondewo.vtsi.Tran"
+  "sferCallsRequest\032\".ondewo.vtsi.TransferC"
+  "allsResponse\0229\n\007GetCall\022\033.ondewo.vtsi.Ge"
+  "tCallRequest\032\021.ondewo.vtsi.Call\022J\n\tListC"
+  "alls\022\035.ondewo.vtsi.ListCallsRequest\032\036.on"
+  "dewo.vtsi.ListCallsResponse\022W\n\021GetCallSt"
+  "atistics\022%.ondewo.vtsi.GetCallStatistics"
+  "Request\032\033.ondewo.vtsi.CallStatistics\022M\n\n"
+  "UpdateCall\022\036.ondewo.vtsi.UpdateCallReque"
+  "st\032\037.ondewo.vtsi.UpdateCallResponse\022P\n\013U"
+  "pdateCalls\022\037.ondewo.vtsi.UpdateCallsRequ"
+  "est\032 .ondewo.vtsi.UpdateCallsResponse\022m\n"
+  "\022StreamCallerStatus\022&.ondewo.vtsi.Stream"
+  "CallerStatusRequest\032-.ondewo.vtsi.Stream"
+  "CallResourceStatusResponse0\001\022q\n\024StreamLi"
+  "stenerStatus\022(.ondewo.vtsi.StreamListene"
+  "rStatusRequest\032-.ondewo.vtsi.StreamCallR"
+  "esourceStatusResponse0\001\022\177\n\033StreamSchedul"
+  "edCallerStatus\022/.ondewo.vtsi.StreamSched"
+  "uledCallerStatusRequest\032-.ondewo.vtsi.St"
+  "reamCallResourceStatusResponse0\001\022S\n\014Invi"
+  "teToCall\022 .ondewo.vtsi.InviteToCallReque"
+  "st\032!.ondewo.vtsi.InviteToCallResponse\022n\n"
+  "\025RemoveCallParticipant\022).ondewo.vtsi.Rem"
+  "oveCallParticipantRequest\032*.ondewo.vtsi."
+  "RemoveCallParticipantResponse\022h\n\023SetCall"
+  "MediaControl\022\'.ondewo.vtsi.SetCallMediaC"
+  "ontrolRequest\032(.ondewo.vtsi.SetCallMedia"
+  "ControlResponse\022S\n\014SendCallDtmf\022 .ondewo"
+  ".vtsi.SendCallDtmfRequest\032!.ondewo.vtsi."
+  "SendCallDtmfResponse\022`\n\017StreamCallAudio\022"
+  "#.ondewo.vtsi.StreamCallAudioRequest\032$.o"
+  "ndewo.vtsi.StreamCallAudioResponse(\0010\001\022^"
+  "\n\017ListenCallAudio\022#.ondewo.vtsi.ListenCa"
+  "llAudioRequest\032$.ondewo.vtsi.StreamCallA"
+  "udioResponse0\001P\004b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_deps[7] = {
   &::descriptor_table_google_2fprotobuf_2ffield_5fmask_2eproto,
@@ -4151,7 +4154,7 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fcal
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fvtsi_2fcalls_2eproto = {
-    false, false, 28121, descriptor_table_protodef_ondewo_2fvtsi_2fcalls_2eproto,
+    false, false, 28144, descriptor_table_protodef_ondewo_2fvtsi_2fcalls_2eproto,
     "ondewo/vtsi/calls.proto",
     &descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_once, descriptor_table_ondewo_2fvtsi_2fcalls_2eproto_deps, 7, 115,
     schemas, file_default_instances, TableStruct_ondewo_2fvtsi_2fcalls_2eproto::offsets,
@@ -33920,6 +33923,7 @@ Call::Call(const Call& from)
     , decltype(_impl_.ivr_menu_display_name_){}
     , decltype(_impl_.ivr_path_){}
     , decltype(_impl_.ivr_menu_name_){}
+    , decltype(_impl_.dialed_number_){}
     , decltype(_impl_.start_time_){nullptr}
     , decltype(_impl_.end_time_){nullptr}
     , decltype(_impl_.sip_status_){nullptr}
@@ -34034,6 +34038,14 @@ Call::Call(const Call& from)
     _this->_impl_.ivr_menu_name_.Set(from._internal_ivr_menu_name(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.dialed_number_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.dialed_number_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_dialed_number().empty()) {
+    _this->_impl_.dialed_number_.Set(from._internal_dialed_number(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_start_time()) {
     _this->_impl_.start_time_ = new ::PROTOBUF_NAMESPACE_ID::Timestamp(*from._impl_.start_time_);
   }
@@ -34085,6 +34097,7 @@ inline void Call::SharedCtor(
     , decltype(_impl_.ivr_menu_display_name_){}
     , decltype(_impl_.ivr_path_){}
     , decltype(_impl_.ivr_menu_name_){}
+    , decltype(_impl_.dialed_number_){}
     , decltype(_impl_.start_time_){nullptr}
     , decltype(_impl_.end_time_){nullptr}
     , decltype(_impl_.sip_status_){nullptr}
@@ -34149,6 +34162,10 @@ inline void Call::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.ivr_menu_name_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.dialed_number_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.dialed_number_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 Call::~Call() {
@@ -34178,6 +34195,7 @@ inline void Call::SharedDtor() {
   _impl_.ivr_menu_display_name_.Destroy();
   _impl_.ivr_path_.Destroy();
   _impl_.ivr_menu_name_.Destroy();
+  _impl_.dialed_number_.Destroy();
   if (this != internal_default_instance()) delete _impl_.start_time_;
   if (this != internal_default_instance()) delete _impl_.end_time_;
   if (this != internal_default_instance()) delete _impl_.sip_status_;
@@ -34225,6 +34243,7 @@ void Call::Clear() {
   _impl_.ivr_menu_display_name_.ClearToEmpty();
   _impl_.ivr_path_.ClearToEmpty();
   _impl_.ivr_menu_name_.ClearToEmpty();
+  _impl_.dialed_number_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.start_time_ != nullptr) {
     delete _impl_.start_time_;
   }
@@ -34552,6 +34571,16 @@ const char* Call::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
         } else
           goto handle_unusual;
         continue;
+      // string dialed_number = 30;
+      case 30:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 242)) {
+          auto str = _internal_mutable_dialed_number();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.Call.dialed_number"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -34841,6 +34870,16 @@ uint8_t* Call::_InternalSerialize(
         29, this->_internal_ivr_menu_name(), target);
   }
 
+  // string dialed_number = 30;
+  if (!this->_internal_dialed_number().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_dialed_number().data(), static_cast<int>(this->_internal_dialed_number().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.Call.dialed_number");
+    target = stream->WriteStringMaybeAliased(
+        30, this->_internal_dialed_number(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -34958,6 +34997,13 @@ size_t Call::ByteSizeLong() const {
     total_size += 2 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_ivr_menu_name());
+  }
+
+  // string dialed_number = 30;
+  if (!this->_internal_dialed_number().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_dialed_number());
   }
 
   // .google.protobuf.Timestamp start_time = 6;
@@ -35119,6 +35165,9 @@ void Call::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_
   if (!from._internal_ivr_menu_name().empty()) {
     _this->_internal_set_ivr_menu_name(from._internal_ivr_menu_name());
   }
+  if (!from._internal_dialed_number().empty()) {
+    _this->_internal_set_dialed_number(from._internal_dialed_number());
+  }
   if (from._internal_has_start_time()) {
     _this->_internal_mutable_start_time()->::PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(
         from._internal_start_time());
@@ -35246,6 +35295,10 @@ void Call::InternalSwap(Call* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.ivr_menu_name_, lhs_arena,
       &other->_impl_.ivr_menu_name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.dialed_number_, lhs_arena,
+      &other->_impl_.dialed_number_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Call, _impl_.platforms_)

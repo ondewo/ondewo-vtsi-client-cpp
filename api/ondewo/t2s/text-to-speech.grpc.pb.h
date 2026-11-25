@@ -43,7 +43,7 @@
 namespace ondewo {
 namespace t2s {
 
-// <p>Text2Speech service provides endpoints for text-to-speech generation.</p>
+// Text2Speech service provides endpoints for text-to-speech generation.
 class Text2Speech final {
  public:
   static constexpr char const* service_full_name() {

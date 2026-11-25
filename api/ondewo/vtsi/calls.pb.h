@@ -19436,6 +19436,7 @@ class Call final :
     kIvrMenuDisplayNameFieldNumber = 27,
     kIvrPathFieldNumber = 28,
     kIvrMenuNameFieldNumber = 29,
+    kDialedNumberFieldNumber = 30,
     kStartTimeFieldNumber = 6,
     kEndTimeFieldNumber = 7,
     kSipStatusFieldNumber = 9,
@@ -19665,6 +19666,20 @@ class Call final :
   const std::string& _internal_ivr_menu_name() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_ivr_menu_name(const std::string& value);
   std::string* _internal_mutable_ivr_menu_name();
+  public:
+
+  // string dialed_number = 30;
+  void clear_dialed_number();
+  const std::string& dialed_number() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_dialed_number(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_dialed_number();
+  PROTOBUF_NODISCARD std::string* release_dialed_number();
+  void set_allocated_dialed_number(std::string* dialed_number);
+  private:
+  const std::string& _internal_dialed_number() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_dialed_number(const std::string& value);
+  std::string* _internal_mutable_dialed_number();
   public:
 
   // .google.protobuf.Timestamp start_time = 6;
@@ -19918,6 +19933,7 @@ class Call final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ivr_menu_display_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ivr_path_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ivr_menu_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr dialed_number_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* start_time_;
     ::PROTOBUF_NAMESPACE_ID::Timestamp* end_time_;
     ::ondewo::sip::SipStatus* sip_status_;
@@ -45641,6 +45657,56 @@ inline void Call::set_allocated_ivr_menu_name(std::string* ivr_menu_name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.Call.ivr_menu_name)
+}
+
+// string dialed_number = 30;
+inline void Call::clear_dialed_number() {
+  _impl_.dialed_number_.ClearToEmpty();
+}
+inline const std::string& Call::dialed_number() const {
+  // @@protoc_insertion_point(field_get:ondewo.vtsi.Call.dialed_number)
+  return _internal_dialed_number();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Call::set_dialed_number(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.dialed_number_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ondewo.vtsi.Call.dialed_number)
+}
+inline std::string* Call::mutable_dialed_number() {
+  std::string* _s = _internal_mutable_dialed_number();
+  // @@protoc_insertion_point(field_mutable:ondewo.vtsi.Call.dialed_number)
+  return _s;
+}
+inline const std::string& Call::_internal_dialed_number() const {
+  return _impl_.dialed_number_.Get();
+}
+inline void Call::_internal_set_dialed_number(const std::string& value) {
+  
+  _impl_.dialed_number_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Call::_internal_mutable_dialed_number() {
+  
+  return _impl_.dialed_number_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Call::release_dialed_number() {
+  // @@protoc_insertion_point(field_release:ondewo.vtsi.Call.dialed_number)
+  return _impl_.dialed_number_.Release();
+}
+inline void Call::set_allocated_dialed_number(std::string* dialed_number) {
+  if (dialed_number != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.dialed_number_.SetAllocated(dialed_number, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.dialed_number_.IsDefault()) {
+    _impl_.dialed_number_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ondewo.vtsi.Call.dialed_number)
 }
 
 // -------------------------------------------------------------------

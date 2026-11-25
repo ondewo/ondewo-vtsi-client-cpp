@@ -43,7 +43,7 @@
 namespace ondewo {
 namespace sip {
 
-// <p>ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api">GitHub</a></p>
+// ONDEWO-SIP API available at <a href="https://github.com/ondewo/ondewo-sip-api">GitHub</a>
 class Sip final {
  public:
   static constexpr char const* service_full_name() {

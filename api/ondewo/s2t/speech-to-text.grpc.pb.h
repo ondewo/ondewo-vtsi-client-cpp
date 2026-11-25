@@ -43,7 +43,7 @@
 namespace ondewo {
 namespace s2t {
 
-// <p>Speech-to-text service</p>
+// Speech-to-text service
 class Speech2Text final {
  public:
   static constexpr char const* service_full_name() {

@@ -43,7 +43,7 @@
 namespace ondewo {
 namespace vtsi {
 
-// <p>ONDEWO VTSI API</p>
+// ONDEWO VTSI API
 class Calls final {
  public:
   static constexpr char const* service_full_name() {

@@ -60,9 +60,14 @@ PROTOBUF_CONSTEXPR NluVtsiConfig::NluVtsiConfig(
   , /*decltype(_impl_.language_code_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.initial_intent_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.http_basic_auth_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.failure_apology_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.nlu_base_config_)*/nullptr
   , /*decltype(_impl_.preemptive_generation_config_)*/nullptr
   , /*decltype(_impl_.platform_)*/0
+  , /*decltype(_impl_.ai_teams_fillers_audible_)*/false
+  , /*decltype(_impl_.session_id_from_sip_context_)*/false
+  , /*decltype(_impl_.ai_teams_push_max_age_seconds_)*/0
+  , /*decltype(_impl_.ai_teams_push_max_spoken_)*/0
   , /*decltype(_impl_.authentication_)*/{}
   , /*decltype(_impl_._oneof_case_)*/{}} {}
 struct NluVtsiConfigDefaultTypeInternal {
@@ -92,10 +97,13 @@ struct NluPreemptiveGenerationConfigDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 NluPreemptiveGenerationConfigDefaultTypeInternal _NluPreemptiveGenerationConfig_default_instance_;
 PROTOBUF_CONSTEXPR T2sVtsiConfig::T2sVtsiConfig(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.t2s_base_config_)*/nullptr
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.cache_retention_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.t2s_base_config_)*/nullptr
   , /*decltype(_impl_.t2s_request_config_)*/nullptr
   , /*decltype(_impl_.preemptive_synthesis_config_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.synthesize_timeout_seconds_)*/0} {}
 struct T2sVtsiConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR T2sVtsiConfigDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -122,9 +130,11 @@ struct T2sPreemptiveSynthesisConfigDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 T2sPreemptiveSynthesisConfigDefaultTypeInternal _T2sPreemptiveSynthesisConfig_default_instance_;
 PROTOBUF_CONSTEXPR S2tVtsiConfig::S2tVtsiConfig(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.s2t_base_config_)*/nullptr
-  , /*decltype(_impl_.s2t_transcribe_request_config_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.failure_sip_trigger_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.s2t_base_config_)*/nullptr
+  , /*decltype(_impl_.s2t_transcribe_request_config_)*/nullptr} {}
 struct S2tVtsiConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR S2tVtsiConfigDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -136,12 +146,15 @@ struct S2tVtsiConfigDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2tVtsiConfigDefaultTypeInternal _S2tVtsiConfig_default_instance_;
 PROTOBUF_CONSTEXPR CommonServicesConfig::CommonServicesConfig(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.s2t_vtsi_config_)*/nullptr
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.s2t_vtsi_config_)*/nullptr
   , /*decltype(_impl_.nlu_vtsi_config_)*/nullptr
   , /*decltype(_impl_.t2s_vtsi_config_)*/nullptr
   , /*decltype(_impl_.csi_vtsi_config_)*/nullptr
   , /*decltype(_impl_.voice_interaction_config_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.sip_vtsi_config_)*/nullptr
+  , /*decltype(_impl_.max_call_duration_seconds_)*/0u} {}
 struct CommonServicesConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CommonServicesConfigDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -151,6 +164,27 @@ struct CommonServicesConfigDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CommonServicesConfigDefaultTypeInternal _CommonServicesConfig_default_instance_;
+PROTOBUF_CONSTEXPR SipVtsiConfig::SipVtsiConfig(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.playback_latency_ms_)*/0u
+  , /*decltype(_impl_.software_clock_enabled_)*/false
+  , /*decltype(_impl_.rtp_stats_sample_interval_seconds_)*/0
+  , /*decltype(_impl_.hangup_wait_for_playback_timeout_seconds_)*/0
+  , /*decltype(_impl_.outgoing_dial_watchdog_seconds_)*/0
+  , /*decltype(_impl_.register_interval_seconds_)*/0u
+  , /*decltype(_impl_.call_audio_stream_max_concurrent_)*/0u
+  , /*decltype(_impl_.call_audio_stream_max_duration_seconds_)*/0u} {}
+struct SipVtsiConfigDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SipVtsiConfigDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SipVtsiConfigDefaultTypeInternal() {}
+  union {
+    SipVtsiConfig _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SipVtsiConfigDefaultTypeInternal _SipVtsiConfig_default_instance_;
 PROTOBUF_CONSTEXPR VoiceInteractionConfig::VoiceInteractionConfig(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.turn_detection_config_)*/nullptr
@@ -159,6 +193,7 @@ PROTOBUF_CONSTEXPR VoiceInteractionConfig::VoiceInteractionConfig(
   , /*decltype(_impl_.answering_machine_detection_config_)*/nullptr
   , /*decltype(_impl_.dtmf_config_)*/nullptr
   , /*decltype(_impl_.warm_transfer_config_)*/nullptr
+  , /*decltype(_impl_.bot_transfer_config_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct VoiceInteractionConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR VoiceInteractionConfigDefaultTypeInternal()
@@ -169,14 +204,32 @@ struct VoiceInteractionConfigDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 VoiceInteractionConfigDefaultTypeInternal _VoiceInteractionConfig_default_instance_;
+PROTOBUF_CONSTEXPR BotTransferConfig::BotTransferConfig(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.failed_action_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.outcome_timeout_ms_)*/0u
+  , /*decltype(_impl_.warm_transfer_outcome_commit_timeout_seconds_)*/0} {}
+struct BotTransferConfigDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR BotTransferConfigDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~BotTransferConfigDefaultTypeInternal() {}
+  union {
+    BotTransferConfig _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BotTransferConfigDefaultTypeInternal _BotTransferConfig_default_instance_;
 PROTOBUF_CONSTEXPR DtmfConfig::DtmfConfig(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_.undeclared_policy_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.text_template_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.enabled_)*/false
   , /*decltype(_impl_.barge_in_)*/false
-  , /*decltype(_impl_.inter_digit_timeout_ms_)*/0u} {}
+  , /*decltype(_impl_.inter_digit_timeout_ms_)*/0u
+  , /*decltype(_impl_.speech_guard_ms_)*/0u} {}
 struct DtmfConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR DtmfConfigDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -292,8 +345,13 @@ PROTOBUF_CONSTEXPR TurnDetectionConfig::TurnDetectionConfig(
   , /*decltype(_impl_.end_of_turn_probability_threshold_)*/0
   , /*decltype(_impl_.uncertain_min_words_)*/0u
   , /*decltype(_impl_.incomplete_max_silence_seconds_)*/0
+  , /*decltype(_impl_.final_merge_window_seconds_)*/0
+  , /*decltype(_impl_.s2t_emit_ms_)*/0u
   , /*decltype(_impl_.exact_probability_)*/false
-  , /*decltype(_impl_.final_merge_window_seconds_)*/0} {}
+  , /*decltype(_impl_.s2t_request_partials_)*/false
+  , /*decltype(_impl_.s2t_request_end_of_speech_candidate_)*/false
+  , /*decltype(_impl_.smart_turn_threshold_)*/0
+  , /*decltype(_impl_.post_unmute_phantom_window_seconds_)*/0} {}
 struct TurnDetectionConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR TurnDetectionConfigDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -343,12 +401,18 @@ PROTOBUF_CONSTEXPR InterruptionHandlingConfig::InterruptionHandlingConfig(
   , /*decltype(_impl_.min_interruption_duration_seconds_)*/0
   , /*decltype(_impl_.min_interruption_words_)*/0
   , /*decltype(_impl_.false_interruption_timeout_seconds_)*/0
+  , /*decltype(_impl_.backoff_seconds_)*/0
   , /*decltype(_impl_.enabled_)*/false
   , /*decltype(_impl_.resume_after_false_interruption_)*/false
   , /*decltype(_impl_.transcribe_on_disabled_interruptions_)*/false
-  , /*decltype(_impl_.backoff_seconds_)*/0
+  , /*decltype(_impl_.cancel_on_speech_while_thinking_)*/false
   , /*decltype(_impl_.first_message_protected_seconds_)*/0
-  , /*decltype(_impl_.interruption_fade_out_ms_)*/0} {}
+  , /*decltype(_impl_.interruption_fade_out_ms_)*/0
+  , /*decltype(_impl_.ai_teams_cancel_pending_on_interrupt_)*/false
+  , /*decltype(_impl_.t2s_cancel_on_barge_in_)*/false
+  , /*decltype(_impl_.nlu_turn_control_enabled_)*/false
+  , /*decltype(_impl_.heard_report_enabled_)*/false
+  , /*decltype(_impl_.heard_text_alignment_enabled_)*/false} {}
 struct InterruptionHandlingConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR InterruptionHandlingConfigDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -362,11 +426,17 @@ PROTOBUF_CONSTEXPR ResponseTimingConfig::ResponseTimingConfig(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.turn_timeout_intent_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.soft_timeout_config_)*/nullptr
   , /*decltype(_impl_.turn_timeout_seconds_)*/0
   , /*decltype(_impl_.silence_end_call_timeout_seconds_)*/0
   , /*decltype(_impl_.preemptive_generation_enabled_)*/false
-  , /*decltype(_impl_.t2s_chunked_streaming_enabled_)*/false} {}
+  , /*decltype(_impl_.t2s_chunked_streaming_enabled_)*/false
+  , /*decltype(_impl_.streaming_enabled_)*/false
+  , /*decltype(_impl_.nlu_call_stream_enabled_)*/false
+  , /*decltype(_impl_.t2s_max_edge_silence_ms_)*/0
+  , /*decltype(_impl_.nlu_call_stream_turn_timeout_seconds_)*/0
+  , /*decltype(_impl_.nlu_call_stream_turn_quiet_seconds_)*/0} {}
 struct ResponseTimingConfigDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ResponseTimingConfigDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -625,7 +695,7 @@ struct T2sVtsiCallbacksDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 T2sVtsiCallbacksDefaultTypeInternal _T2sVtsiCallbacks_default_instance_;
 }  // namespace vtsi
 }  // namespace ondewo
-static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[34];
+static ::_pb::Metadata file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[36];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[8];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ondewo_2fvtsi_2fcall_5fconfigs_2eproto = nullptr;
 
@@ -663,6 +733,11 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.http_basic_auth_token_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.platform_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.preemptive_generation_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.ai_teams_fillers_audible_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.failure_apology_message_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.session_id_from_sip_context_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.ai_teams_push_max_age_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.ai_teams_push_max_spoken_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluVtsiConfig, _impl_.authentication_),
   ~0u,
   ~0u,
@@ -672,8 +747,13 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   ~0u,
   ~0u,
   ~0u,
-  0,
+  1,
   ~0u,
+  2,
+  0,
+  3,
+  4,
+  5,
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluPreemptiveGenerationConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::NluPreemptiveGenerationConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -686,7 +766,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   0,
   1,
   2,
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sVtsiConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sVtsiConfig, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -695,6 +775,13 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sVtsiConfig, _impl_.t2s_base_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sVtsiConfig, _impl_.t2s_request_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sVtsiConfig, _impl_.preemptive_synthesis_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sVtsiConfig, _impl_.synthesize_timeout_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sVtsiConfig, _impl_.cache_retention_),
+  ~0u,
+  ~0u,
+  ~0u,
+  1,
+  0,
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sPreemptiveSynthesisConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sPreemptiveSynthesisConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -705,7 +792,7 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::T2sPreemptiveSynthesisConfig, _impl_.chunked_),
   0,
   1,
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::S2tVtsiConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::S2tVtsiConfig, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -713,7 +800,11 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::S2tVtsiConfig, _impl_.s2t_base_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::S2tVtsiConfig, _impl_.s2t_transcribe_request_config_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::S2tVtsiConfig, _impl_.failure_sip_trigger_),
+  ~0u,
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CommonServicesConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CommonServicesConfig, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -724,6 +815,37 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CommonServicesConfig, _impl_.t2s_vtsi_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CommonServicesConfig, _impl_.csi_vtsi_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CommonServicesConfig, _impl_.voice_interaction_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CommonServicesConfig, _impl_.sip_vtsi_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::CommonServicesConfig, _impl_.max_call_duration_seconds_),
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_.playback_latency_ms_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_.software_clock_enabled_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_.rtp_stats_sample_interval_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_.hangup_wait_for_playback_timeout_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_.outgoing_dial_watchdog_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_.register_interval_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_.call_audio_stream_max_concurrent_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SipVtsiConfig, _impl_.call_audio_stream_max_duration_seconds_),
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VoiceInteractionConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -736,6 +858,19 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VoiceInteractionConfig, _impl_.answering_machine_detection_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VoiceInteractionConfig, _impl_.dtmf_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VoiceInteractionConfig, _impl_.warm_transfer_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::VoiceInteractionConfig, _impl_.bot_transfer_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::BotTransferConfig, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::BotTransferConfig, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::BotTransferConfig, _impl_.outcome_timeout_ms_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::BotTransferConfig, _impl_.failed_action_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::BotTransferConfig, _impl_.warm_transfer_outcome_commit_timeout_seconds_),
+  1,
+  0,
+  2,
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DtmfConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DtmfConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -746,10 +881,14 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DtmfConfig, _impl_.barge_in_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DtmfConfig, _impl_.inter_digit_timeout_ms_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DtmfConfig, _impl_.undeclared_policy_),
-  1,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DtmfConfig, _impl_.speech_guard_ms_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DtmfConfig, _impl_.text_template_),
   2,
   3,
+  4,
   0,
+  5,
+  1,
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::WarmTransferConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::WarmTransferConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -860,6 +999,11 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TurnDetectionConfig, _impl_.exact_probability_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TurnDetectionConfig, _impl_.final_merge_window_seconds_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TurnDetectionConfig, _impl_.dictation_config_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TurnDetectionConfig, _impl_.s2t_emit_ms_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TurnDetectionConfig, _impl_.s2t_request_partials_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TurnDetectionConfig, _impl_.s2t_request_end_of_speech_candidate_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TurnDetectionConfig, _impl_.smart_turn_threshold_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::TurnDetectionConfig, _impl_.post_unmute_phantom_window_seconds_),
   ~0u,
   3,
   4,
@@ -872,9 +1016,14 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   ~0u,
   7,
   8,
+  11,
   9,
-  10,
   ~0u,
+  10,
+  12,
+  13,
+  14,
+  15,
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DictationConfig_HoldMaxSecondsByCategoryEntry_DoNotUse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::DictationConfig_HoldMaxSecondsByCategoryEntry_DoNotUse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -924,15 +1073,27 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.first_message_protected_seconds_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.transcribe_on_disabled_interruptions_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.interruption_fade_out_ms_),
-  3,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.cancel_on_speech_while_thinking_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.ai_teams_cancel_pending_on_interrupt_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.t2s_cancel_on_barge_in_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.nlu_turn_control_enabled_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.heard_report_enabled_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::InterruptionHandlingConfig, _impl_.heard_text_alignment_enabled_),
+  4,
   0,
   1,
   2,
-  4,
-  6,
-  7,
   5,
+  3,
   8,
+  6,
+  9,
+  7,
+  10,
+  11,
+  12,
+  13,
+  14,
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -944,11 +1105,23 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.soft_timeout_config_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.preemptive_generation_enabled_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.t2s_chunked_streaming_enabled_),
-  0,
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.streaming_enabled_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.nlu_call_stream_enabled_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.turn_timeout_intent_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.t2s_max_edge_silence_ms_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.nlu_call_stream_turn_timeout_seconds_),
+  PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::ResponseTimingConfig, _impl_.nlu_call_stream_turn_quiet_seconds_),
   1,
-  ~0u,
   2,
+  ~0u,
   3,
+  4,
+  5,
+  6,
+  0,
+  7,
+  8,
+  9,
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SoftTimeoutConfig, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::ondewo::vtsi::SoftTimeoutConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1151,38 +1324,40 @@ const uint32_t TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets[] PRO
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::ondewo::vtsi::BaseServiceConfig)},
   { 9, -1, -1, sizeof(::ondewo::vtsi::Credentials)},
-  { 17, 34, -1, sizeof(::ondewo::vtsi::NluVtsiConfig)},
-  { 44, 53, -1, sizeof(::ondewo::vtsi::NluPreemptiveGenerationConfig)},
-  { 56, -1, -1, sizeof(::ondewo::vtsi::T2sVtsiConfig)},
-  { 65, 73, -1, sizeof(::ondewo::vtsi::T2sPreemptiveSynthesisConfig)},
-  { 75, -1, -1, sizeof(::ondewo::vtsi::S2tVtsiConfig)},
-  { 83, -1, -1, sizeof(::ondewo::vtsi::CommonServicesConfig)},
-  { 94, -1, -1, sizeof(::ondewo::vtsi::VoiceInteractionConfig)},
-  { 106, 116, -1, sizeof(::ondewo::vtsi::DtmfConfig)},
-  { 120, 151, -1, sizeof(::ondewo::vtsi::WarmTransferConfig)},
-  { 176, -1, -1, sizeof(::ondewo::vtsi::WarmIntroRecord)},
-  { 194, -1, -1, sizeof(::ondewo::vtsi::TurnDetectionConfig_EndOfTurnHoldBands)},
-  { 201, -1, -1, sizeof(::ondewo::vtsi::TurnDetectionConfig_EndOfTurnHoldBand)},
-  { 209, 230, -1, sizeof(::ondewo::vtsi::TurnDetectionConfig)},
-  { 245, 253, -1, sizeof(::ondewo::vtsi::DictationConfig_HoldMaxSecondsByCategoryEntry_DoNotUse)},
-  { 255, 270, -1, sizeof(::ondewo::vtsi::DictationConfig)},
-  { 279, 294, -1, sizeof(::ondewo::vtsi::InterruptionHandlingConfig)},
-  { 303, 314, -1, sizeof(::ondewo::vtsi::ResponseTimingConfig)},
-  { 319, 328, -1, sizeof(::ondewo::vtsi::SoftTimeoutConfig)},
-  { 331, 358, -1, sizeof(::ondewo::vtsi::AnsweringMachineDetectionConfig)},
-  { 379, -1, -1, sizeof(::ondewo::vtsi::SipBaseConfig)},
-  { 386, 394, -1, sizeof(::ondewo::vtsi::SipCallerConfig_SipHeadersEntry_DoNotUse)},
-  { 396, -1, -1, sizeof(::ondewo::vtsi::SipCallerConfig)},
-  { 405, 418, -1, sizeof(::ondewo::vtsi::CsiVtsiConfig)},
-  { 425, 433, -1, sizeof(::ondewo::vtsi::CsiPreemptiveGenerationConfig)},
-  { 435, 443, -1, sizeof(::ondewo::vtsi::AudioObjectStorageConfig)},
-  { 445, 453, -1, sizeof(::ondewo::vtsi::AudioObjectStorageServicesActivationConfig)},
-  { 455, 465, -1, sizeof(::ondewo::vtsi::MessageBrokerConfig)},
-  { 468, 478, -1, sizeof(::ondewo::vtsi::MessageBrokerServicesActivationConfig)},
-  { 482, -1, -1, sizeof(::ondewo::vtsi::RabbitMqConfig)},
-  { 493, -1, -1, sizeof(::ondewo::vtsi::S2tVtsiCallbacks)},
-  { 501, -1, -1, sizeof(::ondewo::vtsi::NluVtsiCallbacks)},
-  { 509, -1, -1, sizeof(::ondewo::vtsi::T2sVtsiCallbacks)},
+  { 17, 39, -1, sizeof(::ondewo::vtsi::NluVtsiConfig)},
+  { 54, 63, -1, sizeof(::ondewo::vtsi::NluPreemptiveGenerationConfig)},
+  { 66, 77, -1, sizeof(::ondewo::vtsi::T2sVtsiConfig)},
+  { 82, 90, -1, sizeof(::ondewo::vtsi::T2sPreemptiveSynthesisConfig)},
+  { 92, 101, -1, sizeof(::ondewo::vtsi::S2tVtsiConfig)},
+  { 104, 117, -1, sizeof(::ondewo::vtsi::CommonServicesConfig)},
+  { 124, 138, -1, sizeof(::ondewo::vtsi::SipVtsiConfig)},
+  { 146, -1, -1, sizeof(::ondewo::vtsi::VoiceInteractionConfig)},
+  { 159, 168, -1, sizeof(::ondewo::vtsi::BotTransferConfig)},
+  { 171, 183, -1, sizeof(::ondewo::vtsi::DtmfConfig)},
+  { 189, 220, -1, sizeof(::ondewo::vtsi::WarmTransferConfig)},
+  { 245, -1, -1, sizeof(::ondewo::vtsi::WarmIntroRecord)},
+  { 263, -1, -1, sizeof(::ondewo::vtsi::TurnDetectionConfig_EndOfTurnHoldBands)},
+  { 270, -1, -1, sizeof(::ondewo::vtsi::TurnDetectionConfig_EndOfTurnHoldBand)},
+  { 278, 304, -1, sizeof(::ondewo::vtsi::TurnDetectionConfig)},
+  { 324, 332, -1, sizeof(::ondewo::vtsi::DictationConfig_HoldMaxSecondsByCategoryEntry_DoNotUse)},
+  { 334, 349, -1, sizeof(::ondewo::vtsi::DictationConfig)},
+  { 358, 379, -1, sizeof(::ondewo::vtsi::InterruptionHandlingConfig)},
+  { 394, 411, -1, sizeof(::ondewo::vtsi::ResponseTimingConfig)},
+  { 422, 431, -1, sizeof(::ondewo::vtsi::SoftTimeoutConfig)},
+  { 434, 461, -1, sizeof(::ondewo::vtsi::AnsweringMachineDetectionConfig)},
+  { 482, -1, -1, sizeof(::ondewo::vtsi::SipBaseConfig)},
+  { 489, 497, -1, sizeof(::ondewo::vtsi::SipCallerConfig_SipHeadersEntry_DoNotUse)},
+  { 499, -1, -1, sizeof(::ondewo::vtsi::SipCallerConfig)},
+  { 508, 521, -1, sizeof(::ondewo::vtsi::CsiVtsiConfig)},
+  { 528, 536, -1, sizeof(::ondewo::vtsi::CsiPreemptiveGenerationConfig)},
+  { 538, 546, -1, sizeof(::ondewo::vtsi::AudioObjectStorageConfig)},
+  { 548, 556, -1, sizeof(::ondewo::vtsi::AudioObjectStorageServicesActivationConfig)},
+  { 558, 568, -1, sizeof(::ondewo::vtsi::MessageBrokerConfig)},
+  { 571, 581, -1, sizeof(::ondewo::vtsi::MessageBrokerServicesActivationConfig)},
+  { 585, -1, -1, sizeof(::ondewo::vtsi::RabbitMqConfig)},
+  { 596, -1, -1, sizeof(::ondewo::vtsi::S2tVtsiCallbacks)},
+  { 604, -1, -1, sizeof(::ondewo::vtsi::NluVtsiCallbacks)},
+  { 612, -1, -1, sizeof(::ondewo::vtsi::T2sVtsiCallbacks)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -1194,7 +1369,9 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::ondewo::vtsi::_T2sPreemptiveSynthesisConfig_default_instance_._instance,
   &::ondewo::vtsi::_S2tVtsiConfig_default_instance_._instance,
   &::ondewo::vtsi::_CommonServicesConfig_default_instance_._instance,
+  &::ondewo::vtsi::_SipVtsiConfig_default_instance_._instance,
   &::ondewo::vtsi::_VoiceInteractionConfig_default_instance_._instance,
+  &::ondewo::vtsi::_BotTransferConfig_default_instance_._instance,
   &::ondewo::vtsi::_DtmfConfig_default_instance_._instance,
   &::ondewo::vtsi::_WarmTransferConfig_default_instance_._instance,
   &::ondewo::vtsi::_WarmIntroRecord_default_instance_._instance,
@@ -1230,7 +1407,7 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[] PR
   "o\032\037ondewo/t2s/text-to-speech.proto\"B\n\021Ba"
   "seServiceConfig\022\014\n\004host\030\001 \001(\t\022\014\n\004port\030\002 "
   "\001(\005\022\021\n\tgrpc_cert\030\003 \001(\t\"5\n\013Credentials\022\024\n"
-  "\014account_name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"\305\003"
+  "\014account_name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"\247\006"
   "\n\rNluVtsiConfig\0227\n\017nlu_base_config\030\001 \001(\013"
   "2\036.ondewo.vtsi.BaseServiceConfig\022/\n\013cred"
   "entials\030\002 \001(\0132\030.ondewo.vtsi.CredentialsH"
@@ -1241,288 +1418,360 @@ const char descriptor_table_protodef_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[] PR
   "\022:\n\010platform\030\t \001(\0162#.ondewo.nlu.Intent.M"
   "essage.PlatformH\001\210\001\001\022P\n\034preemptive_gener"
   "ation_config\030\n \001(\0132*.ondewo.vtsi.NluPree"
-  "mptiveGenerationConfigB\020\n\016authentication"
-  "B\013\n\t_platform\"\331\001\n\035NluPreemptiveGeneratio"
-  "nConfig\022 \n\023max_drafts_per_turn\030\001 \001(\005H\000\210\001"
-  "\001\022%\n\030min_stable_dwell_seconds\030\002 \001(\002H\001\210\001\001"
-  "\022!\n\024min_interval_seconds\030\003 \001(\002H\002\210\001\001B\026\n\024_"
-  "max_drafts_per_turnB\033\n\031_min_stable_dwell"
-  "_secondsB\027\n\025_min_interval_seconds\"\317\001\n\rT2"
-  "sVtsiConfig\0227\n\017t2s_base_config\030\001 \001(\0132\036.o"
-  "ndewo.vtsi.BaseServiceConfig\0225\n\022t2s_requ"
-  "est_config\030\002 \001(\0132\031.ondewo.t2s.RequestCon"
-  "fig\022N\n\033preemptive_synthesis_config\030\003 \001(\013"
-  "2).ondewo.vtsi.T2sPreemptiveSynthesisCon"
-  "fig\"b\n\034T2sPreemptiveSynthesisConfig\022\024\n\007e"
-  "nabled\030\001 \001(\010H\000\210\001\001\022\024\n\007chunked\030\002 \001(\010H\001\210\001\001B"
-  "\n\n\010_enabledB\n\n\010_chunked\"\224\001\n\rS2tVtsiConfi"
-  "g\0227\n\017s2t_base_config\030\001 \001(\0132\036.ondewo.vtsi"
-  ".BaseServiceConfig\022J\n\035s2t_transcribe_req"
-  "uest_config\030\002 \001(\0132#.ondewo.s2t.Transcrib"
-  "eRequestConfig\"\261\002\n\024CommonServicesConfig\022"
-  "3\n\017s2t_vtsi_config\030\001 \001(\0132\032.ondewo.vtsi.S"
-  "2tVtsiConfig\0223\n\017nlu_vtsi_config\030\002 \001(\0132\032."
-  "ondewo.vtsi.NluVtsiConfig\0223\n\017t2s_vtsi_co"
-  "nfig\030\003 \001(\0132\032.ondewo.vtsi.T2sVtsiConfig\0223"
-  "\n\017csi_vtsi_config\030\004 \001(\0132\032.ondewo.vtsi.Cs"
-  "iVtsiConfig\022E\n\030voice_interaction_config\030"
-  "\005 \001(\0132#.ondewo.vtsi.VoiceInteractionConf"
-  "ig\"\262\003\n\026VoiceInteractionConfig\022\?\n\025turn_de"
-  "tection_config\030\001 \001(\0132 .ondewo.vtsi.TurnD"
-  "etectionConfig\022M\n\034interruption_handling_"
-  "config\030\002 \001(\0132\'.ondewo.vtsi.InterruptionH"
-  "andlingConfig\022A\n\026response_timing_config\030"
-  "\003 \001(\0132!.ondewo.vtsi.ResponseTimingConfig"
-  "\022X\n\"answering_machine_detection_config\030\004"
-  " \001(\0132,.ondewo.vtsi.AnsweringMachineDetec"
-  "tionConfig\022,\n\013dtmf_config\030\005 \001(\0132\027.ondewo"
-  ".vtsi.DtmfConfig\022=\n\024warm_transfer_config"
-  "\030\006 \001(\0132\037.ondewo.vtsi.WarmTransferConfig\""
-  "\310\001\n\nDtmfConfig\022\024\n\007enabled\030\001 \001(\010H\000\210\001\001\022\025\n\010"
-  "barge_in\030\002 \001(\010H\001\210\001\001\022#\n\026inter_digit_timeo"
-  "ut_ms\030\003 \001(\rH\002\210\001\001\022\036\n\021undeclared_policy\030\004 "
-  "\001(\tH\003\210\001\001B\n\n\010_enabledB\013\n\t_barge_inB\031\n\027_in"
-  "ter_digit_timeout_msB\024\n\022_undeclared_poli"
-  "cy\"\252\013\n\022WarmTransferConfig\022\024\n\007enabled\030\001 \001"
-  "(\010H\000\210\001\001\022\031\n\014intro_prompt\030\002 \001(\tH\001\210\001\001\022;\n\021in"
-  "tro_text_source\030\003 \001(\0162 .ondewo.vtsi.Warm"
-  "IntroTextSource\022\033\n\016ready_question\030\004 \001(\tH"
-  "\002\210\001\001\022\'\n\032confirm_human_before_intro\030\005 \001(\010"
-  "H\003\210\001\001\022\034\n\017accept_question\030\006 \001(\tH\004\210\001\001\022$\n\027d"
-  "ecline_reason_question\030\007 \001(\tH\005\210\001\001\022$\n\027cal"
-  "ler_declined_message\030\010 \001(\tH\006\210\001\001\022\'\n\032calle"
-  "r_unreachable_message\030\t \001(\tH\007\210\001\001\022\030\n\013acce"
-  "pt_dtmf\030\n \001(\tH\010\210\001\001\022\031\n\014decline_dtmf\030\013 \001(\t"
-  "H\t\210\001\001\022\037\n\022decision_timeout_s\030\014 \001(\rH\n\210\001\001\022!"
-  "\n\024max_intro_duration_s\030\r \001(\rH\013\210\001\001\022 \n\023cal"
-  "lee_display_name\030\016 \001(\tH\014\210\001\001\022\037\n\022callee_de"
-  "scription\030\017 \001(\tH\r\210\001\001\022E\n\024on_intro_unavail"
-  "able\030\020 \001(\0162\'.ondewo.vtsi.WarmIntroUnavai"
-  "lablePolicy\022#\n\026apply_to_bot_transfers\030\021 "
-  "\001(\010H\016\210\001\001\022 \n\023caller_hold_message\030\022 \001(\tH\017\210"
-  "\001\001\022\036\n\021caller_hold_music\030\023 \001(\010H\020\210\001\001\022\'\n\032ca"
-  "ller_reassure_interval_s\030\024 \001(\rH\021\210\001\001\022\"\n\025l"
-  "lm_ccai_service_name\030\025 \001(\tH\022\210\001\001\022&\n\031calle"
-  "r_disclosure_message\030\026 \001(\tH\023\210\001\001\022$\n\027calle"
-  "r_accepted_message\030\027 \001(\tH\024\210\001\001\022\036\n\021store_i"
-  "ntro_audio\030\030 \001(\010H\025\210\001\001\022\034\n\024intro_listener_"
-  "names\030\031 \003(\tB\n\n\010_enabledB\017\n\r_intro_prompt"
-  "B\021\n\017_ready_questionB\035\n\033_confirm_human_be"
-  "fore_introB\022\n\020_accept_questionB\032\n\030_decli"
-  "ne_reason_questionB\032\n\030_caller_declined_m"
-  "essageB\035\n\033_caller_unreachable_messageB\016\n"
-  "\014_accept_dtmfB\017\n\r_decline_dtmfB\025\n\023_decis"
-  "ion_timeout_sB\027\n\025_max_intro_duration_sB\026"
-  "\n\024_callee_display_nameB\025\n\023_callee_descri"
-  "ptionB\031\n\027_apply_to_bot_transfersB\026\n\024_cal"
-  "ler_hold_messageB\024\n\022_caller_hold_musicB\035"
-  "\n\033_caller_reassure_interval_sB\030\n\026_llm_cc"
-  "ai_service_nameB\034\n\032_caller_disclosure_me"
-  "ssageB\032\n\030_caller_accepted_messageB\024\n\022_st"
-  "ore_intro_audio\"\267\003\n\017WarmIntroRecord\022\020\n\010i"
-  "ntro_id\030\001 \001(\t\0220\n\010decision\030\002 \001(\0162\036.ondewo"
-  ".vtsi.WarmIntroDecision\0223\n\ndecided_by\030\003 "
-  "\001(\0162\037.ondewo.vtsi.WarmIntroDecidedBy\022\036\n\026"
-  "decline_reason_present\030\004 \001(\010\022\027\n\017intro_ca"
-  "ll_name\030\005 \001(\t\0220\n\rring_duration\030\006 \001(\0132\031.g"
-  "oogle.protobuf.Duration\0221\n\016intro_duratio"
-  "n\030\007 \001(\0132\031.google.protobuf.Duration\0225\n\013te"
-  "xt_source\030\010 \001(\0162 .ondewo.vtsi.WarmIntroT"
-  "extSource\022\026\n\016text_fell_back\030\t \001(\010\022\r\n\005cau"
-  "se\030\n \001(\t\022\030\n\020notice_delivered\030\013 \001(\010\022\025\n\rin"
-  "tro_started\030\014 \001(\010\"\223\013\n\023TurnDetectionConfi"
-  "g\022@\n\004mode\030\001 \001(\01622.ondewo.vtsi.TurnDetect"
-  "ionConfig.TurnDetectionMode\022*\n\035min_endpo"
-  "inting_delay_seconds\030\002 \001(\002H\000\210\001\001\022*\n\035max_e"
-  "ndpointing_delay_seconds\030\003 \001(\002H\001\210\001\001\022F\n\016t"
-  "urn_eagerness\030\004 \001(\0162..ondewo.vtsi.TurnDe"
-  "tectionConfig.TurnEagerness\022)\n\034turn_dete"
-  "ction_system_prompt\030\005 \001(\tH\002\210\001\001\022\'\n\032turn_d"
-  "etection_user_prompt\030\006 \001(\tH\003\210\001\001\022\'\n\032conve"
-  "rsation_context_turns\030\007 \001(\rH\004\210\001\001\022 \n\023sema"
-  "ntic_model_name\030\010 \001(\tH\005\210\001\001\022.\n!end_of_tur"
-  "n_probability_threshold\030\t \001(\002H\006\210\001\001\022G\n\nho"
-  "ld_bands\030\n \001(\01323.ondewo.vtsi.TurnDetecti"
-  "onConfig.EndOfTurnHoldBands\022 \n\023uncertain"
-  "_min_words\030\013 \001(\rH\007\210\001\001\022+\n\036incomplete_max_"
-  "silence_seconds\030\014 \001(\002H\010\210\001\001\022\036\n\021exact_prob"
-  "ability\030\r \001(\010H\t\210\001\001\022\'\n\032final_merge_window"
-  "_seconds\030\016 \001(\002H\n\210\001\001\0226\n\020dictation_config\030"
-  "\017 \001(\0132\034.ondewo.vtsi.DictationConfig\032W\n\022E"
-  "ndOfTurnHoldBands\022A\n\005bands\030\001 \003(\01322.ondew"
-  "o.vtsi.TurnDetectionConfig.EndOfTurnHold"
-  "Band\032K\n\021EndOfTurnHoldBand\022\031\n\021upper_proba"
-  "bility\030\001 \001(\002\022\033\n\023max_silence_seconds\030\002 \001("
-  "\002\"f\n\021TurnDetectionMode\022#\n\037TURN_DETECTION"
-  "_MODE_UNSPECIFIED\020\000\022\007\n\003VAD\020\001\022\022\n\016SEMANTIC"
-  "_MODEL\020\002\022\017\n\013AUDIO_MODEL\020\003\"S\n\rTurnEagerne"
-  "ss\022\036\n\032TURN_EAGERNESS_UNSPECIFIED\020\000\022\013\n\007PA"
-  "TIENT\020\001\022\n\n\006NORMAL\020\002\022\t\n\005EAGER\020\003B \n\036_min_e"
-  "ndpointing_delay_secondsB \n\036_max_endpoin"
-  "ting_delay_secondsB\037\n\035_turn_detection_sy"
-  "stem_promptB\035\n\033_turn_detection_user_prom"
-  "ptB\035\n\033_conversation_context_turnsB\026\n\024_se"
-  "mantic_model_nameB$\n\"_end_of_turn_probab"
-  "ility_thresholdB\026\n\024_uncertain_min_wordsB"
-  "!\n\037_incomplete_max_silence_secondsB\024\n\022_e"
-  "xact_probabilityB\035\n\033_final_merge_window_"
-  "seconds\"\220\006\n\017DictationConfig\022\031\n\014hold_enab"
-  "led\030\001 \001(\010H\000\210\001\001\022#\n\026expected_input_enabled"
-  "\030\002 \001(\010H\001\210\001\001\022,\n\037read_back_from_bot_text_e"
-  "nabled\030\003 \001(\010H\002\210\001\001\022%\n\030hold_generic_max_se"
-  "conds\030\004 \001(\002H\003\210\001\001\022`\n\034hold_max_seconds_by_"
-  "category\030\005 \003(\0132:.ondewo.vtsi.DictationCo"
-  "nfig.HoldMaxSecondsByCategoryEntry\022*\n\035ho"
-  "ld_invalid_checksum_seconds\030\006 \001(\002H\004\210\001\001\022+"
-  "\n\036early_commit_on_complete_value\030\007 \001(\010H\005"
-  "\210\001\001\022.\n!s2t_slot_min_duration_off_seconds"
-  "\030\010 \001(\002H\006\210\001\001\0226\n)s2t_slot_min_duration_off"
-  "_restore_seconds\030\t \001(\002H\007\210\001\001\032\?\n\035HoldMaxSe"
-  "condsByCategoryEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val"
-  "ue\030\002 \001(\002:\0028\001B\017\n\r_hold_enabledB\031\n\027_expect"
-  "ed_input_enabledB\"\n _read_back_from_bot_"
-  "text_enabledB\033\n\031_hold_generic_max_second"
-  "sB \n\036_hold_invalid_checksum_secondsB!\n\037_"
-  "early_commit_on_complete_valueB$\n\"_s2t_s"
-  "lot_min_duration_off_secondsB,\n*_s2t_slo"
-  "t_min_duration_off_restore_seconds\"\242\005\n\032I"
-  "nterruptionHandlingConfig\022\024\n\007enabled\030\001 \001"
-  "(\010H\000\210\001\001\022.\n!min_interruption_duration_sec"
-  "onds\030\002 \001(\002H\001\210\001\001\022#\n\026min_interruption_word"
-  "s\030\003 \001(\005H\002\210\001\001\022/\n\"false_interruption_timeo"
-  "ut_seconds\030\004 \001(\002H\003\210\001\001\022,\n\037resume_after_fa"
-  "lse_interruption\030\005 \001(\010H\004\210\001\001\022\034\n\017backoff_s"
-  "econds\030\006 \001(\002H\005\210\001\001\022,\n\037first_message_prote"
-  "cted_seconds\030\007 \001(\002H\006\210\001\001\0221\n$transcribe_on"
-  "_disabled_interruptions\030\010 \001(\010H\007\210\001\001\022%\n\030in"
-  "terruption_fade_out_ms\030\t \001(\005H\010\210\001\001B\n\n\010_en"
-  "abledB$\n\"_min_interruption_duration_seco"
-  "ndsB\031\n\027_min_interruption_wordsB%\n#_false"
-  "_interruption_timeout_secondsB\"\n _resume"
-  "_after_false_interruptionB\022\n\020_backoff_se"
-  "condsB\"\n _first_message_protected_second"
-  "sB\'\n%_transcribe_on_disabled_interruptio"
-  "nsB\033\n\031_interruption_fade_out_ms\"\377\002\n\024Resp"
-  "onseTimingConfig\022!\n\024turn_timeout_seconds"
-  "\030\001 \001(\002H\000\210\001\001\022-\n silence_end_call_timeout_"
-  "seconds\030\002 \001(\002H\001\210\001\001\022;\n\023soft_timeout_confi"
-  "g\030\003 \001(\0132\036.ondewo.vtsi.SoftTimeoutConfig\022"
-  "*\n\035preemptive_generation_enabled\030\004 \001(\010H\002"
-  "\210\001\001\022*\n\035t2s_chunked_streaming_enabled\030\005 \001"
-  "(\010H\003\210\001\001B\027\n\025_turn_timeout_secondsB#\n!_sil"
-  "ence_end_call_timeout_secondsB \n\036_preemp"
-  "tive_generation_enabledB \n\036_t2s_chunked_"
-  "streaming_enabled\"\217\001\n\021SoftTimeoutConfig\022"
-  "\034\n\017timeout_seconds\030\001 \001(\002H\000\210\001\001\022\020\n\010message"
-  "s\030\002 \003(\t\022\037\n\022max_per_generation\030\003 \001(\005H\001\210\001\001"
-  "B\022\n\020_timeout_secondsB\025\n\023_max_per_generat"
-  "ion\"\376\013\n\037AnsweringMachineDetectionConfig\022"
-  "\023\n\006active\030\001 \001(\010H\000\210\001\001\022K\n\006action\030\002 \001(\01626.o"
-  "ndewo.vtsi.AnsweringMachineDetectionConf"
-  "ig.AmdActionH\001\210\001\001\022U\n\013sensitivity\030\003 \001(\0162;"
-  ".ondewo.vtsi.AnsweringMachineDetectionCo"
-  "nfig.AmdSensitivityH\002\210\001\001\022!\n\024max_decision"
-  "_time_ms\030\004 \001(\005H\003\210\001\001\022 \n\023max_machine_wait_"
-  "ms\030\005 \001(\005H\004\210\001\001\022(\n\033beep_wait_after_greetin"
-  "g_ms\030\006 \001(\005H\005\210\001\001\022\037\n\022initial_silence_ms\030\007 "
-  "\001(\005H\006\210\001\001\022\"\n\025max_human_greeting_ms\030\010 \001(\005H"
-  "\007\210\001\001\022$\n\027greeting_end_silence_ms\030\t \001(\005H\010\210"
-  "\001\001\022\"\n\025beep_detection_active\030\n \001(\010H\t\210\001\001\022\""
-  "\n\032additional_machine_phrases\030\013 \003(\t\022 \n\030ad"
-  "ditional_human_phrases\030\014 \003(\t\022\033\n\016hang_up_"
-  "on_fax\030\r \001(\010H\n\210\001\001\022,\n\037hang_up_on_network_"
-  "announcement\030\016 \001(\010H\013\210\001\001\022\033\n\016hang_up_on_iv"
-  "r\030\017 \001(\010H\014\210\001\001\022&\n\031hang_up_on_call_screenin"
-  "g\030\020 \001(\010H\r\210\001\001\022!\n\024voice_message_intent\030\021 \001"
-  "(\tH\016\210\001\001\022+\n\036voice_message_max_beep_wait_m"
-  "s\030\022 \001(\005H\017\210\001\001\022%\n\030voice_message_timeout_ms"
-  "\030\023 \001(\005H\020\210\001\001\022%\n\030keyword_detection_active\030"
-  "\024 \001(\010H\021\210\001\001\022%\n\030cadence_detection_active\030\025"
-  " \001(\010H\022\210\001\001\"^\n\tAmdAction\022\032\n\026AMD_ACTION_UNS"
-  "PECIFIED\020\000\022\013\n\007HANG_UP\020\001\022\017\n\013DETECT_ONLY\020\002"
-  "\022\027\n\023LEAVE_VOICE_MESSAGE\020\003\"P\n\016AmdSensitiv"
-  "ity\022\037\n\033AMD_SENSITIVITY_UNSPECIFIED\020\000\022\007\n\003"
-  "LOW\020\001\022\n\n\006MEDIUM\020\002\022\010\n\004HIGH\020\003B\t\n\007_activeB\t"
-  "\n\007_actionB\016\n\014_sensitivityB\027\n\025_max_decisi"
-  "on_time_msB\026\n\024_max_machine_wait_msB\036\n\034_b"
-  "eep_wait_after_greeting_msB\025\n\023_initial_s"
-  "ilence_msB\030\n\026_max_human_greeting_msB\032\n\030_"
-  "greeting_end_silence_msB\030\n\026_beep_detecti"
-  "on_activeB\021\n\017_hang_up_on_faxB\"\n _hang_up"
-  "_on_network_announcementB\021\n\017_hang_up_on_"
-  "ivrB\034\n\032_hang_up_on_call_screeningB\027\n\025_vo"
-  "ice_message_intentB!\n\037_voice_message_max"
-  "_beep_wait_msB\033\n\031_voice_message_timeout_"
-  "msB\033\n\031_keyword_detection_activeB\033\n\031_cade"
-  "nce_detection_active\"(\n\rSipBaseConfig\022\027\n"
-  "\017sip_sim_version\030\001 \001(\t\"\317\001\n\017SipCallerConf"
-  "ig\0223\n\017sip_base_config\030\001 \001(\0132\032.ondewo.vts"
-  "i.SipBaseConfig\022\021\n\tcallee_id\030\002 \001(\t\022A\n\013si"
-  "p_headers\030\003 \003(\0132,.ondewo.vtsi.SipCallerC"
-  "onfig.SipHeadersEntry\0321\n\017SipHeadersEntry"
-  "\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\343\003\n\rCsi"
-  "VtsiConfig\0229\n\022s2t_vtsi_callbacks\030\001 \001(\0132\035"
-  ".ondewo.vtsi.S2tVtsiCallbacks\0229\n\022nlu_vts"
-  "i_callbacks\030\002 \001(\0132\035.ondewo.vtsi.NluVtsiC"
-  "allbacks\0229\n\022t2s_vtsi_callbacks\030\003 \001(\0132\035.o"
-  "ndewo.vtsi.T2sVtsiCallbacks\022H\n\031audio_obj"
-  "ect_store_config\030\004 \001(\0132%.ondewo.vtsi.Aud"
-  "ioObjectStorageConfig\022\?\n\025message_broker_"
-  "config\030\005 \001(\0132 .ondewo.vtsi.MessageBroker"
-  "Config\022&\n\031activate_control_messages\030\006 \001("
-  "\010H\000\210\001\001\022P\n\034preemptive_generation_config\030\007"
-  " \001(\0132*.ondewo.vtsi.CsiPreemptiveGenerati"
-  "onConfigB\034\n\032_activate_control_messages\"\213"
-  "\001\n\035CsiPreemptiveGenerationConfig\022\024\n\007enab"
-  "led\030\001 \001(\010H\000\210\001\001\022(\n\033commit_wait_timeout_se"
-  "conds\030\002 \001(\002H\001\210\001\001B\n\n\010_enabledB\036\n\034_commit_"
-  "wait_timeout_seconds\"\332\001\n\030AudioObjectStor"
-  "ageConfig\022*\n\035activate_audio_object_stora"
-  "ge\030\001 \001(\010H\000\210\001\001\022p\n/audio_object_storage_se"
-  "rvices_activation_config\030\002 \001(\01327.ondewo."
-  "vtsi.AudioObjectStorageServicesActivatio"
-  "nConfigB \n\036_activate_audio_object_storag"
-  "e\"\204\001\n*AudioObjectStorageServicesActivati"
-  "onConfig\022\031\n\014activate_s2t\030\001 \001(\010H\000\210\001\001\022\031\n\014a"
-  "ctivate_t2s\030\002 \001(\010H\001\210\001\001B\017\n\r_activate_s2tB"
-  "\017\n\r_activate_t2s\"\220\002\n\023MessageBrokerConfig"
-  "\022$\n\027activate_message_broker\030\001 \001(\010H\001\210\001\001\022e"
-  "\n)message_broker_services_activation_con"
-  "fig\030\002 \001(\01322.ondewo.vtsi.MessageBrokerSer"
-  "vicesActivationConfig\0227\n\020rabbit_mq_confi"
-  "g\030\003 \001(\0132\033.ondewo.vtsi.RabbitMqConfigH\000B\027"
-  "\n\025message_broker_configB\032\n\030_activate_mes"
-  "sage_broker\"\327\001\n%MessageBrokerServicesAct"
-  "ivationConfig\022\031\n\014activate_s2t\030\001 \001(\010H\000\210\001\001"
-  "\022\031\n\014activate_nlu\030\002 \001(\010H\001\210\001\001\022\031\n\014activate_"
-  "t2s\030\003 \001(\010H\002\210\001\001\022\031\n\014activate_sip\030\004 \001(\010H\003\210\001"
-  "\001B\017\n\r_activate_s2tB\017\n\r_activate_nluB\017\n\r_"
-  "activate_t2sB\017\n\r_activate_sip\"\\\n\016RabbitM"
-  "qConfig\022\014\n\004host\030\001 \001(\t\022\014\n\004port\030\002 \001(\005\022\016\n\006p"
-  "ort_2\030\003 \001(\005\022\014\n\004user\030\004 \001(\t\022\020\n\010password\030\005 "
-  "\001(\t\"I\n\020S2tVtsiCallbacks\022\031\n\021pre_s2t_callb"
-  "acks\030\001 \003(\t\022\032\n\022post_s2t_callbacks\030\002 \003(\t\"I"
-  "\n\020NluVtsiCallbacks\022\031\n\021pre_nlu_callbacks\030"
-  "\001 \003(\t\022\032\n\022post_nlu_callbacks\030\002 \003(\t\"I\n\020T2s"
-  "VtsiCallbacks\022\031\n\021pre_t2s_callbacks\030\001 \003(\t"
-  "\022\032\n\022post_t2s_callbacks\030\002 \003(\t*\212\001\n\023WarmInt"
-  "roTextSource\022&\n\"WARM_INTRO_TEXT_SOURCE_U"
-  "NSPECIFIED\020\000\022#\n\037WARM_INTRO_TEXT_SOURCE_T"
-  "EMPLATE\020\001\022&\n\"WARM_INTRO_TEXT_SOURCE_LLM_"
-  "SUMMARY\020\002*\270\001\n\032WarmIntroUnavailablePolicy"
-  "\022-\n)WARM_INTRO_UNAVAILABLE_POLICY_UNSPEC"
-  "IFIED\020\000\0227\n3WARM_INTRO_UNAVAILABLE_POLICY"
-  "_CONNECT_WITHOUT_INTRO\020\001\0222\n.WARM_INTRO_U"
-  "NAVAILABLE_POLICY_RETURN_TO_CALLER\020\002*\241\001\n"
-  "\021WarmIntroDecision\022#\n\037WARM_INTRO_DECISIO"
-  "N_UNSPECIFIED\020\000\022 \n\034WARM_INTRO_DECISION_A"
-  "CCEPTED\020\001\022 \n\034WARM_INTRO_DECISION_DECLINE"
-  "D\020\002\022#\n\037WARM_INTRO_DECISION_NO_DECISION\020\003"
-  "*\240\001\n\022WarmIntroDecidedBy\022%\n!WARM_INTRO_DE"
-  "CIDED_BY_UNSPECIFIED\020\000\022\036\n\032WARM_INTRO_DEC"
-  "IDED_BY_DTMF\020\001\022 \n\034WARM_INTRO_DECIDED_BY_"
-  "SPEECH\020\002\022!\n\035WARM_INTRO_DECIDED_BY_TIMEOU"
-  "T\020\003b\006proto3"
+  "mptiveGenerationConfig\022%\n\030ai_teams_fille"
+  "rs_audible\030\013 \001(\010H\002\210\001\001\022$\n\027failure_apology"
+  "_message\030\014 \001(\tH\003\210\001\001\022(\n\033session_id_from_s"
+  "ip_context\030\r \001(\010H\004\210\001\001\022*\n\035ai_teams_push_m"
+  "ax_age_seconds\030\016 \001(\002H\005\210\001\001\022%\n\030ai_teams_pu"
+  "sh_max_spoken\030\017 \001(\005H\006\210\001\001B\020\n\016authenticati"
+  "onB\013\n\t_platformB\033\n\031_ai_teams_fillers_aud"
+  "ibleB\032\n\030_failure_apology_messageB\036\n\034_ses"
+  "sion_id_from_sip_contextB \n\036_ai_teams_pu"
+  "sh_max_age_secondsB\033\n\031_ai_teams_push_max"
+  "_spoken\"\331\001\n\035NluPreemptiveGenerationConfi"
+  "g\022 \n\023max_drafts_per_turn\030\001 \001(\005H\000\210\001\001\022%\n\030m"
+  "in_stable_dwell_seconds\030\002 \001(\002H\001\210\001\001\022!\n\024mi"
+  "n_interval_seconds\030\003 \001(\002H\002\210\001\001B\026\n\024_max_dr"
+  "afts_per_turnB\033\n\031_min_stable_dwell_secon"
+  "dsB\027\n\025_min_interval_seconds\"\311\002\n\rT2sVtsiC"
+  "onfig\0227\n\017t2s_base_config\030\001 \001(\0132\036.ondewo."
+  "vtsi.BaseServiceConfig\0225\n\022t2s_request_co"
+  "nfig\030\002 \001(\0132\031.ondewo.t2s.RequestConfig\022N\n"
+  "\033preemptive_synthesis_config\030\003 \001(\0132).ond"
+  "ewo.vtsi.T2sPreemptiveSynthesisConfig\022\'\n"
+  "\032synthesize_timeout_seconds\030\004 \001(\002H\000\210\001\001\022\034"
+  "\n\017cache_retention\030\005 \001(\tH\001\210\001\001B\035\n\033_synthes"
+  "ize_timeout_secondsB\022\n\020_cache_retention\""
+  "b\n\034T2sPreemptiveSynthesisConfig\022\024\n\007enabl"
+  "ed\030\001 \001(\010H\000\210\001\001\022\024\n\007chunked\030\002 \001(\010H\001\210\001\001B\n\n\010_"
+  "enabledB\n\n\010_chunked\"\316\001\n\rS2tVtsiConfig\0227\n"
+  "\017s2t_base_config\030\001 \001(\0132\036.ondewo.vtsi.Bas"
+  "eServiceConfig\022J\n\035s2t_transcribe_request"
+  "_config\030\002 \001(\0132#.ondewo.s2t.TranscribeReq"
+  "uestConfig\022 \n\023failure_sip_trigger\030\003 \001(\tH"
+  "\000\210\001\001B\026\n\024_failure_sip_trigger\"\254\003\n\024CommonS"
+  "ervicesConfig\0223\n\017s2t_vtsi_config\030\001 \001(\0132\032"
+  ".ondewo.vtsi.S2tVtsiConfig\0223\n\017nlu_vtsi_c"
+  "onfig\030\002 \001(\0132\032.ondewo.vtsi.NluVtsiConfig\022"
+  "3\n\017t2s_vtsi_config\030\003 \001(\0132\032.ondewo.vtsi.T"
+  "2sVtsiConfig\0223\n\017csi_vtsi_config\030\004 \001(\0132\032."
+  "ondewo.vtsi.CsiVtsiConfig\022E\n\030voice_inter"
+  "action_config\030\005 \001(\0132#.ondewo.vtsi.VoiceI"
+  "nteractionConfig\0223\n\017sip_vtsi_config\030\006 \001("
+  "\0132\032.ondewo.vtsi.SipVtsiConfig\022&\n\031max_cal"
+  "l_duration_seconds\030\007 \001(\rH\000\210\001\001B\034\n\032_max_ca"
+  "ll_duration_seconds\"\215\005\n\rSipVtsiConfig\022 \n"
+  "\023playback_latency_ms\030\001 \001(\rH\000\210\001\001\022#\n\026softw"
+  "are_clock_enabled\030\002 \001(\010H\001\210\001\001\022.\n!rtp_stat"
+  "s_sample_interval_seconds\030\003 \001(\002H\002\210\001\001\0225\n("
+  "hangup_wait_for_playback_timeout_seconds"
+  "\030\004 \001(\002H\003\210\001\001\022+\n\036outgoing_dial_watchdog_se"
+  "conds\030\005 \001(\002H\004\210\001\001\022&\n\031register_interval_se"
+  "conds\030\006 \001(\rH\005\210\001\001\022-\n call_audio_stream_ma"
+  "x_concurrent\030\007 \001(\rH\006\210\001\001\0223\n&call_audio_st"
+  "ream_max_duration_seconds\030\010 \001(\rH\007\210\001\001B\026\n\024"
+  "_playback_latency_msB\031\n\027_software_clock_"
+  "enabledB$\n\"_rtp_stats_sample_interval_se"
+  "condsB+\n)_hangup_wait_for_playback_timeo"
+  "ut_secondsB!\n\037_outgoing_dial_watchdog_se"
+  "condsB\034\n\032_register_interval_secondsB#\n!_"
+  "call_audio_stream_max_concurrentB)\n\'_cal"
+  "l_audio_stream_max_duration_seconds\"\357\003\n\026"
+  "VoiceInteractionConfig\022\?\n\025turn_detection"
+  "_config\030\001 \001(\0132 .ondewo.vtsi.TurnDetectio"
+  "nConfig\022M\n\034interruption_handling_config\030"
+  "\002 \001(\0132\'.ondewo.vtsi.InterruptionHandling"
+  "Config\022A\n\026response_timing_config\030\003 \001(\0132!"
+  ".ondewo.vtsi.ResponseTimingConfig\022X\n\"ans"
+  "wering_machine_detection_config\030\004 \001(\0132,."
+  "ondewo.vtsi.AnsweringMachineDetectionCon"
+  "fig\022,\n\013dtmf_config\030\005 \001(\0132\027.ondewo.vtsi.D"
+  "tmfConfig\022=\n\024warm_transfer_config\030\006 \001(\0132"
+  "\037.ondewo.vtsi.WarmTransferConfig\022;\n\023bot_"
+  "transfer_config\030\007 \001(\0132\036.ondewo.vtsi.BotT"
+  "ransferConfig\"\345\001\n\021BotTransferConfig\022\037\n\022o"
+  "utcome_timeout_ms\030\001 \001(\rH\000\210\001\001\022\032\n\rfailed_a"
+  "ction\030\002 \001(\tH\001\210\001\001\0229\n,warm_transfer_outcom"
+  "e_commit_timeout_seconds\030\003 \001(\002H\002\210\001\001B\025\n\023_"
+  "outcome_timeout_msB\020\n\016_failed_actionB/\n-"
+  "_warm_transfer_outcome_commit_timeout_se"
+  "conds\"\250\002\n\nDtmfConfig\022\024\n\007enabled\030\001 \001(\010H\000\210"
+  "\001\001\022\025\n\010barge_in\030\002 \001(\010H\001\210\001\001\022#\n\026inter_digit"
+  "_timeout_ms\030\003 \001(\rH\002\210\001\001\022\036\n\021undeclared_pol"
+  "icy\030\004 \001(\tH\003\210\001\001\022\034\n\017speech_guard_ms\030\005 \001(\rH"
+  "\004\210\001\001\022\032\n\rtext_template\030\006 \001(\tH\005\210\001\001B\n\n\010_ena"
+  "bledB\013\n\t_barge_inB\031\n\027_inter_digit_timeou"
+  "t_msB\024\n\022_undeclared_policyB\022\n\020_speech_gu"
+  "ard_msB\020\n\016_text_template\"\252\013\n\022WarmTransfe"
+  "rConfig\022\024\n\007enabled\030\001 \001(\010H\000\210\001\001\022\031\n\014intro_p"
+  "rompt\030\002 \001(\tH\001\210\001\001\022;\n\021intro_text_source\030\003 "
+  "\001(\0162 .ondewo.vtsi.WarmIntroTextSource\022\033\n"
+  "\016ready_question\030\004 \001(\tH\002\210\001\001\022\'\n\032confirm_hu"
+  "man_before_intro\030\005 \001(\010H\003\210\001\001\022\034\n\017accept_qu"
+  "estion\030\006 \001(\tH\004\210\001\001\022$\n\027decline_reason_ques"
+  "tion\030\007 \001(\tH\005\210\001\001\022$\n\027caller_declined_messa"
+  "ge\030\010 \001(\tH\006\210\001\001\022\'\n\032caller_unreachable_mess"
+  "age\030\t \001(\tH\007\210\001\001\022\030\n\013accept_dtmf\030\n \001(\tH\010\210\001\001"
+  "\022\031\n\014decline_dtmf\030\013 \001(\tH\t\210\001\001\022\037\n\022decision_"
+  "timeout_s\030\014 \001(\rH\n\210\001\001\022!\n\024max_intro_durati"
+  "on_s\030\r \001(\rH\013\210\001\001\022 \n\023callee_display_name\030\016"
+  " \001(\tH\014\210\001\001\022\037\n\022callee_description\030\017 \001(\tH\r\210"
+  "\001\001\022E\n\024on_intro_unavailable\030\020 \001(\0162\'.ondew"
+  "o.vtsi.WarmIntroUnavailablePolicy\022#\n\026app"
+  "ly_to_bot_transfers\030\021 \001(\010H\016\210\001\001\022 \n\023caller"
+  "_hold_message\030\022 \001(\tH\017\210\001\001\022\036\n\021caller_hold_"
+  "music\030\023 \001(\010H\020\210\001\001\022\'\n\032caller_reassure_inte"
+  "rval_s\030\024 \001(\rH\021\210\001\001\022\"\n\025llm_ccai_service_na"
+  "me\030\025 \001(\tH\022\210\001\001\022&\n\031caller_disclosure_messa"
+  "ge\030\026 \001(\tH\023\210\001\001\022$\n\027caller_accepted_message"
+  "\030\027 \001(\tH\024\210\001\001\022\036\n\021store_intro_audio\030\030 \001(\010H\025"
+  "\210\001\001\022\034\n\024intro_listener_names\030\031 \003(\tB\n\n\010_en"
+  "abledB\017\n\r_intro_promptB\021\n\017_ready_questio"
+  "nB\035\n\033_confirm_human_before_introB\022\n\020_acc"
+  "ept_questionB\032\n\030_decline_reason_question"
+  "B\032\n\030_caller_declined_messageB\035\n\033_caller_"
+  "unreachable_messageB\016\n\014_accept_dtmfB\017\n\r_"
+  "decline_dtmfB\025\n\023_decision_timeout_sB\027\n\025_"
+  "max_intro_duration_sB\026\n\024_callee_display_"
+  "nameB\025\n\023_callee_descriptionB\031\n\027_apply_to"
+  "_bot_transfersB\026\n\024_caller_hold_messageB\024"
+  "\n\022_caller_hold_musicB\035\n\033_caller_reassure"
+  "_interval_sB\030\n\026_llm_ccai_service_nameB\034\n"
+  "\032_caller_disclosure_messageB\032\n\030_caller_a"
+  "ccepted_messageB\024\n\022_store_intro_audio\"\267\003"
+  "\n\017WarmIntroRecord\022\020\n\010intro_id\030\001 \001(\t\0220\n\010d"
+  "ecision\030\002 \001(\0162\036.ondewo.vtsi.WarmIntroDec"
+  "ision\0223\n\ndecided_by\030\003 \001(\0162\037.ondewo.vtsi."
+  "WarmIntroDecidedBy\022\036\n\026decline_reason_pre"
+  "sent\030\004 \001(\010\022\027\n\017intro_call_name\030\005 \001(\t\0220\n\rr"
+  "ing_duration\030\006 \001(\0132\031.google.protobuf.Dur"
+  "ation\0221\n\016intro_duration\030\007 \001(\0132\031.google.p"
+  "rotobuf.Duration\0225\n\013text_source\030\010 \001(\0162 ."
+  "ondewo.vtsi.WarmIntroTextSource\022\026\n\016text_"
+  "fell_back\030\t \001(\010\022\r\n\005cause\030\n \001(\t\022\030\n\020notice"
+  "_delivered\030\013 \001(\010\022\025\n\rintro_started\030\014 \001(\010\""
+  "\347\r\n\023TurnDetectionConfig\022@\n\004mode\030\001 \001(\01622."
+  "ondewo.vtsi.TurnDetectionConfig.TurnDete"
+  "ctionMode\022*\n\035min_endpointing_delay_secon"
+  "ds\030\002 \001(\002H\000\210\001\001\022*\n\035max_endpointing_delay_s"
+  "econds\030\003 \001(\002H\001\210\001\001\022F\n\016turn_eagerness\030\004 \001("
+  "\0162..ondewo.vtsi.TurnDetectionConfig.Turn"
+  "Eagerness\022)\n\034turn_detection_system_promp"
+  "t\030\005 \001(\tH\002\210\001\001\022\'\n\032turn_detection_user_prom"
+  "pt\030\006 \001(\tH\003\210\001\001\022\'\n\032conversation_context_tu"
+  "rns\030\007 \001(\rH\004\210\001\001\022 \n\023semantic_model_name\030\010 "
+  "\001(\tH\005\210\001\001\022.\n!end_of_turn_probability_thre"
+  "shold\030\t \001(\002H\006\210\001\001\022G\n\nhold_bands\030\n \001(\01323.o"
+  "ndewo.vtsi.TurnDetectionConfig.EndOfTurn"
+  "HoldBands\022 \n\023uncertain_min_words\030\013 \001(\rH\007"
+  "\210\001\001\022+\n\036incomplete_max_silence_seconds\030\014 "
+  "\001(\002H\010\210\001\001\022\036\n\021exact_probability\030\r \001(\010H\t\210\001\001"
+  "\022\'\n\032final_merge_window_seconds\030\016 \001(\002H\n\210\001"
+  "\001\0226\n\020dictation_config\030\017 \001(\0132\034.ondewo.vts"
+  "i.DictationConfig\022\030\n\013s2t_emit_ms\030\020 \001(\rH\013"
+  "\210\001\001\022!\n\024s2t_request_partials\030\021 \001(\010H\014\210\001\001\0220"
+  "\n#s2t_request_end_of_speech_candidate\030\022 "
+  "\001(\010H\r\210\001\001\022!\n\024smart_turn_threshold\030\023 \001(\002H\016"
+  "\210\001\001\022/\n\"post_unmute_phantom_window_second"
+  "s\030\024 \001(\002H\017\210\001\001\032W\n\022EndOfTurnHoldBands\022A\n\005ba"
+  "nds\030\001 \003(\01322.ondewo.vtsi.TurnDetectionCon"
+  "fig.EndOfTurnHoldBand\032K\n\021EndOfTurnHoldBa"
+  "nd\022\031\n\021upper_probability\030\001 \001(\002\022\033\n\023max_sil"
+  "ence_seconds\030\002 \001(\002\"f\n\021TurnDetectionMode\022"
+  "#\n\037TURN_DETECTION_MODE_UNSPECIFIED\020\000\022\007\n\003"
+  "VAD\020\001\022\022\n\016SEMANTIC_MODEL\020\002\022\017\n\013AUDIO_MODEL"
+  "\020\003\"S\n\rTurnEagerness\022\036\n\032TURN_EAGERNESS_UN"
+  "SPECIFIED\020\000\022\013\n\007PATIENT\020\001\022\n\n\006NORMAL\020\002\022\t\n\005"
+  "EAGER\020\003B \n\036_min_endpointing_delay_second"
+  "sB \n\036_max_endpointing_delay_secondsB\037\n\035_"
+  "turn_detection_system_promptB\035\n\033_turn_de"
+  "tection_user_promptB\035\n\033_conversation_con"
+  "text_turnsB\026\n\024_semantic_model_nameB$\n\"_e"
+  "nd_of_turn_probability_thresholdB\026\n\024_unc"
+  "ertain_min_wordsB!\n\037_incomplete_max_sile"
+  "nce_secondsB\024\n\022_exact_probabilityB\035\n\033_fi"
+  "nal_merge_window_secondsB\016\n\014_s2t_emit_ms"
+  "B\027\n\025_s2t_request_partialsB&\n$_s2t_reques"
+  "t_end_of_speech_candidateB\027\n\025_smart_turn"
+  "_thresholdB%\n#_post_unmute_phantom_windo"
+  "w_seconds\"\220\006\n\017DictationConfig\022\031\n\014hold_en"
+  "abled\030\001 \001(\010H\000\210\001\001\022#\n\026expected_input_enabl"
+  "ed\030\002 \001(\010H\001\210\001\001\022,\n\037read_back_from_bot_text"
+  "_enabled\030\003 \001(\010H\002\210\001\001\022%\n\030hold_generic_max_"
+  "seconds\030\004 \001(\002H\003\210\001\001\022`\n\034hold_max_seconds_b"
+  "y_category\030\005 \003(\0132:.ondewo.vtsi.Dictation"
+  "Config.HoldMaxSecondsByCategoryEntry\022*\n\035"
+  "hold_invalid_checksum_seconds\030\006 \001(\002H\004\210\001\001"
+  "\022+\n\036early_commit_on_complete_value\030\007 \001(\010"
+  "H\005\210\001\001\022.\n!s2t_slot_min_duration_off_secon"
+  "ds\030\010 \001(\002H\006\210\001\001\0226\n)s2t_slot_min_duration_o"
+  "ff_restore_seconds\030\t \001(\002H\007\210\001\001\032\?\n\035HoldMax"
+  "SecondsByCategoryEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005v"
+  "alue\030\002 \001(\002:\0028\001B\017\n\r_hold_enabledB\031\n\027_expe"
+  "cted_input_enabledB\"\n _read_back_from_bo"
+  "t_text_enabledB\033\n\031_hold_generic_max_seco"
+  "ndsB \n\036_hold_invalid_checksum_secondsB!\n"
+  "\037_early_commit_on_complete_valueB$\n\"_s2t"
+  "_slot_min_duration_off_secondsB,\n*_s2t_s"
+  "lot_min_duration_off_restore_seconds\"\334\010\n"
+  "\032InterruptionHandlingConfig\022\024\n\007enabled\030\001"
+  " \001(\010H\000\210\001\001\022.\n!min_interruption_duration_s"
+  "econds\030\002 \001(\002H\001\210\001\001\022#\n\026min_interruption_wo"
+  "rds\030\003 \001(\005H\002\210\001\001\022/\n\"false_interruption_tim"
+  "eout_seconds\030\004 \001(\002H\003\210\001\001\022,\n\037resume_after_"
+  "false_interruption\030\005 \001(\010H\004\210\001\001\022\034\n\017backoff"
+  "_seconds\030\006 \001(\002H\005\210\001\001\022,\n\037first_message_pro"
+  "tected_seconds\030\007 \001(\002H\006\210\001\001\0221\n$transcribe_"
+  "on_disabled_interruptions\030\010 \001(\010H\007\210\001\001\022%\n\030"
+  "interruption_fade_out_ms\030\t \001(\005H\010\210\001\001\022,\n\037c"
+  "ancel_on_speech_while_thinking\030\n \001(\010H\t\210\001"
+  "\001\0221\n$ai_teams_cancel_pending_on_interrup"
+  "t\030\013 \001(\010H\n\210\001\001\022#\n\026t2s_cancel_on_barge_in\030\014"
+  " \001(\010H\013\210\001\001\022%\n\030nlu_turn_control_enabled\030\r "
+  "\001(\010H\014\210\001\001\022!\n\024heard_report_enabled\030\016 \001(\010H\r"
+  "\210\001\001\022)\n\034heard_text_alignment_enabled\030\017 \001("
+  "\010H\016\210\001\001B\n\n\010_enabledB$\n\"_min_interruption_"
+  "duration_secondsB\031\n\027_min_interruption_wo"
+  "rdsB%\n#_false_interruption_timeout_secon"
+  "dsB\"\n _resume_after_false_interruptionB\022"
+  "\n\020_backoff_secondsB\"\n _first_message_pro"
+  "tected_secondsB\'\n%_transcribe_on_disable"
+  "d_interruptionsB\033\n\031_interruption_fade_ou"
+  "t_msB\"\n _cancel_on_speech_while_thinking"
+  "B\'\n%_ai_teams_cancel_pending_on_interrup"
+  "tB\031\n\027_t2s_cancel_on_barge_inB\033\n\031_nlu_tur"
+  "n_control_enabledB\027\n\025_heard_report_enabl"
+  "edB\037\n\035_heard_text_alignment_enabled\"\247\006\n\024"
+  "ResponseTimingConfig\022!\n\024turn_timeout_sec"
+  "onds\030\001 \001(\002H\000\210\001\001\022-\n silence_end_call_time"
+  "out_seconds\030\002 \001(\002H\001\210\001\001\022;\n\023soft_timeout_c"
+  "onfig\030\003 \001(\0132\036.ondewo.vtsi.SoftTimeoutCon"
+  "fig\022*\n\035preemptive_generation_enabled\030\004 \001"
+  "(\010H\002\210\001\001\022*\n\035t2s_chunked_streaming_enabled"
+  "\030\005 \001(\010H\003\210\001\001\022\036\n\021streaming_enabled\030\006 \001(\010H\004"
+  "\210\001\001\022$\n\027nlu_call_stream_enabled\030\007 \001(\010H\005\210\001"
+  "\001\022 \n\023turn_timeout_intent\030\010 \001(\tH\006\210\001\001\022$\n\027t"
+  "2s_max_edge_silence_ms\030\t \001(\005H\007\210\001\001\0221\n$nlu"
+  "_call_stream_turn_timeout_seconds\030\n \001(\002H"
+  "\010\210\001\001\022/\n\"nlu_call_stream_turn_quiet_secon"
+  "ds\030\013 \001(\002H\t\210\001\001B\027\n\025_turn_timeout_secondsB#"
+  "\n!_silence_end_call_timeout_secondsB \n\036_"
+  "preemptive_generation_enabledB \n\036_t2s_ch"
+  "unked_streaming_enabledB\024\n\022_streaming_en"
+  "abledB\032\n\030_nlu_call_stream_enabledB\026\n\024_tu"
+  "rn_timeout_intentB\032\n\030_t2s_max_edge_silen"
+  "ce_msB\'\n%_nlu_call_stream_turn_timeout_s"
+  "econdsB%\n#_nlu_call_stream_turn_quiet_se"
+  "conds\"\217\001\n\021SoftTimeoutConfig\022\034\n\017timeout_s"
+  "econds\030\001 \001(\002H\000\210\001\001\022\020\n\010messages\030\002 \003(\t\022\037\n\022m"
+  "ax_per_generation\030\003 \001(\005H\001\210\001\001B\022\n\020_timeout"
+  "_secondsB\025\n\023_max_per_generation\"\376\013\n\037Answ"
+  "eringMachineDetectionConfig\022\023\n\006active\030\001 "
+  "\001(\010H\000\210\001\001\022K\n\006action\030\002 \001(\01626.ondewo.vtsi.A"
+  "nsweringMachineDetectionConfig.AmdAction"
+  "H\001\210\001\001\022U\n\013sensitivity\030\003 \001(\0162;.ondewo.vtsi"
+  ".AnsweringMachineDetectionConfig.AmdSens"
+  "itivityH\002\210\001\001\022!\n\024max_decision_time_ms\030\004 \001"
+  "(\005H\003\210\001\001\022 \n\023max_machine_wait_ms\030\005 \001(\005H\004\210\001"
+  "\001\022(\n\033beep_wait_after_greeting_ms\030\006 \001(\005H\005"
+  "\210\001\001\022\037\n\022initial_silence_ms\030\007 \001(\005H\006\210\001\001\022\"\n\025"
+  "max_human_greeting_ms\030\010 \001(\005H\007\210\001\001\022$\n\027gree"
+  "ting_end_silence_ms\030\t \001(\005H\010\210\001\001\022\"\n\025beep_d"
+  "etection_active\030\n \001(\010H\t\210\001\001\022\"\n\032additional"
+  "_machine_phrases\030\013 \003(\t\022 \n\030additional_hum"
+  "an_phrases\030\014 \003(\t\022\033\n\016hang_up_on_fax\030\r \001(\010"
+  "H\n\210\001\001\022,\n\037hang_up_on_network_announcement"
+  "\030\016 \001(\010H\013\210\001\001\022\033\n\016hang_up_on_ivr\030\017 \001(\010H\014\210\001\001"
+  "\022&\n\031hang_up_on_call_screening\030\020 \001(\010H\r\210\001\001"
+  "\022!\n\024voice_message_intent\030\021 \001(\tH\016\210\001\001\022+\n\036v"
+  "oice_message_max_beep_wait_ms\030\022 \001(\005H\017\210\001\001"
+  "\022%\n\030voice_message_timeout_ms\030\023 \001(\005H\020\210\001\001\022"
+  "%\n\030keyword_detection_active\030\024 \001(\010H\021\210\001\001\022%"
+  "\n\030cadence_detection_active\030\025 \001(\010H\022\210\001\001\"^\n"
+  "\tAmdAction\022\032\n\026AMD_ACTION_UNSPECIFIED\020\000\022\013"
+  "\n\007HANG_UP\020\001\022\017\n\013DETECT_ONLY\020\002\022\027\n\023LEAVE_VO"
+  "ICE_MESSAGE\020\003\"P\n\016AmdSensitivity\022\037\n\033AMD_S"
+  "ENSITIVITY_UNSPECIFIED\020\000\022\007\n\003LOW\020\001\022\n\n\006MED"
+  "IUM\020\002\022\010\n\004HIGH\020\003B\t\n\007_activeB\t\n\007_actionB\016\n"
+  "\014_sensitivityB\027\n\025_max_decision_time_msB\026"
+  "\n\024_max_machine_wait_msB\036\n\034_beep_wait_aft"
+  "er_greeting_msB\025\n\023_initial_silence_msB\030\n"
+  "\026_max_human_greeting_msB\032\n\030_greeting_end"
+  "_silence_msB\030\n\026_beep_detection_activeB\021\n"
+  "\017_hang_up_on_faxB\"\n _hang_up_on_network_"
+  "announcementB\021\n\017_hang_up_on_ivrB\034\n\032_hang"
+  "_up_on_call_screeningB\027\n\025_voice_message_"
+  "intentB!\n\037_voice_message_max_beep_wait_m"
+  "sB\033\n\031_voice_message_timeout_msB\033\n\031_keywo"
+  "rd_detection_activeB\033\n\031_cadence_detectio"
+  "n_active\"(\n\rSipBaseConfig\022\027\n\017sip_sim_ver"
+  "sion\030\001 \001(\t\"\317\001\n\017SipCallerConfig\0223\n\017sip_ba"
+  "se_config\030\001 \001(\0132\032.ondewo.vtsi.SipBaseCon"
+  "fig\022\021\n\tcallee_id\030\002 \001(\t\022A\n\013sip_headers\030\003 "
+  "\003(\0132,.ondewo.vtsi.SipCallerConfig.SipHea"
+  "dersEntry\0321\n\017SipHeadersEntry\022\013\n\003key\030\001 \001("
+  "\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\343\003\n\rCsiVtsiConfig\0229"
+  "\n\022s2t_vtsi_callbacks\030\001 \001(\0132\035.ondewo.vtsi"
+  ".S2tVtsiCallbacks\0229\n\022nlu_vtsi_callbacks\030"
+  "\002 \001(\0132\035.ondewo.vtsi.NluVtsiCallbacks\0229\n\022"
+  "t2s_vtsi_callbacks\030\003 \001(\0132\035.ondewo.vtsi.T"
+  "2sVtsiCallbacks\022H\n\031audio_object_store_co"
+  "nfig\030\004 \001(\0132%.ondewo.vtsi.AudioObjectStor"
+  "ageConfig\022\?\n\025message_broker_config\030\005 \001(\013"
+  "2 .ondewo.vtsi.MessageBrokerConfig\022&\n\031ac"
+  "tivate_control_messages\030\006 \001(\010H\000\210\001\001\022P\n\034pr"
+  "eemptive_generation_config\030\007 \001(\0132*.ondew"
+  "o.vtsi.CsiPreemptiveGenerationConfigB\034\n\032"
+  "_activate_control_messages\"\213\001\n\035CsiPreemp"
+  "tiveGenerationConfig\022\024\n\007enabled\030\001 \001(\010H\000\210"
+  "\001\001\022(\n\033commit_wait_timeout_seconds\030\002 \001(\002H"
+  "\001\210\001\001B\n\n\010_enabledB\036\n\034_commit_wait_timeout"
+  "_seconds\"\332\001\n\030AudioObjectStorageConfig\022*\n"
+  "\035activate_audio_object_storage\030\001 \001(\010H\000\210\001"
+  "\001\022p\n/audio_object_storage_services_activ"
+  "ation_config\030\002 \001(\01327.ondewo.vtsi.AudioOb"
+  "jectStorageServicesActivationConfigB \n\036_"
+  "activate_audio_object_storage\"\204\001\n*AudioO"
+  "bjectStorageServicesActivationConfig\022\031\n\014"
+  "activate_s2t\030\001 \001(\010H\000\210\001\001\022\031\n\014activate_t2s\030"
+  "\002 \001(\010H\001\210\001\001B\017\n\r_activate_s2tB\017\n\r_activate"
+  "_t2s\"\220\002\n\023MessageBrokerConfig\022$\n\027activate"
+  "_message_broker\030\001 \001(\010H\001\210\001\001\022e\n)message_br"
+  "oker_services_activation_config\030\002 \001(\01322."
+  "ondewo.vtsi.MessageBrokerServicesActivat"
+  "ionConfig\0227\n\020rabbit_mq_config\030\003 \001(\0132\033.on"
+  "dewo.vtsi.RabbitMqConfigH\000B\027\n\025message_br"
+  "oker_configB\032\n\030_activate_message_broker\""
+  "\327\001\n%MessageBrokerServicesActivationConfi"
+  "g\022\031\n\014activate_s2t\030\001 \001(\010H\000\210\001\001\022\031\n\014activate"
+  "_nlu\030\002 \001(\010H\001\210\001\001\022\031\n\014activate_t2s\030\003 \001(\010H\002\210"
+  "\001\001\022\031\n\014activate_sip\030\004 \001(\010H\003\210\001\001B\017\n\r_activa"
+  "te_s2tB\017\n\r_activate_nluB\017\n\r_activate_t2s"
+  "B\017\n\r_activate_sip\"\\\n\016RabbitMqConfig\022\014\n\004h"
+  "ost\030\001 \001(\t\022\014\n\004port\030\002 \001(\005\022\016\n\006port_2\030\003 \001(\005\022"
+  "\014\n\004user\030\004 \001(\t\022\020\n\010password\030\005 \001(\t\"I\n\020S2tVt"
+  "siCallbacks\022\031\n\021pre_s2t_callbacks\030\001 \003(\t\022\032"
+  "\n\022post_s2t_callbacks\030\002 \003(\t\"I\n\020NluVtsiCal"
+  "lbacks\022\031\n\021pre_nlu_callbacks\030\001 \003(\t\022\032\n\022pos"
+  "t_nlu_callbacks\030\002 \003(\t\"I\n\020T2sVtsiCallback"
+  "s\022\031\n\021pre_t2s_callbacks\030\001 \003(\t\022\032\n\022post_t2s"
+  "_callbacks\030\002 \003(\t*\212\001\n\023WarmIntroTextSource"
+  "\022&\n\"WARM_INTRO_TEXT_SOURCE_UNSPECIFIED\020\000"
+  "\022#\n\037WARM_INTRO_TEXT_SOURCE_TEMPLATE\020\001\022&\n"
+  "\"WARM_INTRO_TEXT_SOURCE_LLM_SUMMARY\020\002*\270\001"
+  "\n\032WarmIntroUnavailablePolicy\022-\n)WARM_INT"
+  "RO_UNAVAILABLE_POLICY_UNSPECIFIED\020\000\0227\n3W"
+  "ARM_INTRO_UNAVAILABLE_POLICY_CONNECT_WIT"
+  "HOUT_INTRO\020\001\0222\n.WARM_INTRO_UNAVAILABLE_P"
+  "OLICY_RETURN_TO_CALLER\020\002*\241\001\n\021WarmIntroDe"
+  "cision\022#\n\037WARM_INTRO_DECISION_UNSPECIFIE"
+  "D\020\000\022 \n\034WARM_INTRO_DECISION_ACCEPTED\020\001\022 \n"
+  "\034WARM_INTRO_DECISION_DECLINED\020\002\022#\n\037WARM_"
+  "INTRO_DECISION_NO_DECISION\020\003*\240\001\n\022WarmInt"
+  "roDecidedBy\022%\n!WARM_INTRO_DECIDED_BY_UNS"
+  "PECIFIED\020\000\022\036\n\032WARM_INTRO_DECIDED_BY_DTMF"
+  "\020\001\022 \n\034WARM_INTRO_DECIDED_BY_SPEECH\020\002\022!\n\035"
+  "WARM_INTRO_DECIDED_BY_TIMEOUT\020\003b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_deps[5] = {
   &::descriptor_table_google_2fprotobuf_2fduration_2eproto,
@@ -1533,9 +1782,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_ondewo_2fvtsi_2fcal
 };
 static ::_pbi::once_flag descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto = {
-    false, false, 11971, descriptor_table_protodef_ondewo_2fvtsi_2fcall_5fconfigs_2eproto,
+    false, false, 14879, descriptor_table_protodef_ondewo_2fvtsi_2fcall_5fconfigs_2eproto,
     "ondewo/vtsi/call_configs.proto",
-    &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once, descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_deps, 5, 34,
+    &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once, descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_deps, 5, 36,
     schemas, file_default_instances, TableStruct_ondewo_2fvtsi_2fcall_5fconfigs_2eproto::offsets,
     file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto, file_level_enum_descriptors_ondewo_2fvtsi_2fcall_5fconfigs_2eproto,
     file_level_service_descriptors_ondewo_2fvtsi_2fcall_5fconfigs_2eproto,
@@ -2252,9 +2501,24 @@ class NluVtsiConfig::_Internal {
   static const ::ondewo::vtsi::BaseServiceConfig& nlu_base_config(const NluVtsiConfig* msg);
   static const ::ondewo::vtsi::Credentials& credentials(const NluVtsiConfig* msg);
   static void set_has_platform(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
+    (*has_bits)[0] |= 2u;
   }
   static const ::ondewo::vtsi::NluPreemptiveGenerationConfig& preemptive_generation_config(const NluVtsiConfig* msg);
+  static void set_has_ai_teams_fillers_audible(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static void set_has_failure_apology_message(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_session_id_from_sip_context(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static void set_has_ai_teams_push_max_age_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
+  }
+  static void set_has_ai_teams_push_max_spoken(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
 };
 
 const ::ondewo::vtsi::BaseServiceConfig&
@@ -2304,9 +2568,14 @@ NluVtsiConfig::NluVtsiConfig(const NluVtsiConfig& from)
     , decltype(_impl_.language_code_){}
     , decltype(_impl_.initial_intent_){}
     , decltype(_impl_.http_basic_auth_token_){}
+    , decltype(_impl_.failure_apology_message_){}
     , decltype(_impl_.nlu_base_config_){nullptr}
     , decltype(_impl_.preemptive_generation_config_){nullptr}
     , decltype(_impl_.platform_){}
+    , decltype(_impl_.ai_teams_fillers_audible_){}
+    , decltype(_impl_.session_id_from_sip_context_){}
+    , decltype(_impl_.ai_teams_push_max_age_seconds_){}
+    , decltype(_impl_.ai_teams_push_max_spoken_){}
     , decltype(_impl_.authentication_){}
     , /*decltype(_impl_._oneof_case_)*/{}};
 
@@ -2343,13 +2612,23 @@ NluVtsiConfig::NluVtsiConfig(const NluVtsiConfig& from)
     _this->_impl_.http_basic_auth_token_.Set(from._internal_http_basic_auth_token(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.failure_apology_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.failure_apology_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_failure_apology_message()) {
+    _this->_impl_.failure_apology_message_.Set(from._internal_failure_apology_message(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_nlu_base_config()) {
     _this->_impl_.nlu_base_config_ = new ::ondewo::vtsi::BaseServiceConfig(*from._impl_.nlu_base_config_);
   }
   if (from._internal_has_preemptive_generation_config()) {
     _this->_impl_.preemptive_generation_config_ = new ::ondewo::vtsi::NluPreemptiveGenerationConfig(*from._impl_.preemptive_generation_config_);
   }
-  _this->_impl_.platform_ = from._impl_.platform_;
+  ::memcpy(&_impl_.platform_, &from._impl_.platform_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.ai_teams_push_max_spoken_) -
+    reinterpret_cast<char*>(&_impl_.platform_)) + sizeof(_impl_.ai_teams_push_max_spoken_));
   clear_has_authentication();
   switch (from.authentication_case()) {
     case kCredentials: {
@@ -2380,9 +2659,14 @@ inline void NluVtsiConfig::SharedCtor(
     , decltype(_impl_.language_code_){}
     , decltype(_impl_.initial_intent_){}
     , decltype(_impl_.http_basic_auth_token_){}
+    , decltype(_impl_.failure_apology_message_){}
     , decltype(_impl_.nlu_base_config_){nullptr}
     , decltype(_impl_.preemptive_generation_config_){nullptr}
     , decltype(_impl_.platform_){0}
+    , decltype(_impl_.ai_teams_fillers_audible_){false}
+    , decltype(_impl_.session_id_from_sip_context_){false}
+    , decltype(_impl_.ai_teams_push_max_age_seconds_){0}
+    , decltype(_impl_.ai_teams_push_max_spoken_){0}
     , decltype(_impl_.authentication_){}
     , /*decltype(_impl_._oneof_case_)*/{}
   };
@@ -2401,6 +2685,10 @@ inline void NluVtsiConfig::SharedCtor(
   _impl_.http_basic_auth_token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.http_basic_auth_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.failure_apology_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.failure_apology_message_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   clear_has_authentication();
 }
@@ -2421,6 +2709,7 @@ inline void NluVtsiConfig::SharedDtor() {
   _impl_.language_code_.Destroy();
   _impl_.initial_intent_.Destroy();
   _impl_.http_basic_auth_token_.Destroy();
+  _impl_.failure_apology_message_.Destroy();
   if (this != internal_default_instance()) delete _impl_.nlu_base_config_;
   if (this != internal_default_instance()) delete _impl_.preemptive_generation_config_;
   if (has_authentication()) {
@@ -2464,6 +2753,10 @@ void NluVtsiConfig::Clear() {
   _impl_.language_code_.ClearToEmpty();
   _impl_.initial_intent_.ClearToEmpty();
   _impl_.http_basic_auth_token_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.failure_apology_message_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.nlu_base_config_ != nullptr) {
     delete _impl_.nlu_base_config_;
   }
@@ -2472,7 +2765,11 @@ void NluVtsiConfig::Clear() {
     delete _impl_.preemptive_generation_config_;
   }
   _impl_.preemptive_generation_config_ = nullptr;
-  _impl_.platform_ = 0;
+  if (cached_has_bits & 0x0000003eu) {
+    ::memset(&_impl_.platform_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.ai_teams_push_max_spoken_) -
+        reinterpret_cast<char*>(&_impl_.platform_)) + sizeof(_impl_.ai_teams_push_max_spoken_));
+  }
   clear_authentication();
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -2577,6 +2874,52 @@ const char* NluVtsiConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext*
       case 10:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
           ptr = ctx->ParseMessage(_internal_mutable_preemptive_generation_config(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool ai_teams_fillers_audible = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 88)) {
+          _Internal::set_has_ai_teams_fillers_audible(&has_bits);
+          _impl_.ai_teams_fillers_audible_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string failure_apology_message = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+          auto str = _internal_mutable_failure_apology_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.NluVtsiConfig.failure_apology_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool session_id_from_sip_context = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 104)) {
+          _Internal::set_has_session_id_from_sip_context(&has_bits);
+          _impl_.session_id_from_sip_context_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float ai_teams_push_max_age_seconds = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 117)) {
+          _Internal::set_has_ai_teams_push_max_age_seconds(&has_bits);
+          _impl_.ai_teams_push_max_age_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 ai_teams_push_max_spoken = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 120)) {
+          _Internal::set_has_ai_teams_push_max_spoken(&has_bits);
+          _impl_.ai_teams_push_max_spoken_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -2697,6 +3040,40 @@ uint8_t* NluVtsiConfig::_InternalSerialize(
         _Internal::preemptive_generation_config(this).GetCachedSize(), target, stream);
   }
 
+  // optional bool ai_teams_fillers_audible = 11;
+  if (_internal_has_ai_teams_fillers_audible()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(11, this->_internal_ai_teams_fillers_audible(), target);
+  }
+
+  // optional string failure_apology_message = 12;
+  if (_internal_has_failure_apology_message()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_failure_apology_message().data(), static_cast<int>(this->_internal_failure_apology_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.NluVtsiConfig.failure_apology_message");
+    target = stream->WriteStringMaybeAliased(
+        12, this->_internal_failure_apology_message(), target);
+  }
+
+  // optional bool session_id_from_sip_context = 13;
+  if (_internal_has_session_id_from_sip_context()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(13, this->_internal_session_id_from_sip_context(), target);
+  }
+
+  // optional float ai_teams_push_max_age_seconds = 14;
+  if (_internal_has_ai_teams_push_max_age_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(14, this->_internal_ai_teams_push_max_age_seconds(), target);
+  }
+
+  // optional int32 ai_teams_push_max_spoken = 15;
+  if (_internal_has_ai_teams_push_max_spoken()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(15, this->_internal_ai_teams_push_max_spoken(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2748,6 +3125,14 @@ size_t NluVtsiConfig::ByteSizeLong() const {
         this->_internal_http_basic_auth_token());
   }
 
+  // optional string failure_apology_message = 12;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_failure_apology_message());
+  }
+
   // .ondewo.vtsi.BaseServiceConfig nlu_base_config = 1;
   if (this->_internal_has_nlu_base_config()) {
     total_size += 1 +
@@ -2762,13 +3147,34 @@ size_t NluVtsiConfig::ByteSizeLong() const {
         *_impl_.preemptive_generation_config_);
   }
 
-  // optional .ondewo.nlu.Intent.Message.Platform platform = 9;
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::_pbi::WireFormatLite::EnumSize(this->_internal_platform());
-  }
+  if (cached_has_bits & 0x0000003eu) {
+    // optional .ondewo.nlu.Intent.Message.Platform platform = 9;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::EnumSize(this->_internal_platform());
+    }
 
+    // optional bool ai_teams_fillers_audible = 11;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool session_id_from_sip_context = 13;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += 1 + 1;
+    }
+
+    // optional float ai_teams_push_max_age_seconds = 14;
+    if (cached_has_bits & 0x00000010u) {
+      total_size += 1 + 4;
+    }
+
+    // optional int32 ai_teams_push_max_spoken = 15;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_ai_teams_push_max_spoken());
+    }
+
+  }
   switch (authentication_case()) {
     // .ondewo.vtsi.Credentials credentials = 2;
     case kCredentials: {
@@ -2819,6 +3225,9 @@ void NluVtsiConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   if (!from._internal_http_basic_auth_token().empty()) {
     _this->_internal_set_http_basic_auth_token(from._internal_http_basic_auth_token());
   }
+  if (from._internal_has_failure_apology_message()) {
+    _this->_internal_set_failure_apology_message(from._internal_failure_apology_message());
+  }
   if (from._internal_has_nlu_base_config()) {
     _this->_internal_mutable_nlu_base_config()->::ondewo::vtsi::BaseServiceConfig::MergeFrom(
         from._internal_nlu_base_config());
@@ -2827,8 +3236,24 @@ void NluVtsiConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
     _this->_internal_mutable_preemptive_generation_config()->::ondewo::vtsi::NluPreemptiveGenerationConfig::MergeFrom(
         from._internal_preemptive_generation_config());
   }
-  if (from._internal_has_platform()) {
-    _this->_internal_set_platform(from._internal_platform());
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x0000003eu) {
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.platform_ = from._impl_.platform_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.ai_teams_fillers_audible_ = from._impl_.ai_teams_fillers_audible_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      _this->_impl_.session_id_from_sip_context_ = from._impl_.session_id_from_sip_context_;
+    }
+    if (cached_has_bits & 0x00000010u) {
+      _this->_impl_.ai_teams_push_max_age_seconds_ = from._impl_.ai_teams_push_max_age_seconds_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.ai_teams_push_max_spoken_ = from._impl_.ai_teams_push_max_spoken_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   switch (from.authentication_case()) {
     case kCredentials: {
@@ -2881,9 +3306,13 @@ void NluVtsiConfig::InternalSwap(NluVtsiConfig* other) {
       &_impl_.http_basic_auth_token_, lhs_arena,
       &other->_impl_.http_basic_auth_token_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.failure_apology_message_, lhs_arena,
+      &other->_impl_.failure_apology_message_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(NluVtsiConfig, _impl_.platform_)
-      + sizeof(NluVtsiConfig::_impl_.platform_)
+      PROTOBUF_FIELD_OFFSET(NluVtsiConfig, _impl_.ai_teams_push_max_spoken_)
+      + sizeof(NluVtsiConfig::_impl_.ai_teams_push_max_spoken_)
       - PROTOBUF_FIELD_OFFSET(NluVtsiConfig, _impl_.nlu_base_config_)>(
           reinterpret_cast<char*>(&_impl_.nlu_base_config_),
           reinterpret_cast<char*>(&other->_impl_.nlu_base_config_));
@@ -3165,9 +3594,16 @@ void NluPreemptiveGenerationConfig::InternalSwap(NluPreemptiveGenerationConfig* 
 
 class T2sVtsiConfig::_Internal {
  public:
+  using HasBits = decltype(std::declval<T2sVtsiConfig>()._impl_._has_bits_);
   static const ::ondewo::vtsi::BaseServiceConfig& t2s_base_config(const T2sVtsiConfig* msg);
   static const ::ondewo::t2s::RequestConfig& t2s_request_config(const T2sVtsiConfig* msg);
   static const ::ondewo::vtsi::T2sPreemptiveSynthesisConfig& preemptive_synthesis_config(const T2sVtsiConfig* msg);
+  static void set_has_synthesize_timeout_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_cache_retention(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::ondewo::vtsi::BaseServiceConfig&
@@ -3198,12 +3634,23 @@ T2sVtsiConfig::T2sVtsiConfig(const T2sVtsiConfig& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   T2sVtsiConfig* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.t2s_base_config_){nullptr}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.cache_retention_){}
+    , decltype(_impl_.t2s_base_config_){nullptr}
     , decltype(_impl_.t2s_request_config_){nullptr}
     , decltype(_impl_.preemptive_synthesis_config_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.synthesize_timeout_seconds_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.cache_retention_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.cache_retention_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_cache_retention()) {
+    _this->_impl_.cache_retention_.Set(from._internal_cache_retention(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_t2s_base_config()) {
     _this->_impl_.t2s_base_config_ = new ::ondewo::vtsi::BaseServiceConfig(*from._impl_.t2s_base_config_);
   }
@@ -3213,6 +3660,7 @@ T2sVtsiConfig::T2sVtsiConfig(const T2sVtsiConfig& from)
   if (from._internal_has_preemptive_synthesis_config()) {
     _this->_impl_.preemptive_synthesis_config_ = new ::ondewo::vtsi::T2sPreemptiveSynthesisConfig(*from._impl_.preemptive_synthesis_config_);
   }
+  _this->_impl_.synthesize_timeout_seconds_ = from._impl_.synthesize_timeout_seconds_;
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.T2sVtsiConfig)
 }
 
@@ -3221,11 +3669,18 @@ inline void T2sVtsiConfig::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.t2s_base_config_){nullptr}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.cache_retention_){}
+    , decltype(_impl_.t2s_base_config_){nullptr}
     , decltype(_impl_.t2s_request_config_){nullptr}
     , decltype(_impl_.preemptive_synthesis_config_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.synthesize_timeout_seconds_){0}
   };
+  _impl_.cache_retention_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.cache_retention_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 T2sVtsiConfig::~T2sVtsiConfig() {
@@ -3239,6 +3694,7 @@ T2sVtsiConfig::~T2sVtsiConfig() {
 
 inline void T2sVtsiConfig::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.cache_retention_.Destroy();
   if (this != internal_default_instance()) delete _impl_.t2s_base_config_;
   if (this != internal_default_instance()) delete _impl_.t2s_request_config_;
   if (this != internal_default_instance()) delete _impl_.preemptive_synthesis_config_;
@@ -3254,6 +3710,10 @@ void T2sVtsiConfig::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.cache_retention_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.t2s_base_config_ != nullptr) {
     delete _impl_.t2s_base_config_;
   }
@@ -3266,11 +3726,14 @@ void T2sVtsiConfig::Clear() {
     delete _impl_.preemptive_synthesis_config_;
   }
   _impl_.preemptive_synthesis_config_ = nullptr;
+  _impl_.synthesize_timeout_seconds_ = 0;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* T2sVtsiConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -3299,6 +3762,25 @@ const char* T2sVtsiConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
+      // optional float synthesize_timeout_seconds = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
+          _Internal::set_has_synthesize_timeout_seconds(&has_bits);
+          _impl_.synthesize_timeout_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string cache_retention = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_cache_retention();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.T2sVtsiConfig.cache_retention"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -3315,6 +3797,7 @@ const char* T2sVtsiConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext*
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -3349,6 +3832,22 @@ uint8_t* T2sVtsiConfig::_InternalSerialize(
         _Internal::preemptive_synthesis_config(this).GetCachedSize(), target, stream);
   }
 
+  // optional float synthesize_timeout_seconds = 4;
+  if (_internal_has_synthesize_timeout_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_synthesize_timeout_seconds(), target);
+  }
+
+  // optional string cache_retention = 5;
+  if (_internal_has_cache_retention()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_cache_retention().data(), static_cast<int>(this->_internal_cache_retention().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.T2sVtsiConfig.cache_retention");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_cache_retention(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3364,6 +3863,14 @@ size_t T2sVtsiConfig::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string cache_retention = 5;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_cache_retention());
+  }
 
   // .ondewo.vtsi.BaseServiceConfig t2s_base_config = 1;
   if (this->_internal_has_t2s_base_config()) {
@@ -3386,6 +3893,11 @@ size_t T2sVtsiConfig::ByteSizeLong() const {
         *_impl_.preemptive_synthesis_config_);
   }
 
+  // optional float synthesize_timeout_seconds = 4;
+  if (cached_has_bits & 0x00000002u) {
+    total_size += 1 + 4;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -3404,6 +3916,9 @@ void T2sVtsiConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_cache_retention()) {
+    _this->_internal_set_cache_retention(from._internal_cache_retention());
+  }
   if (from._internal_has_t2s_base_config()) {
     _this->_internal_mutable_t2s_base_config()->::ondewo::vtsi::BaseServiceConfig::MergeFrom(
         from._internal_t2s_base_config());
@@ -3415,6 +3930,9 @@ void T2sVtsiConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   if (from._internal_has_preemptive_synthesis_config()) {
     _this->_internal_mutable_preemptive_synthesis_config()->::ondewo::vtsi::T2sPreemptiveSynthesisConfig::MergeFrom(
         from._internal_preemptive_synthesis_config());
+  }
+  if (from._internal_has_synthesize_timeout_seconds()) {
+    _this->_internal_set_synthesize_timeout_seconds(from._internal_synthesize_timeout_seconds());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -3432,10 +3950,17 @@ bool T2sVtsiConfig::IsInitialized() const {
 
 void T2sVtsiConfig::InternalSwap(T2sVtsiConfig* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.cache_retention_, lhs_arena,
+      &other->_impl_.cache_retention_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(T2sVtsiConfig, _impl_.preemptive_synthesis_config_)
-      + sizeof(T2sVtsiConfig::_impl_.preemptive_synthesis_config_)
+      PROTOBUF_FIELD_OFFSET(T2sVtsiConfig, _impl_.synthesize_timeout_seconds_)
+      + sizeof(T2sVtsiConfig::_impl_.synthesize_timeout_seconds_)
       - PROTOBUF_FIELD_OFFSET(T2sVtsiConfig, _impl_.t2s_base_config_)>(
           reinterpret_cast<char*>(&_impl_.t2s_base_config_),
           reinterpret_cast<char*>(&other->_impl_.t2s_base_config_));
@@ -3684,8 +4209,12 @@ void T2sPreemptiveSynthesisConfig::InternalSwap(T2sPreemptiveSynthesisConfig* ot
 
 class S2tVtsiConfig::_Internal {
  public:
+  using HasBits = decltype(std::declval<S2tVtsiConfig>()._impl_._has_bits_);
   static const ::ondewo::vtsi::BaseServiceConfig& s2t_base_config(const S2tVtsiConfig* msg);
   static const ::ondewo::s2t::TranscribeRequestConfig& s2t_transcribe_request_config(const S2tVtsiConfig* msg);
+  static void set_has_failure_sip_trigger(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::ondewo::vtsi::BaseServiceConfig&
@@ -3712,11 +4241,21 @@ S2tVtsiConfig::S2tVtsiConfig(const S2tVtsiConfig& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   S2tVtsiConfig* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.s2t_base_config_){nullptr}
-    , decltype(_impl_.s2t_transcribe_request_config_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.failure_sip_trigger_){}
+    , decltype(_impl_.s2t_base_config_){nullptr}
+    , decltype(_impl_.s2t_transcribe_request_config_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.failure_sip_trigger_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.failure_sip_trigger_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_failure_sip_trigger()) {
+    _this->_impl_.failure_sip_trigger_.Set(from._internal_failure_sip_trigger(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_s2t_base_config()) {
     _this->_impl_.s2t_base_config_ = new ::ondewo::vtsi::BaseServiceConfig(*from._impl_.s2t_base_config_);
   }
@@ -3731,10 +4270,16 @@ inline void S2tVtsiConfig::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.s2t_base_config_){nullptr}
-    , decltype(_impl_.s2t_transcribe_request_config_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.failure_sip_trigger_){}
+    , decltype(_impl_.s2t_base_config_){nullptr}
+    , decltype(_impl_.s2t_transcribe_request_config_){nullptr}
   };
+  _impl_.failure_sip_trigger_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.failure_sip_trigger_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 S2tVtsiConfig::~S2tVtsiConfig() {
@@ -3748,6 +4293,7 @@ S2tVtsiConfig::~S2tVtsiConfig() {
 
 inline void S2tVtsiConfig::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.failure_sip_trigger_.Destroy();
   if (this != internal_default_instance()) delete _impl_.s2t_base_config_;
   if (this != internal_default_instance()) delete _impl_.s2t_transcribe_request_config_;
 }
@@ -3762,6 +4308,10 @@ void S2tVtsiConfig::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.failure_sip_trigger_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.s2t_base_config_ != nullptr) {
     delete _impl_.s2t_base_config_;
   }
@@ -3770,11 +4320,13 @@ void S2tVtsiConfig::Clear() {
     delete _impl_.s2t_transcribe_request_config_;
   }
   _impl_.s2t_transcribe_request_config_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* S2tVtsiConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -3795,6 +4347,16 @@ const char* S2tVtsiConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
+      // optional string failure_sip_trigger = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_failure_sip_trigger();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.S2tVtsiConfig.failure_sip_trigger"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -3811,6 +4373,7 @@ const char* S2tVtsiConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext*
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -3838,6 +4401,16 @@ uint8_t* S2tVtsiConfig::_InternalSerialize(
         _Internal::s2t_transcribe_request_config(this).GetCachedSize(), target, stream);
   }
 
+  // optional string failure_sip_trigger = 3;
+  if (_internal_has_failure_sip_trigger()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_failure_sip_trigger().data(), static_cast<int>(this->_internal_failure_sip_trigger().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.S2tVtsiConfig.failure_sip_trigger");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_failure_sip_trigger(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3853,6 +4426,14 @@ size_t S2tVtsiConfig::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string failure_sip_trigger = 3;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_failure_sip_trigger());
+  }
 
   // .ondewo.vtsi.BaseServiceConfig s2t_base_config = 1;
   if (this->_internal_has_s2t_base_config()) {
@@ -3886,6 +4467,9 @@ void S2tVtsiConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_failure_sip_trigger()) {
+    _this->_internal_set_failure_sip_trigger(from._internal_failure_sip_trigger());
+  }
   if (from._internal_has_s2t_base_config()) {
     _this->_internal_mutable_s2t_base_config()->::ondewo::vtsi::BaseServiceConfig::MergeFrom(
         from._internal_s2t_base_config());
@@ -3910,7 +4494,14 @@ bool S2tVtsiConfig::IsInitialized() const {
 
 void S2tVtsiConfig::InternalSwap(S2tVtsiConfig* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.failure_sip_trigger_, lhs_arena,
+      &other->_impl_.failure_sip_trigger_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(S2tVtsiConfig, _impl_.s2t_transcribe_request_config_)
       + sizeof(S2tVtsiConfig::_impl_.s2t_transcribe_request_config_)
@@ -3929,11 +4520,16 @@ void S2tVtsiConfig::InternalSwap(S2tVtsiConfig* other) {
 
 class CommonServicesConfig::_Internal {
  public:
+  using HasBits = decltype(std::declval<CommonServicesConfig>()._impl_._has_bits_);
   static const ::ondewo::vtsi::S2tVtsiConfig& s2t_vtsi_config(const CommonServicesConfig* msg);
   static const ::ondewo::vtsi::NluVtsiConfig& nlu_vtsi_config(const CommonServicesConfig* msg);
   static const ::ondewo::vtsi::T2sVtsiConfig& t2s_vtsi_config(const CommonServicesConfig* msg);
   static const ::ondewo::vtsi::CsiVtsiConfig& csi_vtsi_config(const CommonServicesConfig* msg);
   static const ::ondewo::vtsi::VoiceInteractionConfig& voice_interaction_config(const CommonServicesConfig* msg);
+  static const ::ondewo::vtsi::SipVtsiConfig& sip_vtsi_config(const CommonServicesConfig* msg);
+  static void set_has_max_call_duration_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::ondewo::vtsi::S2tVtsiConfig&
@@ -3956,6 +4552,10 @@ const ::ondewo::vtsi::VoiceInteractionConfig&
 CommonServicesConfig::_Internal::voice_interaction_config(const CommonServicesConfig* msg) {
   return *msg->_impl_.voice_interaction_config_;
 }
+const ::ondewo::vtsi::SipVtsiConfig&
+CommonServicesConfig::_Internal::sip_vtsi_config(const CommonServicesConfig* msg) {
+  return *msg->_impl_.sip_vtsi_config_;
+}
 CommonServicesConfig::CommonServicesConfig(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -3966,12 +4566,15 @@ CommonServicesConfig::CommonServicesConfig(const CommonServicesConfig& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   CommonServicesConfig* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.s2t_vtsi_config_){nullptr}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.s2t_vtsi_config_){nullptr}
     , decltype(_impl_.nlu_vtsi_config_){nullptr}
     , decltype(_impl_.t2s_vtsi_config_){nullptr}
     , decltype(_impl_.csi_vtsi_config_){nullptr}
     , decltype(_impl_.voice_interaction_config_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.sip_vtsi_config_){nullptr}
+    , decltype(_impl_.max_call_duration_seconds_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_s2t_vtsi_config()) {
@@ -3989,6 +4592,10 @@ CommonServicesConfig::CommonServicesConfig(const CommonServicesConfig& from)
   if (from._internal_has_voice_interaction_config()) {
     _this->_impl_.voice_interaction_config_ = new ::ondewo::vtsi::VoiceInteractionConfig(*from._impl_.voice_interaction_config_);
   }
+  if (from._internal_has_sip_vtsi_config()) {
+    _this->_impl_.sip_vtsi_config_ = new ::ondewo::vtsi::SipVtsiConfig(*from._impl_.sip_vtsi_config_);
+  }
+  _this->_impl_.max_call_duration_seconds_ = from._impl_.max_call_duration_seconds_;
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.CommonServicesConfig)
 }
 
@@ -3997,12 +4604,15 @@ inline void CommonServicesConfig::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.s2t_vtsi_config_){nullptr}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.s2t_vtsi_config_){nullptr}
     , decltype(_impl_.nlu_vtsi_config_){nullptr}
     , decltype(_impl_.t2s_vtsi_config_){nullptr}
     , decltype(_impl_.csi_vtsi_config_){nullptr}
     , decltype(_impl_.voice_interaction_config_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.sip_vtsi_config_){nullptr}
+    , decltype(_impl_.max_call_duration_seconds_){0u}
   };
 }
 
@@ -4022,6 +4632,7 @@ inline void CommonServicesConfig::SharedDtor() {
   if (this != internal_default_instance()) delete _impl_.t2s_vtsi_config_;
   if (this != internal_default_instance()) delete _impl_.csi_vtsi_config_;
   if (this != internal_default_instance()) delete _impl_.voice_interaction_config_;
+  if (this != internal_default_instance()) delete _impl_.sip_vtsi_config_;
 }
 
 void CommonServicesConfig::SetCachedSize(int size) const {
@@ -4054,11 +4665,18 @@ void CommonServicesConfig::Clear() {
     delete _impl_.voice_interaction_config_;
   }
   _impl_.voice_interaction_config_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.sip_vtsi_config_ != nullptr) {
+    delete _impl_.sip_vtsi_config_;
+  }
+  _impl_.sip_vtsi_config_ = nullptr;
+  _impl_.max_call_duration_seconds_ = 0u;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* CommonServicesConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -4103,6 +4721,23 @@ const char* CommonServicesConfig::_InternalParse(const char* ptr, ::_pbi::ParseC
         } else
           goto handle_unusual;
         continue;
+      // .ondewo.vtsi.SipVtsiConfig sip_vtsi_config = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          ptr = ctx->ParseMessage(_internal_mutable_sip_vtsi_config(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 max_call_duration_seconds = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _Internal::set_has_max_call_duration_seconds(&has_bits);
+          _impl_.max_call_duration_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -4119,6 +4754,7 @@ const char* CommonServicesConfig::_InternalParse(const char* ptr, ::_pbi::ParseC
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -4165,6 +4801,19 @@ uint8_t* CommonServicesConfig::_InternalSerialize(
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(5, _Internal::voice_interaction_config(this),
         _Internal::voice_interaction_config(this).GetCachedSize(), target, stream);
+  }
+
+  // .ondewo.vtsi.SipVtsiConfig sip_vtsi_config = 6;
+  if (this->_internal_has_sip_vtsi_config()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(6, _Internal::sip_vtsi_config(this),
+        _Internal::sip_vtsi_config(this).GetCachedSize(), target, stream);
+  }
+
+  // optional uint32 max_call_duration_seconds = 7;
+  if (_internal_has_max_call_duration_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(7, this->_internal_max_call_duration_seconds(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4218,6 +4867,19 @@ size_t CommonServicesConfig::ByteSizeLong() const {
         *_impl_.voice_interaction_config_);
   }
 
+  // .ondewo.vtsi.SipVtsiConfig sip_vtsi_config = 6;
+  if (this->_internal_has_sip_vtsi_config()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.sip_vtsi_config_);
+  }
+
+  // optional uint32 max_call_duration_seconds = 7;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_max_call_duration_seconds());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -4256,6 +4918,13 @@ void CommonServicesConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
     _this->_internal_mutable_voice_interaction_config()->::ondewo::vtsi::VoiceInteractionConfig::MergeFrom(
         from._internal_voice_interaction_config());
   }
+  if (from._internal_has_sip_vtsi_config()) {
+    _this->_internal_mutable_sip_vtsi_config()->::ondewo::vtsi::SipVtsiConfig::MergeFrom(
+        from._internal_sip_vtsi_config());
+  }
+  if (from._internal_has_max_call_duration_seconds()) {
+    _this->_internal_set_max_call_duration_seconds(from._internal_max_call_duration_seconds());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -4273,9 +4942,10 @@ bool CommonServicesConfig::IsInitialized() const {
 void CommonServicesConfig::InternalSwap(CommonServicesConfig* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CommonServicesConfig, _impl_.voice_interaction_config_)
-      + sizeof(CommonServicesConfig::_impl_.voice_interaction_config_)
+      PROTOBUF_FIELD_OFFSET(CommonServicesConfig, _impl_.max_call_duration_seconds_)
+      + sizeof(CommonServicesConfig::_impl_.max_call_duration_seconds_)
       - PROTOBUF_FIELD_OFFSET(CommonServicesConfig, _impl_.s2t_vtsi_config_)>(
           reinterpret_cast<char*>(&_impl_.s2t_vtsi_config_),
           reinterpret_cast<char*>(&other->_impl_.s2t_vtsi_config_));
@@ -4289,6 +4959,410 @@ void CommonServicesConfig::InternalSwap(CommonServicesConfig* other) {
 
 // ===================================================================
 
+class SipVtsiConfig::_Internal {
+ public:
+  using HasBits = decltype(std::declval<SipVtsiConfig>()._impl_._has_bits_);
+  static void set_has_playback_latency_ms(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_software_clock_enabled(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_rtp_stats_sample_interval_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static void set_has_hangup_wait_for_playback_timeout_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static void set_has_outgoing_dial_watchdog_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
+  }
+  static void set_has_register_interval_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
+  static void set_has_call_audio_stream_max_concurrent(HasBits* has_bits) {
+    (*has_bits)[0] |= 64u;
+  }
+  static void set_has_call_audio_stream_max_duration_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 128u;
+  }
+};
+
+SipVtsiConfig::SipVtsiConfig(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.SipVtsiConfig)
+}
+SipVtsiConfig::SipVtsiConfig(const SipVtsiConfig& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SipVtsiConfig* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.playback_latency_ms_){}
+    , decltype(_impl_.software_clock_enabled_){}
+    , decltype(_impl_.rtp_stats_sample_interval_seconds_){}
+    , decltype(_impl_.hangup_wait_for_playback_timeout_seconds_){}
+    , decltype(_impl_.outgoing_dial_watchdog_seconds_){}
+    , decltype(_impl_.register_interval_seconds_){}
+    , decltype(_impl_.call_audio_stream_max_concurrent_){}
+    , decltype(_impl_.call_audio_stream_max_duration_seconds_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.playback_latency_ms_, &from._impl_.playback_latency_ms_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.call_audio_stream_max_duration_seconds_) -
+    reinterpret_cast<char*>(&_impl_.playback_latency_ms_)) + sizeof(_impl_.call_audio_stream_max_duration_seconds_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.SipVtsiConfig)
+}
+
+inline void SipVtsiConfig::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.playback_latency_ms_){0u}
+    , decltype(_impl_.software_clock_enabled_){false}
+    , decltype(_impl_.rtp_stats_sample_interval_seconds_){0}
+    , decltype(_impl_.hangup_wait_for_playback_timeout_seconds_){0}
+    , decltype(_impl_.outgoing_dial_watchdog_seconds_){0}
+    , decltype(_impl_.register_interval_seconds_){0u}
+    , decltype(_impl_.call_audio_stream_max_concurrent_){0u}
+    , decltype(_impl_.call_audio_stream_max_duration_seconds_){0u}
+  };
+}
+
+SipVtsiConfig::~SipVtsiConfig() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.SipVtsiConfig)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SipVtsiConfig::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void SipVtsiConfig::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SipVtsiConfig::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.SipVtsiConfig)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x000000ffu) {
+    ::memset(&_impl_.playback_latency_ms_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.call_audio_stream_max_duration_seconds_) -
+        reinterpret_cast<char*>(&_impl_.playback_latency_ms_)) + sizeof(_impl_.call_audio_stream_max_duration_seconds_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SipVtsiConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional uint32 playback_latency_ms = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _Internal::set_has_playback_latency_ms(&has_bits);
+          _impl_.playback_latency_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool software_clock_enabled = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _Internal::set_has_software_clock_enabled(&has_bits);
+          _impl_.software_clock_enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float rtp_stats_sample_interval_seconds = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
+          _Internal::set_has_rtp_stats_sample_interval_seconds(&has_bits);
+          _impl_.rtp_stats_sample_interval_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float hangup_wait_for_playback_timeout_seconds = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 37)) {
+          _Internal::set_has_hangup_wait_for_playback_timeout_seconds(&has_bits);
+          _impl_.hangup_wait_for_playback_timeout_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float outgoing_dial_watchdog_seconds = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 45)) {
+          _Internal::set_has_outgoing_dial_watchdog_seconds(&has_bits);
+          _impl_.outgoing_dial_watchdog_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 register_interval_seconds = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _Internal::set_has_register_interval_seconds(&has_bits);
+          _impl_.register_interval_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 call_audio_stream_max_concurrent = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _Internal::set_has_call_audio_stream_max_concurrent(&has_bits);
+          _impl_.call_audio_stream_max_concurrent_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 call_audio_stream_max_duration_seconds = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
+          _Internal::set_has_call_audio_stream_max_duration_seconds(&has_bits);
+          _impl_.call_audio_stream_max_duration_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SipVtsiConfig::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.SipVtsiConfig)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional uint32 playback_latency_ms = 1;
+  if (_internal_has_playback_latency_ms()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_playback_latency_ms(), target);
+  }
+
+  // optional bool software_clock_enabled = 2;
+  if (_internal_has_software_clock_enabled()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(2, this->_internal_software_clock_enabled(), target);
+  }
+
+  // optional float rtp_stats_sample_interval_seconds = 3;
+  if (_internal_has_rtp_stats_sample_interval_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_rtp_stats_sample_interval_seconds(), target);
+  }
+
+  // optional float hangup_wait_for_playback_timeout_seconds = 4;
+  if (_internal_has_hangup_wait_for_playback_timeout_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(4, this->_internal_hangup_wait_for_playback_timeout_seconds(), target);
+  }
+
+  // optional float outgoing_dial_watchdog_seconds = 5;
+  if (_internal_has_outgoing_dial_watchdog_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(5, this->_internal_outgoing_dial_watchdog_seconds(), target);
+  }
+
+  // optional uint32 register_interval_seconds = 6;
+  if (_internal_has_register_interval_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(6, this->_internal_register_interval_seconds(), target);
+  }
+
+  // optional uint32 call_audio_stream_max_concurrent = 7;
+  if (_internal_has_call_audio_stream_max_concurrent()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(7, this->_internal_call_audio_stream_max_concurrent(), target);
+  }
+
+  // optional uint32 call_audio_stream_max_duration_seconds = 8;
+  if (_internal_has_call_audio_stream_max_duration_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(8, this->_internal_call_audio_stream_max_duration_seconds(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.SipVtsiConfig)
+  return target;
+}
+
+size_t SipVtsiConfig::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.SipVtsiConfig)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x000000ffu) {
+    // optional uint32 playback_latency_ms = 1;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_playback_latency_ms());
+    }
+
+    // optional bool software_clock_enabled = 2;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 + 1;
+    }
+
+    // optional float rtp_stats_sample_interval_seconds = 3;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float hangup_wait_for_playback_timeout_seconds = 4;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float outgoing_dial_watchdog_seconds = 5;
+    if (cached_has_bits & 0x00000010u) {
+      total_size += 1 + 4;
+    }
+
+    // optional uint32 register_interval_seconds = 6;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_register_interval_seconds());
+    }
+
+    // optional uint32 call_audio_stream_max_concurrent = 7;
+    if (cached_has_bits & 0x00000040u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_call_audio_stream_max_concurrent());
+    }
+
+    // optional uint32 call_audio_stream_max_duration_seconds = 8;
+    if (cached_has_bits & 0x00000080u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_call_audio_stream_max_duration_seconds());
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SipVtsiConfig::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SipVtsiConfig::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SipVtsiConfig::GetClassData() const { return &_class_data_; }
+
+
+void SipVtsiConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SipVtsiConfig*>(&to_msg);
+  auto& from = static_cast<const SipVtsiConfig&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.SipVtsiConfig)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x000000ffu) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_impl_.playback_latency_ms_ = from._impl_.playback_latency_ms_;
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.software_clock_enabled_ = from._impl_.software_clock_enabled_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.rtp_stats_sample_interval_seconds_ = from._impl_.rtp_stats_sample_interval_seconds_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      _this->_impl_.hangup_wait_for_playback_timeout_seconds_ = from._impl_.hangup_wait_for_playback_timeout_seconds_;
+    }
+    if (cached_has_bits & 0x00000010u) {
+      _this->_impl_.outgoing_dial_watchdog_seconds_ = from._impl_.outgoing_dial_watchdog_seconds_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.register_interval_seconds_ = from._impl_.register_interval_seconds_;
+    }
+    if (cached_has_bits & 0x00000040u) {
+      _this->_impl_.call_audio_stream_max_concurrent_ = from._impl_.call_audio_stream_max_concurrent_;
+    }
+    if (cached_has_bits & 0x00000080u) {
+      _this->_impl_.call_audio_stream_max_duration_seconds_ = from._impl_.call_audio_stream_max_duration_seconds_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SipVtsiConfig::CopyFrom(const SipVtsiConfig& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.SipVtsiConfig)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SipVtsiConfig::IsInitialized() const {
+  return true;
+}
+
+void SipVtsiConfig::InternalSwap(SipVtsiConfig* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SipVtsiConfig, _impl_.call_audio_stream_max_duration_seconds_)
+      + sizeof(SipVtsiConfig::_impl_.call_audio_stream_max_duration_seconds_)
+      - PROTOBUF_FIELD_OFFSET(SipVtsiConfig, _impl_.playback_latency_ms_)>(
+          reinterpret_cast<char*>(&_impl_.playback_latency_ms_),
+          reinterpret_cast<char*>(&other->_impl_.playback_latency_ms_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SipVtsiConfig::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[8]);
+}
+
+// ===================================================================
+
 class VoiceInteractionConfig::_Internal {
  public:
   static const ::ondewo::vtsi::TurnDetectionConfig& turn_detection_config(const VoiceInteractionConfig* msg);
@@ -4297,6 +5371,7 @@ class VoiceInteractionConfig::_Internal {
   static const ::ondewo::vtsi::AnsweringMachineDetectionConfig& answering_machine_detection_config(const VoiceInteractionConfig* msg);
   static const ::ondewo::vtsi::DtmfConfig& dtmf_config(const VoiceInteractionConfig* msg);
   static const ::ondewo::vtsi::WarmTransferConfig& warm_transfer_config(const VoiceInteractionConfig* msg);
+  static const ::ondewo::vtsi::BotTransferConfig& bot_transfer_config(const VoiceInteractionConfig* msg);
 };
 
 const ::ondewo::vtsi::TurnDetectionConfig&
@@ -4323,6 +5398,10 @@ const ::ondewo::vtsi::WarmTransferConfig&
 VoiceInteractionConfig::_Internal::warm_transfer_config(const VoiceInteractionConfig* msg) {
   return *msg->_impl_.warm_transfer_config_;
 }
+const ::ondewo::vtsi::BotTransferConfig&
+VoiceInteractionConfig::_Internal::bot_transfer_config(const VoiceInteractionConfig* msg) {
+  return *msg->_impl_.bot_transfer_config_;
+}
 VoiceInteractionConfig::VoiceInteractionConfig(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -4339,6 +5418,7 @@ VoiceInteractionConfig::VoiceInteractionConfig(const VoiceInteractionConfig& fro
     , decltype(_impl_.answering_machine_detection_config_){nullptr}
     , decltype(_impl_.dtmf_config_){nullptr}
     , decltype(_impl_.warm_transfer_config_){nullptr}
+    , decltype(_impl_.bot_transfer_config_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -4360,6 +5440,9 @@ VoiceInteractionConfig::VoiceInteractionConfig(const VoiceInteractionConfig& fro
   if (from._internal_has_warm_transfer_config()) {
     _this->_impl_.warm_transfer_config_ = new ::ondewo::vtsi::WarmTransferConfig(*from._impl_.warm_transfer_config_);
   }
+  if (from._internal_has_bot_transfer_config()) {
+    _this->_impl_.bot_transfer_config_ = new ::ondewo::vtsi::BotTransferConfig(*from._impl_.bot_transfer_config_);
+  }
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.VoiceInteractionConfig)
 }
 
@@ -4374,6 +5457,7 @@ inline void VoiceInteractionConfig::SharedCtor(
     , decltype(_impl_.answering_machine_detection_config_){nullptr}
     , decltype(_impl_.dtmf_config_){nullptr}
     , decltype(_impl_.warm_transfer_config_){nullptr}
+    , decltype(_impl_.bot_transfer_config_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -4395,6 +5479,7 @@ inline void VoiceInteractionConfig::SharedDtor() {
   if (this != internal_default_instance()) delete _impl_.answering_machine_detection_config_;
   if (this != internal_default_instance()) delete _impl_.dtmf_config_;
   if (this != internal_default_instance()) delete _impl_.warm_transfer_config_;
+  if (this != internal_default_instance()) delete _impl_.bot_transfer_config_;
 }
 
 void VoiceInteractionConfig::SetCachedSize(int size) const {
@@ -4431,6 +5516,10 @@ void VoiceInteractionConfig::Clear() {
     delete _impl_.warm_transfer_config_;
   }
   _impl_.warm_transfer_config_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.bot_transfer_config_ != nullptr) {
+    delete _impl_.bot_transfer_config_;
+  }
+  _impl_.bot_transfer_config_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -4484,6 +5573,14 @@ const char* VoiceInteractionConfig::_InternalParse(const char* ptr, ::_pbi::Pars
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           ptr = ctx->ParseMessage(_internal_mutable_warm_transfer_config(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .ondewo.vtsi.BotTransferConfig bot_transfer_config = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          ptr = ctx->ParseMessage(_internal_mutable_bot_transfer_config(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -4559,6 +5656,13 @@ uint8_t* VoiceInteractionConfig::_InternalSerialize(
         _Internal::warm_transfer_config(this).GetCachedSize(), target, stream);
   }
 
+  // .ondewo.vtsi.BotTransferConfig bot_transfer_config = 7;
+  if (this->_internal_has_bot_transfer_config()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(7, _Internal::bot_transfer_config(this),
+        _Internal::bot_transfer_config(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4617,6 +5721,13 @@ size_t VoiceInteractionConfig::ByteSizeLong() const {
         *_impl_.warm_transfer_config_);
   }
 
+  // .ondewo.vtsi.BotTransferConfig bot_transfer_config = 7;
+  if (this->_internal_has_bot_transfer_config()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.bot_transfer_config_);
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -4659,6 +5770,10 @@ void VoiceInteractionConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
     _this->_internal_mutable_warm_transfer_config()->::ondewo::vtsi::WarmTransferConfig::MergeFrom(
         from._internal_warm_transfer_config());
   }
+  if (from._internal_has_bot_transfer_config()) {
+    _this->_internal_mutable_bot_transfer_config()->::ondewo::vtsi::BotTransferConfig::MergeFrom(
+        from._internal_bot_transfer_config());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -4677,8 +5792,8 @@ void VoiceInteractionConfig::InternalSwap(VoiceInteractionConfig* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(VoiceInteractionConfig, _impl_.warm_transfer_config_)
-      + sizeof(VoiceInteractionConfig::_impl_.warm_transfer_config_)
+      PROTOBUF_FIELD_OFFSET(VoiceInteractionConfig, _impl_.bot_transfer_config_)
+      + sizeof(VoiceInteractionConfig::_impl_.bot_transfer_config_)
       - PROTOBUF_FIELD_OFFSET(VoiceInteractionConfig, _impl_.turn_detection_config_)>(
           reinterpret_cast<char*>(&_impl_.turn_detection_config_),
           reinterpret_cast<char*>(&other->_impl_.turn_detection_config_));
@@ -4687,7 +5802,300 @@ void VoiceInteractionConfig::InternalSwap(VoiceInteractionConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata VoiceInteractionConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[8]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[9]);
+}
+
+// ===================================================================
+
+class BotTransferConfig::_Internal {
+ public:
+  using HasBits = decltype(std::declval<BotTransferConfig>()._impl_._has_bits_);
+  static void set_has_outcome_timeout_ms(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_failed_action(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_warm_transfer_outcome_commit_timeout_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+};
+
+BotTransferConfig::BotTransferConfig(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:ondewo.vtsi.BotTransferConfig)
+}
+BotTransferConfig::BotTransferConfig(const BotTransferConfig& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  BotTransferConfig* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.failed_action_){}
+    , decltype(_impl_.outcome_timeout_ms_){}
+    , decltype(_impl_.warm_transfer_outcome_commit_timeout_seconds_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.failed_action_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.failed_action_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_failed_action()) {
+    _this->_impl_.failed_action_.Set(from._internal_failed_action(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.outcome_timeout_ms_, &from._impl_.outcome_timeout_ms_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.warm_transfer_outcome_commit_timeout_seconds_) -
+    reinterpret_cast<char*>(&_impl_.outcome_timeout_ms_)) + sizeof(_impl_.warm_transfer_outcome_commit_timeout_seconds_));
+  // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.BotTransferConfig)
+}
+
+inline void BotTransferConfig::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.failed_action_){}
+    , decltype(_impl_.outcome_timeout_ms_){0u}
+    , decltype(_impl_.warm_transfer_outcome_commit_timeout_seconds_){0}
+  };
+  _impl_.failed_action_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.failed_action_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+BotTransferConfig::~BotTransferConfig() {
+  // @@protoc_insertion_point(destructor:ondewo.vtsi.BotTransferConfig)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void BotTransferConfig::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.failed_action_.Destroy();
+}
+
+void BotTransferConfig::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void BotTransferConfig::Clear() {
+// @@protoc_insertion_point(message_clear_start:ondewo.vtsi.BotTransferConfig)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.failed_action_.ClearNonDefaultToEmpty();
+  }
+  if (cached_has_bits & 0x00000006u) {
+    ::memset(&_impl_.outcome_timeout_ms_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.warm_transfer_outcome_commit_timeout_seconds_) -
+        reinterpret_cast<char*>(&_impl_.outcome_timeout_ms_)) + sizeof(_impl_.warm_transfer_outcome_commit_timeout_seconds_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* BotTransferConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional uint32 outcome_timeout_ms = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _Internal::set_has_outcome_timeout_ms(&has_bits);
+          _impl_.outcome_timeout_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string failed_action = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_failed_action();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.BotTransferConfig.failed_action"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float warm_transfer_outcome_commit_timeout_seconds = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 29)) {
+          _Internal::set_has_warm_transfer_outcome_commit_timeout_seconds(&has_bits);
+          _impl_.warm_transfer_outcome_commit_timeout_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* BotTransferConfig::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ondewo.vtsi.BotTransferConfig)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional uint32 outcome_timeout_ms = 1;
+  if (_internal_has_outcome_timeout_ms()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_outcome_timeout_ms(), target);
+  }
+
+  // optional string failed_action = 2;
+  if (_internal_has_failed_action()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_failed_action().data(), static_cast<int>(this->_internal_failed_action().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.BotTransferConfig.failed_action");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_failed_action(), target);
+  }
+
+  // optional float warm_transfer_outcome_commit_timeout_seconds = 3;
+  if (_internal_has_warm_transfer_outcome_commit_timeout_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_warm_transfer_outcome_commit_timeout_seconds(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ondewo.vtsi.BotTransferConfig)
+  return target;
+}
+
+size_t BotTransferConfig::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ondewo.vtsi.BotTransferConfig)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    // optional string failed_action = 2;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_failed_action());
+    }
+
+    // optional uint32 outcome_timeout_ms = 1;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_outcome_timeout_ms());
+    }
+
+    // optional float warm_transfer_outcome_commit_timeout_seconds = 3;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 + 4;
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData BotTransferConfig::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    BotTransferConfig::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*BotTransferConfig::GetClassData() const { return &_class_data_; }
+
+
+void BotTransferConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<BotTransferConfig*>(&to_msg);
+  auto& from = static_cast<const BotTransferConfig&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ondewo.vtsi.BotTransferConfig)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_set_failed_action(from._internal_failed_action());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.outcome_timeout_ms_ = from._impl_.outcome_timeout_ms_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      _this->_impl_.warm_transfer_outcome_commit_timeout_seconds_ = from._impl_.warm_transfer_outcome_commit_timeout_seconds_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void BotTransferConfig::CopyFrom(const BotTransferConfig& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ondewo.vtsi.BotTransferConfig)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool BotTransferConfig::IsInitialized() const {
+  return true;
+}
+
+void BotTransferConfig::InternalSwap(BotTransferConfig* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.failed_action_, lhs_arena,
+      &other->_impl_.failed_action_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BotTransferConfig, _impl_.warm_transfer_outcome_commit_timeout_seconds_)
+      + sizeof(BotTransferConfig::_impl_.warm_transfer_outcome_commit_timeout_seconds_)
+      - PROTOBUF_FIELD_OFFSET(BotTransferConfig, _impl_.outcome_timeout_ms_)>(
+          reinterpret_cast<char*>(&_impl_.outcome_timeout_ms_),
+          reinterpret_cast<char*>(&other->_impl_.outcome_timeout_ms_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata BotTransferConfig::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[10]);
 }
 
 // ===================================================================
@@ -4696,16 +6104,22 @@ class DtmfConfig::_Internal {
  public:
   using HasBits = decltype(std::declval<DtmfConfig>()._impl_._has_bits_);
   static void set_has_enabled(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
-  static void set_has_barge_in(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
-  static void set_has_inter_digit_timeout_ms(HasBits* has_bits) {
+  static void set_has_barge_in(HasBits* has_bits) {
     (*has_bits)[0] |= 8u;
+  }
+  static void set_has_inter_digit_timeout_ms(HasBits* has_bits) {
+    (*has_bits)[0] |= 16u;
   }
   static void set_has_undeclared_policy(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
+  }
+  static void set_has_speech_guard_ms(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
+  static void set_has_text_template(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
   }
 };
 
@@ -4722,9 +6136,11 @@ DtmfConfig::DtmfConfig(const DtmfConfig& from)
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.undeclared_policy_){}
+    , decltype(_impl_.text_template_){}
     , decltype(_impl_.enabled_){}
     , decltype(_impl_.barge_in_){}
-    , decltype(_impl_.inter_digit_timeout_ms_){}};
+    , decltype(_impl_.inter_digit_timeout_ms_){}
+    , decltype(_impl_.speech_guard_ms_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.undeclared_policy_.InitDefault();
@@ -4735,9 +6151,17 @@ DtmfConfig::DtmfConfig(const DtmfConfig& from)
     _this->_impl_.undeclared_policy_.Set(from._internal_undeclared_policy(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.text_template_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.text_template_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_text_template()) {
+    _this->_impl_.text_template_.Set(from._internal_text_template(), 
+      _this->GetArenaForAllocation());
+  }
   ::memcpy(&_impl_.enabled_, &from._impl_.enabled_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.inter_digit_timeout_ms_) -
-    reinterpret_cast<char*>(&_impl_.enabled_)) + sizeof(_impl_.inter_digit_timeout_ms_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.speech_guard_ms_) -
+    reinterpret_cast<char*>(&_impl_.enabled_)) + sizeof(_impl_.speech_guard_ms_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.DtmfConfig)
 }
 
@@ -4749,13 +6173,19 @@ inline void DtmfConfig::SharedCtor(
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.undeclared_policy_){}
+    , decltype(_impl_.text_template_){}
     , decltype(_impl_.enabled_){false}
     , decltype(_impl_.barge_in_){false}
     , decltype(_impl_.inter_digit_timeout_ms_){0u}
+    , decltype(_impl_.speech_guard_ms_){0u}
   };
   _impl_.undeclared_policy_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.undeclared_policy_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.text_template_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.text_template_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -4771,6 +6201,7 @@ DtmfConfig::~DtmfConfig() {
 inline void DtmfConfig::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.undeclared_policy_.Destroy();
+  _impl_.text_template_.Destroy();
 }
 
 void DtmfConfig::SetCachedSize(int size) const {
@@ -4784,13 +6215,18 @@ void DtmfConfig::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    _impl_.undeclared_policy_.ClearNonDefaultToEmpty();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _impl_.undeclared_policy_.ClearNonDefaultToEmpty();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _impl_.text_template_.ClearNonDefaultToEmpty();
+    }
   }
-  if (cached_has_bits & 0x0000000eu) {
+  if (cached_has_bits & 0x0000003cu) {
     ::memset(&_impl_.enabled_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.inter_digit_timeout_ms_) -
-        reinterpret_cast<char*>(&_impl_.enabled_)) + sizeof(_impl_.inter_digit_timeout_ms_));
+        reinterpret_cast<char*>(&_impl_.speech_guard_ms_) -
+        reinterpret_cast<char*>(&_impl_.enabled_)) + sizeof(_impl_.speech_guard_ms_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -4837,6 +6273,25 @@ const char* DtmfConfig::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.DtmfConfig.undeclared_policy"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional uint32 speech_guard_ms = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _Internal::set_has_speech_guard_ms(&has_bits);
+          _impl_.speech_guard_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string text_template = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
+          auto str = _internal_mutable_text_template();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.DtmfConfig.text_template"));
         } else
           goto handle_unusual;
         continue;
@@ -4898,6 +6353,22 @@ uint8_t* DtmfConfig::_InternalSerialize(
         4, this->_internal_undeclared_policy(), target);
   }
 
+  // optional uint32 speech_guard_ms = 5;
+  if (_internal_has_speech_guard_ms()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(5, this->_internal_speech_guard_ms(), target);
+  }
+
+  // optional string text_template = 6;
+  if (_internal_has_text_template()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_text_template().data(), static_cast<int>(this->_internal_text_template().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.DtmfConfig.text_template");
+    target = stream->WriteStringMaybeAliased(
+        6, this->_internal_text_template(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4915,7 +6386,7 @@ size_t DtmfConfig::ByteSizeLong() const {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
+  if (cached_has_bits & 0x0000003fu) {
     // optional string undeclared_policy = 4;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
@@ -4923,19 +6394,31 @@ size_t DtmfConfig::ByteSizeLong() const {
           this->_internal_undeclared_policy());
     }
 
-    // optional bool enabled = 1;
+    // optional string text_template = 6;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 + 1;
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_text_template());
     }
 
-    // optional bool barge_in = 2;
+    // optional bool enabled = 1;
     if (cached_has_bits & 0x00000004u) {
       total_size += 1 + 1;
     }
 
-    // optional uint32 inter_digit_timeout_ms = 3;
+    // optional bool barge_in = 2;
     if (cached_has_bits & 0x00000008u) {
+      total_size += 1 + 1;
+    }
+
+    // optional uint32 inter_digit_timeout_ms = 3;
+    if (cached_has_bits & 0x00000010u) {
       total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_inter_digit_timeout_ms());
+    }
+
+    // optional uint32 speech_guard_ms = 5;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_speech_guard_ms());
     }
 
   }
@@ -4958,18 +6441,24 @@ void DtmfConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
+  if (cached_has_bits & 0x0000003fu) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_set_undeclared_policy(from._internal_undeclared_policy());
     }
     if (cached_has_bits & 0x00000002u) {
-      _this->_impl_.enabled_ = from._impl_.enabled_;
+      _this->_internal_set_text_template(from._internal_text_template());
     }
     if (cached_has_bits & 0x00000004u) {
-      _this->_impl_.barge_in_ = from._impl_.barge_in_;
+      _this->_impl_.enabled_ = from._impl_.enabled_;
     }
     if (cached_has_bits & 0x00000008u) {
+      _this->_impl_.barge_in_ = from._impl_.barge_in_;
+    }
+    if (cached_has_bits & 0x00000010u) {
       _this->_impl_.inter_digit_timeout_ms_ = from._impl_.inter_digit_timeout_ms_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.speech_guard_ms_ = from._impl_.speech_guard_ms_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
@@ -4997,9 +6486,13 @@ void DtmfConfig::InternalSwap(DtmfConfig* other) {
       &_impl_.undeclared_policy_, lhs_arena,
       &other->_impl_.undeclared_policy_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.text_template_, lhs_arena,
+      &other->_impl_.text_template_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(DtmfConfig, _impl_.inter_digit_timeout_ms_)
-      + sizeof(DtmfConfig::_impl_.inter_digit_timeout_ms_)
+      PROTOBUF_FIELD_OFFSET(DtmfConfig, _impl_.speech_guard_ms_)
+      + sizeof(DtmfConfig::_impl_.speech_guard_ms_)
       - PROTOBUF_FIELD_OFFSET(DtmfConfig, _impl_.enabled_)>(
           reinterpret_cast<char*>(&_impl_.enabled_),
           reinterpret_cast<char*>(&other->_impl_.enabled_));
@@ -5008,7 +6501,7 @@ void DtmfConfig::InternalSwap(DtmfConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DtmfConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[9]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[11]);
 }
 
 // ===================================================================
@@ -6313,7 +7806,7 @@ void WarmTransferConfig::InternalSwap(WarmTransferConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WarmTransferConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[10]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[12]);
 }
 
 // ===================================================================
@@ -6899,7 +8392,7 @@ void WarmIntroRecord::InternalSwap(WarmIntroRecord* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WarmIntroRecord::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[11]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[13]);
 }
 
 // ===================================================================
@@ -7084,7 +8577,7 @@ void TurnDetectionConfig_EndOfTurnHoldBands::InternalSwap(TurnDetectionConfig_En
 ::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionConfig_EndOfTurnHoldBands::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[12]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[14]);
 }
 
 // ===================================================================
@@ -7319,7 +8812,7 @@ void TurnDetectionConfig_EndOfTurnHoldBand::InternalSwap(TurnDetectionConfig_End
 ::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionConfig_EndOfTurnHoldBand::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[13]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[15]);
 }
 
 // ===================================================================
@@ -7356,12 +8849,27 @@ class TurnDetectionConfig::_Internal {
     (*has_bits)[0] |= 256u;
   }
   static void set_has_exact_probability(HasBits* has_bits) {
-    (*has_bits)[0] |= 512u;
+    (*has_bits)[0] |= 2048u;
   }
   static void set_has_final_merge_window_seconds(HasBits* has_bits) {
-    (*has_bits)[0] |= 1024u;
+    (*has_bits)[0] |= 512u;
   }
   static const ::ondewo::vtsi::DictationConfig& dictation_config(const TurnDetectionConfig* msg);
+  static void set_has_s2t_emit_ms(HasBits* has_bits) {
+    (*has_bits)[0] |= 1024u;
+  }
+  static void set_has_s2t_request_partials(HasBits* has_bits) {
+    (*has_bits)[0] |= 4096u;
+  }
+  static void set_has_s2t_request_end_of_speech_candidate(HasBits* has_bits) {
+    (*has_bits)[0] |= 8192u;
+  }
+  static void set_has_smart_turn_threshold(HasBits* has_bits) {
+    (*has_bits)[0] |= 16384u;
+  }
+  static void set_has_post_unmute_phantom_window_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 32768u;
+  }
 };
 
 const ::ondewo::vtsi::TurnDetectionConfig_EndOfTurnHoldBands&
@@ -7397,8 +8905,13 @@ TurnDetectionConfig::TurnDetectionConfig(const TurnDetectionConfig& from)
     , decltype(_impl_.end_of_turn_probability_threshold_){}
     , decltype(_impl_.uncertain_min_words_){}
     , decltype(_impl_.incomplete_max_silence_seconds_){}
+    , decltype(_impl_.final_merge_window_seconds_){}
+    , decltype(_impl_.s2t_emit_ms_){}
     , decltype(_impl_.exact_probability_){}
-    , decltype(_impl_.final_merge_window_seconds_){}};
+    , decltype(_impl_.s2t_request_partials_){}
+    , decltype(_impl_.s2t_request_end_of_speech_candidate_){}
+    , decltype(_impl_.smart_turn_threshold_){}
+    , decltype(_impl_.post_unmute_phantom_window_seconds_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.turn_detection_system_prompt_.InitDefault();
@@ -7432,8 +8945,8 @@ TurnDetectionConfig::TurnDetectionConfig(const TurnDetectionConfig& from)
     _this->_impl_.dictation_config_ = new ::ondewo::vtsi::DictationConfig(*from._impl_.dictation_config_);
   }
   ::memcpy(&_impl_.mode_, &from._impl_.mode_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.final_merge_window_seconds_) -
-    reinterpret_cast<char*>(&_impl_.mode_)) + sizeof(_impl_.final_merge_window_seconds_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.post_unmute_phantom_window_seconds_) -
+    reinterpret_cast<char*>(&_impl_.mode_)) + sizeof(_impl_.post_unmute_phantom_window_seconds_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.TurnDetectionConfig)
 }
 
@@ -7457,8 +8970,13 @@ inline void TurnDetectionConfig::SharedCtor(
     , decltype(_impl_.end_of_turn_probability_threshold_){0}
     , decltype(_impl_.uncertain_min_words_){0u}
     , decltype(_impl_.incomplete_max_silence_seconds_){0}
-    , decltype(_impl_.exact_probability_){false}
     , decltype(_impl_.final_merge_window_seconds_){0}
+    , decltype(_impl_.s2t_emit_ms_){0u}
+    , decltype(_impl_.exact_probability_){false}
+    , decltype(_impl_.s2t_request_partials_){false}
+    , decltype(_impl_.s2t_request_end_of_speech_candidate_){false}
+    , decltype(_impl_.smart_turn_threshold_){0}
+    , decltype(_impl_.post_unmute_phantom_window_seconds_){0}
   };
   _impl_.turn_detection_system_prompt_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -7534,10 +9052,10 @@ void TurnDetectionConfig::Clear() {
         reinterpret_cast<char*>(&_impl_.uncertain_min_words_) -
         reinterpret_cast<char*>(&_impl_.conversation_context_turns_)) + sizeof(_impl_.uncertain_min_words_));
   }
-  if (cached_has_bits & 0x00000700u) {
+  if (cached_has_bits & 0x0000ff00u) {
     ::memset(&_impl_.incomplete_max_silence_seconds_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.final_merge_window_seconds_) -
-        reinterpret_cast<char*>(&_impl_.incomplete_max_silence_seconds_)) + sizeof(_impl_.final_merge_window_seconds_));
+        reinterpret_cast<char*>(&_impl_.post_unmute_phantom_window_seconds_) -
+        reinterpret_cast<char*>(&_impl_.incomplete_max_silence_seconds_)) + sizeof(_impl_.post_unmute_phantom_window_seconds_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -7686,6 +9204,51 @@ const char* TurnDetectionConfig::_InternalParse(const char* ptr, ::_pbi::ParseCo
         } else
           goto handle_unusual;
         continue;
+      // optional uint32 s2t_emit_ms = 16;
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 128)) {
+          _Internal::set_has_s2t_emit_ms(&has_bits);
+          _impl_.s2t_emit_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool s2t_request_partials = 17;
+      case 17:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 136)) {
+          _Internal::set_has_s2t_request_partials(&has_bits);
+          _impl_.s2t_request_partials_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool s2t_request_end_of_speech_candidate = 18;
+      case 18:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 144)) {
+          _Internal::set_has_s2t_request_end_of_speech_candidate(&has_bits);
+          _impl_.s2t_request_end_of_speech_candidate_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float smart_turn_threshold = 19;
+      case 19:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 157)) {
+          _Internal::set_has_smart_turn_threshold(&has_bits);
+          _impl_.smart_turn_threshold_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float post_unmute_phantom_window_seconds = 20;
+      case 20:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 165)) {
+          _Internal::set_has_post_unmute_phantom_window_seconds(&has_bits);
+          _impl_.post_unmute_phantom_window_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -7822,6 +9385,36 @@ uint8_t* TurnDetectionConfig::_InternalSerialize(
         _Internal::dictation_config(this).GetCachedSize(), target, stream);
   }
 
+  // optional uint32 s2t_emit_ms = 16;
+  if (_internal_has_s2t_emit_ms()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(16, this->_internal_s2t_emit_ms(), target);
+  }
+
+  // optional bool s2t_request_partials = 17;
+  if (_internal_has_s2t_request_partials()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(17, this->_internal_s2t_request_partials(), target);
+  }
+
+  // optional bool s2t_request_end_of_speech_candidate = 18;
+  if (_internal_has_s2t_request_end_of_speech_candidate()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(18, this->_internal_s2t_request_end_of_speech_candidate(), target);
+  }
+
+  // optional float smart_turn_threshold = 19;
+  if (_internal_has_smart_turn_threshold()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(19, this->_internal_smart_turn_threshold(), target);
+  }
+
+  // optional float post_unmute_phantom_window_seconds = 20;
+  if (_internal_has_post_unmute_phantom_window_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(20, this->_internal_post_unmute_phantom_window_seconds(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -7917,20 +9510,47 @@ size_t TurnDetectionConfig::ByteSizeLong() const {
     }
 
   }
-  if (cached_has_bits & 0x00000700u) {
+  if (cached_has_bits & 0x0000ff00u) {
     // optional float incomplete_max_silence_seconds = 12;
     if (cached_has_bits & 0x00000100u) {
       total_size += 1 + 4;
     }
 
-    // optional bool exact_probability = 13;
+    // optional float final_merge_window_seconds = 14;
     if (cached_has_bits & 0x00000200u) {
+      total_size += 1 + 4;
+    }
+
+    // optional uint32 s2t_emit_ms = 16;
+    if (cached_has_bits & 0x00000400u) {
+      total_size += 2 +
+        ::_pbi::WireFormatLite::UInt32Size(
+          this->_internal_s2t_emit_ms());
+    }
+
+    // optional bool exact_probability = 13;
+    if (cached_has_bits & 0x00000800u) {
       total_size += 1 + 1;
     }
 
-    // optional float final_merge_window_seconds = 14;
-    if (cached_has_bits & 0x00000400u) {
-      total_size += 1 + 4;
+    // optional bool s2t_request_partials = 17;
+    if (cached_has_bits & 0x00001000u) {
+      total_size += 2 + 1;
+    }
+
+    // optional bool s2t_request_end_of_speech_candidate = 18;
+    if (cached_has_bits & 0x00002000u) {
+      total_size += 2 + 1;
+    }
+
+    // optional float smart_turn_threshold = 19;
+    if (cached_has_bits & 0x00004000u) {
+      total_size += 2 + 4;
+    }
+
+    // optional float post_unmute_phantom_window_seconds = 20;
+    if (cached_has_bits & 0x00008000u) {
+      total_size += 2 + 4;
     }
 
   }
@@ -7999,15 +9619,30 @@ void TurnDetectionConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
-  if (cached_has_bits & 0x00000700u) {
+  if (cached_has_bits & 0x0000ff00u) {
     if (cached_has_bits & 0x00000100u) {
       _this->_impl_.incomplete_max_silence_seconds_ = from._impl_.incomplete_max_silence_seconds_;
     }
     if (cached_has_bits & 0x00000200u) {
-      _this->_impl_.exact_probability_ = from._impl_.exact_probability_;
+      _this->_impl_.final_merge_window_seconds_ = from._impl_.final_merge_window_seconds_;
     }
     if (cached_has_bits & 0x00000400u) {
-      _this->_impl_.final_merge_window_seconds_ = from._impl_.final_merge_window_seconds_;
+      _this->_impl_.s2t_emit_ms_ = from._impl_.s2t_emit_ms_;
+    }
+    if (cached_has_bits & 0x00000800u) {
+      _this->_impl_.exact_probability_ = from._impl_.exact_probability_;
+    }
+    if (cached_has_bits & 0x00001000u) {
+      _this->_impl_.s2t_request_partials_ = from._impl_.s2t_request_partials_;
+    }
+    if (cached_has_bits & 0x00002000u) {
+      _this->_impl_.s2t_request_end_of_speech_candidate_ = from._impl_.s2t_request_end_of_speech_candidate_;
+    }
+    if (cached_has_bits & 0x00004000u) {
+      _this->_impl_.smart_turn_threshold_ = from._impl_.smart_turn_threshold_;
+    }
+    if (cached_has_bits & 0x00008000u) {
+      _this->_impl_.post_unmute_phantom_window_seconds_ = from._impl_.post_unmute_phantom_window_seconds_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
@@ -8044,8 +9679,8 @@ void TurnDetectionConfig::InternalSwap(TurnDetectionConfig* other) {
       &other->_impl_.semantic_model_name_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(TurnDetectionConfig, _impl_.final_merge_window_seconds_)
-      + sizeof(TurnDetectionConfig::_impl_.final_merge_window_seconds_)
+      PROTOBUF_FIELD_OFFSET(TurnDetectionConfig, _impl_.post_unmute_phantom_window_seconds_)
+      + sizeof(TurnDetectionConfig::_impl_.post_unmute_phantom_window_seconds_)
       - PROTOBUF_FIELD_OFFSET(TurnDetectionConfig, _impl_.hold_bands_)>(
           reinterpret_cast<char*>(&_impl_.hold_bands_),
           reinterpret_cast<char*>(&other->_impl_.hold_bands_));
@@ -8054,7 +9689,7 @@ void TurnDetectionConfig::InternalSwap(TurnDetectionConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TurnDetectionConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[14]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[16]);
 }
 
 // ===================================================================
@@ -8068,7 +9703,7 @@ void DictationConfig_HoldMaxSecondsByCategoryEntry_DoNotUse::MergeFrom(const Dic
 ::PROTOBUF_NAMESPACE_ID::Metadata DictationConfig_HoldMaxSecondsByCategoryEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[15]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[17]);
 }
 
 // ===================================================================
@@ -8536,7 +10171,7 @@ void DictationConfig::InternalSwap(DictationConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DictationConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[16]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[18]);
 }
 
 // ===================================================================
@@ -8545,7 +10180,7 @@ class InterruptionHandlingConfig::_Internal {
  public:
   using HasBits = decltype(std::declval<InterruptionHandlingConfig>()._impl_._has_bits_);
   static void set_has_enabled(HasBits* has_bits) {
-    (*has_bits)[0] |= 8u;
+    (*has_bits)[0] |= 16u;
   }
   static void set_has_min_interruption_duration_seconds(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
@@ -8557,19 +10192,37 @@ class InterruptionHandlingConfig::_Internal {
     (*has_bits)[0] |= 4u;
   }
   static void set_has_resume_after_false_interruption(HasBits* has_bits) {
-    (*has_bits)[0] |= 16u;
-  }
-  static void set_has_backoff_seconds(HasBits* has_bits) {
-    (*has_bits)[0] |= 64u;
-  }
-  static void set_has_first_message_protected_seconds(HasBits* has_bits) {
-    (*has_bits)[0] |= 128u;
-  }
-  static void set_has_transcribe_on_disabled_interruptions(HasBits* has_bits) {
     (*has_bits)[0] |= 32u;
   }
-  static void set_has_interruption_fade_out_ms(HasBits* has_bits) {
+  static void set_has_backoff_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static void set_has_first_message_protected_seconds(HasBits* has_bits) {
     (*has_bits)[0] |= 256u;
+  }
+  static void set_has_transcribe_on_disabled_interruptions(HasBits* has_bits) {
+    (*has_bits)[0] |= 64u;
+  }
+  static void set_has_interruption_fade_out_ms(HasBits* has_bits) {
+    (*has_bits)[0] |= 512u;
+  }
+  static void set_has_cancel_on_speech_while_thinking(HasBits* has_bits) {
+    (*has_bits)[0] |= 128u;
+  }
+  static void set_has_ai_teams_cancel_pending_on_interrupt(HasBits* has_bits) {
+    (*has_bits)[0] |= 1024u;
+  }
+  static void set_has_t2s_cancel_on_barge_in(HasBits* has_bits) {
+    (*has_bits)[0] |= 2048u;
+  }
+  static void set_has_nlu_turn_control_enabled(HasBits* has_bits) {
+    (*has_bits)[0] |= 4096u;
+  }
+  static void set_has_heard_report_enabled(HasBits* has_bits) {
+    (*has_bits)[0] |= 8192u;
+  }
+  static void set_has_heard_text_alignment_enabled(HasBits* has_bits) {
+    (*has_bits)[0] |= 16384u;
   }
 };
 
@@ -8588,17 +10241,23 @@ InterruptionHandlingConfig::InterruptionHandlingConfig(const InterruptionHandlin
     , decltype(_impl_.min_interruption_duration_seconds_){}
     , decltype(_impl_.min_interruption_words_){}
     , decltype(_impl_.false_interruption_timeout_seconds_){}
+    , decltype(_impl_.backoff_seconds_){}
     , decltype(_impl_.enabled_){}
     , decltype(_impl_.resume_after_false_interruption_){}
     , decltype(_impl_.transcribe_on_disabled_interruptions_){}
-    , decltype(_impl_.backoff_seconds_){}
+    , decltype(_impl_.cancel_on_speech_while_thinking_){}
     , decltype(_impl_.first_message_protected_seconds_){}
-    , decltype(_impl_.interruption_fade_out_ms_){}};
+    , decltype(_impl_.interruption_fade_out_ms_){}
+    , decltype(_impl_.ai_teams_cancel_pending_on_interrupt_){}
+    , decltype(_impl_.t2s_cancel_on_barge_in_){}
+    , decltype(_impl_.nlu_turn_control_enabled_){}
+    , decltype(_impl_.heard_report_enabled_){}
+    , decltype(_impl_.heard_text_alignment_enabled_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.min_interruption_duration_seconds_, &from._impl_.min_interruption_duration_seconds_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.interruption_fade_out_ms_) -
-    reinterpret_cast<char*>(&_impl_.min_interruption_duration_seconds_)) + sizeof(_impl_.interruption_fade_out_ms_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.heard_text_alignment_enabled_) -
+    reinterpret_cast<char*>(&_impl_.min_interruption_duration_seconds_)) + sizeof(_impl_.heard_text_alignment_enabled_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.InterruptionHandlingConfig)
 }
 
@@ -8612,12 +10271,18 @@ inline void InterruptionHandlingConfig::SharedCtor(
     , decltype(_impl_.min_interruption_duration_seconds_){0}
     , decltype(_impl_.min_interruption_words_){0}
     , decltype(_impl_.false_interruption_timeout_seconds_){0}
+    , decltype(_impl_.backoff_seconds_){0}
     , decltype(_impl_.enabled_){false}
     , decltype(_impl_.resume_after_false_interruption_){false}
     , decltype(_impl_.transcribe_on_disabled_interruptions_){false}
-    , decltype(_impl_.backoff_seconds_){0}
+    , decltype(_impl_.cancel_on_speech_while_thinking_){false}
     , decltype(_impl_.first_message_protected_seconds_){0}
     , decltype(_impl_.interruption_fade_out_ms_){0}
+    , decltype(_impl_.ai_teams_cancel_pending_on_interrupt_){false}
+    , decltype(_impl_.t2s_cancel_on_barge_in_){false}
+    , decltype(_impl_.nlu_turn_control_enabled_){false}
+    , decltype(_impl_.heard_report_enabled_){false}
+    , decltype(_impl_.heard_text_alignment_enabled_){false}
   };
 }
 
@@ -8647,10 +10312,14 @@ void InterruptionHandlingConfig::Clear() {
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x000000ffu) {
     ::memset(&_impl_.min_interruption_duration_seconds_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.first_message_protected_seconds_) -
-        reinterpret_cast<char*>(&_impl_.min_interruption_duration_seconds_)) + sizeof(_impl_.first_message_protected_seconds_));
+        reinterpret_cast<char*>(&_impl_.cancel_on_speech_while_thinking_) -
+        reinterpret_cast<char*>(&_impl_.min_interruption_duration_seconds_)) + sizeof(_impl_.cancel_on_speech_while_thinking_));
   }
-  _impl_.interruption_fade_out_ms_ = 0;
+  if (cached_has_bits & 0x00007f00u) {
+    ::memset(&_impl_.first_message_protected_seconds_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.heard_text_alignment_enabled_) -
+        reinterpret_cast<char*>(&_impl_.first_message_protected_seconds_)) + sizeof(_impl_.heard_text_alignment_enabled_));
+  }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -8743,6 +10412,60 @@ const char* InterruptionHandlingConfig::_InternalParse(const char* ptr, ::_pbi::
         } else
           goto handle_unusual;
         continue;
+      // optional bool cancel_on_speech_while_thinking = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
+          _Internal::set_has_cancel_on_speech_while_thinking(&has_bits);
+          _impl_.cancel_on_speech_while_thinking_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool ai_teams_cancel_pending_on_interrupt = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 88)) {
+          _Internal::set_has_ai_teams_cancel_pending_on_interrupt(&has_bits);
+          _impl_.ai_teams_cancel_pending_on_interrupt_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool t2s_cancel_on_barge_in = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 96)) {
+          _Internal::set_has_t2s_cancel_on_barge_in(&has_bits);
+          _impl_.t2s_cancel_on_barge_in_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool nlu_turn_control_enabled = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 104)) {
+          _Internal::set_has_nlu_turn_control_enabled(&has_bits);
+          _impl_.nlu_turn_control_enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool heard_report_enabled = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 112)) {
+          _Internal::set_has_heard_report_enabled(&has_bits);
+          _impl_.heard_report_enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool heard_text_alignment_enabled = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 120)) {
+          _Internal::set_has_heard_text_alignment_enabled(&has_bits);
+          _impl_.heard_text_alignment_enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -8827,6 +10550,42 @@ uint8_t* InterruptionHandlingConfig::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(9, this->_internal_interruption_fade_out_ms(), target);
   }
 
+  // optional bool cancel_on_speech_while_thinking = 10;
+  if (_internal_has_cancel_on_speech_while_thinking()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(10, this->_internal_cancel_on_speech_while_thinking(), target);
+  }
+
+  // optional bool ai_teams_cancel_pending_on_interrupt = 11;
+  if (_internal_has_ai_teams_cancel_pending_on_interrupt()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(11, this->_internal_ai_teams_cancel_pending_on_interrupt(), target);
+  }
+
+  // optional bool t2s_cancel_on_barge_in = 12;
+  if (_internal_has_t2s_cancel_on_barge_in()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(12, this->_internal_t2s_cancel_on_barge_in(), target);
+  }
+
+  // optional bool nlu_turn_control_enabled = 13;
+  if (_internal_has_nlu_turn_control_enabled()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(13, this->_internal_nlu_turn_control_enabled(), target);
+  }
+
+  // optional bool heard_report_enabled = 14;
+  if (_internal_has_heard_report_enabled()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(14, this->_internal_heard_report_enabled(), target);
+  }
+
+  // optional bool heard_text_alignment_enabled = 15;
+  if (_internal_has_heard_text_alignment_enabled()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(15, this->_internal_heard_text_alignment_enabled(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -8860,37 +10619,69 @@ size_t InterruptionHandlingConfig::ByteSizeLong() const {
       total_size += 1 + 4;
     }
 
-    // optional bool enabled = 1;
+    // optional float backoff_seconds = 6;
     if (cached_has_bits & 0x00000008u) {
-      total_size += 1 + 1;
+      total_size += 1 + 4;
     }
 
-    // optional bool resume_after_false_interruption = 5;
+    // optional bool enabled = 1;
     if (cached_has_bits & 0x00000010u) {
       total_size += 1 + 1;
     }
 
-    // optional bool transcribe_on_disabled_interruptions = 8;
+    // optional bool resume_after_false_interruption = 5;
     if (cached_has_bits & 0x00000020u) {
       total_size += 1 + 1;
     }
 
-    // optional float backoff_seconds = 6;
+    // optional bool transcribe_on_disabled_interruptions = 8;
     if (cached_has_bits & 0x00000040u) {
-      total_size += 1 + 4;
+      total_size += 1 + 1;
     }
 
-    // optional float first_message_protected_seconds = 7;
+    // optional bool cancel_on_speech_while_thinking = 10;
     if (cached_has_bits & 0x00000080u) {
-      total_size += 1 + 4;
+      total_size += 1 + 1;
     }
 
   }
-  // optional int32 interruption_fade_out_ms = 9;
-  if (cached_has_bits & 0x00000100u) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_interruption_fade_out_ms());
-  }
+  if (cached_has_bits & 0x00007f00u) {
+    // optional float first_message_protected_seconds = 7;
+    if (cached_has_bits & 0x00000100u) {
+      total_size += 1 + 4;
+    }
 
+    // optional int32 interruption_fade_out_ms = 9;
+    if (cached_has_bits & 0x00000200u) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_interruption_fade_out_ms());
+    }
+
+    // optional bool ai_teams_cancel_pending_on_interrupt = 11;
+    if (cached_has_bits & 0x00000400u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool t2s_cancel_on_barge_in = 12;
+    if (cached_has_bits & 0x00000800u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool nlu_turn_control_enabled = 13;
+    if (cached_has_bits & 0x00001000u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool heard_report_enabled = 14;
+    if (cached_has_bits & 0x00002000u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool heard_text_alignment_enabled = 15;
+    if (cached_has_bits & 0x00004000u) {
+      total_size += 1 + 1;
+    }
+
+  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -8921,24 +10712,45 @@ void InterruptionHandlingConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_
       _this->_impl_.false_interruption_timeout_seconds_ = from._impl_.false_interruption_timeout_seconds_;
     }
     if (cached_has_bits & 0x00000008u) {
-      _this->_impl_.enabled_ = from._impl_.enabled_;
-    }
-    if (cached_has_bits & 0x00000010u) {
-      _this->_impl_.resume_after_false_interruption_ = from._impl_.resume_after_false_interruption_;
-    }
-    if (cached_has_bits & 0x00000020u) {
-      _this->_impl_.transcribe_on_disabled_interruptions_ = from._impl_.transcribe_on_disabled_interruptions_;
-    }
-    if (cached_has_bits & 0x00000040u) {
       _this->_impl_.backoff_seconds_ = from._impl_.backoff_seconds_;
     }
+    if (cached_has_bits & 0x00000010u) {
+      _this->_impl_.enabled_ = from._impl_.enabled_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.resume_after_false_interruption_ = from._impl_.resume_after_false_interruption_;
+    }
+    if (cached_has_bits & 0x00000040u) {
+      _this->_impl_.transcribe_on_disabled_interruptions_ = from._impl_.transcribe_on_disabled_interruptions_;
+    }
     if (cached_has_bits & 0x00000080u) {
-      _this->_impl_.first_message_protected_seconds_ = from._impl_.first_message_protected_seconds_;
+      _this->_impl_.cancel_on_speech_while_thinking_ = from._impl_.cancel_on_speech_while_thinking_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
-  if (cached_has_bits & 0x00000100u) {
-    _this->_internal_set_interruption_fade_out_ms(from._internal_interruption_fade_out_ms());
+  if (cached_has_bits & 0x00007f00u) {
+    if (cached_has_bits & 0x00000100u) {
+      _this->_impl_.first_message_protected_seconds_ = from._impl_.first_message_protected_seconds_;
+    }
+    if (cached_has_bits & 0x00000200u) {
+      _this->_impl_.interruption_fade_out_ms_ = from._impl_.interruption_fade_out_ms_;
+    }
+    if (cached_has_bits & 0x00000400u) {
+      _this->_impl_.ai_teams_cancel_pending_on_interrupt_ = from._impl_.ai_teams_cancel_pending_on_interrupt_;
+    }
+    if (cached_has_bits & 0x00000800u) {
+      _this->_impl_.t2s_cancel_on_barge_in_ = from._impl_.t2s_cancel_on_barge_in_;
+    }
+    if (cached_has_bits & 0x00001000u) {
+      _this->_impl_.nlu_turn_control_enabled_ = from._impl_.nlu_turn_control_enabled_;
+    }
+    if (cached_has_bits & 0x00002000u) {
+      _this->_impl_.heard_report_enabled_ = from._impl_.heard_report_enabled_;
+    }
+    if (cached_has_bits & 0x00004000u) {
+      _this->_impl_.heard_text_alignment_enabled_ = from._impl_.heard_text_alignment_enabled_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -8959,8 +10771,8 @@ void InterruptionHandlingConfig::InternalSwap(InterruptionHandlingConfig* other)
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(InterruptionHandlingConfig, _impl_.interruption_fade_out_ms_)
-      + sizeof(InterruptionHandlingConfig::_impl_.interruption_fade_out_ms_)
+      PROTOBUF_FIELD_OFFSET(InterruptionHandlingConfig, _impl_.heard_text_alignment_enabled_)
+      + sizeof(InterruptionHandlingConfig::_impl_.heard_text_alignment_enabled_)
       - PROTOBUF_FIELD_OFFSET(InterruptionHandlingConfig, _impl_.min_interruption_duration_seconds_)>(
           reinterpret_cast<char*>(&_impl_.min_interruption_duration_seconds_),
           reinterpret_cast<char*>(&other->_impl_.min_interruption_duration_seconds_));
@@ -8969,7 +10781,7 @@ void InterruptionHandlingConfig::InternalSwap(InterruptionHandlingConfig* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata InterruptionHandlingConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[17]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[19]);
 }
 
 // ===================================================================
@@ -8978,17 +10790,35 @@ class ResponseTimingConfig::_Internal {
  public:
   using HasBits = decltype(std::declval<ResponseTimingConfig>()._impl_._has_bits_);
   static void set_has_turn_timeout_seconds(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
+    (*has_bits)[0] |= 2u;
   }
   static void set_has_silence_end_call_timeout_seconds(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
+    (*has_bits)[0] |= 4u;
   }
   static const ::ondewo::vtsi::SoftTimeoutConfig& soft_timeout_config(const ResponseTimingConfig* msg);
   static void set_has_preemptive_generation_enabled(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
+    (*has_bits)[0] |= 8u;
   }
   static void set_has_t2s_chunked_streaming_enabled(HasBits* has_bits) {
-    (*has_bits)[0] |= 8u;
+    (*has_bits)[0] |= 16u;
+  }
+  static void set_has_streaming_enabled(HasBits* has_bits) {
+    (*has_bits)[0] |= 32u;
+  }
+  static void set_has_nlu_call_stream_enabled(HasBits* has_bits) {
+    (*has_bits)[0] |= 64u;
+  }
+  static void set_has_turn_timeout_intent(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_t2s_max_edge_silence_ms(HasBits* has_bits) {
+    (*has_bits)[0] |= 128u;
+  }
+  static void set_has_nlu_call_stream_turn_timeout_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 256u;
+  }
+  static void set_has_nlu_call_stream_turn_quiet_seconds(HasBits* has_bits) {
+    (*has_bits)[0] |= 512u;
   }
 };
 
@@ -9008,19 +10838,33 @@ ResponseTimingConfig::ResponseTimingConfig(const ResponseTimingConfig& from)
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.turn_timeout_intent_){}
     , decltype(_impl_.soft_timeout_config_){nullptr}
     , decltype(_impl_.turn_timeout_seconds_){}
     , decltype(_impl_.silence_end_call_timeout_seconds_){}
     , decltype(_impl_.preemptive_generation_enabled_){}
-    , decltype(_impl_.t2s_chunked_streaming_enabled_){}};
+    , decltype(_impl_.t2s_chunked_streaming_enabled_){}
+    , decltype(_impl_.streaming_enabled_){}
+    , decltype(_impl_.nlu_call_stream_enabled_){}
+    , decltype(_impl_.t2s_max_edge_silence_ms_){}
+    , decltype(_impl_.nlu_call_stream_turn_timeout_seconds_){}
+    , decltype(_impl_.nlu_call_stream_turn_quiet_seconds_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.turn_timeout_intent_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.turn_timeout_intent_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_turn_timeout_intent()) {
+    _this->_impl_.turn_timeout_intent_.Set(from._internal_turn_timeout_intent(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_soft_timeout_config()) {
     _this->_impl_.soft_timeout_config_ = new ::ondewo::vtsi::SoftTimeoutConfig(*from._impl_.soft_timeout_config_);
   }
   ::memcpy(&_impl_.turn_timeout_seconds_, &from._impl_.turn_timeout_seconds_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.t2s_chunked_streaming_enabled_) -
-    reinterpret_cast<char*>(&_impl_.turn_timeout_seconds_)) + sizeof(_impl_.t2s_chunked_streaming_enabled_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.nlu_call_stream_turn_quiet_seconds_) -
+    reinterpret_cast<char*>(&_impl_.turn_timeout_seconds_)) + sizeof(_impl_.nlu_call_stream_turn_quiet_seconds_));
   // @@protoc_insertion_point(copy_constructor:ondewo.vtsi.ResponseTimingConfig)
 }
 
@@ -9031,12 +10875,22 @@ inline void ResponseTimingConfig::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.turn_timeout_intent_){}
     , decltype(_impl_.soft_timeout_config_){nullptr}
     , decltype(_impl_.turn_timeout_seconds_){0}
     , decltype(_impl_.silence_end_call_timeout_seconds_){0}
     , decltype(_impl_.preemptive_generation_enabled_){false}
     , decltype(_impl_.t2s_chunked_streaming_enabled_){false}
+    , decltype(_impl_.streaming_enabled_){false}
+    , decltype(_impl_.nlu_call_stream_enabled_){false}
+    , decltype(_impl_.t2s_max_edge_silence_ms_){0}
+    , decltype(_impl_.nlu_call_stream_turn_timeout_seconds_){0}
+    , decltype(_impl_.nlu_call_stream_turn_quiet_seconds_){0}
   };
+  _impl_.turn_timeout_intent_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.turn_timeout_intent_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 ResponseTimingConfig::~ResponseTimingConfig() {
@@ -9050,6 +10904,7 @@ ResponseTimingConfig::~ResponseTimingConfig() {
 
 inline void ResponseTimingConfig::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.turn_timeout_intent_.Destroy();
   if (this != internal_default_instance()) delete _impl_.soft_timeout_config_;
 }
 
@@ -9063,15 +10918,23 @@ void ResponseTimingConfig::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.turn_timeout_intent_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.soft_timeout_config_ != nullptr) {
     delete _impl_.soft_timeout_config_;
   }
   _impl_.soft_timeout_config_ = nullptr;
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
+  if (cached_has_bits & 0x000000feu) {
     ::memset(&_impl_.turn_timeout_seconds_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.t2s_chunked_streaming_enabled_) -
-        reinterpret_cast<char*>(&_impl_.turn_timeout_seconds_)) + sizeof(_impl_.t2s_chunked_streaming_enabled_));
+        reinterpret_cast<char*>(&_impl_.t2s_max_edge_silence_ms_) -
+        reinterpret_cast<char*>(&_impl_.turn_timeout_seconds_)) + sizeof(_impl_.t2s_max_edge_silence_ms_));
+  }
+  if (cached_has_bits & 0x00000300u) {
+    ::memset(&_impl_.nlu_call_stream_turn_timeout_seconds_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.nlu_call_stream_turn_quiet_seconds_) -
+        reinterpret_cast<char*>(&_impl_.nlu_call_stream_turn_timeout_seconds_)) + sizeof(_impl_.nlu_call_stream_turn_quiet_seconds_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -9125,6 +10988,61 @@ const char* ResponseTimingConfig::_InternalParse(const char* ptr, ::_pbi::ParseC
           _Internal::set_has_t2s_chunked_streaming_enabled(&has_bits);
           _impl_.t2s_chunked_streaming_enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool streaming_enabled = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _Internal::set_has_streaming_enabled(&has_bits);
+          _impl_.streaming_enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional bool nlu_call_stream_enabled = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _Internal::set_has_nlu_call_stream_enabled(&has_bits);
+          _impl_.nlu_call_stream_enabled_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string turn_timeout_intent = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          auto str = _internal_mutable_turn_timeout_intent();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "ondewo.vtsi.ResponseTimingConfig.turn_timeout_intent"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 t2s_max_edge_silence_ms = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
+          _Internal::set_has_t2s_max_edge_silence_ms(&has_bits);
+          _impl_.t2s_max_edge_silence_ms_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float nlu_call_stream_turn_timeout_seconds = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 85)) {
+          _Internal::set_has_nlu_call_stream_turn_timeout_seconds(&has_bits);
+          _impl_.nlu_call_stream_turn_timeout_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional float nlu_call_stream_turn_quiet_seconds = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 93)) {
+          _Internal::set_has_nlu_call_stream_turn_quiet_seconds(&has_bits);
+          _impl_.nlu_call_stream_turn_quiet_seconds_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else
           goto handle_unusual;
         continue;
@@ -9189,6 +11107,46 @@ uint8_t* ResponseTimingConfig::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(5, this->_internal_t2s_chunked_streaming_enabled(), target);
   }
 
+  // optional bool streaming_enabled = 6;
+  if (_internal_has_streaming_enabled()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(6, this->_internal_streaming_enabled(), target);
+  }
+
+  // optional bool nlu_call_stream_enabled = 7;
+  if (_internal_has_nlu_call_stream_enabled()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(7, this->_internal_nlu_call_stream_enabled(), target);
+  }
+
+  // optional string turn_timeout_intent = 8;
+  if (_internal_has_turn_timeout_intent()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_turn_timeout_intent().data(), static_cast<int>(this->_internal_turn_timeout_intent().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ondewo.vtsi.ResponseTimingConfig.turn_timeout_intent");
+    target = stream->WriteStringMaybeAliased(
+        8, this->_internal_turn_timeout_intent(), target);
+  }
+
+  // optional int32 t2s_max_edge_silence_ms = 9;
+  if (_internal_has_t2s_max_edge_silence_ms()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(9, this->_internal_t2s_max_edge_silence_ms(), target);
+  }
+
+  // optional float nlu_call_stream_turn_timeout_seconds = 10;
+  if (_internal_has_nlu_call_stream_turn_timeout_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(10, this->_internal_nlu_call_stream_turn_timeout_seconds(), target);
+  }
+
+  // optional float nlu_call_stream_turn_quiet_seconds = 11;
+  if (_internal_has_nlu_call_stream_turn_quiet_seconds()) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteFloatToArray(11, this->_internal_nlu_call_stream_turn_quiet_seconds(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -9205,6 +11163,14 @@ size_t ResponseTimingConfig::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  // optional string turn_timeout_intent = 8;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_turn_timeout_intent());
+  }
+
   // .ondewo.vtsi.SoftTimeoutConfig soft_timeout_config = 3;
   if (this->_internal_has_soft_timeout_config()) {
     total_size += 1 +
@@ -9212,26 +11178,52 @@ size_t ResponseTimingConfig::ByteSizeLong() const {
         *_impl_.soft_timeout_config_);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
+  if (cached_has_bits & 0x000000feu) {
     // optional float turn_timeout_seconds = 1;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 + 4;
-    }
-
-    // optional float silence_end_call_timeout_seconds = 2;
     if (cached_has_bits & 0x00000002u) {
       total_size += 1 + 4;
     }
 
-    // optional bool preemptive_generation_enabled = 4;
+    // optional float silence_end_call_timeout_seconds = 2;
     if (cached_has_bits & 0x00000004u) {
+      total_size += 1 + 4;
+    }
+
+    // optional bool preemptive_generation_enabled = 4;
+    if (cached_has_bits & 0x00000008u) {
       total_size += 1 + 1;
     }
 
     // optional bool t2s_chunked_streaming_enabled = 5;
-    if (cached_has_bits & 0x00000008u) {
+    if (cached_has_bits & 0x00000010u) {
       total_size += 1 + 1;
+    }
+
+    // optional bool streaming_enabled = 6;
+    if (cached_has_bits & 0x00000020u) {
+      total_size += 1 + 1;
+    }
+
+    // optional bool nlu_call_stream_enabled = 7;
+    if (cached_has_bits & 0x00000040u) {
+      total_size += 1 + 1;
+    }
+
+    // optional int32 t2s_max_edge_silence_ms = 9;
+    if (cached_has_bits & 0x00000080u) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_t2s_max_edge_silence_ms());
+    }
+
+  }
+  if (cached_has_bits & 0x00000300u) {
+    // optional float nlu_call_stream_turn_timeout_seconds = 10;
+    if (cached_has_bits & 0x00000100u) {
+      total_size += 1 + 4;
+    }
+
+    // optional float nlu_call_stream_turn_quiet_seconds = 11;
+    if (cached_has_bits & 0x00000200u) {
+      total_size += 1 + 4;
     }
 
   }
@@ -9253,23 +11245,44 @@ void ResponseTimingConfig::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_turn_timeout_intent()) {
+    _this->_internal_set_turn_timeout_intent(from._internal_turn_timeout_intent());
+  }
   if (from._internal_has_soft_timeout_config()) {
     _this->_internal_mutable_soft_timeout_config()->::ondewo::vtsi::SoftTimeoutConfig::MergeFrom(
         from._internal_soft_timeout_config());
   }
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000000fu) {
-    if (cached_has_bits & 0x00000001u) {
+  if (cached_has_bits & 0x000000feu) {
+    if (cached_has_bits & 0x00000002u) {
       _this->_impl_.turn_timeout_seconds_ = from._impl_.turn_timeout_seconds_;
     }
-    if (cached_has_bits & 0x00000002u) {
+    if (cached_has_bits & 0x00000004u) {
       _this->_impl_.silence_end_call_timeout_seconds_ = from._impl_.silence_end_call_timeout_seconds_;
     }
-    if (cached_has_bits & 0x00000004u) {
+    if (cached_has_bits & 0x00000008u) {
       _this->_impl_.preemptive_generation_enabled_ = from._impl_.preemptive_generation_enabled_;
     }
-    if (cached_has_bits & 0x00000008u) {
+    if (cached_has_bits & 0x00000010u) {
       _this->_impl_.t2s_chunked_streaming_enabled_ = from._impl_.t2s_chunked_streaming_enabled_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      _this->_impl_.streaming_enabled_ = from._impl_.streaming_enabled_;
+    }
+    if (cached_has_bits & 0x00000040u) {
+      _this->_impl_.nlu_call_stream_enabled_ = from._impl_.nlu_call_stream_enabled_;
+    }
+    if (cached_has_bits & 0x00000080u) {
+      _this->_impl_.t2s_max_edge_silence_ms_ = from._impl_.t2s_max_edge_silence_ms_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  if (cached_has_bits & 0x00000300u) {
+    if (cached_has_bits & 0x00000100u) {
+      _this->_impl_.nlu_call_stream_turn_timeout_seconds_ = from._impl_.nlu_call_stream_turn_timeout_seconds_;
+    }
+    if (cached_has_bits & 0x00000200u) {
+      _this->_impl_.nlu_call_stream_turn_quiet_seconds_ = from._impl_.nlu_call_stream_turn_quiet_seconds_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
@@ -9289,11 +11302,17 @@ bool ResponseTimingConfig::IsInitialized() const {
 
 void ResponseTimingConfig::InternalSwap(ResponseTimingConfig* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.turn_timeout_intent_, lhs_arena,
+      &other->_impl_.turn_timeout_intent_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ResponseTimingConfig, _impl_.t2s_chunked_streaming_enabled_)
-      + sizeof(ResponseTimingConfig::_impl_.t2s_chunked_streaming_enabled_)
+      PROTOBUF_FIELD_OFFSET(ResponseTimingConfig, _impl_.nlu_call_stream_turn_quiet_seconds_)
+      + sizeof(ResponseTimingConfig::_impl_.nlu_call_stream_turn_quiet_seconds_)
       - PROTOBUF_FIELD_OFFSET(ResponseTimingConfig, _impl_.soft_timeout_config_)>(
           reinterpret_cast<char*>(&_impl_.soft_timeout_config_),
           reinterpret_cast<char*>(&other->_impl_.soft_timeout_config_));
@@ -9302,7 +11321,7 @@ void ResponseTimingConfig::InternalSwap(ResponseTimingConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ResponseTimingConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[18]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[20]);
 }
 
 // ===================================================================
@@ -9577,7 +11596,7 @@ void SoftTimeoutConfig::InternalSwap(SoftTimeoutConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SoftTimeoutConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[19]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[21]);
 }
 
 // ===================================================================
@@ -10424,7 +12443,7 @@ void AnsweringMachineDetectionConfig::InternalSwap(AnsweringMachineDetectionConf
 ::PROTOBUF_NAMESPACE_ID::Metadata AnsweringMachineDetectionConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[20]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[22]);
 }
 
 // ===================================================================
@@ -10627,7 +12646,7 @@ void SipBaseConfig::InternalSwap(SipBaseConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipBaseConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[21]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[23]);
 }
 
 // ===================================================================
@@ -10641,7 +12660,7 @@ void SipCallerConfig_SipHeadersEntry_DoNotUse::MergeFrom(const SipCallerConfig_S
 ::PROTOBUF_NAMESPACE_ID::Metadata SipCallerConfig_SipHeadersEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[22]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[24]);
 }
 
 // ===================================================================
@@ -10954,7 +12973,7 @@ void SipCallerConfig::InternalSwap(SipCallerConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SipCallerConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[23]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[25]);
 }
 
 // ===================================================================
@@ -11395,7 +13414,7 @@ void CsiVtsiConfig::InternalSwap(CsiVtsiConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CsiVtsiConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[24]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[26]);
 }
 
 // ===================================================================
@@ -11631,7 +13650,7 @@ void CsiPreemptiveGenerationConfig::InternalSwap(CsiPreemptiveGenerationConfig* 
 ::PROTOBUF_NAMESPACE_ID::Metadata CsiPreemptiveGenerationConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[25]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[27]);
 }
 
 // ===================================================================
@@ -11867,7 +13886,7 @@ void AudioObjectStorageConfig::InternalSwap(AudioObjectStorageConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AudioObjectStorageConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[26]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[28]);
 }
 
 // ===================================================================
@@ -12100,7 +14119,7 @@ void AudioObjectStorageServicesActivationConfig::InternalSwap(AudioObjectStorage
 ::PROTOBUF_NAMESPACE_ID::Metadata AudioObjectStorageServicesActivationConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[27]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[29]);
 }
 
 // ===================================================================
@@ -12432,7 +14451,7 @@ void MessageBrokerConfig::InternalSwap(MessageBrokerConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata MessageBrokerConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[28]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[30]);
 }
 
 // ===================================================================
@@ -12721,7 +14740,7 @@ void MessageBrokerServicesActivationConfig::InternalSwap(MessageBrokerServicesAc
 ::PROTOBUF_NAMESPACE_ID::Metadata MessageBrokerServicesActivationConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[29]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[31]);
 }
 
 // ===================================================================
@@ -13084,7 +15103,7 @@ void RabbitMqConfig::InternalSwap(RabbitMqConfig* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RabbitMqConfig::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[30]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[32]);
 }
 
 // ===================================================================
@@ -13313,7 +15332,7 @@ void S2tVtsiCallbacks::InternalSwap(S2tVtsiCallbacks* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S2tVtsiCallbacks::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[31]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[33]);
 }
 
 // ===================================================================
@@ -13542,7 +15561,7 @@ void NluVtsiCallbacks::InternalSwap(NluVtsiCallbacks* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata NluVtsiCallbacks::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[32]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[34]);
 }
 
 // ===================================================================
@@ -13771,7 +15790,7 @@ void T2sVtsiCallbacks::InternalSwap(T2sVtsiCallbacks* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata T2sVtsiCallbacks::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_getter, &descriptor_table_ondewo_2fvtsi_2fcall_5fconfigs_2eproto_once,
-      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[33]);
+      file_level_metadata_ondewo_2fvtsi_2fcall_5fconfigs_2eproto[35]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -13810,9 +15829,17 @@ template<> PROTOBUF_NOINLINE ::ondewo::vtsi::CommonServicesConfig*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::CommonServicesConfig >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::CommonServicesConfig >(arena);
 }
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::SipVtsiConfig*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::SipVtsiConfig >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::SipVtsiConfig >(arena);
+}
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::VoiceInteractionConfig*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::VoiceInteractionConfig >(Arena* arena) {
   return Arena::CreateMessageInternal< ::ondewo::vtsi::VoiceInteractionConfig >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ondewo::vtsi::BotTransferConfig*
+Arena::CreateMaybeMessage< ::ondewo::vtsi::BotTransferConfig >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::ondewo::vtsi::BotTransferConfig >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ondewo::vtsi::DtmfConfig*
 Arena::CreateMaybeMessage< ::ondewo::vtsi::DtmfConfig >(Arena* arena) {
